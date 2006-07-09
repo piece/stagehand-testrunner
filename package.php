@@ -4,7 +4,7 @@
 /**
  * PHP versions 4 and 5
  *
- * Copyright (c) 2006, KUBO Atsuhiro <iteman2002@yahoo.co.jp>
+ * Copyright (c) 2006, KUBO Atsuhiro <iteman@users.sourceforge.net>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @author     KUBO Atsuhiro <iteman2002@yahoo.co.jp>
- * @copyright  2006 KUBO Atsuhiro <iteman2002@yahoo.co.jp>
+ * @author     KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2006 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
  * @link       http://iteman.typepad.jp/stagehand/
@@ -72,7 +72,7 @@ $package->setReleaseStability('beta');
 $package->setNotes($notes);
 $package->setPhpDep('4.2.0');
 $package->setPearinstallerDep('1.4.3');
-$package->addMaintainer('lead', 'kubo', 'KUBO Atsuhiro', 'iteman2002@yahoo.co.jp');
+$package->addMaintainer('lead', 'kubo', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
 $package->addIgnore(array('package.php', 'package.xml', 'package2.xml'));
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
 $package->generateContents();

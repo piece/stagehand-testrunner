@@ -4,7 +4,7 @@
 /**
  * PHP versions 5
  *
- * Copyright (c) 2005-2006, KUBO Atsuhiro <iteman2002@yahoo.co.jp>
+ * Copyright (c) 2005-2006, KUBO Atsuhiro <iteman@users.sourceforge.net>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @author     KUBO Atsuhiro <iteman2002@yahoo.co.jp>
- * @copyright  2005-2006 KUBO Atsuhiro <iteman2002@yahoo.co.jp>
+ * @author     KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2005-2006 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
  * @link       http://iteman.typepad.jp/stagehand/
@@ -46,8 +46,8 @@ require_once 'PHPUnit2/TextUI/TestRunner.php';
  * A test runner for PHPUnit2.
  *
  * @package    Stagehand_TestRunner
- * @author     KUBO Atsuhiro <iteman2002@yahoo.co.jp>
- * @copyright  2005-2006 KUBO Atsuhiro <iteman2002@yahoo.co.jp>
+ * @author     KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2005-2006 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
  * @link       http://iteman.typepad.jp/stagehand/
