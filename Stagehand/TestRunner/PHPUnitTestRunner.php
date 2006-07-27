@@ -148,7 +148,7 @@ class Stagehand_TestRunner_PHPUnitTestRunner
         }
 
         $directory = realpath($directory);
-        array_push($directories, $directory);
+        $directories[] = $directory;
         $files = scandir($directory);
 
         for ($i = 0; $i < count($files); ++$i) {
@@ -241,7 +241,7 @@ class Stagehand_TestRunner_PHPUnitTestRunner
                     continue;
                 }
 
-                array_push($testCases, $newClasses[$j]);
+                $testCases = $newClasses[$j];
                 print "  => Added [ {$newClasses[$j]} ]\n";
             }
         }

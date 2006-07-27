@@ -135,7 +135,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
     public static function getDirectories($directory)
     {
         $directory = realpath($directory);
-        array_push(self::$_directories, $directory);
+        self::$_directories[] = $directory;
         $files = scandir($directory);
 
         for ($i = 0; $i < count($files); ++$i) {
@@ -227,7 +227,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
                     continue;
                 }
 
-                array_push($testCases, $newClasses[$j]);
+                $testCases[] = $newClasses[$j];
                 print "  => Added [ {$newClasses[$j]} ]\n";
             }
         }
