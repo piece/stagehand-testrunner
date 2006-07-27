@@ -14,17 +14,19 @@
   </maintainer>
   </maintainers>
  <release>
-  <version>0.3.1</version>
+  <version>0.3.2</version>
   <date>2006-07-27</date>
   <license>BSD License (revised)</license>
   <state>beta</state>
-  <notes>This release includes an enhancement as follows:
+  <notes>This release includes fixing two problems as follows:
 
-&lt;&lt;&lt; Enhancements &gt;&gt;&gt;
+&lt;&lt;&lt; Defect fixes &gt;&gt;&gt;
 
 * Stagehand_TestRunner_PHPUnit2TestRunner
+- Changed a code to the previous code.
+
 * Stagehand_TestRunner_PHPUnitTestRunner
-- Changed the code so as to use $array[] = $value instead of array_push($array, $value).
+- Added missing brackets.
   </notes>
   <deps>
    <dep type="php" rel="ge" version="4.2.0" optional="no"/>
@@ -74,27 +76,43 @@
   </filelist>
  </release>
  <changelog>
-   <release>
-    <version>0.3.1</version>
-    <date>2006-07-27</date>
-    <license>BSD License (revised)</license>
-    <state>beta</state>
-    <notes>This release includes an enhancement as follows:
+  <release>
+   <version>0.3.2</version>
+   <date>2006-07-27</date>
+   <license>BSD License (revised)</license>
+   <state>beta</state>
+   <notes>This release includes fixing two problems as follows:
+
+&lt;&lt;&lt; Defect fixes &gt;&gt;&gt;
+
+* Stagehand_TestRunner_PHPUnit2TestRunner
+- Changed a code to the previous code.
+
+* Stagehand_TestRunner_PHPUnitTestRunner
+- Added missing brackets.
+   </notes>
+  </release>
+  <release>
+   <version>0.3.1</version>
+   <date>2006-07-27</date>
+   <license>BSD License (revised)</license>
+   <state>beta</state>
+   <notes>This release includes an enhancement as follows:
 
 &lt;&lt;&lt; Enhancements &gt;&gt;&gt;
 
 * Stagehand_TestRunner_PHPUnit2TestRunner
 * Stagehand_TestRunner_PHPUnitTestRunner
 - Changed the code so as to use $array[] = $value instead of array_push($array, $value).
-    </notes>
-   </release>
-   <release>
-    <version>0.3.0</version>
-    <date>2006-04-18</date>
-    <license>BSD License (revised)</license>
-    <state>beta</state>
+   </notes>
+  </release>
+  <release>
+   <version>0.3.0</version>
+   <date>2006-04-18</date>
+   <license>BSD License (revised)</license>
+   <state>beta</state>
     <notes>The first release of Stagehand_TestRunner.
-    </notes>
-   </release>
+   </notes>
+  </release>
  </changelog>
 </package>

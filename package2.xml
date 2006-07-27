@@ -14,9 +14,9 @@
   <active>yes</active>
  </lead>
  <date>2006-07-27</date>
- <time>16:37:15</time>
+ <time>17:51:00</time>
  <version>
-  <release>0.3.1</release>
+  <release>0.3.2</release>
   <api>0.3.0</api>
  </version>
  <stability>
@@ -24,13 +24,15 @@
   <api>beta</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
- <notes>This release includes an enhancement as follows:
+ <notes>This release includes fixing two problems as follows:
 
-&lt;&lt;&lt; Enhancements &gt;&gt;&gt;
+&lt;&lt;&lt; Defect fixes &gt;&gt;&gt;
 
 * Stagehand_TestRunner_PHPUnit2TestRunner
+- Changed a code to the previous code.
+
 * Stagehand_TestRunner_PHPUnitTestRunner
-- Changed the code so as to use $array[] = $value instead of array_push($array, $value).</notes>
+- Added missing brackets.</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="docs">
@@ -109,6 +111,27 @@
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>0.3.2</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-07-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>This release includes fixing two problems as follows:
+
+&lt;&lt;&lt; Defect fixes &gt;&gt;&gt;
+
+* Stagehand_TestRunner_PHPUnit2TestRunner
+- Changed a code to the previous code.
+
+* Stagehand_TestRunner_PHPUnitTestRunner
+- Added missing brackets.</notes>
+  </release>
   <release>
    <version>
     <release>0.3.1</release>

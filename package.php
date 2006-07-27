@@ -40,15 +40,17 @@
 
 require_once 'PEAR/PackageFileManager2.php';
 
-$version = '0.3.1';
+$version = '0.3.2';
 $apiVersion = '0.3.0';
-$notes = 'This release includes an enhancement as follows:
+$notes = 'This release includes fixing two problems as follows:
 
-<<< Enhancements >>>
+<<< Defect fixes >>>
 
 * Stagehand_TestRunner_PHPUnit2TestRunner
+- Changed a code to the previous code.
+
 * Stagehand_TestRunner_PHPUnitTestRunner
-- Changed the code so as to use $array[] = $value instead of array_push($array, $value).';
+- Added missing brackets.';
 
 $package = new PEAR_PackageFileManager2();
 $result = $package->setOptions(array('filelistgenerator' => 'svn',
