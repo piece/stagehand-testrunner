@@ -40,8 +40,15 @@
 
 require_once 'PEAR/PackageFileManager2.php';
 
-$version = '0.3.0';
-$notes = 'The first release of Stagehand_TestRunner.';
+$version = '0.3.1';
+$apiVersion = '0.3.0';
+$notes = 'This release includes an enhancement as follows:
+
+<<< Enhancements >>>
+
+* Stagehand_TestRunner_PHPUnit2TestRunner
+* Stagehand_TestRunner_PHPUnitTestRunner
+- Changed the code so as to use $array[] = $value instead of array_push($array, $value).';
 
 $package = new PEAR_PackageFileManager2();
 $result = $package->setOptions(array('filelistgenerator' => 'svn',
@@ -65,7 +72,7 @@ $package->setChannel('pear.hatotech.org');
 $package->setLicense('BSD License (revised)',
                      'http://www.opensource.org/licenses/bsd-license.php'
                      );
-$package->setAPIVersion('0.3.0');
+$package->setAPIVersion($apiVersion);
 $package->setAPIStability('beta');
 $package->setReleaseVersion($version);
 $package->setReleaseStability('beta');

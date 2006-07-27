@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.8" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
     http://pear.php.net/dtd/tasks-1.0.xsd
     http://pear.php.net/dtd/package-2.0
     http://pear.php.net/dtd/package-2.0.xsd">
@@ -13,10 +13,10 @@
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2006-04-18</date>
- <time>11:22:49</time>
+ <date>2006-07-27</date>
+ <time>16:37:15</time>
  <version>
-  <release>0.3.0</release>
+  <release>0.3.1</release>
   <api>0.3.0</api>
  </version>
  <stability>
@@ -24,7 +24,13 @@
   <api>beta</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
- <notes>The first release of Stagehand_TestRunner.</notes>
+ <notes>This release includes an enhancement as follows:
+
+&lt;&lt;&lt; Enhancements &gt;&gt;&gt;
+
+* Stagehand_TestRunner_PHPUnit2TestRunner
+* Stagehand_TestRunner_PHPUnitTestRunner
+- Changed the code so as to use $array[] = $value instead of array_push($array, $value).</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="docs">
@@ -92,8 +98,36 @@
     </package>
   </optional>
  </dependencies>
- <phprelease />
+ <phprelease>
+  <filelist>
+   <install as="LICENSE" name="docs/LICENSE" />
+   <install as="AllTestRunner.php" name="tests/AllTestRunner.php" />
+   <install as="Stagehand/TestRunner/PHP4TestRunner.php" name="tests/Stagehand/TestRunner/PHP4TestRunner.php" />
+   <install as="Stagehand/TestRunner/PHPUnit2TestRunnerTestCase.php" name="tests/Stagehand/TestRunner/PHPUnit2TestRunnerTestCase.php" />
+   <install as="Stagehand/TestRunner/PHPUnitTestRunnerTestCase.php" name="tests/Stagehand/TestRunner/PHPUnitTestRunnerTestCase.php" />
+   <install as="Stagehand/TestRunner/TestRunner.php" name="tests/Stagehand/TestRunner/TestRunner.php" />
+  </filelist>
+ </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>0.3.1</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-07-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>This release includes an enhancement as follows:
+
+&lt;&lt;&lt; Enhancements &gt;&gt;&gt;
+
+* Stagehand_TestRunner_PHPUnit2TestRunner
+* Stagehand_TestRunner_PHPUnitTestRunner
+- Changed the code so as to use $array[] = $value instead of array_push($array, $value).</notes>
+  </release>
   <release>
    <version>
     <release>0.3.0</release>

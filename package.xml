@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<package version="1.0" packagerversion="1.4.8">
+<package version="1.0" packagerversion="1.4.9">
  <name>Stagehand_TestRunner</name>
  <summary>Automated test runners for PHPUnit2 and PHPUnit.</summary>
  <description>Stagehand_TestRunner provides utility classes and scripts to automatically detect and run all test cases that are suffixed with &apos;TestCase.php&apos; under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.
@@ -14,11 +14,17 @@
   </maintainer>
   </maintainers>
  <release>
-  <version>0.3.0</version>
-  <date>2006-04-18</date>
+  <version>0.3.1</version>
+  <date>2006-07-27</date>
   <license>BSD License (revised)</license>
   <state>beta</state>
-  <notes>The first release of Stagehand_TestRunner.
+  <notes>This release includes an enhancement as follows:
+
+&lt;&lt;&lt; Enhancements &gt;&gt;&gt;
+
+* Stagehand_TestRunner_PHPUnit2TestRunner
+* Stagehand_TestRunner_PHPUnitTestRunner
+- Changed the code so as to use $array[] = $value instead of array_push($array, $value).
   </notes>
   <deps>
    <dep type="php" rel="ge" version="4.2.0" optional="no"/>
@@ -29,7 +35,7 @@
   <filelist>
    <dir name="/" baseinstalldir="/">
     <dir name="docs">
-     <file role="doc" name="LICENSE">
+     <file role="doc" name="LICENSE" install-as="LICENSE">
       <replace from="@package_version@" to="version" type="package-info"/>
      </file>
     </dir> <!-- /docs -->
@@ -46,21 +52,21 @@
     <dir name="tests">
      <dir name="Stagehand">
       <dir name="TestRunner">
-       <file role="test" name="PHP4TestRunner.php">
+       <file role="test" name="PHP4TestRunner.php" install-as="Stagehand/TestRunner/PHP4TestRunner.php">
         <replace from="@package_version@" to="version" type="package-info"/>
        </file>
-       <file role="test" name="PHPUnit2TestRunnerTestCase.php">
+       <file role="test" name="PHPUnit2TestRunnerTestCase.php" install-as="Stagehand/TestRunner/PHPUnit2TestRunnerTestCase.php">
         <replace from="@package_version@" to="version" type="package-info"/>
        </file>
-       <file role="test" name="PHPUnitTestRunnerTestCase.php">
+       <file role="test" name="PHPUnitTestRunnerTestCase.php" install-as="Stagehand/TestRunner/PHPUnitTestRunnerTestCase.php">
         <replace from="@package_version@" to="version" type="package-info"/>
        </file>
-       <file role="test" name="TestRunner.php">
+       <file role="test" name="TestRunner.php" install-as="Stagehand/TestRunner/TestRunner.php">
         <replace from="@package_version@" to="version" type="package-info"/>
        </file>
       </dir> <!-- /tests/Stagehand/TestRunner -->
      </dir> <!-- /tests/Stagehand -->
-     <file role="test" name="AllTestRunner.php">
+     <file role="test" name="AllTestRunner.php" install-as="AllTestRunner.php">
       <replace from="@package_version@" to="version" type="package-info"/>
      </file>
     </dir> <!-- /tests -->
@@ -68,6 +74,20 @@
   </filelist>
  </release>
  <changelog>
+   <release>
+    <version>0.3.1</version>
+    <date>2006-07-27</date>
+    <license>BSD License (revised)</license>
+    <state>beta</state>
+    <notes>This release includes an enhancement as follows:
+
+&lt;&lt;&lt; Enhancements &gt;&gt;&gt;
+
+* Stagehand_TestRunner_PHPUnit2TestRunner
+* Stagehand_TestRunner_PHPUnitTestRunner
+- Changed the code so as to use $array[] = $value instead of array_push($array, $value).
+    </notes>
+   </release>
    <release>
     <version>0.3.0</version>
     <date>2006-04-18</date>
