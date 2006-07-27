@@ -241,7 +241,7 @@ class Stagehand_TestRunner_PHPUnitTestRunner
                     continue;
                 }
 
-                $testCases = $newClasses[$j];
+                $testCases[] = $newClasses[$j];
                 print "  => Added [ {$newClasses[$j]} ]\n";
             }
         }
