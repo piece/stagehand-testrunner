@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+<!-- $Id$ -->
+<package packagerversion="1.5.0a1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
     http://pear.php.net/dtd/tasks-1.0.xsd
     http://pear.php.net/dtd/package-2.0
     http://pear.php.net/dtd/package-2.0.xsd">
  <name>Stagehand_TestRunner</name>
- <channel>pear.hatotech.org</channel>
+ <channel>pear.piece-framework.com</channel>
  <summary>Automated test runners for PHPUnit2 and PHPUnit.</summary>
  <description>Stagehand_TestRunner provides utility classes and scripts to automatically detect and run all test cases that are suffixed with &apos;TestCase.php&apos; under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.</description>
  <lead>
@@ -13,10 +14,10 @@
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2006-07-27</date>
- <time>17:51:00</time>
+ <date>2006-10-09</date>
+ <time>05:15:38</time>
  <version>
-  <release>0.3.2</release>
+  <release>0.4.0</release>
   <api>0.3.0</api>
  </version>
  <stability>
@@ -24,15 +25,7 @@
   <api>beta</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
- <notes>This release includes fixing two problems as follows:
-
-&lt;&lt;&lt; Defect fixes &gt;&gt;&gt;
-
-* Stagehand_TestRunner_PHPUnit2TestRunner
-- Changed a code to the previous code.
-
-* Stagehand_TestRunner_PHPUnitTestRunner
-- Added missing brackets.</notes>
+ <notes>This is the first release with the new PEAR Channel Server pear.piece-framework.com. There are no changes from the previous release except the PEAR Channel Server is changed.</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="docs">
@@ -113,6 +106,19 @@
  <changelog>
   <release>
    <version>
+    <release>0.4.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-10-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>This is the first release with the new PEAR Channel Server pear.piece-framework.com. There are no changes from the previous release except the PEAR Channel Server is changed.</notes>
+  </release>
+  <release>
+   <version>
     <release>0.3.2</release>
     <api>0.3.0</api>
    </version>
@@ -124,12 +130,12 @@
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
    <notes>This release includes fixing two problems as follows:
 
-&lt;&lt;&lt; Defect fixes &gt;&gt;&gt;
+## Defect fixes ##
 
-* Stagehand_TestRunner_PHPUnit2TestRunner
+##### Stagehand_TestRunner_PHPUnit2TestRunner #####
 - Changed a code to the previous code.
 
-* Stagehand_TestRunner_PHPUnitTestRunner
+##### Stagehand_TestRunner_PHPUnitTestRunner #####
 - Added missing brackets.</notes>
   </release>
   <release>
@@ -145,10 +151,9 @@
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
    <notes>This release includes an enhancement as follows:
 
-&lt;&lt;&lt; Enhancements &gt;&gt;&gt;
+## Enhancements ##
 
-* Stagehand_TestRunner_PHPUnit2TestRunner
-* Stagehand_TestRunner_PHPUnitTestRunner
+##### Stagehand_TestRunner_PHPUnit2TestRunner, Stagehand_TestRunner_PHPUnitTestRunner #####
 - Changed the code so as to use $array[] = $value instead of array_push($array, $value).</notes>
   </release>
   <release>

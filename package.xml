@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!-- $Id$ -->
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<package version="1.0" packagerversion="1.4.9">
+<package version="1.0" packagerversion="1.5.0a1">
  <name>Stagehand_TestRunner</name>
  <summary>Automated test runners for PHPUnit2 and PHPUnit.</summary>
  <description>Stagehand_TestRunner provides utility classes and scripts to automatically detect and run all test cases that are suffixed with &apos;TestCase.php&apos; under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.
@@ -14,19 +15,11 @@
   </maintainer>
   </maintainers>
  <release>
-  <version>0.3.2</version>
-  <date>2006-07-27</date>
+  <version>0.4.0</version>
+  <date>2006-10-09</date>
   <license>BSD License (revised)</license>
   <state>beta</state>
-  <notes>This release includes fixing two problems as follows:
-
-&lt;&lt;&lt; Defect fixes &gt;&gt;&gt;
-
-* Stagehand_TestRunner_PHPUnit2TestRunner
-- Changed a code to the previous code.
-
-* Stagehand_TestRunner_PHPUnitTestRunner
-- Added missing brackets.
+  <notes>This is the first release with the new PEAR Channel Server pear.piece-framework.com. There are no changes from the previous release except the PEAR Channel Server is changed.
   </notes>
   <deps>
    <dep type="php" rel="ge" version="4.2.0" optional="no"/>
@@ -77,18 +70,26 @@
  </release>
  <changelog>
   <release>
+   <version>0.4.0</version>
+   <date>2006-10-09</date>
+   <license>BSD License (revised)</license>
+   <state>beta</state>
+   <notes>This is the first release with the new PEAR Channel Server pear.piece-framework.com. There are no changes from the previous release except the PEAR Channel Server is changed.
+   </notes>
+  </release>
+  <release>
    <version>0.3.2</version>
    <date>2006-07-27</date>
    <license>BSD License (revised)</license>
    <state>beta</state>
    <notes>This release includes fixing two problems as follows:
 
-&lt;&lt;&lt; Defect fixes &gt;&gt;&gt;
+## Defect fixes ##
 
-* Stagehand_TestRunner_PHPUnit2TestRunner
+##### Stagehand_TestRunner_PHPUnit2TestRunner #####
 - Changed a code to the previous code.
 
-* Stagehand_TestRunner_PHPUnitTestRunner
+##### Stagehand_TestRunner_PHPUnitTestRunner #####
 - Added missing brackets.
    </notes>
   </release>
@@ -99,10 +100,9 @@
    <state>beta</state>
    <notes>This release includes an enhancement as follows:
 
-&lt;&lt;&lt; Enhancements &gt;&gt;&gt;
+## Enhancements ##
 
-* Stagehand_TestRunner_PHPUnit2TestRunner
-* Stagehand_TestRunner_PHPUnitTestRunner
+##### Stagehand_TestRunner_PHPUnit2TestRunner, Stagehand_TestRunner_PHPUnitTestRunner #####
 - Changed the code so as to use $array[] = $value instead of array_push($array, $value).
    </notes>
   </release>

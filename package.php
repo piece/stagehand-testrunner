@@ -40,17 +40,9 @@
 
 require_once 'PEAR/PackageFileManager2.php';
 
-$version = '0.3.2';
+$version = '0.4.0';
 $apiVersion = '0.3.0';
-$notes = 'This release includes fixing two problems as follows:
-
-<<< Defect fixes >>>
-
-* Stagehand_TestRunner_PHPUnit2TestRunner
-- Changed a code to the previous code.
-
-* Stagehand_TestRunner_PHPUnitTestRunner
-- Added missing brackets.';
+$notes = 'This is the first release with the new PEAR Channel Server pear.piece-framework.com. There are no changes from the previous release except the PEAR Channel Server is changed.';
 
 $package = new PEAR_PackageFileManager2();
 $result = $package->setOptions(array('filelistgenerator' => 'svn',
@@ -58,7 +50,9 @@ $result = $package->setOptions(array('filelistgenerator' => 'svn',
                                      'simpleoutput'      => true,
                                      'baseinstalldir'    => '/',
                                      'packagefile'       => 'package2.xml',
-                                     'packagedirectory'  => '.')
+                                     'packagedirectory'  => '.',
+                                     'dir_roles'         => array('tests' => 'test',
+                                                                  'docs' => 'doc'))
                                );
 
 if (PEAR::isError($result)) {
@@ -70,7 +64,7 @@ $package->setPackage('Stagehand_TestRunner');
 $package->setPackageType('php');
 $package->setSummary('Automated test runners for PHPUnit2 and PHPUnit.');
 $package->setDescription("Stagehand_TestRunner provides utility classes and scripts to automatically detect and run all test cases that are suffixed with 'TestCase.php' under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.");
-$package->setChannel('pear.hatotech.org');
+$package->setChannel('pear.piece-framework.com');
 $package->setLicense('BSD License (revised)',
                      'http://www.opensource.org/licenses/bsd-license.php'
                      );
