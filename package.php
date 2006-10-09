@@ -75,7 +75,7 @@ $package->setReleaseStability('beta');
 $package->setNotes($notes);
 $package->setPhpDep('4.2.0');
 $package->setPearinstallerDep('1.4.3');
-$package->addMaintainer('lead', 'kubo', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
+$package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
 $package->addIgnore(array('package.php', 'package.xml', 'package2.xml'));
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
 $package->generateContents();

@@ -10,7 +10,7 @@
  <description>Stagehand_TestRunner provides utility classes and scripts to automatically detect and run all test cases that are suffixed with &apos;TestCase.php&apos; under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.</description>
  <lead>
   <name>KUBO Atsuhiro</name>
-  <user>kubo</user>
+  <user>iteman</user>
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
