@@ -44,10 +44,7 @@ if (version_compare(phpversion(), '5.0.0', '<')) {
 
 error_reporting(E_ALL);
 define('PHPUnit2_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit2TestRunner::run');
-ini_set('include_path',
-        dirname(__FILE__) . '/../../..' . PATH_SEPARATOR .
-        ini_get('include_path')
-        );
+set_include_path(dirname(__FILE__) . '/../../..' . PATH_SEPARATOR . get_include_path());
 
 require_once 'Stagehand/TestRunner/PHPUnit2TestRunner.php';
 
