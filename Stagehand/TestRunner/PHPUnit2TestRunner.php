@@ -4,7 +4,7 @@
 /**
  * PHP versions 5
  *
- * Copyright (c) 2005-2006 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,12 +29,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @author     KUBO Atsuhiro <iteman@users.sourceforge.net>
- * @copyright  2005-2006 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @link       http://piece-framework.com/
- * @see        PHPUnit2
+ * @see        PHPUnit2_Framework_TestSuite, PHPUnit2_TextUI_TestRunner::run()
  * @since      File available since Release 0.1.0
  */
 
@@ -43,15 +41,13 @@ require_once 'PHPUnit2/TextUI/TestRunner.php';
 // {{{ Stagehand_TestRunner_PHPUnit2TestRunner
 
 /**
- * A test runner for PHPUnit2.
+ * A test runner for PHPUnit version 2.
  *
  * @package    Stagehand_TestRunner
- * @author     KUBO Atsuhiro <iteman@users.sourceforge.net>
- * @copyright  2005-2006 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @link       http://piece-framework.com/
- * @see        PHPUnit2
+ * @see        PHPUnit2_Framework_TestSuite, PHPUnit2_TextUI_TestRunner::run()
  * @since      Class available since Release 0.1.0
  */
 class Stagehand_TestRunner_PHPUnit2TestRunner
@@ -111,7 +107,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
         $suite = new PHPUnit2_Framework_TestSuite();
         $directories = self::getDirectories($directory);
 
-        for ($i = 0; $i < count($directories); ++$i) {
+        for ($i = 0, $count = count($directories); $i < $count; ++$i) {
             $test = self::getTestSuite($directories[$i], $excludePattern);
             if (!$test->countTestCases()) {
                 continue;
@@ -138,7 +134,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
         array_push(self::$_directories, $directory);
         $files = scandir($directory);
 
-        for ($i = 0; $i < count($files); ++$i) {
+        for ($i = 0, $count = count($files); $i < $count; ++$i) {
             if ($files[$i] == '.' || $files[$i] == '..') {
                 continue;
             }
@@ -175,7 +171,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
         $suite = new PHPUnit2_Framework_TestSuite();
         $testCases = self::getTestCases($directory, $excludePattern);
 
-        for ($i = 0; $i < count($testCases); ++$i) {
+        for ($i = 0, $count = count($testCases); $i < $count; ++$i) {
             $suite->addTestSuite($testCases[$i]);
         }
 
@@ -200,7 +196,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
         $testCases = array();
         $files = scandir($directory);
 
-        for ($i = 0; $i < count($files); ++$i) {
+        for ($i = 0, $iCount = count($files); $i < $iCount; ++$i) {
             $target = $directory . DIRECTORY_SEPARATOR . $files[$i];
             if (!is_file($target)) {
                 continue;
@@ -222,7 +218,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
             print "Succeeded.\n";
 
             $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
-            for ($j = 0; $j < count($newClasses); ++$j) {
+            for ($j = 0, $jCount = count($newClasses); $j < $jCount; ++$j) {
                 if (self::exclude($newClasses[$j], $excludePattern)) {
                     continue;
                 }

@@ -4,7 +4,7 @@
 /**
  * PHP versions 4 and 5
  *
- * Copyright (c) 2005-2006 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,12 +29,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @author     KUBO Atsuhiro <iteman@users.sourceforge.net>
- * @copyright  2005-2006 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @link       http://piece-framework.com/
- * @see        PHPUnit
+ * @see        PHPUnit_TestSuite, PHPUnit::run()
  * @since      File available since Release 0.1.0
  */
 
@@ -46,15 +44,13 @@ PHP_Compat::loadFunction('scandir');
 // {{{ Stagehand_TestRunner_PHPUnitTestRunner
 
 /**
- * A test runner for PHPUnit.
+ * A test runner for PHPUnit version 1.
  *
  * @package    Stagehand_TestRunner
- * @author     KUBO Atsuhiro <iteman@users.sourceforge.net>
- * @copyright  2005-2006 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @link       http://piece-framework.com/
- * @see        PHPUnit
+ * @see        PHPUnit_TestSuite, PHPUnit::run()
  * @since      Class available since Release 0.1.0
  */
 class Stagehand_TestRunner_PHPUnitTestRunner
@@ -116,7 +112,7 @@ class Stagehand_TestRunner_PHPUnitTestRunner
              __CLASS__ . "::getDirectories('$directory');"
              );
 
-        for ($i = 0; $i < count($directories); ++$i) {
+        for ($i = 0, $count = count($directories); $i < $count; ++$i) {
             eval('$test = ' .
                  '&' . __CLASS__ .
                  "::getTestSuite('$directories[$i]', '$excludePattern');"
@@ -151,7 +147,7 @@ class Stagehand_TestRunner_PHPUnitTestRunner
         $directories[] = $directory;
         $files = scandir($directory);
 
-        for ($i = 0; $i < count($files); ++$i) {
+        for ($i = 0, $count = count($files); $i < $count; ++$i) {
             if ($files[$i] == '.' || $files[$i] == '..') {
                 continue;
             }
@@ -187,7 +183,7 @@ class Stagehand_TestRunner_PHPUnitTestRunner
              );
         $suite = new PHPUnit_TestSuite();
 
-        for ($i = 0; $i < count($testCases); ++$i) {
+        for ($i = 0, $count = count($testCases); $i < $count; ++$i) {
             $suite->addTestSuite($testCases[$i]);
         }
 
@@ -210,7 +206,7 @@ class Stagehand_TestRunner_PHPUnitTestRunner
         $testCases = array();
         $files = scandir($directory);
 
-        for ($i = 0; $i < count($files); ++$i) {
+        for ($i = 0, $iCount = count($files); $i < $iCount; ++$i) {
             $target = $directory . DIRECTORY_SEPARATOR . $files[$i];
             if (!is_file($target)) {
                 continue;
@@ -232,7 +228,7 @@ class Stagehand_TestRunner_PHPUnitTestRunner
             print "Succeeded.\n";
 
             $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
-            for ($j = 0; $j < count($newClasses); ++$j) {
+            for ($j = 0, $jCount = count($newClasses); $j < $jCount; ++$j) {
                 eval('$exclude = ' .
                      __CLASS__ .
                      "::exclude('$newClasses[$j]', '$excludePattern');"

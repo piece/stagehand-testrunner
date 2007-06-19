@@ -5,7 +5,7 @@
 /**
  * PHP versions 5
  *
- * Copyright (c) 2005-2006 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,11 +30,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @author     KUBO Atsuhiro <iteman@users.sourceforge.net>
- * @copyright  2005-2006 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @link       http://piece-framework.com/
  * @see        Stagehand_TestRunner_PHPUnit2TestRunner::runAll()
  * @since      File available since Release 0.1.0
  */
