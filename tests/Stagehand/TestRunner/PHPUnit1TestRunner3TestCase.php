@@ -1,9 +1,8 @@
-#!env php
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 5
+ * PHP versions 4 and 5
  *
  * Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
@@ -32,21 +31,63 @@
  * @package    Stagehand_TestRunner
  * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
- * @version    SVN: $Id: package.php 19 2007-06-19 09:05:41Z iteman $
+ * @version    SVN: $Id$
  * @since      File available since Release 0.5.0
  */
 
-error_reporting(E_ALL);
-
-if (file_exists(dirname(__FILE__) . '/../Stagehand/TestRunner/PHPUnit2TestRunner.php')) {
-    set_include_path(realpath(dirname(__FILE__) . '/..') . PATH_SEPARATOR . get_include_path());
+if (!@include_once 'PHPUnit.php') {
+    return;
 }
 
-require_once 'Stagehand/TestRunner.php';
+// {{{ Stagehand_TestRunner_PHPUnit1TestRunner3TestCase
 
-Stagehand_TestRunner::setPHPUnitVersion(2);
-$result = Stagehand_TestRunner::run();
-exit($result);
+/**
+ * TestCase for Stagehand_TestRunner_PHPUnitTestRunner
+ *
+ * @package    Stagehand_TestRunner
+ * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @version    Release: @package_version@
+ * @since      Class available since Release 0.5.0
+ */
+class Stagehand_TestRunner_PHPUnit1TestRunner3TestCase extends PHPUnit_TestCase
+{
+
+    // {{{ properties
+
+    /**#@+
+     * @access public
+     */
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
+
+    /**#@-*/
+
+    /**#@+
+     * @access public
+     */
+
+    function testTestShouldBeRunAutomatically()
+    {
+        $this->assertTrue(false);
+    }
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
+
+    /**#@-*/
+
+    // }}}
+}
+
+// }}}
 
 /*
  * Local Variables:

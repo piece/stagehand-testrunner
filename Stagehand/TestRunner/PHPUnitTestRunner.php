@@ -79,7 +79,7 @@ class Stagehand_TestRunner_PHPUnitTestRunner
     // {{{ run()
 
     /**
-     * Runs target test cases in the directory.
+     * Runs target tests in the directory.
      *
      * @param string $directory
      * @param string $excludePattern
@@ -95,7 +95,7 @@ class Stagehand_TestRunner_PHPUnitTestRunner
     // {{{ runAll()
 
     /**
-     * Runs all test cases under the directory.
+     * Runs all tests under the directory.
      *
      * @param string $directory
      * @param string $excludePattern
