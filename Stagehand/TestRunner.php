@@ -84,7 +84,7 @@ class Stagehand_TestRunner
     function run()
     {
         if (!array_key_exists('argv', $_SERVER)) {
-            echo 'ERROR: either use the CLI php executable, or set register_argc_argv=On in php.ini';
+            echo "ERROR: either use the CLI php executable, or set register_argc_argv=On in php.ini.\n";;
             return 1;
         }
 
@@ -132,6 +132,8 @@ class Stagehand_TestRunner
 
             include_once 'Stagehand/TestRunner/PHPUnit2TestRunner.php';
         } else {
+            echo "ERROR: The version of PHPUnit should be either 1 or 2.\n";
+            return 1;
         }
 
         if (!$isRecursive) {
