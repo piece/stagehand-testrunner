@@ -170,13 +170,12 @@ class Stagehand_TestRunner
 %s
 Runs     : %d
 Passes   : %d (%d%%)
-Failures : %d (%d%%), %d errors, %d failures
+Failures : %d (%d%%), %d failures, %d errors
 ',
                $text,
                $runs,
                $passes, $runs ? $passes / $runs * 100 : 0,
-               $failures, $runs ? $failures / $runs * 100 : 0,
-               $result->errorCount(), $result->failureCount()
+               $failures, $runs ? $failures / $runs * 100 : 0, $result->failureCount(), $result->errorCount()
                );
 
         return 0;
