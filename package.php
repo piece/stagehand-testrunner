@@ -38,19 +38,34 @@
 
 require_once 'PEAR/PackageFileManager2.php';
 
-$version = '0.4.0';
+$releaseVersion = '0.5.0';
+$releaseStability = 'beta';
 $apiVersion = '0.3.0';
-$notes = 'This is the first release with the new PEAR Channel Server pear.piece-framework.com. There are no changes from the previous release except the PEAR Channel Server is changed.';
+$apiStability = 'beta';
+$notes = 'A new release of Stagehand_TestRunner is now available.
+
+What\'s New in Stagehand_TestRunner 0.5.0
+
+ * Command Line Interface Support: testrunner1/testrunner2 can be used to run tests automatically without TestRunner.php and AllTestRunner.php. Also these commands can be used to run only the specified test case.
+
+See the following release notes for details.
+
+Enhancements
+============ 
+
+- Added testrunner1/testrunner2 scripts to run tests automatically without TestRunner.php and AllTestRunner.php.';
 
 $package = new PEAR_PackageFileManager2();
 $result = $package->setOptions(array('filelistgenerator' => 'svn',
                                      'changelogoldtonew' => false,
                                      'simpleoutput'      => true,
                                      'baseinstalldir'    => '/',
-                                     'packagefile'       => 'package2.xml',
+                                     'packagefile'       => 'package.xml',
                                      'packagedirectory'  => '.',
                                      'dir_roles'         => array('tests' => 'test',
-                                                                  'docs' => 'doc'))
+                                                                  'docs' => 'doc',
+                                                                  'scripts' => 'script'),
+                                     'ignore'            => array('package.php', 'package.xml'))
                                );
 
 if (PEAR::isError($result)) {
@@ -61,32 +76,32 @@ if (PEAR::isError($result)) {
 $package->setPackage('Stagehand_TestRunner');
 $package->setPackageType('php');
 $package->setSummary('Automated test runners for PHPUnit2 and PHPUnit.');
-$package->setDescription("Stagehand_TestRunner provides utility classes and scripts to automatically detect and run all test cases that are suffixed with 'TestCase.php' under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.");
+$package->setDescription('Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with "TestCase.php" under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.');
 $package->setChannel('pear.piece-framework.com');
-$package->setLicense('BSD License (revised)',
-                     'http://www.opensource.org/licenses/bsd-license.php'
-                     );
+$package->setLicense('BSD License (revised)', 'http://www.opensource.org/licenses/bsd-license.php');
 $package->setAPIVersion($apiVersion);
-$package->setAPIStability('beta');
-$package->setReleaseVersion($version);
-$package->setReleaseStability('beta');
+$package->setAPIStability($apiStability);
+$package->setReleaseVersion($releaseVersion);
+$package->setReleaseStability($releaseStability);
 $package->setNotes($notes);
-$package->setPhpDep('4.2.0');
+$package->setPhpDep('4.3.0');
 $package->setPearinstallerDep('1.4.3');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
-$package->addIgnore(array('package.php', 'package.xml', 'package2.xml'));
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
+$package->addReplacement('scripts/testrunner1.bat', 'pear-config', '@php_bin@', 'php_bin');
+$package->addReplacement('scripts/testrunner2.bat', 'pear-config', '@php_bin@', 'php_bin');
+$package->addInstallAs('scripts/testrunner1', 'testrunner1');
+$package->addInstallAs('scripts/testrunner1.bat', 'testrunner1.bat');
+$package->addInstallAs('scripts/testrunner2', 'testrunner2');
+$package->addInstallAs('scripts/testrunner2.bat', 'testrunner2.bat');
 $package->generateContents();
-$package1 = &$package->exportCompatiblePackageFile1();
 
 if (array_key_exists(1, $_SERVER['argv'])
     && $_SERVER['argv'][1] == 'make'
     ) {
     $result = $package->writePackageFile();
-    $result = $package1->writePackageFile();
 } else {
     $result = $package->debugPackageFile();
-    $result = $package1->debugPackageFile();
 }
 
 if (PEAR::isError($result)) {
