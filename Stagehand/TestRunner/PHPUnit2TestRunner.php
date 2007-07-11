@@ -71,6 +71,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
 
     /**#@+
      * @access public
+     * @static
      */
 
     // }}}
@@ -82,13 +83,10 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
      * @param string $directory
      * @param string $excludePattern
      * @return PHPUnit2_Framework_TestResult
-     * @static
      */
     public static function run($directory, $excludePattern = '!^PHPUnit!')
     {
-        return PHPUnit2_TextUI_TestRunner::run(self::getTestSuite($directory,
-                                                                  $excludePattern)
-                                               );
+        return PHPUnit2_TextUI_TestRunner::run(self::_getTestSuite($directory, $excludePattern));
     }
 
     // }}}
@@ -100,7 +98,6 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
      * @param string $directory
      * @param string $excludePattern
      * @return PHPUnit2_Framework_TestResult
-     * @static
      */
     public static function runAll($directory, $excludePattern = '!^PHPUnit!')
     {
@@ -108,7 +105,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
         $directories = self::getDirectories($directory);
 
         for ($i = 0, $count = count($directories); $i < $count; ++$i) {
-            $test = self::getTestSuite($directories[$i], $excludePattern);
+            $test = self::_getTestSuite($directories[$i], $excludePattern);
             if (!$test->countTestCases()) {
                 continue;
             }
@@ -126,7 +123,6 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
      *
      * @param string $directory
      * @return array
-     * @static
      */
     public static function getDirectories($directory)
     {
@@ -150,8 +146,15 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
         return self::$_directories;
     }
 
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     * @static
+     */
+
     // }}}
-    // {{{ getTestSuite()
+    // {{{ _getTestSuite()
 
     /**
      * Returns the test suite that contains all of the test cases in the
@@ -160,16 +163,14 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
      * @param string $directory
      * @param string $excludePattern
      * @return PHPUnit2_Framework_TestSuite
-     * @static
      */
-    public static function getTestSuite($directory,
-                                        $excludePattern = '!^PHPUnit!'
-                                        )
+    private static function _getTestSuite($directory,
+                                          $excludePattern = '!^PHPUnit!'
+                                          )
     {
         $directory = realpath($directory);
-
         $suite = new PHPUnit2_Framework_TestSuite();
-        $testCases = self::getTestCases($directory, $excludePattern);
+        $testCases = self::_getTestCases($directory, $excludePattern);
 
         for ($i = 0, $count = count($testCases); $i < $count; ++$i) {
             $suite->addTestSuite($testCases[$i]);
@@ -179,7 +180,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
     }
 
     // }}}
-    // {{{ getTestCases()
+    // {{{ _getTestCases()
 
     /**
      * Returns target test cases in the directory.
@@ -187,17 +188,25 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
      * @param string $directory
      * @param string $excludePattern
      * @return array
-     * @static
      */
-    public static function getTestCases($directory,
-                                        $excludePattern = '!^PHPUnit!'
-                                        )
+    private static function _getTestCases($directory,
+                                          $excludePattern = '!^PHPUnit!'
+                                          )
     {
         $testCases = array();
-        $files = scandir($directory);
+        if (is_dir($directory)) {
+            $files = scandir($directory);
+        } else {
+            $files = (array)$directory;
+        }
 
         for ($i = 0, $iCount = count($files); $i < $iCount; ++$i) {
-            $target = $directory . DIRECTORY_SEPARATOR . $files[$i];
+            if (is_dir($directory)) {
+                $target = $directory . DIRECTORY_SEPARATOR . $files[$i];
+            } else {
+                $target = $files[$i];
+            }
+
             if (!is_file($target)) {
                 continue;
             }
@@ -206,7 +215,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
                 continue;
             }
 
-            print "{$_SERVER['PHP_SELF']}: Loading [ {$files[$i]} ] ... ";
+            print "Loading [ {$files[$i]} ] ... ";
 
             $currentClasses = get_declared_classes();
 
@@ -219,7 +228,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
 
             $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
             for ($j = 0, $jCount = count($newClasses); $j < $jCount; ++$j) {
-                if (self::exclude($newClasses[$j], $excludePattern)) {
+                if (self::_exclude($newClasses[$j], $excludePattern)) {
                     continue;
                 }
 
@@ -232,7 +241,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
     }
 
     // }}}
-    // {{{ exclude()
+    // {{{ _exclude()
 
     /**
      * Returns whether the class should be exclude or not.
@@ -240,29 +249,20 @@ class Stagehand_TestRunner_PHPUnit2TestRunner
      * @param string $class
      * @param string $excludePattern
      * @return boolean
-     * @static
      */
-    public static function exclude($class, $excludePattern = '!^PHPUnit!')
+    private static function _exclude($class, $excludePattern = '!^PHPUnit!')
     {
         if (!preg_match('/TestCase$/', $class)) {
             return true;
         }
 
-        if (strlen($excludePattern)
-            && preg_match($excludePattern, $class)
-            ) {
+        if (strlen($excludePattern) && preg_match($excludePattern, $class)) {
             return true;
         }
 
         $test = new $class();
         return !($test instanceof PHPUnit2_Framework_TestCase);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
 
     /**#@-*/
 
