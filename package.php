@@ -75,7 +75,7 @@ if (PEAR::isError($result)) {
 
 $package->setPackage('Stagehand_TestRunner');
 $package->setPackageType('php');
-$package->setSummary('Automated test runners for PHPUnit2 and PHPUnit.');
+$package->setSummary('Automated test runners for PHPUnit2 and PHPUnit');
 $package->setDescription('Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with "TestCase.php" under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.');
 $package->setChannel('pear.piece-framework.com');
 $package->setLicense('BSD License (revised)', 'http://www.opensource.org/licenses/bsd-license.php');
