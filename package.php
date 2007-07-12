@@ -75,8 +75,10 @@ if (PEAR::isError($result)) {
 
 $package->setPackage('Stagehand_TestRunner');
 $package->setPackageType('php');
-$package->setSummary('Automated test runners for PHPUnit2 and PHPUnit.');
-$package->setDescription('Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with "TestCase.php" under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.');
+$package->setSummary('Automated test runners for PHPUnit2 and PHPUnit');
+$package->setDescription('Stagehand_TestRunner is automated test runners for PHPUnit2 and PHPUnit.
+
+Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with "TestCase.php" under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.');
 $package->setChannel('pear.piece-framework.com');
 $package->setLicense('BSD License (revised)', 'http://www.opensource.org/licenses/bsd-license.php');
 $package->setAPIVersion($apiVersion);
@@ -92,6 +94,7 @@ $package->addInstallAs('scripts/testrunner1', 'testrunner1');
 $package->addInstallAs('scripts/testrunner1.bat', 'testrunner1.bat');
 $package->addInstallAs('scripts/testrunner2', 'testrunner2');
 $package->addInstallAs('scripts/testrunner2.bat', 'testrunner2.bat');
+$package->addPackageDepWithChannel('required', 'PHPUnit', 'pear.phpunit.de', '1.3.2');
 $package->generateContents();
 
 if (array_key_exists(1, $_SERVER['argv'])
