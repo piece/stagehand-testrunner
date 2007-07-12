@@ -88,8 +88,6 @@ $package->setPhpDep('4.3.0');
 $package->setPearinstallerDep('1.4.3');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
-$package->addReplacement('scripts/testrunner1.bat', 'pear-config', '@php_bin@', 'php_bin');
-$package->addReplacement('scripts/testrunner2.bat', 'pear-config', '@php_bin@', 'php_bin');
 $package->addInstallAs('scripts/testrunner1', 'testrunner1');
 $package->addInstallAs('scripts/testrunner1.bat', 'testrunner1.bat');
 $package->addInstallAs('scripts/testrunner2', 'testrunner2');
