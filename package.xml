@@ -15,7 +15,7 @@
   <active>yes</active>
  </lead>
  <date>2007-07-12</date>
- <time>03:52:09</time>
+ <time>11:29:35</time>
  <version>
   <release>0.5.0</release>
   <api>0.3.0</api>
@@ -50,14 +50,12 @@ Enhancements
     </file>
     <file baseinstalldir="/" name="testrunner1.bat" role="script">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
     </file>
     <file baseinstalldir="/" name="testrunner2" role="script">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
     <file baseinstalldir="/" name="testrunner2.bat" role="script">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
     </file>
    </dir> <!-- /scripts -->
    <dir name="Stagehand">
