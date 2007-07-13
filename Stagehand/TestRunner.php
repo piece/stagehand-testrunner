@@ -219,7 +219,7 @@ Options:
   -R
         run tests recursively
 
-With no TESTCASE, run all test cases in the current directory.
+With no TESTCASE, run all tests in the current directory.
 ";
     }
 
