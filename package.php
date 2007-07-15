@@ -32,11 +32,12 @@
  * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @see        PEAR_PackageFileManager2
  * @since      File available since Release 0.1.0
  */
 
 require_once 'PEAR/PackageFileManager2.php';
+
+PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
 $releaseVersion = '0.5.0';
 $releaseStability = 'beta';
@@ -68,11 +69,6 @@ $result = $package->setOptions(array('filelistgenerator' => 'svn',
                                      'ignore'            => array('package.php', 'package.xml'))
                                );
 
-if (PEAR::isError($result)) {
-    print $result->getMessage();
-    exit();
-}
-
 $package->setPackage('Stagehand_TestRunner');
 $package->setPackageType('php');
 $package->setSummary('Automated test runners for PHPUnit2 and PHPUnit');
@@ -100,13 +96,9 @@ $package->generateContents();
 if (array_key_exists(1, $_SERVER['argv'])
     && $_SERVER['argv'][1] == 'make'
     ) {
-    $result = $package->writePackageFile();
+    $package->writePackageFile();
 } else {
-    $result = $package->debugPackageFile();
-}
-
-if (PEAR::isError($result)) {
-    print $result->getMessage();
+    $package->debugPackageFile();
 }
 
 exit();
