@@ -118,7 +118,11 @@ class Stagehand_TestRunner
                         break;
                     }
                 } else {
-                    $directory = "{$option[0]}TestCase.php";
+                    if (preg_match('/TestCase\.php$/', $option[0])) {
+                        $directory = $option[0];
+                    } else {
+                        $directory = "{$option[0]}TestCase.php";
+                    }
                 }
             }
         }
