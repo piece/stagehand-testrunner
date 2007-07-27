@@ -252,7 +252,7 @@ With no TESTCASE, run all tests in the current directory.
     {
         echo "Stagehand_TestRunner @package_version@
 
-Copyright (c) 2006-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
 All rights reserved.
 ";
     }
