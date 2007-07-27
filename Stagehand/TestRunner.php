@@ -127,20 +127,20 @@ class Stagehand_TestRunner
             }
         }
 
-        if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
-            include_once 'Stagehand/TestRunner/PHPUnitTestRunner.php';
+        if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
+            if (!defined('PHPUnit_MAIN_METHOD')) {
+                define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit3TestRunner::run');
+            }
+
+            include_once 'Stagehand/TestRunner/PHPUnit3TestRunner.php';
         } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 2) {
             if (!defined('PHPUnit2_MAIN_METHOD')) {
                 define('PHPUnit2_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit2TestRunner::run');
             }
 
             include_once 'Stagehand/TestRunner/PHPUnit2TestRunner.php';
-        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
-            if (!defined('PHPUnit_MAIN_METHOD')) {
-                define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit3TestRunner::run');
-            }
-
-            include_once 'Stagehand/TestRunner/PHPUnit3TestRunner.php';
+        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
+            include_once 'Stagehand/TestRunner/PHPUnitTestRunner.php';
         } else {
             echo "ERROR: The version of PHPUnit should be one of 3, 2, 1.\n";
             return 1;
@@ -151,37 +151,37 @@ class Stagehand_TestRunner
                 $directory = getcwd();
             }
 
-            if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
-                $result = Stagehand_TestRunner_PHPUnitTestRunner::run($directory);
+            if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
+                $result = Stagehand_TestRunner_PHPUnit3TestRunner::run($directory);
             } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 2) {
                 $result = Stagehand_TestRunner_PHPUnit2TestRunner::run($directory);
-            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
-                $result = Stagehand_TestRunner_PHPUnit3TestRunner::run($directory);
+            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
+                $result = Stagehand_TestRunner_PHPUnitTestRunner::run($directory);
             }
         } else {
             $directory = getcwd();
 
-            if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
-                $result = Stagehand_TestRunner_PHPUnitTestRunner::runAll($directory);
+            if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
+                $result = Stagehand_TestRunner_PHPUnit3TestRunner::runAll($directory);
             } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 2) {
                 $result = Stagehand_TestRunner_PHPUnit2TestRunner::runAll($directory);
-            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
-                $result = Stagehand_TestRunner_PHPUnit3TestRunner::runAll($directory);
+            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
+                $result = Stagehand_TestRunner_PHPUnitTestRunner::runAll($directory);
             }
         }
 
-        if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
-            $runs = $result->runCount();
-            $passes = count($result->passedTests());
-            $text = $result->toString();
+        if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
+            $runs = $result->count();
+            $passes = $runs - $result->failureCount();
+            $text = '';
         } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 2) {
             $runs = $result->runCount();
             $passes = $runs - $result->failureCount();
             $text = '';
-        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
-            $runs = $result->count();
-            $passes = $runs - $result->failureCount();
-            $text = '';
+        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
+            $runs = $result->runCount();
+            $passes = count($result->passedTests());
+            $text = $result->toString();
         }
         $failures = $runs - $passes;
 
