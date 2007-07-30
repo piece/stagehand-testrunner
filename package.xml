@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id$ -->
-<package packagerversion="1.5.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+<package packagerversion="1.6.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
     http://pear.php.net/dtd/tasks-1.0.xsd
     http://pear.php.net/dtd/package-2.0
     http://pear.php.net/dtd/package-2.0.xsd">
  <name>Stagehand_TestRunner</name>
  <channel>pear.piece-framework.com</channel>
- <summary>Automated test runners for PHPUnit2 and PHPUnit</summary>
- <description>Stagehand_TestRunner is automated test runners for PHPUnit2 and PHPUnit.
+ <summary>Automated test runners for PHPUnit</summary>
+ <description>Stagehand_TestRunner is automated test runners for PHPUnit.
 
-Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with &quot;TestCase.php&quot; under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.</description>
+Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with &quot;TestCase.php&quot; under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit 3, PHPUnit 2, and PHPUnit 1.</description>
  <lead>
   <name>KUBO Atsuhiro</name>
   <user>iteman</user>
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2007-07-12</date>
- <time>12:14:48</time>
+ <date>2007-07-31</date>
+ <time>00:33:53</time>
  <version>
-  <release>0.5.0</release>
+  <release>1.0.0</release>
   <api>0.3.0</api>
  </version>
  <stability>
-  <release>beta</release>
-  <api>beta</api>
+  <release>stable</release>
+  <api>stable</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
- <notes>A new release of Stagehand_TestRunner is now available.
+ <notes>This is the first stable release of Stagehand_TestRunner.
 
-What&apos;s New in Stagehand_TestRunner 0.5.0
+What&apos;s New in Stagehand_TestRunner 1.0.0
 
- * Command Line Interface Support: testrunner1/testrunner2 can be used to run tests automatically without TestRunner.php and AllTestRunner.php. Also these commands can be used to run only the specified test case.
+ * PHPUnit 3 Support: Stagehand_TestRunner can now be used with PHPUnit 3. If you use PHPUnit 3, use the testrunner3 script for running tests.
 
 See the following release notes for details.
 
 Enhancements
 ============ 
 
-- Added testrunner1/testrunner2 scripts to run tests automatically without TestRunner.php and AllTestRunner.php.</notes>
+- Added support for specifying a file name directly. (Stagehand_TestRunner)
+- Added support for PHPUnit 3.</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="docs">
@@ -59,10 +60,19 @@ Enhancements
     <file baseinstalldir="/" name="testrunner2.bat" role="script">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
+    <file baseinstalldir="/" name="testrunner3" role="script">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file baseinstalldir="/" name="testrunner3.bat" role="script">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
    </dir> <!-- /scripts -->
    <dir name="Stagehand">
     <dir name="TestRunner">
      <file baseinstalldir="/" name="PHPUnit2TestRunner.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file baseinstalldir="/" name="PHPUnit3TestRunner.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
      </file>
      <file baseinstalldir="/" name="PHPUnitTestRunner.php" role="php">
@@ -92,6 +102,14 @@ Enhancements
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
       </dir> <!-- /tests/Stagehand/TestRunner/PHPUnit2TestRunnerTestCase -->
+      <dir name="PHPUnit3TestRunnerTestCase">
+       <file baseinstalldir="/" name="PHPUnit3TestRunner1TestCase.php" role="test">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file baseinstalldir="/" name="PHPUnit3TestRunner2TestCase.php" role="test">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnit3TestRunnerTestCase -->
       <file baseinstalldir="/" name="PHPUnit1TestRunner1TestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
@@ -108,6 +126,15 @@ Enhancements
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
       <file baseinstalldir="/" name="PHPUnit2TestRunner3TestCase.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnit3TestRunner1TestCase.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnit3TestRunner2TestCase.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnit3TestRunner3TestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
      </dir> <!-- /tests/Stagehand/TestRunner -->
@@ -136,9 +163,36 @@ Enhancements
    <install as="testrunner1.bat" name="scripts/testrunner1.bat" />
    <install as="testrunner2" name="scripts/testrunner2" />
    <install as="testrunner2.bat" name="scripts/testrunner2.bat" />
+   <install as="testrunner3" name="scripts/testrunner3" />
+   <install as="testrunner3.bat" name="scripts/testrunner3.bat" />
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-07-31</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>This is the first stable release of Stagehand_TestRunner.
+
+What&apos;s New in Stagehand_TestRunner 1.0.0
+
+ * PHPUnit 3 Support: Stagehand_TestRunner can now be used with PHPUnit 3. If you use PHPUnit 3, use the testrunner3 script for running tests.
+
+See the following release notes for details.
+
+Enhancements
+============ 
+
+- Added support for specifying a file name directly. (Stagehand_TestRunner)
+- Added support for PHPUnit 3.</notes>
+  </release>
   <release>
    <version>
     <release>0.5.0</release>

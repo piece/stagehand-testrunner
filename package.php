@@ -39,22 +39,23 @@ require_once 'PEAR/PackageFileManager2.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '0.5.0';
-$releaseStability = 'beta';
+$releaseVersion = '1.0.0';
+$releaseStability = 'stable';
 $apiVersion = '0.3.0';
-$apiStability = 'beta';
-$notes = 'A new release of Stagehand_TestRunner is now available.
+$apiStability = 'stable';
+$notes = 'This is the first stable release of Stagehand_TestRunner.
 
-What\'s New in Stagehand_TestRunner 0.5.0
+What\'s New in Stagehand_TestRunner 1.0.0
 
- * Command Line Interface Support: testrunner1/testrunner2 can be used to run tests automatically without TestRunner.php and AllTestRunner.php. Also these commands can be used to run only the specified test case.
+ * PHPUnit 3 Support: Stagehand_TestRunner can now be used with PHPUnit 3. If you use PHPUnit 3, use the testrunner3 script for running tests.
 
 See the following release notes for details.
 
 Enhancements
 ============ 
 
-- Added testrunner1/testrunner2 scripts to run tests automatically without TestRunner.php and AllTestRunner.php.';
+- Added support for specifying a file name directly. (Stagehand_TestRunner)
+- Added support for PHPUnit 3.';
 
 $package = new PEAR_PackageFileManager2();
 $result = $package->setOptions(array('filelistgenerator' => 'svn',
@@ -71,10 +72,10 @@ $result = $package->setOptions(array('filelistgenerator' => 'svn',
 
 $package->setPackage('Stagehand_TestRunner');
 $package->setPackageType('php');
-$package->setSummary('Automated test runners for PHPUnit2 and PHPUnit');
-$package->setDescription('Stagehand_TestRunner is automated test runners for PHPUnit2 and PHPUnit.
+$package->setSummary('Automated test runners for PHPUnit');
+$package->setDescription('Stagehand_TestRunner is automated test runners for PHPUnit.
 
-Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with "TestCase.php" under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit2 and PHPUnit.');
+Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with "TestCase.php" under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit 3, PHPUnit 2, and PHPUnit 1.');
 $package->setChannel('pear.piece-framework.com');
 $package->setLicense('BSD License (revised)', 'http://www.opensource.org/licenses/bsd-license.php');
 $package->setAPIVersion($apiVersion);
@@ -90,12 +91,12 @@ $package->addInstallAs('scripts/testrunner1', 'testrunner1');
 $package->addInstallAs('scripts/testrunner1.bat', 'testrunner1.bat');
 $package->addInstallAs('scripts/testrunner2', 'testrunner2');
 $package->addInstallAs('scripts/testrunner2.bat', 'testrunner2.bat');
+$package->addInstallAs('scripts/testrunner3', 'testrunner3');
+$package->addInstallAs('scripts/testrunner3.bat', 'testrunner3.bat');
 $package->addPackageDepWithChannel('required', 'PHPUnit', 'pear.phpunit.de', '1.3.2');
 $package->generateContents();
 
-if (array_key_exists(1, $_SERVER['argv'])
-    && $_SERVER['argv'][1] == 'make'
-    ) {
+if (array_key_exists(1, $_SERVER['argv']) && $_SERVER['argv'][1] == 'make') {
     $package->writePackageFile();
 } else {
     $package->debugPackageFile();
