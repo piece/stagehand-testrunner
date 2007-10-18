@@ -141,8 +141,10 @@ class Stagehand_TestRunner
             include_once 'Stagehand/TestRunner/PHPUnit2TestRunner.php';
         } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
             include_once 'Stagehand/TestRunner/PHPUnitTestRunner.php';
+        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 'SimpleTest') {
+            include_once 'Stagehand/TestRunner/SimpleTestTestRunner.php';
         } else {
-            echo "ERROR: The version of PHPUnit should be one of 3, 2, 1.\n";
+            echo "ERROR: The version of PHPUnit should be one of 3, 2, 1 or 'SimpleTest'.\n";
             return 1;
         }
 
@@ -157,6 +159,8 @@ class Stagehand_TestRunner
                 $result = Stagehand_TestRunner_PHPUnit2TestRunner::run($directory);
             } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
                 $result = Stagehand_TestRunner_PHPUnitTestRunner::run($directory);
+            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 'SimpleTest') {
+                $result = Stagehand_TestRunner_SimpleTestTestRunner::run($directory);
             }
         } else {
             $directory = getcwd();
@@ -167,23 +171,36 @@ class Stagehand_TestRunner
                 $result = Stagehand_TestRunner_PHPUnit2TestRunner::runAll($directory);
             } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
                 $result = Stagehand_TestRunner_PHPUnitTestRunner::runAll($directory);
+            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 'SimpleTest') {
+                $result = Stagehand_TestRunner_SimpleTestTestRunner::runAll($directory);
             }
         }
 
         if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
-            $runs = $result->count();
-            $passes = $runs - $result->failureCount();
+            $runCount = $result->count();
+            $passCount = $runCount - $result->failureCount();
+            $failureCount = $result->failureCount();
+            $errorCount = $result->errorCount();
             $text = '';
         } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 2) {
-            $runs = $result->runCount();
-            $passes = $runs - $result->failureCount();
+            $runCount = $result->runCount();
+            $passCount = $runCount - $result->failureCount();
+            $failureCount = $result->failureCount();
+            $errorCount = $result->errorCount();
             $text = '';
         } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
-            $runs = $result->runCount();
-            $passes = count($result->passedTests());
+            $runCount = $result->runCount();
+            $passCount = count($result->passedTests());
+            $failureCount = $result->failureCount();
+            $errorCount = $result->errorCount();
             $text = $result->toString();
+        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 'SimpleTest') {
+            $passCount = $result->getPassCount();
+            $failureCount = $result->getFailCount();
+            $errorCount = $result->getExceptionCount();
+            $runCount = $passCount + $failureCount + $errorCount;
+            $text = '';
         }
-        $failures = $runs - $passes;
 
         printf('### Results ###
 %s
@@ -192,9 +209,9 @@ Passes   : %d (%d%%)
 Failures : %d (%d%%), %d failures, %d errors
 ',
                $text,
-               $runs,
-               $passes, $runs ? $passes / $runs * 100 : 0,
-               $failures, $runs ? $failures / $runs * 100 : 0, $result->failureCount(), $result->errorCount()
+               $runCount,
+               $passCount, $runCount ? $passCount / $runCount * 100 : 0,
+               $runCount - $passCount, $runCount ? ($runCount - $passCount) / $runCount * 100 : 0, $failureCount, $errorCount
                );
 
         return 0;
