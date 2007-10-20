@@ -44,8 +44,8 @@ if (file_exists(dirname(__FILE__) . '/../Stagehand/TestRunner.php')) {
 
 require_once 'Stagehand/TestRunner.php';
 
-Stagehand_TestRunner::setPHPUnitVersion(2);
-$result = Stagehand_TestRunner::run();
+$result = Stagehand_TestRunner::run('PHPUnit2TestRunner');
+
 exit($result);
 
 /*

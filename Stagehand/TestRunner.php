@@ -37,15 +37,10 @@
 
 require_once 'Console/Getopt.php';
 
-// {{{ GLOBALS
-
-$GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] = null;
-
-// }}}
 // {{{ Stagehand_TestRunner
 
 /**
- * A testrunner scripts to run tests automatically.
+ * A testrunner script to run tests automatically.
  *
  * @package    Stagehand_TestRunner
  * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
@@ -80,8 +75,10 @@ class Stagehand_TestRunner
 
     /**
      * Runs tests automatically
+     *
+     * @param string $testRunnerName
      */
-    function run()
+    function run($testRunnerName)
     {
         if (!array_key_exists('argv', $_SERVER)) {
             echo "ERROR: either use the CLI php executable, or set register_argc_argv=On in php.ini.\n";;
@@ -127,79 +124,19 @@ class Stagehand_TestRunner
             }
         }
 
-        if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
-            if (!defined('PHPUnit_MAIN_METHOD')) {
-                define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit3TestRunner::run');
-            }
-
-            include_once 'Stagehand/TestRunner/PHPUnit3TestRunner.php';
-        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 2) {
-            if (!defined('PHPUnit2_MAIN_METHOD')) {
-                define('PHPUnit2_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit2TestRunner::run');
-            }
-
-            include_once 'Stagehand/TestRunner/PHPUnit2TestRunner.php';
-        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
-            include_once 'Stagehand/TestRunner/PHPUnitTestRunner.php';
-        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 'SimpleTest') {
-            include_once 'Stagehand/TestRunner/SimpleTestTestRunner.php';
-        } else {
-            echo "ERROR: The version of PHPUnit should be one of 3, 2, 1 or 'SimpleTest'.\n";
-            return 1;
-        }
+        include_once "Stagehand/TestRunner/$testRunnerName.php";
+        $className = "Stagehand_TestRunner_$testRunnerName";
+        $testRunner = &new $className();
 
         if (!$isRecursive) {
             if (is_null($directory)) {
                 $directory = getcwd();
             }
 
-            if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
-                $result = Stagehand_TestRunner_PHPUnit3TestRunner::run($directory);
-            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 2) {
-                $result = Stagehand_TestRunner_PHPUnit2TestRunner::run($directory);
-            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
-                $result = Stagehand_TestRunner_PHPUnitTestRunner::run($directory);
-            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 'SimpleTest') {
-                $result = Stagehand_TestRunner_SimpleTestTestRunner::run($directory);
-            }
+            $result = $testRunner->run($directory);
         } else {
             $directory = getcwd();
-
-            if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
-                $result = Stagehand_TestRunner_PHPUnit3TestRunner::runAll($directory);
-            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 2) {
-                $result = Stagehand_TestRunner_PHPUnit2TestRunner::runAll($directory);
-            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
-                $result = Stagehand_TestRunner_PHPUnitTestRunner::runAll($directory);
-            } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 'SimpleTest') {
-                $result = Stagehand_TestRunner_SimpleTestTestRunner::runAll($directory);
-            }
-        }
-
-        if ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 3) {
-            $runCount = $result->count();
-            $passCount = $runCount - $result->failureCount();
-            $failureCount = $result->failureCount();
-            $errorCount = $result->errorCount();
-            $text = '';
-        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 2) {
-            $runCount = $result->runCount();
-            $passCount = $runCount - $result->failureCount();
-            $failureCount = $result->failureCount();
-            $errorCount = $result->errorCount();
-            $text = '';
-        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 1) {
-            $runCount = $result->runCount();
-            $passCount = count($result->passedTests());
-            $failureCount = $result->failureCount();
-            $errorCount = $result->errorCount();
-            $text = $result->toString();
-        } elseif ($GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] == 'SimpleTest') {
-            $passCount = $result->getPassCount();
-            $failureCount = $result->getFailCount();
-            $errorCount = $result->getExceptionCount();
-            $runCount = $passCount + $failureCount + $errorCount;
-            $text = '';
+            $result = $testRunner->runRecursively($directory);
         }
 
         printf('### Results ###
@@ -208,26 +145,13 @@ Runs     : %d
 Passes   : %d (%d%%)
 Failures : %d (%d%%), %d failures, %d errors
 ',
-               $text,
-               $runCount,
-               $passCount, $runCount ? $passCount / $runCount * 100 : 0,
-               $runCount - $passCount, $runCount ? ($runCount - $passCount) / $runCount * 100 : 0, $failureCount, $errorCount
+               $result->text,
+               $result->runCount,
+               $result->passCount, $result->runCount ? $result->passCount / $result->runCount * 100 : 0,
+               $result->runCount - $result->passCount, $result->runCount ? ($result->runCount - $result->passCount) / $result->runCount * 100 : 0, $result->failureCount, $result->errorCount
                );
 
         return 0;
-    }
-
-    // }}}
-    // {{{ setPHPUnitVersion()
-
-    /**
-     * Sets the version of PHPUnit which will be used for tests.
-     *
-     * @param integer $version
-     */
-    function setPHPUnitVersion($version)
-    {
-        $GLOBALS['STAGEHAND_TESTRUNNER_PHPUnit_Version'] = $version;
     }
 
     /**#@-*/

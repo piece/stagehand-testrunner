@@ -32,11 +32,14 @@
  * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
+ * @link       http://www.phpunit.de/
  * @see        PHPUnit_TestSuite, PHPUnit::run()
  * @since      File available since Release 0.1.0
  */
 
+require_once 'Stagehand/TestRunner/Common.php';
 require_once 'PHPUnit.php';
+require_once 'PHPUnit/TestSuite.php';
 require_once 'PHP/Compat.php';
 
 PHP_Compat::loadFunction('scandir');
@@ -50,10 +53,11 @@ PHP_Compat::loadFunction('scandir');
  * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
+ * @link       http://www.phpunit.de/
  * @see        PHPUnit_TestSuite, PHPUnit::run()
  * @since      Class available since Release 0.1.0
  */
-class Stagehand_TestRunner_PHPUnitTestRunner
+class Stagehand_TestRunner_PHPUnitTestRunner extends Stagehand_TestRunner_Common
 {
 
     // {{{ properties
@@ -68,204 +72,85 @@ class Stagehand_TestRunner_PHPUnitTestRunner
      * @access private
      */
 
+    var $_excludePattern = '!^PHPUnit!i';
+    var $_baseClass = 'PHPUnit_TestCase';
+
     /**#@-*/
 
     /**#@+
      * @access public
-     * @static
      */
-
-    // }}}
-    // {{{ run()
-
-    /**
-     * Runs target tests in the directory.
-     *
-     * @param string $directory
-     * @param string $excludePattern
-     * @return mixed
-     */
-    function run($directory, $excludePattern = '!^phpunit!')
-    {
-        eval('$suite = ' . '&' .  __CLASS__ . "::_getTestSuite('$directory', '$excludePattern');");
-        return PHPUnit::run($suite);
-    }
-
-    // }}}
-    // {{{ runAll()
-
-    /**
-     * Runs all tests under the directory.
-     *
-     * @param string $directory
-     * @param string $excludePattern
-     * @return mixed
-     */
-    function runAll($directory, $excludePattern = '!^phpunit!')
-    {
-        $suite = new PHPUnit_TestSuite();
-        eval('$directories = ' . __CLASS__ . "::getDirectories('$directory');");
-
-        for ($i = 0, $count = count($directories); $i < $count; ++$i) {
-            eval('$test = ' . '&' . __CLASS__ . "::_getTestSuite('$directories[$i]', '$excludePattern');");
-            if (!$test->countTestCases()) {
-                continue;
-            }
-            $suite->addTest($test);
-        }
-
-        return PHPUnit::run($suite);
-    }
-
-    // }}}
-    // {{{ getDirectories()
-
-    /**
-     * Returns all directories under the directory.
-     *
-     * @param string $directory
-     * @return array
-     */
-    function getDirectories($directory)
-    {
-        static $directories;
-        if (is_null($directories)) {
-            $directories = array();
-        }
-
-        $directory = realpath($directory);
-        $directories[] = $directory;
-        $files = scandir($directory);
-
-        for ($i = 0, $count = count($files); $i < $count; ++$i) {
-            if ($files[$i] == '.' || $files[$i] == '..') {
-                continue;
-            }
-
-            $next = $directory . DIRECTORY_SEPARATOR . $files[$i];
-            if (!is_dir($next)) {
-                continue;
-            }
-
-            call_user_func(array(__CLASS__, 'getDirectories'), $next);
-        }
-
-        return $directories;
-    }
 
     /**#@-*/
 
     /**#@+
      * @access private
-     * @static
      */
 
     // }}}
-    // {{{ _getTestSuite()
+    // {{{ _doRun()
 
     /**
-     * Returns the test suite that contains all of the test cases in the
-     * directory.
+     * Runs tests based on the given test suite object.
      *
-     * @param string $directory
-     * @param string $excludePattern
+     * @param PHPUnit_TestSuite &$suite
+     * @return stdClass
+     */
+    function _doRun(&$suite)
+    {
+        $result = &PHPUnit::run($suite);
+        return (object)array('runCount'     => $result->runCount(),
+                             'passCount'    => count($result->passedTests()),
+                             'failureCount' => $result->failureCount(),
+                             'errorCount'   => $result->errorCount(),
+                             'text'         => $result->toString()
+                             );
+    }
+
+    // }}}
+    // {{{ _createTestSuite()
+
+    /**
+     * Creates a test suite object.
+     *
      * @return PHPUnit_TestSuite
      */
-    function &_getTestSuite($directory, $excludePattern = '!^phpunit!')
+    function &_createTestSuite()
     {
-        $directory = realpath($directory);
-        eval('$testCases = ' . __CLASS__ . "::_getTestCases('$directory', '$excludePattern');");
-        $suite = new PHPUnit_TestSuite();
-
-        for ($i = 0, $count = count($testCases); $i < $count; ++$i) {
-            $suite->addTestSuite($testCases[$i]);
-        }
-
+        $suite = &new PHPUnit_TestSuite();
         return $suite;
     }
 
     // }}}
-    // {{{ _getTestCases()
+    // {{{ _doBuildTestSuite()
 
     /**
-     * Returns target test cases in the directory.
+     * Aggregates a test suite object to an aggregate test suite object.
      *
-     * @param string $directory
-     * @param string $excludePattern
-     * @return array
+     * @param PHPUnit_TestSuite &$aggregateSuite
+     * @param PHPUnit_TestSuite &$suite
      */
-    function _getTestCases($directory, $excludePattern = '!^phpunit!')
+    function _doBuildTestSuite(&$aggregateSuite, &$suite)
     {
-        $testCases = array();
-        if (is_dir($directory)) {
-            $files = scandir($directory);
-        } else {
-            $files = (array)$directory;
+        if (!$suite->countTestCases()) {
+            return;
         }
 
-        for ($i = 0, $iCount = count($files); $i < $iCount; ++$i) {
-            if (is_dir($directory)) {
-                $target = $directory . DIRECTORY_SEPARATOR . $files[$i];
-            } else {
-                $target = $files[$i];
-            }
-
-            if (!is_file($target)) {
-                continue;
-            }
-
-            if (!preg_match('/TestCase\.php$/', $files[$i])) {
-                continue;
-            }
-
-            print "Loading [ {$files[$i]} ] ... ";
-
-            $currentClasses = get_declared_classes();
-
-            if (!include_once($target)) {
-                print "Failed!\n";
-                continue;
-            }
-
-            print "Succeeded.\n";
-
-            $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
-            for ($j = 0, $jCount = count($newClasses); $j < $jCount; ++$j) {
-                eval('$exclude = ' . __CLASS__ . "::_exclude('$newClasses[$j]', '$excludePattern');");
-                if ($exclude) {
-                    continue;
-                }
-
-                $testCases[] = $newClasses[$j];
-                print "  => Added [ {$newClasses[$j]} ]\n";
-            }
-        }
-
-        return $testCases;
+        $aggregateSuite->addTest($suite);
     }
 
     // }}}
-    // {{{ _exclude()
+    // {{{ _addTestCase()
 
     /**
-     * Returns whether the class should be exclude or not.
+     * Adds a test case to a test suite object.
      *
-     * @param string $class
-     * @param string $excludePattern
-     * @return boolean
+     * @param PHPUnit_TestSuite &$suite
+     * @param string            $testCase
      */
-    function _exclude($class, $excludePattern = '!^phpunit!')
+    function _addTestCase(&$suite, $testCase)
     {
-        if (!preg_match('/TestCase$/i', $class)) {
-            return true;
-        }
-
-        if (strlen($excludePattern) && preg_match($excludePattern, $class)) {
-            return true;
-        }
-
-        $test = new $class();
-        return !is_a($test, 'PHPUnit_TestCase');
+        $suite->addTestSuite($testCase);
     }
 
     /**#@-*/
