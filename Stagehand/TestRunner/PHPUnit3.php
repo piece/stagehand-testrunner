@@ -4,7 +4,7 @@
 /**
  * PHP versions 5
  *
- * Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
  * @link       http://www.phpunit.de/
@@ -49,7 +49,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  * A test runner for PHPUnit version 3.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/

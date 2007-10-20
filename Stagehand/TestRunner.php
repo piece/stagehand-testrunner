@@ -4,7 +4,7 @@
 /**
  * PHP versions 4 and 5
  *
- * Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
  * @since      File available since Release 0.5.0
@@ -43,7 +43,7 @@ require_once 'Console/Getopt.php';
  * A testrunner script to run tests automatically.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
  * @since      Class available since Release 0.5.0
@@ -194,6 +194,7 @@ With no TESTCASE, run all tests in the current directory.
         echo "Stagehand_TestRunner @package_version@
 
 Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+              2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
 All rights reserved.
 ";
     }
