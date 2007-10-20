@@ -42,7 +42,7 @@ if (!@include_once 'PHPUnit.php') {
 // {{{ Stagehand_TestRunner_PHPUnitOneTestCase
 
 /**
- * TestCase for Stagehand_TestRunner_PHPUnitTestRunner
+ * TestCase for Stagehand_TestRunner_PHPUnit
  *
  * @package    Stagehand_TestRunner
  * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
