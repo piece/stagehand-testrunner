@@ -43,10 +43,10 @@ if (!@include_once 'PHPUnit2/Framework/TestCase.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnit2TestRunner2TestCase
+// {{{ Stagehand_TestRunner_PHPUnit2ThreeTestCase
 
 /**
- * TestCase for Stagehand_TestRunner_PHPUnit2TestRunner
+ * TestCase for Stagehand_TestRunner_PHPUnit2
  *
  * @package    Stagehand_TestRunner
  * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
@@ -54,7 +54,7 @@ if (!@include_once 'PHPUnit2/Framework/TestCase.php') {
  * @version    Release: @package_version@
  * @since      Class available since Release 0.5.0
  */
-class Stagehand_TestRunner_PHPUnit2TestRunner2TestCase extends PHPUnit2_Framework_TestCase
+class Stagehand_TestRunner_PHPUnit2ThreeTestCase extends PHPUnit2_Framework_TestCase
 {
 
     // {{{ properties
@@ -77,7 +77,7 @@ class Stagehand_TestRunner_PHPUnit2TestRunner2TestCase extends PHPUnit2_Framewor
 
     function testTestShouldBeRunAutomatically()
     {
-        $this->assertTrue(true);
+        $this->assertTrue(false);
     }
 
     /**#@-*/
