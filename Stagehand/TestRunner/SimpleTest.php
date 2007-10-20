@@ -46,7 +46,7 @@ require_once 'PHP/Compat.php';
 
 PHP_Compat::loadFunction('scandir');
 
-// {{{ Stagehand_TestRunner_SimpleTestTestRunner
+// {{{ Stagehand_TestRunner_SimpleTest
 
 /**
  * A test runner for SimpleTest.
@@ -59,7 +59,7 @@ PHP_Compat::loadFunction('scandir');
  * @link       http://simpletest.org/
  * @since      Class available since Release 1.1.0
  */
-class Stagehand_TestRunner_SimpleTestTestRunner extends Stagehand_TestRunner_Common
+class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
 {
 
     // {{{ properties

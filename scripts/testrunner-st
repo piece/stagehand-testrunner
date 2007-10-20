@@ -44,7 +44,7 @@ if (file_exists(dirname(__FILE__) . '/../Stagehand/TestRunner.php')) {
 
 require_once 'Stagehand/TestRunner.php';
 
-$result = Stagehand_TestRunner::run('SimpleTestTestRunner');
+$result = Stagehand_TestRunner::run('SimpleTest');
 
 exit($result);
 

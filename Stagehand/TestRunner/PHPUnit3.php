@@ -37,13 +37,13 @@
  * @since      File available since Release 0.6.0
  */
 
-define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit3TestRunner::run');
+define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit3::run');
 
 require_once 'Stagehand/TestRunner/Common.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
 
-// {{{ Stagehand_TestRunner_PHPUnit3TestRunner
+// {{{ Stagehand_TestRunner_PHPUnit3
 
 /**
  * A test runner for PHPUnit version 3.
@@ -56,7 +56,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  * @see        PHPUnit_Framework_TestSuite, PHPUnit_TextUI_TestRunner::run()
  * @since      Class available since Release 0.6.0
  */
-class Stagehand_TestRunner_PHPUnit3TestRunner extends Stagehand_TestRunner_Common
+class Stagehand_TestRunner_PHPUnit3 extends Stagehand_TestRunner_Common
 {
 
     // {{{ properties

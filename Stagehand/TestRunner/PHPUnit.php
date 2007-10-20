@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 5
+ * PHP versions 4 and 5
  *
  * Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
@@ -33,30 +33,31 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
  * @link       http://www.phpunit.de/
- * @see        PHPUnit2_Framework_TestSuite, PHPUnit2_TextUI_TestRunner::run()
+ * @see        PHPUnit_TestSuite, PHPUnit::run()
  * @since      File available since Release 0.1.0
  */
 
-define('PHPUnit2_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit2TestRunner::run');
-
 require_once 'Stagehand/TestRunner/Common.php';
-require_once 'PHPUnit2/TextUI/TestRunner.php';
-require_once 'PHPUnit2/Framework/TestSuite.php';
+require_once 'PHPUnit.php';
+require_once 'PHPUnit/TestSuite.php';
+require_once 'PHP/Compat.php';
 
-// {{{ Stagehand_TestRunner_PHPUnit2TestRunner
+PHP_Compat::loadFunction('scandir');
+
+// {{{ Stagehand_TestRunner_PHPUnit
 
 /**
- * A test runner for PHPUnit version 2.
+ * A test runner for PHPUnit version 1.
  *
  * @package    Stagehand_TestRunner
  * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
- * @see        PHPUnit2_Framework_TestSuite, PHPUnit2_TextUI_TestRunner::run()
+ * @see        PHPUnit_TestSuite, PHPUnit::run()
  * @since      Class available since Release 0.1.0
  */
-class Stagehand_TestRunner_PHPUnit2TestRunner extends Stagehand_TestRunner_Common
+class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
 {
 
     // {{{ properties
@@ -71,8 +72,8 @@ class Stagehand_TestRunner_PHPUnit2TestRunner extends Stagehand_TestRunner_Commo
      * @access private
      */
 
-    var $_excludePattern = '!^PHPUnit!';
-    var $_baseClass = 'PHPUnit2_Framework_TestCase';
+    var $_excludePattern = '!^PHPUnit!i';
+    var $_baseClass = 'PHPUnit_TestCase';
 
     /**#@-*/
 
@@ -92,20 +93,17 @@ class Stagehand_TestRunner_PHPUnit2TestRunner extends Stagehand_TestRunner_Commo
     /**
      * Runs tests based on the given test suite object.
      *
-     * @param PHPUnit2_Framework_TestSuite &$suite
+     * @param PHPUnit_TestSuite &$suite
      * @return stdClass
      */
     function _doRun(&$suite)
     {
-        ob_start();
-        $result = PHPUnit2_TextUI_TestRunner::run($suite);
-        $output = ob_get_contents();
-        ob_end_clean();
+        $result = &PHPUnit::run($suite);
         return (object)array('runCount'     => $result->runCount(),
-                             'passCount'    => $result->runCount() - $result->failureCount(),
+                             'passCount'    => count($result->passedTests()),
                              'failureCount' => $result->failureCount(),
                              'errorCount'   => $result->errorCount(),
-                             'text'         => $output
+                             'text'         => $result->toString()
                              );
     }
 
@@ -115,11 +113,12 @@ class Stagehand_TestRunner_PHPUnit2TestRunner extends Stagehand_TestRunner_Commo
     /**
      * Creates a test suite object.
      *
-     * @return PHPUnit2_Framework_TestSuite
+     * @return PHPUnit_TestSuite
      */
-    function _createTestSuite()
+    function &_createTestSuite()
     {
-        return new PHPUnit2_Framework_TestSuite();
+        $suite = &new PHPUnit_TestSuite();
+        return $suite;
     }
 
     // }}}
@@ -128,8 +127,8 @@ class Stagehand_TestRunner_PHPUnit2TestRunner extends Stagehand_TestRunner_Commo
     /**
      * Aggregates a test suite object to an aggregate test suite object.
      *
-     * @param PHPUnit2_Framework_TestSuite &$aggregateSuite
-     * @param PHPUnit2_Framework_TestSuite &$suite
+     * @param PHPUnit_TestSuite &$aggregateSuite
+     * @param PHPUnit_TestSuite &$suite
      */
     function _doBuildTestSuite(&$aggregateSuite, &$suite)
     {
@@ -146,8 +145,8 @@ class Stagehand_TestRunner_PHPUnit2TestRunner extends Stagehand_TestRunner_Commo
     /**
      * Adds a test case to a test suite object.
      *
-     * @param PHPUnit2_Framework_TestSuite &$suite
-     * @param string                       $testCase
+     * @param PHPUnit_TestSuite &$suite
+     * @param string            $testCase
      */
     function _addTestCase(&$suite, $testCase)
     {
