@@ -39,7 +39,7 @@ if (!@include_once 'PHPUnit.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnit1TestRunner1TestCase
+// {{{ Stagehand_TestRunner_PHPUnitOneTestCase
 
 /**
  * TestCase for Stagehand_TestRunner_PHPUnitTestRunner
@@ -50,7 +50,7 @@ if (!@include_once 'PHPUnit.php') {
  * @version    Release: @package_version@
  * @since      Class available since Release 0.5.0
  */
-class Stagehand_TestRunner_PHPUnit1TestRunner1TestCase extends PHPUnit_TestCase
+class Stagehand_TestRunner_PHPUnitOneTestCase extends PHPUnit_TestCase
 {
 
     // {{{ properties
