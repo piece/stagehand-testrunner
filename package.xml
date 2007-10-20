@@ -1,45 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- $Id$ -->
-<package packagerversion="1.6.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+<package packagerversion="1.6.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
     http://pear.php.net/dtd/tasks-1.0.xsd
     http://pear.php.net/dtd/package-2.0
     http://pear.php.net/dtd/package-2.0.xsd">
  <name>Stagehand_TestRunner</name>
  <channel>pear.piece-framework.com</channel>
- <summary>Automated test runners for PHPUnit</summary>
- <description>Stagehand_TestRunner is automated test runners for PHPUnit.
+ <summary>Automated test runners for PHPUnit and SimpleTest</summary>
+ <description>Stagehand_TestRunner is automated test runners for PHPUnit and SimpleTest.
 
-Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with &quot;TestCase.php&quot; under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit 3, PHPUnit 2, and PHPUnit 1.</description>
+Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with &quot;TestCase.php&quot; under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit 3, PHPUnit 2, PHPUnit 1, and SimpleTest.</description>
  <lead>
   <name>KUBO Atsuhiro</name>
   <user>iteman</user>
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2007-07-31</date>
- <time>00:33:53</time>
+ <date>2007-10-20</date>
+ <time>14:22:24</time>
  <version>
-  <release>1.0.0</release>
-  <api>0.3.0</api>
+  <release>1.1.0</release>
+  <api>1.1.0</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
- <notes>This is the first stable release of Stagehand_TestRunner.
+ <notes>A new release of Stagehand_TestRunner is now available.
 
-What&apos;s New in Stagehand_TestRunner 1.0.0
+What&apos;s New in Stagehand_TestRunner 1.1.0
 
- * PHPUnit 3 Support: Stagehand_TestRunner can now be used with PHPUnit 3. If you use PHPUnit 3, use the testrunner3 script for running tests.
-
-See the following release notes for details.
-
-Enhancements
-============ 
-
-- Added support for specifying a file name directly. (Stagehand_TestRunner)
-- Added support for PHPUnit 3.</notes>
+ * SimpleTest Support: Stagehand_TestRunner can now be used with SimpleTest (http://simpletest.org/). If you use SimpleTest v1.0.1beta2 or greater, use the testrunner-st script for running tests.</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="docs">
@@ -48,6 +39,12 @@ Enhancements
     </file>
    </dir> <!-- /docs -->
    <dir name="scripts">
+    <file baseinstalldir="/" name="testrunner-st" role="script">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file baseinstalldir="/" name="testrunner-st.bat" role="script">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
     <file baseinstalldir="/" name="testrunner1" role="script">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
@@ -69,13 +66,19 @@ Enhancements
    </dir> <!-- /scripts -->
    <dir name="Stagehand">
     <dir name="TestRunner">
-     <file baseinstalldir="/" name="PHPUnit2TestRunner.php" role="php">
+     <file baseinstalldir="/" name="Common.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
      </file>
-     <file baseinstalldir="/" name="PHPUnit3TestRunner.php" role="php">
+     <file baseinstalldir="/" name="PHPUnit.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
      </file>
-     <file baseinstalldir="/" name="PHPUnitTestRunner.php" role="php">
+     <file baseinstalldir="/" name="PHPUnit2.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file baseinstalldir="/" name="PHPUnit3.php" role="php">
+      <tasks:replace from="@package_version@" to="version" type="package-info" />
+     </file>
+     <file baseinstalldir="/" name="SimpleTest.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
      </file>
     </dir> <!-- /Stagehand/TestRunner -->
@@ -86,55 +89,72 @@ Enhancements
    <dir name="tests">
     <dir name="Stagehand">
      <dir name="TestRunner">
-      <dir name="PHPUnit1TestRunnerTestCase">
-       <file baseinstalldir="/" name="PHPUnit1TestRunner1TestCase.php" role="test">
+      <dir name="PHPUnit2TestCase">
+       <file baseinstalldir="/" name="PHPUnit2OneTestCase.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file baseinstalldir="/" name="PHPUnit1TestRunner2TestCase.php" role="test">
+       <file baseinstalldir="/" name="PHPUnit2TwoTestCase.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnit1TestRunnerTestCase -->
-      <dir name="PHPUnit2TestRunnerTestCase">
-       <file baseinstalldir="/" name="PHPUnit2TestRunner1TestCase.php" role="test">
+      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnit2TestCase -->
+      <dir name="PHPUnit3TestCase">
+       <file baseinstalldir="/" name="PHPUnit3OneTestCase.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file baseinstalldir="/" name="PHPUnit2TestRunner2TestCase.php" role="test">
+       <file baseinstalldir="/" name="PHPUnit3TwoTestCase.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnit2TestRunnerTestCase -->
-      <dir name="PHPUnit3TestRunnerTestCase">
-       <file baseinstalldir="/" name="PHPUnit3TestRunner1TestCase.php" role="test">
+      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnit3TestCase -->
+      <dir name="PHPUnitTestCase">
+       <file baseinstalldir="/" name="PHPUnitOneTestCase.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file baseinstalldir="/" name="PHPUnit3TestRunner2TestCase.php" role="test">
+       <file baseinstalldir="/" name="PHPUnitTwoTestCase.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnit3TestRunnerTestCase -->
-      <file baseinstalldir="/" name="PHPUnit1TestRunner1TestCase.php" role="test">
+      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnitTestCase -->
+      <dir name="SimpleTestTestCase">
+       <file baseinstalldir="/" name="SimpleTestOneTestCase.php" role="test">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file baseinstalldir="/" name="SimpleTestTwoTestCase.php" role="test">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /tests/Stagehand/TestRunner/SimpleTestTestCase -->
+      <file baseinstalldir="/" name="PHPUnit2OneTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit1TestRunner2TestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnit2ThreeTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit1TestRunner3TestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnit2TwoTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit2TestRunner1TestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnit3OneTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit2TestRunner2TestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnit3ThreeTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit2TestRunner3TestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnit3TwoTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit3TestRunner1TestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitOneTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit3TestRunner2TestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitThreeTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit3TestRunner3TestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitTwoTestCase.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestOneTestCase.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestThreeTestCase.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestTwoTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
      </dir> <!-- /tests/Stagehand/TestRunner -->
@@ -150,11 +170,6 @@ Enhancements
    <pearinstaller>
     <min>1.4.3</min>
    </pearinstaller>
-   <package>
-    <name>PHPUnit</name>
-    <channel>pear.phpunit.de</channel>
-    <min>1.3.2</min>
-   </package>
   </required>
  </dependencies>
  <phprelease>
@@ -165,9 +180,28 @@ Enhancements
    <install as="testrunner2.bat" name="scripts/testrunner2.bat" />
    <install as="testrunner3" name="scripts/testrunner3" />
    <install as="testrunner3.bat" name="scripts/testrunner3.bat" />
+   <install as="testrunner-st" name="scripts/testrunner-st" />
+   <install as="testrunner-st.bat" name="scripts/testrunner-st.bat" />
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-10-20</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 1.1.0
+
+ * SimpleTest Support: Stagehand_TestRunner can now be used with SimpleTest (http://simpletest.org/). If you use SimpleTest v1.0.1beta2 or greater, use the testrunner-st script for running tests.</notes>
+  </release>
   <release>
    <version>
     <release>1.0.0</release>
