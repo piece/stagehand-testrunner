@@ -39,10 +39,10 @@ if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_SimpleTestTestRunner1TestCase
+// {{{ Stagehand_TestRunner_SimpleTestOneTestCase
 
 /**
- * TestCase for Stagehand_TestRunner_SimpleTestTestRunner
+ * TestCase for Stagehand_TestRunner_SimpleTest
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
@@ -50,7 +50,7 @@ if (!@include_once 'simpletest/unit_tester.php') {
  * @version    Release: @package_version@
  * @since      Class available since Release 1.1.0
  */
-class Stagehand_TestRunner_SimpleTestTestRunner1TestCase extends UnitTestCase
+class Stagehand_TestRunner_SimpleTestOneTestCase extends UnitTestCase
 {
 
     // {{{ properties
