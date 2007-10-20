@@ -120,7 +120,7 @@ class Stagehand_TestRunner_Common
      * @return stdClass
      * @abstract
      */
-    function &_doRun(&$suite) {}
+    function _doRun(&$suite) {}
 
     // }}}
     // {{{ _createTestSuiteFromTestCases()
