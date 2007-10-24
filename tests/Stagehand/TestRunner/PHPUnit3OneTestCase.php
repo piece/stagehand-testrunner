@@ -32,7 +32,7 @@
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 0.6.0
+ * @since      File available since Release 1.0.0
  */
 
 if (version_compare(phpversion(), '5.0.0', '<')) {
@@ -52,7 +52,7 @@ if (!@include_once 'PHPUnit/Framework/TestCase.php') {
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 0.6.0
+ * @since      Class available since Release 1.0.0
  */
 class Stagehand_TestRunner_PHPUnit3OneTestCase extends PHPUnit_Framework_TestCase
 {
