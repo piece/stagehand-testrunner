@@ -81,6 +81,24 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
      * @access public
      */
 
+    // }}}
+    // {{{ decorateText()
+
+    /**
+     * Decorates the text with ANSI console colors.
+     *
+     * @param string $text
+     * @return text
+     * @since Method available since Release 1.2.0
+     */
+    function decorateText($text)
+    {
+        return preg_replace(array('/^(TestCase .+ )(passed)$/m', '/^(TestCase .+->)(.+)(\(\) )(failed:.+)( in .+:\d+)$/m'),
+                            array('$1%g$2%n', '$1%r$2%n$3%r$4%n$5'),
+                            $text
+                            );
+    }
+
     /**#@-*/
 
     /**#@+

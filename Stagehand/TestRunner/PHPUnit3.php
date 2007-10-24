@@ -34,7 +34,7 @@
  * @version    SVN: $Id$
  * @link       http://www.phpunit.de/
  * @see        PHPUnit_Framework_TestSuite, PHPUnit_TextUI_TestRunner::run()
- * @since      File available since Release 0.6.0
+ * @since      File available since Release 1.0.0
  */
 
 define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit3::run');
@@ -54,7 +54,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
  * @see        PHPUnit_Framework_TestSuite, PHPUnit_TextUI_TestRunner::run()
- * @since      Class available since Release 0.6.0
+ * @since      Class available since Release 1.0.0
  */
 class Stagehand_TestRunner_PHPUnit3 extends Stagehand_TestRunner_Common
 {
@@ -73,6 +73,7 @@ class Stagehand_TestRunner_PHPUnit3 extends Stagehand_TestRunner_Common
 
     var $_excludePattern = '!^PHPUnit!';
     var $_baseClass = 'PHPUnit_Framework_TestCase';
+    var $_hasResultPrinter = true;
 
     /**#@-*/
 
@@ -97,8 +98,14 @@ class Stagehand_TestRunner_PHPUnit3 extends Stagehand_TestRunner_Common
      */
     function _doRun(&$suite)
     {
+        $parameters = array();
+        if ($this->_color) {
+            include_once 'Stagehand/TestRunner/ResultPrinter/PHPUnit3.php';
+            $parameters['printer'] = new Stagehand_TestRunner_ResultPrinter_PHPUnit3();
+        }
+
         ob_start();
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $result = PHPUnit_TextUI_TestRunner::run($suite, $parameters);
         $output = ob_get_contents();
         ob_end_clean();
         return (object)array('runCount'     => $result->count(),

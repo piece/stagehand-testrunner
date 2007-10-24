@@ -87,23 +87,24 @@ class Stagehand_TestRunner
 
         $argv = Console_Getopt::readPHPArgv();
         array_shift($argv);
-        $options = Console_Getopt::getopt2($argv, "hVR");
-        if (PEAR::isError($options)) {
-            echo 'ERROR: ' . preg_replace('/^Console_Getopt: /', '', $options->getMessage()) . "\n";
+        $allOptions = Console_Getopt::getopt2($argv, "hVRc");
+        if (PEAR::isError($allOptions)) {
+            echo 'ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()) . "\n";
             Stagehand_TestRunner::_displayUsage();
             return 1;
         }
 
         $directory = null;
         $isRecursive = false;
-        foreach ($options as $option) {
-            if (!count($option)) {
+        $color = false;
+        foreach ($allOptions as $options) {
+            if (!count($options)) {
                 continue;
             }
 
-            if (count($option) == 1) {
-                if (is_array($option[0])) {
-                    switch ($option[0][0]) {
+            foreach ($options as $option) {
+                if (is_array($option)) {
+                    switch ($option[0]) {
                     case 'h':
                         Stagehand_TestRunner::_displayUsage();
                         return 1;
@@ -113,12 +114,17 @@ class Stagehand_TestRunner
                     case 'R':
                         $isRecursive = true;
                         break;
+                    case 'c':
+                        if (@include_once 'Console/Color.php') {
+                            $color = true;
+                        }
+                        break;
                     }
                 } else {
-                    if (preg_match('/TestCase\.php$/', $option[0])) {
-                        $directory = $option[0];
+                    if (preg_match('/TestCase\.php$/', $option)) {
+                        $directory = $option;
                     } else {
-                        $directory = "{$option[0]}TestCase.php";
+                        $directory = "{$option}TestCase.php";
                     }
                 }
             }
@@ -126,7 +132,7 @@ class Stagehand_TestRunner
 
         include_once "Stagehand/TestRunner/$testRunnerName.php";
         $className = "Stagehand_TestRunner_$testRunnerName";
-        $testRunner = &new $className();
+        $testRunner = &new $className($color);
 
         if (!$isRecursive) {
             if (is_null($directory)) {
@@ -139,12 +145,37 @@ class Stagehand_TestRunner
             $result = $testRunner->runRecursively($directory);
         }
 
-        printf('### Results ###
+        if ($color) {
+            if ($result->runCount) {
+                $code = $result->runCount == $result->passCount ? '%g' : '%r';
+
+                if (!$testRunner->hasResultPrinter()) {
+                    $result->text = Console_Color::convert($testRunner->decorateText(Console_Color::escape($result->text)));
+                }
+            }
+
+            $text = '
+%%bOutput of Test Runner:%%n
+%%%%s
+%%bResults:%%n
+  %sRuns     : %%%%d
+  Passes   : %%%%d (%%%%d%%%%%%%%)
+  Failures : %%%%d (%%%%d%%%%%%%%), %%%%d failures, %%%%d errors%%n
+';
+            $text = sprintf($text, $code);
+            $text = Console_Color::convert($text);
+        } else {
+            $text = '
+Output of Test Runner:
 %s
-Runs     : %d
-Passes   : %d (%d%%)
-Failures : %d (%d%%), %d failures, %d errors
-',
+Results:
+  Runs     : %d
+  Passes   : %d (%d%%)
+  Failures : %d (%d%%), %d failures, %d errors
+';
+        }
+
+        printf($text,
                $result->text,
                $result->runCount,
                $result->passCount, $result->runCount ? $result->passCount / $result->runCount * 100 : 0,
@@ -178,6 +209,8 @@ Options:
         display version information and exit
   -R
         run tests recursively
+  -c
+        color the result of a test runner run
 
 With no TESTCASE, run all tests in the current directory.
 ";

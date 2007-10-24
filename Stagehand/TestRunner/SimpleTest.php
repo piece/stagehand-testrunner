@@ -74,7 +74,7 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
      * @access private
      */
 
-    var $_excludePattern = '!^UnitTestCase$!i';
+    var $_excludePattern = '!^(UnitTestCase$|PHPUnit)!i';
     var $_baseClass = 'UnitTestCase';
 
     /**#@-*/
@@ -82,6 +82,24 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
     /**#@+
      * @access public
      */
+
+    // }}}
+    // {{{ decorateText()
+
+    /**
+     * Decorates the text with ANSI console colors.
+     *
+     * @param string $text
+     * @return text
+     * @since Method available since Release 1.2.0
+     */
+    function decorateText($text)
+    {
+        return preg_replace(array('/^OK(.+)/ms', '/^FAILURES!!!(.+)/ms', '/^(\d+\)\s)(.+at \[.+\]$\s+in .+)$/m'),
+                            array('%gOK$1%n', '%rFAILURES!!!$1%n', "\$1%r\$2%n"),
+                            $text
+                            );
+    }
 
     /**#@-*/
 

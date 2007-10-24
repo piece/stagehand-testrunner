@@ -63,12 +63,25 @@ class Stagehand_TestRunner_Common
 
     var $_excludePattern;
     var $_baseClass;
+    var $_color;
+    var $_hasResultPrinter = false;
 
     /**#@-*/
 
     /**#@+
      * @access public
      */
+
+    // }}}
+    // {{{ constructor
+
+    /**
+     * @param boolean $color
+     */
+    function Stagehand_TestRunner_Common($color)
+    {
+        $this->_color = $color;
+    }
 
     // }}}
     // {{{ run()
@@ -102,6 +115,35 @@ class Stagehand_TestRunner_Common
         }
 
         return $this->_doRun($suite);
+    }
+
+    // }}}
+    // {{{ decorateText()
+
+    /**
+     * Decorates the text with ANSI console colors.
+     *
+     * @param string $text
+     * @return text
+     * @since Method available since Release 1.2.0
+     */
+    function decorateText($text)
+    {
+        return $text;
+    }
+
+    // }}}
+    // {{{ hasResultPrinter()
+
+    /**
+     * Returns whether the test runner has the result printer or not.
+     *
+     * @return boolean
+     * @since Method available since Release 1.2.0
+     */
+    function hasResultPrinter()
+    {
+        return $this->_hasResultPrinter;
     }
 
     /**#@-*/

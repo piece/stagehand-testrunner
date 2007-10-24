@@ -73,6 +73,7 @@ class Stagehand_TestRunner_PHPUnit2 extends Stagehand_TestRunner_Common
 
     var $_excludePattern = '!^PHPUnit!';
     var $_baseClass = 'PHPUnit2_Framework_TestCase';
+    var $_hasResultPrinter = true;
 
     /**#@-*/
 
@@ -97,8 +98,14 @@ class Stagehand_TestRunner_PHPUnit2 extends Stagehand_TestRunner_Common
      */
     function _doRun(&$suite)
     {
+        $testRunner = new PHPUnit2_TextUI_TestRunner();
+        if ($this->_color) {
+            include_once 'Stagehand/TestRunner/ResultPrinter/PHPUnit2.php';
+            $testRunner->setPrinter(new Stagehand_TestRunner_ResultPrinter_PHPUnit2());
+        }
+
         ob_start();
-        $result = PHPUnit2_TextUI_TestRunner::run($suite);
+        $result = $testRunner->doRun($suite);
         $output = ob_get_contents();
         ob_end_clean();
         return (object)array('runCount'     => $result->runCount(),
