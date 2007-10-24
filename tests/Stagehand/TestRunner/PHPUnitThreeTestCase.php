@@ -73,7 +73,7 @@ class Stagehand_TestRunner_PHPUnitThreeTestCase extends PHPUnit_TestCase
 
     function testTestShouldBeRunAutomatically()
     {
-        $this->assertTrue(false);
+        $this->assertTrue(false, 'The message from the assertion.');
     }
 
     /**#@-*/

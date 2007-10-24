@@ -73,7 +73,7 @@ class Stagehand_TestRunner_SimpleTestThreeTestCase extends UnitTestCase
 
     function testTestShouldBeRunAutomatically()
     {
-        $this->assertTrue(false);
+        $this->assertTrue(false, 'The message from the assertion.');
     }
 
     /**#@-*/
