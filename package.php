@@ -40,15 +40,24 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '1.1.0';
+$releaseVersion = '1.2.0';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
 $notes = 'A new release of Stagehand_TestRunner is now available.
 
-What\'s New in Stagehand_TestRunner 1.1.0
+What\'s New in Stagehand_TestRunner 1.2.0
 
- * SimpleTest Support: Stagehand_TestRunner can now be used with SimpleTest (http://simpletest.org/). If you use SimpleTest v1.0.1beta2 or greater, use the testrunner-st script for running tests.';
+ * Coloring the result of a test runner run: The result of a test runner run can be colored by "-c" option.
+ * PHP script preloading: An arbitrary PHP script can be loaded before tests run for testing in a closed environment.
+
+See the following release notes for details.
+
+Enhancements
+============
+
+- Added support for coloring the result of a test runner run with ANSI console colors.
+- Added support for preloading an arbitrary PHP script for testing in a closed environment. (Ticket #4)';
 
 $package = new PEAR_PackageFileManager2();
 $result = $package->setOptions(array('filelistgenerator' => 'svn',
@@ -78,6 +87,9 @@ $package->setReleaseStability($releaseStability);
 $package->setNotes($notes);
 $package->setPhpDep('4.3.0');
 $package->setPearinstallerDep('1.4.3');
+$package->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.3');
+$package->addPackageDepWithChannel('required', 'Console_Getopt', 'pear.php.net', '1.2');
+$package->addPackageDepWithChannel('optional', 'Console_Color', 'pear.php.net', '1.0.2');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
 $package->addInstallAs('scripts/testrunner1', 'testrunner1');

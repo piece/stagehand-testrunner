@@ -15,10 +15,10 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2007-10-20</date>
- <time>14:22:24</time>
+ <date>2007-10-26</date>
+ <time>00:55:53</time>
  <version>
-  <release>1.1.0</release>
+  <release>1.2.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -28,9 +28,18 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
  <notes>A new release of Stagehand_TestRunner is now available.
 
-What&apos;s New in Stagehand_TestRunner 1.1.0
+What&apos;s New in Stagehand_TestRunner 1.2.0
 
- * SimpleTest Support: Stagehand_TestRunner can now be used with SimpleTest (http://simpletest.org/). If you use SimpleTest v1.0.1beta2 or greater, use the testrunner-st script for running tests.</notes>
+ * Coloring the result of a test runner run: The result of a test runner run can be colored by &quot;-c&quot; option.
+ * PHP script preloading: An arbitrary PHP script can be loaded before tests run for testing in a closed environment.
+
+See the following release notes for details.
+
+Enhancements
+============
+
+- Added support for coloring the result of a test runner run with ANSI console colors.
+- Added support for preloading an arbitrary PHP script for testing in a closed environment. (Ticket #4)</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="docs">
@@ -66,6 +75,14 @@ What&apos;s New in Stagehand_TestRunner 1.1.0
    </dir> <!-- /scripts -->
    <dir name="Stagehand">
     <dir name="TestRunner">
+     <dir name="ResultPrinter">
+      <file baseinstalldir="/" name="PHPUnit2.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnit3.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /Stagehand/TestRunner/ResultPrinter -->
      <file baseinstalldir="/" name="Common.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
      </file>
@@ -170,7 +187,24 @@ What&apos;s New in Stagehand_TestRunner 1.1.0
    <pearinstaller>
     <min>1.4.3</min>
    </pearinstaller>
+   <package>
+    <name>PEAR</name>
+    <channel>pear.php.net</channel>
+    <min>1.4.3</min>
+   </package>
+   <package>
+    <name>Console_Getopt</name>
+    <channel>pear.php.net</channel>
+    <min>1.2</min>
+   </package>
   </required>
+  <optional>
+   <package>
+    <name>Console_Color</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.2</min>
+   </package>
+  </optional>
  </dependencies>
  <phprelease>
   <filelist>
@@ -185,6 +219,32 @@ What&apos;s New in Stagehand_TestRunner 1.1.0
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>1.2.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-10-26</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 1.2.0
+
+ * Coloring the result of a test runner run: The result of a test runner run can be colored by &quot;-c&quot; option.
+ * PHP script preloading: An arbitrary PHP script can be loaded before tests run for testing in a closed environment.
+
+See the following release notes for details.
+
+Enhancements
+============
+
+- Added support for coloring the result of a test runner run with ANSI console colors.
+- Added support for preloading an arbitrary PHP script for testing in a closed environment. (Ticket #4)</notes>
+  </release>
   <release>
    <version>
     <release>1.1.0</release>
