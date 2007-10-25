@@ -38,6 +38,8 @@
 
 error_reporting(E_ALL);
 
+preload();
+
 if (file_exists(dirname(__FILE__) . '/../Stagehand/TestRunner.php')) {
     set_include_path(realpath(dirname(__FILE__) . '/..') . PATH_SEPARATOR . get_include_path());
 }
@@ -47,6 +49,41 @@ require_once 'Stagehand/TestRunner.php';
 $result = Stagehand_TestRunner::run('PHPUnit3');
 
 exit($result);
+
+// {{{ preload()
+
+/**
+ * Finds the preload option and preloads a file as a PHP script if it is
+ * specified.
+ */
+function preload()
+{
+    $file = null;
+    for ($i = 1, $count = count($_SERVER['argv']); $i < $count; ++$i) {
+        if (!preg_match('/^-[^p]*p(.*)/', $_SERVER['argv'][$i], $matches)) {
+            continue;
+        }
+
+        if (!strlen($matches[1])) {
+            if ($i + 1 < $count) {
+                $file = $_SERVER['argv'][ $i + 1 ];
+                break;
+            }
+        } else {
+            $file = $matches[1];
+            break;
+        }
+    }
+
+    if (!is_null($file)) {
+        $file = realpath($file);
+        if ($file !== false) {
+            include_once $file;
+        }
+    }
+}
+
+// }}}
 
 /*
  * Local Variables:

@@ -74,7 +74,7 @@ class Stagehand_TestRunner
     // {{{ run()
 
     /**
-     * Runs tests automatically
+     * Runs tests automatically.
      *
      * @param string $testRunnerName
      */
@@ -87,7 +87,7 @@ class Stagehand_TestRunner
 
         $argv = Console_Getopt::readPHPArgv();
         array_shift($argv);
-        $allOptions = Console_Getopt::getopt2($argv, "hVRc");
+        $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:');
         if (PEAR::isError($allOptions)) {
             echo 'ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()) . "\n";
             Stagehand_TestRunner::_displayUsage();
@@ -145,13 +145,11 @@ class Stagehand_TestRunner
             $result = $testRunner->runRecursively($directory);
         }
 
-        if ($color) {
-            if ($result->runCount) {
-                $code = $result->runCount == $result->passCount ? '%g' : '%r';
+        if ($color && $result->runCount) {
+            $code = $result->runCount == $result->passCount ? '%g' : '%r';
 
-                if (!$testRunner->hasResultPrinter()) {
-                    $result->text = Console_Color::convert($testRunner->decorateText(Console_Color::escape($result->text)));
-                }
+            if (!$testRunner->hasResultPrinter()) {
+                $result->text = Console_Color::convert($testRunner->decorateText(Console_Color::escape($result->text)));
             }
 
             $text = '
@@ -162,8 +160,7 @@ class Stagehand_TestRunner
   Passes   : %%%%d (%%%%d%%%%%%%%)
   Failures : %%%%d (%%%%d%%%%%%%%), %%%%d failures, %%%%d errors%%n
 ';
-            $text = sprintf($text, $code);
-            $text = Console_Color::convert($text);
+            $text = Console_Color::convert(sprintf($text, $code));
         } else {
             $text = '
 Output of Test Runner:
@@ -200,19 +197,16 @@ Results:
      */
     function _displayUsage()
     {
-        echo "Usage: {$_SERVER['SCRIPT_NAME']} [OPTION]... [TESTCASE]
+        echo "Usage: {$_SERVER['SCRIPT_NAME']} [options] [testcase]
 
 Options:
-  -h
-        display this help and exit
-  -V
-        display version information and exit
-  -R
-        run tests recursively
-  -c
-        color the result of a test runner run
+  -h        display this help and exit
+  -V        display version information and exit
+  -R        run tests recursively
+  -c        color the result of a test runner run
+  -p <file> preload <file> as a PHP script
 
-With no TESTCASE, run all tests in the current directory.
+With no [testcase], run all tests in the current directory.
 ";
     }
 
