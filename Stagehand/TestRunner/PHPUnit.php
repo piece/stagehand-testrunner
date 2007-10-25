@@ -93,8 +93,8 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
      */
     function decorateText($text)
     {
-        return preg_replace(array('/^(TestCase .+ )(passed)$/m', '/^(TestCase .+->)(.+)(\(\) )(failed:.+)( in .+:\d+)$/m'),
-                            array('$1%g$2%n', '$1%r$2%n$3%r$4%n$5'),
+        return preg_replace(array('/^(TestCase .+->)(.+)(\(\) )(failed:.+)( in .+:\d+)$/m'),
+                            array('$1%r$2%n$3%r$4%n$5'),
                             $text
                             );
     }
