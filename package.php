@@ -89,6 +89,7 @@ $package->setPhpDep('4.3.0');
 $package->setPearinstallerDep('1.4.3');
 $package->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.3');
 $package->addPackageDepWithChannel('required', 'Console_Getopt', 'pear.php.net', '1.2');
+$package->addPackageDepWithChannel('required', 'PHP_Compat', 'pear.php.net', '1.5.0');
 $package->addPackageDepWithChannel('optional', 'Console_Color', 'pear.php.net', '1.0.2');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
