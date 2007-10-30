@@ -40,9 +40,6 @@
 require_once 'Stagehand/TestRunner/Common.php';
 require_once 'PHPUnit.php';
 require_once 'PHPUnit/TestSuite.php';
-require_once 'PHP/Compat.php';
-
-PHP_Compat::loadFunction('scandir');
 
 // {{{ Stagehand_TestRunner_PHPUnit
 

@@ -42,9 +42,6 @@ require_once 'Stagehand/TestRunner/Common.php';
 require_once 'simpletest/test_case.php';
 require_once 'simpletest/reporter.php';
 require_once 'simpletest/scorer.php';
-require_once 'PHP/Compat.php';
-
-PHP_Compat::loadFunction('scandir');
 
 // {{{ Stagehand_TestRunner_SimpleTest
 
