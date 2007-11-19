@@ -4,7 +4,7 @@
 /**
  * PHP versions 4 and 5
  *
- * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
+ * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,28 +29,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
+ * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 1.1.0
+ * @since      File available since Release 1.3.0
  */
 
-if (!@include_once 'simpletest/unit_tester.php') {
+if (!@include_once 'PHPUnit.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_SimpleTestOneTestCase
+// {{{ Stagehand_TestRunner_PHPUnitFailureTestCase
 
 /**
- * TestCase for Stagehand_TestRunner_SimpleTest
+ * TestCase for Stagehand_TestRunner_PHPUnit
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
+ * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 1.1.0
+ * @since      Class available since Release 1.3.0
  */
-class Stagehand_TestRunner_SimpleTestOneTestCase extends UnitTestCase
+class Stagehand_TestRunner_PHPUnitFailureTestCase extends PHPUnit_TestCase
 {
 
     // {{{ properties
@@ -71,9 +71,9 @@ class Stagehand_TestRunner_SimpleTestOneTestCase extends UnitTestCase
      * @access public
      */
 
-    function testTestShouldBeRunAutomatically()
+    function testTestShouldBeFailure()
     {
-        $this->assertTrue(true);
+        $this->assertTrue(false, 'This is an error message.');
     }
 
     /**#@-*/

@@ -73,7 +73,6 @@ class Stagehand_TestRunner_PHPUnit3 extends Stagehand_TestRunner_Common
 
     var $_excludePattern = '!^PHPUnit!';
     var $_baseClass = 'PHPUnit_Framework_TestCase';
-    var $_hasResultPrinter = true;
 
     /**#@-*/
 
@@ -94,7 +93,6 @@ class Stagehand_TestRunner_PHPUnit3 extends Stagehand_TestRunner_Common
      * Runs tests based on the given test suite object.
      *
      * @param PHPUnit_Framework_TestSuite &$suite
-     * @return stdClass
      */
     function _doRun(&$suite)
     {
@@ -104,16 +102,7 @@ class Stagehand_TestRunner_PHPUnit3 extends Stagehand_TestRunner_Common
             $parameters['printer'] = new Stagehand_TestRunner_ResultPrinter_PHPUnit3();
         }
 
-        ob_start();
-        $result = PHPUnit_TextUI_TestRunner::run($suite, $parameters);
-        $output = ob_get_contents();
-        ob_end_clean();
-        return (object)array('runCount'     => $result->count(),
-                             'passCount'    => $result->count() - $result->failureCount(),
-                             'failureCount' => $result->failureCount(),
-                             'errorCount'   => $result->errorCount(),
-                             'text'         => $output
-                             );
+        PHPUnit_TextUI_TestRunner::run($suite, $parameters);
     }
 
     // }}}

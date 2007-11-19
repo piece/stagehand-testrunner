@@ -80,24 +80,6 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
      * @access public
      */
 
-    // }}}
-    // {{{ decorateText()
-
-    /**
-     * Decorates the text with ANSI console colors.
-     *
-     * @param string $text
-     * @return text
-     * @since Method available since Release 1.2.0
-     */
-    function decorateText($text)
-    {
-        return preg_replace(array('/^OK(.+)/ms', '/^FAILURES!!!(.+)/ms', '/^(\d+\)\s)(.+at \[.+\]$\s+in .+)$/m'),
-                            array('%gOK$1%n', '%rFAILURES!!!$1%n', "\$1%r\$2%n"),
-                            $text
-                            );
-    }
-
     /**#@-*/
 
     /**#@+
@@ -111,7 +93,6 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
      * Runs tests based on the given test suite object.
      *
      * @param TestSuite &$suite
-     * @return stdClass
      */
     function _doRun(&$suite)
     {
@@ -120,12 +101,24 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
         $suite->run($reporter);
         $output = ob_get_contents();
         ob_end_clean();
-        return (object)array('runCount'     => $reporter->getPassCount() + $reporter->getFailCount() + $reporter->getExceptionCount(),
-                             'passCount'    => $reporter->getPassCount(),
-                             'failureCount' => $reporter->getFailCount(),
-                             'errorCount'   => $reporter->getExceptionCount(),
-                             'text'         => $output
-                             );
+
+        if ($this->_color) {
+            include_once 'Console/Color.php';
+            print Console_Color::convert(preg_replace(array('/^(OK.+)/ms',
+                                                            '/^(FAILURES!!!.+)/ms',
+                                                            '/^(\d+\)\s)(.+at \[.+\]$\s+in .+)$/m',
+                                                            '/^(Exception \d+!)/m',
+                                                            '/^(Unexpected exception of type \[.+\] with message \[.+\] in \[.+\]$\s+in .+)$/m'),
+                                                      array('%g$1%n',
+                                                            '%r$1%n',
+                                                            "\$1%r\$2%n",
+                                                            '%p$1%n',
+                                                            '%p$1%n'),
+                                                      Console_Color::escape($output))
+                                         );
+        } else {
+            print $output;
+        }
     }
 
     // }}}

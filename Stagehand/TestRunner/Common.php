@@ -68,7 +68,8 @@ class Stagehand_TestRunner_Common
     var $_excludePattern;
     var $_baseClass;
     var $_color;
-    var $_hasResultPrinter = false;
+    var $_suffix = 'TestCase';
+    var $_isFile;
 
     /**#@-*/
 
@@ -81,10 +82,12 @@ class Stagehand_TestRunner_Common
 
     /**
      * @param boolean $color
+     * @param boolean $isFile
      */
-    function Stagehand_TestRunner_Common($color)
+    function Stagehand_TestRunner_Common($color, $isFile)
     {
         $this->_color = $color;
+        $this->_isFile = $isFile;
     }
 
     // }}}
@@ -98,6 +101,12 @@ class Stagehand_TestRunner_Common
      */
     function run($directory)
     {
+        if ($this->_isFile) {
+            if (!preg_match("/{$this->_suffix}\.php\$/", $directory)) {
+                $directory = "$directory{$this->_suffix}.php";
+            }
+        }
+
         return $this->_doRun($this->_buildTestSuite($this->_createTestSuite(), $directory));
     }
 
@@ -119,35 +128,6 @@ class Stagehand_TestRunner_Common
         }
 
         return $this->_doRun($suite);
-    }
-
-    // }}}
-    // {{{ decorateText()
-
-    /**
-     * Decorates the text with ANSI console colors.
-     *
-     * @param string $text
-     * @return text
-     * @since Method available since Release 1.2.0
-     */
-    function decorateText($text)
-    {
-        return $text;
-    }
-
-    // }}}
-    // {{{ hasResultPrinter()
-
-    /**
-     * Returns whether the test runner has the result printer or not.
-     *
-     * @return boolean
-     * @since Method available since Release 1.2.0
-     */
-    function hasResultPrinter()
-    {
-        return $this->_hasResultPrinter;
     }
 
     /**#@-*/
@@ -250,16 +230,16 @@ class Stagehand_TestRunner_Common
      */
     function _exclude($class)
     {
-        if (!preg_match('/TestCase$/i', $class)) {
-            return true;
-        }
-
         if (strlen($this->_excludePattern) && preg_match($this->_excludePattern, $class)) {
             return true;
         }
 
-        $instance = &new $class();
-        return !is_subclass_of($instance, $this->_baseClass);
+        if (version_compare(phpversion(), '5.0.3', '>=')) {
+            return !is_subclass_of($class, $this->_baseClass);
+        } else {
+            $instance = &new $class();
+            return !is_subclass_of($instance, $this->_baseClass);
+        }
     }
 
     // }}}
@@ -291,7 +271,7 @@ class Stagehand_TestRunner_Common
                 continue;
             }
 
-            if (!preg_match('/TestCase\.php$/', $files[$i])) {
+            if (!preg_match("/{$this->_suffix}\.php\$/", $files[$i])) {
                 continue;
             }
 

@@ -43,7 +43,7 @@ if (!@include_once 'PHPUnit/Framework/TestCase.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnit3TwoTestCase
+// {{{ Stagehand_TestRunner_PHPUnit3ImcompleteTestCase
 
 /**
  * TestCase for Stagehand_TestRunner_PHPUnit3
@@ -54,7 +54,7 @@ if (!@include_once 'PHPUnit/Framework/TestCase.php') {
  * @version    Release: @package_version@
  * @since      Class available since Release 1.0.0
  */
-class Stagehand_TestRunner_PHPUnit3TwoTestCase extends PHPUnit_Framework_TestCase
+class Stagehand_TestRunner_PHPUnit3ImcompleteTestCase extends PHPUnit_Framework_TestCase
 {
 
     // {{{ properties
@@ -75,9 +75,9 @@ class Stagehand_TestRunner_PHPUnit3TwoTestCase extends PHPUnit_Framework_TestCas
      * @access public
      */
 
-    function testTestShouldBeRunAutomatically()
+    function testTestShouldBeImcomplete()
     {
-        $this->assertTrue(true);
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**#@-*/

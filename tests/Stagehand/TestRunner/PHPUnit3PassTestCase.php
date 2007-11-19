@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 4 and 5
+ * PHP versions 5
  *
- * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
+ * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,28 +29,32 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
+ * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 1.1.0
+ * @since      File available since Release 1.3.0
  */
 
-if (!@include_once 'simpletest/unit_tester.php') {
+if (version_compare(phpversion(), '5.0.0', '<')) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_SimpleTestTestCase_SimpleTestOneTestCase
+if (!@include_once 'PHPUnit/Framework/TestCase.php') {
+    return;
+}
+
+// {{{ Stagehand_TestRunner_PHPUnit3PassTestCase
 
 /**
- * TestCase for Stagehand_TestRunner_SimpleTest
+ * TestCase for Stagehand_TestRunner_PHPUnit3
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
+ * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 1.1.0
+ * @since      Class available since Release 1.3.0
  */
-class Stagehand_TestRunner_SimpleTestTestCase_SimpleTestOneTestCase extends UnitTestCase
+class Stagehand_TestRunner_PHPUnit3PassTestCase extends PHPUnit_Framework_TestCase
 {
 
     // {{{ properties
@@ -71,7 +75,7 @@ class Stagehand_TestRunner_SimpleTestTestCase_SimpleTestOneTestCase extends Unit
      * @access public
      */
 
-    function testTestShouldBeRunAutomatically()
+    function testTestShouldPass()
     {
         $this->assertTrue(true);
     }

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 4 and 5
+ * PHP versions 5
  *
  * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
@@ -32,25 +32,29 @@
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 0.5.0
+ * @since      File available since Release 1.3.0
  */
 
-if (!@include_once 'PHPUnit.php') {
+if (version_compare(phpversion(), '5.0.0', '<')) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitTestCase_PHPUnitTwoTestCase
+if (!@include_once 'PHPUnit/Framework/TestCase.php') {
+    return;
+}
+
+// {{{ Stagehand_TestRunner_PHPUnit3FailureTestCase
 
 /**
- * TestCase for Stagehand_TestRunner_PHPUnit
+ * TestCase for Stagehand_TestRunner_PHPUnit3
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 0.5.0
+ * @since      Class available since Release 1.3.0
  */
-class Stagehand_TestRunner_PHPUnitTestCase_PHPUnitTwoTestCase extends PHPUnit_TestCase
+class Stagehand_TestRunner_PHPUnit3FailureTestCase extends PHPUnit_Framework_TestCase
 {
 
     // {{{ properties
@@ -71,9 +75,9 @@ class Stagehand_TestRunner_PHPUnitTestCase_PHPUnitTwoTestCase extends PHPUnit_Te
      * @access public
      */
 
-    function testTestShouldBeRunAutomatically()
+    function testTestShouldBeFailure()
     {
-        $this->assertTrue(true);
+        $this->assertTrue(false, 'This is an error message.');
     }
 
     /**#@-*/

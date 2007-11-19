@@ -32,7 +32,7 @@
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 0.5.0
+ * @since      File available since Release 1.3.0
  */
 
 if (version_compare(phpversion(), '5.0.0', '<')) {
@@ -43,7 +43,7 @@ if (!@include_once 'PHPUnit2/Framework/TestCase.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnit2TwoTestCase
+// {{{ Stagehand_TestRunner_PHPUnit2ErrorTestCase
 
 /**
  * TestCase for Stagehand_TestRunner_PHPUnit2
@@ -52,9 +52,9 @@ if (!@include_once 'PHPUnit2/Framework/TestCase.php') {
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 0.5.0
+ * @since      Class available since Release 1.3.0
  */
-class Stagehand_TestRunner_PHPUnit2TwoTestCase extends PHPUnit2_Framework_TestCase
+class Stagehand_TestRunner_PHPUnit2ErrorTestCase extends PHPUnit2_Framework_TestCase
 {
 
     // {{{ properties
@@ -75,9 +75,9 @@ class Stagehand_TestRunner_PHPUnit2TwoTestCase extends PHPUnit2_Framework_TestCa
      * @access public
      */
 
-    function testTestShouldBeRunAutomatically()
+    function testTestShouldBeError()
     {
-        $this->assertTrue(true);
+        trigger_error('This is an error message.', E_USER_ERROR);
     }
 
     /**#@-*/

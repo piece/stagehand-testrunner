@@ -97,6 +97,7 @@ class Stagehand_TestRunner
         $directory = null;
         $isRecursive = false;
         $color = false;
+        $isFile = false;
         foreach ($allOptions as $options) {
             if (!count($options)) {
                 continue;
@@ -121,63 +122,26 @@ class Stagehand_TestRunner
                         break;
                     }
                 } else {
-                    if (preg_match('/TestCase\.php$/', $option)) {
-                        $directory = $option;
-                    } else {
-                        $directory = "{$option}TestCase.php";
-                    }
+                    $directory = $option;
+                    $isFile = true;
                 }
             }
         }
 
         include_once "Stagehand/TestRunner/$testRunnerName.php";
         $className = "Stagehand_TestRunner_$testRunnerName";
-        $testRunner = &new $className($color);
+        $testRunner = &new $className($color, $isFile);
 
         if (!$isRecursive) {
             if (is_null($directory)) {
                 $directory = getcwd();
             }
 
-            $result = $testRunner->run($directory);
+            $testRunner->run($directory);
         } else {
             $directory = getcwd();
-            $result = $testRunner->runRecursively($directory);
+            $testRunner->runRecursively($directory);
         }
-
-        if ($color && $result->runCount) {
-            $code = $result->runCount == $result->passCount ? '%g' : '%r';
-
-            if (!$testRunner->hasResultPrinter()) {
-                $result->text = Console_Color::convert($testRunner->decorateText(Console_Color::escape($result->text)));
-            }
-
-            $text = '
-%%bOutput of Test Runner:%%n
-%%%%s
-%%bResults:%%n
-  %sRuns     : %%%%d
-  Passes   : %%%%d (%%%%d%%%%%%%%)
-  Failures : %%%%d (%%%%d%%%%%%%%), %%%%d failures, %%%%d errors%%n
-';
-            $text = Console_Color::convert(sprintf($text, $code));
-        } else {
-            $text = '
-Output of Test Runner:
-%s
-Results:
-  Runs     : %d
-  Passes   : %d (%d%%)
-  Failures : %d (%d%%), %d failures, %d errors
-';
-        }
-
-        printf($text,
-               $result->text,
-               $result->runCount,
-               $result->passCount, $result->runCount ? $result->passCount / $result->runCount * 100 : 0,
-               $result->runCount - $result->passCount, $result->runCount ? ($result->runCount - $result->passCount) / $result->runCount * 100 : 0, $result->failureCount, $result->errorCount
-               );
 
         return 0;
     }

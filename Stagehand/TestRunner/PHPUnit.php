@@ -78,24 +78,6 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
      * @access public
      */
 
-    // }}}
-    // {{{ decorateText()
-
-    /**
-     * Decorates the text with ANSI console colors.
-     *
-     * @param string $text
-     * @return text
-     * @since Method available since Release 1.2.0
-     */
-    function decorateText($text)
-    {
-        return preg_replace(array('/^(TestCase .+->)(.+)(\(\) )(failed:.+)( in .+:\d+)$/m'),
-                            array('$1%r$2%n$3%r$4%n$5'),
-                            $text
-                            );
-    }
-
     /**#@-*/
 
     /**#@+
@@ -109,17 +91,47 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
      * Runs tests based on the given test suite object.
      *
      * @param PHPUnit_TestSuite &$suite
-     * @return stdClass
      */
     function _doRun(&$suite)
     {
         $result = &PHPUnit::run($suite);
-        return (object)array('runCount'     => $result->runCount(),
-                             'passCount'    => count($result->passedTests()),
-                             'failureCount' => $result->failureCount(),
-                             'errorCount'   => $result->errorCount(),
-                             'text'         => $result->toString()
-                             );
+        $runCount = $result->runCount();
+        $passCount = count($result->passedTests());
+        $failureCount = $result->failureCount();
+        $errorCount = $result->errorCount();
+        $output = $result->toString();
+
+        if ($this->_color && $runCount) {
+            include_once 'Console/Color.php';
+            $code = $runCount == $passCount ? '%g' : '%r';
+            $output = Console_Color::convert(preg_replace(array('/^(TestCase .+->)(.+)(\(\) )(failed:.+)( in .+:\d+)$/m'),
+                                                          array('$1%r$2%n$3%r$4%n$5'),
+                                                          Console_Color::escape($output))
+                                             );
+            $text = '
+%%%%s
+%%bResults:%%n
+  %sRuns     : %%%%d
+  Passes   : %%%%d (%%%%d%%%%%%%%)
+  Failures : %%%%d (%%%%d%%%%%%%%), %%%%d failures, %%%%d errors%%n
+';
+            $text = Console_Color::convert(sprintf($text, $code));
+        } else {
+            $text = '
+%s
+Results:
+  Runs     : %d
+  Passes   : %d (%d%%)
+  Failures : %d (%d%%), %d failures, %d errors
+';
+        }
+
+        printf($text,
+               $output,
+               $runCount,
+               $passCount, $runCount ? $passCount / $runCount * 100 : 0,
+               $runCount - $passCount, $runCount ? ($runCount - $passCount) / $runCount * 100 : 0, $failureCount, $errorCount
+               );
     }
 
     // }}}

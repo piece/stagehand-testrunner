@@ -93,7 +93,7 @@ class Stagehand_TestRunner_ResultPrinter_PHPUnit3 extends PHPUnit_TextUI_ResultP
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeProgress(Console_Color::convert('%rE%n'));
+        $this->writeProgress(Console_Color::convert('%pE%n'));
         $this->lastTestFailed = TRUE;
     }
 
@@ -221,7 +221,7 @@ class Stagehand_TestRunner_ResultPrinter_PHPUnit3 extends PHPUnit_TextUI_ResultP
 
         $this->write(
           sprintf(
-            Console_Color::convert("\n%%d) %r%%s\n%n"),
+            Console_Color::convert("\n%%d) " . ($defect->isFailure() ? '%r' : '%p') . "%%s\n%n"),
 
             $count,
             $testName
@@ -239,7 +239,7 @@ class Stagehand_TestRunner_ResultPrinter_PHPUnit3 extends PHPUnit_TextUI_ResultP
     protected function printDefectTrace(PHPUnit_Framework_TestFailure $defect)
     {
         $this->write(
-          Console_Color::convert('%r' . Console_Color::escape($defect->toStringVerbose($this->verbose)) . '%n') .
+          Console_Color::convert(($defect->isFailure() ? '%r' : '%p') . Console_Color::escape($defect->toStringVerbose($this->verbose)) . '%n') .
           PHPUnit_Util_Filter::getFilteredStacktrace(
             $defect->thrownException(),
             FALSE
@@ -273,7 +273,7 @@ class Stagehand_TestRunner_ResultPrinter_PHPUnit3 extends PHPUnit_TextUI_ResultP
                  $result->wasSuccessful()) {
             $this->write(
               sprintf(
-                Console_Color::convert("\n%gOK, but incomplete or skipped tests!\n" .
+                Console_Color::convert("\n%yOK, but incomplete or skipped tests!\n" .
                                        "Tests: %%d%%s%%s.\n%n"),
 
                 count($result),

@@ -32,7 +32,7 @@
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 1.0.0
+ * @since      File available since Release 1.3.0
  */
 
 if (version_compare(phpversion(), '5.0.0', '<')) {
@@ -43,7 +43,7 @@ if (!@include_once 'PHPUnit/Framework/TestCase.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnit3ThreeTestCase
+// {{{ Stagehand_TestRunner_PHPUnit3ErrorTestCase
 
 /**
  * TestCase for Stagehand_TestRunner_PHPUnit3
@@ -52,9 +52,9 @@ if (!@include_once 'PHPUnit/Framework/TestCase.php') {
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 1.0.0
+ * @since      Class available since Release 1.3.0
  */
-class Stagehand_TestRunner_PHPUnit3ThreeTestCase extends PHPUnit_Framework_TestCase
+class Stagehand_TestRunner_PHPUnit3ErrorTestCase extends PHPUnit_Framework_TestCase
 {
 
     // {{{ properties
@@ -75,9 +75,9 @@ class Stagehand_TestRunner_PHPUnit3ThreeTestCase extends PHPUnit_Framework_TestC
      * @access public
      */
 
-    function testTestShouldBeRunAutomatically()
+    function testTestShouldBeError()
     {
-        $this->assertTrue(false, 'The message from the assertion.');
+        $this->_foo;
     }
 
     /**#@-*/

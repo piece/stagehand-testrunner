@@ -92,7 +92,7 @@ class Stagehand_TestRunner_ResultPrinter_PHPUnit2 extends PHPUnit2_TextUI_Result
      * @access public
      */
     public function addError(PHPUnit2_Framework_Test $test, Exception $e) {
-        $this->write(Console_Color::convert('%rE%n'));
+        $this->write(Console_Color::convert('%pE%n'));
         $this->nextColumn();
 
         $this->lastTestFailed = TRUE;
@@ -197,7 +197,7 @@ class Stagehand_TestRunner_ResultPrinter_PHPUnit2 extends PHPUnit2_TextUI_Result
     protected function printDefectHeader(PHPUnit2_Framework_TestFailure $defect, $count) {
         $this->write(
           sprintf(
-            Console_Color::convert("%%d) %r%%s\n%n"),
+            Console_Color::convert('%%d) ' . ($defect->isFailure() ? '%r' : '%p') . "%%s\n%n"),
 
             $count,
             $defect->failedTest()->toString()
@@ -215,7 +215,7 @@ class Stagehand_TestRunner_ResultPrinter_PHPUnit2 extends PHPUnit2_TextUI_Result
         $e       = $defect->thrownException();
         $message = method_exists($e, 'toString') ? $e->toString() : $e->getMessage();
 
-        $this->write(Console_Color::convert('%r' . Console_Color::escape($message) . "\n%n"));
+        $this->write(Console_Color::convert(($defect->isFailure() ? '%r' : '%p') . Console_Color::escape($message) . "\n%n"));
 
         $this->write(
           PHPUnit2_Util_Filter::getFilteredStacktrace(
@@ -247,7 +247,7 @@ class Stagehand_TestRunner_ResultPrinter_PHPUnit2 extends PHPUnit2_TextUI_Result
                  $result->wasSuccessful()) {
             $this->write(
               sprintf(
-                Console_Color::convert("\n%gOK, but incomplete test cases!!!\nTests run: %%d, Incomplete Tests: %%d.\n%n"),
+                Console_Color::convert("\n%yOK, but incomplete test cases!!!\nTests run: %%d, Incomplete Tests: %%d.\n%n"),
 
                 $result->runCount(),
                 $result->notImplementedCount()

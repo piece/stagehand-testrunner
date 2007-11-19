@@ -32,25 +32,25 @@
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 0.5.0
+ * @since      File available since Release 1.3.0
  */
 
-if (!@include_once 'PHPUnit.php') {
+if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitThreeTestCase
+// {{{ Stagehand_TestRunner_SimpleTestTestCase_SimpleTestPassTestCase
 
 /**
- * TestCase for Stagehand_TestRunner_PHPUnit
+ * TestCase for Stagehand_TestRunner_SimpleTest
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 0.5.0
+ * @since      Class available since Release 1.3.0
  */
-class Stagehand_TestRunner_PHPUnitThreeTestCase extends PHPUnit_TestCase
+class Stagehand_TestRunner_SimpleTestTestCase_SimpleTestPassTestCase extends UnitTestCase
 {
 
     // {{{ properties
@@ -71,9 +71,9 @@ class Stagehand_TestRunner_PHPUnitThreeTestCase extends PHPUnit_TestCase
      * @access public
      */
 
-    function testTestShouldBeRunAutomatically()
+    function testTestShouldPass()
     {
-        $this->assertTrue(false, 'The message from the assertion.');
+        $this->assertTrue(true);
     }
 
     /**#@-*/
