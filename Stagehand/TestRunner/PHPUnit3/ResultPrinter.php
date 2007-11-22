@@ -42,7 +42,7 @@ require_once 'Console/Color.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-// {{{ Stagehand_TestRunner_ResultPrinter_PHPUnit3
+// {{{ Stagehand_TestRunner_PHPUnit3_ResultPrinter
 
 /**
  * A result printer for PHPUnit version 3.
@@ -54,7 +54,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
-class Stagehand_TestRunner_ResultPrinter_PHPUnit3 extends PHPUnit_TextUI_ResultPrinter
+class Stagehand_TestRunner_PHPUnit3_ResultPrinter extends PHPUnit_TextUI_ResultPrinter
 {
 
     // {{{ properties

@@ -98,8 +98,8 @@ class Stagehand_TestRunner_PHPUnit3 extends Stagehand_TestRunner_Common
     {
         $parameters = array();
         if ($this->_color) {
-            include_once 'Stagehand/TestRunner/ResultPrinter/PHPUnit3.php';
-            $parameters['printer'] = new Stagehand_TestRunner_ResultPrinter_PHPUnit3();
+            include_once 'Stagehand/TestRunner/PHPUnit3/ResultPrinter.php';
+            $parameters['printer'] = new Stagehand_TestRunner_PHPUnit3_ResultPrinter();
         }
 
         PHPUnit_TextUI_TestRunner::run($suite, $parameters);
