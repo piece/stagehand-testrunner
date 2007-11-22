@@ -40,7 +40,7 @@ require_once 'PHPUnit2/TextUI/ResultPrinter.php';
 require_once 'PHPUnit2/Util/Filter.php';
 require_once 'Console/Color.php';
 
-// {{{ Stagehand_TestRunner_ResultPrinter_PHPUnit2
+// {{{ Stagehand_TestRunner_PHPUnit2_ResultPrinter
 
 /**
  * A result printer for PHPUnit version 2.
@@ -52,7 +52,7 @@ require_once 'Console/Color.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
-class Stagehand_TestRunner_ResultPrinter_PHPUnit2 extends PHPUnit2_TextUI_ResultPrinter
+class Stagehand_TestRunner_PHPUnit2_ResultPrinter extends PHPUnit2_TextUI_ResultPrinter
 {
 
     // {{{ properties

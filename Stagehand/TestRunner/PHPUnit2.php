@@ -98,8 +98,8 @@ class Stagehand_TestRunner_PHPUnit2 extends Stagehand_TestRunner_Common
     {
         $testRunner = new PHPUnit2_TextUI_TestRunner();
         if ($this->_color) {
-            include_once 'Stagehand/TestRunner/ResultPrinter/PHPUnit2.php';
-            $testRunner->setPrinter(new Stagehand_TestRunner_ResultPrinter_PHPUnit2());
+            include_once 'Stagehand/TestRunner/PHPUnit2/ResultPrinter.php';
+            $testRunner->setPrinter(new Stagehand_TestRunner_PHPUnit2_ResultPrinter());
         }
 
         $testRunner->doRun($suite);
