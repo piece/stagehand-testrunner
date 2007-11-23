@@ -39,6 +39,7 @@
 
 require_once 'Stagehand/TestRunner/Common.php';
 require_once 'PHPSpec/Framework.php';
+require_once 'Stagehand/TestRunner/PHPSpec/Reporter.php';
 
 // {{{ Stagehand_TestRunner_PHPSpec
 
@@ -68,7 +69,7 @@ class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
      * @access private
      */
 
-    var $_excludePattern = '!^PHPSpec_Context$!';
+    var $_excludePattern = '!^(PHPSpec_Context|Stagehand_TestRunner_PHPSpec_Context)$!';
     var $_baseClass = 'PHPSpec_Context';
     var $_suffix = 'Spec';
 
@@ -96,14 +97,7 @@ class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
     function _doRun(&$suite)
     {
         $result = new PHPSpec_Runner_Result();
-
-        if ($this->_color) {
-            include_once 'Stagehand/TestRunner/PHPSpec/Reporter.php';
-            $reporter = new Stagehand_TestRunner_PHPSpec_Reporter($result);
-        } else {
-            $reporter = new PHPSpec_Runner_Reporter_Text($result);
-        }
-
+        $reporter = new Stagehand_TestRunner_PHPSpec_Reporter($result, $this->_color);
         $result->setReporter($reporter);
 
         $result->setRuntimeStart(microtime(true));

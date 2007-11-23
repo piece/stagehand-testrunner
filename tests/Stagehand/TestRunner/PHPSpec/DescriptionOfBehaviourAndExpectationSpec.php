@@ -32,23 +32,29 @@
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @link       http://www.phpunit.de/
  * @since      File available since Release 1.3.0
  */
 
-// {{{ Stagehand_TestRunner_PHPSpec_Reporter
+if (version_compare(phpversion(), '5.0.0', '<')) {
+    return;
+}
+
+if (!@include_once 'PHPSpec/Context.php') {
+    return;
+}
+
+// {{{ DescribeDescription
 
 /**
- * A reporter for PHPSpec.
+ * TestCase for Stagehand_TestRunner_PHPSpec
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.3.0
  */
-class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
+class Describe振舞やエクスペクテーションの説明 extends PHPSpec_Context
 {
 
     // {{{ properties
@@ -69,53 +75,15 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
      * @access private
      */
 
-    private $_color;
-
     /**#@-*/
 
     /**#@+
      * @access public
      */
 
-    // }}}
-    // {{{ constructor
-
-    /**
-     * @param PHPSpec_Runner_Result $result
-     * @param boolean               $color
-     */
-    public function __construct(PHPSpec_Runner_Result $result, $color)
+    public function itは日本語を使用できること()
     {
-        parent::__construct($result);
-        $this->_color = $color;
-    }
-
-    // }}}
-    // {{{ outputStatus()
-
-    /**
-     * @param string $symbol
-     */
-    public function outputStatus($symbol)
-    {
-        if ($this->_color) {
-            switch ($symbol) {
-            case '.':
-                $symbol = Console_Color::convert("%g$symbol%n");
-                break;
-            case 'F':
-                $symbol = Console_Color::convert("%r$symbol%n");
-                break;
-            case 'E':
-                $symbol = Console_Color::convert("%p$symbol%n");
-                break;
-            case 'P':
-                $symbol = Console_Color::convert("%y$symbol%n");
-                break;
-            }
-        }
-
-        parent::outputStatus($symbol);
+        $this->spec($this->getSpecMethods())->should->be(array('itは日本語を使用できること'));
     }
 
     /**#@-*/
@@ -123,17 +91,6 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
     /**#@+
      * @access protected
      */
-
-    // }}}
-    // {{{ _format()
-
-    /**
-     * @param string $description
-     */
-    protected function _format($description)
-    {
-        return preg_replace('/^describe ?/', '', $description) . ' ';
-    }
 
     /**#@-*/
 
@@ -151,7 +108,7 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil
