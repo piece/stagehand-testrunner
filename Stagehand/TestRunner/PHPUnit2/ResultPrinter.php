@@ -38,7 +38,6 @@
 
 require_once 'PHPUnit2/TextUI/ResultPrinter.php';
 require_once 'PHPUnit2/Util/Filter.php';
-require_once 'Console/Color.php';
 
 // {{{ Stagehand_TestRunner_PHPUnit2_ResultPrinter
 

@@ -102,7 +102,6 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
         $output = $result->toString();
 
         if ($this->_color && $runCount) {
-            include_once 'Console/Color.php';
             $code = $runCount == $passCount ? '%g' : '%r';
             $output = Console_Color::convert(preg_replace(array('/^(TestCase .+->)(.+)(\(\) )(failed:.+)( in .+:\d+)$/m'),
                                                           array('$1%r$2%n$3%r$4%n$5'),
