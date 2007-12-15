@@ -148,7 +148,7 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
                 $colorCode = '%r';
             }
 
-            print Console_Color::convert(preg_replace(array('/^(\d examples?.*)/m',
+            print Console_Color::convert(preg_replace(array('/^(\d+ examples?.*)/m',
                                                             '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
                                                             '/^(  -)(.+)( \(FAIL\))/m',
                                                             '/^(  -)(.+)( \(PENDING\))/m',
