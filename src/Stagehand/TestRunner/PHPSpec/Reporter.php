@@ -87,6 +87,11 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
     public function __construct(PHPSpec_Runner_Result $result, $color)
     {
         parent::__construct($result);
+
+        if ($color) {
+            include_once 'Console/Color.php';
+        }
+
         $this->_color = $color;
     }
 
@@ -116,6 +121,62 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
         }
 
         parent::outputStatus($symbol);
+    }
+
+    // }}}
+    // {{{ output()
+
+    /**
+     * @param boolean $specs
+     */
+    public function output($specs = false)
+    {
+    	$output = $this->toString($specs);
+
+        if ($this->_color) {
+            $failuresCount = $this->_result->countFailures();
+            $deliberateFailuresCount = $this->_result->countDeliberateFailures();
+            $errorsCount = $this->_result->countErrors();
+            $exceptionsCount = $this->_result->countExceptions();
+            $pendingsCount = $this->_result->countPending();
+
+            if ($failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount + $pendingsCount == 0) {
+                $colorCode = '%g';
+            } elseif ($pendingsCount && $failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount == 0) {
+                $colorCode = '%y';
+            } else {
+                $colorCode = '%r';
+            }
+
+            print Console_Color::convert(preg_replace(array('/^(\d examples?.*)/m',
+                                                            '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
+                                                            '/^(  -)(.+)( \(FAIL\))/m',
+                                                            '/^(  -)(.+)( \(PENDING\))/m',
+                                                            '/^(  -)(.+)/m',
+                                                            '/(\d+\)\s+)(.+ (?:ERROR|EXCEPTION)\s+.+)/',
+                                                            '/(\d+\)\s+)(.+ FAILED\s+.+)/',
+                                                            '/(\d+\)\s+)(.+ PENDING\s+.+)/',
+                                                            '/^((?:Errors|Exceptions):)/m',
+                                                            '/^(Failures:)/m',
+                                                            '/^(Pending:)/m',
+                                                            ),
+                                                      array("$colorCode\$1%n",
+                                                            '%p$1 $2$3%n',
+                                                            '%r$1 $2$3%n',
+                                                            '%y$1 $2$3%n',
+                                                            '%g$1 $2$3%n',
+                                                            '$1%p$2%n',
+                                                            '$1%r$2%n',
+                                                            '$1%y$2%n',
+                                                            '%p$1%n',
+                                                            '%r$1%n',
+                                                            '%y$1%n',
+                                                            ),
+                                                      Console_Color::escape($output))
+                                         );
+        } else {
+            print $output;
+        }
     }
 
     /**#@-*/
