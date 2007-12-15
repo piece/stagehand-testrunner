@@ -43,10 +43,10 @@ if (!@include_once 'PHPUnit/Framework/TestCase.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnit3TestCase_PHPUnit3PassTestCase
+// {{{ Stagehand_TestRunner_PHPUnitTestCase_PHPUnitPassTestCase
 
 /**
- * TestCase for Stagehand_TestRunner_PHPUnit3
+ * TestCase for Stagehand_TestRunner_PHPUnit
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
@@ -54,7 +54,7 @@ if (!@include_once 'PHPUnit/Framework/TestCase.php') {
  * @version    Release: @package_version@
  * @since      Class available since Release 1.3.0
  */
-class Stagehand_TestRunner_PHPUnit3TestCase_PHPUnit3PassTestCase extends PHPUnit_Framework_TestCase
+class Stagehand_TestRunner_PHPUnitTestCase_PHPUnitPassTestCase extends PHPUnit_Framework_TestCase
 {
 
     // {{{ properties
