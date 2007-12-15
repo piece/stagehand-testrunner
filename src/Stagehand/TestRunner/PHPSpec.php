@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 5
+ * PHP version 5
  *
  * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
@@ -66,12 +66,18 @@ class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
     /**#@-*/
 
     /**#@+
-     * @access private
+     * @access protected
      */
 
-    var $_excludePattern = '!^(PHPSpec_Context|Stagehand_TestRunner_PHPSpec_Context)$!';
-    var $_baseClass = 'PHPSpec_Context';
-    var $_suffix = 'Spec';
+    protected $_excludePattern = '!^(PHPSpec_Context|Stagehand_TestRunner_PHPSpec_Context)$!';
+    protected $_baseClass = 'PHPSpec_Context';
+    protected $_suffix = 'Spec';
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
 
     /**#@-*/
 
@@ -82,19 +88,19 @@ class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
     /**#@-*/
 
     /**#@+
-     * @access private
+     * @access protected
      */
 
     // }}}
     // {{{ _doRun()
 
     /**
-     * Runs tests based on the given test suite array.
+     * Runs tests based on the given test suite ArrayObject.
      *
-     * @param array &$suite
+     * @param ArrayObject $suite
      * @return stdClass
      */
-    function _doRun(&$suite)
+    protected function _doRun($suite)
     {
         $result = new PHPSpec_Runner_Result();
         $reporter = new Stagehand_TestRunner_PHPSpec_Reporter($result, $this->_color);
@@ -114,46 +120,54 @@ class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
     // {{{ _createTestSuite()
 
     /**
-     * Creates a test suite array.
+     * Creates a test suite ArrayObject.
      *
-     * @return array
+     * @return ArrayObject
      */
-    function _createTestSuite()
+    protected function _createTestSuite()
     {
-        return array();
+        return new ArrayObject();
     }
 
     // }}}
     // {{{ _doBuildTestSuite()
 
     /**
-     * Aggregates a test suite array to an aggregate test suite array.
+     * Aggregates a test suite ArrayObject to an aggregate test suite ArrayObject.
      *
-     * @param array &$aggregateSuite
-     * @param array &$suite
+     * @param ArrayObject $aggregateSuite
+     * @param ArrayObject $suite
      */
-    function _doBuildTestSuite(&$aggregateSuite, &$suite)
+    protected function _doBuildTestSuite($aggregateSuite, $suite)
     {
         if (!count($suite)) {
             return;
         }
 
-        $aggregateSuite = array_merge($aggregateSuite, $suite);
+        foreach ($suite as $testCase) {
+            $aggregateSuite->append($testCase);
+        }
     }
 
     // }}}
     // {{{ _addTestCase()
 
     /**
-     * Adds a test case to a test suite array.
+     * Adds a test case to a test suite ArrayObject.
      *
-     * @param array  &$suite
-     * @param string $testCase
+     * @param ArrayObject $suite
+     * @param string      $testCase
      */
-    function _addTestCase(&$suite, $testCase)
+    protected function _addTestCase($suite, $testCase)
     {
         $suite[] = $testCase;
     }
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
 
     /**#@-*/
 

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 5
+ * PHP version 5
  *
  * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
@@ -35,10 +35,6 @@
  * @since      File available since Release 1.3.0
  */
 
-if (version_compare(phpversion(), '5.0.0', '<')) {
-    return;
-}
-
 if (!@include_once 'PHPUnit/Framework/TestCase.php') {
     return;
 }
@@ -66,6 +62,12 @@ class Stagehand_TestRunner_PHPUnitFailureTestCase extends PHPUnit_Framework_Test
     /**#@-*/
 
     /**#@+
+     * @access protected
+     */
+
+    /**#@-*/
+
+    /**#@+
      * @access private
      */
 
@@ -75,10 +77,16 @@ class Stagehand_TestRunner_PHPUnitFailureTestCase extends PHPUnit_Framework_Test
      * @access public
      */
 
-    function testTestShouldBeFailure()
+    public function testTestShouldBeFailure()
     {
         $this->assertTrue(false, 'This is an error message.');
     }
+
+    /**#@-*/
+
+    /**#@+
+     * @access protected
+     */
 
     /**#@-*/
 

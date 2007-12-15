@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 4 and 5
+ * PHP version 5
  *
  * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
@@ -35,10 +35,6 @@
  * @since      File available since Release 1.1.0
  */
 
-require_once 'PHP/Compat.php';
-
-PHP_Compat::loadFunction('scandir');
-
 // {{{ Stagehand_TestRunner_Common
 
 /**
@@ -50,7 +46,7 @@ PHP_Compat::loadFunction('scandir');
  * @version    Release: @package_version@
  * @since      Class available since Release 1.1.0
  */
-class Stagehand_TestRunner_Common
+abstract class Stagehand_TestRunner_Common
 {
 
     // {{{ properties
@@ -62,14 +58,21 @@ class Stagehand_TestRunner_Common
     /**#@-*/
 
     /**#@+
+     * @access protected
+     */
+
+    protected $_excludePattern;
+    protected $_baseClass;
+    protected $_suffix = 'TestCase';
+    protected $_color;
+
+    /**#@-*/
+
+    /**#@+
      * @access private
      */
 
-    var $_excludePattern;
-    var $_baseClass;
-    var $_color;
-    var $_suffix = 'TestCase';
-    var $_isFile;
+    private $_isFile;
 
     /**#@-*/
 
@@ -84,7 +87,7 @@ class Stagehand_TestRunner_Common
      * @param boolean $color
      * @param boolean $isFile
      */
-    function Stagehand_TestRunner_Common($color, $isFile)
+    public function Stagehand_TestRunner_Common($color, $isFile)
     {
         $this->_color = $color;
         $this->_isFile = $isFile;
@@ -99,7 +102,7 @@ class Stagehand_TestRunner_Common
      * @param string $directory
      * @return stdClass
      */
-    function run($directory)
+    public function run($directory)
     {
         if ($this->_isFile) {
             if (!preg_match("/{$this->_suffix}\.php\$/", $directory)) {
@@ -119,9 +122,9 @@ class Stagehand_TestRunner_Common
      * @param string $directory
      * @return stdClass
      */
-    function runRecursively($directory)
+    public function runRecursively($directory)
     {
-        $suite = &$this->_createTestSuite();
+        $suite = $this->_createTestSuite();
         $directories = $this->_getDirectories($directory);
         for ($i = 0, $count = count($directories); $i < $count; ++$i) {
             $this->_buildTestSuite($suite, $directories[$i]);
@@ -133,7 +136,7 @@ class Stagehand_TestRunner_Common
     /**#@-*/
 
     /**#@+
-     * @access private
+     * @access protected
      */
 
     // }}}
@@ -142,11 +145,52 @@ class Stagehand_TestRunner_Common
     /**
      * Runs tests based on the given test suite object.
      *
-     * @param mixed &$suite
+     * @param mixed $suite
      * @return stdClass
      * @abstract
      */
-    function _doRun(&$suite) {}
+    abstract protected function _doRun($suite);
+
+    // }}}
+    // {{{ _createTestSuite()
+
+    /**
+     * Creates a test suite object.
+     *
+     * @return mixed
+     * @abstract
+     */
+    abstract protected function _createTestSuite();
+
+    // }}}
+    // {{{ _doBuildTestSuite()
+
+    /**
+     * Aggregates a test suite object to an aggregate test suite object.
+     *
+     * @param mixed $aggregateSuite
+     * @param mixed $suite
+     * @abstract
+     */
+    abstract protected function _doBuildTestSuite($aggregateSuite, $suite);
+
+    // }}}
+    // {{{ _addTestCase()
+
+    /**
+     * Adds a test case to a test suite object.
+     *
+     * @param mixed  $suite
+     * @param string $testCase
+     * @abstract
+     */
+    abstract protected function _addTestCase($suite, $testCase);
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
 
     // }}}
     // {{{ _createTestSuiteFromTestCases()
@@ -158,9 +202,9 @@ class Stagehand_TestRunner_Common
      * @param array $testCases
      * @return mixed
      */
-    function &_createTestSuiteFromTestCases($testCases)
+    private function _createTestSuiteFromTestCases($testCases)
     {
-        $suite = &$this->_createTestSuite();
+        $suite = $this->_createTestSuite();
         foreach ($testCases as $testCase) {
             $this->_addTestCase($suite, $testCase);
         }
@@ -169,51 +213,16 @@ class Stagehand_TestRunner_Common
     }
 
     // }}}
-    // {{{ _createTestSuite()
-
-    /**
-     * Creates a test suite object.
-     *
-     * @return mixed
-     * @abstract
-     */
-    function &_createTestSuite() {}
-
-    // }}}
-    // {{{ _doBuildTestSuite()
-
-    /**
-     * Aggregates a test suite object to an aggregate test suite object.
-     *
-     * @param mixed &$aggregateSuite
-     * @param mixed &$suite
-     * @abstract
-     */
-    function _doBuildTestSuite(&$aggregateSuite, &$suite) {}
-
-    // }}}
-    // {{{ _addTestCase()
-
-    /**
-     * Adds a test case to a test suite object.
-     *
-     * @param mixed  &$suite
-     * @param string $testCase
-     * @abstract
-     */
-    function _addTestCase(&$suite, $testCase) {}
-
-    // }}}
     // {{{ _buildTestSuite()
 
     /**
      * Builds a test suite object.
      *
-     * @param mixed  &$suite
+     * @param mixed  $suite
      * @param string $directory
      * @return mixed
      */
-    function &_buildTestSuite(&$suite, $directory)
+    private function _buildTestSuite($suite, $directory)
     {
         $this->_doBuildTestSuite($suite, $this->_createTestSuiteFromTestCases($this->_collectTestCases(realpath($directory))));
         return $suite;
@@ -228,18 +237,13 @@ class Stagehand_TestRunner_Common
      * @param string $class
      * @return boolean
      */
-    function _exclude($class)
+    private function _exclude($class)
     {
         if (strlen($this->_excludePattern) && preg_match($this->_excludePattern, $class)) {
             return true;
         }
 
-        if (version_compare(phpversion(), '5.0.3', '>=')) {
-            return !is_subclass_of($class, $this->_baseClass);
-        } else {
-            $instance = &new $class();
-            return !is_subclass_of($instance, $this->_baseClass);
-        }
+        return !is_subclass_of($class, $this->_baseClass);
     }
 
     // }}}
@@ -251,7 +255,7 @@ class Stagehand_TestRunner_Common
      * @param string $directory
      * @return array
      */
-    function _collectTestCases($directory)
+    private function _collectTestCases($directory)
     {
         $testCases = array();
         if (is_dir($directory)) {
@@ -309,7 +313,7 @@ class Stagehand_TestRunner_Common
      * @param string $directory
      * @return array
      */
-    function _getDirectories($directory)
+    private function _getDirectories($directory)
     {
         static $directories;
         if (is_null($directories)) {

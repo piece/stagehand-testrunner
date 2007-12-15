@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 5
+ * PHP version 5
  *
  * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
@@ -35,10 +35,6 @@
  * @since      File available since Release 1.0.0
  */
 
-if (version_compare(phpversion(), '5.0.0', '<')) {
-    return;
-}
-
 if (!@include_once 'PHPUnit/Framework/TestCase.php') {
     return;
 }
@@ -66,6 +62,12 @@ class Stagehand_TestRunner_PHPUnitImcompleteTestCase extends PHPUnit_Framework_T
     /**#@-*/
 
     /**#@+
+     * @access protected
+     */
+
+    /**#@-*/
+
+    /**#@+
      * @access private
      */
 
@@ -75,10 +77,16 @@ class Stagehand_TestRunner_PHPUnitImcompleteTestCase extends PHPUnit_Framework_T
      * @access public
      */
 
-    function testTestShouldBeImcomplete()
+    public function testTestShouldBeImcomplete()
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
+
+    /**#@-*/
+
+    /**#@+
+     * @access protected
+     */
 
     /**#@-*/
 

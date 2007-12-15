@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 4 and 5
+ * PHP version 5
  *
  * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
  *               2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
@@ -68,11 +68,17 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
     /**#@-*/
 
     /**#@+
-     * @access private
+     * @access protected
      */
 
-    var $_excludePattern = '!^(UnitTestCase$|PHPUnit)!i';
-    var $_baseClass = 'UnitTestCase';
+    protected $_excludePattern = '!^(UnitTestCase$|PHPUnit)!i';
+    protected $_baseClass = 'UnitTestCase';
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
 
     /**#@-*/
 
@@ -83,7 +89,7 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
     /**#@-*/
 
     /**#@+
-     * @access private
+     * @access protected
      */
 
     // }}}
@@ -92,11 +98,11 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
     /**
      * Runs tests based on the given test suite object.
      *
-     * @param TestSuite &$suite
+     * @param TestSuite $suite
      */
-    function _doRun(&$suite)
+    protected function _doRun($suite)
     {
-        $reporter = &new TextReporter();
+        $reporter = new TextReporter();
         ob_start();
         $suite->run($reporter);
         $output = ob_get_contents();
@@ -128,10 +134,9 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
      *
      * @return TestSuite
      */
-    function &_createTestSuite()
+    protected function _createTestSuite()
     {
-        $suite = &new TestSuite();
-        return $suite;
+        return new TestSuite();
     }
 
     // }}}
@@ -140,10 +145,10 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
     /**
      * Aggregates a test suite object to an aggregate test suite object.
      *
-     * @param TestSuite &$aggregateSuite
-     * @param TestSuite &$suite
+     * @param TestSuite $aggregateSuite
+     * @param TestSuite $suite
      */
-    function _doBuildTestSuite(&$aggregateSuite, &$suite)
+    protected function _doBuildTestSuite($aggregateSuite, $suite)
     {
         if (!$suite->getSize()) {
             return;
@@ -158,13 +163,19 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
     /**
      * Adds a test case to a test suite object.
      *
-     * @param TestSuite &$suite
+     * @param TestSuite $suite
      * @param string    $testCase
      */
-    function _addTestCase(&$suite, $testCase)
+    protected function _addTestCase($suite, $testCase)
     {
         $suite->addTestClass($testCase); // TODO NOT addTestCases()?
     }
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
 
     /**#@-*/
 

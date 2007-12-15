@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 5
+ * PHP version 5
  *
  * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
@@ -68,11 +68,17 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
     /**#@-*/
 
     /**#@+
-     * @access private
+     * @access protected
      */
 
-    var $_excludePattern = '!^PHPUnit!';
-    var $_baseClass = 'PHPUnit_Framework_TestCase';
+    protected $_excludePattern = '!^PHPUnit!';
+    protected $_baseClass = 'PHPUnit_Framework_TestCase';
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
 
     /**#@-*/
 
@@ -83,7 +89,7 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
     /**#@-*/
 
     /**#@+
-     * @access private
+     * @access protected
      */
 
     // }}}
@@ -92,9 +98,9 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
     /**
      * Runs tests based on the given test suite object.
      *
-     * @param PHPUnit_Framework_TestSuite &$suite
+     * @param PHPUnit_Framework_TestSuite $suite
      */
-    function _doRun(&$suite)
+    protected function _doRun($suite)
     {
         $parameters = array();
         if ($this->_color) {
@@ -113,7 +119,7 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
      *
      * @return PHPUnit_Framework_TestSuite
      */
-    function _createTestSuite()
+    protected function _createTestSuite()
     {
         return new PHPUnit_Framework_TestSuite();
     }
@@ -124,10 +130,10 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
     /**
      * Aggregates a test suite object to an aggregate test suite object.
      *
-     * @param PHPUnit_Framework_TestSuite &$aggregateSuite
-     * @param PHPUnit_Framework_TestSuite &$suite
+     * @param PHPUnit_Framework_TestSuite $aggregateSuite
+     * @param PHPUnit_Framework_TestSuite $suite
      */
-    function _doBuildTestSuite(&$aggregateSuite, &$suite)
+    protected function _doBuildTestSuite($aggregateSuite, $suite)
     {
         if (!$suite->count()) {
             return;
@@ -142,13 +148,19 @@ class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
     /**
      * Adds a test case to a test suite object.
      *
-     * @param PHPUnit_Framework_TestSuite &$suite
+     * @param PHPUnit_Framework_TestSuite $suite
      * @param string                      $testCase
      */
-    function _addTestCase(&$suite, $testCase)
+    protected function _addTestCase($suite, $testCase)
     {
         $suite->addTestSuite($testCase);
     }
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
 
     /**#@-*/
 

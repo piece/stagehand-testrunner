@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 4 and 5
+ * PHP version 5
  *
  * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
@@ -60,6 +60,12 @@ class Stagehand_TestRunner
     /**#@-*/
 
     /**#@+
+     * @access protected
+     */
+
+    /**#@-*/
+
+    /**#@+
      * @access private
      */
 
@@ -78,7 +84,7 @@ class Stagehand_TestRunner
      *
      * @param string $testRunnerName
      */
-    function run($testRunnerName)
+    public static function run($testRunnerName)
     {
         if (!array_key_exists('argv', $_SERVER)) {
             echo "ERROR: either use the CLI php executable, or set register_argc_argv=On in php.ini.\n";;
@@ -130,7 +136,7 @@ class Stagehand_TestRunner
 
         include_once "Stagehand/TestRunner/$testRunnerName.php";
         $className = "Stagehand_TestRunner_$testRunnerName";
-        $testRunner = &new $className($color, $isFile);
+        $testRunner = new $className($color, $isFile);
 
         if (!$isRecursive) {
             if (is_null($directory)) {
@@ -149,6 +155,12 @@ class Stagehand_TestRunner
     /**#@-*/
 
     /**#@+
+     * @access protected
+     */
+
+    /**#@-*/
+
+    /**#@+
      * @access private
      * @static
      */
@@ -159,7 +171,7 @@ class Stagehand_TestRunner
     /**
      * Displays the usage.
      */
-    function _displayUsage()
+    private static function _displayUsage()
     {
         echo "Usage: {$_SERVER['SCRIPT_NAME']} [options] [testcase]
 
@@ -180,7 +192,7 @@ With no [testcase], run all tests in the current directory.
     /**
      * Displays the version.
      */
-    function _displayVersion()
+    private static function _displayVersion()
     {
         echo "Stagehand_TestRunner @package_version@
 
