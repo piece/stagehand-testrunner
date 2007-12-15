@@ -131,7 +131,10 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
      */
     public function output($specs = false)
     {
-    	$output = $this->toString($specs);
+        $output = preg_replace(array('/(\x0d|\x0a|\x0d\x0a){3,}/', '/^(  -)(.+)/m'),
+                               array("\n\n", '$1 $2'),
+                               $this->toString($specs)
+                               );
 
         if ($this->_color) {
             $failuresCount = $this->_result->countFailures();
@@ -148,37 +151,35 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
                 $colorCode = '%r';
             }
 
-            print Console_Color::convert(preg_replace(array('/^(\d+ examples?.*)/m',
-                                                            '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
-                                                            '/^(  -)(.+)( \(FAIL\))/m',
-                                                            '/^(  -)(.+)( \(PENDING\))/m',
-                                                            '/^(  -)(.+)/m',
-                                                            '/(\d+\)\s+)(.+ (?:ERROR|EXCEPTION)\s+.+)/',
-                                                            '/(\d+\)\s+)(.+ FAILED\s+.+)/',
-                                                            '/(\d+\)\s+)(.+ PENDING\s+.+)/',
-                                                            '/^((?:Errors|Exceptions):)/m',
-                                                            '/^(Failures:)/m',
-                                                            '/^(Pending:)/m',
-                                                            '/(\x0d|\x0a|\x0d\x0a){2,}/'
-                                                            ),
-                                                      array("$colorCode\$1%n",
-                                                            '%p$1 $2$3%n',
-                                                            '%r$1 $2$3%n',
-                                                            '%y$1 $2$3%n',
-                                                            '%g$1 $2$3%n',
-                                                            '$1%p$2%n',
-                                                            '$1%r$2%n',
-                                                            '$1%y$2%n',
-                                                            '%p$1%n',
-                                                            '%r$1%n',
-                                                            '%y$1%n',
-                                                            "\n\n"
-                                                            ),
-                                                      Console_Color::escape($output))
-                                         );
-        } else {
-            print $output;
+            $output = Console_Color::convert(preg_replace(array('/^(\d+ examples?.*)/m',
+                                                                '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
+                                                                '/^(  -)(.+)( \(FAIL\))/m',
+                                                                '/^(  -)(.+)( \(PENDING\))/m',
+                                                                '/^(  -)(.+)/m',
+                                                                '/(\d+\)\s+)(.+ (?:ERROR|EXCEPTION)\s+.+)/',
+                                                                '/(\d+\)\s+)(.+ FAILED\s+.+)/',
+                                                                '/(\d+\)\s+)(.+ PENDING\s+.+)/',
+                                                                '/^((?:Errors|Exceptions):)/m',
+                                                                '/^(Failures:)/m',
+                                                                '/^(Pending:)/m'
+                                                                ),
+                                                          array("$colorCode\$1%n",
+                                                                '%p$1$2$3%n',
+                                                                '%r$1$2$3%n',
+                                                                '%y$1$2$3%n',
+                                                                '%g$1$2$3%n',
+                                                                '$1%p$2%n',
+                                                                '$1%r$2%n',
+                                                                '$1%y$2%n',
+                                                                '%p$1%n',
+                                                                '%r$1%n',
+                                                                '%y$1%n'
+                                                                ),
+                                                          Console_Color::escape($output))
+                                             );
         }
+
+        print $output;
     }
 
     /**#@-*/
