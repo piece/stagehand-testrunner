@@ -32,29 +32,31 @@
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
+ * @link       http://www.phpunit.de/
+ * @see        PHPUnit_Framework_TestSuite, PHPUnit_TextUI_TestRunner::run()
  * @since      File available since Release 1.0.0
  */
 
-if (version_compare(phpversion(), '5.0.0', '<')) {
-    return;
-}
+define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit::run');
 
-if (!@include_once 'PHPUnit/Framework/TestCase.php') {
-    return;
-}
+require_once 'Stagehand/TestRunner/Common.php';
+require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'PHPUnit/Framework/TestSuite.php';
 
-// {{{ Stagehand_TestRunner_PHPUnit3ImcompleteTestCase
+// {{{ Stagehand_TestRunner_PHPUnit
 
 /**
- * TestCase for Stagehand_TestRunner_PHPUnit3
+ * A test runner for PHPUnit.
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
+ * @link       http://www.phpunit.de/
+ * @see        PHPUnit_Framework_TestSuite, PHPUnit_TextUI_TestRunner::run()
  * @since      Class available since Release 1.0.0
  */
-class Stagehand_TestRunner_PHPUnit3ImcompleteTestCase extends PHPUnit_Framework_TestCase
+class Stagehand_TestRunner_PHPUnit extends Stagehand_TestRunner_Common
 {
 
     // {{{ properties
@@ -69,22 +71,84 @@ class Stagehand_TestRunner_PHPUnit3ImcompleteTestCase extends PHPUnit_Framework_
      * @access private
      */
 
+    var $_excludePattern = '!^PHPUnit!';
+    var $_baseClass = 'PHPUnit_Framework_TestCase';
+
     /**#@-*/
 
     /**#@+
      * @access public
      */
 
-    function testTestShouldBeImcomplete()
-    {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
     /**#@-*/
 
     /**#@+
      * @access private
      */
+
+    // }}}
+    // {{{ _doRun()
+
+    /**
+     * Runs tests based on the given test suite object.
+     *
+     * @param PHPUnit_Framework_TestSuite &$suite
+     */
+    function _doRun(&$suite)
+    {
+        $parameters = array();
+        if ($this->_color) {
+            include_once 'Stagehand/TestRunner/PHPUnit/ResultPrinter.php';
+            $parameters['printer'] = new Stagehand_TestRunner_PHPUnit_ResultPrinter();
+        }
+
+        PHPUnit_TextUI_TestRunner::run($suite, $parameters);
+    }
+
+    // }}}
+    // {{{ _createTestSuite()
+
+    /**
+     * Creates a test suite object.
+     *
+     * @return PHPUnit_Framework_TestSuite
+     */
+    function _createTestSuite()
+    {
+        return new PHPUnit_Framework_TestSuite();
+    }
+
+    // }}}
+    // {{{ _doBuildTestSuite()
+
+    /**
+     * Aggregates a test suite object to an aggregate test suite object.
+     *
+     * @param PHPUnit_Framework_TestSuite &$aggregateSuite
+     * @param PHPUnit_Framework_TestSuite &$suite
+     */
+    function _doBuildTestSuite(&$aggregateSuite, &$suite)
+    {
+        if (!$suite->count()) {
+            return;
+        }
+
+        $aggregateSuite->addTest($suite);
+    }
+
+    // }}}
+    // {{{ _addTestCase()
+
+    /**
+     * Adds a test case to a test suite object.
+     *
+     * @param PHPUnit_Framework_TestSuite &$suite
+     * @param string                      $testCase
+     */
+    function _addTestCase(&$suite, $testCase)
+    {
+        $suite->addTestSuite($testCase);
+    }
 
     /**#@-*/
 

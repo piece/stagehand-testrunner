@@ -41,10 +41,10 @@ require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-// {{{ Stagehand_TestRunner_PHPUnit3_ResultPrinter
+// {{{ Stagehand_TestRunner_PHPUnit_ResultPrinter
 
 /**
- * A result printer for PHPUnit version 3.
+ * A result printer for PHPUnit.
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
@@ -53,7 +53,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
-class Stagehand_TestRunner_PHPUnit3_ResultPrinter extends PHPUnit_TextUI_ResultPrinter
+class Stagehand_TestRunner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_ResultPrinter
 {
 
     // {{{ properties

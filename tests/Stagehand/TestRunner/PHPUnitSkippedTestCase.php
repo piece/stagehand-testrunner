@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
@@ -32,55 +31,64 @@
  * @package    Stagehand_TestRunner
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
- * @version    SVN: $Id: package.php 19 2007-06-19 09:05:41Z iteman $
- * @since      File available since Release 1.0.0
+ * @version    SVN: $Id$
+ * @since      File available since Release 1.3.0
  */
 
-error_reporting(E_ALL);
-
-preload();
-
-if (file_exists(dirname(__FILE__) . '/../src/Stagehand/TestRunner.php')) {
-    set_include_path(realpath(dirname(__FILE__) . '/../src') . PATH_SEPARATOR . get_include_path());
+if (version_compare(phpversion(), '5.0.0', '<')) {
+    return;
 }
 
-require_once 'Stagehand/TestRunner.php';
+if (!@include_once 'PHPUnit/Framework/TestCase.php') {
+    return;
+}
 
-$result = Stagehand_TestRunner::run('PHPUnit3');
-
-exit($result);
-
-// {{{ preload()
+// {{{ Stagehand_TestRunner_PHPUnitSkippedTestCase
 
 /**
- * Finds the preload option and preloads a file as a PHP script if it is
- * specified.
+ * TestCase for Stagehand_TestRunner_PHPUnit
+ *
+ * @package    Stagehand_TestRunner
+ * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @version    Release: @package_version@
+ * @since      Class available since Release 1.3.0
  */
-function preload()
+class Stagehand_TestRunner_PHPUnitSkippedTestCase extends PHPUnit_Framework_TestCase
 {
-    $file = null;
-    for ($i = 1, $count = count($_SERVER['argv']); $i < $count; ++$i) {
-        if (!preg_match('/^-[^p]*p(.*)/', $_SERVER['argv'][$i], $matches)) {
-            continue;
-        }
 
-        if (!strlen($matches[1])) {
-            if ($i + 1 < $count) {
-                $file = $_SERVER['argv'][ $i + 1 ];
-                break;
-            }
-        } else {
-            $file = $matches[1];
-            break;
-        }
+    // {{{ properties
+
+    /**#@+
+     * @access public
+     */
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
+
+    /**#@-*/
+
+    /**#@+
+     * @access public
+     */
+
+    function testTestShouldBeSkipped()
+    {
+        $this->markTestSkipped('Foo is not available.');
     }
 
-    if (!is_null($file)) {
-        $file = realpath($file);
-        if ($file !== false) {
-            include_once $file;
-        }
-    }
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
+
+    /**#@-*/
+
+    // }}}
 }
 
 // }}}
