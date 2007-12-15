@@ -33,7 +33,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
  * @link       http://www.phpunit.de/
- * @since      File available since Release 1.3.0
+ * @since      File available since Release 2.0.0
  */
 
 // {{{ Stagehand_TestRunner_PHPSpec_Reporter
@@ -46,7 +46,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
- * @since      Class available since Release 1.3.0
+ * @since      Class available since Release 2.0.0
  */
 class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
 {

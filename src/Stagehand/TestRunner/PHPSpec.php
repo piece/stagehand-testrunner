@@ -34,7 +34,7 @@
  * @version    SVN: $Id$
  * @link       http://www.phpunit.de/
  * @see        PHPUnit_Framework_TestSuite, PHPUnit_TextUI_TestRunner::run()
- * @since      File available since Release 1.3.0
+ * @since      File available since Release 2.0.0
  */
 
 require_once 'Stagehand/TestRunner/Common.php';
@@ -52,7 +52,7 @@ require_once 'Stagehand/TestRunner/PHPSpec/Reporter.php';
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
  * @see        PHPUnit_Framework_TestSuite, PHPUnit_TextUI_TestRunner::run()
- * @since      Class available since Release 1.3.0
+ * @since      Class available since Release 2.0.0
  */
 class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
 {

@@ -32,7 +32,7 @@
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 1.3.0
+ * @since      File available since Release 2.0.0
  */
 
 if (!@include_once 'PHPSpec/Context.php') {
@@ -48,7 +48,7 @@ if (!@include_once 'PHPSpec/Context.php') {
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 1.3.0
+ * @since      Class available since Release 2.0.0
  */
 class DescribePhpSpecException extends PHPSpec_Context
 {
