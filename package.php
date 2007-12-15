@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP versions 4 and 5
+ * PHP version 5
  *
  * Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
@@ -40,44 +40,37 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '1.2.0';
+$releaseVersion = '2.0.0';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
 $notes = 'A new release of Stagehand_TestRunner is now available.
 
-What\'s New in Stagehand_TestRunner 1.2.0
+What\'s New in Stagehand_TestRunner 2.0.0
 
- * Coloring the result of a test runner run: The result of a test runner run can be colored by "-c" option.
- * PHP script preloading: An arbitrary PHP script can be loaded before tests run for testing in a closed environment.
-
-See the following release notes for details.
-
-Enhancements
-============
-
-- Added support for coloring the result of a test runner run with ANSI console colors.
-- Added support for preloading an arbitrary PHP script for testing in a closed environment. (Ticket #4)';
+ * PHPSpec Support: Stagehand_TestRunner can now be used with PHPSpec (http://code.google.com/p/phpspec/). If you use PHPSpec 0.2.0devel or greater, use the specrunner script for running tests.
+ * Migration to PHP 5: Stagehand_TestRunner now works with PHP 5.0.3 or greater.
+ * End of support for PHPUnit 1 and 2: Starting with this release, PHPUnit 1 and 2 are no longer supported.';
 
 $package = new PEAR_PackageFileManager2();
-$result = $package->setOptions(array('filelistgenerator' => 'svn',
+$result = $package->setOptions(array('filelistgenerator' => 'file',
                                      'changelogoldtonew' => false,
                                      'simpleoutput'      => true,
                                      'baseinstalldir'    => '/',
                                      'packagefile'       => 'package.xml',
                                      'packagedirectory'  => '.',
                                      'dir_roles'         => array('tests' => 'test',
-                                                                  'docs' => 'doc',
-                                                                  'scripts' => 'script'),
+                                                                  'doc' => 'doc',
+                                                                  'bin' => 'script'),
                                      'ignore'            => array('package.php', 'package.xml'))
                                );
 
 $package->setPackage('Stagehand_TestRunner');
 $package->setPackageType('php');
-$package->setSummary('Automated test runners for PHPUnit and SimpleTest');
-$package->setDescription('Stagehand_TestRunner is automated test runners for PHPUnit and SimpleTest.
+$package->setSummary('Automated test runners for PHPSpec, PHPUnit, and SimpleTest');
+$package->setDescription('Stagehand_TestRunner is automated test runners for PHPSpec, PHPUnit, and SimpleTest.
 
-Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with "TestCase.php" under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit 3, PHPUnit 2, PHPUnit 1, and SimpleTest.');
+Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with "Spec.php" (PHPSpec) or "TestCase.php" (PHPUnit/SimpleTest) under an arbitrary directory. Stagehand_TestRunner now supports PHPSpec, PHPUnit, and SimpleTest.');
 $package->setChannel('pear.piece-framework.com');
 $package->setLicense('BSD License (revised)', 'http://www.opensource.org/licenses/bsd-license.php');
 $package->setAPIVersion($apiVersion);
@@ -85,22 +78,19 @@ $package->setAPIStability($apiStability);
 $package->setReleaseVersion($releaseVersion);
 $package->setReleaseStability($releaseStability);
 $package->setNotes($notes);
-$package->setPhpDep('4.3.0');
+$package->setPhpDep('5.0.3');
 $package->setPearinstallerDep('1.4.3');
 $package->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.3');
 $package->addPackageDepWithChannel('required', 'Console_Getopt', 'pear.php.net', '1.2');
-$package->addPackageDepWithChannel('required', 'PHP_Compat', 'pear.php.net', '1.5.0');
 $package->addPackageDepWithChannel('optional', 'Console_Color', 'pear.php.net', '1.0.2');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
-$package->addInstallAs('scripts/testrunner1', 'testrunner1');
-$package->addInstallAs('scripts/testrunner1.bat', 'testrunner1.bat');
-$package->addInstallAs('scripts/testrunner2', 'testrunner2');
-$package->addInstallAs('scripts/testrunner2.bat', 'testrunner2.bat');
-$package->addInstallAs('scripts/testrunner3', 'testrunner3');
-$package->addInstallAs('scripts/testrunner3.bat', 'testrunner3.bat');
-$package->addInstallAs('scripts/testrunner-st', 'testrunner-st');
-$package->addInstallAs('scripts/testrunner-st.bat', 'testrunner-st.bat');
+$package->addInstallAs('bin/specrunner', 'specrunner');
+$package->addInstallAs('bin/specrunner.bat', 'specrunner.bat');
+$package->addInstallAs('bin/testrunner', 'testrunner');
+$package->addInstallAs('bin/testrunner.bat', 'testrunner.bat');
+$package->addInstallAs('bin/testrunner-st', 'testrunner-st');
+$package->addInstallAs('bin/testrunner-st.bat', 'testrunner-st.bat');
 $package->generateContents();
 
 if (array_key_exists(1, $_SERVER['argv']) && $_SERVER['argv'][1] == 'make') {
