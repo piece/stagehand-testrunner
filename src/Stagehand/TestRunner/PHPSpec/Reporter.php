@@ -159,6 +159,7 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
                                                             '/^((?:Errors|Exceptions):)/m',
                                                             '/^(Failures:)/m',
                                                             '/^(Pending:)/m',
+                                                            '/(\x0d|\x0a|\x0d\x0a){2,}/'
                                                             ),
                                                       array("$colorCode\$1%n",
                                                             '%p$1 $2$3%n',
@@ -171,6 +172,7 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
                                                             '%p$1%n',
                                                             '%r$1%n',
                                                             '%y$1%n',
+                                                            "\n\n"
                                                             ),
                                                       Console_Color::escape($output))
                                          );
