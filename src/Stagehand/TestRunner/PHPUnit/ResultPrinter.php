@@ -38,6 +38,7 @@
 
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
 require_once 'PHPUnit/Util/Filter.php';
+require_once 'Console/Color.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
@@ -183,9 +184,15 @@ class Stagehand_TestRunner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_ResultPr
             return;
         }
 
+        if ($type == 'error') {
+            $colorCode = '%p';
+        } else {
+            $colorCode = '%r';
+        }
+
         $this->write(
           sprintf(
-            Console_Color::convert("%rThere %%s %%d %%s%%s:\n%n"),
+            Console_Color::convert("{$colorCode}There %%s %%d %%s%%s:\n%n"),
 
             ($count == 1) ? 'was' : 'were',
             $count,
