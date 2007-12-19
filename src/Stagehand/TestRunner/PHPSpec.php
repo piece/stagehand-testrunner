@@ -69,9 +69,9 @@ class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
      * @access protected
      */
 
-    protected $_excludePattern = '!^(PHPSpec_Context|Stagehand_TestRunner_PHPSpec_Context)$!';
     protected $_baseClass = 'PHPSpec_Context';
     protected $_suffix = 'Spec';
+    protected $_includePattern = '!(^[Dd]escribe|[Ss]pec$)!';
 
     /**#@-*/
 

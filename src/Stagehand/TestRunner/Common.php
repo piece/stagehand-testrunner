@@ -65,6 +65,7 @@ abstract class Stagehand_TestRunner_Common
     protected $_baseClass;
     protected $_suffix = 'TestCase';
     protected $_color;
+    protected $_includePattern;
 
     /**#@-*/
 
@@ -239,7 +240,7 @@ abstract class Stagehand_TestRunner_Common
      */
     private function _exclude($class)
     {
-        if (strlen($this->_excludePattern) && preg_match($this->_excludePattern, $class)) {
+        if (!is_null($this->_excludePattern) && preg_match($this->_excludePattern, $class)) {
             return true;
         }
 
@@ -296,6 +297,10 @@ abstract class Stagehand_TestRunner_Common
                     continue;
                 }
 
+                if (!$this->_include($newClasses[$j])) {
+                    continue;
+                }
+
                 $testCases[] = $newClasses[$j];
                 print "  => Added [ {$newClasses[$j]} ]\n";
             }
@@ -338,6 +343,24 @@ abstract class Stagehand_TestRunner_Common
         }
 
         return $directories;
+    }
+
+    // }}}
+    // {{{ _include()
+
+    /**
+     * Returns whether the class should be include or not.
+     *
+     * @param string $class
+     * @return boolean
+     */
+    private function _include($class)
+    {
+        if (!is_null($this->_includePattern) && preg_match($this->_includePattern, $class)) {
+            return true;
+        }
+
+        return is_subclass_of($class, $this->_baseClass);
     }
 
     /**#@-*/
