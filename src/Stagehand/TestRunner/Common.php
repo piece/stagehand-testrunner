@@ -230,24 +230,6 @@ abstract class Stagehand_TestRunner_Common
     }
 
     // }}}
-    // {{{ _exclude()
-
-    /**
-     * Returns whether the class should be exclude or not.
-     *
-     * @param string $class
-     * @return boolean
-     */
-    private function _exclude($class)
-    {
-        if (!is_null($this->_excludePattern) && preg_match($this->_excludePattern, $class)) {
-            return true;
-        }
-
-        return !is_subclass_of($class, $this->_baseClass);
-    }
-
-    // }}}
     // {{{ _collectTestCases()
 
     /**
@@ -293,11 +275,19 @@ abstract class Stagehand_TestRunner_Common
 
             $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
             for ($j = 0, $jCount = count($newClasses); $j < $jCount; ++$j) {
-                if ($this->_exclude($newClasses[$j])) {
+                if (!is_subclass_of($newClasses[$j], $this->_baseClass)) {
                     continue;
                 }
 
-                if (!$this->_include($newClasses[$j])) {
+                if (!is_null($this->_excludePattern)
+                    && preg_match($this->_excludePattern, $newClasses[$j])
+                    ) {
+                    continue;
+                }
+
+                if (!is_null($this->_includePattern)
+                    && !preg_match($this->_includePattern, $newClasses[$j])
+                    ) {
                     continue;
                 }
 
@@ -343,24 +333,6 @@ abstract class Stagehand_TestRunner_Common
         }
 
         return $directories;
-    }
-
-    // }}}
-    // {{{ _include()
-
-    /**
-     * Returns whether the class should be include or not.
-     *
-     * @param string $class
-     * @return boolean
-     */
-    private function _include($class)
-    {
-        if (!is_null($this->_includePattern) && preg_match($this->_includePattern, $class)) {
-            return true;
-        }
-
-        return is_subclass_of($class, $this->_baseClass);
     }
 
     /**#@-*/
