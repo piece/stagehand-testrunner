@@ -70,7 +70,7 @@ $package->setPackageType('php');
 $package->setSummary('Automated test runners for PHPSpec, PHPUnit, and SimpleTest');
 $package->setDescription('Stagehand_TestRunner is automated test runners for PHPSpec, PHPUnit, and SimpleTest.
 
-Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with "Spec.php" (PHPSpec) or "TestCase.php" (PHPUnit/SimpleTest) under an arbitrary directory. Stagehand_TestRunner now supports PHPSpec, PHPUnit, and SimpleTest.');
+Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with "Spec.php" (PHPSpec) or "TestCase.php" (PHPUnit/SimpleTest) under an arbitrary directory. Stagehand_TestRunner now supports PHPSpec, PHPUnit, and SimpleTest.');
 $package->setChannel('pear.piece-framework.com');
 $package->setLicense('BSD License (revised)', 'http://www.opensource.org/licenses/bsd-license.php');
 $package->setAPIVersion($apiVersion);
