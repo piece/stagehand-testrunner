@@ -32,7 +32,7 @@
  * @package    Stagehand_TestRunner
  * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
- * @version    SVN: $Id: package.php 19 2007-06-19 09:05:41Z iteman $
+ * @version    SVN: $Id$
  * @since      File available since Release 2.0.0
  */
 

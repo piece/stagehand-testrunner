@@ -5,20 +5,20 @@
     http://pear.php.net/dtd/package-2.0.xsd">
  <name>Stagehand_TestRunner</name>
  <channel>pear.piece-framework.com</channel>
- <summary>Automated test runners for PHPUnit and SimpleTest</summary>
- <description>Stagehand_TestRunner is automated test runners for PHPUnit and SimpleTest.
+ <summary>Automated test runners for PHPSpec, PHPUnit, and SimpleTest</summary>
+ <description>Stagehand_TestRunner is automated test runners for PHPSpec, PHPUnit, and SimpleTest.
 
-Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests that are suffixed with &quot;TestCase.php&quot; under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit 3, PHPUnit 2, PHPUnit 1, and SimpleTest.</description>
+Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with &quot;Spec.php&quot; (PHPSpec) or &quot;TestCase.php&quot; (PHPUnit/SimpleTest) under an arbitrary directory. Stagehand_TestRunner now supports PHPSpec, PHPUnit, and SimpleTest.</description>
  <lead>
   <name>KUBO Atsuhiro</name>
   <user>iteman</user>
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2007-10-26</date>
- <time>00:55:53</time>
+ <date>2007-12-20</date>
+ <time>22:29:48</time>
  <version>
-  <release>1.2.0</release>
+  <release>2.0.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -28,150 +28,129 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
  <notes>A new release of Stagehand_TestRunner is now available.
 
-What&apos;s New in Stagehand_TestRunner 1.2.0
+What&apos;s New in Stagehand_TestRunner 2.0.0
 
- * Coloring the result of a test runner run: The result of a test runner run can be colored by &quot;-c&quot; option.
- * PHP script preloading: An arbitrary PHP script can be loaded before tests run for testing in a closed environment.
-
-See the following release notes for details.
-
-Enhancements
-============
-
-- Added support for coloring the result of a test runner run with ANSI console colors.
-- Added support for preloading an arbitrary PHP script for testing in a closed environment. (Ticket #4)</notes>
+ * PHPSpec Support: Stagehand_TestRunner can now be used with PHPSpec (http://code.google.com/p/phpspec/). If you use PHPSpec 0.2.0devel or greater, use the specrunner script for running tests.
+ * Migration to PHP 5: Stagehand_TestRunner now works with PHP 5.0.3 or greater.
+ * End of support for PHPUnit 1 and 2: Starting with this release, PHPUnit 1 and 2 are no longer supported.</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <dir name="docs">
-    <file baseinstalldir="/" name="LICENSE" role="doc">
+   <dir name="bin">
+    <file baseinstalldir="/" name="specrunner" role="script">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
-   </dir> <!-- /docs -->
-   <dir name="scripts">
+    <file baseinstalldir="/" name="specrunner.bat" role="script">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+    <file baseinstalldir="/" name="testrunner" role="script">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
     <file baseinstalldir="/" name="testrunner-st" role="script">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
     <file baseinstalldir="/" name="testrunner-st.bat" role="script">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
-    <file baseinstalldir="/" name="testrunner1" role="script">
+    <file baseinstalldir="/" name="testrunner.bat" role="script">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
-    <file baseinstalldir="/" name="testrunner1.bat" role="script">
+   </dir> <!-- /bin -->
+   <dir name="doc">
+    <file baseinstalldir="/" name="LICENSE" role="doc">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
-    <file baseinstalldir="/" name="testrunner2" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="testrunner2.bat" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="testrunner3" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="testrunner3.bat" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-   </dir> <!-- /scripts -->
-   <dir name="Stagehand">
-    <dir name="TestRunner">
-     <dir name="ResultPrinter">
-      <file baseinstalldir="/" name="PHPUnit2.php" role="php">
+   </dir> <!-- /doc -->
+   <dir name="src">
+    <dir name="Stagehand">
+     <dir name="TestRunner">
+      <dir name="PHPSpec">
+       <file baseinstalldir="/" name="Reporter.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /src/Stagehand/TestRunner/PHPSpec -->
+      <dir name="PHPUnit">
+       <file baseinstalldir="/" name="ResultPrinter.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /src/Stagehand/TestRunner/PHPUnit -->
+      <file baseinstalldir="/" name="Common.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit3.php" role="php">
+      <file baseinstalldir="/" name="PHPSpec.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-     </dir> <!-- /Stagehand/TestRunner/ResultPrinter -->
-     <file baseinstalldir="/" name="Common.php" role="php">
+      <file baseinstalldir="/" name="PHPUnit.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTest.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /src/Stagehand/TestRunner -->
+     <file baseinstalldir="/" name="TestRunner.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
      </file>
-     <file baseinstalldir="/" name="PHPUnit.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
-     <file baseinstalldir="/" name="PHPUnit2.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
-     <file baseinstalldir="/" name="PHPUnit3.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
-     <file baseinstalldir="/" name="SimpleTest.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
-    </dir> <!-- /Stagehand/TestRunner -->
-    <file baseinstalldir="/" name="TestRunner.php" role="php">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-   </dir> <!-- /Stagehand -->
+    </dir> <!-- /src/Stagehand -->
+   </dir> <!-- /src -->
    <dir name="tests">
     <dir name="Stagehand">
      <dir name="TestRunner">
-      <dir name="PHPUnit2TestCase">
-       <file baseinstalldir="/" name="PHPUnit2OneTestCase.php" role="test">
+      <dir name="PHPSpec">
+       <file baseinstalldir="/" name="DescriptionOfBehaviourAndExpectationSpec.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-       <file baseinstalldir="/" name="PHPUnit2TwoTestCase.php" role="test">
+      </dir> <!-- /tests/Stagehand/TestRunner/PHPSpec -->
+      <dir name="PHPSpecSpec">
+       <file baseinstalldir="/" name="PHPSpecPassSpec.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnit2TestCase -->
-      <dir name="PHPUnit3TestCase">
-       <file baseinstalldir="/" name="PHPUnit3OneTestCase.php" role="test">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="PHPUnit3TwoTestCase.php" role="test">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnit3TestCase -->
+      </dir> <!-- /tests/Stagehand/TestRunner/PHPSpecSpec -->
       <dir name="PHPUnitTestCase">
-       <file baseinstalldir="/" name="PHPUnitOneTestCase.php" role="test">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="PHPUnitTwoTestCase.php" role="test">
+       <file baseinstalldir="/" name="PHPUnitPassTestCase.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
       </dir> <!-- /tests/Stagehand/TestRunner/PHPUnitTestCase -->
       <dir name="SimpleTestTestCase">
-       <file baseinstalldir="/" name="SimpleTestOneTestCase.php" role="test">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="SimpleTestTwoTestCase.php" role="test">
+       <file baseinstalldir="/" name="SimpleTestPassTestCase.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
       </dir> <!-- /tests/Stagehand/TestRunner/SimpleTestTestCase -->
-      <file baseinstalldir="/" name="PHPUnit2OneTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPSpecErrorSpec.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit2ThreeTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPSpecExceptionSpec.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit2TwoTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPSpecFailureSpec.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit3OneTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPSpecPassSpec.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit3ThreeTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPSpecPendingSpec.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit3TwoTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitErrorTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnitOneTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitFailureTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnitThreeTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitIncompleteTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnitTwoTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitPassTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="SimpleTestOneTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitSkippedTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="SimpleTestThreeTestCase.php" role="test">
+      <file baseinstalldir="/" name="SimpleTestExceptionTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="SimpleTestTwoTestCase.php" role="test">
+      <file baseinstalldir="/" name="SimpleTestFailureTestCase.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestPassTestCase.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
      </dir> <!-- /tests/Stagehand/TestRunner -->
@@ -182,7 +161,7 @@ Enhancements
  <dependencies>
   <required>
    <php>
-    <min>4.3.0</min>
+    <min>5.0.3</min>
    </php>
    <pearinstaller>
     <min>1.4.3</min>
@@ -208,17 +187,34 @@ Enhancements
  </dependencies>
  <phprelease>
   <filelist>
-   <install as="testrunner1" name="scripts/testrunner1" />
-   <install as="testrunner1.bat" name="scripts/testrunner1.bat" />
-   <install as="testrunner2" name="scripts/testrunner2" />
-   <install as="testrunner2.bat" name="scripts/testrunner2.bat" />
-   <install as="testrunner3" name="scripts/testrunner3" />
-   <install as="testrunner3.bat" name="scripts/testrunner3.bat" />
-   <install as="testrunner-st" name="scripts/testrunner-st" />
-   <install as="testrunner-st.bat" name="scripts/testrunner-st.bat" />
+   <install as="specrunner" name="bin/specrunner" />
+   <install as="specrunner.bat" name="bin/specrunner.bat" />
+   <install as="testrunner" name="bin/testrunner" />
+   <install as="testrunner.bat" name="bin/testrunner.bat" />
+   <install as="testrunner-st" name="bin/testrunner-st" />
+   <install as="testrunner-st.bat" name="bin/testrunner-st.bat" />
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.0.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-12-20</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.0.0
+
+ * PHPSpec Support: Stagehand_TestRunner can now be used with PHPSpec (http://code.google.com/p/phpspec/). If you use PHPSpec 0.2.0devel or greater, use the specrunner script for running tests.
+ * Migration to PHP 5: Stagehand_TestRunner now works with PHP 5.0.3 or greater.
+ * End of support for PHPUnit 1 and 2: Starting with this release, PHPUnit 1 and 2 are no longer supported.</notes>
+  </release>
   <release>
    <version>
     <release>1.2.0</release>

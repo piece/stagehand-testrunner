@@ -1,5 +1,5 @@
 @ECHO OFF
-REM $Id: pearenv.bat 15 2007-05-26 17:31:39Z iteman $
+REM $Id$
 
 REM *************************************************************
 REM ** Stagehand_TestRunner CLI for Windows based systems (based on symfony.bat)
