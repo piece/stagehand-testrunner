@@ -106,16 +106,16 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
         if ($this->_color) {
             switch ($symbol) {
             case '.':
-                $symbol = Console_Color::convert("%g$symbol%n");
+                $symbol = $this->_green($symbol);
                 break;
             case 'F':
-                $symbol = Console_Color::convert("%r$symbol%n");
+                $symbol = $this->_red($symbol);
                 break;
             case 'E':
-                $symbol = Console_Color::convert("%p$symbol%n");
+                $symbol = $this->_magenta($symbol);
                 break;
             case 'P':
-                $symbol = Console_Color::convert("%y$symbol%n");
+                $symbol = $this->_yellow($symbol);
                 break;
             }
         }
@@ -144,11 +144,11 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
             $pendingsCount = $this->_result->countPending();
 
             if ($failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount + $pendingsCount == 0) {
-                $colorCode = '%g';
+                $colorCode = 'green';
             } elseif ($pendingsCount && $failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount == 0) {
-                $colorCode = '%y';
+                $colorCode = 'yellow';
             } else {
-                $colorCode = '%r';
+                $colorCode = 'red';
             }
 
             $output = Console_Color::convert(preg_replace(array('/^(\d+ examples?.*)/m',
@@ -164,18 +164,18 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
                                                                 '/^(Failures:)/m',
                                                                 '/^(Pending:)/m'
                                                                 ),
-                                                          array("$colorCode\$1%n",
-                                                                '%p$1$2$3%n',
-                                                                '%r$1$2$3%n',
-                                                                '%r$1$2$3%n',
-                                                                '%y$1$2$3%n',
-                                                                '%g$1$2$3%n',
-                                                                '$1%p$2%n',
-                                                                '$1%r$2%n',
-                                                                '$1%y$2%n',
-                                                                '%p$1%n',
-                                                                '%r$1%n',
-                                                                '%y$1%n'
+                                                          array($this->{"_$colorCode"}('$1'),
+                                                                $this->_magenta('$1$2$3'),
+                                                                $this->_red('$1$2$3'),
+                                                                $this->_red('$1$2$3'),
+                                                                $this->_yellow('$1$2$3'),
+                                                                $this->_green('$1$2$3'),
+                                                                '$1' . $this->_magenta('$2'),
+                                                                '$1' . $this->_red('$2'),
+                                                                '$1' . $this->_yellow('$2'),
+                                                                $this->_magenta('$1'),
+                                                                $this->_red('$1'),
+                                                                $this->_yellow('$1')
                                                                 ),
                                                           Console_Color::escape($output))
                                              );
@@ -195,6 +195,54 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
     /**#@+
      * @access private
      */
+
+    // }}}
+    // {{{ _green()
+
+    /**
+     * @param string $text
+     * @return text
+     */
+    private function _green($text)
+    {
+        return Console_Color::convert("%g$text%n");
+    }
+
+    // }}}
+    // {{{ _red()
+
+    /**
+     * @param string $text
+     * @return text
+     */
+    private function _red($text)
+    {
+        return Console_Color::convert("%r$text%n");
+    }
+
+    // }}}
+    // {{{ _magenta()
+
+    /**
+     * @param string $text
+     * @return text
+     */
+    private function _magenta($text)
+    {
+        return Console_Color::convert("%m$text%n");
+    }
+
+    // }}}
+    // {{{ _yellow()
+
+    /**
+     * @param string $text
+     * @return text
+     */
+    private function _yellow($text)
+    {
+        return Console_Color::convert("%y$text%n");
+    }
 
     /**#@-*/
 
