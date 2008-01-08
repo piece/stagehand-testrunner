@@ -190,17 +190,6 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
      * @access protected
      */
 
-    // }}}
-    // {{{ _format()
-
-    /**
-     * @param string $description
-     */
-    protected function _format($description)
-    {
-        return preg_replace('/spec$/', '', preg_replace('/^describe ?/', '', $description)) . ' ';
-    }
-
     /**#@-*/
 
     /**#@+
