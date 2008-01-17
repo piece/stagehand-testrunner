@@ -111,4 +111,3 @@ class Stagehand_TestRunner_SimpleTestTestCase_SimpleTestPassTestCase extends Uni
  * indent-tabs-mode: nil
  * End:
  */
-?>

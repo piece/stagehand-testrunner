@@ -111,4 +111,3 @@ class Stagehand_TestRunner_PHPUnitErrorTestCase extends PHPUnit_Framework_TestCa
  * indent-tabs-mode: nil
  * End:
  */
-?>

@@ -195,4 +195,3 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
  * indent-tabs-mode: nil
  * End:
  */
-?>

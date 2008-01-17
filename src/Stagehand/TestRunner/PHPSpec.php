@@ -186,4 +186,3 @@ class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
  * indent-tabs-mode: nil
  * End:
  */
-?>

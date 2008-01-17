@@ -352,4 +352,3 @@ abstract class Stagehand_TestRunner_Common
  * indent-tabs-mode: nil
  * End:
  */
-?>

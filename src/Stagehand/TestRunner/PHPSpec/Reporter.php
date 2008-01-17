@@ -261,4 +261,3 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
  * indent-tabs-mode: nil
  * End:
  */
-?>

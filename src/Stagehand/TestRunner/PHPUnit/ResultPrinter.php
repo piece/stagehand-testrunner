@@ -328,4 +328,3 @@ class Stagehand_TestRunner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_ResultPr
  * indent-tabs-mode: nil
  * End:
  */
-?>

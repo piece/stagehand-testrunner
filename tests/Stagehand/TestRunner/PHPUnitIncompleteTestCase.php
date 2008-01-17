@@ -111,4 +111,3 @@ class Stagehand_TestRunner_PHPUnitImcompleteTestCase extends PHPUnit_Framework_T
  * indent-tabs-mode: nil
  * End:
  */
-?>

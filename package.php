@@ -61,7 +61,8 @@ $result = $package->setOptions(array('filelistgenerator' => 'file',
                                      'packagedirectory'  => '.',
                                      'dir_roles'         => array('tests' => 'test',
                                                                   'doc' => 'doc',
-                                                                  'bin' => 'script'),
+                                                                  'bin' => 'script',
+                                                                  'src' => 'php'),
                                      'ignore'            => array('package.php', 'package.xml'))
                                );
 
@@ -111,4 +112,3 @@ exit();
  * indent-tabs-mode: nil
  * End:
  */
-?>

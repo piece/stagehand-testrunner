@@ -111,4 +111,3 @@ class Stagehand_TestRunner_PHPUnitSkippedTestCase extends PHPUnit_Framework_Test
  * indent-tabs-mode: nil
  * End:
  */
-?>

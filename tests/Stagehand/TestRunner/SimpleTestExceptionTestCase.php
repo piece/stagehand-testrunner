@@ -111,4 +111,3 @@ class Stagehand_TestRunner_SimpleTestExceptionTestCase extends UnitTestCase
  * indent-tabs-mode: nil
  * End:
  */
-?>
