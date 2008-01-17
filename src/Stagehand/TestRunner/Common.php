@@ -82,13 +82,13 @@ abstract class Stagehand_TestRunner_Common
      */
 
     // }}}
-    // {{{ constructor
+    // {{{ __construct()
 
     /**
      * @param boolean $color
      * @param boolean $isFile
      */
-    public function Stagehand_TestRunner_Common($color, $isFile)
+    public function __construct($color, $isFile)
     {
         $this->_color = $color;
         $this->_isFile = $isFile;
