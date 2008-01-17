@@ -78,7 +78,7 @@ class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
      */
 
     // }}}
-    // {{{ constructor
+    // {{{ __construct()
 
     /**
      * @param PHPSpec_Runner_Result $result
