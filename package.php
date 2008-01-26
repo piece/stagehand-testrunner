@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2005-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2005-2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2005-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
  * @since      File available since Release 0.1.0
@@ -50,7 +50,8 @@ What\'s New in Stagehand_TestRunner 2.0.0
 
  * PHPSpec Support: Stagehand_TestRunner can now be used with PHPSpec (http://code.google.com/p/phpspec/). If you use PHPSpec 0.2.0devel or greater, use the specrunner script for running tests.
  * Migration to PHP 5: Stagehand_TestRunner now works with PHP 5.0.3 or greater.
- * End of support for PHPUnit 1 and 2: Starting with this release, PHPUnit 1 and 2 are no longer supported.';
+ * End of support for PHPUnit 1 and 2: Starting with this release, PHPUnit 1 and 2 are no longer supported.
+ * New directory structure: The source code of Stagehand_TestRunner is now located in the php_dir/src directory. Please add php_dir/src into your include_path before starting to use this package.';
 
 $package = new PEAR_PackageFileManager2();
 $result = $package->setOptions(array('filelistgenerator' => 'file',
