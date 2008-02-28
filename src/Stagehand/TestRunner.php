@@ -96,7 +96,7 @@ class Stagehand_TestRunner
         $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:');
         if (PEAR::isError($allOptions)) {
             echo 'ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()) . "\n";
-            Stagehand_TestRunner::_displayUsage();
+            self::_displayUsage();
             return 1;
         }
 
@@ -113,10 +113,10 @@ class Stagehand_TestRunner
                 if (is_array($option)) {
                     switch ($option[0]) {
                     case 'h':
-                        Stagehand_TestRunner::_displayUsage();
+                        self::_displayUsage();
                         return 1;
                     case 'V':
-                        Stagehand_TestRunner::_displayVersion();
+                        self::_displayVersion();
                         return 1;
                     case 'R':
                         $isRecursive = true;
