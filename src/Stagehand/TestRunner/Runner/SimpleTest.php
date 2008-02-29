@@ -5,7 +5,7 @@
  * PHP version 5
  *
  * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
- *               2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ *               2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,32 +31,30 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
  * @link       http://simpletest.org/
- * @since      File available since Release 1.1.0
+ * @since      File available since Release 2.1.0
  */
 
-require_once 'Stagehand/TestRunner/Common.php';
-require_once 'simpletest/test_case.php';
+require_once 'Stagehand/TestRunner/IRunner.php';
 require_once 'simpletest/reporter.php';
-require_once 'simpletest/scorer.php';
 
-// {{{ Stagehand_TestRunner_SimpleTest
+// {{{ Stagehand_TestRunner_Runner_SimpleTest
 
 /**
  * A test runner for SimpleTest.
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
  * @link       http://simpletest.org/
- * @since      Class available since Release 1.1.0
+ * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
+class Stagehand_TestRunner_Runner_SimpleTest implements Stagehand_TestRunner_IRunner
 {
 
     // {{{ properties
@@ -71,9 +69,6 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
      * @access protected
      */
 
-    protected $_excludePattern = '!^(UnitTestCase$|PHPUnit)!i';
-    protected $_baseClass = 'UnitTestCase';
-
     /**#@-*/
 
     /**#@+
@@ -86,21 +81,16 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
      * @access public
      */
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     // }}}
-    // {{{ _doRun()
+    // {{{ run()
 
     /**
-     * Runs tests based on the given test suite object.
+     * Runs tests based on the given TestSuite object.
      *
      * @param TestSuite $suite
+     * @param boolean   $color
      */
-    protected function _doRun($suite)
+    public function run($suite, $color)
     {
         $reporter = new TextReporter();
         ob_start();
@@ -108,7 +98,7 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
         $output = ob_get_contents();
         ob_end_clean();
 
-        if ($this->_color) {
+        if ($color) {
             include_once 'Console/Color.php';
             print Console_Color::convert(preg_replace(array('/^(OK.+)/ms',
                                                             '/^(FAILURES!!!.+)/ms',
@@ -127,50 +117,11 @@ class Stagehand_TestRunner_SimpleTest extends Stagehand_TestRunner_Common
         }
     }
 
-    // }}}
-    // {{{ _createTestSuite()
+    /**#@-*/
 
-    /**
-     * Creates a test suite object.
-     *
-     * @return TestSuite
+    /**#@+
+     * @access protected
      */
-    protected function _createTestSuite()
-    {
-        return new TestSuite();
-    }
-
-    // }}}
-    // {{{ _doBuildTestSuite()
-
-    /**
-     * Aggregates a test suite object to an aggregate test suite object.
-     *
-     * @param TestSuite $aggregateSuite
-     * @param TestSuite $suite
-     */
-    protected function _doBuildTestSuite($aggregateSuite, $suite)
-    {
-        if (!$suite->getSize()) {
-            return;
-        }
-
-        $aggregateSuite->addTestCase($suite);
-    }
-
-    // }}}
-    // {{{ _addTestCase()
-
-    /**
-     * Adds a test case to a test suite object.
-     *
-     * @param TestSuite $suite
-     * @param string    $testCase
-     */
-    protected function _addTestCase($suite, $testCase)
-    {
-        $suite->addTestClass($testCase); // TODO NOT addTestCases()?
-    }
 
     /**#@-*/
 

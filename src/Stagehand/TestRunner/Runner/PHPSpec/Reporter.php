@@ -32,11 +32,11 @@
  * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @link       http://www.phpunit.de/
+ * @link       http://www.phpspec.org/
  * @since      File available since Release 2.0.0
  */
 
-// {{{ Stagehand_TestRunner_PHPSpec_Reporter
+// {{{ Stagehand_TestRunner_Runner_PHPSpec_Reporter
 
 /**
  * A reporter for PHPSpec.
@@ -45,10 +45,10 @@
  * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
+ * @link       http://www.phpspec.org/
  * @since      Class available since Release 2.0.0
  */
-class Stagehand_TestRunner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
+class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Reporter_Text
 {
 
     // {{{ properties

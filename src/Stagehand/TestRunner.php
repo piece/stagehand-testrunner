@@ -132,17 +132,22 @@ class Stagehand_TestRunner
             }
         }
 
-        include_once "Stagehand/TestRunner/$testRunnerName.php";
-        $className = "Stagehand_TestRunner_$testRunnerName";
+        include_once "Stagehand/TestRunner/Collector/$testRunnerName.php";
+        $className = "Stagehand_TestRunner_Collector_$testRunnerName";
+        $collector = new $className($directory, $isRecursive);
+
         try {
-            $testRunner = new $className($color, $directory, $isRecursive);
+            $suite = $collector->collect();
         } catch (Stagehand_TestRunner_Exception $e) {
             echo 'ERROR: ' . $e->getMessage() . "\n";
             self::_displayUsage();
             return 1;
         }
 
-        $testRunner->run();
+        include_once "Stagehand/TestRunner/Runner/$testRunnerName.php";
+        $className = "Stagehand_TestRunner_Runner_$testRunnerName";
+        $runner = new $className();
+        $runner->run($suite, $color);
 
         return 0;
     }

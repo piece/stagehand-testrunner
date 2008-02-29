@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,32 +29,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @link       http://www.phpunit.de/
- * @see        PHPUnit_Framework_TestSuite, PHPUnit_TextUI_TestRunner::run()
- * @since      File available since Release 2.0.0
+ * @link       http://www.phpspec.org/
+ * @since      File available since Release 2.1.0
  */
 
-require_once 'Stagehand/TestRunner/Common.php';
+require_once 'Stagehand/TestRunner/IRunner.php';
 require_once 'PHPSpec/Framework.php';
-require_once 'Stagehand/TestRunner/PHPSpec/Reporter.php';
+require_once 'Stagehand/TestRunner/Runner/PHPSpec/Reporter.php';
 
-// {{{ Stagehand_TestRunner_PHPSpec
+// {{{ Stagehand_TestRunner_Runner_PHPSpec
 
 /**
  * A test runner for PHPSpec.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @see        PHPUnit_Framework_TestSuite, PHPUnit_TextUI_TestRunner::run()
- * @since      Class available since Release 2.0.0
+ * @link       http://www.phpspec.org/
+ * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
+class Stagehand_TestRunner_Runner_PHPSpec implements Stagehand_TestRunner_IRunner
 {
 
     // {{{ properties
@@ -69,10 +67,6 @@ class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
      * @access protected
      */
 
-    protected $_baseClass = 'PHPSpec_Context';
-    protected $_suffix = 'Spec';
-    protected $_includePattern = '!(^[Dd]escribe|[Ss]pec$)!';
-
     /**#@-*/
 
     /**#@+
@@ -85,25 +79,19 @@ class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
      * @access public
      */
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     // }}}
-    // {{{ _doRun()
+    // {{{ run()
 
     /**
-     * Runs tests based on the given test suite ArrayObject.
+     * Runs tests based on the given ArrayObject object.
      *
      * @param ArrayObject $suite
-     * @return stdClass
+     * @param boolean     $color
      */
-    protected function _doRun($suite)
+    public function run($suite, $color)
     {
         $result = new PHPSpec_Runner_Result();
-        $reporter = new Stagehand_TestRunner_PHPSpec_Reporter($result, $this->_color);
+        $reporter = new Stagehand_TestRunner_Runner_PHPSpec_Reporter($result, $color);
         $result->setReporter($reporter);
 
         $result->setRuntimeStart(microtime(true));
@@ -116,52 +104,11 @@ class Stagehand_TestRunner_PHPSpec extends Stagehand_TestRunner_Common
         $reporter->output(true);
     }
 
-    // }}}
-    // {{{ _createTestSuite()
+    /**#@-*/
 
-    /**
-     * Creates a test suite ArrayObject.
-     *
-     * @return ArrayObject
+    /**#@+
+     * @access protected
      */
-    protected function _createTestSuite()
-    {
-        return new ArrayObject();
-    }
-
-    // }}}
-    // {{{ _doBuildTestSuite()
-
-    /**
-     * Aggregates a test suite ArrayObject to an aggregate test suite ArrayObject.
-     *
-     * @param ArrayObject $aggregateSuite
-     * @param ArrayObject $suite
-     */
-    protected function _doBuildTestSuite($aggregateSuite, $suite)
-    {
-        if (!count($suite)) {
-            return;
-        }
-
-        foreach ($suite as $testCase) {
-            $aggregateSuite->append($testCase);
-        }
-    }
-
-    // }}}
-    // {{{ _addTestCase()
-
-    /**
-     * Adds a test case to a test suite ArrayObject.
-     *
-     * @param ArrayObject $suite
-     * @param string      $testCase
-     */
-    protected function _addTestCase($suite, $testCase)
-    {
-        $suite[] = $testCase;
-    }
 
     /**#@-*/
 

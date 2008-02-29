@@ -32,23 +32,23 @@
  * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 1.1.0
+ * @since      File available since Release 2.1.0
  */
 
 require_once 'Stagehand/TestRunner/Exception.php';
 
-// {{{ Stagehand_TestRunner_Common
+// {{{ Stagehand_TestRunner_Collector_Common
 
 /**
- * The base class for test runners.
+ * The base class for test collectors.
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 1.1.0
+ * @since      Class available since Release 2.1.0
  */
-abstract class Stagehand_TestRunner_Common
+abstract class Stagehand_TestRunner_Collector_Common
 {
 
     // {{{ properties
@@ -66,7 +66,6 @@ abstract class Stagehand_TestRunner_Common
     protected $_excludePattern;
     protected $_baseClass;
     protected $_suffix = 'TestCase';
-    protected $_color;
     protected $_includePattern;
 
     /**#@-*/
@@ -75,7 +74,8 @@ abstract class Stagehand_TestRunner_Common
      * @access private
      */
 
-    private $_suite;
+    private $_targetPath;
+    private $_isRecursive;
 
     /**#@-*/
 
@@ -87,31 +87,46 @@ abstract class Stagehand_TestRunner_Common
     // {{{ __construct()
 
     /**
-     * @param boolean $color
+     * Initializes some properties of an instance.
+     *
      * @param string  $targetPath
      * @param boolean $isRecursive
+     */
+    public function __construct($targetPath, $isRecursive)
+    {
+        $this->_targetPath = $targetPath;
+        $this->_isRecursive = $isRecursive;
+    }
+
+    // }}}
+    // {{{ collect()
+
+    /**
+     * Collects test cases.
+     *
+     * @return mixed
      * @throws Stagehand_TestRunner_Exception
      */
-    public function __construct($color, $targetPath, $isRecursive)
+    public function collect()
     {
-        if (is_null($targetPath)) {
+        if (is_null($this->_targetPath)) {
             $absoluteTargetPath = getcwd();
         } else {
-            if (!file_exists($targetPath)) {
-                if (preg_match("/{$this->_suffix}\.php\$/", $targetPath)) {
-                    throw new Stagehand_TestRunner_Exception("The directory or file [ $targetPath ] is not found.");
+            if (!file_exists($this->_targetPath)) {
+                if (preg_match("/{$this->_suffix}\.php\$/", $this->_targetPath)) {
+                    throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->_targetPath} ] is not found.");
                 }
 
-                $targetPath = "$targetPath{$this->_suffix}.php";
+                $this->_targetPath = "{$this->_targetPath}{$this->_suffix}.php";
             }
 
-            $absoluteTargetPath = realpath($targetPath);
+            $absoluteTargetPath = realpath($this->_targetPath);
             if ($absoluteTargetPath === false) {
-                throw new Stagehand_TestRunner_Exception("The directory or file [ $targetPath ] is not found.");
+                throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->_targetPath} ] is not found.");
             }
         }
 
-        if (is_dir($absoluteTargetPath) && $isRecursive) {
+        if (is_dir($absoluteTargetPath) && $this->_isRecursive) {
             $suite = $this->_createTestSuite();
             $directories = $this->_getDirectories($absoluteTargetPath);
             for ($i = 0, $count = count($directories); $i < $count; ++$i) {
@@ -121,21 +136,7 @@ abstract class Stagehand_TestRunner_Common
             $suite = $this->_buildTestSuite($this->_createTestSuite(), $absoluteTargetPath);
         }
 
-        $this->_suite = $suite;
-        $this->_color = $color;
-    }
-
-    // }}}
-    // {{{ run()
-
-    /**
-     * Runs tests in the directory.
-     *
-     * @return stdClass
-     */
-    public function run()
-    {
-        return $this->_doRun($this->_suite);
+        return $suite;
     }
 
     /**#@-*/
@@ -143,18 +144,6 @@ abstract class Stagehand_TestRunner_Common
     /**#@+
      * @access protected
      */
-
-    // }}}
-    // {{{ _doRun()
-
-    /**
-     * Runs tests based on the given test suite object.
-     *
-     * @param mixed $suite
-     * @return stdClass
-     * @abstract
-     */
-    abstract protected function _doRun($suite);
 
     // }}}
     // {{{ _createTestSuite()
