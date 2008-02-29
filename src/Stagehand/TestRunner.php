@@ -136,18 +136,8 @@ class Stagehand_TestRunner
 
         include_once "Stagehand/TestRunner/$testRunnerName.php";
         $className = "Stagehand_TestRunner_$testRunnerName";
-        $testRunner = new $className($color, $isFile);
-
-        if (!$isRecursive) {
-            if (is_null($directory)) {
-                $directory = getcwd();
-            }
-
-            $testRunner->run($directory);
-        } else {
-            $directory = getcwd();
-            $testRunner->runRecursively($directory);
-        }
+        $testRunner = new $className($color, $isFile, $directory, $isRecursive);
+        $testRunner->run();
 
         return 0;
     }

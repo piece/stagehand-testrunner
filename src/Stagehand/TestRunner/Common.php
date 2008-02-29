@@ -74,6 +74,8 @@ abstract class Stagehand_TestRunner_Common
      */
 
     private $_isFile;
+    private $_directory;
+    private $_isRecursive;
 
     /**#@-*/
 
@@ -87,11 +89,24 @@ abstract class Stagehand_TestRunner_Common
     /**
      * @param boolean $color
      * @param boolean $isFile
+     * @param string  $directory
+     * @param boolean $isRecursive
      */
-    public function __construct($color, $isFile)
+    public function __construct($color, $isFile, $directory, $isRecursive)
     {
+        if ($isRecursive || is_null($directory)) {
+            $directory = getcwd();
+        }
+
+        if ($isFile) {
+            if (!preg_match("/{$this->_suffix}\.php\$/", $directory)) {
+                $directory = "$directory{$this->_suffix}.php";
+            }
+        }
+
+        $this->_directory = $directory;
         $this->_color = $color;
-        $this->_isFile = $isFile;
+        $this->_isRecursive = $isRecursive;
     }
 
     // }}}
@@ -100,35 +115,18 @@ abstract class Stagehand_TestRunner_Common
     /**
      * Runs tests in the directory.
      *
-     * @param string $directory
      * @return stdClass
      */
-    public function run($directory)
+    public function run()
     {
-        if ($this->_isFile) {
-            if (!preg_match("/{$this->_suffix}\.php\$/", $directory)) {
-                $directory = "$directory{$this->_suffix}.php";
+        if ($this->_isRecursive) {
+            $suite = $this->_createTestSuite();
+            $directories = $this->_getDirectories($this->_directory);
+            for ($i = 0, $count = count($directories); $i < $count; ++$i) {
+                $this->_buildTestSuite($suite, $directories[$i]);
             }
-        }
-
-        return $this->_doRun($this->_buildTestSuite($this->_createTestSuite(), $directory));
-    }
-
-    // }}}
-    // {{{ runRecursively()
-
-    /**
-     * Runs tests under the directory recursively.
-     *
-     * @param string $directory
-     * @return stdClass
-     */
-    public function runRecursively($directory)
-    {
-        $suite = $this->_createTestSuite();
-        $directories = $this->_getDirectories($directory);
-        for ($i = 0, $count = count($directories); $i < $count; ++$i) {
-            $this->_buildTestSuite($suite, $directories[$i]);
+        } else {
+            $suite = $this->_buildTestSuite($this->_createTestSuite(), $this->_directory);
         }
 
         return $this->_doRun($suite);
