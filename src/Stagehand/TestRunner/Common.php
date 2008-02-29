@@ -35,6 +35,8 @@
  * @since      File available since Release 1.1.0
  */
 
+require_once 'Stagehand/TestRunner/Exception.php';
+
 // {{{ Stagehand_TestRunner_Common
 
 /**
@@ -73,8 +75,7 @@ abstract class Stagehand_TestRunner_Common
      * @access private
      */
 
-    private $_isFile;
-    private $_directory;
+    private $_targetPath;
     private $_isRecursive;
 
     /**#@-*/
@@ -88,25 +89,32 @@ abstract class Stagehand_TestRunner_Common
 
     /**
      * @param boolean $color
-     * @param boolean $isFile
-     * @param string  $directory
+     * @param string  $targetPath
      * @param boolean $isRecursive
+     * @throws Stagehand_TestRunner_Exception
      */
-    public function __construct($color, $isFile, $directory, $isRecursive)
+    public function __construct($color, $targetPath, $isRecursive)
     {
-        if ($isRecursive || is_null($directory)) {
-            $directory = getcwd();
-        }
+        if (is_null($targetPath)) {
+            $absoluteTargetPath = getcwd();
+        } else {
+            if (!file_exists($targetPath)) {
+                if (preg_match("/{$this->_suffix}\.php\$/", $targetPath)) {
+                    throw new Stagehand_TestRunner_Exception("The directory or file [ $targetPath ] is not found.");
+                }
 
-        if ($isFile) {
-            if (!preg_match("/{$this->_suffix}\.php\$/", $directory)) {
-                $directory = "$directory{$this->_suffix}.php";
+                $targetPath = "$targetPath{$this->_suffix}.php";
+            }
+
+            $absoluteTargetPath = realpath($targetPath);
+            if ($absoluteTargetPath === false) {
+                throw new Stagehand_TestRunner_Exception("The directory or file [ $targetPath ] is not found.");
             }
         }
 
-        $this->_directory = $directory;
+        $this->_targetPath = $absoluteTargetPath;
         $this->_color = $color;
-        $this->_isRecursive = $isRecursive;
+        $this->_isRecursive = is_dir($absoluteTargetPath) && $isRecursive;
     }
 
     // }}}
@@ -121,12 +129,12 @@ abstract class Stagehand_TestRunner_Common
     {
         if ($this->_isRecursive) {
             $suite = $this->_createTestSuite();
-            $directories = $this->_getDirectories($this->_directory);
+            $directories = $this->_getDirectories($this->_targetPath);
             for ($i = 0, $count = count($directories); $i < $count; ++$i) {
                 $this->_buildTestSuite($suite, $directories[$i]);
             }
         } else {
-            $suite = $this->_buildTestSuite($this->_createTestSuite(), $this->_directory);
+            $suite = $this->_buildTestSuite($this->_createTestSuite(), $this->_targetPath);
         }
 
         return $this->_doRun($suite);

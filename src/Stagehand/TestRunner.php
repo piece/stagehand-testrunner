@@ -103,7 +103,6 @@ class Stagehand_TestRunner
         $directory = null;
         $isRecursive = false;
         $color = false;
-        $isFile = false;
         foreach ($allOptions as $options) {
             if (!count($options)) {
                 continue;
@@ -129,14 +128,20 @@ class Stagehand_TestRunner
                     }
                 } else {
                     $directory = $option;
-                    $isFile = true;
                 }
             }
         }
 
         include_once "Stagehand/TestRunner/$testRunnerName.php";
         $className = "Stagehand_TestRunner_$testRunnerName";
-        $testRunner = new $className($color, $isFile, $directory, $isRecursive);
+        try {
+            $testRunner = new $className($color, $directory, $isRecursive);
+        } catch (Stagehand_TestRunner_Exception $e) {
+            echo 'ERROR: ' . $e->getMessage() . "\n";
+            self::_displayUsage();
+            return 1;
+        }
+
         $testRunner->run();
 
         return 0;
@@ -163,7 +168,7 @@ class Stagehand_TestRunner
      */
     private static function _displayUsage()
     {
-        echo "Usage: {$_SERVER['SCRIPT_NAME']} [options] [testcase]
+        echo "Usage: {$_SERVER['SCRIPT_NAME']} [options] [directory or file]
 
 Options:
   -h        display this help and exit
@@ -172,7 +177,7 @@ Options:
   -c        color the result of a test runner run
   -p <file> preload <file> as a PHP script
 
-With no [testcase], run all tests in the current directory.
+With no [directory or file], run all tests in the current directory.
 ";
     }
 
