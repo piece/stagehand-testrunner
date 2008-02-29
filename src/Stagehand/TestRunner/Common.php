@@ -75,8 +75,7 @@ abstract class Stagehand_TestRunner_Common
      * @access private
      */
 
-    private $_targetPath;
-    private $_isRecursive;
+    private $_suite;
 
     /**#@-*/
 
@@ -112,9 +111,18 @@ abstract class Stagehand_TestRunner_Common
             }
         }
 
-        $this->_targetPath = $absoluteTargetPath;
+        if (is_dir($absoluteTargetPath) && $isRecursive) {
+            $suite = $this->_createTestSuite();
+            $directories = $this->_getDirectories($absoluteTargetPath);
+            for ($i = 0, $count = count($directories); $i < $count; ++$i) {
+                $this->_buildTestSuite($suite, $directories[$i]);
+            }
+        } else {
+            $suite = $this->_buildTestSuite($this->_createTestSuite(), $absoluteTargetPath);
+        }
+
+        $this->_suite = $suite;
         $this->_color = $color;
-        $this->_isRecursive = is_dir($absoluteTargetPath) && $isRecursive;
     }
 
     // }}}
@@ -127,17 +135,7 @@ abstract class Stagehand_TestRunner_Common
      */
     public function run()
     {
-        if ($this->_isRecursive) {
-            $suite = $this->_createTestSuite();
-            $directories = $this->_getDirectories($this->_targetPath);
-            for ($i = 0, $count = count($directories); $i < $count; ++$i) {
-                $this->_buildTestSuite($suite, $directories[$i]);
-            }
-        } else {
-            $suite = $this->_buildTestSuite($this->_createTestSuite(), $this->_targetPath);
-        }
-
-        return $this->_doRun($suite);
+        return $this->_doRun($this->_suite);
     }
 
     /**#@-*/
