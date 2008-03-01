@@ -93,7 +93,7 @@ class Stagehand_TestRunner
 
         $argv = Console_Getopt::readPHPArgv();
         array_shift($argv);
-        $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:');
+        $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:a');
         if (PEAR::isError($allOptions)) {
             echo 'ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()) . "\n";
             self::_displayUsage();
@@ -103,6 +103,9 @@ class Stagehand_TestRunner
         $directory = null;
         $isRecursive = false;
         $color = false;
+        $enableAutotest = false;
+        $preload = false;
+        $preloadFile = null;
         foreach ($allOptions as $options) {
             if (!count($options)) {
                 continue;
@@ -125,6 +128,13 @@ class Stagehand_TestRunner
                             $color = true;
                         }
                         break;
+                    case 'p':
+                        $preload = true;
+                        $preloadFile = $option[1];
+                        break;
+                    case 'a':
+                        $enableAutotest = true;
+                        break;
                     }
                 } else {
                     $directory = $option;
@@ -132,22 +142,111 @@ class Stagehand_TestRunner
             }
         }
 
-        include_once "Stagehand/TestRunner/Collector/$testRunnerName.php";
-        $className = "Stagehand_TestRunner_Collector_$testRunnerName";
-        $collector = new $className($directory, $isRecursive);
+        if (!$enableAutotest) {
+            include_once "Stagehand/TestRunner/Collector/$testRunnerName.php";
+            $className = "Stagehand_TestRunner_Collector_$testRunnerName";
+            $collector = new $className($directory, $isRecursive);
 
-        try {
-            $suite = $collector->collect();
-        } catch (Stagehand_TestRunner_Exception $e) {
-            echo 'ERROR: ' . $e->getMessage() . "\n";
-            self::_displayUsage();
-            return 1;
+            try {
+                $suite = $collector->collect();
+            } catch (Stagehand_TestRunner_Exception $e) {
+                echo 'ERROR: ' . $e->getMessage() . "\n";
+                self::_displayUsage();
+                return 1;
+            }
+
+            include_once "Stagehand/TestRunner/Runner/$testRunnerName.php";
+            $className = "Stagehand_TestRunner_Runner_$testRunnerName";
+            $runner = new $className();
+            $runner->run($suite, $color);
+        } else {
+            if (php_uname('s') !== 'Windows NT') {
+                echo "ERROR: -a option is not supported for your platform.\n";
+                self::_displayUsage();
+                return 1;
+            }
+
+            $directory = realpath($directory);
+            if ($directory === false || !is_dir($directory)) {
+                echo "ERROR: The specified path [ $directory ] is not found or not a directory.\n";
+                self::_displayUsage();
+                return 1;
+            }
+
+            if (array_key_exists('_', $_SERVER)) {
+                $command = $_SERVER['_'];
+            } else {
+                $command = $_SERVER['argv'][0];
+            }
+
+            $options = array();
+            if (preg_match('!^/cygdrive/([a-z])/(.+)!', $command, $matches)) {
+                $command = "{$matches[1]}:\\" . str_replace('/', '\\', $matches[2]);
+            }
+
+            if (preg_match('/\.bat$/', $command)) {
+                $command = str_replace('/', '\\', $command);
+            }
+
+            if (!preg_match('/(?:test|spec)runner(?:\.bat)?$/', $command)) {
+                $configFile = get_cfg_var('cfg_file_path');
+                if ($configFile !== false) {
+                    $options[] = '-c';
+                    $options[] = dirname($configFile);
+                }
+
+                $options[] = $_SERVER['argv'][0];
+            }
+
+            $options[] = '-R';
+
+            if ($preload) {
+                $options[] = "-p $preloadFile";
+            }
+
+            if ($color) {
+                $options[] = '-c';
+            }
+
+            $options[] = $directory;
+
+            define('FILE_NOTIFY_CHANGE_FILE_NAME',    0x00000001);
+            define('FILE_NOTIFY_CHANGE_DIR_NAME',     0x00000002);
+            define('FILE_NOTIFY_CHANGE_ATTRIBUTES',   0x00000004);
+            define('FILE_NOTIFY_CHANGE_SIZE',         0x00000008);
+            define('FILE_NOTIFY_CHANGE_LAST_WRITE',   0x00000010);
+            define('FILE_NOTIFY_CHANGE_LAST_ACCESS',  0x00000020);
+            define('FILE_NOTIFY_CHANGE_CREATION',     0x00000040);
+            define('FILE_NOTIFY_CHANGE_EA',           0x00000080);
+            define('FILE_NOTIFY_CHANGE_SECURITY',     0x00000100);
+            define('FILE_NOTIFY_CHANGE_STREAM_NAME',  0x00000200);
+            define('FILE_NOTIFY_CHANGE_STREAM_SIZE',  0x00000400);
+            define('FILE_NOTIFY_CHANGE_STREAM_WRITE', 0x00000800);
+            define('INFINITE', 0xffffffff);
+
+            $kernel32 = wb_load_library('kernel32.dll');
+            while (true) {
+                $h1 = wb_call_function(wb_get_function_address('FindFirstChangeNotification', $kernel32),
+                                       array($directory,
+                                             1,
+                                             FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_ATTRIBUTES | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_EA | FILE_NOTIFY_CHANGE_SECURITY)
+                                       );
+
+                print "Waiting for changes in the directory [ $directory ] ...\n";
+                $h2 = wb_call_function(wb_get_function_address('WaitForSingleObject', $kernel32),
+                                       array($h1, INFINITE)
+                                       );
+                passthru("$command " . implode(' ', $options), $result);
+
+                $h3 = wb_call_function(wb_get_function_address('FindCloseChangeNotification', $kernel32),
+                                       array($h1)
+                                       );
+
+                if ($result !== 0) {
+                    return 1;
+                }
+            }
         }
-
-        include_once "Stagehand/TestRunner/Runner/$testRunnerName.php";
-        $className = "Stagehand_TestRunner_Runner_$testRunnerName";
-        $runner = new $className();
-        $runner->run($suite, $color);
 
         return 0;
     }
@@ -181,6 +280,8 @@ Options:
   -R        run tests recursively
   -c        color the result of a test runner run
   -p <file> preload <file> as a PHP script
+  -a        watch for changes in a specified directory and run all tests in
+            the directory recursively when changes are detected (autotest)
 
 With no [directory or file], run all tests in the current directory.
 ";
