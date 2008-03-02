@@ -205,14 +205,10 @@ class Stagehand_TestRunner
 
             $options[] = $directory;
 
-            $monitor = new Stagehand_TestRunner_AlterationMonitor($directory, "$command " . implode(' ', $options));
-
-            try {
-                $monitor->monitor();
-            } catch (Stagehand_TestRunner_Exception $e) {
-                echo 'ERROR: ' . $e->getMessage() . "\n";
-                return 1;
-            }
+            $monitor = new Stagehand_TestRunner_AlterationMonitor($directory,
+                                                                  "$command " . implode(' ', $options)
+                                                                  );
+            $monitor->monitor();
         }
 
         return 0;
