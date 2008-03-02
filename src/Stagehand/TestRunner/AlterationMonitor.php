@@ -41,6 +41,8 @@ require_once 'Stagehand/TestRunner/Exception.php';
 // {{{ Stagehand_TestRunner_AlterationMonitor
 
 /**
+ * The file and directory alteration monitor.
+ *
  * @package    Stagehand_TestRunner
  * @copyright  2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
@@ -92,6 +94,8 @@ class Stagehand_TestRunner_AlterationMonitor
     // {{{ __construct()
 
     /**
+     * Sets a directory and command string to the properties.
+     *
      * @param string $directory
      * @param string $command
      */
@@ -105,6 +109,8 @@ class Stagehand_TestRunner_AlterationMonitor
     // {{{ monitor()
 
     /**
+     * Watches for changes in the directory and runs tests in the directory
+     * recursively when changes are detected.
      */
     public function monitor()
     {
@@ -114,7 +120,7 @@ class Stagehand_TestRunner_AlterationMonitor
             print "\nWaiting for changes in the directory [ {$this->_directory} ] ...\n";
             $this->_waitForChanges();
 
-            print "Any changes are detected! Running tests ...\n";
+            print "Any changes are detected! Running tests ...\n\n";
             $this->_runTests();
         }
     }
@@ -135,21 +141,59 @@ class Stagehand_TestRunner_AlterationMonitor
     // {{{ _runTests()
 
     /**
-     * @throws Stagehand_TestRunner_Exception
+     * Runs tests in the directory recursively.
      */
     private function _runTests()
     {
-/*         passthru($this->_command, $result); */
         passthru($this->_command, $result);
-/*         if ($result !== 0) { */
-/*             throw new Stagehand_TestRunner_Exception(); */
-/*         } */
+    }
+
+    // }}}
+    // {{{ _waitForChanges()
+
+    /**
+     * Watches for changes in the directory and returns immediately when
+     * changes are detected.
+     */
+    private function _waitForChanges()
+    {
+        $this->_previousElements = array();
+        $this->_isFirstTime = true;
+
+        while (true) {
+            sleep(5);
+            clearstatcache();
+
+            try {
+                $this->_currentElements = array();
+                $this->_collectElements($this->_directory);
+            } catch (Stagehand_TestRunner_Exception $e) {
+                return;
+            }
+
+            if (!$this->_isFirstTime) {
+                reset($this->_previousElements);
+                while (list($key, $value) = each($this->_previousElements)) {
+                    if (!array_key_exists($key, $this->_currentElements)) {
+                        return;
+                    }
+                }
+            }
+
+            $this->_previousElements = $this->_currentElements;
+            $this->_isFirstTime = false;
+        }
     }
 
     // }}}
     // {{{ _collectElements()
 
     /**
+     * Collects all files and directories in the directory and detects any
+     * changes of a file or directory immediately.
+     *
+     * @param string $directory
+     * @throws Stagehand_TestRunner_Exception
      */
     private function _collectElements($directory)
     {
@@ -193,41 +237,6 @@ class Stagehand_TestRunner_AlterationMonitor
             if (is_dir($element)) {
                 $this->_collectElements($element);
             }
-        }
-    }
-
-    // }}}
-    // {{{ _waitForChanges()
-
-    /**
-     */
-    private function _waitForChanges()
-    {
-        $this->_previousElements = array();
-        $this->_isFirstTime = true;
-
-        while (true) {
-            sleep(5);
-            clearstatcache();
-
-            try {
-                $this->_currentElements = array();
-                $this->_collectElements($this->_directory);
-            } catch (Stagehand_TestRunner_Exception $e) {
-                return;
-            }
-
-            if (!$this->_isFirstTime) {
-                reset($this->_previousElements);
-                while (list($key, $value) = each($this->_previousElements)) {
-                    if (!array_key_exists($key, $this->_currentElements)) {
-                        return;
-                    }
-                }
-            }
-
-            $this->_previousElements = $this->_currentElements;
-            $this->_isFirstTime = false;
         }
     }
 
