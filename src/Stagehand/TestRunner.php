@@ -37,6 +37,7 @@
 
 require_once 'Console/Getopt.php';
 require_once 'Stagehand/TestRunner/AlterationMonitor.php';
+require_once 'Stagehand/TestRunner/Exception.php';
 
 // {{{ Stagehand_TestRunner
 
@@ -92,129 +93,21 @@ class Stagehand_TestRunner
             return 1;
         }
 
-        $argv = Console_Getopt::readPHPArgv();
-        array_shift($argv);
-        $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:a');
-        if (PEAR::isError($allOptions)) {
-            echo 'ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()) . "\n";
+        try {
+            $config = self::_parseOptions();
+            if (is_null($config)) {
+                return 1;
+            }
+
+            if (!$config->enableAutotest) {
+                self::_runTests($testRunnerName, $config);
+            } else {
+                self::_monitorAlteration($config);
+            }
+        } catch (Stagehand_TestRunner_Exception $e) {
+            echo 'ERROR: ' . $e->getMessage() . "\n";
             self::_displayUsage();
             return 1;
-        }
-
-        $directory = null;
-        $isRecursive = false;
-        $color = false;
-        $enableAutotest = false;
-        $preload = false;
-        $preloadFile = null;
-        foreach ($allOptions as $options) {
-            if (!count($options)) {
-                continue;
-            }
-
-            foreach ($options as $option) {
-                if (is_array($option)) {
-                    switch ($option[0]) {
-                    case 'h':
-                        self::_displayUsage();
-                        return 1;
-                    case 'V':
-                        self::_displayVersion();
-                        return 1;
-                    case 'R':
-                        $isRecursive = true;
-                        break;
-                    case 'c':
-                        if (@include_once 'Console/Color.php') {
-                            $color = true;
-                        }
-                        break;
-                    case 'p':
-                        $preload = true;
-                        $preloadFile = $option[1];
-                        break;
-                    case 'a':
-                        $enableAutotest = true;
-                        break;
-                    }
-                } else {
-                    $directory = $option;
-                }
-            }
-        }
-
-        if (!$enableAutotest) {
-            include_once "Stagehand/TestRunner/Collector/$testRunnerName.php";
-            $className = "Stagehand_TestRunner_Collector_$testRunnerName";
-            $collector = new $className($directory, $isRecursive);
-
-            try {
-                $suite = $collector->collect();
-            } catch (Stagehand_TestRunner_Exception $e) {
-                echo 'ERROR: ' . $e->getMessage() . "\n";
-                self::_displayUsage();
-                return 1;
-            }
-
-            include_once "Stagehand/TestRunner/Runner/$testRunnerName.php";
-            $className = "Stagehand_TestRunner_Runner_$testRunnerName";
-            $runner = new $className();
-            $runner->run($suite, $color);
-        } else {
-            if (!is_dir($directory)) {
-                echo "ERROR: The specified path [ $directory ] is not found or not a directory.\n";
-                self::_displayUsage();
-                return 1;
-            }
-
-            $directory = realpath($directory);
-            if ($directory === false) {
-                echo "ERROR: Cannnot get the absolute path of the specified directory [ $directory ]. Make sure all elements of the absolute path have valid permissions.";
-                self::_displayUsage();
-                return 1;
-            }
-
-            if (array_key_exists('_', $_SERVER)) {
-                $command = $_SERVER['_'];
-            } else {
-                $command = $_SERVER['argv'][0];
-            }
-
-            $options = array();
-            if (preg_match('!^/cygdrive/([a-z])/(.+)!', $command, $matches)) {
-                $command = "{$matches[1]}:\\" . str_replace('/', '\\', $matches[2]);
-            }
-
-            if (preg_match('/\.bat$/', $command)) {
-                $command = str_replace('/', '\\', $command);
-            }
-
-            if (!preg_match('/(?:test|spec)runner(?:\.bat)?$/', $command)) {
-                $configFile = get_cfg_var('cfg_file_path');
-                if ($configFile !== false) {
-                    $options[] = '-c';
-                    $options[] = dirname($configFile);
-                }
-
-                $options[] = $_SERVER['argv'][0];
-            }
-
-            $options[] = '-R';
-
-            if ($preload) {
-                $options[] = "-p $preloadFile";
-            }
-
-            if ($color) {
-                $options[] = '-c';
-            }
-
-            $options[] = $directory;
-
-            $monitor = new Stagehand_TestRunner_AlterationMonitor($directory,
-                                                                  "$command " . implode(' ', $options)
-                                                                  );
-            $monitor->monitor();
         }
 
         return 0;
@@ -249,8 +142,7 @@ Options:
   -R        run tests recursively
   -c        color the result of a test runner run
   -p <file> preload <file> as a PHP script
-  -a        watch for changes in a specified directory and run tests in
-            the directory recursively when changes are detected (autotest)
+  -a        watch for changes in a specified directory and run tests in the directory recursively when changes are detected (autotest)
 
 With no [directory or file], run all tests in the current directory.
 ";
@@ -270,6 +162,161 @@ Copyright (c) 2005-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>,
               2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
 All rights reserved.
 ";
+    }
+
+    // }}}
+    // {{{ _monitorAlteration()
+
+    /**
+     * Watches for changes in the directory and runs tests in the directory
+     * recursively when changes are detected.
+     *
+     * @param stdClass $config
+     * @throws Stagehand_TestRunner_Exception
+     */
+    private static function _monitorAlteration($config)
+    {
+        if (!is_dir($config->directory)) {
+            throw new Stagehand_TestRunner_Exception("ERROR: The specified path [ {$config->directory} ] is not found or not a directory.");
+        }
+
+        $config->directory = realpath($config->directory);
+        if ($config->directory === false) {
+            throw new Stagehand_TestRunner_Exception("ERROR: Cannnot get the absolute path of the specified directory [ {$config->directory} ]. Make sure all elements of the absolute path have valid permissions.");
+        }
+
+        if (array_key_exists('_', $_SERVER)) {
+            $command = $_SERVER['_'];
+        } else {
+            $command = $_SERVER['argv'][0];
+        }
+
+        $options = array();
+        if (preg_match('!^/cygdrive/([a-z])/(.+)!', $command, $matches)) {
+            $command = "{$matches[1]}:\\" . str_replace('/', '\\', $matches[2]);
+        }
+
+        if (preg_match('/\.bat$/', $command)) {
+            $command = str_replace('/', '\\', $command);
+        }
+
+        if (!preg_match('/(?:test|spec)runner(?:\.bat)?$/', $command)) {
+            $configFile = get_cfg_var('cfg_file_path');
+            if ($configFile !== false) {
+                $options[] = '-c';
+                $options[] = dirname($configFile);
+            }
+
+            $options[] = $_SERVER['argv'][0];
+        }
+
+        $options[] = '-R';
+
+        if ($config->preload) {
+            $options[] = "-p {$config->preloadFile}";
+        }
+
+        if ($config->color) {
+            $options[] = '-c';
+        }
+
+        $options[] = $config->directory;
+
+        $monitor = new Stagehand_TestRunner_AlterationMonitor($config->directory,
+                                                              "$command " . implode(' ', $options)
+                                                              );
+        $monitor->monitor();
+    }
+
+    // }}}
+    // {{{ _parseOptions()
+
+    /**
+     * Parses the command line options and creates a configuration object.
+     *
+     * @return stdClass
+     * @throws Stagehand_TestRunner_Exception
+     */
+    private static function _parseOptions()
+    {
+        $argv = Console_Getopt::readPHPArgv();
+        array_shift($argv);
+        $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:a');
+        if (PEAR::isError($allOptions)) {
+            throw new Stagehand_TestRunner_Exception('ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()));
+        }
+
+        $directory = null;
+        $isRecursive = false;
+        $color = false;
+        $enableAutotest = false;
+        $preload = false;
+        $preloadFile = null;
+        foreach ($allOptions as $options) {
+            if (!count($options)) {
+                continue;
+            }
+
+            foreach ($options as $option) {
+                if (is_array($option)) {
+                    switch ($option[0]) {
+                    case 'h':
+                        self::_displayUsage();
+                        return;
+                    case 'V':
+                        self::_displayVersion();
+                        return;
+                    case 'R':
+                        $isRecursive = true;
+                        break;
+                    case 'c':
+                        if (@include_once 'Console/Color.php') {
+                            $color = true;
+                        }
+                        break;
+                    case 'p':
+                        $preload = true;
+                        $preloadFile = $option[1];
+                        break;
+                    case 'a':
+                        $enableAutotest = true;
+                        break;
+                    }
+                } else {
+                    $directory = $option;
+                }
+            }
+        }
+
+        return (object)array('directory' => $directory,
+                             'isRecursive' => $isRecursive,
+                             'color' => $color,
+                             'enableAutotest' => $enableAutotest,
+                             'preload' => $preload,
+                             'preloadFile' => $preloadFile
+                             );
+    }
+
+    // }}}
+    // {{{ _runTests()
+
+    /**
+     * Runs tests.
+     *
+     * @param string $testRunnerName
+     * @param stdClass $config
+     */
+    private static function _runTests($testRunnerName, $config)
+    {
+        include_once "Stagehand/TestRunner/Collector/$testRunnerName.php";
+        $className = "Stagehand_TestRunner_Collector_$testRunnerName";
+        $collector = new $className($config->directory, $config->isRecursive);
+        $suite = $collector->collect();
+
+        include_once "Stagehand/TestRunner/Runner/$testRunnerName.php";
+        $className = "Stagehand_TestRunner_Runner_$testRunnerName";
+        $runner = new $className();
+        $runner->run($suite, $config->color);
     }
 
     /**#@-*/
