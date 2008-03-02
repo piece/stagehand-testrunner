@@ -161,9 +161,15 @@ class Stagehand_TestRunner
             $runner = new $className();
             $runner->run($suite, $color);
         } else {
-            $directory = realpath($directory);
-            if ($directory === false || !is_dir($directory)) {
+            if (!is_dir($directory)) {
                 echo "ERROR: The specified path [ $directory ] is not found or not a directory.\n";
+                self::_displayUsage();
+                return 1;
+            }
+
+            $directory = realpath($directory);
+            if ($directory === false) {
+                echo "ERROR: Cannnot get the absolute path of the specified directory [ $directory ]. Make sure all elements of the absolute path have valid permissions.";
                 self::_displayUsage();
                 return 1;
             }
