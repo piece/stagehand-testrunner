@@ -76,6 +76,13 @@ abstract class Stagehand_TestRunner_Collector_Common
 
     private $_targetPath;
     private $_isRecursive;
+    private $_excludePatterns = array('!^CVS$!',
+                                      '!^.svn!',
+                                      '!\.swp$!',
+                                      '!~$!',
+                                      '!\.bak$!',
+                                      '!^#.+#$!'
+                                      );
 
     /**#@-*/
 
@@ -315,6 +322,12 @@ abstract class Stagehand_TestRunner_Collector_Common
         for ($i = 0, $count = count($files); $i < $count; ++$i) {
             if ($files[$i] == '.' || $files[$i] == '..') {
                 continue;
+            }
+
+            foreach ($this->_excludePatterns as $excludePattern) {
+                if (preg_match($excludePattern, $files[$i])) {
+                    continue 2;
+                }
             }
 
             $next = $directory . DIRECTORY_SEPARATOR . $files[$i];
