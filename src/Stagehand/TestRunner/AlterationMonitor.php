@@ -53,6 +53,11 @@ require_once 'Stagehand/TestRunner/Exception.php';
 class Stagehand_TestRunner_AlterationMonitor
 {
 
+    // {{{ constants
+
+    const SCAN_INTERVAL_MIN = 5;
+
+    // }}}
     // {{{ properties
 
     /**#@+
@@ -83,6 +88,7 @@ class Stagehand_TestRunner_AlterationMonitor
                                       '!\.bak$!',
                                       '!^#.+#$!'
                                       );
+    private $_scanInterval = self::SCAN_INTERVAL_MIN;
 
     /**#@-*/
 
@@ -120,6 +126,7 @@ class Stagehand_TestRunner_AlterationMonitor
             print "
 Waiting for changes in the directory [ {$this->_directory} ] ...
 ";
+
             $this->_waitForChanges();
 
             print "Any changes are detected!
@@ -166,12 +173,18 @@ Running tests by the command [ {$this->_command} ] ...
         $this->_isFirstTime = true;
 
         while (true) {
-            sleep(5);
+            sleep($this->_scanInterval);
             clearstatcache();
 
             try {
                 $this->_currentElements = array();
+                $startTime = time();
                 $this->_collectElements($this->_directory);
+                $endTime = time();
+                $elapsedTime = $endTime - $startTime;
+                if ($elapsedTime > self::SCAN_INTERVAL_MIN) {
+                    $this->_scanInterval = $elapsedTime;
+                }
             } catch (Stagehand_TestRunner_Exception $e) {
                 return;
             }
