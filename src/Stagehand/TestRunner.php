@@ -200,7 +200,7 @@ All rights reserved.
             $command = str_replace('/', '\\', $command);
         }
 
-        if (!preg_match('/(?:test|spec)runner(?:\.bat)?$/', $command)) {
+        if (!preg_match('/(?:testrunner(?:-st)?|specrunner)(?:\.bat)?$/', $command)) {
             $configFile = get_cfg_var('cfg_file_path');
             if ($configFile !== false) {
                 $options[] = '-c';
