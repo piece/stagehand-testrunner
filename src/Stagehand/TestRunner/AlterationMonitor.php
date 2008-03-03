@@ -117,10 +117,15 @@ class Stagehand_TestRunner_AlterationMonitor
         $this->_runTests();
 
         while (true) {
-            print "\nWaiting for changes in the directory [ {$this->_directory} ] ...\n";
+            print "
+Waiting for changes in the directory [ {$this->_directory} ] ...
+";
             $this->_waitForChanges();
 
-            print "Any changes are detected! Running tests ...\n\n";
+            print "Any changes are detected!
+Running tests by the command [ {$this->_command} ] ...
+
+";
             $this->_runTests();
         }
     }
