@@ -78,8 +78,8 @@ class Stagehand_TestRunner_AlterationMonitor
 
     private $_directory;
     private $_command;
-    private $_currentElements = array();
-    private $_previousElements = array();
+    private $_currentElements;
+    private $_previousElements;
     private $_isFirstTime = true;
     private $_excludePatterns = array('!^CVS$!',
                                       '!^.svn!',
