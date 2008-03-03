@@ -83,6 +83,7 @@ abstract class Stagehand_TestRunner_Collector_Common
                                       '!\.bak$!',
                                       '!^#.+#$!'
                                       );
+    private $_testCases = array();
 
     /**#@-*/
 
@@ -133,17 +134,13 @@ abstract class Stagehand_TestRunner_Collector_Common
             }
         }
 
-        if (is_dir($absoluteTargetPath) && $this->_isRecursive) {
-            $suite = $this->_createTestSuite();
-            $directories = $this->_getDirectories($absoluteTargetPath);
-            for ($i = 0, $count = count($directories); $i < $count; ++$i) {
-                $this->_buildTestSuite($suite, $directories[$i]);
-            }
+        if (is_dir($absoluteTargetPath)) {
+            $this->_collectTestCases($absoluteTargetPath);
         } else {
-            $suite = $this->_buildTestSuite($this->_createTestSuite(), $absoluteTargetPath);
+            $this->_collectTestCaseFromFile($absoluteTargetPath);
         }
 
-        return $suite;
+        return $this->_buildTestSuite();
     }
 
     /**#@-*/
@@ -200,13 +197,12 @@ abstract class Stagehand_TestRunner_Collector_Common
      * Creates a test suite object that contains all of the test cases in the
      * directory.
      *
-     * @param array $testCases
      * @return mixed
      */
-    private function _createTestSuiteFromTestCases($testCases)
+    private function _createTestSuiteFromTestCases()
     {
         $suite = $this->_createTestSuite();
-        foreach ($testCases as $testCase) {
+        foreach ($this->_testCases as $testCase) {
             $this->_addTestCase($suite, $testCase);
         }
 
@@ -219,13 +215,12 @@ abstract class Stagehand_TestRunner_Collector_Common
     /**
      * Builds a test suite object.
      *
-     * @param mixed  $suite
-     * @param string $directory
      * @return mixed
      */
-    private function _buildTestSuite($suite, $directory)
+    private function _buildTestSuite()
     {
-        $this->_doBuildTestSuite($suite, $this->_createTestSuiteFromTestCases($this->_collectTestCases(realpath($directory))));
+        $suite = $this->_createTestSuite();
+        $this->_doBuildTestSuite($suite, $this->_createTestSuiteFromTestCases());
         return $suite;
     }
 
@@ -233,92 +228,13 @@ abstract class Stagehand_TestRunner_Collector_Common
     // {{{ _collectTestCases()
 
     /**
-     * Collects test cases in the directory.
+     * Collects all test cases included in the specified directory.
      *
      * @param string $directory
-     * @return array
      */
     private function _collectTestCases($directory)
     {
-        $testCases = array();
-        if (is_dir($directory)) {
-            $files = scandir($directory);
-        } else {
-            $files = (array)$directory;
-        }
-
-        for ($i = 0, $iCount = count($files); $i < $iCount; ++$i) {
-            if (is_dir($directory)) {
-                $target = $directory . DIRECTORY_SEPARATOR . $files[$i];
-            } else {
-                $target = $files[$i];
-            }
-
-            if (!is_file($target)) {
-                continue;
-            }
-
-            if (!preg_match("/{$this->_suffix}\.php\$/", $files[$i])) {
-                continue;
-            }
-
-            print "Loading [ {$files[$i]} ] ... ";
-
-            $currentClasses = get_declared_classes();
-
-            if (!include_once($target)) {
-                print "Failed!\n";
-                continue;
-            }
-
-            print "Succeeded.\n";
-
-            $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
-            for ($j = 0, $jCount = count($newClasses); $j < $jCount; ++$j) {
-                if (!is_subclass_of($newClasses[$j], $this->_baseClass)) {
-                    continue;
-                }
-
-                if (!is_null($this->_excludePattern)
-                    && preg_match($this->_excludePattern, $newClasses[$j])
-                    ) {
-                    continue;
-                }
-
-                if (!is_null($this->_includePattern)
-                    && !preg_match($this->_includePattern, $newClasses[$j])
-                    ) {
-                    continue;
-                }
-
-                $testCases[] = $newClasses[$j];
-                print "  => Added [ {$newClasses[$j]} ]\n";
-            }
-        }
-
-        return $testCases;
-    }
-
-    // }}}
-    // {{{ _getDirectories()
-
-    /**
-     * Returns all directories under the directory.
-     *
-     * @param string $directory
-     * @return array
-     */
-    private function _getDirectories($directory)
-    {
-        static $directories;
-        if (is_null($directories)) {
-            $directories = array();
-        }
-
-        $directory = realpath($directory);
-        $directories[] = $directory;
         $files = scandir($directory);
-
         for ($i = 0, $count = count($files); $i < $count; ++$i) {
             if ($files[$i] == '.' || $files[$i] == '..') {
                 continue;
@@ -330,15 +246,62 @@ abstract class Stagehand_TestRunner_Collector_Common
                 }
             }
 
-            $next = $directory . DIRECTORY_SEPARATOR . $files[$i];
-            if (!is_dir($next)) {
+            $element = $directory . DIRECTORY_SEPARATOR . $files[$i];
+            if (is_dir($element) && $this->_isRecursive) {
+                $this->_collectTestCases($element);
                 continue;
             }
 
-            $this->_getDirectories($next);
+            $this->_collectTestCaseFromFile($element);
+        }
+    }
+
+    // }}}
+    // {{{ _collectTestCaseFromFile()
+
+    /**
+     * Collects all test cases included in the given file.
+     *
+     * @param string $file
+     */
+    private function _collectTestCaseFromFile($file)
+    {
+        if (!preg_match("/{$this->_suffix}\.php\$/", $file)) {
+            return;
         }
 
-        return $directories;
+        print "Loading [ $file ] ... ";
+
+        $currentClasses = get_declared_classes();
+
+        if (!include_once($file)) {
+            print "Failed!\n";
+            return;
+        }
+
+        print "Succeeded.\n";
+
+        $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
+        for ($i = 0, $count = count($newClasses); $i < $count; ++$i) {
+            if (!is_subclass_of($newClasses[$i], $this->_baseClass)) {
+                continue;
+            }
+
+            if (!is_null($this->_excludePattern)
+                && preg_match($this->_excludePattern, $newClasses[$i])
+                ) {
+                continue;
+            }
+
+            if (!is_null($this->_includePattern)
+                && !preg_match($this->_includePattern, $newClasses[$i])
+                ) {
+                continue;
+            }
+
+            $this->_testCases[] = $newClasses[$i];
+            print "  => Added [ {$newClasses[$i]} ]\n";
+        }
     }
 
     /**#@-*/
