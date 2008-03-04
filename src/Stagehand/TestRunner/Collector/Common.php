@@ -148,7 +148,7 @@ abstract class Stagehand_TestRunner_Collector_Common
      */
     public function collectTestCases($element)
     {
-        if (is_file($element)) {
+        if (!is_dir($element)) {
             $this->_collectTestCasesFromFile($element);
         }
     }
