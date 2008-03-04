@@ -76,7 +76,7 @@ class Stagehand_TestRunner_AlterationMonitor
      * @access private
      */
 
-    private $_directory;
+    private $_directories;
     private $_command;
     private $_currentElements;
     private $_previousElements;
@@ -100,14 +100,14 @@ class Stagehand_TestRunner_AlterationMonitor
     // {{{ __construct()
 
     /**
-     * Sets a directory and command string to the properties.
+     * Sets one or more target directories and command string to the properties.
      *
-     * @param string $directory
+     * @param array  $directories
      * @param string $command
      */
-    public function __construct($directory, $command)
+    public function __construct($directories, $command)
     {
-        $this->_directory = $directory;
+        $this->_directories = $directories;
         $this->_command = $command;
     }
 
@@ -115,17 +115,17 @@ class Stagehand_TestRunner_AlterationMonitor
     // {{{ monitor()
 
     /**
-     * Watches for changes in the directory and runs tests in the directory
-     * recursively when changes are detected.
+     * Watches for changes in the target directories and runs tests in the test
+     * directory recursively when changes are detected.
      */
     public function monitor()
     {
         $this->_runTests();
 
         while (true) {
-            print "
-Waiting for changes in the directory [ {$this->_directory} ] ...
-";
+            print '
+Waiting for changes in the following directories:
+  - ' . implode("\n  - ", $this->_directories) . "\n";
 
             $this->_waitForChanges();
 
@@ -164,7 +164,7 @@ Running tests by the command [ {$this->_command} ] ...
     // {{{ _waitForChanges()
 
     /**
-     * Watches for changes in the directory and returns immediately when
+     * Watches for changes in the target directories and returns immediately when
      * changes are detected.
      */
     private function _waitForChanges()
@@ -179,7 +179,9 @@ Running tests by the command [ {$this->_command} ] ...
             try {
                 $this->_currentElements = array();
                 $startTime = time();
-                $this->_collectElements($this->_directory);
+                foreach ($this->_directories as $directory) {
+                    $this->_collectElements($directory);
+                }
                 $endTime = time();
                 $elapsedTime = $endTime - $startTime;
                 if ($elapsedTime > self::SCAN_INTERVAL_MIN) {
@@ -207,7 +209,7 @@ Running tests by the command [ {$this->_command} ] ...
     // {{{ _collectElements()
 
     /**
-     * Collects all files and directories in the directory and detects any
+     * Collects all files and directories in a target directory and detects any
      * changes of a file or directory immediately.
      *
      * @param string $directory

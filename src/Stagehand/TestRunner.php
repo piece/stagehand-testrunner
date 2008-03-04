@@ -142,7 +142,8 @@ Options:
   -R        run tests recursively
   -c        color the result of a test runner run
   -p <file> preload <file> as a PHP script
-  -a        watch for changes in a specified directory and run tests in the directory recursively when changes are detected (autotest)
+  -a        watch for changes in one or more directories and run tests in the test directory recursively when changes are detected (autotest)
+  -w <directory1,directory2,...> specify one or more directories to be watched for changes
 
 With no [directory or file], run all tests in the current directory.
 ";
@@ -168,21 +169,29 @@ All rights reserved.
     // {{{ _monitorAlteration()
 
     /**
-     * Watches for changes in the directory and runs tests in the directory
-     * recursively when changes are detected.
+     * Watches for changes in one or more target directories and runs tests in
+     * the test directory recursively when changes are detected.
      *
      * @param stdClass $config
      * @throws Stagehand_TestRunner_Exception
      */
     private static function _monitorAlteration($config)
     {
-        if (!is_dir($config->directory)) {
-            throw new Stagehand_TestRunner_Exception("ERROR: The specified path [ {$config->directory} ] is not found or not a directory.");
+        if (!count($config->targetDirectories)) {
+            $directories = (array)$config->directory;
+        } else {
+            $directories = $config->targetDirectories;
         }
 
-        $config->directory = realpath($config->directory);
-        if ($config->directory === false) {
-            throw new Stagehand_TestRunner_Exception("ERROR: Cannnot get the absolute path of the specified directory [ {$config->directory} ]. Make sure all elements of the absolute path have valid permissions.");
+        for ($i = 0, $count = count($directories); $i < $count; ++$i) {
+            if (!is_dir($directories[$i])) {
+                throw new Stagehand_TestRunner_Exception("ERROR: A specified path [ {$directories[$i]} ] is not found or not a directory.");
+            }
+
+            $directories[$i] = realpath($directories[$i]);
+            if ($directories[$i] === false) {
+                throw new Stagehand_TestRunner_Exception("ERROR: Cannnot get the absolute path of a specified directory [ {$directories[$i]} ]. Make sure all elements of the absolute path have valid permissions.");
+            }
         }
 
         if (array_key_exists('_', $_SERVER)) {
@@ -222,7 +231,7 @@ All rights reserved.
 
         $options[] = $config->directory;
 
-        $monitor = new Stagehand_TestRunner_AlterationMonitor($config->directory,
+        $monitor = new Stagehand_TestRunner_AlterationMonitor($directories,
                                                               "$command " . implode(' ', $options)
                                                               );
         $monitor->monitor();
@@ -241,7 +250,7 @@ All rights reserved.
     {
         $argv = Console_Getopt::readPHPArgv();
         array_shift($argv);
-        $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:a');
+        $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:aw:');
         if (PEAR::isError($allOptions)) {
             throw new Stagehand_TestRunner_Exception('ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()));
         }
@@ -252,6 +261,8 @@ All rights reserved.
         $enableAutotest = false;
         $preload = false;
         $preloadFile = null;
+        $useTargetDirectories = false;
+        $targetDirectories = array();
         foreach ($allOptions as $options) {
             if (!count($options)) {
                 continue;
@@ -281,6 +292,10 @@ All rights reserved.
                     case 'a':
                         $enableAutotest = true;
                         break;
+                    case 'w':
+                        $useTargetDirectories = true;
+                        $targetDirectories = explode(',', $option[1]);
+                        break;
                     }
                 } else {
                     $directory = $option;
@@ -293,7 +308,9 @@ All rights reserved.
                              'color' => $color,
                              'enableAutotest' => $enableAutotest,
                              'preload' => $preload,
-                             'preloadFile' => $preloadFile
+                             'preloadFile' => $preloadFile,
+                             'useTargetDirectories' => $useTargetDirectories,
+                             'targetDirectories' => $targetDirectories
                              );
     }
 
