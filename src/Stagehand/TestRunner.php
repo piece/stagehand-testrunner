@@ -221,7 +221,7 @@ All rights reserved.
 
         $options[] = '-R';
 
-        if ($config->preload) {
+        if (!is_null($config->preloadFile)) {
             $options[] = "-p {$config->preloadFile}";
         }
 
@@ -259,9 +259,7 @@ All rights reserved.
         $isRecursive = false;
         $color = false;
         $enableAutotest = false;
-        $preload = false;
         $preloadFile = null;
-        $useTargetDirectories = false;
         $targetDirectories = array();
         foreach ($allOptions as $options) {
             if (!count($options)) {
@@ -286,14 +284,12 @@ All rights reserved.
                         }
                         break;
                     case 'p':
-                        $preload = true;
                         $preloadFile = $option[1];
                         break;
                     case 'a':
                         $enableAutotest = true;
                         break;
                     case 'w':
-                        $useTargetDirectories = true;
                         $targetDirectories = explode(',', $option[1]);
                         break;
                     }
@@ -307,9 +303,7 @@ All rights reserved.
                              'isRecursive' => $isRecursive,
                              'color' => $color,
                              'enableAutotest' => $enableAutotest,
-                             'preload' => $preload,
                              'preloadFile' => $preloadFile,
-                             'useTargetDirectories' => $useTargetDirectories,
                              'targetDirectories' => $targetDirectories
                              );
     }

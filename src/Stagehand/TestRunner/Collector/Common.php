@@ -36,6 +36,7 @@
  */
 
 require_once 'Stagehand/TestRunner/Exception.php';
+require_once 'Stagehand/TestRunner/DirectoryScanner.php';
 
 // {{{ Stagehand_TestRunner_Collector_Common
 
@@ -76,13 +77,6 @@ abstract class Stagehand_TestRunner_Collector_Common
 
     private $_targetPath;
     private $_isRecursive;
-    private $_excludePatterns = array('!^CVS$!',
-                                      '!^.svn!',
-                                      '!\.swp$!',
-                                      '!~$!',
-                                      '!\.bak$!',
-                                      '!^#.+#$!'
-                                      );
     private $_testCases = array();
 
     /**#@-*/
@@ -110,7 +104,7 @@ abstract class Stagehand_TestRunner_Collector_Common
     // {{{ collect()
 
     /**
-     * Collects test cases.
+     * Collects tests.
      *
      * @return mixed
      * @throws Stagehand_TestRunner_Exception
@@ -135,12 +129,28 @@ abstract class Stagehand_TestRunner_Collector_Common
         }
 
         if (is_dir($absoluteTargetPath)) {
-            $this->_collectTestCases($absoluteTargetPath);
+            $directoryScanner = new Stagehand_TestRunner_DirectoryScanner(array($this, 'collectTestCases'), $this->_isRecursive);
+            $directoryScanner->scan($absoluteTargetPath);
         } else {
-            $this->_collectTestCaseFromFile($absoluteTargetPath);
+            $this->_collectTestCasesFromFile($absoluteTargetPath);
         }
 
         return $this->_buildTestSuite();
+    }
+
+    // }}}
+    // {{{ collectTestCases()
+
+    /**
+     * Collects all test cases included in the specified directory.
+     *
+     * @param string $element
+     */
+    public function collectTestCases($element)
+    {
+        if (is_file($element)) {
+            $this->_collectTestCasesFromFile($element);
+        }
     }
 
     /**#@-*/
@@ -225,46 +235,14 @@ abstract class Stagehand_TestRunner_Collector_Common
     }
 
     // }}}
-    // {{{ _collectTestCases()
-
-    /**
-     * Collects all test cases included in the specified directory.
-     *
-     * @param string $directory
-     */
-    private function _collectTestCases($directory)
-    {
-        $files = scandir($directory);
-        for ($i = 0, $count = count($files); $i < $count; ++$i) {
-            if ($files[$i] == '.' || $files[$i] == '..') {
-                continue;
-            }
-
-            foreach ($this->_excludePatterns as $excludePattern) {
-                if (preg_match($excludePattern, $files[$i])) {
-                    continue 2;
-                }
-            }
-
-            $element = $directory . DIRECTORY_SEPARATOR . $files[$i];
-            if (is_dir($element) && $this->_isRecursive) {
-                $this->_collectTestCases($element);
-                continue;
-            }
-
-            $this->_collectTestCaseFromFile($element);
-        }
-    }
-
-    // }}}
-    // {{{ _collectTestCaseFromFile()
+    // {{{ _collectTestCasesFromFile()
 
     /**
      * Collects all test cases included in the given file.
      *
      * @param string $file
      */
-    private function _collectTestCaseFromFile($file)
+    private function _collectTestCasesFromFile($file)
     {
         if (!preg_match("/{$this->_suffix}\.php\$/", $file)) {
             return;

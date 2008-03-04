@@ -32,11 +32,11 @@
  * @copyright  2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @link       http://winbinder.org/
  * @since      File available since Release 2.1.0
  */
 
 require_once 'Stagehand/TestRunner/Exception.php';
+require_once 'Stagehand/TestRunner/DirectoryScanner.php';
 
 // {{{ Stagehand_TestRunner_AlterationMonitor
 
@@ -47,7 +47,6 @@ require_once 'Stagehand/TestRunner/Exception.php';
  * @copyright  2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @link       http://winbinder.org/
  * @since      Class available since Release 2.1.0
  */
 class Stagehand_TestRunner_AlterationMonitor
@@ -81,14 +80,8 @@ class Stagehand_TestRunner_AlterationMonitor
     private $_currentElements;
     private $_previousElements;
     private $_isFirstTime = true;
-    private $_excludePatterns = array('!^CVS$!',
-                                      '!^.svn!',
-                                      '!\.swp$!',
-                                      '!~$!',
-                                      '!\.bak$!',
-                                      '!^#.+#$!'
-                                      );
     private $_scanInterval = self::SCAN_INTERVAL_MIN;
+    private $_directoryScanner;
 
     /**#@-*/
 
@@ -109,6 +102,7 @@ class Stagehand_TestRunner_AlterationMonitor
     {
         $this->_directories = $directories;
         $this->_command = $command;
+        $this->_directoryScanner = new Stagehand_TestRunner_DirectoryScanner(array($this, 'detectChanges'));
     }
 
     // }}}
@@ -135,6 +129,42 @@ Running tests by the command [ {$this->_command} ] ...
 ";
             $this->_runTests();
         }
+    }
+
+    // }}}
+    // {{{ detectChanges()
+
+    /**
+     * Detects any changes of a file or directory immediately.
+     *
+     * @param string $element
+     * @throws Stagehand_TestRunner_Exception
+     */
+    public function detectChanges($element)
+    {
+        if (!$this->_isFirstTime) {
+            if (!array_key_exists($element, $this->_previousElements)) {
+                throw new Stagehand_TestRunner_Exception();
+            }
+
+            if (!is_dir($element)) {
+                $mtime = filemtime($element);
+                if ($this->_previousElements[$element]['mtime'] != $mtime) {
+                    throw new Stagehand_TestRunner_Exception();
+                }
+            }
+
+            $perms = fileperms($element);
+            if ($this->_previousElements[$element]['perms'] != $perms) {
+                throw new Stagehand_TestRunner_Exception();
+            }
+        }
+
+        if (!is_dir($element)) {
+            $this->_currentElements[$element]['mtime'] = filemtime($element);
+        }
+
+        $this->_currentElements[$element]['perms'] = fileperms($element);
     }
 
     /**#@-*/
@@ -180,7 +210,7 @@ Running tests by the command [ {$this->_command} ] ...
                 $this->_currentElements = array();
                 $startTime = time();
                 foreach ($this->_directories as $directory) {
-                    $this->_collectElements($directory);
+                    $this->_directoryScanner->scan($directory);
                 }
                 $endTime = time();
                 $elapsedTime = $endTime - $startTime;
@@ -202,61 +232,6 @@ Running tests by the command [ {$this->_command} ] ...
 
             $this->_previousElements = $this->_currentElements;
             $this->_isFirstTime = false;
-        }
-    }
-
-    // }}}
-    // {{{ _collectElements()
-
-    /**
-     * Collects all files and directories in a target directory and detects any
-     * changes of a file or directory immediately.
-     *
-     * @param string $directory
-     * @throws Stagehand_TestRunner_Exception
-     */
-    private function _collectElements($directory)
-    {
-        $files = scandir($directory);
-        for ($i = 0, $count = count($files); $i < $count; ++$i) {
-            if ($files[$i] == '.' || $files[$i] == '..') {
-                continue;
-            }
-
-            foreach ($this->_excludePatterns as $excludePattern) {
-                if (preg_match($excludePattern, $files[$i])) {
-                    continue 2;
-                }
-            }
-
-            $element = $directory . DIRECTORY_SEPARATOR . $files[$i];
-            if (!$this->_isFirstTime) {
-                if (!array_key_exists($element, $this->_previousElements)) {
-                    throw new Stagehand_TestRunner_Exception();
-                }
-
-                if (!is_dir($element)) {
-                    $mtime = filemtime($element);
-                    if ($this->_previousElements[$element]['mtime'] != $mtime) {
-                        throw new Stagehand_TestRunner_Exception();
-                    }
-                }
-
-                $perms = fileperms($element);
-                if ($this->_previousElements[$element]['perms'] != $perms) {
-                    throw new Stagehand_TestRunner_Exception();
-                }
-            }
-
-            if (!is_dir($element)) {
-                $this->_currentElements[$element]['mtime'] = filemtime($element);
-            }
-
-            $this->_currentElements[$element]['perms'] = fileperms($element);
-
-            if (is_dir($element)) {
-                $this->_collectElements($element);
-            }
         }
     }
 
