@@ -16,7 +16,7 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
   <active>yes</active>
  </lead>
  <date>2008-03-05</date>
- <time>11:31:24</time>
+ <time>11:37:00</time>
  <version>
   <release>2.1.0</release>
   <api>1.1.0</api>
@@ -200,6 +200,9 @@ What&apos;s New in Stagehand_TestRunner 2.1.0
     <channel>pear.php.net</channel>
     <min>1.2</min>
    </package>
+   <extension>
+    <name>pcre</name>
+   </extension>
   </required>
   <optional>
    <package>
