@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+<package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
     http://pear.php.net/dtd/tasks-1.0.xsd
     http://pear.php.net/dtd/package-2.0
     http://pear.php.net/dtd/package-2.0.xsd">
@@ -15,10 +15,10 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2008-01-26</date>
- <time>17:48:56</time>
+ <date>2008-03-05</date>
+ <time>11:31:24</time>
  <version>
-  <release>2.0.0</release>
+  <release>2.1.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -28,12 +28,10 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
  <notes>A new release of Stagehand_TestRunner is now available.
 
-What&apos;s New in Stagehand_TestRunner 2.0.0
+What&apos;s New in Stagehand_TestRunner 2.1.0
 
- * PHPSpec Support: Stagehand_TestRunner can now be used with PHPSpec (http://code.google.com/p/phpspec/). If you use PHPSpec 0.2.0devel or greater, use the specrunner script for running tests.
- * Migration to PHP 5: Stagehand_TestRunner now works with PHP 5.0.3 or greater.
- * End of support for PHPUnit 1 and 2: Starting with this release, PHPUnit 1 and 2 are no longer supported.
- * New directory structure: The source code of Stagehand_TestRunner is now located in the php_dir/src directory. Please add php_dir/src into your include_path before starting to use this package.</notes>
+ * autotest Support: autotest support can now be used by -a option. When using autotest, one or more directories to be watched for changes can specify by the -w option.
+ * Explicit test directory: An arbitrary directory can now be used as the test directory by specifying the directory as the last argument for testrunner commands.</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="bin">
@@ -64,26 +62,51 @@ What&apos;s New in Stagehand_TestRunner 2.0.0
    <dir name="src">
     <dir name="Stagehand">
      <dir name="TestRunner">
-      <dir name="PHPSpec">
-       <file baseinstalldir="/" name="Reporter.php" role="php">
+      <dir name="Collector">
+       <file baseinstalldir="/" name="Common.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /src/Stagehand/TestRunner/PHPSpec -->
-      <dir name="PHPUnit">
-       <file baseinstalldir="/" name="ResultPrinter.php" role="php">
+       <file baseinstalldir="/" name="PHPSpec.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /src/Stagehand/TestRunner/PHPUnit -->
-      <file baseinstalldir="/" name="Common.php" role="php">
+       <file baseinstalldir="/" name="PHPUnit.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file baseinstalldir="/" name="SimpleTest.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /src/Stagehand/TestRunner/Collector -->
+      <dir name="Runner">
+       <dir name="PHPSpec">
+        <file baseinstalldir="/" name="Reporter.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPSpec -->
+       <dir name="PHPUnit">
+        <file baseinstalldir="/" name="ResultPrinter.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPUnit -->
+       <file baseinstalldir="/" name="PHPSpec.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file baseinstalldir="/" name="PHPUnit.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file baseinstalldir="/" name="SimpleTest.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /src/Stagehand/TestRunner/Runner -->
+      <file baseinstalldir="/" name="AlterationMonitor.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPSpec.php" role="php">
+      <file baseinstalldir="/" name="DirectoryScanner.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnit.php" role="php">
+      <file baseinstalldir="/" name="Exception.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="SimpleTest.php" role="php">
+      <file baseinstalldir="/" name="IRunner.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
      </dir> <!-- /src/Stagehand/TestRunner -->
@@ -197,6 +220,24 @@ What&apos;s New in Stagehand_TestRunner 2.0.0
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-03-05</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.1.0
+
+ * autotest Support: autotest support can now be used by -a option. When using autotest, one or more directories to be watched for changes can specify by the -w option.
+ * Explicit test directory: An arbitrary directory can now be used as the test directory by specifying the directory as the last argument for testrunner commands.</notes>
+  </release>
   <release>
    <version>
     <release>2.0.0</release>
