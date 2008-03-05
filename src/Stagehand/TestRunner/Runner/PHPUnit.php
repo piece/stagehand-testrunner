@@ -93,8 +93,8 @@ class Stagehand_TestRunner_Runner_PHPUnit implements Stagehand_TestRunner_IRunne
     {
         $parameters = array();
         if ($color) {
-            include_once 'Stagehand/TestRunner/PHPUnit/ResultPrinter.php';
-            $parameters['printer'] = new Stagehand_TestRunner_PHPUnit_ResultPrinter();
+            include_once 'Stagehand/TestRunner/Runner/PHPUnit/ResultPrinter.php';
+            $parameters['printer'] = new Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter();
         }
 
         PHPUnit_TextUI_TestRunner::run($suite, $parameters);
