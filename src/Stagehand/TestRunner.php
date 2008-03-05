@@ -170,27 +170,29 @@ All rights reserved.
 
     /**
      * Watches for changes in one or more target directories and runs tests in
-     * the test directory recursively when changes are detected.
+     * the test directory recursively when changes are detected. And also the test
+     * directory is always added to the target directories.
      *
      * @param stdClass $config
      * @throws Stagehand_TestRunner_Exception
      */
     private static function _monitorAlteration($config)
     {
-        if (!count($config->targetDirectories)) {
-            $directories = (array)$config->directory;
-        } else {
-            $directories = $config->targetDirectories;
-        }
-
-        for ($i = 0, $count = count($directories); $i < $count; ++$i) {
-            if (!is_dir($directories[$i])) {
-                throw new Stagehand_TestRunner_Exception("ERROR: A specified path [ {$directories[$i]} ] is not found or not a directory.");
+        $targetDirectories = array();
+        foreach (array_merge($config->targetDirectories, (array)$config->directory)
+                 as $directory
+                 ) {
+            if (!is_dir($directory)) {
+                throw new Stagehand_TestRunner_Exception("ERROR: A specified path [ $directory ] is not found or not a directory.");
             }
 
-            $directories[$i] = realpath($directories[$i]);
-            if ($directories[$i] === false) {
-                throw new Stagehand_TestRunner_Exception("ERROR: Cannnot get the absolute path of a specified directory [ {$directories[$i]} ]. Make sure all elements of the absolute path have valid permissions.");
+            $directory = realpath($directory);
+            if ($directory === false) {
+                throw new Stagehand_TestRunner_Exception("ERROR: Cannnot get the absolute path of a specified directory [ $directory ]. Make sure all elements of the absolute path have valid permissions.");
+            }
+
+            if (!in_array($directory, $targetDirectories)) {
+                $targetDirectories[] = $directory;
             }
         }
 
@@ -231,7 +233,7 @@ All rights reserved.
 
         $options[] = $config->directory;
 
-        $monitor = new Stagehand_TestRunner_AlterationMonitor($directories,
+        $monitor = new Stagehand_TestRunner_AlterationMonitor($targetDirectories,
                                                               "$command " . implode(' ', $options)
                                                               );
         $monitor->monitor();
