@@ -111,21 +111,17 @@ abstract class Stagehand_TestRunner_Collector_Common
      */
     public function collect()
     {
-        if (is_null($this->_targetPath)) {
-            $absoluteTargetPath = getcwd();
-        } else {
-            if (!file_exists($this->_targetPath)) {
-                if (preg_match("/{$this->_suffix}\.php\$/", $this->_targetPath)) {
-                    throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->_targetPath} ] is not found.");
-                }
-
-                $this->_targetPath = "{$this->_targetPath}{$this->_suffix}.php";
-            }
-
-            $absoluteTargetPath = realpath($this->_targetPath);
-            if ($absoluteTargetPath === false) {
+        if (!file_exists($this->_targetPath)) {
+            if (preg_match("/{$this->_suffix}\.php\$/", $this->_targetPath)) {
                 throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->_targetPath} ] is not found.");
             }
+
+            $this->_targetPath = "{$this->_targetPath}{$this->_suffix}.php";
+        }
+
+        $absoluteTargetPath = realpath($this->_targetPath);
+        if ($absoluteTargetPath === false) {
+            throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->_targetPath} ] is not found.");
         }
 
         if (is_dir($absoluteTargetPath)) {

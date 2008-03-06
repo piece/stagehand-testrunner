@@ -257,7 +257,7 @@ All rights reserved.
             throw new Stagehand_TestRunner_Exception('ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()));
         }
 
-        $directory = null;
+        $directory = getcwd();
         $isRecursive = false;
         $color = false;
         $enableAutotest = false;
