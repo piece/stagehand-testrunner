@@ -15,8 +15,8 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2008-03-05</date>
- <time>11:37:00</time>
+ <date>2008-03-06</date>
+ <time>12:00:11</time>
  <version>
   <release>2.1.0</release>
   <api>1.1.0</api>
@@ -232,7 +232,7 @@ What&apos;s New in Stagehand_TestRunner 2.1.0
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-03-05</date>
+   <date>2008-03-06</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
    <notes>A new release of Stagehand_TestRunner is now available.
 
