@@ -187,7 +187,7 @@ Running tests by the command [ {$this->_command} ] ...
      */
     private function _runTests()
     {
-        passthru($this->_command, $result);
+        passthru($this->_command);
     }
 
     // }}}
