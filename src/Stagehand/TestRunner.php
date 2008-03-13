@@ -175,6 +175,7 @@ All rights reserved.
      *
      * @param stdClass $config
      * @throws Stagehand_TestRunner_Exception
+     * @since Method available since Release 2.1.0
      */
     private static function _monitorAlteration($config)
     {
@@ -247,6 +248,7 @@ All rights reserved.
      *
      * @return stdClass
      * @throws Stagehand_TestRunner_Exception
+     * @since Method available since Release 2.1.0
      */
     private static function _parseOptions()
     {
@@ -318,6 +320,7 @@ All rights reserved.
      *
      * @param string $testRunnerName
      * @param stdClass $config
+     * @since Method available since Release 2.1.0
      */
     private static function _runTests($testRunnerName, $config)
     {
