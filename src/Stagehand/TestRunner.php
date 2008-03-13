@@ -75,7 +75,6 @@ class Stagehand_TestRunner
 
     /**#@+
      * @access public
-     * @static
      */
 
     // }}}
@@ -123,7 +122,6 @@ class Stagehand_TestRunner
 
     /**#@+
      * @access private
-     * @static
      */
 
     // }}}
