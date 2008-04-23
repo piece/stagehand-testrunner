@@ -36,8 +36,6 @@
  * @since      File available since Release 1.1.0
  */
 
-error_reporting(E_ALL);
-
 preload();
 
 if (file_exists(dirname(__FILE__) . '/../src/Stagehand/TestRunner.php')) {
