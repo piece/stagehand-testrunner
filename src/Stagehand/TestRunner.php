@@ -250,9 +250,17 @@ All rights reserved.
      */
     private static function _parseOptions()
     {
+        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $argv = Console_Getopt::readPHPArgv();
+        PEAR::staticPopErrorHandling();
+        if (PEAR::isError($argv)) {
+            throw new Stagehand_TestRunner_Exception('ERROR: ' . preg_replace('/^Console_Getopt: /', '', $argv->getMessage()));
+        }
+
         array_shift($argv);
+        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:aw:');
+        PEAR::staticPopErrorHandling();
         if (PEAR::isError($allOptions)) {
             throw new Stagehand_TestRunner_Exception('ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()));
         }
