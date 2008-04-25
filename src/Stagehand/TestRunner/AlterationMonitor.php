@@ -37,6 +37,7 @@
 
 require_once 'Stagehand/TestRunner/Exception.php';
 require_once 'Stagehand/TestRunner/DirectoryScanner.php';
+require_once 'Stagehand/TestRunner/DirectoryScanner/Exception.php';
 
 // {{{ Stagehand_TestRunner_AlterationMonitor
 
@@ -139,32 +140,50 @@ Running tests by the command [ {$this->_command} ] ...
      *
      * @param string $element
      * @throws Stagehand_TestRunner_Exception
+     * @throws Stagehand_TestRunner_DirectoryScanner_Exception
      */
     public function detectChanges($element)
     {
         if (!$this->_isFirstTime) {
+            $perms = fileperms($element);
+            if ($perms === false) {
+                throw new Stagehand_TestRunner_DirectoryScanner_Exception();
+            }
+
             if (!array_key_exists($element, $this->_previousElements)) {
+                throw new Stagehand_TestRunner_Exception();
+            }
+
+            if ($this->_previousElements[$element]['perms'] != $perms) {
                 throw new Stagehand_TestRunner_Exception();
             }
 
             if (!is_dir($element)) {
                 $mtime = filemtime($element);
+                if ($mtime === false) {
+                    throw new Stagehand_TestRunner_DirectoryScanner_Exception();
+                }
+
                 if ($this->_previousElements[$element]['mtime'] != $mtime) {
                     throw new Stagehand_TestRunner_Exception();
                 }
             }
-
-            $perms = fileperms($element);
-            if ($this->_previousElements[$element]['perms'] != $perms) {
-                throw new Stagehand_TestRunner_Exception();
-            }
         }
 
+        $perms = fileperms($element);
+        if ($perms === false) {
+            throw new Stagehand_TestRunner_DirectoryScanner_Exception();
+        }
+
+        $this->_currentElements[$element]['perms'] = $perms;
         if (!is_dir($element)) {
-            $this->_currentElements[$element]['mtime'] = filemtime($element);
-        }
+            $mtime = filemtime($element);
+            if ($mtime === false) {
+                throw new Stagehand_TestRunner_DirectoryScanner_Exception();
+            }
 
-        $this->_currentElements[$element]['perms'] = fileperms($element);
+            $this->_currentElements[$element]['mtime'] = $mtime;
+        }
     }
 
     /**#@-*/

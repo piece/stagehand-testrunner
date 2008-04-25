@@ -35,6 +35,8 @@
  * @since      File available since Release 2.1.0
  */
 
+require_once 'Stagehand/TestRunner/DirectoryScanner/Exception.php';
+
 // {{{ Stagehand_TestRunner_DirectoryScanner
 
 /**
@@ -122,7 +124,11 @@ class Stagehand_TestRunner_DirectoryScanner
             }
 
             $element = $directory . DIRECTORY_SEPARATOR . $files[$i];
-            call_user_func($this->_callback, $element);
+            try {
+                call_user_func($this->_callback, $element);
+            } catch (Stagehand_TestRunner_DirectoryScanner_Exception $e) {
+                continue;
+            }
 
             if (is_dir($element) && $this->_isRecursive) {
                 $this->scan($element);
