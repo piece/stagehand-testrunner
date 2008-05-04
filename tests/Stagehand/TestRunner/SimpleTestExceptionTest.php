@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,28 +29,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 1.0.0
+ * @since      File available since Release 2.0.0
  */
 
-if (!@include_once 'PHPUnit/Framework/TestCase.php') {
+if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitImcompleteTestCase
+// {{{ Stagehand_TestRunner_SimpleTestExceptionTest
 
 /**
- * TestCase for Stagehand_TestRunner_PHPUnit
+ * TestCase for Stagehand_TestRunner_SimpleTest
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 1.0.0
+ * @since      Class available since Release 2.0.0
  */
-class Stagehand_TestRunner_PHPUnitImcompleteTestCase extends PHPUnit_Framework_TestCase
+class Stagehand_TestRunner_SimpleTestExceptionTest extends UnitTestCase
 {
 
     // {{{ properties
@@ -77,9 +77,9 @@ class Stagehand_TestRunner_PHPUnitImcompleteTestCase extends PHPUnit_Framework_T
      * @access public
      */
 
-    public function testTestShouldBeImcomplete()
+    public function testTestShouldBeException()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        throw new Exception('This is an exception message.');
     }
 
     /**#@-*/

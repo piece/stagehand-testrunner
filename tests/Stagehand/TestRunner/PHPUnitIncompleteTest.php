@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,28 +29,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 2.0.0
+ * @since      File available since Release 1.0.0
  */
 
-if (!@include_once 'simpletest/unit_tester.php') {
+if (!@include_once 'PHPUnit/Framework/TestCase.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_SimpleTestPassTestCase
+// {{{ Stagehand_TestRunner_PHPUnitImcompleteTest
 
 /**
- * TestCase for Stagehand_TestRunner_SimpleTest
+ * TestCase for Stagehand_TestRunner_PHPUnit
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 2.0.0
+ * @since      Class available since Release 1.0.0
  */
-class Stagehand_TestRunner_SimpleTestPassTestCase extends UnitTestCase
+class Stagehand_TestRunner_PHPUnitImcompleteTest extends PHPUnit_Framework_TestCase
 {
 
     // {{{ properties
@@ -77,9 +77,9 @@ class Stagehand_TestRunner_SimpleTestPassTestCase extends UnitTestCase
      * @access public
      */
 
-    public function testTestShouldPass()
+    public function testTestShouldBeImcomplete()
     {
-        $this->assertTrue(true);
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**#@-*/
