@@ -32,7 +32,7 @@
  * @copyright  2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 2.1.1
+ * @since      File available since Release 2.2.0
  */
 
 require_once 'Stagehand/TestRunner/Exception.php';
@@ -46,7 +46,7 @@ require_once 'Stagehand/TestRunner/Exception.php';
  * @copyright  2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 2.1.1
+ * @since      Class available since Release 2.2.0
  */
 class Stagehand_TestRunner_DirectoryScanner_Exception extends Stagehand_TestRunner_Exception {}
 
