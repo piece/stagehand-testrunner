@@ -262,13 +262,13 @@ abstract class Stagehand_TestRunner_Collector_Common
             }
 
             if (!is_null($this->_excludePattern)
-                && preg_match($this->_excludePattern, $newClasses[$i])
+                && preg_match("/{$this->_excludePattern}/", $newClasses[$i])
                 ) {
                 continue;
             }
 
             if (!is_null($this->_includePattern)
-                && !preg_match($this->_includePattern, $newClasses[$i])
+                && !preg_match("/{$this->_includePattern}/", $newClasses[$i])
                 ) {
                 continue;
             }

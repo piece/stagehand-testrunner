@@ -69,12 +69,12 @@ class Stagehand_TestRunner_DirectoryScanner
      * @access private
      */
 
-    private $_excludePatterns = array('!^CVS$!',
-                                      '!^.svn!',
-                                      '!\.swp$!',
-                                      '!~$!',
-                                      '!\.bak$!',
-                                      '!^#.+#$!'
+    private $_excludePatterns = array('^CVS$',
+                                      '^.svn',
+                                      '\.swp$',
+                                      '~$',
+                                      '\.bak$',
+                                      '^#.+#$'
                                       );
     private $_callback;
     private $_isRecursive;
@@ -118,7 +118,7 @@ class Stagehand_TestRunner_DirectoryScanner
             }
 
             foreach ($this->_excludePatterns as $excludePattern) {
-                if (preg_match($excludePattern, $files[$i])) {
+                if (preg_match("/$excludePattern/", $files[$i])) {
                     continue 2;
                 }
             }

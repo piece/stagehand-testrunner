@@ -69,7 +69,7 @@ class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Col
      * @access protected
      */
 
-    protected $_excludePattern = '!^(UnitTestCase$|PHPUnit)!i';
+    protected $_excludePattern = '^(UnitTestCase$|PHPUnit)';
     protected $_baseClass = 'UnitTestCase';
 
     /**#@-*/
