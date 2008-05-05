@@ -42,7 +42,7 @@ if (!@include_once 'simpletest/unit_tester.php') {
 // {{{ Stagehand_TestRunner_SimpleTestExceptionTest
 
 /**
- * TestCase for Stagehand_TestRunner_SimpleTest
+ * TestCase for the SimpleTest runner.
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
