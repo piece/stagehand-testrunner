@@ -4,8 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
- *               2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2008 KUBO Atsuhiro <iteman@users.sourceforge.net>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,31 +29,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @link       http://simpletest.org/
- * @since      File available since Release 2.1.0
+ * @since      File available since Release 2.2.0
  */
 
-require_once 'Stagehand/TestRunner/Collector/Common.php';
-require_once 'simpletest/test_case.php';
+if (!@include_once 'PHPSpec/Context.php') {
+    return;
+}
 
-// {{{ Stagehand_TestRunner_Collector_SimpleTest
+// {{{ Stagehand_TestRunner_PHPSpecCommon
 
 /**
- * A test collector for SimpleTest.
+ * TestCase for the PHPSpec runner.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @link       http://simpletest.org/
- * @since      Class available since Release 2.1.0
+ * @since      Class available since Release 2.2.0
  */
-class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Collector_Common
+class Stagehand_TestRunner_PHPSpecCommon extends PHPSpec_Context
 {
 
     // {{{ properties
@@ -69,11 +65,6 @@ class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Col
      * @access protected
      */
 
-    protected $_excludePattern = '^(UnitTestCase$|PHPUnit)';
-    protected $_baseClass = 'UnitTestCase';
-    protected $_suffix = 'Test(?:Case)?';
-    protected $_includePattern = 'Test(?:Case)?$';
-
     /**#@-*/
 
     /**#@+
@@ -86,56 +77,16 @@ class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Col
      * @access public
      */
 
+    public function itShouldPassCommon()
+    {
+        $this->spec(true)->should->beTrue();
+    }
+
     /**#@-*/
 
     /**#@+
      * @access protected
      */
-
-    // }}}
-    // {{{ _createTestSuite()
-
-    /**
-     * Creates a test suite object.
-     *
-     * @return TestSuite
-     */
-    protected function _createTestSuite()
-    {
-        return new TestSuite();
-    }
-
-    // }}}
-    // {{{ _doBuildTestSuite()
-
-    /**
-     * Aggregates a test suite object to an aggregate test suite object.
-     *
-     * @param TestSuite $aggregateSuite
-     * @param TestSuite $suite
-     */
-    protected function _doBuildTestSuite($aggregateSuite, $suite)
-    {
-        if (!$suite->getSize()) {
-            return;
-        }
-
-        $aggregateSuite->addTestCase($suite);
-    }
-
-    // }}}
-    // {{{ _addTestCase()
-
-    /**
-     * Adds a test case to a test suite object.
-     *
-     * @param TestSuite $suite
-     * @param string    $testCase
-     */
-    protected function _addTestCase($suite, $testCase)
-    {
-        $suite->addTestClass($testCase); // TODO NOT addTestCases()?
-    }
 
     /**#@-*/
 
@@ -153,7 +104,7 @@ class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Col
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

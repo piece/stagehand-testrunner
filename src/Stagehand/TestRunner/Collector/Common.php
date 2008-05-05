@@ -66,7 +66,7 @@ abstract class Stagehand_TestRunner_Collector_Common
 
     protected $_excludePattern;
     protected $_baseClass;
-    protected $_suffix = 'Test(?:Case)?';
+    protected $_suffix;
     protected $_includePattern;
 
     /**#@-*/
