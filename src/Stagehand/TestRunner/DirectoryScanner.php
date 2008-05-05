@@ -74,7 +74,8 @@ class Stagehand_TestRunner_DirectoryScanner
                                       '\.swp$',
                                       '~$',
                                       '\.bak$',
-                                      '^#.+#$'
+                                      '^#.+#$',
+                                      '^.#'
                                       );
     private $_callback;
     private $_isRecursive;
