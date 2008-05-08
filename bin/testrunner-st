@@ -76,7 +76,7 @@ function preload()
     if (!is_null($file)) {
         $result = include_once $file;
         if (!$result) {
-            echo "ERROR: Cannot load '$file'. Make sure the file path and permission are correct.\n";
+            echo "ERROR: Cannot load [ $file ]. Make sure the file path and permission are correct.\n";
             exit(1);
         }
     }
