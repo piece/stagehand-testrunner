@@ -8,17 +8,17 @@
  <summary>Automated test runners for PHPSpec, PHPUnit, and SimpleTest</summary>
  <description>Stagehand_TestRunner is automated test runners for PHPSpec, PHPUnit, and SimpleTest.
 
-Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with &quot;Spec.php&quot; (PHPSpec) or &quot;TestCase.php&quot; (PHPUnit/SimpleTest) under an arbitrary directory. Stagehand_TestRunner now supports PHPSpec, PHPUnit, and SimpleTest.</description>
+Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with &quot;Spec.php&quot; (PHPSpec) or &quot;Test.php&quot; or &quot;TestCase.php&quot; (PHPUnit/SimpleTest) under an arbitrary directory. Stagehand_TestRunner now supports PHPSpec, PHPUnit, and SimpleTest.</description>
  <lead>
   <name>KUBO Atsuhiro</name>
   <user>iteman</user>
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2008-03-06</date>
- <time>12:00:11</time>
+ <date>2008-05-11</date>
+ <time>16:11:19</time>
  <version>
-  <release>2.1.0</release>
+  <release>2.2.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -28,10 +28,28 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
  <notes>A new release of Stagehand_TestRunner is now available.
 
-What&apos;s New in Stagehand_TestRunner 2.1.0
+What&apos;s New in Stagehand_TestRunner 2.2.0
 
- * autotest Support: autotest support can now be used by -a option. When using autotest, one or more directories to be watched for changes can specify by the -w option.
- * Explicit test directory: An arbitrary directory can now be used as the test directory by specifying the directory as the last argument for testrunner commands.</notes>
+ * Test.php support: Test classes ending with &quot;Test.php&quot; have become targets of running tests by testrunner/testrunner-st (PHPUnit/SimpleTest).
+ * Test class extensions: Extending test classes has become a lot easier since the PHPUnit/SimpleTest collectors now target only classes ending with Test or TestCase.
+
+See the following release notes for details.
+
+Enhancements
+============ 
+
+- Removed the second argument for passthru(). (Stagehand_TestRunner_AlterationMonitor)
+- Removed error_reporting(). (specrunner/testrunner/testrunner-st)
+- Added some error handling. (Stagehand_TestRunner)
+- Added support for running tests ending with &quot;Test.php&quot;. (PHPUnit/SimpleTest)
+- Changed a collector&apos;s behavior so as to target only classes ending with Test or TestCase. (Ticket #18) (PHPUnit/SimpleTest)
+- Added &apos;^.#&apos; to the exclude patterns. (Stagehand_TestRunner_DirectoryScanner)
+- Changed code so as to exit the program when loading a preload file is failed. (specrunner/testrunner/testrunner-st)
+
+Defect Fixes
+============
+
+- Fixed a defect that caused tests to be run every time if fileperms()/filemtime() fails when using autotest.</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="bin">
@@ -76,6 +94,11 @@ What&apos;s New in Stagehand_TestRunner 2.1.0
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
       </dir> <!-- /src/Stagehand/TestRunner/Collector -->
+      <dir name="DirectoryScanner">
+       <file baseinstalldir="/" name="Exception.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /src/Stagehand/TestRunner/DirectoryScanner -->
       <dir name="Runner">
        <dir name="PHPSpec">
         <file baseinstalldir="/" name="Reporter.php" role="php">
@@ -128,20 +151,26 @@ What&apos;s New in Stagehand_TestRunner 2.1.0
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
       </dir> <!-- /tests/Stagehand/TestRunner/PHPSpecSpec -->
-      <dir name="PHPUnitTestCase">
-       <file baseinstalldir="/" name="PHPUnitPassTestCase.php" role="test">
+      <dir name="PHPUnitTest">
+       <file baseinstalldir="/" name="PHPUnitPassTest.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnitTestCase -->
-      <dir name="SimpleTestTestCase">
-       <file baseinstalldir="/" name="SimpleTestPassTestCase.php" role="test">
+      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnitTest -->
+      <dir name="SimpleTestTest">
+       <file baseinstalldir="/" name="SimpleTestPassTest.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/SimpleTestTestCase -->
+      </dir> <!-- /tests/Stagehand/TestRunner/SimpleTestTest -->
+      <file baseinstalldir="/" name="PHPSpecCommon.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
       <file baseinstalldir="/" name="PHPSpecErrorSpec.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
       <file baseinstalldir="/" name="PHPSpecExceptionSpec.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPSpecExtendedSpec.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
       <file baseinstalldir="/" name="PHPSpecFailureSpec.php" role="test">
@@ -153,28 +182,40 @@ What&apos;s New in Stagehand_TestRunner 2.1.0
       <file baseinstalldir="/" name="PHPSpecPendingSpec.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnitErrorTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitCommon.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnitFailureTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitErrorTest.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnitIncompleteTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitExtendedTest.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnitPassTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitFailureTest.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="PHPUnitSkippedTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitIncompleteTest.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="SimpleTestExceptionTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitPassTest.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="SimpleTestFailureTestCase.php" role="test">
+      <file baseinstalldir="/" name="PHPUnitSkippedTest.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
-      <file baseinstalldir="/" name="SimpleTestPassTestCase.php" role="test">
+      <file baseinstalldir="/" name="SimpleTestCommon.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestExceptionTest.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestExtendedTest.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestFailureTest.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestPassTest.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
      </dir> <!-- /tests/Stagehand/TestRunner -->
@@ -223,6 +264,42 @@ What&apos;s New in Stagehand_TestRunner 2.1.0
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.2.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-05-11</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.2.0
+
+ * Test.php support: Test classes ending with &quot;Test.php&quot; have become targets of running tests by testrunner/testrunner-st (PHPUnit/SimpleTest).
+ * Test class extensions: Extending test classes has become a lot easier since the PHPUnit/SimpleTest collectors now target only classes ending with Test or TestCase.
+
+See the following release notes for details.
+
+Enhancements
+============ 
+
+- Removed the second argument for passthru(). (Stagehand_TestRunner_AlterationMonitor)
+- Removed error_reporting(). (specrunner/testrunner/testrunner-st)
+- Added some error handling. (Stagehand_TestRunner)
+- Added support for running tests ending with &quot;Test.php&quot;. (PHPUnit/SimpleTest)
+- Changed a collector&apos;s behavior so as to target only classes ending with Test or TestCase. (Ticket #18) (PHPUnit/SimpleTest)
+- Added &apos;^.#&apos; to the exclude patterns. (Stagehand_TestRunner_DirectoryScanner)
+- Changed code so as to exit the program when loading a preload file is failed. (specrunner/testrunner/testrunner-st)
+
+Defect Fixes
+============
+
+- Fixed a defect that caused tests to be run every time if fileperms()/filemtime() fails when using autotest.</notes>
+  </release>
   <release>
    <version>
     <release>2.1.0</release>

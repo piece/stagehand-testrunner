@@ -40,16 +40,34 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '2.1.0';
+$releaseVersion = '2.2.0';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
 $notes = 'A new release of Stagehand_TestRunner is now available.
 
-What\'s New in Stagehand_TestRunner 2.1.0
+What\'s New in Stagehand_TestRunner 2.2.0
 
- * autotest Support: autotest support can now be used by -a option. When using autotest, one or more directories to be watched for changes can specify by the -w option.
- * Explicit test directory: An arbitrary directory can now be used as the test directory by specifying the directory as the last argument for testrunner commands.';
+ * Test.php support: Test classes ending with "Test.php" have become targets of running tests by testrunner/testrunner-st (PHPUnit/SimpleTest).
+ * Test class extensions: Extending test classes has become a lot easier since the PHPUnit/SimpleTest collectors now target only classes ending with Test or TestCase.
+
+See the following release notes for details.
+
+Enhancements
+============ 
+
+- Removed the second argument for passthru(). (Stagehand_TestRunner_AlterationMonitor)
+- Removed error_reporting(). (specrunner/testrunner/testrunner-st)
+- Added some error handling. (Stagehand_TestRunner)
+- Added support for running tests ending with "Test.php". (PHPUnit/SimpleTest)
+- Changed a collector\'s behavior so as to target only classes ending with Test or TestCase. (Ticket #18) (PHPUnit/SimpleTest)
+- Added \'^.#\' to the exclude patterns. (Stagehand_TestRunner_DirectoryScanner)
+- Changed code so as to exit the program when loading a preload file is failed. (specrunner/testrunner/testrunner-st)
+
+Defect Fixes
+============
+
+- Fixed a defect that caused tests to be run every time if fileperms()/filemtime() fails when using autotest.';
 
 $package = new PEAR_PackageFileManager2();
 $result = $package->setOptions(array('filelistgenerator' => 'file',
@@ -70,7 +88,7 @@ $package->setPackageType('php');
 $package->setSummary('Automated test runners for PHPSpec, PHPUnit, and SimpleTest');
 $package->setDescription('Stagehand_TestRunner is automated test runners for PHPSpec, PHPUnit, and SimpleTest.
 
-Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with "Spec.php" (PHPSpec) or "TestCase.php" (PHPUnit/SimpleTest) under an arbitrary directory. Stagehand_TestRunner now supports PHPSpec, PHPUnit, and SimpleTest.');
+Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with "Spec.php" (PHPSpec) or "Test.php" or "TestCase.php" (PHPUnit/SimpleTest) under an arbitrary directory. Stagehand_TestRunner now supports PHPSpec, PHPUnit, and SimpleTest.');
 $package->setChannel('pear.piece-framework.com');
 $package->setLicense('BSD License (revised)', 'http://www.opensource.org/licenses/bsd-license.php');
 $package->setAPIVersion($apiVersion);
