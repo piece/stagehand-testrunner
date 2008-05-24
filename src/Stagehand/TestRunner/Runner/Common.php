@@ -32,22 +32,46 @@
  * @copyright  2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
- * @since      File available since Release 2.1.0
+ * @link       http://www.phpspec.org/
+ * @since      File available since Release 2.3.0
  */
 
-// {{{ Stagehand_TestRunner_IRunner
+// {{{ Stagehand_TestRunner_Runner_Common
 
 /**
- * The test runner interface.
+ * The base class for test runners.
  *
  * @package    Stagehand_TestRunner
  * @copyright  2008 KUBO Atsuhiro <iteman@users.sourceforge.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    Release: @package_version@
- * @since      Class available since Release 2.1.0
+ * @link       http://www.phpspec.org/
+ * @since      Class available since Release 2.3.0
  */
-interface Stagehand_TestRunner_IRunner
+abstract class Stagehand_TestRunner_Runner_Common
 {
+
+    // {{{ properties
+
+    /**#@+
+     * @access public
+     */
+
+    /**#@-*/
+
+    /**#@+
+     * @access protected
+     */
+
+    protected $_notification;
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
+
+    /**#@-*/
 
     /**#@+
      * @access public
@@ -57,12 +81,12 @@ interface Stagehand_TestRunner_IRunner
     // {{{ run()
 
     /**
-     * Runs tests based on the given test suite.
+     * Runs tests.
      *
      * @param mixed    $suite
      * @param stdClass $config
      */
-    public function run($suite, $config);
+    abstract public function run($suite, $config);
 
     // }}}
     // {{{ getNotification()
@@ -72,7 +96,10 @@ interface Stagehand_TestRunner_IRunner
      *
      * @return stdClass
      */
-    public function getNotification();
+    public function getNotification()
+    {
+        return $this->_notification;
+    }
 
     /**#@-*/
 

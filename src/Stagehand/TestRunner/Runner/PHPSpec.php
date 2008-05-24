@@ -36,9 +36,9 @@
  * @since      File available since Release 2.1.0
  */
 
-require_once 'Stagehand/TestRunner/IRunner.php';
 require_once 'PHPSpec/Framework.php';
 require_once 'Stagehand/TestRunner/Runner/PHPSpec/Reporter.php';
+require_once 'Stagehand/TestRunner/Runner/Common.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPSpec
 
@@ -52,7 +52,7 @@ require_once 'Stagehand/TestRunner/Runner/PHPSpec/Reporter.php';
  * @link       http://www.phpspec.org/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Runner_PHPSpec implements Stagehand_TestRunner_IRunner
+class Stagehand_TestRunner_Runner_PHPSpec extends Stagehand_TestRunner_Runner_Common
 {
 
     // {{{ properties
@@ -72,8 +72,6 @@ class Stagehand_TestRunner_Runner_PHPSpec implements Stagehand_TestRunner_IRunne
     /**#@+
      * @access private
      */
-
-    private $_notification;
 
     /**#@-*/
 
@@ -128,19 +126,6 @@ class Stagehand_TestRunner_Runner_PHPSpec implements Stagehand_TestRunner_IRunne
             preg_match('/^(\d+ examples?, \d+ failures?.*)/m', $output, $matches);
             $this->_notification->description = $matches[1];
         }
-    }
-
-    // }}}
-    // {{{ getNotification()
-
-    /**
-     * Gets a notification object for Growl.
-     *
-     * @return stdClass
-     */
-    public function getNotification()
-    {
-        return $this->_notification;
     }
 
     /**#@-*/

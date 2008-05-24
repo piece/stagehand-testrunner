@@ -38,8 +38,8 @@
 
 define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit::run');
 
-require_once 'Stagehand/TestRunner/IRunner.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'Stagehand/TestRunner/Runner/Common.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPUnit
 
@@ -53,7 +53,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Runner_PHPUnit implements Stagehand_TestRunner_IRunner
+class Stagehand_TestRunner_Runner_PHPUnit extends Stagehand_TestRunner_Runner_Common
 {
 
     // {{{ properties
@@ -73,8 +73,6 @@ class Stagehand_TestRunner_Runner_PHPUnit implements Stagehand_TestRunner_IRunne
     /**#@+
      * @access private
      */
-
-    private $_notification;
 
     /**#@-*/
 
@@ -115,19 +113,6 @@ class Stagehand_TestRunner_Runner_PHPUnit implements Stagehand_TestRunner_IRunne
                 $this->_notification->description = $matches[1];
             }
         }
-    }
-
-    // }}}
-    // {{{ getNotification()
-
-    /**
-     * Gets a notification object for Growl.
-     *
-     * @return stdClass
-     */
-    public function getNotification()
-    {
-        return $this->_notification;
     }
 
     /**#@-*/

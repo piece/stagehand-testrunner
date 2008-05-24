@@ -38,8 +38,8 @@
  * @since      File available since Release 2.1.0
  */
 
-require_once 'Stagehand/TestRunner/IRunner.php';
 require_once 'simpletest/reporter.php';
+require_once 'Stagehand/TestRunner/Runner/Common.php';
 
 // {{{ Stagehand_TestRunner_Runner_SimpleTest
 
@@ -54,7 +54,7 @@ require_once 'simpletest/reporter.php';
  * @link       http://simpletest.org/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Runner_SimpleTest implements Stagehand_TestRunner_IRunner
+class Stagehand_TestRunner_Runner_SimpleTest extends Stagehand_TestRunner_Runner_Common
 {
 
     // {{{ properties
@@ -74,8 +74,6 @@ class Stagehand_TestRunner_Runner_SimpleTest implements Stagehand_TestRunner_IRu
     /**#@+
      * @access private
      */
-
-    private $_notification;
 
     /**#@-*/
 
@@ -127,19 +125,6 @@ class Stagehand_TestRunner_Runner_SimpleTest implements Stagehand_TestRunner_IRu
         } else {
             print $output;
         }
-    }
-
-    // }}}
-    // {{{ getNotification()
-
-    /**
-     * Gets a notification object for Growl.
-     *
-     * @return stdClass
-     */
-    public function getNotification()
-    {
-        return $this->_notification;
     }
 
     /**#@-*/
