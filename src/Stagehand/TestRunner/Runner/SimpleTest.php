@@ -75,6 +75,8 @@ class Stagehand_TestRunner_Runner_SimpleTest implements Stagehand_TestRunner_IRu
      * @access private
      */
 
+    private $_notification;
+
     /**#@-*/
 
     /**#@+
@@ -88,9 +90,9 @@ class Stagehand_TestRunner_Runner_SimpleTest implements Stagehand_TestRunner_IRu
      * Runs tests based on the given TestSuite object.
      *
      * @param TestSuite $suite
-     * @param boolean   $color
+     * @param stdClass  $config
      */
-    public function run($suite, $color)
+    public function run($suite, $config)
     {
         $reporter = new TextReporter();
         ob_start();
@@ -98,7 +100,17 @@ class Stagehand_TestRunner_Runner_SimpleTest implements Stagehand_TestRunner_IRu
         $output = ob_get_contents();
         ob_end_clean();
 
-        if ($color) {
+        if ($config->useGrowl) {
+            if (preg_match('/^(OK.+)/ms', $output, $matches)) {
+                $this->_notification->name = 'Green';
+                $this->_notification->description = $matches[1];
+            } elseif (preg_match('/^(FAILURES.+)/ms', $output, $matches)) {
+                $this->_notification->name = 'Red';
+                $this->_notification->description = $matches[1];
+            }
+        }
+
+        if ($config->color) {
             include_once 'Console/Color.php';
             print Console_Color::convert(preg_replace(array('/^(OK.+)/ms',
                                                             '/^(FAILURES!!!.+)/ms',
@@ -115,6 +127,19 @@ class Stagehand_TestRunner_Runner_SimpleTest implements Stagehand_TestRunner_IRu
         } else {
             print $output;
         }
+    }
+
+    // }}}
+    // {{{ getNotification()
+
+    /**
+     * Gets a notification object for Growl.
+     *
+     * @return stdClass
+     */
+    public function getNotification()
+    {
+        return $this->_notification;
     }
 
     /**#@-*/

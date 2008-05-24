@@ -74,6 +74,8 @@ class Stagehand_TestRunner_Runner_PHPUnit implements Stagehand_TestRunner_IRunne
      * @access private
      */
 
+    private $_notification;
+
     /**#@-*/
 
     /**#@+
@@ -87,17 +89,45 @@ class Stagehand_TestRunner_Runner_PHPUnit implements Stagehand_TestRunner_IRunne
      * Runs tests based on the given PHPUnit_Framework_TestSuite object.
      *
      * @param PHPUnit_Framework_TestSuite $suite
-     * @param boolean                     $color
+     * @param stdClass                    $config
      */
-    public function run($suite, $color)
+    public function run($suite, $config)
     {
         $parameters = array();
-        if ($color) {
+        if ($config->color) {
             include_once 'Stagehand/TestRunner/Runner/PHPUnit/ResultPrinter.php';
             $parameters['printer'] = new Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter();
         }
 
+        ob_start();
         PHPUnit_TextUI_TestRunner::run($suite, $parameters);
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        print $output;
+
+        if ($config->useGrowl) {
+            if (preg_match('/^(?:\x1b\[3[23]m)?(OK[^\x1b]+)/ms', $output, $matches)) {
+                $this->_notification->name = 'Green';
+                $this->_notification->description = $matches[1];
+            } elseif (preg_match('/^(?:\x1b\[31m)?(FAILURES[^\x1b]+)/ms', $output, $matches)) {
+                $this->_notification->name = 'Red';
+                $this->_notification->description = $matches[1];
+            }
+        }
+    }
+
+    // }}}
+    // {{{ getNotification()
+
+    /**
+     * Gets a notification object for Growl.
+     *
+     * @return stdClass
+     */
+    public function getNotification()
+    {
+        return $this->_notification;
     }
 
     /**#@-*/

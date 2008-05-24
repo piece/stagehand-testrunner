@@ -59,10 +59,20 @@ interface Stagehand_TestRunner_IRunner
     /**
      * Runs tests based on the given test suite.
      *
-     * @param mixed   $suite
-     * @param boolean $color
+     * @param mixed    $suite
+     * @param stdClass $config
      */
-    public function run($suite, $color);
+    public function run($suite, $config);
+
+    // }}}
+    // {{{ getNotification()
+
+    /**
+     * Gets a notification object for Growl.
+     *
+     * @return stdClass
+     */
+    public function getNotification();
 
     /**#@-*/
 

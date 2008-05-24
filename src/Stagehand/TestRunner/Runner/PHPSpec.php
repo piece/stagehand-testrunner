@@ -73,6 +73,8 @@ class Stagehand_TestRunner_Runner_PHPSpec implements Stagehand_TestRunner_IRunne
      * @access private
      */
 
+    private $_notification;
+
     /**#@-*/
 
     /**#@+
@@ -86,12 +88,14 @@ class Stagehand_TestRunner_Runner_PHPSpec implements Stagehand_TestRunner_IRunne
      * Runs tests based on the given ArrayObject object.
      *
      * @param ArrayObject $suite
-     * @param boolean     $color
+     * @param stdClass    $config
      */
-    public function run($suite, $color)
+    public function run($suite, $config)
     {
         $result = new PHPSpec_Runner_Result();
-        $reporter = new Stagehand_TestRunner_Runner_PHPSpec_Reporter($result, $color);
+        $reporter = new Stagehand_TestRunner_Runner_PHPSpec_Reporter($result,
+                                                                     $config->color
+                                                                     );
         $result->setReporter($reporter);
 
         $result->setRuntimeStart(microtime(true));
@@ -102,6 +106,41 @@ class Stagehand_TestRunner_Runner_PHPSpec implements Stagehand_TestRunner_IRunne
         $result->setRuntimeEnd(microtime(true));
 
         $reporter->output(true);
+
+        if ($config->useGrowl) {
+            $output = $reporter->toString(true);
+
+            $failuresCount = $result->countFailures();
+            $deliberateFailuresCount = $result->countDeliberateFailures();
+            $errorsCount = $result->countErrors();
+            $exceptionsCount = $result->countExceptions();
+            $pendingsCount = $result->countPending();
+
+            $this->_notification = new stdClass();
+            if ($failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount + $pendingsCount == 0) {
+                $this->_notification->name = 'Green';
+            } elseif ($pendingsCount && $failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount == 0) {
+                $this->_notification->name = 'Green';
+            } else {
+                $this->_notification->name = 'Red';
+            }
+
+            preg_match('/^(\d+ examples?, \d+ failures?.*)/m', $output, $matches);
+            $this->_notification->description = $matches[1];
+        }
+    }
+
+    // }}}
+    // {{{ getNotification()
+
+    /**
+     * Gets a notification object for Growl.
+     *
+     * @return stdClass
+     */
+    public function getNotification()
+    {
+        return $this->_notification;
     }
 
     /**#@-*/

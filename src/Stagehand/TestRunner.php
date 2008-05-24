@@ -142,6 +142,7 @@ Options:
   -p <file> preload <file> as a PHP script
   -a        watch for changes in one or more directories and run tests in the test directory recursively when changes are detected (autotest)
   -w <directory1,directory2,...> specify one or more directories to be watched for changes
+  -g        notify test results to Growl
 
 With no [directory or file], run all tests in the current directory.
 ";
@@ -230,6 +231,10 @@ All rights reserved.
             $options[] = '-c';
         }
 
+        if ($config->useGrowl) {
+            $options[] = '-g';
+        }
+
         $options[] = $config->directory;
 
         $monitor = new Stagehand_TestRunner_AlterationMonitor($targetDirectories,
@@ -259,7 +264,7 @@ All rights reserved.
 
         array_shift($argv);
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:aw:');
+        $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:aw:g');
         PEAR::staticPopErrorHandling();
         if (PEAR::isError($allOptions)) {
             throw new Stagehand_TestRunner_Exception('ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()));
@@ -271,6 +276,7 @@ All rights reserved.
         $enableAutotest = false;
         $preloadFile = null;
         $targetDirectories = array();
+        $useGrowl = false;
         foreach ($allOptions as $options) {
             if (!count($options)) {
                 continue;
@@ -302,6 +308,11 @@ All rights reserved.
                     case 'w':
                         $targetDirectories = explode(',', $option[1]);
                         break;
+                    case 'g':
+                        if (@include_once 'Net/Growl.php') {
+                            $useGrowl = true;
+                        }
+                        break;
                     }
                 } else {
                     $directory = $option;
@@ -314,7 +325,8 @@ All rights reserved.
                              'color' => $color,
                              'enableAutotest' => $enableAutotest,
                              'preloadFile' => $preloadFile,
-                             'targetDirectories' => $targetDirectories
+                             'targetDirectories' => $targetDirectories,
+                             'useGrowl' => $useGrowl
                              );
     }
 
@@ -338,7 +350,19 @@ All rights reserved.
         include_once "Stagehand/TestRunner/Runner/$testRunnerName.php";
         $className = "Stagehand_TestRunner_Runner_$testRunnerName";
         $runner = new $className();
-        $runner->run($suite, $config->color);
+        $runner->run($suite, $config);
+
+        if ($config->useGrowl) {
+            $notification = $runner->getNotification();
+            $application = new Net_Growl_Application('Stagehand_TestRunner',
+                                                     array('Green', 'Red')
+                                                     );
+            $growl = new Net_Growl($application);
+            $growl->notify($notification->name,
+                           'Test Results by Stagehand_TestRunner',
+                           $notification->description
+                           );
+        }
     }
 
     /**#@-*/
