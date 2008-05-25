@@ -57,27 +57,26 @@ exit($result);
  */
 function preload()
 {
-    $file = null;
-    for ($i = 1, $count = count($_SERVER['argv']); $i < $count; ++$i) {
-        if (!preg_match('/^-[^p]*p(.*)/', $_SERVER['argv'][$i], $matches)) {
-            continue;
+    do {
+        for ($i = 1, $count = count($_SERVER['argv']); $i < $count; ++$i) {
+            if ($_SERVER['argv'][$i] == '-p') {
+                $preloadFileIndex = $i + 1;
+                break 2;
+            }
         }
 
-        if (!strlen($matches[1])) {
-            if ($i + 1 < $count) {
-                $file = $_SERVER['argv'][ $i + 1 ];
-                break;
-            }
-        } else {
-            $file = $matches[1];
-            break;
-        }
+        return;
+    } while (false);
+
+    if (!array_key_exists($preloadFileIndex, $_SERVER['argv'])) {
+        return;
     }
 
-    if (!is_null($file)) {
-        $result = include_once $file;
+    $preloadFile = $_SERVER['argv'][$preloadFileIndex];
+    if (!is_null($preloadFile)) {
+        $result = include_once $preloadFile;
         if (!$result) {
-            echo "ERROR: Cannot load [ $file ]. Make sure the file path and permission are correct.\n";
+            echo "ERROR: Cannot load [ $preloadFile ]. Make sure the file path and permission are correct.\n";
             exit(1);
         }
     }
