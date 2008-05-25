@@ -192,8 +192,8 @@ All rights reserved.
     private function _monitorAlteration()
     {
         $targetDirectories = array();
-        foreach (array_merge($this->_config->targetDirectories, (array)$this->_config->directory)
-                 as $directory
+        foreach (array_merge($this->_config->targetDirectories,
+                             (array)$this->_config->directory) as $directory
                  ) {
             if (!is_dir($directory)) {
                 throw new Stagehand_TestRunner_Exception("ERROR: A specified path [ $directory ] is not found or not a directory.");
