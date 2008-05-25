@@ -40,34 +40,15 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '2.2.0';
+$releaseVersion = '2.3.0';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
 $notes = 'A new release of Stagehand_TestRunner is now available.
 
-What\'s New in Stagehand_TestRunner 2.2.0
+What\'s New in Stagehand_TestRunner 2.3.0
 
- * Test.php support: Test classes ending with "Test.php" have become targets of running tests by testrunner/testrunner-st (PHPUnit/SimpleTest).
- * Test class extensions: Extending test classes has become a lot easier since the PHPUnit/SimpleTest collectors now target only classes ending with Test or TestCase.
-
-See the following release notes for details.
-
-Enhancements
-============ 
-
-- Removed the second argument for passthru(). (Stagehand_TestRunner_AlterationMonitor)
-- Removed error_reporting(). (specrunner/testrunner/testrunner-st)
-- Added some error handling. (Stagehand_TestRunner)
-- Added support for running tests ending with "Test.php". (PHPUnit/SimpleTest)
-- Changed a collector\'s behavior so as to target only classes ending with Test or TestCase. (Ticket #18) (PHPUnit/SimpleTest)
-- Added \'^.#\' to the exclude patterns. (Stagehand_TestRunner_DirectoryScanner)
-- Changed code so as to exit the program when loading a preload file is failed. (specrunner/testrunner/testrunner-st)
-
-Defect Fixes
-============
-
-- Fixed a defect that caused tests to be run every time if fileperms()/filemtime() fails when using autotest.';
+ * Growl support: Growl support can now be used by the -g option. If the Growl requires password, specify the password by the --growl-password option.';
 
 $package = new PEAR_PackageFileManager2();
 $result = $package->setOptions(array('filelistgenerator' => 'file',
@@ -101,6 +82,7 @@ $package->setPearinstallerDep('1.4.3');
 $package->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.3');
 $package->addPackageDepWithChannel('required', 'Console_Getopt', 'pear.php.net', '1.2');
 $package->addPackageDepWithChannel('optional', 'Console_Color', 'pear.php.net', '1.0.2');
+$package->addPackageDepWithChannel('optional', 'Net_Growl', 'pear.php.net', '0.7.0');
 $package->addExtensionDep('required', 'pcre');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
