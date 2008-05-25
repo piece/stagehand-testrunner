@@ -71,6 +71,9 @@ class Stagehand_TestRunner
      * @access private
      */
 
+    private $_testRunnerName;
+    private $_config;
+
     /**#@-*/
 
     /**#@+
@@ -78,14 +81,25 @@ class Stagehand_TestRunner
      */
 
     // }}}
+    // {{{ __construct()
+
+    /**
+     * @param string $testRunnerName
+     */
+    public function __construct($testRunnerName)
+    {
+        $this->_testRunnerName = $testRunnerName;
+    }
+
+    // }}}
     // {{{ run()
 
     /**
      * Runs tests automatically.
      *
-     * @param string $testRunnerName
+     * @return integer
      */
-    public static function run($testRunnerName)
+    public function run()
     {
         if (!array_key_exists('argv', $_SERVER)) {
             echo "ERROR: either use the CLI php executable, or set register_argc_argv=On in php.ini.\n";;
@@ -93,19 +107,19 @@ class Stagehand_TestRunner
         }
 
         try {
-            $config = self::_parseOptions();
-            if (is_null($config)) {
+            $this->_config = $this->_parseOptions();
+            if (is_null($this->_config)) {
                 return 1;
             }
 
-            if (!$config->enableAutotest) {
-                self::_runTests($testRunnerName, $config);
+            if (!$this->_config->enableAutotest) {
+                $this->_runTests();
             } else {
-                self::_monitorAlteration($config);
+                $this->_monitorAlteration();
             }
         } catch (Stagehand_TestRunner_Exception $e) {
             echo 'ERROR: ' . $e->getMessage() . "\n";
-            self::_displayUsage();
+            $this->_displayUsage();
             return 1;
         }
 
@@ -130,7 +144,7 @@ class Stagehand_TestRunner
     /**
      * Displays the usage.
      */
-    private static function _displayUsage()
+    private function _displayUsage()
     {
         echo "Usage: {$_SERVER['SCRIPT_NAME']} [options] [directory or file]
 
@@ -154,9 +168,9 @@ With no [directory or file], run all tests in the current directory.
     /**
      * Displays the version.
      */
-    private static function _displayVersion()
+    private function _displayVersion()
     {
-        echo "Stagehand_TestRunner @package_version@
+        echo "Stagehand_TestRunner @package_version@ ({$this->_testRunnerName})
 
 Copyright (c) 2005-2008 KUBO Atsuhiro <iteman@users.sourceforge.net>,
               2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
@@ -172,14 +186,13 @@ All rights reserved.
      * the test directory recursively when changes are detected. And also the test
      * directory is always added to the target directories.
      *
-     * @param stdClass $config
      * @throws Stagehand_TestRunner_Exception
      * @since Method available since Release 2.1.0
      */
-    private static function _monitorAlteration($config)
+    private function _monitorAlteration()
     {
         $targetDirectories = array();
-        foreach (array_merge($config->targetDirectories, (array)$config->directory)
+        foreach (array_merge($this->_config->targetDirectories, (array)$this->_config->directory)
                  as $directory
                  ) {
             if (!is_dir($directory)) {
@@ -223,19 +236,19 @@ All rights reserved.
 
         $options[] = '-R';
 
-        if (!is_null($config->preloadFile)) {
-            $options[] = "-p {$config->preloadFile}";
+        if (!is_null($this->_config->preloadFile)) {
+            $options[] = "-p {$this->_config->preloadFile}";
         }
 
-        if ($config->color) {
+        if ($this->_config->color) {
             $options[] = '-c';
         }
 
-        if ($config->useGrowl) {
+        if ($this->_config->useGrowl) {
             $options[] = '-g';
         }
 
-        $options[] = $config->directory;
+        $options[] = $this->_config->directory;
 
         $monitor = new Stagehand_TestRunner_AlterationMonitor($targetDirectories,
                                                               "$command " . implode(' ', $options)
@@ -253,7 +266,7 @@ All rights reserved.
      * @throws Stagehand_TestRunner_Exception
      * @since Method available since Release 2.1.0
      */
-    private static function _parseOptions()
+    private function _parseOptions()
     {
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $argv = Console_Getopt::readPHPArgv();
@@ -286,10 +299,10 @@ All rights reserved.
                 if (is_array($option)) {
                     switch ($option[0]) {
                     case 'h':
-                        self::_displayUsage();
+                        $this->_displayUsage();
                         return;
                     case 'V':
-                        self::_displayVersion();
+                        $this->_displayVersion();
                         return;
                     case 'R':
                         $isRecursive = true;
@@ -336,23 +349,23 @@ All rights reserved.
     /**
      * Runs tests.
      *
-     * @param string $testRunnerName
-     * @param stdClass $config
      * @since Method available since Release 2.1.0
      */
-    private static function _runTests($testRunnerName, $config)
+    private function _runTests()
     {
-        include_once "Stagehand/TestRunner/Collector/$testRunnerName.php";
-        $className = "Stagehand_TestRunner_Collector_$testRunnerName";
-        $collector = new $className($config->directory, $config->isRecursive);
+        include_once "Stagehand/TestRunner/Collector/{$this->_testRunnerName}.php";
+        $className = "Stagehand_TestRunner_Collector_{$this->_testRunnerName}";
+        $collector = new $className($this->_config->directory,
+                                    $this->_config->isRecursive
+                                    );
         $suite = $collector->collect();
 
-        include_once "Stagehand/TestRunner/Runner/$testRunnerName.php";
-        $className = "Stagehand_TestRunner_Runner_$testRunnerName";
+        include_once "Stagehand/TestRunner/Runner/{$this->_testRunnerName}.php";
+        $className = "Stagehand_TestRunner_Runner_{$this->_testRunnerName}";
         $runner = new $className();
-        $runner->run($suite, $config);
+        $runner->run($suite, $this->_config);
 
-        if ($config->useGrowl) {
+        if ($this->_config->useGrowl) {
             $notification = $runner->getNotification();
             $application = new Net_Growl_Application('Stagehand_TestRunner',
                                                      array('Green', 'Red')
