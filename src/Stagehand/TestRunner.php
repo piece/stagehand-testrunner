@@ -149,14 +149,19 @@ class Stagehand_TestRunner
         echo "Usage: {$_SERVER['SCRIPT_NAME']} [options] [directory or file]
 
 Options:
-  -h        display this help and exit
-  -V        display version information and exit
-  -R        run tests recursively
-  -c        color the result of a test runner run
-  -p <file> preload <file> as a PHP script
-  -a        watch for changes in one or more directories and run tests in the test directory recursively when changes are detected (autotest)
-  -w <directory1,directory2,...> specify one or more directories to be watched for changes
-  -g        notify test results to Growl
+  -h                              display this help and exit
+  -V                              display version information and exit
+  -R                              run tests recursively
+  -c                              color the result of a test runner run
+  -p <file>                       preload <file> as a PHP script
+  -a                              watch for changes in one or more directories
+                                  and run tests in the test directory
+                                  recursively when changes are detected
+                                  (autotest)
+  -w <directory1,directory2,...>  specify one or more directories to be watched
+                                  for changes
+  -g                              notify test results to Growl
+      --growl-password=<password> specify <password> for Growl
 
 With no [directory or file], run all tests in the current directory.
 ";
@@ -248,6 +253,10 @@ All rights reserved.
             $options[] = '-g';
         }
 
+        if (!is_null($this->_config->growlPassword)) {
+            $options[] = "--growl-password={$this->_config->growlPassword}";
+        }
+
         $options[] = $this->_config->directory;
 
         $monitor = new Stagehand_TestRunner_AlterationMonitor($targetDirectories,
@@ -277,7 +286,10 @@ All rights reserved.
 
         array_shift($argv);
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $allOptions = Console_Getopt::getopt2($argv, 'hVRcp:aw:g');
+        $allOptions = Console_Getopt::getopt2($argv,
+                                              'hVRcp:aw:g',
+                                              array('growl-password=')
+                                              );
         PEAR::staticPopErrorHandling();
         if (PEAR::isError($allOptions)) {
             throw new Stagehand_TestRunner_Exception('ERROR: ' . preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()));
@@ -290,6 +302,7 @@ All rights reserved.
         $preloadFile = null;
         $targetDirectories = array();
         $useGrowl = false;
+        $growlPassword = null;
         foreach ($allOptions as $options) {
             if (!count($options)) {
                 continue;
@@ -326,6 +339,9 @@ All rights reserved.
                             $useGrowl = true;
                         }
                         break;
+                    case '--growl-password':
+                        $growlPassword = $option[1];
+                        break;
                     }
                 } else {
                     $directory = $option;
@@ -339,7 +355,8 @@ All rights reserved.
                              'enableAutotest' => $enableAutotest,
                              'preloadFile' => $preloadFile,
                              'targetDirectories' => $targetDirectories,
-                             'useGrowl' => $useGrowl
+                             'useGrowl' => $useGrowl,
+                             'growlPassword' => $growlPassword
                              );
     }
 
@@ -368,7 +385,8 @@ All rights reserved.
         if ($this->_config->useGrowl) {
             $notification = $runner->getNotification();
             $application = new Net_Growl_Application('Stagehand_TestRunner',
-                                                     array('Green', 'Red')
+                                                     array('Green', 'Red'),
+                                                     $this->_config->growlPassword
                                                      );
             $growl = new Net_Growl($application);
             $growl->notify($notification->name,
