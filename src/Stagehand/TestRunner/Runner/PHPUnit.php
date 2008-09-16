@@ -40,6 +40,8 @@ define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit::run');
 
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Stagehand/TestRunner/Runner/Common.php';
+require_once 'Stagehand/TestRunner/Runner/PHPUnit/ResultPrinter.php';
+require_once 'PHPUnit/TextUI/ResultPrinter.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPUnit
 
@@ -91,20 +93,21 @@ class Stagehand_TestRunner_Runner_PHPUnit extends Stagehand_TestRunner_Runner_Co
      */
     public function run($suite, $config)
     {
-        $parameters = array();
         if ($config->color) {
-            include_once 'Stagehand/TestRunner/Runner/PHPUnit/ResultPrinter.php';
-            $parameters['printer'] = new Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter();
+            $printer = new Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter();
+        } else {
+            $printer = new PHPUnit_TextUI_ResultPrinter();
         }
 
-        ob_start();
-        PHPUnit_TextUI_TestRunner::run($suite, $parameters);
-        $output = ob_get_contents();
-        ob_end_clean();
-
-        print $output;
+        $result =
+            PHPUnit_TextUI_TestRunner::run($suite, array('printer' => $printer));
 
         if ($config->useGrowl) {
+            ob_start();
+            $printer->printResult($result);
+            $output = ob_get_contents();
+            ob_end_clean();
+
             if (preg_match('/^(?:\x1b\[3[23]m)?(OK[^\x1b]+)/ms', $output, $matches)) {
                 $this->_notification->name = 'Green';
                 $this->_notification->description = $matches[1];
