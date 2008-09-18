@@ -38,8 +38,6 @@
 
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
 require_once 'PHPUnit/Util/Filter.php';
-require_once 'Console/Color.php';
-require_once 'Stagehand/TestRunner/Coloring.php';
 require_once 'PHPUnit/Framework/Test.php';
 require_once 'PHPUnit/Framework/AssertionFailedError.php';
 require_once 'PHPUnit/Framework/TestResult.php';
@@ -103,6 +101,11 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
     {
         parent::__construct($out, $verbose);
         $this->_color = $color;
+
+        if ($this->_color) {
+            include_once 'Console/Color.php';
+            include_once 'Stagehand/TestRunner/Coloring.php';
+        }
     }
 
     // }}}
