@@ -38,10 +38,6 @@
 
 preload();
 
-if (file_exists(dirname(__FILE__) . '/../src/Stagehand/TestRunner.php')) {
-    set_include_path(realpath(dirname(__FILE__) . '/../src') . PATH_SEPARATOR . get_include_path());
-}
-
 require_once 'Stagehand/TestRunner.php';
 
 $runner = new Stagehand_TestRunner('PHPUnit');
