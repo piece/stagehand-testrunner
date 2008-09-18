@@ -82,6 +82,11 @@ class Stagehand_TestRunner_PHPUnitPassTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(true);
     }
 
+    public function test日本語を使用できること()
+    {
+        $this->assertTrue(true);
+    }
+
     /**#@-*/
 
     /**#@+
@@ -104,7 +109,7 @@ class Stagehand_TestRunner_PHPUnitPassTest extends PHPUnit_Framework_TestCase
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil
