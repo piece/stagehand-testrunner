@@ -226,6 +226,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
     {
         $this->printHeader($result->time());
 
+        print Stagehand_TestRunner_Runner_PHPUnit_TestDox::$testDox;
+
         if ($result->errorCount() > 0) {
             $this->printErrors($result);
         }

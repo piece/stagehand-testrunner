@@ -42,6 +42,9 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Stagehand/TestRunner/Runner/Common.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/ResultPrinter.php';
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
+require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox.php';
+require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox/Stream.php';
+require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox/Printer.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPUnit
 
@@ -93,9 +96,15 @@ class Stagehand_TestRunner_Runner_PHPUnit extends Stagehand_TestRunner_Runner_Co
      */
     public function run($suite, $config)
     {
-        $printer = new Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter(null, false, $config->color);
+        $printer = new Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter(null,
+                                                                         false,
+                                                                         $config->color
+                                                                         );
         $result =
-            PHPUnit_TextUI_TestRunner::run($suite, array('printer' => $printer));
+            PHPUnit_TextUI_TestRunner::run($suite,
+                                           array('printer' => $printer,
+                                                 'listeners' => array(new Stagehand_TestRunner_Runner_PHPUnit_TestDox_Printer('testdox://', $config->color)))
+                                           );
 
         if ($config->useGrowl) {
             ob_start();
