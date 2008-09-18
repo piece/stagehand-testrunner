@@ -36,6 +36,8 @@
  * @since      File available since Release 2.0.0
  */
 
+require_once 'PHPSpec/Runner/Result.php';
+
 // {{{ Stagehand_TestRunner_Runner_PHPSpec_Reporter
 
 /**
@@ -87,12 +89,12 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
     public function __construct(PHPSpec_Runner_Result $result, $color)
     {
         parent::__construct($result);
-
-        if ($color) {
-            include_once 'Console/Color.php';
-        }
-
         $this->_color = $color;
+
+        if ($this->_color) {
+            include_once 'Console/Color.php';
+            include_once 'Stagehand/TestRunner/Coloring.php';
+        }
     }
 
     // }}}
@@ -106,16 +108,16 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
         if ($this->_color) {
             switch ($symbol) {
             case '.':
-                $symbol = $this->_green($symbol);
+                $symbol = Stagehand_TestRunner_Coloring::green($symbol);
                 break;
             case 'F':
-                $symbol = $this->_red($symbol);
+                $symbol = Stagehand_TestRunner_Coloring::red($symbol);
                 break;
             case 'E':
-                $symbol = $this->_magenta($symbol);
+                $symbol = Stagehand_TestRunner_Coloring::magenta($symbol);
                 break;
             case 'P':
-                $symbol = $this->_yellow($symbol);
+                $symbol = Stagehand_TestRunner_Coloring::yellow($symbol);
                 break;
             }
         }
@@ -151,34 +153,34 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
                 $colorCode = 'red';
             }
 
-            $output = Console_Color::convert(preg_replace(array('/^(\d+ examples?.*)/m',
-                                                                '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
-                                                                '/^(  -)(.+)( \(FAIL\))/m',
-                                                                '/^(  -)(.+)( \(DELIBERATEFAIL\))/m',
-                                                                '/^(  -)(.+)( \(PENDING\))/m',
-                                                                '/^(  -)(.+)/m',
-                                                                '/(\d+\)\s+)(.+ (?:ERROR|EXCEPTION)\s+.+)/',
-                                                                '/(\d+\)\s+)(.+ FAILED\s+.+)/',
-                                                                '/(\d+\)\s+)(.+ PENDING\s+.+)/',
-                                                                '/^((?:Errors|Exceptions):)/m',
-                                                                '/^(Failures:)/m',
-                                                                '/^(Pending:)/m'
-                                                                ),
-                                                          array($this->{"_$colorCode"}('$1'),
-                                                                $this->_magenta('$1$2$3'),
-                                                                $this->_red('$1$2$3'),
-                                                                $this->_red('$1$2$3'),
-                                                                $this->_yellow('$1$2$3'),
-                                                                $this->_green('$1$2$3'),
-                                                                '$1' . $this->_magenta('$2'),
-                                                                '$1' . $this->_red('$2'),
-                                                                '$1' . $this->_yellow('$2'),
-                                                                $this->_magenta('$1'),
-                                                                $this->_red('$1'),
-                                                                $this->_yellow('$1')
-                                                                ),
-                                                          Console_Color::escape($output))
-                                             );
+            $output = preg_replace(array('/^(\d+ examples?.*)/m',
+                                         '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
+                                         '/^(  -)(.+)( \(FAIL\))/m',
+                                         '/^(  -)(.+)( \(DELIBERATEFAIL\))/m',
+                                         '/^(  -)(.+)( \(PENDING\))/m',
+                                         '/^(  -)(.+)/m',
+                                         '/(\d+\)\s+)(.+ (?:ERROR|EXCEPTION)\s+.+)/',
+                                         '/(\d+\)\s+)(.+ FAILED\s+.+)/',
+                                         '/(\d+\)\s+)(.+ PENDING\s+.+)/',
+                                         '/^((?:Errors|Exceptions):)/m',
+                                         '/^(Failures:)/m',
+                                         '/^(Pending:)/m'
+                                         ),
+                                   array(Stagehand_TestRunner_Coloring::$colorCode('$1'),
+                                         Stagehand_TestRunner_Coloring::magenta('$1$2$3'),
+                                         Stagehand_TestRunner_Coloring::red('$1$2$3'),
+                                         Stagehand_TestRunner_Coloring::red('$1$2$3'),
+                                         Stagehand_TestRunner_Coloring::yellow('$1$2$3'),
+                                         Stagehand_TestRunner_Coloring::green('$1$2$3'),
+                                         '$1' . Stagehand_TestRunner_Coloring::magenta('$2'),
+                                         '$1' . Stagehand_TestRunner_Coloring::red('$2'),
+                                         '$1' . Stagehand_TestRunner_Coloring::yellow('$2'),
+                                         Stagehand_TestRunner_Coloring::magenta('$1'),
+                                         Stagehand_TestRunner_Coloring::red('$1'),
+                                         Stagehand_TestRunner_Coloring::yellow('$1')
+                                         ),
+                                   Console_Color::escape($output)
+                                   );
         }
 
         print $output;
@@ -195,54 +197,6 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
     /**#@+
      * @access private
      */
-
-    // }}}
-    // {{{ _green()
-
-    /**
-     * @param string $text
-     * @return text
-     */
-    private function _green($text)
-    {
-        return Console_Color::convert("%g$text%n");
-    }
-
-    // }}}
-    // {{{ _red()
-
-    /**
-     * @param string $text
-     * @return text
-     */
-    private function _red($text)
-    {
-        return Console_Color::convert("%r$text%n");
-    }
-
-    // }}}
-    // {{{ _magenta()
-
-    /**
-     * @param string $text
-     * @return text
-     */
-    private function _magenta($text)
-    {
-        return Console_Color::convert("%m$text%n");
-    }
-
-    // }}}
-    // {{{ _yellow()
-
-    /**
-     * @param string $text
-     * @return text
-     */
-    private function _yellow($text)
-    {
-        return Console_Color::convert("%y$text%n");
-    }
 
     /**#@-*/
 
