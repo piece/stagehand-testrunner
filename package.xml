@@ -15,10 +15,10 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2008-05-25</date>
- <time>14:29:56</time>
+ <date>2008-09-18</date>
+ <time>19:36:20</time>
  <version>
-  <release>2.3.0</release>
+  <release>2.4.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -28,9 +28,10 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
  <notes>A new release of Stagehand_TestRunner is now available.
 
-What&apos;s New in Stagehand_TestRunner 2.3.0
+What&apos;s New in Stagehand_TestRunner 2.4.0
 
- * Growl support: Growl support can now be used by the -g option. If the Growl requires password, specify the password by the --growl-password option.</notes>
+ * Enhanced PHPUnit support: TestDox documentation has been supported. And also real-time progress report has been supported.
+ * Improved preloading option handling: Preloading option handling has been improved so as to be able to use &quot;-p&quot; with other options such like &quot;-Rcp prepare.php&quot;</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="bin">
@@ -87,7 +88,18 @@ What&apos;s New in Stagehand_TestRunner 2.3.0
         </file>
        </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPSpec -->
        <dir name="PHPUnit">
+        <dir name="TestDox">
+         <file baseinstalldir="/" name="Printer.php" role="php">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
+         <file baseinstalldir="/" name="Stream.php" role="php">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
+        </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPUnit/TestDox -->
         <file baseinstalldir="/" name="ResultPrinter.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file baseinstalldir="/" name="TestDox.php" role="php">
          <tasks:replace from="@package_version@" to="version" type="package-info" />
         </file>
        </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPUnit -->
@@ -105,6 +117,9 @@ What&apos;s New in Stagehand_TestRunner 2.3.0
        </file>
       </dir> <!-- /src/Stagehand/TestRunner/Runner -->
       <file baseinstalldir="/" name="AlterationMonitor.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="Coloring.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
       <file baseinstalldir="/" name="DirectoryScanner.php" role="php">
@@ -201,6 +216,9 @@ What&apos;s New in Stagehand_TestRunner 2.3.0
       </file>
      </dir> <!-- /tests/Stagehand/TestRunner -->
     </dir> <!-- /tests/Stagehand -->
+    <file baseinstalldir="/" name="prepare.php" role="test">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
    </dir> <!-- /tests -->
   </dir> <!-- / -->
  </contents>
@@ -250,6 +268,24 @@ What&apos;s New in Stagehand_TestRunner 2.3.0
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.4.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-09-18</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.4.0
+
+ * Enhanced PHPUnit support: TestDox documentation has been supported. And also real-time progress report has been supported.
+ * Improved preloading option handling: Preloading option handling has been improved so as to be able to use &quot;-p&quot; with other options such like &quot;-Rcp prepare.php&quot;</notes>
+  </release>
   <release>
    <version>
     <release>2.3.0</release>
