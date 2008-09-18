@@ -146,11 +146,11 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
             $pendingsCount = $this->_result->countPending();
 
             if ($failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount + $pendingsCount == 0) {
-                $colorCode = 'green';
+                $colorLabel = 'green';
             } elseif ($pendingsCount && $failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount == 0) {
-                $colorCode = 'yellow';
+                $colorLabel = 'yellow';
             } else {
-                $colorCode = 'red';
+                $colorLabel = 'red';
             }
 
             $output = preg_replace(array('/^(\d+ examples?.*)/m',
@@ -166,7 +166,7 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
                                          '/^(Failures:)/m',
                                          '/^(Pending:)/m'
                                          ),
-                                   array(Stagehand_TestRunner_Coloring::$colorCode('$1'),
+                                   array(Stagehand_TestRunner_Coloring::$colorLabel('$1'),
                                          Stagehand_TestRunner_Coloring::magenta('$1$2$3'),
                                          Stagehand_TestRunner_Coloring::red('$1$2$3'),
                                          Stagehand_TestRunner_Coloring::red('$1$2$3'),
