@@ -39,6 +39,11 @@
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'Console/Color.php';
+require_once 'Stagehand/TestRunner/Coloring.php';
+require_once 'PHPUnit/Framework/Test.php';
+require_once 'PHPUnit/Framework/AssertionFailedError.php';
+require_once 'PHPUnit/Framework/TestResult.php';
+require_once 'PHPUnit/Framework/TestFailure.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
@@ -75,11 +80,30 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      * @access private
      */
 
+    private $_color;
+
     /**#@-*/
 
     /**#@+
      * @access public
      */
+
+    // }}}
+    // {{{ __construct()
+
+    /**
+     * Constructor.
+     *
+     * @param  mixed   $out
+     * @param  boolean $verbose
+     * @param  boolean $color
+     * @since  Method available since Release 2.4.0
+     */
+    public function __construct($out, $verbose, $color)
+    {
+        parent::__construct($out, $verbose);
+        $this->_color = $color;
+    }
 
     // }}}
     // {{{ addError()
@@ -93,7 +117,12 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeProgress(Console_Color::convert('%pE%n'));
+        if (!$this->_color) {
+            parent::addError($test, $e, $time);
+            return;
+        }
+
+        $this->writeProgress(Stagehand_TestRunner_Coloring::magenta('E'));
         $this->lastTestFailed = TRUE;
     }
 
@@ -109,7 +138,12 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        $this->writeProgress(Console_Color::convert('%rF%n'));
+        if (!$this->_color) {
+            parent::addFailure($test, $e, $time);
+            return;
+        }
+
+        $this->writeProgress(Stagehand_TestRunner_Coloring::red('F'));
         $this->lastTestFailed = TRUE;
     }
 
@@ -125,7 +159,12 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeProgress(Console_Color::convert('%yI%n'));
+        if (!$this->_color) {
+            parent::addIncompleteTest($test, $e, $time);
+            return;
+        }
+
+        $this->writeProgress(Stagehand_TestRunner_Coloring::yellow('I'));
         $this->lastTestFailed = TRUE;
     }
 
@@ -141,7 +180,12 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeProgress(Console_Color::convert('%yS%n'));
+        if (!$this->_color) {
+            parent::addSkippedTest($test, $e, $time);
+            return;
+        }
+
+        $this->writeProgress(Stagehand_TestRunner_Coloring::yellow('S'));
         $this->lastTestFailed = TRUE;
     }
 
@@ -156,12 +200,60 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
+        if (!$this->_color) {
+            parent::endTest($test, $time);
+            return;
+        }
+
         if (!$this->lastTestFailed) {
-            $this->writeProgress(Console_Color::convert('%g.%n'));
+            $this->writeProgress(Stagehand_TestRunner_Coloring::green('.'));
         }
 
         $this->lastEvent = self::EVENT_TEST_END;
         $this->lastTestFailed = FALSE;
+    }
+
+    // }}}
+    // {{{ printResult()
+
+    /**
+     * @param PHPUnit_Framework_TestResult $result
+     */
+    public function printResult(PHPUnit_Framework_TestResult $result)
+    {
+        $this->printHeader($result->time());
+
+        if ($result->errorCount() > 0) {
+            $this->printErrors($result);
+        }
+
+        if ($result->failureCount() > 0) {
+            if ($result->errorCount() > 0) {
+                print "\n--\n\n";
+            }
+
+            $this->printFailures($result);
+        }
+
+        if ($this->verbose) {
+            if ($result->notImplementedCount() > 0) {
+                if ($result->failureCount() > 0) {
+                    print "\n--\n\n";
+                }
+
+                $this->printIncompletes($result);
+            }
+
+            if ($result->skippedCount() > 0) {
+                if ($result->notImplementedCount() > 0) {
+                    print "\n--\n\n";
+                }
+
+                $this->printSkipped($result);
+            }
+        }
+
+        $this->printFooter($result);
     }
 
     /**#@-*/
@@ -180,19 +272,24 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      */
     protected function printDefects(array $defects, $count, $type)
     {
+        if (!$this->_color) {
+            parent::printDefects($defects, $count, $type);
+            return;
+        }
+
         if ($count == 0) {
             return;
         }
 
         if ($type == 'error') {
-            $colorCode = '%p';
+            $colorLabel = 'magenta';
         } else {
-            $colorCode = '%r';
+            $colorLabel = 'red';
         }
 
         $this->write(
           sprintf(
-            Console_Color::convert("{$colorCode}There %%s %%d %%s%%s:\n%n"),
+            Stagehand_TestRunner_Coloring::$colorLabel("There %%s %%d %%s%%s:\n"),
 
             ($count == 1) ? 'was' : 'were',
             $count,
@@ -217,6 +314,11 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      */
     protected function printDefectHeader(PHPUnit_Framework_TestFailure $defect, $count)
     {
+        if (!$this->_color) {
+            parent::printDefectHeader($defect, $count);
+            return;
+        }
+
         $failedTest = $defect->failedTest();
 
         if ($failedTest instanceof PHPUnit_Framework_SelfDescribing) {
@@ -225,10 +327,15 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
             $testName = get_class($failedTest);
         }
 
+        if ($defect->isFailure()) {
+            $colorLabel = 'red';
+        } else {
+            $colorLabel = 'magenta';
+        }
+
         $this->write(
           sprintf(
-            Console_Color::convert("\n%%d) " . ($defect->isFailure() ? '%r' : '%p') . "%%s\n%n"),
-
+            Stagehand_TestRunner_Coloring::$colorLabel("\n%%d) %%s\n%n"),
             $count,
             $testName
           )
@@ -244,8 +351,19 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      */
     protected function printDefectTrace(PHPUnit_Framework_TestFailure $defect)
     {
+        if (!$this->_color) {
+            parent::printDefectTrace($defect);
+            return;
+        }
+
+        if ($defect->isFailure()) {
+            $colorLabel = 'red';
+        } else {
+            $colorLabel = 'magenta';
+        }
+
         $this->write(
-          Console_Color::convert(($defect->isFailure() ? '%r' : '%p') . Console_Color::escape($defect->toStringVerbose($this->verbose)) . '%n') .
+          Stagehand_TestRunner_Coloring::$colorLabel(Console_Color::escape($defect->toStringVerbose($this->verbose))) .
           PHPUnit_Util_Filter::getFilteredStacktrace(
             $defect->thrownException(),
             FALSE
@@ -261,13 +379,17 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      */
     protected function printFooter(PHPUnit_Framework_TestResult $result)
     {
+        if (!$this->_color) {
+            parent::printFooter($result);
+            return;
+        }
+
         if ($result->wasSuccessful() &&
             $result->allCompletlyImplemented() &&
             $result->noneSkipped()) {
             $this->write(
               sprintf(
-                Console_Color::convert("\n%gOK (%%d test%%s)\n%n"),
-
+                Stagehand_TestRunner_Coloring::green("\nOK (%%d test%%s)\n"),
                 count($result),
                 (count($result) == 1) ? '' : 's'
               )
@@ -279,8 +401,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
                  $result->wasSuccessful()) {
             $this->write(
               sprintf(
-                Console_Color::convert("\n%yOK, but incomplete or skipped tests!\n" .
-                                       "Tests: %%d%%s%%s.\n%n"),
+                Stagehand_TestRunner_Coloring::yellow("\nOK, but incomplete or skipped tests!\n" .
+                                                      "Tests: %%d%%s%%s.\n"),
 
                 count($result),
                 $this->getCountString($result->notImplementedCount(), 'Incomplete'),
@@ -292,8 +414,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
         else {
             $this->write(
               sprintf(
-                Console_Color::convert("\n%rFAILURES!\n" .
-                                       "Tests: %%d%%s%%s%%s%%s.\n%n"),
+                Stagehand_TestRunner_Coloring::red("\nFAILURES!\n" .
+                                                   "Tests: %%d%%s%%s%%s%%s.\n"),
 
                 count($result),
                 $this->getCountString($result->failureCount(), 'Failures'),
