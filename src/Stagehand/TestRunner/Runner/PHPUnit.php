@@ -93,12 +93,7 @@ class Stagehand_TestRunner_Runner_PHPUnit extends Stagehand_TestRunner_Runner_Co
      */
     public function run($suite, $config)
     {
-        if ($config->color) {
-            $printer = new Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter();
-        } else {
-            $printer = new PHPUnit_TextUI_ResultPrinter();
-        }
-
+        $printer = new Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter(null, false, $config->color);
         $result =
             PHPUnit_TextUI_TestRunner::run($suite, array('printer' => $printer));
 
