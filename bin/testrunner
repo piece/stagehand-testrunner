@@ -55,7 +55,7 @@ function preload()
 {
     do {
         for ($i = 1, $count = count($_SERVER['argv']); $i < $count; ++$i) {
-            if ($_SERVER['argv'][$i] == '-p') {
+            if (preg_match('/^-.*p/', $_SERVER['argv'][$i])) {
                 $preloadFileIndex = $i + 1;
                 break 2;
             }
