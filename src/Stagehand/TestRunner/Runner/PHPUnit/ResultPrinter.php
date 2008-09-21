@@ -212,7 +212,11 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
             $this->writeProgress(Stagehand_TestRunner_Coloring::green('.'));
         }
 
-        $this->lastEvent = self::EVENT_TEST_END;
+        if ($test instanceof PHPUnit_Framework_TestCase) {
+            $this->numAssertions += $test->getNumAssertions();
+        }
+
+        $this->lastEvent      = self::EVENT_TEST_END;
         $this->lastTestFailed = FALSE;
     }
 
@@ -394,9 +398,11 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
             $result->noneSkipped()) {
             $this->write(
               sprintf(
-                Stagehand_TestRunner_Coloring::green("\nOK (%%d test%%s)\n"),
+                Stagehand_TestRunner_Coloring::green("OK (%%d test%s, %%d assertion%%s)\n"),
                 count($result),
-                (count($result) == 1) ? '' : 's'
+                (count($result) == 1) ? '' : 's',
+                $this->numAssertions,
+                ($this->numAssertions == 1) ? '' : 's'
               )
             );
         }
@@ -406,10 +412,11 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
                  $result->wasSuccessful()) {
             $this->write(
               sprintf(
-                Stagehand_TestRunner_Coloring::yellow("\nOK, but incomplete or skipped tests!\n" .
-                                                      "Tests: %%d%%s%%s.\n"),
+                Stagehand_TestRunner_Coloring::yellow("OK, but incomplete or skipped tests!\n" .
+                                                      "Tests: %%d, Assertions: %%d%%s%%s.\n"),
 
                 count($result),
+                $this->numAssertions,
                 $this->getCountString($result->notImplementedCount(), 'Incomplete'),
                 $this->getCountString($result->skippedCount(), 'Skipped')
               )
@@ -417,12 +424,14 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
         }
 
         else {
+            $this->write("\nFAILURES!\n");
+
             $this->write(
               sprintf(
-                Stagehand_TestRunner_Coloring::red("\nFAILURES!\n" .
-                                                   "Tests: %%d%%s%%s%%s%%s.\n"),
+                Stagehand_TestRunner_Coloring::red("Tests: %%d, Assertions: %%s%%s%%s%%s.\n"),
 
                 count($result),
+                $this->numAssertions,
                 $this->getCountString($result->failureCount(), 'Failures'),
                 $this->getCountString($result->errorCount(), 'Errors'),
                 $this->getCountString($result->notImplementedCount(), 'Incomplete'),
