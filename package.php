@@ -40,16 +40,16 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '2.4.0';
+$releaseVersion = '2.5.0';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
 $notes = 'A new release of Stagehand_TestRunner is now available.
 
-What\'s New in Stagehand_TestRunner 2.4.0
+What\'s New in Stagehand_TestRunner 2.5.0
 
- * Enhanced PHPUnit support: TestDox documentation has been supported. And also real-time progress report has been supported.
- * Improved preloading option handling: Preloading option handling has been improved so as to be able to use "-p" with other options such like "-Rcp prepare.php"';
+ * Enhanced PHPUnit support: Results output has been improved so as to be same as PHPUnit 3.3.0.
+ * A defect fix: A defect has been fixed so that the Growl message is output only "FAILURES!" when a test fails.';
 
 $package = new PEAR_PackageFileManager2();
 $result = $package->setOptions(array('filelistgenerator' => 'file',
