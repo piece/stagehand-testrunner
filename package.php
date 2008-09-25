@@ -52,18 +52,18 @@ What\'s New in Stagehand_TestRunner 2.5.0
  * A defect fix: A defect has been fixed so that the Growl message is output only "FAILURES!" when a test fails.';
 
 $package = new PEAR_PackageFileManager2();
-$result = $package->setOptions(array('filelistgenerator' => 'file',
-                                     'changelogoldtonew' => false,
-                                     'simpleoutput'      => true,
-                                     'baseinstalldir'    => '/',
-                                     'packagefile'       => 'package.xml',
-                                     'packagedirectory'  => '.',
-                                     'dir_roles'         => array('tests' => 'test',
-                                                                  'doc' => 'doc',
-                                                                  'bin' => 'script',
-                                                                  'src' => 'php'),
-                                     'ignore'            => array('package.php'))
-                               );
+$package->setOptions(array('filelistgenerator' => 'file',
+                           'changelogoldtonew' => false,
+                           'simpleoutput'      => true,
+                           'baseinstalldir'    => '/',
+                           'packagefile'       => 'package.xml',
+                           'packagedirectory'  => '.',
+                           'dir_roles'         => array('tests' => 'test',
+                                                        'doc' => 'doc',
+                                                        'bin' => 'script',
+                                                        'src' => 'php'),
+                           'ignore'            => array('package.php'))
+                     );
 
 $package->setPackage('Stagehand_TestRunner');
 $package->setPackageType('php');
