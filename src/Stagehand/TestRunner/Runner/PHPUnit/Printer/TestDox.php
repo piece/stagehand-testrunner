@@ -39,7 +39,7 @@
 require_once 'PHPUnit/Util/TestDox/ResultPrinter/Text.php';
 require_once 'PHPUnit/Framework/Test.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnit_TestDox_Printer
+// {{{ Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox
 
 /**
  * A result printer for TestDox documentation.
@@ -51,7 +51,7 @@ require_once 'PHPUnit/Framework/Test.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.4.0
  */
-class Stagehand_TestRunner_Runner_PHPUnit_TestDox_Printer extends PHPUnit_Util_TestDox_ResultPrinter_Text
+class Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox extends PHPUnit_Util_TestDox_ResultPrinter_Text
 {
 
     // {{{ properties

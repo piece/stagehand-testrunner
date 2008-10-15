@@ -45,7 +45,7 @@ require_once 'PHPUnit/Framework/TestFailure.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter
+// {{{ Stagehand_TestRunner_Runner_PHPUnit_Printer_Result
 
 /**
  * A result printer for PHPUnit.
@@ -57,7 +57,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
-class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_ResultPrinter
+class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_ResultPrinter
 {
 
     // {{{ properties

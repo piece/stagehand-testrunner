@@ -40,12 +40,12 @@ define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit::run');
 
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Stagehand/TestRunner/Runner/Common.php';
-require_once 'Stagehand/TestRunner/Runner/PHPUnit/ResultPrinter.php';
+require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/Result.php';
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox/Stream.php';
-require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox/Printer.php';
-require_once 'Stagehand/TestRunner/Runner/PHPUnit/ProgressPrinter.php';
+require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/TestDox.php';
+require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/Progress.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPUnit
 
@@ -97,21 +97,18 @@ class Stagehand_TestRunner_Runner_PHPUnit extends Stagehand_TestRunner_Runner_Co
      */
     public function run($suite, $config)
     {
-        $printer = new Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter(null,
-                                                                         false,
-                                                                         $config->color
-                                                                         );
+        $printer =
+            new Stagehand_TestRunner_Runner_PHPUnit_Printer_Result(null,
+                                                                   false,
+                                                                   $config->color
+                                                                   );
 
-        $listeners = array();
+        $listeners = array(new Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox('testdox://', $config->color));
         $listeners[] =
-            new Stagehand_TestRunner_Runner_PHPUnit_TestDox_Printer('testdox://',
-                                                                    $config->color
-                                                                    );
-        $listeners[] =
-            new Stagehand_TestRunner_Runner_PHPUnit_ProgressPrinter(null,
-                                                                    false,
-                                                                    $config->color
-                                                                    );
+            new Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress(null,
+                                                                     false,
+                                                                     $config->color
+                                                                     );
 
         $result = PHPUnit_TextUI_TestRunner::run($suite,
                                                  array('printer' => $printer,
