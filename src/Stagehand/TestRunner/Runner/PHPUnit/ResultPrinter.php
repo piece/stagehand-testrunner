@@ -118,16 +118,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      * @param  Exception              $e
      * @param  float                  $time
      */
-    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
-    {
-        if (!$this->_color) {
-            parent::addError($test, $e, $time);
-            return;
-        }
-
-        $this->writeProgress(Stagehand_TestRunner_Coloring::magenta('E'));
-        $this->lastTestFailed = TRUE;
-    }
+    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time) {}
 
     // }}}
     // {{{ addFailure()
@@ -139,16 +130,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      * @param  PHPUnit_Framework_AssertionFailedError $e
      * @param  float                                  $time
      */
-    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
-    {
-        if (!$this->_color) {
-            parent::addFailure($test, $e, $time);
-            return;
-        }
-
-        $this->writeProgress(Stagehand_TestRunner_Coloring::red('F'));
-        $this->lastTestFailed = TRUE;
-    }
+    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {}
 
     // }}}
     // {{{ addIncompleteTest()
@@ -160,16 +142,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      * @param  Exception              $e
      * @param  float                  $time
      */
-    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
-    {
-        if (!$this->_color) {
-            parent::addIncompleteTest($test, $e, $time);
-            return;
-        }
-
-        $this->writeProgress(Stagehand_TestRunner_Coloring::yellow('I'));
-        $this->lastTestFailed = TRUE;
-    }
+    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time) {}
 
     // }}}
     // {{{ addSkippedTest()
@@ -181,16 +154,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      * @param  Exception              $e
      * @param  float                  $time
      */
-    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
-    {
-        if (!$this->_color) {
-            parent::addSkippedTest($test, $e, $time);
-            return;
-        }
-
-        $this->writeProgress(Stagehand_TestRunner_Coloring::yellow('S'));
-        $this->lastTestFailed = TRUE;
-    }
+    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time) {}
 
     // }}}
     // {{{ endTest()
@@ -203,21 +167,9 @@ class Stagehand_TestRunner_Runner_PHPUnit_ResultPrinter extends PHPUnit_TextUI_R
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if (!$this->_color) {
-            parent::endTest($test, $time);
-            return;
-        }
-
-        if (!$this->lastTestFailed) {
-            $this->writeProgress(Stagehand_TestRunner_Coloring::green('.'));
-        }
-
         if ($test instanceof PHPUnit_Framework_TestCase) {
             $this->numAssertions += $test->getNumAssertions();
         }
-
-        $this->lastEvent      = self::EVENT_TEST_END;
-        $this->lastTestFailed = FALSE;
     }
 
     // }}}

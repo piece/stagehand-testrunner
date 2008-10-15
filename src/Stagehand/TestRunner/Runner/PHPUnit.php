@@ -45,6 +45,7 @@ require_once 'PHPUnit/TextUI/ResultPrinter.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox/Stream.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox/Printer.php';
+require_once 'Stagehand/TestRunner/Runner/PHPUnit/ProgressPrinter.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPUnit
 
@@ -100,11 +101,22 @@ class Stagehand_TestRunner_Runner_PHPUnit extends Stagehand_TestRunner_Runner_Co
                                                                          false,
                                                                          $config->color
                                                                          );
-        $result =
-            PHPUnit_TextUI_TestRunner::run($suite,
-                                           array('printer' => $printer,
-                                                 'listeners' => array(new Stagehand_TestRunner_Runner_PHPUnit_TestDox_Printer('testdox://', $config->color)))
-                                           );
+
+        $listeners = array();
+        $listeners[] =
+            new Stagehand_TestRunner_Runner_PHPUnit_TestDox_Printer('testdox://',
+                                                                    $config->color
+                                                                    );
+        $listeners[] =
+            new Stagehand_TestRunner_Runner_PHPUnit_ProgressPrinter(null,
+                                                                    false,
+                                                                    $config->color
+                                                                    );
+
+        $result = PHPUnit_TextUI_TestRunner::run($suite,
+                                                 array('printer' => $printer,
+                                                       'listeners' => $listeners)
+                                                 );
 
         if ($config->useGrowl) {
             ob_start();
