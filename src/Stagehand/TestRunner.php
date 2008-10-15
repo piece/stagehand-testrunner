@@ -162,6 +162,7 @@ Options:
                                   for changes
   -g                              notify test results to Growl
       --growl-password=<password> specify <password> for Growl
+  -v                              display detailed progress report (PHPUnit only)
 
 With no [directory or file], run all tests in the current directory.
 ";
@@ -287,7 +288,7 @@ All rights reserved.
         array_shift($argv);
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $allOptions = Console_Getopt::getopt2($argv,
-                                              'hVRcp:aw:g',
+                                              'hVRcp:aw:gv',
                                               array('growl-password=')
                                               );
         PEAR::staticPopErrorHandling();
@@ -303,6 +304,7 @@ All rights reserved.
         $targetDirectories = array();
         $useGrowl = false;
         $growlPassword = null;
+        $isVerbose = false;
         foreach ($allOptions as $options) {
             if (!count($options)) {
                 continue;
@@ -342,6 +344,9 @@ All rights reserved.
                     case '--growl-password':
                         $growlPassword = $option[1];
                         break;
+                    case 'v':
+                        $isVerbose = true;
+                        break;
                     }
                 } else {
                     $directory = $option;
@@ -356,7 +361,8 @@ All rights reserved.
                              'preloadFile' => $preloadFile,
                              'targetDirectories' => $targetDirectories,
                              'useGrowl' => $useGrowl,
-                             'growlPassword' => $growlPassword
+                             'growlPassword' => $growlPassword,
+                             'isVerbose' => $isVerbose
                              );
     }
 

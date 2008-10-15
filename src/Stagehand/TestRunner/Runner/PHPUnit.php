@@ -46,6 +46,7 @@ require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox/Stream.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/TestDox.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/Progress.php';
+require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/DetailedProgress.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPUnit
 
@@ -104,11 +105,17 @@ class Stagehand_TestRunner_Runner_PHPUnit extends Stagehand_TestRunner_Runner_Co
                                                                    );
 
         $listeners = array(new Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox('testdox://', $config->color));
-        $listeners[] =
-            new Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress(null,
-                                                                     false,
-                                                                     $config->color
-                                                                     );
+        if (!$config->isVerbose) {
+            $listeners[] = new Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress(null,
+                                                                                    false,
+                                                                                    $config->color
+                                                                                    );
+        } else {
+            $listeners[] = new Stagehand_TestRunner_Runner_PHPUnit_Printer_DetailedProgress(null,
+                                                                                            false,
+                                                                                            $config->color
+                                                                                            );
+        }
 
         $result = PHPUnit_TextUI_TestRunner::run($suite,
                                                  array('printer' => $printer,
