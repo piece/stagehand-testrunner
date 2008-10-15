@@ -38,6 +38,7 @@
 
 require_once 'PHPUnit/Util/TestDox/ResultPrinter/Text.php';
 require_once 'PHPUnit/Framework/Test.php';
+require_once 'PHPUnit/Framework/AssertionFailedError.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox
 

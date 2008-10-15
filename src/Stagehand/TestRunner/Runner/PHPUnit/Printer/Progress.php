@@ -40,8 +40,6 @@ require_once 'PHPUnit/TextUI/ResultPrinter.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/Test.php';
 require_once 'PHPUnit/Framework/AssertionFailedError.php';
-require_once 'PHPUnit/Framework/TestResult.php';
-require_once 'PHPUnit/Framework/TestFailure.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
@@ -216,7 +214,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress extends PHPUnit_TextU
             $this->numAssertions += $test->getNumAssertions();
         }
 
-        $this->lastEvent      = self::EVENT_TEST_END;
+        $this->lastEvent = self::EVENT_TEST_END;
         $this->lastTestFailed = false;
     }
 
