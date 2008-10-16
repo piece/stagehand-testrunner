@@ -244,16 +244,11 @@ abstract class Stagehand_TestRunner_Collector_Common
             return;
         }
 
-        print "Loading [ $file ] ... ";
-
         $currentClasses = get_declared_classes();
 
         if (!include_once($file)) {
-            print "Failed!\n";
             return;
         }
-
-        print "Succeeded.\n";
 
         $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
         for ($i = 0, $count = count($newClasses); $i < $count; ++$i) {
@@ -274,7 +269,6 @@ abstract class Stagehand_TestRunner_Collector_Common
             }
 
             $this->_testCases[] = $newClasses[$i];
-            print "  => Added [ {$newClasses[$i]} ]\n";
         }
     }
 
