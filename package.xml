@@ -5,20 +5,18 @@
     http://pear.php.net/dtd/package-2.0.xsd">
  <name>Stagehand_TestRunner</name>
  <channel>pear.piece-framework.com</channel>
- <summary>Automated test runners for PHPSpec, PHPUnit, and SimpleTest</summary>
- <description>Stagehand_TestRunner is automated test runners for PHPSpec, PHPUnit, and SimpleTest.
-
-Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with &quot;Spec.php&quot; (PHPSpec) or &quot;Test.php&quot; or &quot;TestCase.php&quot; (PHPUnit/SimpleTest) under an arbitrary directory. Stagehand_TestRunner now supports PHPSpec, PHPUnit, and SimpleTest.</description>
+ <summary>Automated test runners for PHPUnit, SimpleTest, PHPSpec</summary>
+ <description>Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with &quot;Test.php&quot; or &quot;TestCase.php&quot; (PHPUnit/SimpleTest), or &quot;Spec.php&quot; (PHPSpec) under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit, SimpleTest, and PHPSpec.</description>
  <lead>
   <name>KUBO Atsuhiro</name>
   <user>iteman</user>
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2008-09-23</date>
- <time>15:00:30</time>
+ <date>2008-10-23</date>
+ <time>10:20:01</time>
  <version>
-  <release>2.5.0</release>
+  <release>2.6.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -28,10 +26,9 @@ Stagehand_TestRunner provides command line scripts to run tests automatically. T
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
  <notes>A new release of Stagehand_TestRunner is now available.
 
-What&apos;s New in Stagehand_TestRunner 2.5.0
+What&apos;s New in Stagehand_TestRunner 2.6.0
 
- * Enhanced PHPUnit support: Results output has been improved so as to be same as PHPUnit 3.3.0.
- * A defect fix: A defect has been fixed so that the Growl message is output only &quot;FAILURES!&quot; when a test fails.</notes>
+ * Enhanced PHPUnit support: A feature to display detailed progress report instead of normal progress report has been added. This feature will make it easy to find out where a fatal error occurred. This feature can be used by the -v option.</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="bin">
@@ -88,17 +85,25 @@ What&apos;s New in Stagehand_TestRunner 2.5.0
         </file>
        </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPSpec -->
        <dir name="PHPUnit">
-        <dir name="TestDox">
-         <file baseinstalldir="/" name="Printer.php" role="php">
+        <dir name="Printer">
+         <file baseinstalldir="/" name="DetailedProgress.php" role="php">
           <tasks:replace from="@package_version@" to="version" type="package-info" />
          </file>
+         <file baseinstalldir="/" name="Progress.php" role="php">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
+         <file baseinstalldir="/" name="Result.php" role="php">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
+         <file baseinstalldir="/" name="TestDox.php" role="php">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
+        </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPUnit/Printer -->
+        <dir name="TestDox">
          <file baseinstalldir="/" name="Stream.php" role="php">
           <tasks:replace from="@package_version@" to="version" type="package-info" />
          </file>
         </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPUnit/TestDox -->
-        <file baseinstalldir="/" name="ResultPrinter.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
         <file baseinstalldir="/" name="TestDox.php" role="php">
          <tasks:replace from="@package_version@" to="version" type="package-info" />
         </file>
@@ -268,6 +273,23 @@ What&apos;s New in Stagehand_TestRunner 2.5.0
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.6.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-10-23</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.6.0
+
+ * Enhanced PHPUnit support: A feature to display detailed progress report instead of normal progress report has been added. This feature will make it easy to find out where a fatal error occurred. This feature can be used by the -v option.</notes>
+  </release>
   <release>
    <version>
     <release>2.5.0</release>
