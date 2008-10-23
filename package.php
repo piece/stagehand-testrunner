@@ -48,7 +48,7 @@ $notes = 'A new release of Stagehand_TestRunner is now available.
 
 What\'s New in Stagehand_TestRunner 2.6.0
 
- * Enhanced PHPUnit support: A feature to display detailed progress report instead of normal progress report has been added. This feature will makes it easy to find out where a fatal error occurred. This feature can be used by the -v option.';
+ * Enhanced PHPUnit support: A feature to display detailed progress report instead of normal progress report has been added. This feature will make it easy to find out where a fatal error occurred. This feature can be used by the -v option.';
 
 $package = new PEAR_PackageFileManager2();
 $package->setOptions(array('filelistgenerator' => 'file',
@@ -57,19 +57,17 @@ $package->setOptions(array('filelistgenerator' => 'file',
                            'baseinstalldir'    => '/',
                            'packagefile'       => 'package.xml',
                            'packagedirectory'  => '.',
-                           'dir_roles'         => array('tests' => 'test',
+                           'dir_roles'         => array('bin' => 'script',
                                                         'doc' => 'doc',
-                                                        'bin' => 'script',
-                                                        'src' => 'php'),
+                                                        'src' => 'php',
+                                                        'tests' => 'test'),
                            'ignore'            => array('package.php'))
                      );
 
 $package->setPackage('Stagehand_TestRunner');
 $package->setPackageType('php');
-$package->setSummary('Automated test runners for PHPSpec, PHPUnit, and SimpleTest');
-$package->setDescription('Stagehand_TestRunner is automated test runners for PHPSpec, PHPUnit, and SimpleTest.
-
-Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with "Spec.php" (PHPSpec) or "Test.php" or "TestCase.php" (PHPUnit/SimpleTest) under an arbitrary directory. Stagehand_TestRunner now supports PHPSpec, PHPUnit, and SimpleTest.');
+$package->setSummary('Automated test runners for PHPUnit, SimpleTest, PHPSpec');
+$package->setDescription('Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with "Test.php" or "TestCase.php" (PHPUnit/SimpleTest), or "Spec.php" (PHPSpec) under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit, SimpleTest, and PHPSpec.');
 $package->setChannel('pear.piece-framework.com');
 $package->setLicense('BSD License (revised)', 'http://www.opensource.org/licenses/bsd-license.php');
 $package->setAPIVersion($apiVersion);
