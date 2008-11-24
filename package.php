@@ -81,6 +81,8 @@ $package->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.3');
 $package->addPackageDepWithChannel('required', 'Console_Getopt', 'pear.php.net', '1.2');
 $package->addPackageDepWithChannel('optional', 'Console_Color', 'pear.php.net', '1.0.2');
 $package->addPackageDepWithChannel('optional', 'Net_Growl', 'pear.php.net', '0.7.0');
+$package->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.3.0');
+$package->addPackageDepWithChannel('optional', 'PHPSpec', 'pear.phpspec.org', '0.2.3');
 $package->addExtensionDep('required', 'pcre');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
