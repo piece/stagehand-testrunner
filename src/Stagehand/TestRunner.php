@@ -38,6 +38,7 @@
 require_once 'Console/Getopt.php';
 require_once 'Stagehand/TestRunner/AlterationMonitor.php';
 require_once 'Stagehand/TestRunner/Exception.php';
+require_once 'PEAR.php';
 
 // {{{ Stagehand_TestRunner
 
@@ -278,10 +279,12 @@ All rights reserved.
      */
     private function _parseOptions()
     {
+        $oldErrorReportingLevel = error_reporting(error_reporting(0) & ~E_STRICT);
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $argv = Console_Getopt::readPHPArgv();
         PEAR::staticPopErrorHandling();
         if (PEAR::isError($argv)) {
+            error_reporting($oldErrorReportingLevel);
             throw new Stagehand_TestRunner_Exception(preg_replace('/^Console_Getopt: /', '', $argv->getMessage()));
         }
 
@@ -293,8 +296,11 @@ All rights reserved.
                                               );
         PEAR::staticPopErrorHandling();
         if (PEAR::isError($allOptions)) {
+            error_reporting($oldErrorReportingLevel);
             throw new Stagehand_TestRunner_Exception(preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()));
         }
+
+        error_reporting($oldErrorReportingLevel);
 
         $directory = getcwd();
         $isRecursive = false;
