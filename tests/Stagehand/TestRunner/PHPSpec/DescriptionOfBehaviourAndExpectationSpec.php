@@ -39,7 +39,7 @@ if (!@include_once 'PHPSpec/Context.php') {
     return;
 }
 
-// {{{ DescribeDescription
+// {{{ Describe振舞やエクスペクテーションの説明
 
 /**
  * TestCase for the PHPSpec runner.
