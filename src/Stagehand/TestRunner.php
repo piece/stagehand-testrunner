@@ -108,7 +108,7 @@ class Stagehand_TestRunner
         }
 
         try {
-            $this->_config = $this->_parseOptions();
+            $this->_config = $this->_loadConfiguration();
             if (is_null($this->_config)) {
                 return 1;
             }
@@ -268,40 +268,16 @@ All rights reserved.
     }
 
     // }}}
-    // {{{ _parseOptions()
+    // {{{ _loadConfiguration()
 
     /**
-     * Parses the command line options and creates a configuration object.
+     * Loads the configuration by the default values and command line options.
      *
      * @return stdClass
-     * @throws Stagehand_TestRunner_Exception
      * @since Method available since Release 2.1.0
      */
-    private function _parseOptions()
+    private function _loadConfiguration()
     {
-        $oldErrorReportingLevel = error_reporting(error_reporting(0) & ~E_STRICT);
-        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $argv = Console_Getopt::readPHPArgv();
-        PEAR::staticPopErrorHandling();
-        if (PEAR::isError($argv)) {
-            error_reporting($oldErrorReportingLevel);
-            throw new Stagehand_TestRunner_Exception(preg_replace('/^Console_Getopt: /', '', $argv->getMessage()));
-        }
-
-        array_shift($argv);
-        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $allOptions = Console_Getopt::getopt2($argv,
-                                              'hVRcp:aw:gv',
-                                              array('growl-password=')
-                                              );
-        PEAR::staticPopErrorHandling();
-        if (PEAR::isError($allOptions)) {
-            error_reporting($oldErrorReportingLevel);
-            throw new Stagehand_TestRunner_Exception(preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()));
-        }
-
-        error_reporting($oldErrorReportingLevel);
-
         $directory = getcwd();
         $isRecursive = false;
         $color = false;
@@ -311,7 +287,7 @@ All rights reserved.
         $useGrowl = false;
         $growlPassword = null;
         $isVerbose = false;
-        foreach ($allOptions as $options) {
+        foreach ($this->_parseOptions() as $options) {
             if (!count($options)) {
                 continue;
             }
@@ -406,6 +382,45 @@ All rights reserved.
                            $notification->description
                            );
         }
+    }
+
+    // }}}
+    // {{{ _parseOptions()
+
+    /**
+     * Parses the command line options.
+     *
+     * @return array
+     * @throws Stagehand_TestRunner_Exception
+     * @since Method available since Release 2.6.1
+     */
+    private function _parseOptions()
+    {
+        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
+
+        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
+        $argv = Console_Getopt::readPHPArgv();
+        PEAR::staticPopErrorHandling();
+        if (PEAR::isError($argv)) {
+            error_reporting($oldErrorReportingLevel);
+            throw new Stagehand_TestRunner_Exception(preg_replace('/^Console_Getopt: /', '', $argv->getMessage()));
+        }
+
+        array_shift($argv);
+        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
+        $allOptions = Console_Getopt::getopt2($argv,
+                                              'hVRcp:aw:gv',
+                                              array('growl-password=')
+                                              );
+        PEAR::staticPopErrorHandling();
+        if (PEAR::isError($allOptions)) {
+            error_reporting($oldErrorReportingLevel);
+            throw new Stagehand_TestRunner_Exception(preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()));
+        }
+
+        error_reporting($oldErrorReportingLevel);
+
+        return $allOptions;
     }
 
     /**#@-*/

@@ -84,7 +84,10 @@ class Stagehand_TestRunner_Coloring
      */
     public static function green($text)
     {
-        return Console_Color::convert("%g$text%n");
+        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
+        $green = Console_Color::convert("%g$text%n");
+        error_reporting($oldErrorReportingLevel);
+        return $green;
     }
 
     // }}}
@@ -96,7 +99,10 @@ class Stagehand_TestRunner_Coloring
      */
     public static function red($text)
     {
-        return Console_Color::convert("%r$text%n");
+        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
+        $red = Console_Color::convert("%r$text%n");
+        error_reporting($oldErrorReportingLevel);
+        return $red;
     }
 
     // }}}
@@ -108,7 +114,10 @@ class Stagehand_TestRunner_Coloring
      */
     public static function magenta($text)
     {
-        return Console_Color::convert("%m$text%n");
+        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
+        $magenta = Console_Color::convert("%m$text%n");
+        error_reporting($oldErrorReportingLevel);
+        return $magenta;
     }
 
     // }}}
@@ -120,7 +129,10 @@ class Stagehand_TestRunner_Coloring
      */
     public static function yellow($text)
     {
-        return Console_Color::convert("%y$text%n");
+        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
+        $yellow = Console_Color::convert("%y$text%n");
+        error_reporting($oldErrorReportingLevel);
+        return $yellow;
     }
 
     /**#@-*/

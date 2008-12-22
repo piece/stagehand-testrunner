@@ -323,6 +323,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_
             $colorLabel = 'magenta';
         }
 
+        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
         $this->write(
           Stagehand_TestRunner_Coloring::$colorLabel(Console_Color::escape($defect->toStringVerbose($this->verbose))) .
           PHPUnit_Util_Filter::getFilteredStacktrace(
@@ -330,6 +331,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_
             FALSE
           )
         );
+        error_reporting($oldErrorReportingLevel);
     }
 
     // }}}

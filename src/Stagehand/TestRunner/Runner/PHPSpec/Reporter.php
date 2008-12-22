@@ -153,6 +153,7 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
                 $colorLabel = 'red';
             }
 
+            $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
             $output = preg_replace(array('/^(\d+ examples?.*)/m',
                                          '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
                                          '/^(  -)(.+)( \(FAIL\))/m',
@@ -181,6 +182,7 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
                                          ),
                                    Console_Color::escape($output)
                                    );
+            error_reporting($oldErrorReportingLevel);
         }
 
         print $output;
