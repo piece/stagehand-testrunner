@@ -40,15 +40,15 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '2.6.0';
+$releaseVersion = '2.6.1';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
 $notes = 'A new release of Stagehand_TestRunner is now available.
 
-What\'s New in Stagehand_TestRunner 2.6.0
+What\'s New in Stagehand_TestRunner 2.6.1
 
- * Enhanced PHPUnit support: A feature to display detailed progress report instead of normal progress report has been added. This feature will make it easy to find out where a fatal error occurred. This feature can be used by the -v option.';
+ * A defect fix: A defect has been fixed that caused warning messages to be displayed if E_STRICT was enabled.';
 
 $package = new PEAR_PackageFileManager2();
 $package->setOptions(array('filelistgenerator' => 'file',
