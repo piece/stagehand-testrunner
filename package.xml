@@ -13,10 +13,10 @@
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2008-10-23</date>
- <time>10:20:01</time>
+ <date>2009-01-14</date>
+ <time>23:46:00</time>
  <version>
-  <release>2.6.0</release>
+  <release>2.6.1</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -26,9 +26,9 @@
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
  <notes>A new release of Stagehand_TestRunner is now available.
 
-What&apos;s New in Stagehand_TestRunner 2.6.0
+What&apos;s New in Stagehand_TestRunner 2.6.1
 
- * Enhanced PHPUnit support: A feature to display detailed progress report instead of normal progress report has been added. This feature will make it easy to find out where a fatal error occurred. This feature can be used by the -v option.</notes>
+ * A defect fix: A defect has been fixed that caused warning messages to be displayed if E_STRICT was enabled.</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="bin">
@@ -260,6 +260,16 @@ What&apos;s New in Stagehand_TestRunner 2.6.0
     <channel>pear.php.net</channel>
     <min>0.7.0</min>
    </package>
+   <package>
+    <name>PHPUnit</name>
+    <channel>pear.phpunit.de</channel>
+    <min>3.3.0</min>
+   </package>
+   <package>
+    <name>PHPSpec</name>
+    <channel>pear.phpspec.org</channel>
+    <min>0.2.3</min>
+   </package>
   </optional>
  </dependencies>
  <phprelease>
@@ -273,6 +283,23 @@ What&apos;s New in Stagehand_TestRunner 2.6.0
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.6.1</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-01-14</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.6.1
+
+ * A defect fix: A defect has been fixed that caused warning messages to be displayed if E_STRICT was enabled.</notes>
+  </release>
   <release>
    <version>
     <release>2.6.0</release>
