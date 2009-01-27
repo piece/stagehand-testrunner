@@ -42,8 +42,6 @@ require_once 'PHPUnit/Framework/Test.php';
 require_once 'PHPUnit/Framework/AssertionFailedError.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
 
-PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
-
 // {{{ Stagehand_TestRunner_Runner_PHPUnit_Printer_DetailedProgress
 
 /**
