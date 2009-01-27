@@ -39,6 +39,7 @@
 require_once 'PHPUnit/Util/TestDox/ResultPrinter/Text.php';
 require_once 'PHPUnit/Framework/Test.php';
 require_once 'PHPUnit/Framework/AssertionFailedError.php';
+require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox/NamePrettifier.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox
 
@@ -99,6 +100,9 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox extends PHPUnit_Util_T
         if ($this->_color) {
             include_once 'Stagehand/TestRunner/Coloring.php';
         }
+
+        $this->prettifier =
+            new Stagehand_TestRunner_Runner_PHPUnit_TestDox_NamePrettifier();
     }
 
     // }}}
