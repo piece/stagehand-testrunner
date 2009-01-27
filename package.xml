@@ -13,10 +13,10 @@
   <email>iteman@users.sourceforge.net</email>
   <active>yes</active>
  </lead>
- <date>2009-01-14</date>
- <time>23:46:00</time>
+ <date>2009-01-27</date>
+ <time>21:49:39</time>
  <version>
-  <release>2.6.1</release>
+  <release>2.6.2</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -26,9 +26,9 @@
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
  <notes>A new release of Stagehand_TestRunner is now available.
 
-What&apos;s New in Stagehand_TestRunner 2.6.1
+What&apos;s New in Stagehand_TestRunner 2.6.2
 
- * A defect fix: A defect has been fixed that caused warning messages to be displayed if E_STRICT was enabled.</notes>
+ * A defect fix: A defect with PHPUnit has been fixed that caused the numerical part of the prettified method name for a method ending with a number to be lost.</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="bin">
@@ -100,6 +100,9 @@ What&apos;s New in Stagehand_TestRunner 2.6.1
          </file>
         </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPUnit/Printer -->
         <dir name="TestDox">
+         <file baseinstalldir="/" name="NamePrettifier.php" role="php">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
          <file baseinstalldir="/" name="Stream.php" role="php">
           <tasks:replace from="@package_version@" to="version" type="package-info" />
          </file>
@@ -283,6 +286,23 @@ What&apos;s New in Stagehand_TestRunner 2.6.1
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.6.2</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-01-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.6.2
+
+ * A defect fix: A defect with PHPUnit has been fixed that caused the numerical part of the prettified method name for a method ending with a number to be lost.</notes>
+  </release>
   <release>
    <version>
     <release>2.6.1</release>

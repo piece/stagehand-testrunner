@@ -40,15 +40,15 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '2.6.1';
+$releaseVersion = '2.6.2';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
 $notes = 'A new release of Stagehand_TestRunner is now available.
 
-What\'s New in Stagehand_TestRunner 2.6.1
+What\'s New in Stagehand_TestRunner 2.6.2
 
- * A defect fix: A defect has been fixed that caused warning messages to be displayed if E_STRICT was enabled.';
+ * A defect fix: A defect with PHPUnit has been fixed that caused the numerical part of the prettified method name for a method ending with a number to be lost.';
 
 $package = new PEAR_PackageFileManager2();
 $package->setOptions(array('filelistgenerator' => 'file',
