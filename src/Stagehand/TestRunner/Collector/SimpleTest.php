@@ -33,7 +33,7 @@
  * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
  * @copyright  2007-2008 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    SVN: $Id$
+ * @version    Release: @package_version@
  * @link       http://simpletest.org/
  * @since      File available since Release 2.1.0
  */

@@ -31,7 +31,7 @@
  * @package    Stagehand_TestRunner
  * @copyright  2008 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    SVN: $Id$
+ * @version    Release: @package_version@
  * @since      File available since Release 2.2.0
  */
 
