@@ -30,7 +30,7 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2005-2009 KUBO Atsuhiro <kubo@iteman.jp>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    SVN: $Id$
  * @since      File available since Release 0.1.0
  */
@@ -69,7 +69,7 @@ $package->setPackageType('php');
 $package->setSummary('Automated test runners for PHPUnit, SimpleTest, PHPSpec');
 $package->setDescription('Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with "Test.php" or "TestCase.php" (PHPUnit/SimpleTest), or "Spec.php" (PHPSpec) under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit, SimpleTest, and PHPSpec.');
 $package->setChannel('pear.piece-framework.com');
-$package->setLicense('BSD License (revised)', 'http://www.opensource.org/licenses/bsd-license.php');
+$package->setLicense('New BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
 $package->setAPIVersion($apiVersion);
 $package->setAPIStability($apiStability);
 $package->setReleaseVersion($releaseVersion);

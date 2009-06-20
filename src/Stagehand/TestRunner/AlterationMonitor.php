@@ -30,7 +30,7 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2008 KUBO Atsuhiro <kubo@iteman.jp>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    SVN: $Id$
  * @since      File available since Release 2.1.0
  */
@@ -46,7 +46,7 @@ require_once 'Stagehand/TestRunner/DirectoryScanner/Exception.php';
  *
  * @package    Stagehand_TestRunner
  * @copyright  2008 KUBO Atsuhiro <kubo@iteman.jp>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.1.0
  */
