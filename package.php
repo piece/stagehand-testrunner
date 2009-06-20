@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2005-2009 KUBO Atsuhiro <iteman@users.sourceforge.net>,
+ * Copyright (c) 2005-2009 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2005-2009 KUBO Atsuhiro <iteman@users.sourceforge.net>
+ * @copyright  2005-2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License (revised)
  * @version    SVN: $Id$
  * @since      File available since Release 0.1.0
@@ -85,7 +85,7 @@ $package->addPackageDepWithChannel('optional', 'Net_Growl', 'pear.php.net', '0.7
 $package->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.3.0');
 $package->addPackageDepWithChannel('optional', 'PHPSpec', 'pear.phpspec.org', '0.2.3');
 $package->addExtensionDep('required', 'pcre');
-$package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'iteman@users.sourceforge.net');
+$package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'kubo@iteman.jp');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
 $package->addInstallAs('bin/specrunner', 'specrunner');
 $package->addInstallAs('bin/specrunner.bat', 'specrunner.bat');
