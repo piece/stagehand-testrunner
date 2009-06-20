@@ -36,7 +36,7 @@
  */
 
 require_once 'Stagehand/TestRunner/Exception.php';
-require_once 'Stagehand/TestRunner/DirectoryScanner.php';
+require_once 'Stagehand/DirectoryScanner.php';
 
 // {{{ Stagehand_TestRunner_Collector_Common
 
@@ -125,7 +125,8 @@ abstract class Stagehand_TestRunner_Collector_Common
         }
 
         if (is_dir($absoluteTargetPath)) {
-            $directoryScanner = new Stagehand_TestRunner_DirectoryScanner(array($this, 'collectTestCases'), $this->_isRecursive);
+            $directoryScanner = new Stagehand_DirectoryScanner(array($this, 'collectTestCases'));
+            $directoryScanner->setIsRecursive($this->_isRecursive);
             $directoryScanner->scan($absoluteTargetPath);
         } else {
             $this->_collectTestCasesFromFile($absoluteTargetPath);

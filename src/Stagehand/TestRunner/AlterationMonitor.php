@@ -36,7 +36,7 @@
  */
 
 require_once 'Stagehand/TestRunner/Exception.php';
-require_once 'Stagehand/TestRunner/DirectoryScanner.php';
+require_once 'Stagehand/DirectoryScanner.php';
 require_once 'Stagehand/TestRunner/DirectoryScanner/Exception.php';
 
 // {{{ Stagehand_TestRunner_AlterationMonitor
@@ -103,7 +103,8 @@ class Stagehand_TestRunner_AlterationMonitor
     {
         $this->_directories = $directories;
         $this->_command = $command;
-        $this->_directoryScanner = new Stagehand_TestRunner_DirectoryScanner(array($this, 'detectChanges'));
+        $this->_directoryScanner = new Stagehand_DirectoryScanner(array($this, 'detectChanges'));
+        $this->_directoryScanner->setIsRecursive(true);
     }
 
     // }}}
