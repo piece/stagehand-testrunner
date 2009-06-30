@@ -36,7 +36,7 @@
  */
 
 require_once 'Console/Getopt.php';
-require_once 'Stagehand/TestRunner/AlterationMonitor.php';
+require_once 'Stagehand/AlterationMonitor.php';
 require_once 'Stagehand/TestRunner/Exception.php';
 require_once 'PEAR.php';
 
@@ -261,9 +261,13 @@ All rights reserved.
 
         $options[] = $this->_config->directory;
 
-        $monitor = new Stagehand_TestRunner_AlterationMonitor($targetDirectories,
-                                                              "$command " . implode(' ', $options)
-                                                              );
+        $monitor = new Stagehand_AlterationMonitor($targetDirectories,
+                                                   create_function('',
+                                                       "passthru('" .
+                                                       "$command " .
+                                                       implode(' ', $options) .
+                                                       "');")
+                                                   );
         $monitor->monitor();
     }
 
