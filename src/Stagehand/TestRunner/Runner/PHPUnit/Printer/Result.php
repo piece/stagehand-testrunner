@@ -76,7 +76,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_
      * @access private
      */
 
-    private $_color;
+    private $color;
 
     /**#@-*/
 
@@ -98,9 +98,9 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_
     public function __construct($out, $verbose, $color)
     {
         parent::__construct($out, $verbose);
-        $this->_color = $color;
+        $this->color = $color;
 
-        if ($this->_color) {
+        if ($this->color) {
             include_once 'Console/Color.php';
             include_once 'Stagehand/TestRunner/Coloring.php';
         }
@@ -231,7 +231,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_
      */
     protected function printDefects(array $defects, $count, $type)
     {
-        if (!$this->_color) {
+        if (!$this->color) {
             parent::printDefects($defects, $count, $type);
             return;
         }
@@ -273,7 +273,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_
      */
     protected function printDefectHeader(PHPUnit_Framework_TestFailure $defect, $count)
     {
-        if (!$this->_color) {
+        if (!$this->color) {
             parent::printDefectHeader($defect, $count);
             return;
         }
@@ -310,7 +310,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_
      */
     protected function printDefectTrace(PHPUnit_Framework_TestFailure $defect)
     {
-        if (!$this->_color) {
+        if (!$this->color) {
             parent::printDefectTrace($defect);
             return;
         }
@@ -340,7 +340,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_
      */
     protected function printFooter(PHPUnit_Framework_TestResult $result)
     {
-        if (!$this->_color) {
+        if (!$this->color) {
             parent::printFooter($result);
             return;
         }

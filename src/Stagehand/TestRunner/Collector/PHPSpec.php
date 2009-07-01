@@ -65,9 +65,9 @@ class Stagehand_TestRunner_Collector_PHPSpec extends Stagehand_TestRunner_Collec
      * @access protected
      */
 
-    protected $_baseClass = 'PHPSpec_Context';
-    protected $_suffix = 'Spec';
-    protected $_includePattern = '(^[Dd]escribe|[Ss]pec$)';
+    protected $baseClass = 'PHPSpec_Context';
+    protected $suffix = 'Spec';
+    protected $includePattern = '(^[Dd]escribe|[Ss]pec$)';
 
     /**#@-*/
 
@@ -88,20 +88,20 @@ class Stagehand_TestRunner_Collector_PHPSpec extends Stagehand_TestRunner_Collec
      */
 
     // }}}
-    // {{{ _createTestSuite()
+    // {{{ createTestSuite()
 
     /**
      * Creates a test suite ArrayObject.
      *
      * @return ArrayObject
      */
-    protected function _createTestSuite()
+    protected function createTestSuite()
     {
         return new ArrayObject();
     }
 
     // }}}
-    // {{{ _doBuildTestSuite()
+    // {{{ doBuildTestSuite()
 
     /**
      * Aggregates a test suite ArrayObject to an aggregate test suite ArrayObject.
@@ -109,7 +109,7 @@ class Stagehand_TestRunner_Collector_PHPSpec extends Stagehand_TestRunner_Collec
      * @param ArrayObject $aggregateSuite
      * @param ArrayObject $suite
      */
-    protected function _doBuildTestSuite($aggregateSuite, $suite)
+    protected function doBuildTestSuite($aggregateSuite, $suite)
     {
         if (!count($suite)) {
             return;
@@ -121,7 +121,7 @@ class Stagehand_TestRunner_Collector_PHPSpec extends Stagehand_TestRunner_Collec
     }
 
     // }}}
-    // {{{ _addTestCase()
+    // {{{ addTestCase()
 
     /**
      * Adds a test case to a test suite ArrayObject.
@@ -129,7 +129,7 @@ class Stagehand_TestRunner_Collector_PHPSpec extends Stagehand_TestRunner_Collec
      * @param ArrayObject $suite
      * @param string      $testCase
      */
-    protected function _addTestCase($suite, $testCase)
+    protected function addTestCase($suite, $testCase)
     {
         $suite[] = $testCase;
     }

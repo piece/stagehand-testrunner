@@ -74,8 +74,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox extends PHPUnit_Util_T
      * @access private
      */
 
-    private $_lastTestFailed = false;
-    private $_color;
+    private $lastTestFailed = false;
+    private $color;
 
     /**#@-*/
 
@@ -95,9 +95,9 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox extends PHPUnit_Util_T
     public function __construct($out = NULL, $color)
     {
         parent::__construct($out);
-        $this->_color = $color;
+        $this->color = $color;
 
-        if ($this->_color) {
+        if ($this->color) {
             include_once 'Stagehand/TestRunner/Coloring.php';
         }
 
@@ -117,13 +117,13 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox extends PHPUnit_Util_T
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($this->_color) {
+        if ($this->color) {
             $this->write(Stagehand_TestRunner_Coloring::magenta(" - {$this->currentTestMethodPrettified}\n"));
         } else {
             $this->write(" - {$this->currentTestMethodPrettified}\n");
         }
 
-        $this->_lastTestFailed = true;
+        $this->lastTestFailed = true;
     }
 
     // }}}
@@ -138,13 +138,13 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox extends PHPUnit_Util_T
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        if ($this->_color) {
+        if ($this->color) {
             $this->write(Stagehand_TestRunner_Coloring::red(" - {$this->currentTestMethodPrettified}\n"));
         } else {
             $this->write(" - {$this->currentTestMethodPrettified}\n");
         }
 
-        $this->_lastTestFailed = true;
+        $this->lastTestFailed = true;
     }
 
     // }}}
@@ -159,13 +159,13 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox extends PHPUnit_Util_T
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($this->_color) {
+        if ($this->color) {
             $this->write(Stagehand_TestRunner_Coloring::yellow(" - {$this->currentTestMethodPrettified}\n"));
         } else {
             $this->write(" - {$this->currentTestMethodPrettified}\n");
         }
 
-        $this->_lastTestFailed = true;
+        $this->lastTestFailed = true;
     }
 
     // }}}
@@ -180,13 +180,13 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox extends PHPUnit_Util_T
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($this->_color) {
+        if ($this->color) {
             $this->write(Stagehand_TestRunner_Coloring::yellow(" - {$this->currentTestMethodPrettified}\n"));
         } else {
             $this->write(" - {$this->currentTestMethodPrettified}\n");
         }
 
-        $this->_lastTestFailed = true;
+        $this->lastTestFailed = true;
     }
 
     // }}}
@@ -200,15 +200,15 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_TestDox extends PHPUnit_Util_T
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if (!$this->_lastTestFailed) {
-            if ($this->_color) {
+        if (!$this->lastTestFailed) {
+            if ($this->color) {
                 $this->write(Stagehand_TestRunner_Coloring::green(" - {$this->currentTestMethodPrettified}\n"));
             } else {
                 $this->write(" - {$this->currentTestMethodPrettified}\n");
             }
         }
 
-        $this->_lastTestFailed = false;
+        $this->lastTestFailed = false;
     }
 
     /**#@-*/

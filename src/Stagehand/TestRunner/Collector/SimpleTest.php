@@ -69,10 +69,10 @@ class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Col
      * @access protected
      */
 
-    protected $_excludePattern = '^(UnitTestCase$|PHPUnit)';
-    protected $_baseClass = 'UnitTestCase';
-    protected $_suffix = 'Test(?:Case)?';
-    protected $_includePattern = 'Test(?:Case)?$';
+    protected $excludePattern = '^(UnitTestCase$|PHPUnit)';
+    protected $baseClass = 'UnitTestCase';
+    protected $suffix = 'Test(?:Case)?';
+    protected $includePattern = 'Test(?:Case)?$';
 
     /**#@-*/
 
@@ -93,20 +93,20 @@ class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Col
      */
 
     // }}}
-    // {{{ _createTestSuite()
+    // {{{ createTestSuite()
 
     /**
      * Creates a test suite object.
      *
      * @return TestSuite
      */
-    protected function _createTestSuite()
+    protected function createTestSuite()
     {
         return new TestSuite();
     }
 
     // }}}
-    // {{{ _doBuildTestSuite()
+    // {{{ doBuildTestSuite()
 
     /**
      * Aggregates a test suite object to an aggregate test suite object.
@@ -114,7 +114,7 @@ class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Col
      * @param TestSuite $aggregateSuite
      * @param TestSuite $suite
      */
-    protected function _doBuildTestSuite($aggregateSuite, $suite)
+    protected function doBuildTestSuite($aggregateSuite, $suite)
     {
         if (!$suite->getSize()) {
             return;
@@ -124,7 +124,7 @@ class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Col
     }
 
     // }}}
-    // {{{ _addTestCase()
+    // {{{ addTestCase()
 
     /**
      * Adds a test case to a test suite object.
@@ -132,7 +132,7 @@ class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Col
      * @param TestSuite $suite
      * @param string    $testCase
      */
-    protected function _addTestCase($suite, $testCase)
+    protected function addTestCase($suite, $testCase)
     {
         $suite->addTestClass($testCase); // TODO NOT addTestCases()?
     }

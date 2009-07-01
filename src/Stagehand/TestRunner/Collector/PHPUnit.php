@@ -66,10 +66,10 @@ class Stagehand_TestRunner_Collector_PHPUnit extends Stagehand_TestRunner_Collec
      * @access protected
      */
 
-    protected $_excludePattern = '^PHPUnit';
-    protected $_baseClass = 'PHPUnit_Framework_TestCase';
-    protected $_suffix = 'Test(?:Case)?';
-    protected $_includePattern = 'Test(?:Case)?$';
+    protected $excludePattern = '^PHPUnit';
+    protected $baseClass = 'PHPUnit_Framework_TestCase';
+    protected $suffix = 'Test(?:Case)?';
+    protected $includePattern = 'Test(?:Case)?$';
 
     /**#@-*/
 
@@ -90,20 +90,20 @@ class Stagehand_TestRunner_Collector_PHPUnit extends Stagehand_TestRunner_Collec
      */
 
     // }}}
-    // {{{ _createTestSuite()
+    // {{{ createTestSuite()
 
     /**
      * Creates a test suite object.
      *
      * @return PHPUnit_Framework_TestSuite
      */
-    protected function _createTestSuite()
+    protected function createTestSuite()
     {
         return new PHPUnit_Framework_TestSuite();
     }
 
     // }}}
-    // {{{ _doBuildTestSuite()
+    // {{{ doBuildTestSuite()
 
     /**
      * Aggregates a test suite object to an aggregate test suite object.
@@ -111,7 +111,7 @@ class Stagehand_TestRunner_Collector_PHPUnit extends Stagehand_TestRunner_Collec
      * @param PHPUnit_Framework_TestSuite $aggregateSuite
      * @param PHPUnit_Framework_TestSuite $suite
      */
-    protected function _doBuildTestSuite($aggregateSuite, $suite)
+    protected function doBuildTestSuite($aggregateSuite, $suite)
     {
         if (!$suite->count()) {
             return;
@@ -121,7 +121,7 @@ class Stagehand_TestRunner_Collector_PHPUnit extends Stagehand_TestRunner_Collec
     }
 
     // }}}
-    // {{{ _addTestCase()
+    // {{{ addTestCase()
 
     /**
      * Adds a test case to a test suite object.
@@ -129,7 +129,7 @@ class Stagehand_TestRunner_Collector_PHPUnit extends Stagehand_TestRunner_Collec
      * @param PHPUnit_Framework_TestSuite $suite
      * @param string                      $testCase
      */
-    protected function _addTestCase($suite, $testCase)
+    protected function addTestCase($suite, $testCase)
     {
         $suite->addTestSuite($testCase);
     }

@@ -72,8 +72,8 @@ class Stagehand_TestRunner
      * @access private
      */
 
-    private $_testRunnerName;
-    private $_config;
+    private $testRunnerName;
+    private $config;
 
     /**#@-*/
 
@@ -89,7 +89,7 @@ class Stagehand_TestRunner
      */
     public function __construct($testRunnerName)
     {
-        $this->_testRunnerName = $testRunnerName;
+        $this->testRunnerName = $testRunnerName;
     }
 
     // }}}
@@ -108,19 +108,19 @@ class Stagehand_TestRunner
         }
 
         try {
-            $this->_config = $this->_loadConfiguration();
-            if (is_null($this->_config)) {
+            $this->config = $this->loadConfiguration();
+            if (is_null($this->config)) {
                 return 1;
             }
 
-            if (!$this->_config->enableAutotest) {
-                $this->_runTests();
+            if (!$this->config->enableAutotest) {
+                $this->runTests();
             } else {
-                $this->_monitorAlteration();
+                $this->monitorAlteration();
             }
         } catch (Stagehand_TestRunner_Exception $e) {
             echo 'ERROR: ' . $e->getMessage() . "\n";
-            $this->_displayUsage();
+            $this->displayUsage();
             return 1;
         }
 
@@ -140,12 +140,12 @@ class Stagehand_TestRunner
      */
 
     // }}}
-    // {{{ _displayUsage()
+    // {{{ displayUsage()
 
     /**
      * Displays the usage.
      */
-    private function _displayUsage()
+    private function displayUsage()
     {
         echo "Usage: {$_SERVER['SCRIPT_NAME']} [options] [directory or file]
 
@@ -170,14 +170,14 @@ With no [directory or file], run all tests in the current directory.
     }
 
     // }}}
-    // {{{ _displayVersion()
+    // {{{ displayVersion()
 
     /**
      * Displays the version.
      */
-    private function _displayVersion()
+    private function displayVersion()
     {
-        echo "Stagehand_TestRunner @package_version@ ({$this->_testRunnerName})
+        echo "Stagehand_TestRunner @package_version@ ({$this->testRunnerName})
 
 Copyright (c) 2005-2009 KUBO Atsuhiro <kubo@iteman.jp>,
               2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
@@ -186,7 +186,7 @@ All rights reserved.
     }
 
     // }}}
-    // {{{ _monitorAlteration()
+    // {{{ monitorAlteration()
 
     /**
      * Watches for changes in one or more target directories and runs tests in
@@ -196,11 +196,11 @@ All rights reserved.
      * @throws Stagehand_TestRunner_Exception
      * @since Method available since Release 2.1.0
      */
-    private function _monitorAlteration()
+    private function monitorAlteration()
     {
         $targetDirectories = array();
-        foreach (array_merge($this->_config->targetDirectories,
-                             (array)$this->_config->directory) as $directory
+        foreach (array_merge($this->config->targetDirectories,
+                             (array)$this->config->directory) as $directory
                  ) {
             if (!is_dir($directory)) {
                 throw new Stagehand_TestRunner_Exception("A specified path [ $directory ] is not found or not a directory.");
@@ -243,23 +243,23 @@ All rights reserved.
 
         $options[] = '-R';
 
-        if (!is_null($this->_config->preloadFile)) {
-            $options[] = "-p {$this->_config->preloadFile}";
+        if (!is_null($this->config->preloadFile)) {
+            $options[] = "-p {$this->config->preloadFile}";
         }
 
-        if ($this->_config->color) {
+        if ($this->config->color) {
             $options[] = '-c';
         }
 
-        if ($this->_config->useGrowl) {
+        if ($this->config->useGrowl) {
             $options[] = '-g';
         }
 
-        if (!is_null($this->_config->growlPassword)) {
-            $options[] = "--growl-password={$this->_config->growlPassword}";
+        if (!is_null($this->config->growlPassword)) {
+            $options[] = "--growl-password={$this->config->growlPassword}";
         }
 
-        $options[] = $this->_config->directory;
+        $options[] = $this->config->directory;
 
         $monitor = new Stagehand_AlterationMonitor($targetDirectories,
                                                    create_function('',
@@ -272,7 +272,7 @@ All rights reserved.
     }
 
     // }}}
-    // {{{ _loadConfiguration()
+    // {{{ loadConfiguration()
 
     /**
      * Loads the configuration by the default values and command line options.
@@ -280,7 +280,7 @@ All rights reserved.
      * @return stdClass
      * @since Method available since Release 2.1.0
      */
-    private function _loadConfiguration()
+    private function loadConfiguration()
     {
         $directory = getcwd();
         $isRecursive = false;
@@ -291,7 +291,7 @@ All rights reserved.
         $useGrowl = false;
         $growlPassword = null;
         $isVerbose = false;
-        foreach ($this->_parseOptions() as $options) {
+        foreach ($this->parseOptions() as $options) {
             if (!count($options)) {
                 continue;
             }
@@ -300,10 +300,10 @@ All rights reserved.
                 if (is_array($option)) {
                     switch ($option[0]) {
                     case 'h':
-                        $this->_displayUsage();
+                        $this->displayUsage();
                         return;
                     case 'V':
-                        $this->_displayVersion();
+                        $this->displayVersion();
                         return;
                     case 'R':
                         $isRecursive = true;
@@ -353,32 +353,32 @@ All rights reserved.
     }
 
     // }}}
-    // {{{ _runTests()
+    // {{{ runTests()
 
     /**
      * Runs tests.
      *
      * @since Method available since Release 2.1.0
      */
-    private function _runTests()
+    private function runTests()
     {
-        include_once "Stagehand/TestRunner/Collector/{$this->_testRunnerName}.php";
-        $className = "Stagehand_TestRunner_Collector_{$this->_testRunnerName}";
-        $collector = new $className($this->_config->directory,
-                                    $this->_config->isRecursive
+        include_once "Stagehand/TestRunner/Collector/{$this->testRunnerName}.php";
+        $className = "Stagehand_TestRunner_Collector_{$this->testRunnerName}";
+        $collector = new $className($this->config->directory,
+                                    $this->config->isRecursive
                                     );
         $suite = $collector->collect();
 
-        include_once "Stagehand/TestRunner/Runner/{$this->_testRunnerName}.php";
-        $className = "Stagehand_TestRunner_Runner_{$this->_testRunnerName}";
+        include_once "Stagehand/TestRunner/Runner/{$this->testRunnerName}.php";
+        $className = "Stagehand_TestRunner_Runner_{$this->testRunnerName}";
         $runner = new $className();
-        $runner->run($suite, $this->_config);
+        $runner->run($suite, $this->config);
 
-        if ($this->_config->useGrowl) {
+        if ($this->config->useGrowl) {
             $notification = $runner->getNotification();
             $application = new Net_Growl_Application('Stagehand_TestRunner',
                                                      array('Green', 'Red'),
-                                                     $this->_config->growlPassword
+                                                     $this->config->growlPassword
                                                      );
             $growl = new Net_Growl($application);
             $growl->notify($notification->name,
@@ -389,7 +389,7 @@ All rights reserved.
     }
 
     // }}}
-    // {{{ _parseOptions()
+    // {{{ parseOptions()
 
     /**
      * Parses the command line options.
@@ -398,7 +398,7 @@ All rights reserved.
      * @throws Stagehand_TestRunner_Exception
      * @since Method available since Release 2.6.1
      */
-    private function _parseOptions()
+    private function parseOptions()
     {
         $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
 

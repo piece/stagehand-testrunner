@@ -63,7 +63,7 @@ abstract class Stagehand_TestRunner_Runner_Common
      * @access protected
      */
 
-    protected $_notification;
+    protected $notification;
 
     /**#@-*/
 
@@ -98,7 +98,7 @@ abstract class Stagehand_TestRunner_Runner_Common
      */
     public function getNotification()
     {
-        return $this->_notification;
+        return $this->notification;
     }
 
     /**#@-*/

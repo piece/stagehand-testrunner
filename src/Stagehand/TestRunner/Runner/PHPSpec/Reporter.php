@@ -71,7 +71,7 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
      * @access private
      */
 
-    private $_color;
+    private $color;
 
     /**#@-*/
 
@@ -89,9 +89,9 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
     public function __construct(PHPSpec_Runner_Result $result, $color)
     {
         parent::__construct($result);
-        $this->_color = $color;
+        $this->color = $color;
 
-        if ($this->_color) {
+        if ($this->color) {
             include_once 'Console/Color.php';
             include_once 'Stagehand/TestRunner/Coloring.php';
         }
@@ -105,7 +105,7 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
      */
     public function outputStatus($symbol)
     {
-        if ($this->_color) {
+        if ($this->color) {
             switch ($symbol) {
             case '.':
                 $symbol = Stagehand_TestRunner_Coloring::green($symbol);
@@ -138,7 +138,7 @@ class Stagehand_TestRunner_Runner_PHPSpec_Reporter extends PHPSpec_Runner_Report
                                $this->toString($specs)
                                );
 
-        if ($this->_color) {
+        if ($this->color) {
             $failuresCount = $this->_result->countFailures();
             $deliberateFailuresCount = $this->_result->countDeliberateFailures();
             $errorsCount = $this->_result->countErrors();

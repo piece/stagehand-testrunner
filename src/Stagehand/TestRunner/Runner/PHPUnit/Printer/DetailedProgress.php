@@ -75,7 +75,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_DetailedProgress extends PHPUn
      * @access private
      */
 
-    private $_color;
+    private $color;
 
     /**#@-*/
 
@@ -97,9 +97,9 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_DetailedProgress extends PHPUn
     public function __construct($out, $verbose, $color)
     {
         parent::__construct($out, $verbose);
-        $this->_color = $color;
+        $this->color = $color;
 
-        if ($this->_color) {
+        if ($this->color) {
             include_once 'Console/Color.php';
             include_once 'Stagehand/TestRunner/Coloring.php';
         }
@@ -117,8 +117,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_DetailedProgress extends PHPUn
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->write($this->_color ? Stagehand_TestRunner_Coloring::magenta('raised an error')
-                                   : 'raised an error'
+        $this->write($this->color ? Stagehand_TestRunner_Coloring::magenta('raised an error')
+                                  : 'raised an error'
                      );
 
         $this->lastTestFailed = true;
@@ -136,8 +136,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_DetailedProgress extends PHPUn
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        $this->write($this->_color ? Stagehand_TestRunner_Coloring::red('failed')
-                                   : 'failed'
+        $this->write($this->color ? Stagehand_TestRunner_Coloring::red('failed')
+                                  : 'failed'
                      );
 
         $this->lastTestFailed = true;
@@ -155,8 +155,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_DetailedProgress extends PHPUn
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->write($this->_color ? Stagehand_TestRunner_Coloring::yellow('was incomplete')
-                                   : 'was incomplete'
+        $this->write($this->color ? Stagehand_TestRunner_Coloring::yellow('was incomplete')
+                                  : 'was incomplete'
                      );
 
         $this->lastTestFailed = true;
@@ -174,8 +174,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_DetailedProgress extends PHPUn
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->write($this->_color ? Stagehand_TestRunner_Coloring::yellow('skipped')
-                                   : 'skipped'
+        $this->write($this->color ? Stagehand_TestRunner_Coloring::yellow('skipped')
+                                  : 'skipped'
                      );
 
         $this->lastTestFailed = true;
@@ -245,8 +245,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_DetailedProgress extends PHPUn
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
         if (!$this->lastTestFailed) {
-            $this->write($this->_color ? Stagehand_TestRunner_Coloring::green('passed')
-                                       : 'passed'
+            $this->write($this->color ? Stagehand_TestRunner_Coloring::green('passed')
+                                      : 'passed'
                          );
         }
 

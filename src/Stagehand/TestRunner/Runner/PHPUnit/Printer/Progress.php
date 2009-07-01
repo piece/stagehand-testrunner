@@ -74,7 +74,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress extends PHPUnit_TextU
      * @access private
      */
 
-    private $_color;
+    private $color;
 
     /**#@-*/
 
@@ -96,9 +96,9 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress extends PHPUnit_TextU
     public function __construct($out, $verbose, $color)
     {
         parent::__construct($out, $verbose);
-        $this->_color = $color;
+        $this->color = $color;
 
-        if ($this->_color) {
+        if ($this->color) {
             include_once 'Console/Color.php';
             include_once 'Stagehand/TestRunner/Coloring.php';
         }
@@ -116,7 +116,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress extends PHPUnit_TextU
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if (!$this->_color) {
+        if (!$this->color) {
             parent::addError($test, $e, $time);
             return;
         }
@@ -137,7 +137,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress extends PHPUnit_TextU
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        if (!$this->_color) {
+        if (!$this->color) {
             parent::addFailure($test, $e, $time);
             return;
         }
@@ -158,7 +158,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress extends PHPUnit_TextU
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if (!$this->_color) {
+        if (!$this->color) {
             parent::addIncompleteTest($test, $e, $time);
             return;
         }
@@ -179,7 +179,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress extends PHPUnit_TextU
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if (!$this->_color) {
+        if (!$this->color) {
             parent::addSkippedTest($test, $e, $time);
             return;
         }
@@ -199,7 +199,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress extends PHPUnit_TextU
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if (!$this->_color) {
+        if (!$this->color) {
             parent::endTest($test, $time);
             return;
         }

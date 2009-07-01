@@ -64,10 +64,10 @@ abstract class Stagehand_TestRunner_Collector_Common
      * @access protected
      */
 
-    protected $_excludePattern;
-    protected $_baseClass;
-    protected $_suffix;
-    protected $_includePattern;
+    protected $excludePattern;
+    protected $baseClass;
+    protected $suffix;
+    protected $includePattern;
 
     /**#@-*/
 
@@ -75,9 +75,9 @@ abstract class Stagehand_TestRunner_Collector_Common
      * @access private
      */
 
-    private $_targetPath;
-    private $_isRecursive;
-    private $_testCases = array();
+    private $targetPath;
+    private $isRecursive;
+    private $testCases = array();
 
     /**#@-*/
 
@@ -96,8 +96,8 @@ abstract class Stagehand_TestRunner_Collector_Common
      */
     public function __construct($targetPath, $isRecursive)
     {
-        $this->_targetPath = $targetPath;
-        $this->_isRecursive = $isRecursive;
+        $this->targetPath = $targetPath;
+        $this->isRecursive = $isRecursive;
     }
 
     // }}}
@@ -111,28 +111,28 @@ abstract class Stagehand_TestRunner_Collector_Common
      */
     public function collect()
     {
-        if (!file_exists($this->_targetPath)) {
-            if (preg_match("/{$this->_suffix}\.php\$/", $this->_targetPath)) {
-                throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->_targetPath} ] is not found.");
+        if (!file_exists($this->targetPath)) {
+            if (preg_match("/{$this->suffix}\.php\$/", $this->targetPath)) {
+                throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->targetPath} ] is not found.");
             }
 
-            $this->_targetPath = "{$this->_targetPath}{$this->_suffix}.php";
+            $this->targetPath = "{$this->targetPath}{$this->suffix}.php";
         }
 
-        $absoluteTargetPath = realpath($this->_targetPath);
+        $absoluteTargetPath = realpath($this->targetPath);
         if ($absoluteTargetPath === false) {
-            throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->_targetPath} ] is not found.");
+            throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->targetPath} ] is not found.");
         }
 
         if (is_dir($absoluteTargetPath)) {
             $directoryScanner = new Stagehand_DirectoryScanner(array($this, 'collectTestCases'));
-            $directoryScanner->setRecursivelyScans($this->_isRecursive);
+            $directoryScanner->setRecursivelyScans($this->isRecursive);
             $directoryScanner->scan($absoluteTargetPath);
         } else {
-            $this->_collectTestCasesFromFile($absoluteTargetPath);
+            $this->collectTestCasesFromFile($absoluteTargetPath);
         }
 
-        return $this->_buildTestSuite();
+        return $this->buildTestSuite();
     }
 
     // }}}
@@ -146,7 +146,7 @@ abstract class Stagehand_TestRunner_Collector_Common
     public function collectTestCases($element)
     {
         if (!is_dir($element)) {
-            $this->_collectTestCasesFromFile($element);
+            $this->collectTestCasesFromFile($element);
         }
     }
 
@@ -157,18 +157,17 @@ abstract class Stagehand_TestRunner_Collector_Common
      */
 
     // }}}
-    // {{{ _createTestSuite()
+    // {{{ createTestSuite()
 
     /**
      * Creates a test suite object.
      *
      * @return mixed
-     * @abstract
      */
-    abstract protected function _createTestSuite();
+    abstract protected function createTestSuite();
 
     // }}}
-    // {{{ _doBuildTestSuite()
+    // {{{ doBuildTestSuite()
 
     /**
      * Aggregates a test suite object to an aggregate test suite object.
@@ -177,10 +176,10 @@ abstract class Stagehand_TestRunner_Collector_Common
      * @param mixed $suite
      * @abstract
      */
-    abstract protected function _doBuildTestSuite($aggregateSuite, $suite);
+    abstract protected function doBuildTestSuite($aggregateSuite, $suite);
 
     // }}}
-    // {{{ _addTestCase()
+    // {{{ addTestCase()
 
     /**
      * Adds a test case to a test suite object.
@@ -189,7 +188,7 @@ abstract class Stagehand_TestRunner_Collector_Common
      * @param string $testCase
      * @abstract
      */
-    abstract protected function _addTestCase($suite, $testCase);
+    abstract protected function addTestCase($suite, $testCase);
 
     /**#@-*/
 
@@ -198,7 +197,7 @@ abstract class Stagehand_TestRunner_Collector_Common
      */
 
     // }}}
-    // {{{ _createTestSuiteFromTestCases()
+    // {{{ createTestSuiteFromTestCases()
 
     /**
      * Creates a test suite object that contains all of the test cases in the
@@ -206,42 +205,42 @@ abstract class Stagehand_TestRunner_Collector_Common
      *
      * @return mixed
      */
-    private function _createTestSuiteFromTestCases()
+    private function createTestSuiteFromTestCases()
     {
-        $suite = $this->_createTestSuite();
-        foreach ($this->_testCases as $testCase) {
-            $this->_addTestCase($suite, $testCase);
+        $suite = $this->createTestSuite();
+        foreach ($this->testCases as $testCase) {
+            $this->addTestCase($suite, $testCase);
         }
 
         return $suite;
     }
 
     // }}}
-    // {{{ _buildTestSuite()
+    // {{{ buildTestSuite()
 
     /**
      * Builds a test suite object.
      *
      * @return mixed
      */
-    private function _buildTestSuite()
+    private function buildTestSuite()
     {
-        $suite = $this->_createTestSuite();
-        $this->_doBuildTestSuite($suite, $this->_createTestSuiteFromTestCases());
+        $suite = $this->createTestSuite();
+        $this->doBuildTestSuite($suite, $this->createTestSuiteFromTestCases());
         return $suite;
     }
 
     // }}}
-    // {{{ _collectTestCasesFromFile()
+    // {{{ collectTestCasesFromFile()
 
     /**
      * Collects all test cases included in the given file.
      *
      * @param string $file
      */
-    private function _collectTestCasesFromFile($file)
+    private function collectTestCasesFromFile($file)
     {
-        if (!preg_match("/{$this->_suffix}\.php\$/", $file)) {
+        if (!preg_match("/{$this->suffix}\.php\$/", $file)) {
             return;
         }
 
@@ -253,23 +252,23 @@ abstract class Stagehand_TestRunner_Collector_Common
 
         $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
         for ($i = 0, $count = count($newClasses); $i < $count; ++$i) {
-            if (!is_subclass_of($newClasses[$i], $this->_baseClass)) {
+            if (!is_subclass_of($newClasses[$i], $this->baseClass)) {
                 continue;
             }
 
-            if (!is_null($this->_excludePattern)
-                && preg_match("/{$this->_excludePattern}/", $newClasses[$i])
+            if (!is_null($this->excludePattern)
+                && preg_match("/{$this->excludePattern}/", $newClasses[$i])
                 ) {
                 continue;
             }
 
-            if (!is_null($this->_includePattern)
-                && !preg_match("/{$this->_includePattern}/", $newClasses[$i])
+            if (!is_null($this->includePattern)
+                && !preg_match("/{$this->includePattern}/", $newClasses[$i])
                 ) {
                 continue;
             }
 
-            $this->_testCases[] = $newClasses[$i];
+            $this->testCases[] = $newClasses[$i];
         }
     }
 
