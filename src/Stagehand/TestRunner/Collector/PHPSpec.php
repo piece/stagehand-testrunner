@@ -50,7 +50,7 @@ require_once 'Stagehand/TestRunner/Collector/Common.php';
  * @link       http://www.phpspec.org/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Collector_PHPSpec extends Stagehand_TestRunner_Collector_Common
+class Stagehand_TestRunner_Collector_PHPSpec extends Stagehand_TestRunner_Collector
 {
 
     // {{{ properties

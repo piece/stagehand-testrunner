@@ -38,7 +38,7 @@
 require_once 'Stagehand/TestRunner/Exception.php';
 require_once 'Stagehand/DirectoryScanner.php';
 
-// {{{ Stagehand_TestRunner_Collector_Common
+// {{{ Stagehand_TestRunner_Collector
 
 /**
  * The base class for test collectors.
@@ -49,7 +49,7 @@ require_once 'Stagehand/DirectoryScanner.php';
  * @version    Release: @package_version@
  * @since      Class available since Release 2.1.0
  */
-abstract class Stagehand_TestRunner_Collector_Common
+abstract class Stagehand_TestRunner_Collector
 {
 
     // {{{ properties

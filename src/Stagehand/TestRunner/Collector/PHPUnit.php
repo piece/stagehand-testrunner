@@ -51,7 +51,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Collector_PHPUnit extends Stagehand_TestRunner_Collector_Common
+class Stagehand_TestRunner_Collector_PHPUnit extends Stagehand_TestRunner_Collector
 {
 
     // {{{ properties

@@ -54,7 +54,7 @@ require_once 'simpletest/test_case.php';
  * @link       http://simpletest.org/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Collector_Common
+class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Collector
 {
 
     // {{{ properties
