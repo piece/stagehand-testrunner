@@ -41,7 +41,7 @@
 require_once 'Stagehand/TestRunner/Collector.php';
 require_once 'simpletest/test_case.php';
 
-// {{{ Stagehand_TestRunner_Collector_SimpleTest
+// {{{ Stagehand_TestRunner_Collector_SimpleTestCollector
 
 /**
  * A test collector for SimpleTest.
@@ -54,7 +54,7 @@ require_once 'simpletest/test_case.php';
  * @link       http://simpletest.org/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Collector_SimpleTest extends Stagehand_TestRunner_Collector
+class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestRunner_Collector
 {
 
     // {{{ properties

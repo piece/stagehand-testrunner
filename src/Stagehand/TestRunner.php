@@ -362,8 +362,8 @@ All rights reserved.
      */
     private function runTests()
     {
-        include_once "Stagehand/TestRunner/Collector/{$this->testRunnerName}.php";
-        $className = "Stagehand_TestRunner_Collector_{$this->testRunnerName}";
+        include_once "Stagehand/TestRunner/Collector/{$this->testRunnerName}Collector.php";
+        $className = "Stagehand_TestRunner_Collector_{$this->testRunnerName}Collector";
         $collector = new $className($this->config->directory,
                                     $this->config->isRecursive
                                     );

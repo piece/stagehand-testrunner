@@ -38,7 +38,7 @@
 
 require_once 'Stagehand/TestRunner/Collector.php';
 
-// {{{ Stagehand_TestRunner_Collector_PHPSpec
+// {{{ Stagehand_TestRunner_Collector_PHPSpecCollector
 
 /**
  * A test collector for PHPSpec.
@@ -50,7 +50,7 @@ require_once 'Stagehand/TestRunner/Collector.php';
  * @link       http://www.phpspec.org/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Collector_PHPSpec extends Stagehand_TestRunner_Collector
+class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunner_Collector
 {
 
     // {{{ properties

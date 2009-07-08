@@ -39,7 +39,7 @@
 require_once 'Stagehand/TestRunner/Collector.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
 
-// {{{ Stagehand_TestRunner_Collector_PHPUnit
+// {{{ Stagehand_TestRunner_Collector_PHPUnitCollector
 
 /**
  * A test collector for PHPUnit.
@@ -51,7 +51,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Collector_PHPUnit extends Stagehand_TestRunner_Collector
+class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunner_Collector
 {
 
     // {{{ properties
