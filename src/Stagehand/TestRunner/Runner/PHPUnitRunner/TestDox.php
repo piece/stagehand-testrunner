@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2008-2009 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,28 +29,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2008-2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      File available since Release 2.6.2
+ * @since      File available since Release 2.4.0
  */
 
-require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
-
-// {{{ Stagehand_TestRunner_Runner_PHPUnit_TestDox_NamePrettifier
+// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox
 
 /**
- * Prettifies class and method names for use in TestDox documentation.
+ * A class which has only one static property to keep TestDox documentation.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2008-2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      Class available since Release 2.6.2
+ * @since      Class available since Release 2.4.0
  */
-class Stagehand_TestRunner_Runner_PHPUnit_TestDox_NamePrettifier extends PHPUnit_Util_TestDox_NamePrettifier
+class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox
 {
 
     // {{{ properties
@@ -58,6 +54,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_TestDox_NamePrettifier extends PHPUnit
     /**#@+
      * @access public
      */
+
+    public static $testDox;
 
     /**#@-*/
 
@@ -76,58 +74,6 @@ class Stagehand_TestRunner_Runner_PHPUnit_TestDox_NamePrettifier extends PHPUnit
     /**#@+
      * @access public
      */
-
-    // }}}
-    // {{{ prettifyTestMethod()
-
-    /**
-     * Prettifies the name of a test method.
-     *
-     * @param  string  $testMethodName
-     * @return string
-     */
-    public function prettifyTestMethod($testMethodName)
-    {
-        $buffer = '';
-
-        if (!is_string($testMethodName) || strlen($testMethodName) == 0) {
-            return $buffer;
-        }
-
-        $max = strlen($testMethodName);
-
-        if (substr($testMethodName, 0, 4) == 'test') {
-            $offset = 4;
-        } else {
-            $offset = 0;
-            $testMethodName[0] = strtoupper($testMethodName[0]);
-        }
-
-        $wasNumeric = FALSE;
-
-        for ($i = $offset; $i < $max; $i++) {
-            if ($i > $offset &&
-                ord($testMethodName[$i]) >= 65 &&
-                ord($testMethodName[$i]) <= 90) {
-                $buffer .= ' ' . strtolower($testMethodName[$i]);
-            } else {
-                $isNumeric = is_numeric($testMethodName[$i]);
-
-                if (!$wasNumeric && $isNumeric) {
-                    $buffer .= ' ';
-                    $wasNumeric = TRUE;
-                }
-
-                if ($wasNumeric && !$isNumeric) {
-                    $wasNumeric = FALSE;
-                }
-
-                $buffer .= $testMethodName[$i];
-            }
-        }
-
-        return $buffer;
-    }
 
     /**#@-*/
 

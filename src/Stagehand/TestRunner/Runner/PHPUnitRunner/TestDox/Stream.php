@@ -36,7 +36,7 @@
  * @since      File available since Release 2.4.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnit_TestDox_Stream
+// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
 
 /**
  * A stream wrapper to print TestDox documentation.
@@ -48,7 +48,7 @@
  * @link       http://www.php.net/manual/ja/function.stream-wrapper-register.php
  * @since      Class available since Release 2.4.0
  */
-class Stagehand_TestRunner_Runner_PHPUnit_TestDox_Stream
+class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
 {
 
     // {{{ properties
@@ -119,7 +119,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_TestDox_Stream
      */
     public function stream_read($count)
     {
-        $data = substr(Stagehand_TestRunner_Runner_PHPUnit_TestDox::$testDox, $this->_position, $count);
+        $data = substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, $this->_position, $count);
         $this->_position += strlen($data);
         return $data;
     }
@@ -135,10 +135,10 @@ class Stagehand_TestRunner_Runner_PHPUnit_TestDox_Stream
      */
     public function stream_write($data)
     {
-        Stagehand_TestRunner_Runner_PHPUnit_TestDox::$testDox =
-            substr(Stagehand_TestRunner_Runner_PHPUnit_TestDox::$testDox, 0, $this->_position) .
+        Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox =
+            substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, 0, $this->_position) .
             $data .
-            substr(Stagehand_TestRunner_Runner_PHPUnit_TestDox::$testDox, $this->_position + strlen($data));
+            substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, $this->_position + strlen($data));
         $this->_position += strlen($data);
         return strlen($data);
     }
@@ -153,7 +153,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_TestDox_Stream
      */
     public function stream_eof()
     {
-        return $this->_position >= strlen(Stagehand_TestRunner_Runner_PHPUnit_TestDox::$testDox);
+        return $this->_position >= strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox);
     }
 
     // }}}
@@ -183,7 +183,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_TestDox_Stream
     {
         switch ($whence) {
         case SEEK_SET:
-            if ($offset < strlen(Stagehand_TestRunner_Runner_PHPUnit_TestDox::$testDox) && $offset >= 0) {
+            if ($offset < strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox) && $offset >= 0) {
                 $this->_position = $offset;
                 return true;
             } else {
@@ -197,8 +197,8 @@ class Stagehand_TestRunner_Runner_PHPUnit_TestDox_Stream
                 return false;
             }
         case SEEK_END:
-            if (strlen(Stagehand_TestRunner_Runner_PHPUnit_TestDox::$testDox) + $offset >= 0) {
-                $this->_position = strlen(Stagehand_TestRunner_Runner_PHPUnit_TestDox::$testDox) + $offset;
+            if (strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox) + $offset >= 0) {
+                $this->_position = strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox) + $offset;
                 return true;
             } else {
                 return false;
@@ -228,7 +228,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_TestDox_Stream
 // }}}
 
 stream_wrapper_register('testdox',
-                        'Stagehand_TestRunner_Runner_PHPUnit_TestDox_Stream'
+                        'Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream'
                         );
 
 /*

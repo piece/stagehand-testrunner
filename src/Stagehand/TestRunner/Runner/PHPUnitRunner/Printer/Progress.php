@@ -41,7 +41,7 @@ require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/Test.php';
 require_once 'PHPUnit/Framework/AssertionFailedError.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress
+// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_Progress
 
 /**
  * A result printer for PHPUnit.
@@ -53,7 +53,7 @@ require_once 'PHPUnit/Framework/AssertionFailedError.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
-class Stagehand_TestRunner_Runner_PHPUnit_Printer_Progress extends PHPUnit_TextUI_ResultPrinter
+class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_Progress extends PHPUnit_TextUI_ResultPrinter
 {
 
     // {{{ properties

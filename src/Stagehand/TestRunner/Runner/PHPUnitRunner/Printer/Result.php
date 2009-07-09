@@ -43,7 +43,7 @@ require_once 'PHPUnit/Framework/AssertionFailedError.php';
 require_once 'PHPUnit/Framework/TestResult.php';
 require_once 'PHPUnit/Framework/TestFailure.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnit_Printer_Result
+// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_Result
 
 /**
  * A result printer for PHPUnit.
@@ -55,7 +55,7 @@ require_once 'PHPUnit/Framework/TestFailure.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
-class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_ResultPrinter
+class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_Result extends PHPUnit_TextUI_ResultPrinter
 {
 
     // {{{ properties
@@ -180,7 +180,7 @@ class Stagehand_TestRunner_Runner_PHPUnit_Printer_Result extends PHPUnit_TextUI_
     {
         $this->printHeader($result->time());
 
-        print Stagehand_TestRunner_Runner_PHPUnit_TestDox::$testDox;
+        print Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox;
 
         if ($result->errorCount() > 0) {
             $this->printErrors($result);
