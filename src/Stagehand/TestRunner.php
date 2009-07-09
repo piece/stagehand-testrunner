@@ -369,8 +369,8 @@ All rights reserved.
                                     );
         $suite = $collector->collect();
 
-        include_once "Stagehand/TestRunner/Runner/{$this->testRunnerName}.php";
-        $className = "Stagehand_TestRunner_Runner_{$this->testRunnerName}";
+        include_once "Stagehand/TestRunner/Runner/{$this->testRunnerName}Runner.php";
+        $className = "Stagehand_TestRunner_Runner_{$this->testRunnerName}Runner";
         $runner = new $className();
         $runner->run($suite, $this->config);
 

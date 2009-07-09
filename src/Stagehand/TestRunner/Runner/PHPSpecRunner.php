@@ -40,7 +40,7 @@ require_once 'PHPSpec/Framework.php';
 require_once 'Stagehand/TestRunner/Runner/PHPSpec/Reporter.php';
 require_once 'Stagehand/TestRunner/Runner.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPSpec
+// {{{ Stagehand_TestRunner_Runner_PHPSpecRunner
 
 /**
  * A test runner for PHPSpec.
@@ -52,7 +52,7 @@ require_once 'Stagehand/TestRunner/Runner.php';
  * @link       http://www.phpspec.org/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Runner_PHPSpec extends Stagehand_TestRunner_Runner
+class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Runner
 {
 
     // {{{ properties

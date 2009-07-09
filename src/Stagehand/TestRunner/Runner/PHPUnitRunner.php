@@ -48,7 +48,7 @@ require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/TestDox.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/Progress.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/DetailedProgress.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnit
+// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner
 
 /**
  * A test runner for PHPUnit.
@@ -60,7 +60,7 @@ require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/DetailedProgress.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Runner_PHPUnit extends Stagehand_TestRunner_Runner
+class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Runner
 {
 
     // {{{ properties
