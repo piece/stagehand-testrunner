@@ -39,7 +39,7 @@
 define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit::run');
 
 require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'Stagehand/TestRunner/Runner/Common.php';
+require_once 'Stagehand/TestRunner/Runner.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/Result.php';
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
 require_once 'Stagehand/TestRunner/Runner/PHPUnit/TestDox.php';
@@ -60,7 +60,7 @@ require_once 'Stagehand/TestRunner/Runner/PHPUnit/Printer/DetailedProgress.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Runner_PHPUnit extends Stagehand_TestRunner_Runner_Common
+class Stagehand_TestRunner_Runner_PHPUnit extends Stagehand_TestRunner_Runner
 {
 
     // {{{ properties

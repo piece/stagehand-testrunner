@@ -36,7 +36,7 @@
  * @since      File available since Release 2.3.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_Common
+// {{{ Stagehand_TestRunner_Runner
 
 /**
  * The base class for test runners.
@@ -48,7 +48,7 @@
  * @link       http://www.phpspec.org/
  * @since      Class available since Release 2.3.0
  */
-abstract class Stagehand_TestRunner_Runner_Common
+abstract class Stagehand_TestRunner_Runner
 {
 
     // {{{ properties
