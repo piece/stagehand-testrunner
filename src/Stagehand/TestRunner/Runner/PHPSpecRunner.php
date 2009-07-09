@@ -37,7 +37,7 @@
  */
 
 require_once 'PHPSpec/Framework.php';
-require_once 'Stagehand/TestRunner/Runner/PHPSpec/Reporter.php';
+require_once 'Stagehand/TestRunner/Runner/PHPSpecRunner/Reporter.php';
 require_once 'Stagehand/TestRunner/Runner.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPSpecRunner
@@ -91,9 +91,10 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
     public function run($suite, $config)
     {
         $result = new PHPSpec_Runner_Result();
-        $reporter = new Stagehand_TestRunner_Runner_PHPSpec_Reporter($result,
-                                                                     $config->color
-                                                                     );
+        $reporter = new Stagehand_TestRunner_Runner_PHPSpecRunner_Reporter(
+                        $result,
+                        $config->color
+                                                                           );
         $result->setReporter($reporter);
 
         $result->setRuntimeStart(microtime(true));
