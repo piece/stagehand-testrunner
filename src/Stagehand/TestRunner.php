@@ -163,6 +163,8 @@ Options:
                                   for changes
   -g                              notify test results to Growl
       --growl-password=<password> specify <password> for Growl
+  -m <methods1,methods2,...>      specify one or more methods which you want to test
+                                  (this option is only available on single file mode)
   -v                              display detailed progress report (PHPUnit only)
 
 With no [directory or file], run all tests in the current directory.
@@ -290,6 +292,7 @@ All rights reserved.
         $targetDirectories = array();
         $useGrowl = false;
         $growlPassword = null;
+        $testMethods = array();
         $isVerbose = false;
         foreach ($this->parseOptions() as $options) {
             if (!count($options)) {
@@ -330,6 +333,9 @@ All rights reserved.
                     case '--growl-password':
                         $growlPassword = $option[1];
                         break;
+                    case 'm':
+                        $testMethods = explode(',', $option[1]);
+                        break;
                     case 'v':
                         $isVerbose = true;
                         break;
@@ -348,6 +354,7 @@ All rights reserved.
                              'targetDirectories' => $targetDirectories,
                              'useGrowl' => $useGrowl,
                              'growlPassword' => $growlPassword,
+                             'testMethods' => $testMethods,
                              'isVerbose' => $isVerbose
                              );
     }
@@ -365,7 +372,8 @@ All rights reserved.
         include_once "Stagehand/TestRunner/Collector/{$this->testRunnerName}Collector.php";
         $className = "Stagehand_TestRunner_Collector_{$this->testRunnerName}Collector";
         $collector = new $className($this->config->directory,
-                                    $this->config->recursivelyScans
+                                    $this->config->recursivelyScans,
+                                    $this->config->testMethods
                                     );
         $suite = $collector->collect();
 
@@ -413,7 +421,7 @@ All rights reserved.
         array_shift($argv);
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $allOptions = Console_Getopt::getopt2($argv,
-                                              'hVRcp:aw:gv',
+                                              'hVRcp:aw:gm:v',
                                               array('growl-password=')
                                               );
         PEAR::staticPopErrorHandling();

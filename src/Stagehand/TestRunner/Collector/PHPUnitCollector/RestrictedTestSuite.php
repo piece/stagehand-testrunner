@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,30 +29,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
- * @since      File available since Release 2.1.0
+ * @since      File available since Release 2.7.0
  */
 
-require_once 'Stagehand/TestRunner/Collector.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'Stagehand/TestRunner/Collector/PHPUnitCollector/RestrictedTestSuite.php';
 
-// {{{ Stagehand_TestRunner_Collector_PHPUnitCollector
+// {{{ Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite
 
 /**
- * A test collector for PHPUnit.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
- * @since      Class available since Release 2.1.0
+ * @since      Class available since Release 2.7.0
  */
-class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunner_Collector
+class Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite extends PHPUnit_Framework_TestSuite
 {
 
     // {{{ properties
@@ -67,22 +63,29 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      * @access protected
      */
 
-    protected $excludePattern = '^PHPUnit';
-    protected $baseClass = 'PHPUnit_Framework_TestCase';
-    protected $suffix = 'Test(?:Case)?';
-    protected $includePattern = 'Test(?:Case)?$';
-
     /**#@-*/
 
     /**#@+
      * @access private
      */
 
+    private $testMethods = array();
+
     /**#@-*/
 
     /**#@+
      * @access public
      */
+
+    /**
+     * @param string $theClass
+     * @param array  $testMethods
+     */
+    public function __construct($theClass, $testMethods)
+    {
+        $this->testMethods = $testMethods;
+        parent::__construct($theClass);
+    }
 
     /**#@-*/
 
@@ -91,51 +94,18 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      */
 
     // }}}
-    // {{{ createTestSuite()
+    // {{{ addTestMethod()
 
     /**
-     * Creates a test suite object.
-     *
-     * @return PHPUnit_Framework_TestSuite
+     * @param  ReflectionClass  $class
+     * @param  ReflectionMethod $method
+     * @param  string           $groups
+     * @param  array            $names
      */
-    protected function createTestSuite()
+    protected function addTestMethod(ReflectionClass $class, ReflectionMethod $method, array $groups, array &$names)
     {
-        return new PHPUnit_Framework_TestSuite();
-    }
-
-    // }}}
-    // {{{ doBuildTestSuite()
-
-    /**
-     * Aggregates a test suite object to an aggregate test suite object.
-     *
-     * @param PHPUnit_Framework_TestSuite $aggregateSuite
-     * @param PHPUnit_Framework_TestSuite $suite
-     */
-    protected function doBuildTestSuite($aggregateSuite, $suite)
-    {
-        if (!$suite->count()) {
-            return;
-        }
-
-        $aggregateSuite->addTest($suite);
-    }
-
-    // }}}
-    // {{{ addTestCase()
-
-    /**
-     * Adds a test case to a test suite object.
-     *
-     * @param PHPUnit_Framework_TestSuite $suite
-     * @param string                      $testCase
-     */
-    protected function addTestCase($suite, $testCase)
-    {
-        if (!$this->testsOnlySpecified) {
-            $suite->addTestSuite(new PHPUnit_Framework_TestSuite($testCase));
-        } else {
-            $suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite($testCase, $this->testMethods));
+        if (in_array($method->getName(), $this->testMethods)) {
+            parent::addTestMethod($class, $method, $groups, $names);
         }
     }
 

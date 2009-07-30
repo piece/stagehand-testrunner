@@ -68,6 +68,8 @@ abstract class Stagehand_TestRunner_Collector
     protected $baseClass;
     protected $suffix;
     protected $includePattern;
+    protected $testsOnlySpecified = false;
+    protected $testMethods = array();
 
     /**#@-*/
 
@@ -93,11 +95,13 @@ abstract class Stagehand_TestRunner_Collector
      *
      * @param string  $targetPath
      * @param boolean $recursivelyScans
+     * @param array   $testMethods
      */
-    public function __construct($targetPath, $recursivelyScans)
+    public function __construct($targetPath, $recursivelyScans, array $testMethods)
     {
         $this->targetPath = $targetPath;
         $this->recursivelyScans = $recursivelyScans;
+        $this->testMethods = $testMethods;
     }
 
     // }}}
@@ -129,6 +133,10 @@ abstract class Stagehand_TestRunner_Collector
             $directoryScanner->setRecursivelyScans($this->recursivelyScans);
             $directoryScanner->scan($absoluteTargetPath);
         } else {
+            if (count($this->testMethods)) {
+                $this->testsOnlySpecified = true;
+            }
+
             $this->collectTestCasesFromFile($absoluteTargetPath);
         }
 
