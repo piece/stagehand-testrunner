@@ -58,7 +58,7 @@ class Stagehand_TestRunner_Config
     public $color = false;
     public $enablesAutotest = false;
     public $preloadFile = null;
-    public $targetDirectories = array();
+    public $monitoredDirectories = array();
     public $useGrowl = false;
     public $growlPassword = null;
     public $testMethods = array();

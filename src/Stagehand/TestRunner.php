@@ -222,8 +222,8 @@ All rights reserved.
      */
     private function monitorAlteration()
     {
-        $targetDirectories = array();
-        foreach (array_merge($this->config->targetDirectories,
+        $monitoredDirectories = array();
+        foreach (array_merge($this->config->monitoredDirectories,
                              (array)$this->config->targetPath) as $directory
                  ) {
             if (!is_dir($directory)) {
@@ -235,8 +235,8 @@ All rights reserved.
                 throw new Stagehand_TestRunner_Exception("Cannnot get the absolute path of a specified directory [ $directory ]. Make sure all elements of the absolute path have valid permissions.");
             }
 
-            if (!in_array($directory, $targetDirectories)) {
-                $targetDirectories[] = $directory;
+            if (!in_array($directory, $monitoredDirectories)) {
+                $monitoredDirectories[] = $directory;
             }
         }
 
@@ -285,7 +285,7 @@ All rights reserved.
 
         $options[] = $this->config->targetPath;
 
-        $monitor = new Stagehand_AlterationMonitor($targetDirectories,
+        $monitor = new Stagehand_AlterationMonitor($monitoredDirectories,
                                                    create_function('',
                                                        "passthru('" .
                                                        "$command " .
@@ -337,7 +337,7 @@ All rights reserved.
                         $config->enablesAutotest = true;
                         break;
                     case 'w':
-                        $config->targetDirectories = explode(',', $option[1]);
+                        $config->monitoredDirectories = explode(',', $option[1]);
                         break;
                     case 'g':
                         if (@include_once 'Net/Growl.php') {
