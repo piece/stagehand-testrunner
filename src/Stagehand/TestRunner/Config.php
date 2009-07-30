@@ -53,7 +53,7 @@ class Stagehand_TestRunner_Config
      * @access public
      */
 
-    public $directory;
+    public $targetPath;
     public $recursivelyScans = false;
     public $color = false;
     public $enablesAutotest = false;

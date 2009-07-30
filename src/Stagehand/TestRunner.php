@@ -224,7 +224,7 @@ All rights reserved.
     {
         $targetDirectories = array();
         foreach (array_merge($this->config->targetDirectories,
-                             (array)$this->config->directory) as $directory
+                             (array)$this->config->targetPath) as $directory
                  ) {
             if (!is_dir($directory)) {
                 throw new Stagehand_TestRunner_Exception("A specified path [ $directory ] is not found or not a directory.");
@@ -283,7 +283,7 @@ All rights reserved.
             $options[] = "--growl-password={$this->config->growlPassword}";
         }
 
-        $options[] = $this->config->directory;
+        $options[] = $this->config->targetPath;
 
         $monitor = new Stagehand_AlterationMonitor($targetDirectories,
                                                    create_function('',
@@ -355,7 +355,7 @@ All rights reserved.
                         break;
                     }
                 } else {
-                    $config->directory = $option;
+                    $config->targetPath = $option;
                 }
             }
         }

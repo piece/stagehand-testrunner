@@ -97,7 +97,7 @@ abstract class Stagehand_TestRunner_Collector
      */
     public function __construct(Stagehand_TestRunner_Config $config)
     {
-        $this->targetPath = $config->directory;
+        $this->targetPath = $config->targetPath;
         $this->recursivelyScans = $config->recursivelyScans;
         $this->testMethods = $config->testMethods;
     }
