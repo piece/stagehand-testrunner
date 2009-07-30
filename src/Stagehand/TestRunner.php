@@ -39,6 +39,7 @@ require_once 'Console/Getopt.php';
 require_once 'Stagehand/AlterationMonitor.php';
 require_once 'Stagehand/TestRunner/Exception.php';
 require_once 'PEAR.php';
+require_once 'Stagehand/TestRunner/Config.php';
 
 // {{{ Stagehand_TestRunner
 
@@ -305,16 +306,8 @@ All rights reserved.
      */
     private function loadConfiguration()
     {
-        $directory = getcwd();
-        $recursivelyScans = false;
-        $color = false;
-        $enablesAutotest = false;
-        $preloadFile = null;
-        $targetDirectories = array();
-        $useGrowl = false;
-        $growlPassword = null;
-        $testMethods = array();
-        $isVerbose = false;
+        $config = new Stagehand_TestRunner_Config();
+
         foreach ($this->parseOptions() as $options) {
             if (!count($options)) {
                 continue;
@@ -330,21 +323,21 @@ All rights reserved.
                         $this->displayVersion();
                         return;
                     case 'R':
-                        $recursivelyScans = true;
+                        $config->recursivelyScans = true;
                         break;
                     case 'c':
                         if (@include_once 'Console/Color.php') {
-                            $color = true;
+                            $config->color = true;
                         }
                         break;
                     case 'p':
-                        $preloadFile = $option[1];
+                        $config->preloadFile = $option[1];
                         break;
                     case 'a':
-                        $enablesAutotest = true;
+                        $config->enablesAutotest = true;
                         break;
                     case 'w':
-                        $targetDirectories = explode(',', $option[1]);
+                        $config->targetDirectories = explode(',', $option[1]);
                         break;
                     case 'g':
                         if (@include_once 'Net/Growl.php') {
@@ -352,32 +345,22 @@ All rights reserved.
                         }
                         break;
                     case '--growl-password':
-                        $growlPassword = $option[1];
+                        $config->growlPassword = $option[1];
                         break;
                     case 'm':
-                        $testMethods = explode(',', $option[1]);
+                        $config->testMethods = explode(',', $option[1]);
                         break;
                     case 'v':
-                        $isVerbose = true;
+                        $config->isVerbose = true;
                         break;
                     }
                 } else {
-                    $directory = $option;
+                    $config->directory = $option;
                 }
             }
         }
 
-        return (object)array('directory' => $directory,
-                             'recursivelyScans' => $recursivelyScans,
-                             'color' => $color,
-                             'enablesAutotest' => $enablesAutotest,
-                             'preloadFile' => $preloadFile,
-                             'targetDirectories' => $targetDirectories,
-                             'useGrowl' => $useGrowl,
-                             'growlPassword' => $growlPassword,
-                             'testMethods' => $testMethods,
-                             'isVerbose' => $isVerbose
-                             );
+        return $config;
     }
 
     // }}}
