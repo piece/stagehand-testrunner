@@ -113,7 +113,7 @@ class Stagehand_TestRunner
                 return 1;
             }
 
-            if (!$this->config->enableAutotest) {
+            if (!$this->config->enablesAutotest) {
                 $this->runTests();
             } else {
                 $this->monitorAlteration();
@@ -287,7 +287,7 @@ All rights reserved.
         $directory = getcwd();
         $recursivelyScans = false;
         $color = false;
-        $enableAutotest = false;
+        $enablesAutotest = false;
         $preloadFile = null;
         $targetDirectories = array();
         $useGrowl = false;
@@ -320,7 +320,7 @@ All rights reserved.
                         $preloadFile = $option[1];
                         break;
                     case 'a':
-                        $enableAutotest = true;
+                        $enablesAutotest = true;
                         break;
                     case 'w':
                         $targetDirectories = explode(',', $option[1]);
@@ -349,7 +349,7 @@ All rights reserved.
         return (object)array('directory' => $directory,
                              'recursivelyScans' => $recursivelyScans,
                              'color' => $color,
-                             'enableAutotest' => $enableAutotest,
+                             'enablesAutotest' => $enablesAutotest,
                              'preloadFile' => $preloadFile,
                              'targetDirectories' => $targetDirectories,
                              'useGrowl' => $useGrowl,
