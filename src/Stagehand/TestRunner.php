@@ -147,27 +147,48 @@ class Stagehand_TestRunner
      */
     private function displayUsage()
     {
-        echo "Usage: {$_SERVER['SCRIPT_NAME']} [options] [directory or file]
+        echo "USAGE
+  {$_SERVER['SCRIPT_NAME']} [OPTIONS] [DIRECTORY OR FILE]
 
-Options:
-  -h                              display this help and exit
-  -V                              display version information and exit
-  -R                              run tests recursively
-  -c                              color the result of a test runner run
-  -p <file>                       preload <file> as a PHP script
-  -a                              watch for changes in one or more directories
-                                  and run tests in the test directory
-                                  recursively when changes are detected
-                                  (autotest)
-  -w <directory1,directory2,...>  specify one or more directories to be watched
-                                  for changes
-  -g                              notify test results to Growl
-      --growl-password=<password> specify <password> for Growl
-  -m <methods1,methods2,...>      specify one or more methods which you want to test
-                                  (this option is only available on single file mode)
-  -v                              display detailed progress report (PHPUnit only)
+NOTES
+  With no [directory or file], run all tests in the current directory.
 
-With no [directory or file], run all tests in the current directory.
+OPTIONS:
+
+  -h
+     Display this help and exit.
+
+  -V
+     Display version information and exit.
+
+  -R
+     Run tests recursively.
+
+  -c
+     Color the result of a test runner run.
+
+  -p <file>
+     Preload <file> as a PHP script.
+
+  -a
+     Watch for changes in one or more directories and run tests in the test
+     directory recursively when changes are detected.
+
+  -w DIRECTORY1,DIRECTORY2,...
+     Specify one or more directories to be watched for changes.
+
+  -g
+     Notify test results to Growl
+
+  --growl-password=PASSWORD
+     Specify PASSWORD for Growl
+
+  -m METHOD1,METHOD2,... (PHPUnit only)
+     Specify one or more methods which you want to test.
+     This option is only available on single file mode.
+
+  -v
+     Display detailed progress report (PHPUnit only)
 ";
     }
 
