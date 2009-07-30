@@ -32,7 +32,6 @@
  * @copyright  2008-2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpspec.org/
  * @since      File available since Release 2.3.0
  */
 
@@ -45,7 +44,6 @@
  * @copyright  2008-2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpspec.org/
  * @since      Class available since Release 2.3.0
  */
 abstract class Stagehand_TestRunner_Runner
