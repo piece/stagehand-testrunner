@@ -35,7 +35,6 @@
  * @since      File available since Release 0.5.0
  */
 
-require_once 'Console/Getopt.php';
 require_once 'Stagehand/AlterationMonitor.php';
 require_once 'Stagehand/TestRunner/Exception.php';
 require_once 'PEAR.php';
