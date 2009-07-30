@@ -56,8 +56,8 @@ class Stagehand_TestRunner_Config
     public $targetPath;
     public $recursivelyScans = false;
     public $color = false;
-    public $enablesAutotest = false;
     public $preloadFile = null;
+    public $enablesAutotest = false;
     public $monitoredDirectories = array();
     public $useGrowl = false;
     public $growlPassword = null;
