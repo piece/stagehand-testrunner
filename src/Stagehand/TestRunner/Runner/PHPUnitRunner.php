@@ -108,7 +108,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
                 'testdox://', $config->color
                                                                           )
                            );
-        if (!$config->isVerbose) {
+        if (!$config->printsDetailedProgressReport) {
             $listeners[] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_Progress(
                     null, false, $config->color

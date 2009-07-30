@@ -351,7 +351,7 @@ All rights reserved.
                         $config->testMethods = explode(',', $option[1]);
                         break;
                     case 'v':
-                        $config->isVerbose = true;
+                        $config->printsDetailedProgressReport = true;
                         break;
                     }
                 } else {

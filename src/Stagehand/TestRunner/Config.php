@@ -62,7 +62,7 @@ class Stagehand_TestRunner_Config
     public $useGrowl = false;
     public $growlPassword = null;
     public $testMethods = array();
-    public $isVerbose = false;
+    public $printsDetailedProgressReport = false;
 
     /**#@-*/
 
