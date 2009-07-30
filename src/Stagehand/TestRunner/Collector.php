@@ -76,7 +76,7 @@ abstract class Stagehand_TestRunner_Collector
      */
 
     private $targetPath;
-    private $isRecursive;
+    private $recursivelyScans;
     private $testCases = array();
 
     /**#@-*/
@@ -92,12 +92,12 @@ abstract class Stagehand_TestRunner_Collector
      * Initializes some properties of an instance.
      *
      * @param string  $targetPath
-     * @param boolean $isRecursive
+     * @param boolean $recursivelyScans
      */
-    public function __construct($targetPath, $isRecursive)
+    public function __construct($targetPath, $recursivelyScans)
     {
         $this->targetPath = $targetPath;
-        $this->isRecursive = $isRecursive;
+        $this->recursivelyScans = $recursivelyScans;
     }
 
     // }}}
@@ -126,7 +126,7 @@ abstract class Stagehand_TestRunner_Collector
 
         if (is_dir($absoluteTargetPath)) {
             $directoryScanner = new Stagehand_DirectoryScanner(array($this, 'collectTestCases'));
-            $directoryScanner->setRecursivelyScans($this->isRecursive);
+            $directoryScanner->setRecursivelyScans($this->recursivelyScans);
             $directoryScanner->scan($absoluteTargetPath);
         } else {
             $this->collectTestCasesFromFile($absoluteTargetPath);

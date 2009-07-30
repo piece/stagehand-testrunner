@@ -283,7 +283,7 @@ All rights reserved.
     private function loadConfiguration()
     {
         $directory = getcwd();
-        $isRecursive = false;
+        $recursivelyScans = false;
         $color = false;
         $enableAutotest = false;
         $preloadFile = null;
@@ -306,7 +306,7 @@ All rights reserved.
                         $this->displayVersion();
                         return;
                     case 'R':
-                        $isRecursive = true;
+                        $recursivelyScans = true;
                         break;
                     case 'c':
                         if (@include_once 'Console/Color.php') {
@@ -341,7 +341,7 @@ All rights reserved.
         }
 
         return (object)array('directory' => $directory,
-                             'isRecursive' => $isRecursive,
+                             'recursivelyScans' => $recursivelyScans,
                              'color' => $color,
                              'enableAutotest' => $enableAutotest,
                              'preloadFile' => $preloadFile,
@@ -365,7 +365,7 @@ All rights reserved.
         include_once "Stagehand/TestRunner/Collector/{$this->testRunnerName}Collector.php";
         $className = "Stagehand_TestRunner_Collector_{$this->testRunnerName}Collector";
         $collector = new $className($this->config->directory,
-                                    $this->config->isRecursive
+                                    $this->config->recursivelyScans
                                     );
         $suite = $collector->collect();
 
