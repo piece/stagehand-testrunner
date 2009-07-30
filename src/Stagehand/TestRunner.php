@@ -117,10 +117,10 @@ class Stagehand_TestRunner extends Stagehand_CLIController
     {
         switch ($option) {
         case 'h':
-            $this->displayUsage();
+            $this->printUsage();
             return false;
         case 'V':
-            $this->displayVersion();
+            $this->printVersion();
             return false;
         case 'R':
             $this->config->recursivelyScans = true;
@@ -190,12 +190,12 @@ class Stagehand_TestRunner extends Stagehand_CLIController
      */
 
     // }}}
-    // {{{ displayUsage()
+    // {{{ printUsage()
 
     /**
-     * Displays the usage.
+     * Prints the usage.
      */
-    private function displayUsage()
+    private function printUsage()
     {
         echo "USAGE
   {$_SERVER['SCRIPT_NAME']} [OPTIONS] [DIRECTORY OR FILE]
@@ -206,10 +206,10 @@ NOTES
 OPTIONS:
 
   -h
-     Display this help and exit.
+     Print this help and exit.
 
   -V
-     Display version information and exit.
+     Print version information and exit.
 
   -R
      Run tests recursively.
@@ -238,17 +238,17 @@ OPTIONS:
      This option is only available on single file mode.
 
   -v
-     Display detailed progress report (PHPUnit only)
+     Print detailed progress report (PHPUnit only)
 ";
     }
 
     // }}}
-    // {{{ displayVersion()
+    // {{{ printVersion()
 
     /**
-     * Displays the version.
+     * Prints the version.
      */
-    private function displayVersion()
+    private function printVersion()
     {
         echo "Stagehand_TestRunner @package_version@ ({$this->testRunnerName})
 
