@@ -69,7 +69,7 @@ abstract class Stagehand_TestRunner_Collector
     protected $suffix;
     protected $includePattern;
     protected $testsOnlySpecified = false;
-    protected $testMethods = array();
+    protected $config;
 
     /**#@-*/
 
@@ -77,8 +77,6 @@ abstract class Stagehand_TestRunner_Collector
      * @access private
      */
 
-    private $targetPath;
-    private $recursivelyScans;
     private $testCases = array();
 
     /**#@-*/
@@ -97,9 +95,7 @@ abstract class Stagehand_TestRunner_Collector
      */
     public function __construct(Stagehand_TestRunner_Config $config)
     {
-        $this->targetPath = $config->targetPath;
-        $this->recursivelyScans = $config->recursivelyScans;
-        $this->testMethods = $config->testMethods;
+        $this->config = $config;
     }
 
     // }}}
@@ -113,25 +109,25 @@ abstract class Stagehand_TestRunner_Collector
      */
     public function collect()
     {
-        if (!file_exists($this->targetPath)) {
-            if (preg_match("/{$this->suffix}\.php\$/", $this->targetPath)) {
-                throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->targetPath} ] is not found.");
+        if (!file_exists($this->config->targetPath)) {
+            if (preg_match("/{$this->suffix}\.php\$/", $this->config->targetPath)) {
+                throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->config->targetPath} ] is not found.");
             }
 
-            $this->targetPath = "{$this->targetPath}{$this->suffix}.php";
+            $this->config->targetPath = "{$this->config->targetPath}{$this->suffix}.php";
         }
 
-        $absoluteTargetPath = realpath($this->targetPath);
+        $absoluteTargetPath = realpath($this->config->targetPath);
         if ($absoluteTargetPath === false) {
-            throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->targetPath} ] is not found.");
+            throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->config->targetPath} ] is not found.");
         }
 
         if (is_dir($absoluteTargetPath)) {
             $directoryScanner = new Stagehand_DirectoryScanner(array($this, 'collectTestCases'));
-            $directoryScanner->setRecursivelyScans($this->recursivelyScans);
+            $directoryScanner->setRecursivelyScans($this->config->recursivelyScans);
             $directoryScanner->scan($absoluteTargetPath);
         } else {
-            if (count($this->testMethods)) {
+            if (count($this->config->testMethods)) {
                 $this->testsOnlySpecified = true;
             }
 

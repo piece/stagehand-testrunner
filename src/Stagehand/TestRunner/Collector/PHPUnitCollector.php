@@ -135,7 +135,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
         if (!$this->testsOnlySpecified) {
             $suite->addTestSuite(new PHPUnit_Framework_TestSuite($testCase));
         } else {
-            $suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite($testCase, $this->testMethods));
+            $suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite($testCase, $this->config->testMethods));
         }
     }
 
