@@ -40,6 +40,7 @@ require_once 'Stagehand/AlterationMonitor.php';
 require_once 'Stagehand/TestRunner/Exception.php';
 require_once 'PEAR.php';
 require_once 'Stagehand/TestRunner/Config.php';
+require_once 'Stagehand/CLIController.php';
 
 // {{{ Stagehand_TestRunner
 
@@ -52,7 +53,7 @@ require_once 'Stagehand/TestRunner/Config.php';
  * @version    Release: @package_version@
  * @since      Class available since Release 0.5.0
  */
-class Stagehand_TestRunner
+class Stagehand_TestRunner extends Stagehand_CLIController
 {
 
     // {{{ properties
@@ -66,6 +67,10 @@ class Stagehand_TestRunner
     /**#@+
      * @access protected
      */
+
+    protected $exceptionClass = 'Stagehand_TestRunner_Exception';
+    protected $shortOptions = 'hVRcp:aw:gm:v';
+    protected $longOptions = array('growl-password=');
 
     /**#@-*/
 
@@ -91,41 +96,7 @@ class Stagehand_TestRunner
     public function __construct($testRunnerName)
     {
         $this->testRunnerName = $testRunnerName;
-    }
-
-    // }}}
-    // {{{ run()
-
-    /**
-     * Runs tests automatically.
-     *
-     * @return integer
-     */
-    public function run()
-    {
-        if (!array_key_exists('argv', $_SERVER)) {
-            echo "ERROR: either use the CLI php executable, or set register_argc_argv=On in php.ini.\n";;
-            return 1;
-        }
-
-        try {
-            $this->config = $this->loadConfig();
-            if (is_null($this->config)) {
-                return 1;
-            }
-
-            if (!$this->config->enablesAutotest) {
-                $this->runTests();
-            } else {
-                $this->monitorAlteration();
-            }
-        } catch (Stagehand_TestRunner_Exception $e) {
-            echo 'ERROR: ' . $e->getMessage() . "\n";
-            $this->displayUsage();
-            return 1;
-        }
-
-        return 0;
+        $this->config = new Stagehand_TestRunner_Config();
     }
 
     /**#@-*/
@@ -133,6 +104,84 @@ class Stagehand_TestRunner
     /**#@+
      * @access protected
      */
+
+    // }}}
+    // {{{ doConfigureByOption()
+
+    /**
+     * @param string $option
+     * @param string $value
+     * @return boolean
+     */
+    protected function doConfigureByOption($option, $value)
+    {
+        switch ($option) {
+        case 'h':
+            $this->displayUsage();
+            return false;
+        case 'V':
+            $this->displayVersion();
+            return false;
+        case 'R':
+            $this->config->recursivelyScans = true;
+            return true;
+        case 'c':
+            if (@include_once 'Console/Color.php') {
+                $this->config->color = true;
+            }
+            return true;
+        case 'p':
+            $this->config->preloadFile = $value;
+            return true;
+        case 'a':
+            $this->config->enablesAutotest = true;
+            return true;
+        case 'w':
+            $this->config->monitoredDirectories = explode(',', $value);
+            return true;
+        case 'g':
+            if (@include_once 'Net/Growl.php') {
+                $useGrowl = true;
+            }
+            return true;
+        case '--growl-password':
+            $this->config->growlPassword = $value;
+            return true;
+        case 'm':
+            $this->config->testMethods = explode(',', $value);
+            return true;
+        case 'v':
+            $this->config->printsDetailedProgressReport = true;
+            return true;
+        }
+    }
+
+    // }}}
+    // {{{ doConfigureByArg()
+
+    /**
+     * @param string $arg
+     * @return boolean
+     */
+    protected function doConfigureByArg($arg)
+    {
+        $this->config->targetPath = $arg;
+        return true;
+    }
+
+    // }}}
+    // {{{ doRun()
+
+    /**
+     */
+    protected function doRun()
+    {
+        if (!$this->config->enablesAutotest) {
+            $this->runTests();
+        } else {
+            $this->monitorAlteration();
+        }
+    }
 
     /**#@-*/
 
@@ -296,74 +345,6 @@ All rights reserved.
     }
 
     // }}}
-    // {{{ loadConfig()
-
-    /**
-     * Loads the configuration by the default values and command line options.
-     *
-     * @return stdClass
-     * @since Method available since Release 2.1.0
-     */
-    private function loadConfig()
-    {
-        $config = new Stagehand_TestRunner_Config();
-
-        foreach ($this->parseOptions() as $options) {
-            if (!count($options)) {
-                continue;
-            }
-
-            foreach ($options as $option) {
-                if (is_array($option)) {
-                    switch ($option[0]) {
-                    case 'h':
-                        $this->displayUsage();
-                        return;
-                    case 'V':
-                        $this->displayVersion();
-                        return;
-                    case 'R':
-                        $config->recursivelyScans = true;
-                        break;
-                    case 'c':
-                        if (@include_once 'Console/Color.php') {
-                            $config->color = true;
-                        }
-                        break;
-                    case 'p':
-                        $config->preloadFile = $option[1];
-                        break;
-                    case 'a':
-                        $config->enablesAutotest = true;
-                        break;
-                    case 'w':
-                        $config->monitoredDirectories = explode(',', $option[1]);
-                        break;
-                    case 'g':
-                        if (@include_once 'Net/Growl.php') {
-                            $useGrowl = true;
-                        }
-                        break;
-                    case '--growl-password':
-                        $config->growlPassword = $option[1];
-                        break;
-                    case 'm':
-                        $config->testMethods = explode(',', $option[1]);
-                        break;
-                    case 'v':
-                        $config->printsDetailedProgressReport = true;
-                        break;
-                    }
-                } else {
-                    $config->targetPath = $option;
-                }
-            }
-        }
-
-        return $config;
-    }
-
-    // }}}
     // {{{ runTests()
 
     /**
@@ -395,45 +376,6 @@ All rights reserved.
                            $notification->description
                            );
         }
-    }
-
-    // }}}
-    // {{{ parseOptions()
-
-    /**
-     * Parses the command line options.
-     *
-     * @return array
-     * @throws Stagehand_TestRunner_Exception
-     * @since Method available since Release 2.6.1
-     */
-    private function parseOptions()
-    {
-        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
-
-        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $argv = Console_Getopt::readPHPArgv();
-        PEAR::staticPopErrorHandling();
-        if (PEAR::isError($argv)) {
-            error_reporting($oldErrorReportingLevel);
-            throw new Stagehand_TestRunner_Exception(preg_replace('/^Console_Getopt: /', '', $argv->getMessage()));
-        }
-
-        array_shift($argv);
-        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $allOptions = Console_Getopt::getopt2($argv,
-                                              'hVRcp:aw:gm:v',
-                                              array('growl-password=')
-                                              );
-        PEAR::staticPopErrorHandling();
-        if (PEAR::isError($allOptions)) {
-            error_reporting($oldErrorReportingLevel);
-            throw new Stagehand_TestRunner_Exception(preg_replace('/^Console_Getopt: /', '', $allOptions->getMessage()));
-        }
-
-        error_reporting($oldErrorReportingLevel);
-
-        return $allOptions;
     }
 
     /**#@-*/
