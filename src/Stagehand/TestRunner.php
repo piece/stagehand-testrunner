@@ -109,7 +109,7 @@ class Stagehand_TestRunner
         }
 
         try {
-            $this->config = $this->loadConfiguration();
+            $this->config = $this->loadConfig();
             if (is_null($this->config)) {
                 return 1;
             }
@@ -296,7 +296,7 @@ All rights reserved.
     }
 
     // }}}
-    // {{{ loadConfiguration()
+    // {{{ loadConfig()
 
     /**
      * Loads the configuration by the default values and command line options.
@@ -304,7 +304,7 @@ All rights reserved.
      * @return stdClass
      * @since Method available since Release 2.1.0
      */
-    private function loadConfiguration()
+    private function loadConfig()
     {
         $config = new Stagehand_TestRunner_Config();
 
