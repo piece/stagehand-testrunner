@@ -375,10 +375,7 @@ All rights reserved.
     {
         include_once "Stagehand/TestRunner/Collector/{$this->testRunnerName}Collector.php";
         $className = "Stagehand_TestRunner_Collector_{$this->testRunnerName}Collector";
-        $collector = new $className($this->config->directory,
-                                    $this->config->recursivelyScans,
-                                    $this->config->testMethods
-                                    );
+        $collector = new $className($this->config);
         $suite = $collector->collect();
 
         include_once "Stagehand/TestRunner/Runner/{$this->testRunnerName}Runner.php";

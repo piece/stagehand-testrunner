@@ -93,15 +93,13 @@ abstract class Stagehand_TestRunner_Collector
     /**
      * Initializes some properties of an instance.
      *
-     * @param string  $targetPath
-     * @param boolean $recursivelyScans
-     * @param array   $testMethods
+     * @param Stagehand_TestRunner_Config $config
      */
-    public function __construct($targetPath, $recursivelyScans, array $testMethods)
+    public function __construct(Stagehand_TestRunner_Config $config)
     {
-        $this->targetPath = $targetPath;
-        $this->recursivelyScans = $recursivelyScans;
-        $this->testMethods = $testMethods;
+        $this->targetPath = $config->directory;
+        $this->recursivelyScans = $config->recursivelyScans;
+        $this->testMethods = $config->testMethods;
     }
 
     // }}}
