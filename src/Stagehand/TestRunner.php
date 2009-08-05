@@ -269,12 +269,20 @@ All rights reserved.
                              (array)$this->config->targetPath) as $directory
                  ) {
             if (!is_dir($directory)) {
-                throw new Stagehand_TestRunner_Exception("A specified path [ $directory ] is not found or not a directory.");
+                throw new Stagehand_TestRunner_Exception(
+                    'A specified path [ ' .
+                    $directory .
+                    ' ] is not found or not a directory'
+                                                         );
             }
 
             $directory = realpath($directory);
             if ($directory === false) {
-                throw new Stagehand_TestRunner_Exception("Cannnot get the absolute path of a specified directory [ $directory ]. Make sure all elements of the absolute path have valid permissions.");
+                throw new Stagehand_TestRunner_Exception(
+                    'Cannnot get the absolute path of a specified directory [ ' .
+                    $directory .
+                    ' ]. Make sure all elements of the absolute path have valid permissions.'
+                                                         );
             }
 
             if (!in_array($directory, $monitoredDirectories)) {

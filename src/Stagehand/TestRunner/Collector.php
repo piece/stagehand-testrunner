@@ -108,15 +108,24 @@ abstract class Stagehand_TestRunner_Collector
     {
         if (!file_exists($this->config->targetPath)) {
             if (preg_match("/{$this->suffix}\.php\$/", $this->config->targetPath)) {
-                throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->config->targetPath} ] is not found.");
+                throw new Stagehand_TestRunner_Exception(
+                    'The directory or file [ ' .
+                    $this->config->targetPath .
+                    ' ] is not found'
+                                                         );
             }
 
-            $this->config->targetPath = "{$this->config->targetPath}{$this->suffix}.php";
+            $this->config->targetPath =
+                $this->config->targetPath . $this->suffix . '.php';
         }
 
         $absoluteTargetPath = realpath($this->config->targetPath);
         if ($absoluteTargetPath === false) {
-            throw new Stagehand_TestRunner_Exception("The directory or file [ {$this->config->targetPath} ] is not found.");
+            throw new Stagehand_TestRunner_Exception(
+                'The directory or file [ ' .
+                $this->config->targetPath . 
+                ' ] is not found'
+                                                     );
         }
 
         if (is_dir($absoluteTargetPath)) {
