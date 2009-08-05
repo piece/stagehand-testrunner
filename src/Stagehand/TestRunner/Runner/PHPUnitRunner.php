@@ -36,8 +36,6 @@
  * @since      File available since Release 2.1.0
  */
 
-define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit::run');
-
 // {{{ Stagehand_TestRunner_Runner_PHPUnitRunner
 
 /**
