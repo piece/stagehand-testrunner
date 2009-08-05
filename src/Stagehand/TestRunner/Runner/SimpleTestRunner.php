@@ -99,11 +99,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
 
         if ($config->useGrowl) {
             if (preg_match('/^(OK.+)/ms', $output, $matches)) {
-                $this->_notification->name = 'Green';
-                $this->_notification->description = $matches[1];
+                $this->notification->name = 'Green';
+                $this->notification->description = $matches[1];
             } elseif (preg_match('/^(FAILURES.+)/ms', $output, $matches)) {
-                $this->_notification->name = 'Red';
-                $this->_notification->description = $matches[1];
+                $this->notification->name = 'Red';
+                $this->notification->description = $matches[1];
             }
         }
 

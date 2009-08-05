@@ -69,7 +69,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      * @access private
      */
 
-    private $_position = 0;
+    private $position = 0;
 
     /**#@-*/
 
@@ -119,8 +119,8 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      */
     public function stream_read($count)
     {
-        $data = substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, $this->_position, $count);
-        $this->_position += strlen($data);
+        $data = substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, $this->position, $count);
+        $this->position += strlen($data);
         return $data;
     }
 
@@ -136,10 +136,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
     public function stream_write($data)
     {
         Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox =
-            substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, 0, $this->_position) .
+            substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, 0, $this->position) .
             $data .
-            substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, $this->_position + strlen($data));
-        $this->_position += strlen($data);
+            substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, $this->position + strlen($data));
+        $this->position += strlen($data);
         return strlen($data);
     }
 
@@ -153,7 +153,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      */
     public function stream_eof()
     {
-        return $this->_position >= strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox);
+        return $this->position >= strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox);
     }
 
     // }}}
@@ -166,7 +166,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      */
     public function stream_tell()
     {
-        return $this->_position;
+        return $this->position;
     }
 
     // }}}
@@ -184,21 +184,21 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
         switch ($whence) {
         case SEEK_SET:
             if ($offset < strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox) && $offset >= 0) {
-                $this->_position = $offset;
+                $this->position = $offset;
                 return true;
             } else {
                 return false;
             }
         case SEEK_CUR:
             if ($offset >= 0) {
-                $this->_position += $offset;
+                $this->position += $offset;
                 return true;
             } else {
                 return false;
             }
         case SEEK_END:
             if (strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox) + $offset >= 0) {
-                $this->_position = strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox) + $offset;
+                $this->position = strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox) + $offset;
                 return true;
             } else {
                 return false;

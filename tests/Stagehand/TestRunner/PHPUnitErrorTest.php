@@ -79,7 +79,7 @@ class Stagehand_TestRunner_PHPUnitErrorTest extends PHPUnit_Framework_TestCase
 
     public function testTestShouldBeError()
     {
-        $this->_foo;
+        $this->foo;
     }
 
     /**#@-*/

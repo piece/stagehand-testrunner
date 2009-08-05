@@ -79,7 +79,7 @@ class DescribePhpSpecError extends PHPSpec_Context
 
     public function itShouldBeError()
     {
-        $this->_foo;
+        $this->foo;
     }
 
     /**#@-*/

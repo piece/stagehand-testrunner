@@ -121,11 +121,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
             ob_end_clean();
 
             if (preg_match('/^(?:\x1b\[3[23]m)?(OK[^\x1b]+)/ms', $output, $matches)) {
-                $this->_notification->name = 'Green';
-                $this->_notification->description = $matches[1];
+                $this->notification->name = 'Green';
+                $this->notification->description = $matches[1];
             } elseif (preg_match('/^(FAILURES!\s)(?:\x1b\[31m)?([^\x1b]+)/ms', $output, $matches)) {
-                $this->_notification->name = 'Red';
-                $this->_notification->description = "{$matches[1]}{$matches[2]}";
+                $this->notification->name = 'Red';
+                $this->notification->description = "{$matches[1]}{$matches[2]}";
             }
         }
     }
