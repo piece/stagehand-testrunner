@@ -290,7 +290,7 @@ All rights reserved.
 
         $options = array();
         if (preg_match('!^/cygdrive/([a-z])/(.+)!', $command, $matches)) {
-            $command = "{$matches[1]}:\\" . str_replace('/', '\\', $matches[2]);
+            $command = $matches[1] . ':\\' . str_replace('/', '\\', $matches[2]);
         }
 
         if (preg_match('/\.bat$/', $command)) {
@@ -310,7 +310,7 @@ All rights reserved.
         $options[] = '-R';
 
         if (!is_null($this->config->preloadFile)) {
-            $options[] = "-p {$this->config->preloadFile}";
+            $options[] = '-p ' . $this->config->preloadFile;
         }
 
         if ($this->config->color) {
@@ -322,15 +322,16 @@ All rights reserved.
         }
 
         if (!is_null($this->config->growlPassword)) {
-            $options[] = "--growl-password={$this->config->growlPassword}";
+            $options[] = '--growl-password=' . $this->config->growlPassword;
         }
 
         $options[] = $this->config->targetPath;
 
         $monitor = new Stagehand_AlterationMonitor($monitoredDirectories,
                                                    create_function('',
-                                                       "passthru('" .
-                                                       "$command " .
+                                                      "passthru('" .
+                                                       $command .
+                                                       ' ' .
                                                        implode(' ', $options) .
                                                        "');")
                                                    );
@@ -347,12 +348,14 @@ All rights reserved.
      */
     private function runTests()
     {
-        $className = "Stagehand_TestRunner_Collector_{$this->testRunnerName}Collector";
-        $collector = new $className($this->config);
+        $collectorClass =
+            'Stagehand_TestRunner_Collector_' . $this->testRunnerName . 'Collector';
+        $collector = new $collectorClass($this->config);
         $suite = $collector->collect();
 
-        $className = "Stagehand_TestRunner_Runner_{$this->testRunnerName}Runner";
-        $runner = new $className();
+        $runnerClass =
+            'Stagehand_TestRunner_Runner_' . $this->testRunnerName . 'Runner';
+        $runner = new $runnerClass();
         $runner->run($suite, $this->config);
 
         if ($this->config->useGrowl) {
