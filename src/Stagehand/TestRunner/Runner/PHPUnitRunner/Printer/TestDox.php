@@ -91,11 +91,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDox extends PHPUnit_
     {
         parent::__construct($out);
         $this->color = $color;
-
-        if ($this->color) {
-            include_once 'Stagehand/TestRunner/Coloring.php';
-        }
-
         $this->prettifier =
             new Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier();
     }

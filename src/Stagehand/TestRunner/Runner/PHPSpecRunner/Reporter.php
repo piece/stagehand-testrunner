@@ -88,11 +88,6 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_Reporter extends PHPSpec_Runner_
     {
         parent::__construct($result);
         $this->color = $color;
-
-        if ($this->color) {
-            include_once 'Console/Color.php';
-            include_once 'Stagehand/TestRunner/Coloring.php';
-        }
     }
 
     // }}}

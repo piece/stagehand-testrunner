@@ -92,11 +92,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_Result extends PHPUnit_T
     {
         parent::__construct($out, $verbose);
         $this->color = $color;
-
-        if ($this->color) {
-            include_once 'Console/Color.php';
-            include_once 'Stagehand/TestRunner/Coloring.php';
-        }
     }
 
     // }}}
