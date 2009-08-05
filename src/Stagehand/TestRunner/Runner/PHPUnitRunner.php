@@ -93,6 +93,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
                 null, false, $config->color
                                                                          );
 
+        Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream::register();
         $listeners = array(
             new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDox(
                 'testdox://', $config->color

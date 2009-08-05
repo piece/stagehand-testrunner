@@ -208,6 +208,16 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
         }        
     }
 
+    // }}}
+    // {{{ register()
+
+    /**
+     */
+    public static function register()
+    {
+        stream_wrapper_register('testdox',  __CLASS__);
+    }
+
     /**#@-*/
 
     /**#@+
@@ -226,10 +236,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
 }
 
 // }}}
-
-stream_wrapper_register('testdox',
-                        'Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream'
-                        );
 
 /*
  * Local Variables:
