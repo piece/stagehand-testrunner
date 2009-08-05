@@ -36,10 +36,6 @@
  * @since      File available since Release 2.1.0
  */
 
-require_once 'Stagehand/TestRunner/Collector.php';
-require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'Stagehand/TestRunner/Collector/PHPUnitCollector/RestrictedTestSuite.php';
-
 // {{{ Stagehand_TestRunner_Collector_PHPUnitCollector
 
 /**

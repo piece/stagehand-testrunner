@@ -39,7 +39,6 @@
  */
 
 require_once 'simpletest/reporter.php';
-require_once 'Stagehand/TestRunner/Runner.php';
 
 // {{{ Stagehand_TestRunner_Runner_SimpleTestRunner
 

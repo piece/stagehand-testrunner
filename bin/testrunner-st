@@ -38,7 +38,10 @@
 
 preload();
 
-require_once 'Stagehand/TestRunner.php';
+require_once 'Stagehand/Autoload.php';
+
+$loader = Stagehand_Autoload::getLoader(Stagehand_Autoload::LOADER_LEGACY);
+Stagehand_Autoload::register($loader);
 
 $runner = new Stagehand_TestRunner('SimpleTest');
 $result = $runner->run();

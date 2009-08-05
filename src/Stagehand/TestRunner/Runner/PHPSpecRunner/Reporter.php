@@ -36,8 +36,6 @@
  * @since      File available since Release 2.0.0
  */
 
-require_once 'PHPSpec/Runner/Result.php';
-
 // {{{ Stagehand_TestRunner_Runner_PHPSpecRunner_Reporter
 
 /**

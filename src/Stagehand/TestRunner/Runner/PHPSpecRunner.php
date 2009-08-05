@@ -36,10 +36,6 @@
  * @since      File available since Release 2.1.0
  */
 
-require_once 'PHPSpec/Framework.php';
-require_once 'Stagehand/TestRunner/Runner/PHPSpecRunner/Reporter.php';
-require_once 'Stagehand/TestRunner/Runner.php';
-
 // {{{ Stagehand_TestRunner_Runner_PHPSpecRunner
 
 /**

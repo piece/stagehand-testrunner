@@ -36,11 +36,6 @@
  * @since      File available since Release 2.4.0
  */
 
-require_once 'PHPUnit/Util/TestDox/ResultPrinter/Text.php';
-require_once 'PHPUnit/Framework/Test.php';
-require_once 'PHPUnit/Framework/AssertionFailedError.php';
-require_once 'Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox/NamePrettifier.php';
-
 // {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDox
 
 /**

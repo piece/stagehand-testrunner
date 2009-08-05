@@ -35,12 +35,6 @@
  * @since      File available since Release 0.5.0
  */
 
-require_once 'Stagehand/AlterationMonitor.php';
-require_once 'Stagehand/TestRunner/Exception.php';
-require_once 'PEAR.php';
-require_once 'Stagehand/TestRunner/Config.php';
-require_once 'Stagehand/CLIController.php';
-
 // {{{ Stagehand_TestRunner
 
 /**

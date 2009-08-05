@@ -35,8 +35,6 @@
  * @since      File available since Release 2.4.0
  */
 
-require_once 'Console/Color.php';
-
 // {{{ Stagehand_TestRunner_Coloring
 
 /**

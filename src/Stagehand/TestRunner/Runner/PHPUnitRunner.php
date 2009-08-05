@@ -38,16 +38,6 @@
 
 define('PHPUnit_MAIN_METHOD', 'Stagehand_TestRunner_PHPUnit::run');
 
-require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'Stagehand/TestRunner/Runner.php';
-require_once 'Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/Result.php';
-require_once 'PHPUnit/TextUI/ResultPrinter.php';
-require_once 'Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox.php';
-require_once 'Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox/Stream.php';
-require_once 'Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/TestDox.php';
-require_once 'Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/Progress.php';
-require_once 'Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/DetailedProgress.php';
-
 // {{{ Stagehand_TestRunner_Runner_PHPUnitRunner
 
 /**
