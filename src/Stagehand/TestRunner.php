@@ -119,7 +119,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             $this->config->recursivelyScans = true;
             return true;
         case 'c':
-            if (@include_once 'Console/Color.php') {
+            if (class_exists('Console_Color')) {
                 $this->config->color = true;
             }
             return true;
@@ -133,7 +133,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             $this->config->monitoredDirectories = explode(',', $value);
             return true;
         case 'g':
-            if (@include_once 'Net/Growl.php') {
+            if (class_exists('Net_Growl')) {
                 $useGrowl = true;
             }
             return true;
@@ -347,12 +347,10 @@ All rights reserved.
      */
     private function runTests()
     {
-        include_once "Stagehand/TestRunner/Collector/{$this->testRunnerName}Collector.php";
         $className = "Stagehand_TestRunner_Collector_{$this->testRunnerName}Collector";
         $collector = new $className($this->config);
         $suite = $collector->collect();
 
-        include_once "Stagehand/TestRunner/Runner/{$this->testRunnerName}Runner.php";
         $className = "Stagehand_TestRunner_Runner_{$this->testRunnerName}Runner";
         $runner = new $className();
         $runner->run($suite, $this->config);
