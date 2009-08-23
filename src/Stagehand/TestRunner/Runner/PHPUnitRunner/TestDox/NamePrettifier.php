@@ -36,6 +36,8 @@
  * @since      File available since Release 2.6.2
  */
 
+require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
+
 // {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier
 
 /**

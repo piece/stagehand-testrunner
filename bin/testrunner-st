@@ -40,7 +40,8 @@ preload();
 
 require_once 'Stagehand/Autoload.php';
 
-$loader = Stagehand_Autoload::getLoader(Stagehand_Autoload::LOADER_LEGACY);
+$loader = Stagehand_Autoload::getLegacyLoader();
+$loader->addNamespace('Stagehand');
 Stagehand_Autoload::register($loader);
 
 $runner = new Stagehand_TestRunner('SimpleTest');

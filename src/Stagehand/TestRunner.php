@@ -119,7 +119,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             $this->config->recursivelyScans = true;
             return true;
         case 'c':
-            if (class_exists('Console_Color')) {
+            if (@include_once 'Console/Color.php') {
                 $this->config->color = true;
             }
             return true;
@@ -133,7 +133,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             $this->config->monitoredDirectories = explode(',', $value);
             return true;
         case 'g':
-            if (class_exists('Net_Growl')) {
+            if (@include_once 'Net/Growl.php') {
                 $useGrowl = true;
             }
             return true;

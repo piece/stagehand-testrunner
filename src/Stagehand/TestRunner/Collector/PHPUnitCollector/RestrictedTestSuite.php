@@ -36,6 +36,8 @@
  * @since      File available since Release 2.7.0
  */
 
+require_once 'PHPUnit/Framework/TestSuite.php';
+
 // {{{ Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite
 
 /**

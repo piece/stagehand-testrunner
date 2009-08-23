@@ -36,6 +36,11 @@
  * @since      File available since Release 1.2.0
  */
 
+require_once 'PHPUnit/TextUI/ResultPrinter.php';
+require_once 'PHPUnit/Framework/Test.php';
+require_once 'PHPUnit/Framework/AssertionFailedError.php';
+require_once 'PHPUnit/Framework/TestCase.php';
+
 // {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_Progress
 
 /**
