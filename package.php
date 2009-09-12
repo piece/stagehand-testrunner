@@ -79,7 +79,7 @@ $package->setPhpDep('5.0.3');
 $package->setPearinstallerDep('1.4.3');
 $package->addPackageDepWithChannel('required', 'Stagehand_CLIController', 'pear.piece-framework.com', '0.1.0');
 $package->addPackageDepWithChannel('required', 'Stagehand_DirectoryScanner', 'pear.piece-framework.com', '1.0.0');
-$package->addPackageDepWithChannel('required', 'Stagehand_Autoload', 'pear.piece-framework.com', '0.3.0');
+$package->addPackageDepWithChannel('required', 'Stagehand_Autoload', 'pear.piece-framework.com', '0.4.0');
 $package->addPackageDepWithChannel('optional', 'Console_Color', 'pear.php.net', '1.0.2');
 $package->addPackageDepWithChannel('optional', 'Net_Growl', 'pear.php.net', '0.7.0');
 $package->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.3.0');
