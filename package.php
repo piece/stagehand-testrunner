@@ -77,7 +77,6 @@ $package->setReleaseStability($releaseStability);
 $package->setNotes($notes);
 $package->setPhpDep('5.0.3');
 $package->setPearinstallerDep('1.4.3');
-$package->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.3');
 $package->addPackageDepWithChannel('required', 'Stagehand_CLIController', 'pear.piece-framework.com', '0.1.0');
 $package->addPackageDepWithChannel('required', 'Stagehand_DirectoryScanner', 'pear.piece-framework.com', '1.0.0');
 $package->addPackageDepWithChannel('required', 'Stagehand_Autoload', 'pear.piece-framework.com', '0.3.0');
