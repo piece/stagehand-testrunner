@@ -89,7 +89,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
     public function run($suite, $config)
     {
         $printer =
-            new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_Result(
+            new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
                 null, false, $config->color
                                                                          );
 

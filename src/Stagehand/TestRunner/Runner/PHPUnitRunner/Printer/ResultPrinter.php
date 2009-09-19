@@ -45,7 +45,7 @@ require_once 'PHPUnit/Framework/TestFailure.php';
 require_once 'PHPUnit/Framework/SelfDescribing.php';
 require_once 'PHPUnit/Util/Filter.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_Result
+// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter
 
 /**
  * A result printer for PHPUnit.
@@ -57,7 +57,7 @@ require_once 'PHPUnit/Util/Filter.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_Result extends PHPUnit_TextUI_ResultPrinter
+class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PHPUnit_TextUI_ResultPrinter
 {
 
     // {{{ properties
