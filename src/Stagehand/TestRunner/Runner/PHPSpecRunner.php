@@ -87,7 +87,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
     public function run($suite, $config)
     {
         $result = new PHPSpec_Runner_Result();
-        $reporter = new Stagehand_TestRunner_Runner_PHPSpecRunner_Reporter(
+        $reporter = new Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter(
                         $result,
                         $config->color
                                                                            );
