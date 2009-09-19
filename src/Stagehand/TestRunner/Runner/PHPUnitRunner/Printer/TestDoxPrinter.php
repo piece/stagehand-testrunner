@@ -40,7 +40,7 @@ require_once 'PHPUnit/Util/TestDox/ResultPrinter/Text.php';
 require_once 'PHPUnit/Framework/Test.php';
 require_once 'PHPUnit/Framework/AssertionFailedError.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDox
+// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter
 
 /**
  * A result printer for TestDox documentation.
@@ -52,7 +52,7 @@ require_once 'PHPUnit/Framework/AssertionFailedError.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.4.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDox extends PHPUnit_Util_TestDox_ResultPrinter_Text
+class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends PHPUnit_Util_TestDox_ResultPrinter_Text
 {
 
     // {{{ properties

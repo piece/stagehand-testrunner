@@ -95,7 +95,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
 
         Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream::register();
         $listeners = array(
-            new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDox(
+            new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
                 'testdox://', $config->color
                                                                           )
                            );
