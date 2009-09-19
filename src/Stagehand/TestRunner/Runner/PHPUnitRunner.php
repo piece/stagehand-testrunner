@@ -106,7 +106,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
                                                                                );
         } else {
             $listeners[] =
-                new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgress(
+                new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter(
                     null, false, $config->color
                                                                                        );
         }
