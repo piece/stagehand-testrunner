@@ -63,13 +63,13 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      * @access protected
      */
 
+    protected $position = 0;
+
     /**#@-*/
 
     /**#@+
      * @access private
      */
-
-    private $position = 0;
 
     /**#@-*/
 

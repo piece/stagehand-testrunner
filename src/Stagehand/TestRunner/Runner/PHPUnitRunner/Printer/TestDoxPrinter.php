@@ -67,14 +67,14 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
      * @access protected
      */
 
+    protected $lastTestFailed = false;
+    protected $color;
+
     /**#@-*/
 
     /**#@+
      * @access private
      */
-
-    private $lastTestFailed = false;
-    private $color;
 
     /**#@-*/
 

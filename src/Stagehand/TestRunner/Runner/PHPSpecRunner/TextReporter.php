@@ -63,13 +63,13 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
      * @access protected
      */
 
+    protected $color;
+
     /**#@-*/
 
     /**#@+
      * @access private
      */
-
-    private $color;
 
     /**#@-*/
 

@@ -63,13 +63,13 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite extend
      * @access protected
      */
 
+    protected $testMethods = array();
+
     /**#@-*/
 
     /**#@+
      * @access private
      */
-
-    private $testMethods = array();
 
     /**#@-*/
 

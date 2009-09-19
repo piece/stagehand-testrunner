@@ -64,15 +64,14 @@ class Stagehand_TestRunner extends Stagehand_CLIController
     protected $exceptionClass = 'Stagehand_TestRunner_Exception';
     protected $shortOptions = 'hVRcp:aw:gm:v';
     protected $longOptions = array('growl-password=');
+    protected $testRunnerName;
+    protected $config;
 
     /**#@-*/
 
     /**#@+
      * @access private
      */
-
-    private $testRunnerName;
-    private $config;
 
     /**#@-*/
 
@@ -176,19 +175,13 @@ class Stagehand_TestRunner extends Stagehand_CLIController
         }
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
     // }}}
     // {{{ printUsage()
 
     /**
      * Prints the usage.
      */
-    private function printUsage()
+    protected function printUsage()
     {
         echo "USAGE
   {$_SERVER['SCRIPT_NAME']} [OPTIONS] DIRECTORY_OR_FILE
@@ -241,7 +234,7 @@ OPTIONS
     /**
      * Prints the version.
      */
-    private function printVersion()
+    protected function printVersion()
     {
         echo "Stagehand_TestRunner @package_version@ ({$this->testRunnerName})
 
@@ -262,7 +255,7 @@ All rights reserved.
      * @throws Stagehand_TestRunner_Exception
      * @since Method available since Release 2.1.0
      */
-    private function monitorAlteration()
+    protected function monitorAlteration()
     {
         $monitoredDirectories = array();
         foreach (array_merge($this->config->monitoredDirectories,
@@ -354,7 +347,7 @@ All rights reserved.
      *
      * @since Method available since Release 2.1.0
      */
-    private function runTests()
+    protected function runTests()
     {
         $collectorClass =
             'Stagehand_TestRunner_Collector_' . $this->testRunnerName . 'Collector';
@@ -379,6 +372,12 @@ All rights reserved.
                            );
         }
     }
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
 
     /**#@-*/
 

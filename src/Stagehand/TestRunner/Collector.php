@@ -67,14 +67,13 @@ abstract class Stagehand_TestRunner_Collector
     protected $includePattern;
     protected $testsOnlySpecified = false;
     protected $config;
+    protected $testCases = array();
 
     /**#@-*/
 
     /**#@+
      * @access private
      */
-
-    private $testCases = array();
 
     /**#@-*/
 
@@ -200,12 +199,6 @@ abstract class Stagehand_TestRunner_Collector
      */
     abstract protected function addTestCase($suite, $testCase);
 
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
     // }}}
     // {{{ createTestSuiteFromTestCases()
 
@@ -215,7 +208,7 @@ abstract class Stagehand_TestRunner_Collector
      *
      * @return mixed
      */
-    private function createTestSuiteFromTestCases()
+    protected function createTestSuiteFromTestCases()
     {
         $suite = $this->createTestSuite();
         foreach ($this->testCases as $testCase) {
@@ -233,7 +226,7 @@ abstract class Stagehand_TestRunner_Collector
      *
      * @return mixed
      */
-    private function buildTestSuite()
+    protected function buildTestSuite()
     {
         $suite = $this->createTestSuite();
         $this->doBuildTestSuite($suite, $this->createTestSuiteFromTestCases());
@@ -248,7 +241,7 @@ abstract class Stagehand_TestRunner_Collector
      *
      * @param string $file
      */
-    private function collectTestCasesFromFile($file)
+    protected function collectTestCasesFromFile($file)
     {
         if (!preg_match("/{$this->suffix}\.php\$/", $file)) {
             return;
@@ -281,6 +274,12 @@ abstract class Stagehand_TestRunner_Collector
             $this->testCases[] = $newClasses[$i];
         }
     }
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
 
     /**#@-*/
 

@@ -68,13 +68,13 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
      * @access protected
      */
 
+    protected $color;
+
     /**#@-*/
 
     /**#@+
      * @access private
      */
-
-    private $color;
 
     /**#@-*/
 
