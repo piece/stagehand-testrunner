@@ -35,7 +35,7 @@
  * @since      File available since Release 2.2.0
  */
 
-if (!@include_once 'PHPSpec/Context.php') {
+if (!class_exists('PHPSpec_Context')) {
     return;
 }
 
