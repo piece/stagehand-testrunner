@@ -35,7 +35,7 @@
  * @since      File available since Release 2.0.0
  */
 
-if (!@include_once 'PHPUnit/Framework/TestCase.php') {
+if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
