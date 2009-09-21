@@ -66,7 +66,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
      * @access protected
      */
 
-    protected $color;
+    protected $colors;
 
     /**#@-*/
 
@@ -87,12 +87,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
      * Constructor.
      *
      * @param  resource  $out
-     * @param  boolean   $color
+     * @param  boolean   $colors
      */
-    public function __construct($out = NULL, $color)
+    public function __construct($out = NULL, $colors)
     {
         parent::__construct($out);
-        $this->color = $color;
+        $this->colors = $colors;
         $this->prettifier =
             new Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier();
     }
@@ -131,7 +131,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
             return;
         }
 
-        if ($this->color) {
+        if ($this->colors) {
             switch ($this->testStatus) {
             case PHPUnit_Runner_BaseTestRunner::STATUS_PASSED:
                 $name = Stagehand_TestRunner_Coloring::green($name);
