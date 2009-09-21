@@ -37,8 +37,7 @@
  */
 
 require_once 'PHPUnit/Util/TestDox/ResultPrinter/Text.php';
-require_once 'PHPUnit/Framework/Test.php';
-require_once 'PHPUnit/Framework/AssertionFailedError.php';
+require_once 'PHPUnit/Runner/BaseTestRunner.php';
 
 // {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter
 
@@ -67,7 +66,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
      * @access protected
      */
 
-    protected $lastTestFailed = false;
     protected $color;
 
     /**#@-*/
@@ -100,109 +98,17 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
     }
 
     // }}}
-    // {{{ addError()
+    // {{{ startTest()
 
     /**
-     * An error occurred.
-     *
-     * @param  PHPUnit_Framework_Test $test
-     * @param  Exception              $e
-     * @param  float                  $time
+     * @param PHPUnit_Framework_Test $test
+     * @since Method available since Release 2.7.0
      */
-    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function startTest(PHPUnit_Framework_Test $test)
     {
-        if ($this->color) {
-            $this->write(Stagehand_TestRunner_Coloring::magenta(" - {$this->currentTestMethodPrettified}\n"));
-        } else {
-            $this->write(" - {$this->currentTestMethodPrettified}\n");
+        if (!$test instanceof PHPUnit_Framework_Warning) {
+            parent::startTest($test);
         }
-
-        $this->lastTestFailed = true;
-    }
-
-    // }}}
-    // {{{ addFailure()
-
-    /**
-     * A failure occurred.
-     *
-     * @param  PHPUnit_Framework_Test                 $test
-     * @param  PHPUnit_Framework_AssertionFailedError $e
-     * @param  float                                  $time
-     */
-    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
-    {
-        if ($this->color) {
-            $this->write(Stagehand_TestRunner_Coloring::red(" - {$this->currentTestMethodPrettified}\n"));
-        } else {
-            $this->write(" - {$this->currentTestMethodPrettified}\n");
-        }
-
-        $this->lastTestFailed = true;
-    }
-
-    // }}}
-    // {{{ addIncompleteTest()
-
-    /**
-     * Incomplete test.
-     *
-     * @param  PHPUnit_Framework_Test $test
-     * @param  Exception              $e
-     * @param  float                  $time
-     */
-    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
-    {
-        if ($this->color) {
-            $this->write(Stagehand_TestRunner_Coloring::yellow(" - {$this->currentTestMethodPrettified}\n"));
-        } else {
-            $this->write(" - {$this->currentTestMethodPrettified}\n");
-        }
-
-        $this->lastTestFailed = true;
-    }
-
-    // }}}
-    // {{{ addSkippedTest()
-
-    /**
-     * Skipped test.
-     *
-     * @param  PHPUnit_Framework_Test $test
-     * @param  Exception              $e
-     * @param  float                  $time
-     */
-    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
-    {
-        if ($this->color) {
-            $this->write(Stagehand_TestRunner_Coloring::yellow(" - {$this->currentTestMethodPrettified}\n"));
-        } else {
-            $this->write(" - {$this->currentTestMethodPrettified}\n");
-        }
-
-        $this->lastTestFailed = true;
-    }
-
-    // }}}
-    // {{{ endTest()
-
-    /**
-     * A test ended.
-     *
-     * @param  PHPUnit_Framework_Test $test
-     * @param  float                  $time
-     */
-    public function endTest(PHPUnit_Framework_Test $test, $time)
-    {
-        if (!$this->lastTestFailed) {
-            if ($this->color) {
-                $this->write(Stagehand_TestRunner_Coloring::green(" - {$this->currentTestMethodPrettified}\n"));
-            } else {
-                $this->write(" - {$this->currentTestMethodPrettified}\n");
-            }
-        }
-
-        $this->lastTestFailed = false;
     }
 
     /**#@-*/
@@ -212,13 +118,38 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
      */
 
     // }}}
-    // {{{ doEndClass()
+    // {{{ onTest()
 
     /**
+     * @param string  $name
+     * @param boolean $success
+     * @since Method available since Release 2.7.0
      */
-    protected function doEndClass()
+    protected function onTest($name, $success = true)
     {
-        $this->endClass($this->testClass);
+        if (!strlen($name)) {
+            return;
+        }
+
+        if ($this->color) {
+            switch ($this->testStatus) {
+            case PHPUnit_Runner_BaseTestRunner::STATUS_PASSED:
+                $name = Stagehand_TestRunner_Coloring::green($name);
+                break;
+            case PHPUnit_Runner_BaseTestRunner::STATUS_ERROR:
+                $name = Stagehand_TestRunner_Coloring::magenta($name);
+                break;
+            case PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE:
+                $name = Stagehand_TestRunner_Coloring::red($name);
+                break;
+            case PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE:
+            case PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED:
+                $name = Stagehand_TestRunner_Coloring::yellow($name);
+                break;
+            }
+        }
+
+        parent::onTest($name, $success);
     }
 
     /**#@-*/

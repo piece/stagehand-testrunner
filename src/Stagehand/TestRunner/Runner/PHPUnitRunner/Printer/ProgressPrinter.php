@@ -68,8 +68,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
      * @access protected
      */
 
-    protected $color;
-
     /**#@-*/
 
     /**#@+
@@ -83,23 +81,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
      */
 
     // }}}
-    // {{{ __construct()
-
-    /**
-     * Constructor.
-     *
-     * @param  mixed   $out
-     * @param  boolean $verbose
-     * @param  boolean $color
-     * @since  Method available since Release 2.4.0
-     */
-    public function __construct($out, $verbose, $color)
-    {
-        parent::__construct($out, $verbose);
-        $this->color = $color;
-    }
-
-    // }}}
     // {{{ addError()
 
     /**
@@ -111,7 +92,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if (!$this->color) {
+        if (!$this->colors) {
             parent::addError($test, $e, $time);
             return;
         }
@@ -132,7 +113,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        if (!$this->color) {
+        if (!$this->colors) {
             parent::addFailure($test, $e, $time);
             return;
         }
@@ -153,7 +134,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if (!$this->color) {
+        if (!$this->colors) {
             parent::addIncompleteTest($test, $e, $time);
             return;
         }
@@ -174,7 +155,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if (!$this->color) {
+        if (!$this->colors) {
             parent::addSkippedTest($test, $e, $time);
             return;
         }
@@ -194,7 +175,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if (!$this->color) {
+        if (!$this->colors) {
             parent::endTest($test, $time);
             return;
         }
