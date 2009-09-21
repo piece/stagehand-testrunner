@@ -102,7 +102,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
 
         $reporter->output(true);
 
-        if ($config->useGrowl) {
+        if ($config->usesGrowl) {
             $output = $reporter->toString(true);
 
             $failuresCount = $result->countFailures();

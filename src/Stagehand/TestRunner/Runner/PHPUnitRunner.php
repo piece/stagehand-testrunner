@@ -116,7 +116,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
                                                        'listeners' => $listeners)
                                                  );
 
-        if ($config->useGrowl) {
+        if ($config->usesGrowl) {
             ob_start();
             $printer->printResult($result);
             $output = ob_get_contents();

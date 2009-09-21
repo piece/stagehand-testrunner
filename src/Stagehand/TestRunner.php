@@ -133,7 +133,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             return true;
         case 'g':
             if (@include_once 'Net/Growl.php') {
-                $useGrowl = true;
+                $usesGrowl = true;
             }
             return true;
         case '--growl-password':
@@ -318,7 +318,7 @@ All rights reserved.
             $options[] = '-c';
         }
 
-        if ($this->config->useGrowl) {
+        if ($this->config->usesGrowl) {
             $options[] = '-g';
         }
 
@@ -359,7 +359,7 @@ All rights reserved.
         $runner = new $runnerClass();
         $runner->run($suite, $this->config);
 
-        if ($this->config->useGrowl) {
+        if ($this->config->usesGrowl) {
             $notification = $runner->getNotification();
             $application = new Net_Growl_Application('Stagehand_TestRunner',
                                                      array('Green', 'Red'),

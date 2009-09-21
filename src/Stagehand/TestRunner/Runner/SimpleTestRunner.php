@@ -97,7 +97,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         $output = ob_get_contents();
         ob_end_clean();
 
-        if ($config->useGrowl) {
+        if ($config->usesGrowl) {
             if (preg_match('/^(OK.+)/ms', $output, $matches)) {
                 $this->notification->name = 'Green';
                 $this->notification->description = $matches[1];
