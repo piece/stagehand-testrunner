@@ -90,7 +90,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
     {
         $printer =
             new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
-                null, false, $config->colors
+                STDOUT, false, $config->colors
                                                                          );
 
         Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream::register();
@@ -102,12 +102,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
         if (!$config->printsDetailedProgressReport) {
             $listeners[] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter(
-                    null, false, $config->colors
+                    STDOUT, false, $config->colors
                                                                                );
         } else {
             $listeners[] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter(
-                    null, false, $config->colors
+                    STDOUT, false, $config->colors
                                                                                        );
         }
 
