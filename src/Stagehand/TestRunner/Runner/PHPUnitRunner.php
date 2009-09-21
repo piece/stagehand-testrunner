@@ -90,7 +90,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
     {
         $printer =
             new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
-                STDOUT, false, $config->colors
+                STDOUT, true, $config->colors
                                                                          );
 
         Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream::register();

@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,29 +29,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      File available since Release 1.2.0
+ * @since      File available since Release 2.0.0
  */
 
-require_once 'PHPUnit/TextUI/ResultPrinter.php';
-require_once 'PHPUnit/Framework/TestResult.php';
+if (!class_exists('PHPUnit_Framework_TestCase', false)) {
+    return;
+}
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter
+// {{{ Stagehand_TestRunner_PHPUnitDependsTest
 
 /**
- * A result printer for PHPUnit.
+ * TestCase for the PHPUnit runner.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      Class available since Release 1.2.0
+ * @since      Class available since Release 2.0.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PHPUnit_TextUI_ResultPrinter
+class Stagehand_TestRunner_PHPUnitDependsTest extends PHPUnit_Framework_TestCase
 {
 
     // {{{ properties
@@ -78,35 +77,21 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
      * @access public
      */
 
-    // }}}
-    // {{{ printResult()
-
     /**
-     * @param PHPUnit_Framework_TestResult $result
+     * @test
      */
-    public function printResult(PHPUnit_Framework_TestResult $result)
+    public function pass()
     {
-        $testDox = trim(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox);
-        if (strlen($testDox)) {
-            $this->write("\n\n" . $testDox);
-        }
-
-        parent::printResult($result);
+        $this->assertTrue(false);
     }
 
-    // }}}
-    // {{{ startTestSuite()
-
     /**
-     * @param PHPUnit_Framework_TestSuite $suite
-     * @since Method available since Release 2.7.0
+     * @test
+     * @depends pass
      */
-    public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function skip()
     {
-        $oldVerbose = $this->verbose;
-        $this->verbose = false;
-        parent::startTestSuite($suite);
-        $this->verbose = $oldVerbose;
+        $this->assertTrue(true);
     }
 
     /**#@-*/
@@ -114,15 +99,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
     /**#@+
      * @access protected
      */
-
-    // }}}
-    // {{{ writeProgress()
-
-    /**
-     * @param string $progress
-     * @since Method available since Release 2.7.0
-     */
-    protected function writeProgress($progress) {}
 
     /**#@-*/
 
@@ -140,7 +116,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil
