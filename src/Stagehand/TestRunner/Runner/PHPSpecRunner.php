@@ -89,7 +89,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
         $result = new PHPSpec_Runner_Result();
         $reporter = new Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter(
                         $result,
-                        $config->color
+                        $config->colors
                                                                            );
         $result->setReporter($reporter);
 

@@ -119,7 +119,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             return true;
         case 'c':
             if (@include_once 'Console/Color.php') {
-                $this->config->color = true;
+                $this->config->colors = true;
             }
             return true;
         case 'p':
@@ -314,7 +314,7 @@ All rights reserved.
             $options[] = '-p ' . $this->config->preloadFile;
         }
 
-        if ($this->config->color) {
+        if ($this->config->colors) {
             $options[] = '-c';
         }
 

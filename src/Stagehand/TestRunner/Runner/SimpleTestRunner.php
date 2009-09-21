@@ -107,7 +107,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
             }
         }
 
-        if ($config->color) {
+        if ($config->colors) {
             print Console_Color::convert(preg_replace(array('/^(OK.+)/ms',
                                                             '/^(FAILURES!!!.+)/ms',
                                                             '/^(\d+\)\s)(.+at \[.+\]$\s+in .+)$/m',
