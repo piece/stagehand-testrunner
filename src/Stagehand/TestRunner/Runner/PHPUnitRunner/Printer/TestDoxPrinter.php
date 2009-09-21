@@ -67,6 +67,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
      */
 
     protected $colors;
+    protected $testStatuses = array();
 
     /**#@-*/
 
@@ -111,6 +112,20 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
         }
     }
 
+    // }}}
+    // {{{ endTest()
+
+    /**
+     * @param PHPUnit_Framework_Test $test
+     * @param float                  $time
+     * @since Method available since Release 2.7.0
+     */
+    public function endTest(PHPUnit_Framework_Test $test, $time)
+    {
+        $this->testStatuses[ $this->currentTestMethodPrettified ] = $this->testStatus;
+        parent::endTest($test, $time);
+    }
+
     /**#@-*/
 
     /**#@+
@@ -132,7 +147,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
         }
 
         if ($this->colors) {
-            switch ($this->testStatus) {
+            switch ($this->testStatuses[$name]) {
             case PHPUnit_Runner_BaseTestRunner::STATUS_PASSED:
                 $name = Stagehand_TestRunner_Coloring::green($name);
                 break;
