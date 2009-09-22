@@ -88,33 +88,31 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
      */
     public function run($suite, $config)
     {
-        $printer =
+        $arguments = array();
+        $arguments['printer'] =
             new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
                 STDOUT, true, $config->colors
-                                                                         );
+                                                                                );
 
         Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream::register();
-        $listeners = array(
+        $arguments['listeners'] = array(
             new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
                 'testdox://', $config->colors
-                                                                          )
-                           );
+                                                                                 )
+                                        );
         if (!$config->printsDetailedProgressReport) {
-            $listeners[] =
+            $arguments['listeners'][] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter(
                     STDOUT, false, $config->colors
-                                                                               );
+                                                                                      );
         } else {
-            $listeners[] =
+            $arguments['listeners'][] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter(
                     STDOUT, false, $config->colors
-                                                                                       );
+                                                                                              );
         }
 
-        $result = PHPUnit_TextUI_TestRunner::run($suite,
-                                                 array('printer' => $printer,
-                                                       'listeners' => $listeners)
-                                                 );
+        $result = PHPUnit_TextUI_TestRunner::run($suite, $arguments);
 
         if ($config->usesGrowl) {
             ob_start();
