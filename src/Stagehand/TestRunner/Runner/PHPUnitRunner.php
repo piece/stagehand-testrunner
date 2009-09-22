@@ -112,6 +112,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
                                                                                               );
         }
 
+        if (!is_null($config->junitLogFile)) {
+            $arguments['junitLogfile'] = $config->junitLogFile;
+            $arguments['logIncompleteSkipped'] = true;
+        }
+
         $result = PHPUnit_TextUI_TestRunner::run($suite, $arguments);
 
         if ($config->usesGrowl) {

@@ -63,7 +63,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
 
     protected $exceptionClass = 'Stagehand_TestRunner_Exception';
     protected $shortOptions = 'hVRcp:aw:gm:v';
-    protected $longOptions = array('growl-password=');
+    protected $longOptions = array('growl-password=', 'log-junit=');
     protected $testRunnerName;
     protected $config;
 
@@ -141,6 +141,9 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             return true;
         case 'm':
             $this->config->testMethods = explode(',', $value);
+            return true;
+        case '--log-junit':
+            $this->config->junitLogFile = $value;
             return true;
         case 'v':
             $this->config->printsDetailedProgressReport = true;
@@ -222,6 +225,9 @@ OPTIONS
   -m METHOD1,METHOD2,... (PHPUnit only)
      Specify one or more methods which you want to test.
      This option is only available on single file mode.
+
+  --log-junit=FILE
+     Log test results in JUnit XML format into FILE. (PHPUnit only)
 
   -v
      Print detailed progress report (PHPUnit only)

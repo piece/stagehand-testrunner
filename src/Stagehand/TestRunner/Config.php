@@ -63,6 +63,7 @@ class Stagehand_TestRunner_Config
     public $growlPassword = null;
     public $testMethods = array();
     public $printsDetailedProgressReport = false;
+    public $junitLogFile;
 
     /**#@-*/
 
