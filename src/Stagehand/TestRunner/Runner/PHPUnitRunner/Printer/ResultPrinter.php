@@ -109,6 +109,18 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
         $this->verbose = $oldVerbose;
     }
 
+    /**
+     * @param PHPUnit_Framework_TestSuite $suite
+     * @since Method available since Release 2.7.0
+     */
+    public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
+    {
+        $oldVerbose = $this->verbose;
+        $this->verbose = false;
+        parent::endTestSuite($suite);
+        $this->verbose = $oldVerbose;
+    }
+
     /**#@-*/
 
     /**#@+
