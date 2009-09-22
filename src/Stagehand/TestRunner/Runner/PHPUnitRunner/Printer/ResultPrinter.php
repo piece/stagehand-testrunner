@@ -88,7 +88,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
     {
         $testDox = trim(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox);
         if (strlen($testDox)) {
-            $this->write("\n\n" . $testDox);
+            $this->write("\n\n" . $testDox . "\n");
         }
 
         parent::printResult($result);
