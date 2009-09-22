@@ -206,8 +206,8 @@ OPTIONS
   -c
      Color the result of a test runner run.
 
-  -p <file>
-     Preload <file> as a PHP script.
+  -p FILE
+     Preload FILE as a PHP script.
 
   -a
      Monitor for changes in one or more directories and run tests in the test
@@ -217,10 +217,10 @@ OPTIONS
      Specify one or more directories to be monitored for changes.
 
   -g
-     Notify test results to Growl
+     Notify test results to Growl.
 
   --growl-password=PASSWORD
-     Specify PASSWORD for Growl
+     Specify PASSWORD for Growl.
 
   -m METHOD1,METHOD2,... (PHPUnit only)
      Specify one or more methods which you want to test.
@@ -230,7 +230,7 @@ OPTIONS
      Log test results in JUnit XML format into FILE. (PHPUnit only)
 
   -v
-     Print detailed progress report (PHPUnit only)
+     Print detailed progress report. (PHPUnit only)
 ";
     }
 
