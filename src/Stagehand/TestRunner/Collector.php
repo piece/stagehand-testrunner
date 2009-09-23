@@ -68,6 +68,7 @@ abstract class Stagehand_TestRunner_Collector
     protected $testsOnlySpecified = false;
     protected $config;
     protected $testCases = array();
+    protected $allowDeny;
 
     /**#@-*/
 
@@ -92,6 +93,14 @@ abstract class Stagehand_TestRunner_Collector
     public function __construct(Stagehand_TestRunner_Config $config)
     {
         $this->config = $config;
+
+        $this->allowDeny = Stagehand_AccessControl::allowDeny();
+        if (!is_null($this->includePattern)) {
+            $this->allowDeny->allow($this->includePattern);
+        }
+        if (!is_null($this->excludePattern)) {
+            $this->allowDeny->deny($this->excludePattern);
+        }
     }
 
     // }}}
@@ -259,19 +268,9 @@ abstract class Stagehand_TestRunner_Collector
                 continue;
             }
 
-            if (!is_null($this->excludePattern)
-                && preg_match("/{$this->excludePattern}/", $newClasses[$i])
-                ) {
-                continue;
+            if ($this->allowDeny->evaluate($newClasses[$i]) == Stagehand_AccessControl_AccessState::ALLOW) {
+                $this->testCases[] = $newClasses[$i];
             }
-
-            if (!is_null($this->includePattern)
-                && !preg_match("/{$this->includePattern}/", $newClasses[$i])
-                ) {
-                continue;
-            }
-
-            $this->testCases[] = $newClasses[$i];
         }
     }
 
