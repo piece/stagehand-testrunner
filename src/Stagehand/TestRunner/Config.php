@@ -61,7 +61,7 @@ class Stagehand_TestRunner_Config
     public $monitoredDirectories = array();
     public $usesGrowl = false;
     public $growlPassword;
-    public $testMethods = array();
+    public $methodsToBeTested = array();
     public $printsDetailedProgressReport = false;
     public $junitLogFile;
 

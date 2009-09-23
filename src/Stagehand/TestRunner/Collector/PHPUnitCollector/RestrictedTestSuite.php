@@ -63,7 +63,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite extend
      * @access protected
      */
 
-    protected $testMethods = array();
+    protected $methodsToBeTested = array();
 
     /**#@-*/
 
@@ -79,11 +79,11 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite extend
 
     /**
      * @param string $theClass
-     * @param array  $testMethods
+     * @param array  $methodsToBeTested
      */
-    public function __construct($theClass, $testMethods)
+    public function __construct($theClass, $methodsToBeTested)
     {
-        $this->testMethods = $testMethods;
+        $this->methodsToBeTested = $methodsToBeTested;
         parent::__construct($theClass);
     }
 
@@ -103,7 +103,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite extend
      */
     protected function addTestMethod(ReflectionClass $class, ReflectionMethod $method, array &$names)
     {
-        if (in_array($method->getName(), $this->testMethods)) {
+        if (in_array($method->getName(), $this->methodsToBeTested)) {
             parent::addTestMethod($class, $method, $names);
         }
     }

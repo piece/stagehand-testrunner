@@ -140,7 +140,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             $this->config->growlPassword = $value;
             return true;
         case 'm':
-            $this->config->testMethods = explode(',', $value);
+            $this->config->methodsToBeTested = explode(',', $value);
             return true;
         case '--log-junit':
             $this->config->junitLogFile = $value;

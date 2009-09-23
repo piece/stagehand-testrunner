@@ -144,7 +144,7 @@ abstract class Stagehand_TestRunner_Collector
             $directoryScanner->setRecursivelyScans($this->config->recursivelyScans);
             $directoryScanner->scan($absoluteTargetPath);
         } else {
-            if (count($this->config->testMethods)) {
+            if (count($this->config->methodsToBeTested)) {
                 $this->testsOnlySpecified = true;
             }
 
