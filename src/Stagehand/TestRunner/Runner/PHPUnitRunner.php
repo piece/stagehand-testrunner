@@ -97,7 +97,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
         Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream::register();
         $arguments['listeners'] = array(
             new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
-                'testdox://', $config->colors
+                'testdox://', $config->colors, $this->prettifier()
                                                                                  )
                                         );
         if (!$config->printsDetailedProgressReport) {
@@ -140,6 +140,18 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
     /**#@+
      * @access protected
      */
+
+    // }}}
+    // {{{ prettifier()
+
+    /**
+     * @return Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier
+     * @since Method available since Release 2.7.0
+     */
+    protected function prettifier()
+    {
+        return new Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier();
+    }
 
     /**#@-*/
 

@@ -68,6 +68,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
 
     protected $colors;
     protected $testStatuses = array();
+    protected $testTypeOfInterest = 'PHPUnit_Framework_Test';
 
     /**#@-*/
 
@@ -89,13 +90,13 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
      *
      * @param  resource  $out
      * @param  boolean   $colors
+     * @param  mixed     $prettifier
      */
-    public function __construct($out = NULL, $colors)
+    public function __construct($out = NULL, $colors, $prettifier)
     {
         parent::__construct($out);
         $this->colors = $colors;
-        $this->prettifier =
-            new Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier();
+        $this->prettifier = $prettifier;
     }
 
     // }}}
