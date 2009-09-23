@@ -100,38 +100,19 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
     }
 
     // }}}
-    // {{{ doBuildTestSuite()
-
-    /**
-     * Aggregates a test suite object to an aggregate test suite object.
-     *
-     * @param PHPUnit_Framework_TestSuite $aggregateSuite
-     * @param PHPUnit_Framework_TestSuite $suite
-     */
-    protected function doBuildTestSuite($aggregateSuite, $suite)
-    {
-        if (!$suite->count()) {
-            return;
-        }
-
-        $aggregateSuite->addTest($suite);
-    }
-
-    // }}}
     // {{{ addTestCase()
 
     /**
      * Adds a test case to a test suite object.
      *
-     * @param PHPUnit_Framework_TestSuite $suite
-     * @param string                      $testCase
+     * @param string $testCase
      */
-    protected function addTestCase($suite, $testCase)
+    protected function addTestCase($testCase)
     {
         if (!$this->testsOnlySpecified) {
-            $suite->addTestSuite(new PHPUnit_Framework_TestSuite($testCase));
+            $this->suite->addTestSuite(new PHPUnit_Framework_TestSuite($testCase));
         } else {
-            $suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite($testCase, $this->config->testMethods));
+            $this->suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite($testCase, $this->config->testMethods));
         }
     }
 

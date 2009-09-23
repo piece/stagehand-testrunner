@@ -69,6 +69,7 @@ abstract class Stagehand_TestRunner_Collector
     protected $config;
     protected $testCases = array();
     protected $allowDeny;
+    protected $suite;
 
     /**#@-*/
 
@@ -101,6 +102,8 @@ abstract class Stagehand_TestRunner_Collector
         if (!is_null($this->exclude)) {
             $this->allowDeny->deny($this->exclude);
         }
+
+        $this->suite = $this->createTestSuite();
     }
 
     // }}}
@@ -148,7 +151,9 @@ abstract class Stagehand_TestRunner_Collector
             $this->collectTestCasesFromFile($absoluteTargetPath);
         }
 
-        return $this->buildTestSuite();
+        $this->buildTestSuite();
+
+        return $this->suite;
     }
 
     // }}}
@@ -185,47 +190,15 @@ abstract class Stagehand_TestRunner_Collector
     abstract protected function createTestSuite();
 
     // }}}
-    // {{{ doBuildTestSuite()
-
-    /**
-     * Aggregates a test suite object to an aggregate test suite object.
-     *
-     * @param mixed $aggregateSuite
-     * @param mixed $suite
-     * @abstract
-     */
-    abstract protected function doBuildTestSuite($aggregateSuite, $suite);
-
-    // }}}
     // {{{ addTestCase()
 
     /**
      * Adds a test case to a test suite object.
      *
-     * @param mixed  $suite
      * @param string $testCase
      * @abstract
      */
-    abstract protected function addTestCase($suite, $testCase);
-
-    // }}}
-    // {{{ createTestSuiteFromTestCases()
-
-    /**
-     * Creates a test suite object that contains all of the test cases in the
-     * directory.
-     *
-     * @return mixed
-     */
-    protected function createTestSuiteFromTestCases()
-    {
-        $suite = $this->createTestSuite();
-        foreach ($this->testCases as $testCase) {
-            $this->addTestCase($suite, $testCase);
-        }
-
-        return $suite;
-    }
+    abstract protected function addTestCase($testCase);
 
     // }}}
     // {{{ buildTestSuite()
@@ -237,9 +210,9 @@ abstract class Stagehand_TestRunner_Collector
      */
     protected function buildTestSuite()
     {
-        $suite = $this->createTestSuite();
-        $this->doBuildTestSuite($suite, $this->createTestSuiteFromTestCases());
-        return $suite;
+        foreach ($this->testCases as $testCase) {
+            $this->addTestCase($testCase);
+        }
     }
 
     // }}}

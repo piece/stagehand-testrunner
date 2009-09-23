@@ -105,35 +105,16 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
     }
 
     // }}}
-    // {{{ doBuildTestSuite()
-
-    /**
-     * Aggregates a test suite object to an aggregate test suite object.
-     *
-     * @param TestSuite $aggregateSuite
-     * @param TestSuite $suite
-     */
-    protected function doBuildTestSuite($aggregateSuite, $suite)
-    {
-        if (!$suite->getSize()) {
-            return;
-        }
-
-        $aggregateSuite->addTestCase($suite);
-    }
-
-    // }}}
     // {{{ addTestCase()
 
     /**
      * Adds a test case to a test suite object.
      *
-     * @param TestSuite $suite
-     * @param string    $testCase
+     * @param string $testCase
      */
-    protected function addTestCase($suite, $testCase)
+    protected function addTestCase($testCase)
     {
-        $suite->addTestClass($testCase); // TODO NOT addTestCases()?
+        $this->suite->addTestClass($testCase); // TODO NOT addTestCases()?
     }
 
     /**#@-*/

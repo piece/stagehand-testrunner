@@ -99,37 +99,16 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
     }
 
     // }}}
-    // {{{ doBuildTestSuite()
-
-    /**
-     * Aggregates a test suite ArrayObject to an aggregate test suite ArrayObject.
-     *
-     * @param ArrayObject $aggregateSuite
-     * @param ArrayObject $suite
-     */
-    protected function doBuildTestSuite($aggregateSuite, $suite)
-    {
-        if (!count($suite)) {
-            return;
-        }
-
-        foreach ($suite as $testCase) {
-            $aggregateSuite->append($testCase);
-        }
-    }
-
-    // }}}
     // {{{ addTestCase()
 
     /**
      * Adds a test case to a test suite ArrayObject.
      *
-     * @param ArrayObject $suite
-     * @param string      $testCase
+     * @param string $testCase
      */
-    protected function addTestCase($suite, $testCase)
+    protected function addTestCase($testCase)
     {
-        $suite[] = $testCase;
+        $this->suite[] = $testCase;
     }
 
     /**#@-*/
