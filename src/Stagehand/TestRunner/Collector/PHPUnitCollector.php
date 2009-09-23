@@ -63,10 +63,10 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      * @access protected
      */
 
-    protected $excludePattern = '^PHPUnit';
+    protected $exclude = '^PHPUnit';
     protected $baseClass = 'PHPUnit_Framework_TestCase';
     protected $suffix = 'Test(?:Case)?';
-    protected $includePattern = 'Test(?:Case)?$';
+    protected $include = 'Test(?:Case)?$';
 
     /**#@-*/
 

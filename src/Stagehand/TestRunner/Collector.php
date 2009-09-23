@@ -61,10 +61,10 @@ abstract class Stagehand_TestRunner_Collector
      * @access protected
      */
 
-    protected $excludePattern;
+    protected $exclude;
     protected $baseClass;
     protected $suffix;
-    protected $includePattern;
+    protected $include;
     protected $testsOnlySpecified = false;
     protected $config;
     protected $testCases = array();
@@ -95,11 +95,11 @@ abstract class Stagehand_TestRunner_Collector
         $this->config = $config;
 
         $this->allowDeny = Stagehand_AccessControl::allowDeny();
-        if (!is_null($this->includePattern)) {
-            $this->allowDeny->allow($this->includePattern);
+        if (!is_null($this->include)) {
+            $this->allowDeny->allow($this->include);
         }
-        if (!is_null($this->excludePattern)) {
-            $this->allowDeny->deny($this->excludePattern);
+        if (!is_null($this->exclude)) {
+            $this->allowDeny->deny($this->exclude);
         }
     }
 

@@ -68,10 +68,10 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
      * @access protected
      */
 
-    protected $excludePattern = '^(UnitTestCase$|PHPUnit)';
+    protected $exclude = '^(UnitTestCase$|PHPUnit)';
     protected $baseClass = 'UnitTestCase';
     protected $suffix = 'Test(?:Case)?';
-    protected $includePattern = 'Test(?:Case)?$';
+    protected $include = 'Test(?:Case)?$';
 
     /**#@-*/
 
