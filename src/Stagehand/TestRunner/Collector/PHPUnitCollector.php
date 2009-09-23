@@ -90,7 +90,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
     // {{{ createTestSuite()
 
     /**
-     * Creates a test suite object.
+     * Creates the test suite object.
      *
      * @return PHPUnit_Framework_TestSuite
      */
@@ -103,7 +103,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
     // {{{ addTestCase()
 
     /**
-     * Adds a test case to a test suite object.
+     * Adds a test case to the test suite object.
      *
      * @param string $testCase
      */

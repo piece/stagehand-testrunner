@@ -183,7 +183,7 @@ abstract class Stagehand_TestRunner_Collector
     // {{{ createTestSuite()
 
     /**
-     * Creates a test suite object.
+     * Creates the test suite object.
      *
      * @return mixed
      */
@@ -193,7 +193,7 @@ abstract class Stagehand_TestRunner_Collector
     // {{{ addTestCase()
 
     /**
-     * Adds a test case to a test suite object.
+     * Adds a test case to the test suite object.
      *
      * @param string $testCase
      * @abstract
@@ -204,7 +204,7 @@ abstract class Stagehand_TestRunner_Collector
     // {{{ buildTestSuite()
 
     /**
-     * Builds a test suite object.
+     * Builds the test suite object.
      *
      * @return mixed
      */

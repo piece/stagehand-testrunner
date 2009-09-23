@@ -89,7 +89,7 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
     // {{{ createTestSuite()
 
     /**
-     * Creates a test suite ArrayObject.
+     * Creates the test suite ArrayObject.
      *
      * @return ArrayObject
      */
@@ -102,7 +102,7 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
     // {{{ addTestCase()
 
     /**
-     * Adds a test case to a test suite ArrayObject.
+     * Adds a test case to the test suite ArrayObject.
      *
      * @param string $testCase
      */

@@ -95,7 +95,7 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
     // {{{ createTestSuite()
 
     /**
-     * Creates a test suite object.
+     * Creates the test suite object.
      *
      * @return TestSuite
      */
@@ -108,7 +108,7 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
     // {{{ addTestCase()
 
     /**
-     * Adds a test case to a test suite object.
+     * Adds a test case to the test suite object.
      *
      * @param string $testCase
      */
