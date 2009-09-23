@@ -227,10 +227,10 @@ OPTIONS
      This option is only available on single file mode.
 
   --log-junit=FILE
-     Log test results in JUnit XML format into FILE. (PHPUnit only)
+     Log test results in JUnit XML format into FILE. (PHPUnit and PHPT)
 
   -v
-     Print detailed progress report. (PHPUnit only)
+     Print detailed progress report. (PHPUnit and PHPT)
 ";
     }
 
