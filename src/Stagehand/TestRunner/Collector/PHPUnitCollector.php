@@ -112,7 +112,10 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
         if (!$this->testsOnlySpecified) {
             $this->suite->addTestSuite(new PHPUnit_Framework_TestSuite($testCase));
         } else {
-            $this->suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite($testCase, $this->config->methodsToBeTested));
+            $test = new ReflectionClass($testCase);
+            if (!$test->isAbstract()) {
+                $this->suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite($test, $this->config->methodsToBeTested));
+            }
         }
     }
 
