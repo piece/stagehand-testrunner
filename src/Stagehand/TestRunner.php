@@ -190,47 +190,48 @@ class Stagehand_TestRunner extends Stagehand_CLIController
   {$_SERVER['SCRIPT_NAME']} [OPTIONS] DIRECTORY_OR_FILE
 
 NOTES
-  If no DIRECTORY_OR_FILE is given, run all tests in the current directory.
+  If no DIRECTORY_OR_FILE is given, {$_SERVER['SCRIPT_NAME']} runs all the tests
+  in the current directory.
 
 OPTIONS
 
   -h
-     Print this help and exit.
+     Prints this help and exit.
 
   -V
-     Print version information and exit.
+     Prints version information and exit.
 
   -R
-     Run tests recursively.
+     Recursively runs tests in the specified directory.
 
   -c
-     Color the result of a test runner run.
+     Colors test results.
 
   -p FILE
-     Preload FILE as a PHP script.
+     Preloads FILE before running tests.
 
   -a
-     Monitor for changes in one or more directories and run tests in the test
-     directory recursively when changes are detected.
+     Monitors for changes in the specified directories and run tests when
+     changes are detected.
 
   -w DIRECTORY1,DIRECTORY2,...
-     Specify one or more directories to be monitored for changes.
+     Specifies one or more directories to be monitored for changes.
 
   -g
-     Notify test results to Growl.
+     Notifies test results to Growl.
 
   --growl-password=PASSWORD
-     Specify PASSWORD for Growl.
+     Specifies PASSWORD for Growl.
 
-  -m METHOD1,METHOD2,... (PHPUnit only)
-     Specify one or more methods which you want to test.
-     This option is only available on single file mode.
+  -m METHOD1,METHOD2,...
+     Runs only the specified tests in the specified file. (PHPUnit only)
 
   --log-junit=FILE
-     Log test results in JUnit XML format into FILE. (PHPUnit and PHPT)
+     Logs test results into the specified file in JUnit XML format.
+     (PHPUnit and PHPT)
 
   -v
-     Print detailed progress report. (PHPUnit and PHPT)
+     Prints detailed progress report. (PHPUnit and PHPT)
 ";
     }
 
