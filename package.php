@@ -40,15 +40,27 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '2.6.2';
+$releaseVersion = '2.7.0';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
-$notes = 'A new release of Stagehand_TestRunner is now available.
+$notes = 'What\'s New in Stagehand_TestRunner 2.7.0
 
-What\'s New in Stagehand_TestRunner 2.6.2
+ Runs only the specified tests in the specified file. (PHPUnit only):
 
- * A defect fix: A defect with PHPUnit has been fixed that caused the numerical part of the prettified method name for a method ending with a number to be lost.';
+  From the specified file, only methods which you want to test can now be specified.
+
+ Supports PHPUnit 3.4.:
+
+  PHPUnit 3.4 has been supported. As of this version, PHPUnit 3.3.x are no longer supported.
+
+ Supports JUnit XML output. (PHPUnit and PHPT).
+
+  Test results can now be logged in the JUnit XML format into the specified file.
+
+ Supports PHPT.:
+
+  PHPT has been supported. PHPUnit is required to use this feature.';
 
 $package = new PEAR_PackageFileManager2();
 $package->setOptions(array('filelistgenerator' => 'file',
@@ -66,8 +78,8 @@ $package->setOptions(array('filelistgenerator' => 'file',
 
 $package->setPackage('Stagehand_TestRunner');
 $package->setPackageType('php');
-$package->setSummary('Automated test runners for PHPUnit, SimpleTest, PHPSpec');
-$package->setDescription('Stagehand_TestRunner provides command line scripts to run tests automatically. These scripts automatically detect and run all tests ending with "Test.php" or "TestCase.php" (PHPUnit/SimpleTest), or "Spec.php" (PHPSpec) under an arbitrary directory. Stagehand_TestRunner now supports PHPUnit, SimpleTest, and PHPSpec.');
+$package->setSummary('A test runner for Test Driven Development');
+$package->setDescription('Stagehand_TestRunner provides a test runner to run unit tests. Stagehand_TestRunner strongly supports Test Driven Development by various features.');
 $package->setChannel('pear.piece-framework.com');
 $package->setLicense('New BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
 $package->setAPIVersion($apiVersion);
@@ -77,23 +89,27 @@ $package->setReleaseStability($releaseStability);
 $package->setNotes($notes);
 $package->setPhpDep('5.0.3');
 $package->setPearinstallerDep('1.4.3');
+$package->addPackageDepWithChannel('required', 'Stagehand_AccessControl', 'pear.piece-framework.com', '0.1.0');
+$package->addPackageDepWithChannel('required', 'Stagehand_AlterationMonitor', 'pear.piece-framework.com', '1.0.0');
+$package->addPackageDepWithChannel('required', 'Stagehand_Autoload', 'pear.piece-framework.com', '0.4.0');
 $package->addPackageDepWithChannel('required', 'Stagehand_CLIController', 'pear.piece-framework.com', '0.1.0');
 $package->addPackageDepWithChannel('required', 'Stagehand_DirectoryScanner', 'pear.piece-framework.com', '1.0.0');
-$package->addPackageDepWithChannel('required', 'Stagehand_Autoload', 'pear.piece-framework.com', '0.4.0');
 $package->addPackageDepWithChannel('optional', 'Console_Color', 'pear.php.net', '1.0.2');
 $package->addPackageDepWithChannel('optional', 'Net_Growl', 'pear.php.net', '0.7.0');
-$package->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.3.0');
 $package->addPackageDepWithChannel('optional', 'PHPSpec', 'pear.phpspec.org', '0.2.3');
+$package->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.4.0');
 $package->addExtensionDep('required', 'pcre');
 $package->addExtensionDep('required', 'spl');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'kubo@iteman.jp');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
-$package->addInstallAs('bin/specrunner', 'specrunner');
-$package->addInstallAs('bin/specrunner.bat', 'specrunner.bat');
-$package->addInstallAs('bin/testrunner', 'testrunner');
-$package->addInstallAs('bin/testrunner.bat', 'testrunner.bat');
-$package->addInstallAs('bin/testrunner-st', 'testrunner-st');
-$package->addInstallAs('bin/testrunner-st.bat', 'testrunner-st.bat');
+$package->addInstallAs('bin/phpspecrunner', 'phpspecrunner');
+$package->addInstallAs('bin/phpspecrunner.bat', 'phpspecrunner.bat');
+$package->addInstallAs('bin/phptrunner', 'phptrunner');
+$package->addInstallAs('bin/phptrunner.bat', 'phptrunner.bat');
+$package->addInstallAs('bin/phpunitrunner', 'phpunitrunner');
+$package->addInstallAs('bin/phpunitrunner.bat', 'phpunitrunner.bat');
+$package->addInstallAs('bin/simpletestrunner', 'simpletestrunner');
+$package->addInstallAs('bin/simpletestrunner.bat', 'simpletestrunner.bat');
 $package->generateContents();
 
 if (array_key_exists(1, $_SERVER['argv']) && $_SERVER['argv'][1] == 'make') {
