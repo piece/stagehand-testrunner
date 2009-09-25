@@ -212,7 +212,7 @@ abstract class Stagehand_TestRunner_Collector
      */
     protected function collectTestCasesFromFile($file)
     {
-        if (!preg_match("/{$this->suffix}\.php\$/", $file)) {
+        if (!preg_match('/' . $this->suffix . '\.php$/', $file)) {
             return;
         }
 
