@@ -77,6 +77,9 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite extend
      * @access public
      */
 
+    // }}}
+    // {{{ __construct()
+
     /**
      * @param string $theClass
      * @param array  $methodsToBeTested
