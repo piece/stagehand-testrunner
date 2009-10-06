@@ -86,7 +86,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite extend
      */
     public function __construct($theClass, $methodsToBeTested)
     {
-        $this->methodsToBeTested = $methodsToBeTested;
+        $this->methodsToBeTested = array_map('strtolower', $methodsToBeTested);
         parent::__construct($theClass);
     }
 
@@ -106,7 +106,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite extend
      */
     protected function addTestMethod(ReflectionClass $class, ReflectionMethod $method, array &$names)
     {
-        if (in_array($method->getName(), $this->methodsToBeTested)) {
+        if (in_array(strtolower($method->getName()), $this->methodsToBeTested)) {
             parent::addTestMethod($class, $method, $names);
         }
     }
