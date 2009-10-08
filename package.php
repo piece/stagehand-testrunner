@@ -97,7 +97,7 @@ $package->addPackageDepWithChannel('required', 'Stagehand_DirectoryScanner', 'pe
 $package->addPackageDepWithChannel('optional', 'Console_Color', 'pear.php.net', '1.0.2');
 $package->addPackageDepWithChannel('optional', 'Net_Growl', 'pear.php.net', '0.7.0');
 $package->addPackageDepWithChannel('optional', 'PHPSpec', 'pear.phpspec.org', '0.2.3');
-$package->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.4.0');
+$package->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.4.1');
 $package->addExtensionDep('required', 'pcre');
 $package->addExtensionDep('required', 'spl');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'kubo@iteman.jp');
