@@ -96,6 +96,30 @@ class Stagehand_TestRunner_Config
         $this->directory = getcwd();
     }
 
+    // }}}
+    // {{{ addMethodToBeTested()
+
+    /**
+     * @param string $methodToBeTested
+     */
+    public function addMethodToBeTested($methodToBeTested)
+    {
+        $this->testsOnlySpecifiedMethods = true;
+        $this->methodsToBeTested[] = $methodToBeTested;
+    }
+
+    // }}}
+    // {{{ addClassToBeTested()
+
+    /**
+     * @param string $classToBeTested
+     */
+    public function addClassToBeTested($classToBeTested)
+    {
+        $this->testsOnlySpecifiedClasses = true;
+        $this->classesToBeTested[] = $classToBeTested;
+    }
+
     /**#@-*/
 
     /**#@+
