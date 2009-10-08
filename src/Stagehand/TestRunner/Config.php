@@ -119,6 +119,17 @@ class Stagehand_TestRunner_Config
         $this->elementsToBeTested[] = strtolower($classToBeTested);
     }
 
+    // }}}
+    // {{{ testsOnlySpecified()
+
+    /**
+     * @return boolean
+     */
+    public function testsOnlySpecified()
+    {
+        return $this->testsOnlySpecifiedMethods || $this->testsOnlySpecifiedClasses;
+    }
+
     /**#@-*/
 
     /**#@+
