@@ -81,10 +81,10 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite exte
     // {{{ __construct()
 
     /**
-     * @param string $theClass
-     * @param array  $methodsToBeTested
+     * @param ReflectionClass $theClass
+     * @param array           $methodsToBeTested
      */
-    public function __construct($theClass, $methodsToBeTested)
+    public function __construct(ReflectionClass $theClass, $methodsToBeTested)
     {
         $this->methodsToBeTested = array_map('strtolower', $methodsToBeTested);
         parent::__construct($theClass);
