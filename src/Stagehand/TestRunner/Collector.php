@@ -65,7 +65,6 @@ abstract class Stagehand_TestRunner_Collector
     protected $baseClass;
     protected $suffix;
     protected $include;
-    protected $testsOnlySpecified = false;
     protected $config;
     protected $testCases = array();
     protected $allowDeny;
@@ -131,12 +130,6 @@ abstract class Stagehand_TestRunner_Collector
             $directoryScanner->setRecursivelyScans($this->config->recursivelyScans);
             $directoryScanner->scan($absoluteTargetPath);
         } else {
-            if (count($this->config->methodsToBeTested)
-                || count($this->config->classesToBeTested)
-                ) {
-                $this->testsOnlySpecified = true;
-            }
-
             $this->collectTestCasesFromFile($absoluteTargetPath);
         }
 

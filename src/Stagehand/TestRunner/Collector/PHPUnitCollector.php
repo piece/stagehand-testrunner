@@ -109,14 +109,14 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      */
     protected function addTestCase($testCase)
     {
-        if (!$this->testsOnlySpecified) {
+        if (!$this->config->testsOnlySpecifiedMethods && !$this->config->testsOnlySpecifiedClasses) {
             $this->suite->addTestSuite($testCase);
         } else {
             $test = new ReflectionClass($testCase);
             if (!$test->isAbstract()) {
-                if (count($this->config->methodsToBeTested)) {
+                if ($this->config->testsOnlySpecifiedMethods) {
                     $this->suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite($test, $this->config->methodsToBeTested));
-                } elseif (count($this->config->classesToBeTested)) {
+                } elseif ($this->config->testsOnlySpecifiedClasses) {
                     if (in_array(strtolower($test->getName()), array_map('strtolower', $this->config->classesToBeTested))) {
                         $this->suite->addTestSuite($test);
                     }

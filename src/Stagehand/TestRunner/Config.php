@@ -61,10 +61,12 @@ class Stagehand_TestRunner_Config
     public $monitoredDirectories = array();
     public $usesGrowl = false;
     public $growlPassword;
+    public $testsOnlySpecifiedMethods = false;
     public $methodsToBeTested = array();
+    public $testsOnlySpecifiedClasses = false;
+    public $classesToBeTested = array();
     public $printsDetailedProgressReport = false;
     public $junitLogFile;
-    public $classesToBeTested = array();
 
     /**#@-*/
 
