@@ -38,7 +38,7 @@
 
 require_once 'PHPUnit/Framework/TestSuite.php';
 
-// {{{ Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite
+// {{{ Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite
 
 /**
  * @package    Stagehand_TestRunner
@@ -48,7 +48,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.7.0
  */
-class Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite extends PHPUnit_Framework_TestSuite
+class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite extends PHPUnit_Framework_TestSuite
 {
 
     // {{{ properties
