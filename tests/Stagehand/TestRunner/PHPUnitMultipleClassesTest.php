@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,26 +29,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      File available since Release 2.1.0
+ * @since      File available since Release 2.8.0
  */
 
-// {{{ Stagehand_TestRunner_Collector_PHPUnitCollector
+if (!class_exists('PHPUnit_Framework_TestCase', false)) {
+    return;
+}
+
+// {{{ Stagehand_TestRunner_PHPUnitMultipleClasses1Test
 
 /**
- * A test collector for PHPUnit.
+ * TestCase for the PHPUnit runner.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      Class available since Release 2.1.0
+ * @since      Class available since Release 2.8.0
  */
-class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunner_Collector
+class Stagehand_TestRunner_PHPUnitMultipleClasses1Test extends PHPUnit_Framework_TestCase
 {
 
     // {{{ properties
@@ -63,10 +65,69 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      * @access protected
      */
 
-    protected $exclude = '^PHPUnit';
-    protected $baseClass = 'PHPUnit_Framework_TestCase';
-    protected $suffix = 'Test(?:Case)?';
-    protected $include = 'Test(?:Case)?$';
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
+
+    /**#@-*/
+
+    /**#@+
+     * @access public
+     */
+
+    /**
+     * @test
+     */
+    public function pass()
+    {
+        $this->assertTrue(true);
+    }
+
+    /**#@-*/
+
+    /**#@+
+     * @access protected
+     */
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
+
+    /**#@-*/
+
+    // }}}
+}
+
+// }}}
+// {{{ Stagehand_TestRunner_PHPUnitMultipleClasses2Test
+
+/**
+ * TestCase for the PHPUnit runner.
+ *
+ * @package    Stagehand_TestRunner
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 2.8.0
+ */
+class Stagehand_TestRunner_PHPUnitMultipleClasses2Test extends PHPUnit_Framework_TestCase
+{
+
+    // {{{ properties
+
+    /**#@+
+     * @access public
+     */
+
+    /**#@-*/
+
+    /**#@+
+     * @access protected
+     */
 
     /**#@-*/
 
@@ -80,50 +141,19 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      * @access public
      */
 
+    /**
+     * @test
+     */
+    public function pass()
+    {
+        $this->assertTrue(true);
+    }
+
     /**#@-*/
 
     /**#@+
      * @access protected
      */
-
-    // }}}
-    // {{{ createTestSuite()
-
-    /**
-     * Creates the test suite object.
-     *
-     * @return PHPUnit_Framework_TestSuite
-     */
-    protected function createTestSuite()
-    {
-        return new PHPUnit_Framework_TestSuite();
-    }
-
-    // }}}
-    // {{{ addTestCase()
-
-    /**
-     * Adds a test case to the test suite object.
-     *
-     * @param string $testCase
-     */
-    protected function addTestCase($testCase)
-    {
-        if (!$this->testsOnlySpecified) {
-            $this->suite->addTestSuite($testCase);
-        } else {
-            $test = new ReflectionClass($testCase);
-            if (!$test->isAbstract()) {
-                if (count($this->config->methodsToBeTested)) {
-                    $this->suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite($test, $this->config->methodsToBeTested));
-                } elseif (count($this->config->classesToBeTested)) {
-                    if (in_array(strtolower($test->getName()), array_map('strtolower', $this->config->classesToBeTested))) {
-                        $this->suite->addTestSuite($test);
-                    }
-                }
-            }
-        }
-    }
 
     /**#@-*/
 
@@ -141,7 +171,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

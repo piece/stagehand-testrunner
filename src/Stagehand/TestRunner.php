@@ -63,7 +63,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
 
     protected $exceptionClass = 'Stagehand_TestRunner_Exception';
     protected $shortOptions = 'hVRcp:aw:gm:v';
-    protected $longOptions = array('growl-password=', 'log-junit=');
+    protected $longOptions = array('growl-password=', 'log-junit=', 'classes=');
     protected $testRunnerName;
     protected $config;
 
@@ -141,6 +141,9 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             return true;
         case 'm':
             $this->config->methodsToBeTested = explode(',', $value);
+            return true;
+        case '--classes':
+            $this->config->classesToBeTested = explode(',', $value);
             return true;
         case '--log-junit':
             $this->config->junitLogFile = $value;
@@ -225,6 +228,9 @@ OPTIONS
 
   -m METHOD1,METHOD2,...
      Runs only the specified tests in the specified file. (PHPUnit only)
+
+  --classes=CLASS1,CLASS2,...
+     Runs only the specified test classes in the specified file. (PHPUnit only)
 
   --log-junit=FILE
      Logs test results into the specified file in JUnit XML format.

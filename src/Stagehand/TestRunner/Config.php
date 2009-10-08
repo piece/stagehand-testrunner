@@ -64,6 +64,7 @@ class Stagehand_TestRunner_Config
     public $methodsToBeTested = array();
     public $printsDetailedProgressReport = false;
     public $junitLogFile;
+    public $classesToBeTested = array();
 
     /**#@-*/
 
