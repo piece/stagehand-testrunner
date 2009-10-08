@@ -100,6 +100,7 @@ class Stagehand_TestRunner_Config
 
     /**
      * @param string $methodToBeTested
+     * @since Method available since Release 2.8.0
      */
     public function addMethodToBeTested($methodToBeTested)
     {
@@ -112,6 +113,7 @@ class Stagehand_TestRunner_Config
 
     /**
      * @param string $classToBeTested
+     * @since Method available since Release 2.8.0
      */
     public function addClassToBeTested($classToBeTested)
     {
@@ -124,6 +126,7 @@ class Stagehand_TestRunner_Config
 
     /**
      * @return boolean
+     * @since Method available since Release 2.8.0
      */
     public function testsOnlySpecified()
     {
