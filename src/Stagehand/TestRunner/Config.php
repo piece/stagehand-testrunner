@@ -62,9 +62,8 @@ class Stagehand_TestRunner_Config
     public $usesGrowl = false;
     public $growlPassword;
     public $testsOnlySpecifiedMethods = false;
-    public $methodsToBeTested = array();
     public $testsOnlySpecifiedClasses = false;
-    public $classesToBeTested = array();
+    public $elementsToBeTested = array();
     public $printsDetailedProgressReport = false;
     public $junitLogFile;
 
@@ -105,7 +104,7 @@ class Stagehand_TestRunner_Config
     public function addMethodToBeTested($methodToBeTested)
     {
         $this->testsOnlySpecifiedMethods = true;
-        $this->methodsToBeTested[] = $methodToBeTested;
+        $this->elementsToBeTested[] = strtolower($methodToBeTested);
     }
 
     // }}}
@@ -117,7 +116,7 @@ class Stagehand_TestRunner_Config
     public function addClassToBeTested($classToBeTested)
     {
         $this->testsOnlySpecifiedClasses = true;
-        $this->classesToBeTested[] = $classToBeTested;
+        $this->elementsToBeTested[] = strtolower($classToBeTested);
     }
 
     /**#@-*/
