@@ -35,6 +35,8 @@
  * @since      File available since Release 2.7.0
  */
 
+require_once 'PHPUnit/Extensions/PhptTestCase.php';
+
 // {{{ Stagehand_TestRunner_Collector_PHPTCollector
 
 /**
@@ -102,7 +104,7 @@ class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_
      */
     protected function addTestCase($testCase)
     {
-        $this->suite->addTest(new Stagehand_TestRunner_Collector_PHPTCollector_PHPTTestCase($testCase));
+        $this->suite->addTest(new PHPUnit_Extensions_PhptTestCase($testCase));
     }
 
     // }}}
