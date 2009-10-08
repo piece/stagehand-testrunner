@@ -106,8 +106,16 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_RestrictedTestSuite extend
      */
     protected function addTestMethod(ReflectionClass $class, ReflectionMethod $method, array &$names)
     {
-        if (in_array(strtolower($method->getName()), $this->methodsToBeTested)) {
-            parent::addTestMethod($class, $method, $names);
+        foreach (
+            array(
+                strtolower($class->getName()) . '::' . strtolower($method->getName()),
+                strtolower($method->getName())
+                  ) as $methodName
+                 ) {
+            if (in_array($methodName, $this->methodsToBeTested)) {
+                parent::addTestMethod($class, $method, $names);
+                break;
+            }
         }
     }
 
