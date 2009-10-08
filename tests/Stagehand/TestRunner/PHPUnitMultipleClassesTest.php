@@ -80,7 +80,15 @@ class Stagehand_TestRunner_PHPUnitMultipleClasses1Test extends PHPUnit_Framework
     /**
      * @test
      */
-    public function pass()
+    public function pass1()
+    {
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     */
+    public function pass2()
     {
         $this->assertTrue(true);
     }
@@ -144,7 +152,15 @@ class Stagehand_TestRunner_PHPUnitMultipleClasses2Test extends PHPUnit_Framework
     /**
      * @test
      */
-    public function pass()
+    public function pass1()
+    {
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     */
+    public function pass2()
     {
         $this->assertTrue(true);
     }
