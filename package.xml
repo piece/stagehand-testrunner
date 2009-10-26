@@ -13,10 +13,10 @@
   <email>kubo@iteman.jp</email>
   <active>yes</active>
  </lead>
- <date>2009-09-25</date>
- <time>22:22:34</time>
+ <date>2009-10-27</date>
+ <time>01:18:47</time>
  <version>
-  <release>2.7.0</release>
+  <release>2.8.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -25,23 +25,27 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-What&apos;s New in Stagehand_TestRunner 2.7.0
+What&apos;s New in Stagehand_TestRunner 2.8.0
 
- Runs only the specified tests in the specified file. (PHPUnit only):
+ Runs only the tests in the specified classes. (PHPUnit only):
 
-  From the specified file, only methods which you want to test can now be specified.
+  phpunitrunner --classes=CLASS1,CLASS2,... FILE
 
- Supports PHPUnit 3.4.:
+  Runs the tests in the specified classes which are included in the specified file. Multiple classes can be specified by a comma delimited list.
 
-  PHPUnit 3.4 has been supported. As of this version, PHPUnit 3.3.x are no longer supported.
+ Improvements for testing specified methods:
 
- Supports JUnit XML output. (PHPUnit and PHPT).
+  Can specify fully-qualified method names.:
 
-  Test results can now be logged in the JUnit XML format into the specified file.
+   In the version 2.7.0, if multiple classes have same method, their methods are run when testing specified methods.
 
- Supports PHPT.:
+   As of this version, fully-qualified method names can be specified as CLASS::METHOD for resolving this ambiguity.
 
-  PHPT has been supported. PHPUnit is required to use this feature.
+  Be case-insensitive.:
+
+   In the version 2.7.0, it is case-sensitive even though PHP methods are case-insensitive.
+
+   As of this version, it has been made case-insensitive.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -80,13 +84,8 @@ What&apos;s New in Stagehand_TestRunner 2.7.0
     <dir name="Stagehand">
      <dir name="TestRunner">
       <dir name="Collector">
-       <dir name="PHPTCollector">
-        <file baseinstalldir="/" name="PHPTTestCase.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-       </dir> <!-- /src/Stagehand/TestRunner/Collector/PHPTCollector -->
        <dir name="PHPUnitCollector">
-        <file baseinstalldir="/" name="RestrictedTestSuite.php" role="php">
+        <file baseinstalldir="/" name="MethodFilterTestSuite.php" role="php">
          <tasks:replace from="@package_version@" to="version" type="package-info" />
         </file>
        </dir> <!-- /src/Stagehand/TestRunner/Collector/PHPUnitCollector -->
@@ -241,6 +240,9 @@ What&apos;s New in Stagehand_TestRunner 2.7.0
       <file baseinstalldir="/" name="PHPUnitIncompleteTest.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
+      <file baseinstalldir="/" name="PHPUnitMultipleClassesTest.php" role="test">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
       <file baseinstalldir="/" name="PHPUnitNoTestsTest.php" role="test">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
@@ -335,7 +337,7 @@ What&apos;s New in Stagehand_TestRunner 2.7.0
    <package>
     <name>PHPUnit</name>
     <channel>pear.phpunit.de</channel>
-    <min>3.4.0</min>
+    <min>3.4.1</min>
    </package>
   </optional>
  </dependencies>
@@ -352,6 +354,41 @@ What&apos;s New in Stagehand_TestRunner 2.7.0
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.8.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-10-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+What&apos;s New in Stagehand_TestRunner 2.8.0
+
+ Runs only the tests in the specified classes. (PHPUnit only):
+
+  phpunitrunner --classes=CLASS1,CLASS2,... FILE
+
+  Runs the tests in the specified classes which are included in the specified file. Multiple classes can be specified by a comma delimited list.
+
+ Improvements for testing specified methods:
+
+  Can specify fully-qualified method names.:
+
+   In the version 2.7.0, if multiple classes have same method, their methods are run when testing specified methods.
+
+   As of this version, fully-qualified method names can be specified as CLASS::METHOD for resolving this ambiguity.
+
+  Be case-insensitive.:
+
+   In the version 2.7.0, it is case-sensitive even though PHP methods are case-insensitive.
+
+   As of this version, it has been made case-insensitive.
+   </notes>
+  </release>
   <release>
    <version>
     <release>2.7.0</release>

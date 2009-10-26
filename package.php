@@ -40,27 +40,31 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '2.7.0';
+$releaseVersion = '2.8.0';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
-$notes = 'What\'s New in Stagehand_TestRunner 2.7.0
+$notes = 'What\'s New in Stagehand_TestRunner 2.8.0
 
- Runs only the specified tests in the specified file. (PHPUnit only):
+ Runs only the tests in the specified classes. (PHPUnit only):
 
-  From the specified file, only methods which you want to test can now be specified.
+  phpunitrunner --classes=CLASS1,CLASS2,... FILE
 
- Supports PHPUnit 3.4.:
+  Runs the tests in the specified classes which are included in the specified file. Multiple classes can be specified by a comma delimited list.
 
-  PHPUnit 3.4 has been supported. As of this version, PHPUnit 3.3.x are no longer supported.
+ Improvements for testing specified methods:
 
- Supports JUnit XML output. (PHPUnit and PHPT).
+  Can specify fully-qualified method names.:
 
-  Test results can now be logged in the JUnit XML format into the specified file.
+   In the version 2.7.0, if multiple classes have same method, their methods are run when testing specified methods.
 
- Supports PHPT.:
+   As of this version, fully-qualified method names can be specified as CLASS::METHOD for resolving this ambiguity.
 
-  PHPT has been supported. PHPUnit is required to use this feature.';
+  Be case-insensitive.:
+
+   In the version 2.7.0, it is case-sensitive even though PHP methods are case-insensitive.
+
+   As of this version, it has been made case-insensitive.';
 
 $package = new PEAR_PackageFileManager2();
 $package->setOptions(array('filelistgenerator' => 'file',
