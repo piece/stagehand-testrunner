@@ -90,6 +90,24 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite exte
         parent::__construct($theClass);
     }
 
+    // }}}
+    // {{{ addTest()
+
+    /**
+     * @param PHPUnit_Framework_Test $test
+     * @param array                  $groups
+     */
+    public function addTest(PHPUnit_Framework_Test $test, $groups = array())
+    {
+        if ($test instanceof PHPUnit_Framework_Warning
+            && preg_match('/^No tests found in class/', $test->getMessage())
+            ) {
+            return;
+        }
+
+        parent::addTest($test, $groups);
+    }
+
     /**#@-*/
 
     /**#@+
