@@ -167,7 +167,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
      */
     protected function configureByArg($arg)
     {
-        $this->config->targetPath = $arg;
+        $this->config->targetPaths[] = $arg;
         return true;
     }
 
@@ -276,7 +276,7 @@ All rights reserved.
     {
         $monitoredDirectories = array();
         foreach (array_merge($this->config->monitoredDirectories,
-                             (array)$this->config->targetPath) as $directory
+                             $this->config->targetPaths) as $directory
                  ) {
             if (!is_dir($directory)) {
                 throw new Stagehand_TestRunner_Exception(
@@ -343,7 +343,9 @@ All rights reserved.
             $options[] = '--growl-password=' . $this->config->growlPassword;
         }
 
-        $options[] = $this->config->targetPath;
+        foreach ($this->config->targetPaths as $targetPath) {
+            $options[] = $targetPath;
+        }
 
         $monitor = new Stagehand_AlterationMonitor($monitoredDirectories,
                                                    create_function('',

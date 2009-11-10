@@ -53,7 +53,7 @@ class Stagehand_TestRunner_Config
      * @access public
      */
 
-    public $targetPath;
+    public $targetPaths = array();
     public $recursivelyScans = false;
     public $colors = false;
     public $preloadFile;

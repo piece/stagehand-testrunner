@@ -116,21 +116,23 @@ abstract class Stagehand_TestRunner_Collector
      */
     public function collect()
     {
-        $absoluteTargetPath = realpath($this->config->targetPath);
-        if ($absoluteTargetPath === false) {
-            throw new Stagehand_TestRunner_Exception(
-                'The directory or file [ ' .
-                $this->config->targetPath . 
-                ' ] is not found'
-                                                     );
-        }
+        foreach ($this->config->targetPaths as $targetPath) {
+            $absoluteTargetPath = realpath($targetPath);
+            if ($absoluteTargetPath === false) {
+                throw new Stagehand_TestRunner_Exception(
+                    'The directory or file [ ' .
+                    $targetPath .
+                    ' ] is not found'
+                                                         );
+            }
 
-        if (is_dir($absoluteTargetPath)) {
-            $directoryScanner = new Stagehand_DirectoryScanner(array($this, 'collectTestCases'));
-            $directoryScanner->setRecursivelyScans($this->config->recursivelyScans);
-            $directoryScanner->scan($absoluteTargetPath);
-        } else {
-            $this->collectTestCasesFromFile($absoluteTargetPath);
+            if (is_dir($absoluteTargetPath)) {
+                $directoryScanner = new Stagehand_DirectoryScanner(array($this, 'collectTestCases'));
+                $directoryScanner->setRecursivelyScans($this->config->recursivelyScans);
+                $directoryScanner->scan($absoluteTargetPath);
+            } else {
+                $this->collectTestCasesFromFile($absoluteTargetPath);
+            }
         }
 
         $this->buildTestSuite();
