@@ -194,10 +194,10 @@ class Stagehand_TestRunner extends Stagehand_CLIController
     protected function printUsage()
     {
         echo "USAGE
-  {$_SERVER['SCRIPT_NAME']} [OPTIONS] DIRECTORY_OR_FILE
+  {$_SERVER['SCRIPT_NAME']} [OPTIONS] DIRECTORY_OR_FILE1 DIRECTORY_OR_FILE2 ...
 
 NOTES
-  If no DIRECTORY_OR_FILE is given, {$_SERVER['SCRIPT_NAME']} runs all the tests
+  If no directories and files are given, {$_SERVER['SCRIPT_NAME']} runs all the tests
   in the current directory.
 
 OPTIONS
