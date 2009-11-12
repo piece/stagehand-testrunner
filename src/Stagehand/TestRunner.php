@@ -237,7 +237,7 @@ OPTIONS
      Runs only the specified test classes in the specified file. (PHPUnit only)
 
   --log-junit=FILE
-     Logs test results into the specified file in JUnit XML format.
+     Logs test results into the specified file in the JUnit XML format.
      (PHPUnit and PHPT)
 
   -v
