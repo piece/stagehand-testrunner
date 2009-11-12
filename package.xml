@@ -13,10 +13,10 @@
   <email>kubo@iteman.jp</email>
   <active>yes</active>
  </lead>
- <date>2009-10-27</date>
- <time>01:18:47</time>
+ <date>2009-11-12</date>
+ <time>17:14:20</time>
  <version>
-  <release>2.8.0</release>
+  <release>2.9.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -25,27 +25,15 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-What&apos;s New in Stagehand_TestRunner 2.8.0
+What&apos;s New in Stagehand_TestRunner 2.9.0
 
- Runs only the tests in the specified classes. (PHPUnit only):
+ Can specify multiple files and directories as test target.:
 
-  phpunitrunner --classes=CLASS1,CLASS2,... FILE
+  phpunitrunner DIRECTORY_OR_FILE1 DIRECTORY_OR_FILE2 ...
 
-  Runs the tests in the specified classes which are included in the specified file. Multiple classes can be specified by a comma delimited list.
+  In previous versions, one file or directory could only be specified as test target.
 
- Improvements for testing specified methods:
-
-  Can specify fully-qualified method names.:
-
-   In the version 2.7.0, if multiple classes have same method, their methods are run when testing specified methods.
-
-   As of this version, fully-qualified method names can be specified as CLASS::METHOD for resolving this ambiguity.
-
-  Be case-insensitive.:
-
-   In the version 2.7.0, it is case-sensitive even though PHP methods are case-insensitive.
-
-   As of this version, it has been made case-insensitive.
+  As of this version, multiple files and directories can be specified as test target.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -182,11 +170,16 @@ What&apos;s New in Stagehand_TestRunner 2.8.0
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
       </dir> <!-- /tests/Stagehand/TestRunner/PHPSpecSpec -->
-      <dir name="PHPUnitTest">
+      <dir name="PHPUnitTest1">
        <file baseinstalldir="/" name="PHPUnitPassTest.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnitTest -->
+      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnitTest1 -->
+      <dir name="PHPUnitTest2">
+       <file baseinstalldir="/" name="PHPUnitPassTest.php" role="test">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnitTest2 -->
       <dir name="SimpleTestTest">
        <file baseinstalldir="/" name="SimpleTestPassTest.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
@@ -354,6 +347,29 @@ What&apos;s New in Stagehand_TestRunner 2.8.0
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.9.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-11-12</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+What&apos;s New in Stagehand_TestRunner 2.9.0
+
+ Can specify multiple files and directories as test target.:
+
+  phpunitrunner DIRECTORY_OR_FILE1 DIRECTORY_OR_FILE2 ...
+
+  In previous versions, one file or directory could only be specified as test target.
+
+  As of this version, multiple files and directories can be specified as test target.
+   </notes>
+  </release>
   <release>
    <version>
     <release>2.8.0</release>

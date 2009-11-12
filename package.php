@@ -40,31 +40,19 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '2.8.0';
+$releaseVersion = '2.9.0';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
-$notes = 'What\'s New in Stagehand_TestRunner 2.8.0
+$notes = 'What\'s New in Stagehand_TestRunner 2.9.0
 
- Runs only the tests in the specified classes. (PHPUnit only):
+ Can specify multiple files and directories as test target.:
 
-  phpunitrunner --classes=CLASS1,CLASS2,... FILE
+  phpunitrunner DIRECTORY_OR_FILE1 DIRECTORY_OR_FILE2 ...
 
-  Runs the tests in the specified classes which are included in the specified file. Multiple classes can be specified by a comma delimited list.
+  In previous versions, one file or directory could only be specified as test target.
 
- Improvements for testing specified methods:
-
-  Can specify fully-qualified method names.:
-
-   In the version 2.7.0, if multiple classes have same method, their methods are run when testing specified methods.
-
-   As of this version, fully-qualified method names can be specified as CLASS::METHOD for resolving this ambiguity.
-
-  Be case-insensitive.:
-
-   In the version 2.7.0, it is case-sensitive even though PHP methods are case-insensitive.
-
-   As of this version, it has been made case-insensitive.';
+  As of this version, multiple files and directories can be specified as test target.';
 
 $package = new PEAR_PackageFileManager2();
 $package->setOptions(array('filelistgenerator' => 'file',
