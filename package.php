@@ -79,7 +79,7 @@ $package->setAPIStability($apiStability);
 $package->setReleaseVersion($releaseVersion);
 $package->setReleaseStability($releaseStability);
 $package->setNotes($notes);
-$package->setPhpDep('5.0.3');
+$package->setPhpDep('5.1.2');
 $package->setPearinstallerDep('1.4.3');
 $package->addPackageDepWithChannel('required', 'Stagehand_AccessControl', 'pear.piece-framework.com', '0.1.0');
 $package->addPackageDepWithChannel('required', 'Stagehand_AlterationMonitor', 'pear.piece-framework.com', '1.0.0');

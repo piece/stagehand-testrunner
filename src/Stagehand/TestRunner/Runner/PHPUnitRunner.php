@@ -88,6 +88,14 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
      */
     public function run($suite, $config)
     {
+        if ($config->logsJUnitXMLToStdout) {
+            PHPUnit_TextUI_TestRunner::run(
+                $suite,
+                array('printer' => new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter())
+            );
+            return;
+        }
+
         $arguments = array();
         $arguments['printer'] =
             new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
