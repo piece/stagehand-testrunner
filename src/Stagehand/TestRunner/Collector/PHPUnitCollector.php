@@ -109,20 +109,33 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      */
     protected function addTestCase($testCase)
     {
-        if (!$this->config->testsOnlySpecified()) {
-            $this->suite->addTestSuite($testCase);
-        } else {
-            $test = new ReflectionClass($testCase);
-            if ($test->isAbstract()) {
-                return;
-            }
+        if ($this->config->testsOnlySpecified()) {
+            $this->addTestCaseOnlySpecified($testCase);
+            return;
+        }
 
-            if ($this->config->testsOnlySpecifiedMethods) {
-                $this->suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite($test, $this->config->elementsToBeTested));
-            } elseif ($this->config->testsOnlySpecifiedClasses) {
-                if (in_array(strtolower($test->getName()), $this->config->elementsToBeTested)) {
-                    $this->suite->addTestSuite($test);
-                }
+        $this->suite->addTestSuite($testCase);
+    }
+
+    // }}}
+    // {{{ addTestCaseOnlySpecified()
+
+    /**
+     * @param string $testCase
+     * @since Method available since Release 2.10.0
+     */
+    protected function addTestCaseOnlySpecified($testCase)
+    {
+        $test = new ReflectionClass($testCase);
+        if ($test->isAbstract()) {
+            return;
+        }
+
+        if ($this->config->testsOnlySpecifiedMethods) {
+            $this->suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite($test, $this->config->elementsToBeTested));
+        } elseif ($this->config->testsOnlySpecifiedClasses) {
+            if (in_array(strtolower($test->getName()), $this->config->elementsToBeTested)) {
+                $this->suite->addTestSuite($test);
             }
         }
     }
