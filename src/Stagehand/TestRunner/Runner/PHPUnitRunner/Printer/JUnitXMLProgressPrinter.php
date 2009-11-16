@@ -269,9 +269,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
                         'subpackage', $packageInformation['subpackage']
                     );
                 }
-            }
-
-            catch (ReflectionException $e) {
+            } catch (ReflectionException $e) {
             }
         }
 
