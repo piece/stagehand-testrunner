@@ -39,7 +39,7 @@ if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitMultipleClasses1Test
+// {{{ Stagehand_TestRunner_SimpleTestMultipleClasses1Test
 
 /**
  * TestCase for the SimpleTest runner.
@@ -50,7 +50,7 @@ if (!@include_once 'simpletest/unit_tester.php') {
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_PHPUnitMultipleClasses1Test extends UnitTestCase
+class Stagehand_TestRunner_SimpleTestMultipleClasses1Test extends UnitTestCase
 {
 
     // {{{ properties
@@ -105,7 +105,7 @@ class Stagehand_TestRunner_PHPUnitMultipleClasses1Test extends UnitTestCase
 }
 
 // }}}
-// {{{ Stagehand_TestRunner_PHPUnitMultipleClasses2Test
+// {{{ Stagehand_TestRunner_SimpleTestMultipleClasses2Test
 
 /**
  * TestCase for the SimpleTest runner.
@@ -116,7 +116,7 @@ class Stagehand_TestRunner_PHPUnitMultipleClasses1Test extends UnitTestCase
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_PHPUnitMultipleClasses2Test extends UnitTestCase
+class Stagehand_TestRunner_SimpleTestMultipleClasses2Test extends UnitTestCase
 {
 
     // {{{ properties
