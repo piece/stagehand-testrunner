@@ -91,7 +91,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
      */
     public function run($suite, $config)
     {
-        $reporter = new TextReporter();
+        $reporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter($config);
         ob_start();
         $suite->run($reporter);
         $output = ob_get_contents();
