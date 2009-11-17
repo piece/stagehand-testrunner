@@ -127,12 +127,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter extends TextRepo
         }
 
         if ($this->config->testsOnlySpecifiedMethods) {
-            $methodsToBeTested = array_map('strtolower', $this->config->elementsToBeTested);
             foreach (array(strtolower($testCase) . '::' . strtolower($method),
                            strtolower($method)
                            ) as $methodName
                      ) {
-                if (in_array($methodName, $methodsToBeTested)) {
+                if (in_array($methodName, $this->config->elementsToBeTested)) {
                     return true;
                 }
             }
