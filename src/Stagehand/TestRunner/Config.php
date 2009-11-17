@@ -134,11 +134,57 @@ class Stagehand_TestRunner_Config
         return $this->testsOnlySpecifiedMethods || $this->testsOnlySpecifiedClasses;
     }
 
+    // }}}
+    // {{{ inMethodsToBeTested()
+
+    /**
+     * @param string $class
+     * @param string $method
+     * @return boolean
+     * @since Method available since Release 2.10.0
+     */
+    public function inMethodsToBeTested($class, $method)
+    {
+        foreach (array($class . '::' . $method, $method) as $fullyQualifiedMethodName) {
+            if ($this->inElementsToBeTested($fullyQualifiedMethodName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // }}}
+    // {{{ inClassesToBeTested()
+
+    /**
+     * @param string $class
+     * @return boolean
+     * @since Method available since Release 2.10.0
+     */
+    public function inClassesToBeTested($class)
+    {
+        return $this->inElementsToBeTested($class);
+    }
+
     /**#@-*/
 
     /**#@+
      * @access protected
      */
+
+    // }}}
+    // {{{ inElementsToBeTested()
+
+    /**
+     * @param string $element
+     * @return boolean
+     * @since Method available since Release 2.10.0
+     */
+    protected function inElementsToBeTested($element)
+    {
+        return in_array(strtolower($element), $this->elementsToBeTested);
+    }
 
     /**#@-*/
 

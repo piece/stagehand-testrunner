@@ -63,7 +63,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite exte
      * @access protected
      */
 
-    protected $methodsToBeTested = array();
+    protected $config;
 
     /**#@-*/
 
@@ -81,12 +81,12 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite exte
     // {{{ __construct()
 
     /**
-     * @param ReflectionClass $theClass
-     * @param array           $methodsToBeTested
+     * @param ReflectionClass             $theClass
+     * @param Stagehand_TestRunner_Config $config
      */
-    public function __construct(ReflectionClass $theClass, $methodsToBeTested)
+    public function __construct(ReflectionClass $theClass, Stagehand_TestRunner_Config $config)
     {
-        $this->methodsToBeTested = array_map('strtolower', $methodsToBeTested);
+        $this->config = $config;
         parent::__construct($theClass);
     }
 
@@ -124,16 +124,8 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite exte
      */
     protected function addTestMethod(ReflectionClass $class, ReflectionMethod $method, array &$names)
     {
-        foreach (
-            array(
-                strtolower($class->getName()) . '::' . strtolower($method->getName()),
-                strtolower($method->getName())
-                  ) as $methodName
-                 ) {
-            if (in_array($methodName, $this->methodsToBeTested)) {
-                parent::addTestMethod($class, $method, $names);
-                break;
-            }
+        if ($this->config->inMethodsToBeTested($class->getName(), $method->getName())) {
+            parent::addTestMethod($class, $method, $names);
         }
     }
 

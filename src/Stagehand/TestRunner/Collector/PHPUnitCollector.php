@@ -132,9 +132,9 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
         }
 
         if ($this->config->testsOnlySpecifiedMethods) {
-            $this->suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite($test, $this->config->elementsToBeTested));
+            $this->suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite($test, $this->config));
         } elseif ($this->config->testsOnlySpecifiedClasses) {
-            if (in_array(strtolower($test->getName()), $this->config->elementsToBeTested)) {
+            if ($this->config->inClassesToBeTested($test->getName())) {
                 $this->suite->addTestSuite($test);
             }
         }
