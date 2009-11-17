@@ -136,6 +136,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter extends TextRepo
                     return true;
                 }
             }
+        } elseif ($this->config->testsOnlySpecifiedClasses) {
+            if (in_array(strtolower($testCase), $this->config->elementsToBeTested)) {
+                return true;
+            }
         }
 
         return false;
