@@ -233,42 +233,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
         if (class_exists($suite->getName(), false)) {
             try {
                 $class = new ReflectionClass($suite->getName());
-
                 $this->xmlWriter->writeAttribute('file', $class->getFileName());
-
-                $packageInformation = PHPUnit_Util_Class::getPackageInformation(
-                    $suite->getName(), $class->getDocComment()
-                );
-
-                if (strlen($packageInformation['namespace'])) {
-                    $this->xmlWriter->writeAttribute(
-                        'namespace', $packageInformation['namespace']
-                    );
-                }
-
-                if (strlen($packageInformation['fullPackage'])) {
-                    $this->xmlWriter->writeAttribute(
-                        'fullPackage', $packageInformation['fullPackage']
-                    );
-                }
-
-                if (strlen($packageInformation['category'])) {
-                    $this->xmlWriter->writeAttribute(
-                        'category', $packageInformation['category']
-                    );
-                }
-
-                if (strlen($packageInformation['package'])) {
-                    $this->xmlWriter->writeAttribute(
-                        'package', $packageInformation['package']
-                    );
-                }
-
-                if (strlen($packageInformation['subpackage'])) {
-                    $this->xmlWriter->writeAttribute(
-                        'subpackage', $packageInformation['subpackage']
-                    );
-                }
             } catch (ReflectionException $e) {
             }
         }
