@@ -84,9 +84,9 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
      * Runs tests based on the given PHPUnit_Framework_TestSuite object.
      *
      * @param PHPUnit_Framework_TestSuite $suite
-     * @param stdClass                    $config
+     * @param Stagehand_TestRunner_Config $config
      */
-    public function run($suite, $config)
+    public function run($suite, Stagehand_TestRunner_Config $config)
     {
         if ($config->logsJUnitXMLToStdout) {
             PHPUnit_TextUI_TestRunner::run(

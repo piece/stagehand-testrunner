@@ -86,10 +86,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
     /**
      * Runs tests based on the given TestSuite object.
      *
-     * @param TestSuite $suite
-     * @param stdClass  $config
+     * @param TestSuite                   $suite
+     * @param Stagehand_TestRunner_Config $config
      */
-    public function run($suite, $config)
+    public function run($suite, Stagehand_TestRunner_Config $config)
     {
         $reporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter($config);
         ob_start();

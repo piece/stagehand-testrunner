@@ -81,10 +81,10 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
     /**
      * Runs tests based on the given ArrayObject object.
      *
-     * @param ArrayObject $suite
-     * @param stdClass    $config
+     * @param ArrayObject                 $suite
+     * @param Stagehand_TestRunner_Config $config
      */
-    public function run($suite, $config)
+    public function run($suite, Stagehand_TestRunner_Config $config)
     {
         $result = new PHPSpec_Runner_Result();
         $reporter = new Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter(

@@ -81,10 +81,10 @@ abstract class Stagehand_TestRunner_Runner
     /**
      * Runs tests.
      *
-     * @param mixed    $suite
-     * @param stdClass $config
+     * @param mixed                       $suite
+     * @param Stagehand_TestRunner_Config $config
      */
-    abstract public function run($suite, $config);
+    abstract public function run($suite, Stagehand_TestRunner_Config $config);
 
     // }}}
     // {{{ getNotification()
