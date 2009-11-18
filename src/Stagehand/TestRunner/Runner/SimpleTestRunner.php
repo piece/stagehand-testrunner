@@ -91,6 +91,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
      */
     public function run($suite, Stagehand_TestRunner_Config $config)
     {
+        if ($config->logsJUnitXMLToStdout) {
+            $suite->run(new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter());
+            return;
+        }
+
         $reporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter($config);
         ob_start();
         $suite->run($reporter);
