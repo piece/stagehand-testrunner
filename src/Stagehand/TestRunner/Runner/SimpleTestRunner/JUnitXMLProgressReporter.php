@@ -84,9 +84,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
      */
     public function __construct()
     {
-        $this->xmlWriter = new XMLWriter();
-        $this->xmlWriter->openMemory();
-
+        $this->xmlWriter = new Stagehand_TestRunner_Runner_JUnitXMLWriter();
         parent::SimpleReporter();
     }
 
@@ -100,20 +98,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintGroupStart($testName, $size)
     {
         parent::paintGroupStart($testName, $size);
-
-        $this->xmlWriter->startElement('testsuite');
-        $this->xmlWriter->writeAttribute('name', $testName);
-        $this->xmlWriter->writeAttribute('tests', $size);
-
-        if (strlen($testName) && class_exists($testName, false)) {
-            try {
-                $class = new ReflectionClass($testName);
-                $this->xmlWriter->writeAttribute('file', $class->getFileName());
-            } catch (ReflectionException $e) {
-            }
-        }
-
-        echo $this->xmlWriter->outputMemory();
+        echo $this->xmlWriter->startTestSuite($testName, $size);
     }
 
     // }}}
@@ -125,9 +110,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintGroupEnd($testName)
     {
         parent::paintGroupEnd($testName);
-
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        echo $this->xmlWriter->endTestSuite();
     }
 
     // }}}
@@ -139,19 +122,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintCaseStart($testName)
     {
         parent::paintCaseStart($testName);
-
-        $this->xmlWriter->startElement('testsuite');
-        $this->xmlWriter->writeAttribute('name', $testName);
-
-        if (strlen($testName) && class_exists($testName, false)) {
-            try {
-                $class = new ReflectionClass($testName);
-                $this->xmlWriter->writeAttribute('file', $class->getFileName());
-            } catch (ReflectionException $e) {
-            }
-        }
-
-        echo $this->xmlWriter->outputMemory();
+        echo $this->xmlWriter->startTestSuite($testName);
     }
 
     // }}}
@@ -163,9 +134,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintCaseEnd($testName)
     {
         parent::paintCaseEnd($testName);
-
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        echo $this->xmlWriter->endTestSuite();
     }
 
     // }}}
@@ -177,27 +146,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintMethodStart($testName)
     {
         parent::paintMethodStart($testName);
-
-        $this->xmlWriter->startElement('testcase');
-        $this->xmlWriter->writeAttribute('name', $testName);
-
-        $context = SimpleTest::getContext();
-        $test = $context->getTest();
-
-        if ($test instanceof SimpleTestCase) {
-            $class      = new ReflectionClass($test);
-            $methodName = $testName;
-
-            if ($class->hasMethod($methodName)) {
-                $method = $class->getMethod($methodName);
-
-                $this->xmlWriter->writeAttribute('class', $class->getName());
-                $this->xmlWriter->writeAttribute('file', $class->getFileName());
-                $this->xmlWriter->writeAttribute('line', $method->getStartLine());
-            }
-        }
-
-        echo $this->xmlWriter->outputMemory();
+        echo $this->xmlWriter->startTestCase(
+                 $testName,
+                 SimpleTest::getContext()->getTest()
+             );
     }
 
     // }}}
@@ -209,9 +161,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintMethodEnd($testName)
     {
         parent::paintMethodEnd($testName);
-
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        echo $this->xmlWriter->endTestCase();
     }
 
     // }}}
@@ -223,9 +173,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintHeader($testName)
     {
         parent::paintHeader($testName);
-
-        $this->xmlWriter->startDocument('1.0', 'UTF-8');
-        $this->xmlWriter->startElement('testsuites');
+        echo $this->xmlWriter->startTestSuites();
     }
 
     // }}}
@@ -237,10 +185,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintFooter($testName)
     {
         parent::paintFooter($testName);
-
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endDocument();
-        echo $this->xmlWriter->outputMemory();
+        echo $this->xmlWriter->endTestSuites();
     }
 
     // }}}
@@ -252,16 +197,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintFail($message)
     {
         parent::paintFail($message);
-
-        $failureTrace = $message . "\n\n";
-        for ($backtrace = debug_backtrace(), $i = 0, $count = count($backtrace); $i < $count; ++$i) {
-            $failureTrace .= $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . "\n";
-        }
-
-        $this->xmlWriter->startElement('failure');
-        $this->xmlWriter->text($failureTrace);
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        $this->echoFailureOrError($message, 'failure');
     }
 
     // }}}
@@ -273,16 +209,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintError($message)
     {
         parent::paintError($message);
-
-        $failureTrace = $message . "\n\n";
-        for ($backtrace = debug_backtrace(), $i = 0, $count = count($backtrace); $i < $count; ++$i) {
-            $failureTrace .= $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . "\n";
-        }
-
-        $this->xmlWriter->startElement('error');
-        $this->xmlWriter->text($failureTrace);
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        $this->echoFailureOrError($message, 'error');
     }
 
     // }}}
@@ -294,16 +221,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintException(Exception $e)
     {
         parent::paintException($e);
-
-        $failureTrace = get_class($e) . ': ' . $e->getMessage() . "\n\n";
-        for ($backtrace = $e->getTrace(), $i = 0, $count = count($backtrace); $i < $count; ++$i) {
-            $failureTrace .= $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . "\n";
-        }
-
-        $this->xmlWriter->startElement('error');
-        $this->xmlWriter->text($failureTrace);
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        $this->echoFailureOrError(get_class($e) . ': ' . $e->getMessage(), 'error');
     }
 
     // }}}
@@ -315,16 +233,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintSkip($message)
     {
         parent::paintSkip($message);
-
-        $failureTrace = 'Skip: ' . $message . "\n\n";
-        for ($backtrace = debug_backtrace(), $i = 0, $count = count($backtrace); $i < $count; ++$i) {
-            $failureTrace .= $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . "\n";
-        }
-
-        $this->xmlWriter->startElement('error');
-        $this->xmlWriter->text($failureTrace);
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        $this->echoFailureOrError('Skip: ' . $message, 'error');
     }
 
     /**#@-*/
@@ -332,6 +241,38 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     /**#@+
      * @access protected
      */
+
+    // }}}
+    // {{{ buildFailureTrace()
+
+    /**
+     * @param array $backtrace
+     */
+    protected function buildFailureTrace(array $backtrace)
+    {
+        $failureTrace = '';
+        for ($i = 0, $count = count($backtrace); $i < $count; ++$i) {
+            $failureTrace .=
+                $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . "\n";
+        }
+
+        return $failureTrace;
+    }
+
+    // }}}
+    // {{{ echoFailureOrError()
+
+    /**
+     * @param string $message
+     * @param string $failureOrError
+     */
+    protected function echoFailureOrError($message, $failureOrError)
+    {
+        echo $this->xmlWriter->{ 'write' . $failureOrError }(
+                 $message . "\n\n" .
+                 $this->buildFailureTrace(debug_backtrace())
+             );
+    }
 
     /**#@-*/
 

@@ -74,7 +74,9 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      * @access protected
      */
 
+    protected $autoFlush = true;
     protected $xmlWriter;
+    protected $testSuitesWrote = false;
 
     /**#@-*/
 
@@ -95,11 +97,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function __construct()
     {
-        $this->xmlWriter = new XMLWriter();
-        $this->xmlWriter->openMemory();
-        $this->xmlWriter->startDocument('1.0', 'UTF-8');
-        $this->xmlWriter->startElement('testsuites');
-
+        $this->xmlWriter = new Stagehand_TestRunner_Runner_JUnitXMLWriter();
         parent::__construct(null);
     }
 
@@ -110,10 +108,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function flush()
     {
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endDocument();
-        echo $this->xmlWriter->outputMemory();
-
+        $this->write($this->xmlWriter->endTestSuites());
         parent::flush();
     }
 
@@ -127,21 +122,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        if ($test instanceof PHPUnit_Framework_SelfDescribing) {
-            $buffer = $test->toString() . "\n";
-        } else {
-            $buffer = '';
-        }
-
-        $buffer .= PHPUnit_Framework_TestFailure::exceptionToString($e) .
-            "\n" .
-            PHPUnit_Util_Filter::getFilteredStacktrace($e, false);
-
-        $this->xmlWriter->startElement('error');
-        $this->xmlWriter->writeAttribute('type', get_class($e));
-        $this->xmlWriter->text(PHPUnit_Util_XML::convertToUtf8($buffer));
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        $this->addFailureOrError($test, $e, $time, 'error');
     }
 
     // }}}
@@ -154,21 +135,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        if ($test instanceof PHPUnit_Framework_SelfDescribing) {
-            $buffer = $test->toString() . "\n";
-        } else {
-            $buffer = '';
-        }
-
-        $buffer .= PHPUnit_Framework_TestFailure::exceptionToString($e).
-            "\n" .
-            PHPUnit_Util_Filter::getFilteredStacktrace($e, false);
-
-        $this->xmlWriter->startElement('failure');
-        $this->xmlWriter->writeAttribute('type', get_class($e));
-        $this->xmlWriter->text(PHPUnit_Util_XML::convertToUtf8($buffer));
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        $this->addFailureOrError($test, $e, $time, 'failure');
     }
 
     // }}}
@@ -181,16 +148,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->xmlWriter->startElement('error');
-        $this->xmlWriter->writeAttribute('type', get_class($e));
-        $this->xmlWriter->text(
-            PHPUnit_Util_XML::convertToUtf8(
-                "Incomplete Test\n" .
-                PHPUnit_Util_Filter::getFilteredStacktrace($e, false)
-            )
-        );
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        $this->writeFailureOrError('Incomplete Test', $e, 'error');
     }
 
     // }}}
@@ -206,16 +164,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->xmlWriter->startElement('error');
-        $this->xmlWriter->writeAttribute('type', get_class($e));
-        $this->xmlWriter->text(
-            PHPUnit_Util_XML::convertToUtf8(
-                "Skipped Test\n" .
-                PHPUnit_Util_Filter::getFilteredStacktrace($e, FALSE)
-            )
-        );
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        $this->writeFailureOrError('Skipped Test', $e, 'error');
     }
 
     // }}}
@@ -226,19 +175,16 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        $this->xmlWriter->startElement('testsuite');
-        $this->xmlWriter->writeAttribute('name', $suite->getName());
-        $this->xmlWriter->writeAttribute('tests', count($suite));
-
-        if (class_exists($suite->getName(), false)) {
-            try {
-                $class = new ReflectionClass($suite->getName());
-                $this->xmlWriter->writeAttribute('file', $class->getFileName());
-            } catch (ReflectionException $e) {
-            }
+        if (!$this->testSuitesWrote) {
+            $this->write($this->xmlWriter->startTestSuites());
+            $this->testSuitesWrote = true;
         }
 
-        echo $this->xmlWriter->outputMemory();
+        $this->write(
+            $this->xmlWriter->startTestSuite(
+                $suite->getName(), count($suite)
+            )
+        );
     }
 
     // }}}
@@ -249,8 +195,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        $this->write($this->xmlWriter->endTestSuite());
     }
 
     // }}}
@@ -261,23 +206,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        $this->xmlWriter->startElement('testcase');
-        $this->xmlWriter->writeAttribute('name', $test->getName());
-
-        if ($test instanceof PHPUnit_Framework_TestCase) {
-            $class      = new ReflectionClass($test);
-            $methodName = $test->getName();
-
-            if ($class->hasMethod($methodName)) {
-                $method = $class->getMethod($test->getName());
-
-                $this->xmlWriter->writeAttribute('class', $class->getName());
-                $this->xmlWriter->writeAttribute('file', $class->getFileName());
-                $this->xmlWriter->writeAttribute('line', $method->getStartLine());
-            }
-        }
-
-        echo $this->xmlWriter->outputMemory();
+        $this->write($this->xmlWriter->startTestCase($test->getName(), $test));
     }
 
     // }}}
@@ -289,8 +218,63 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        $this->xmlWriter->endElement();
-        echo $this->xmlWriter->outputMemory();
+        $this->write($this->xmlWriter->endTestCase());
+    }
+
+    /**#@-*/
+
+    /**#@+
+     * @access protected
+     */
+
+    // }}}
+    // {{{ writeFailureOrError()
+
+    /**
+     * @param string    $message
+     * @param Exception $e
+     * @param string    $failureOrError
+     */
+    protected function writeFailureOrError(
+        $message,
+        Exception $e,
+        $failureOrError)
+    {
+        $this->write(
+            $this->xmlWriter->{ 'write' . $failureOrError }(
+                PHPUnit_Util_XML::convertToUtf8(
+                    $message .
+                    PHPUnit_Util_Filter::getFilteredStacktrace($e, false)
+                ),
+                get_class($e)
+            )
+        );
+    }
+
+    // }}}
+    // {{{ addFailureOrError()
+
+    /**
+     * @param PHPUnit_Framework_Test $test
+     * @param Exception              $e
+     * @param float                  $time
+     * @param string                 $failureOrError
+     */
+    protected function addFailureOrError(
+        PHPUnit_Framework_Test $test,
+        Exception $e,
+        $time,
+        $failureOrError)
+    {
+        if ($test instanceof PHPUnit_Framework_SelfDescribing) {
+            $message = $test->toString() . "\n\n";
+        } else {
+            $message = '';
+        }
+
+        $message .= PHPUnit_Framework_TestFailure::exceptionToString($e) . "\n";
+
+        $this->writeFailureOrError($message, $e, $failureOrError);
     }
 
     /**#@-*/
