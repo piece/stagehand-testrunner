@@ -92,11 +92,12 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
     /**
      * Creates the test suite object.
      *
+     * @param string $name
      * @return PHPUnit_Framework_TestSuite
      */
-    protected function createTestSuite()
+    protected function createTestSuite($name)
     {
-        return new PHPUnit_Framework_TestSuite();
+        return new PHPUnit_Framework_TestSuite($name);
     }
 
     // }}}

@@ -97,11 +97,12 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
     /**
      * Creates the test suite object.
      *
+     * @param string $name
      * @return TestSuite
      */
-    protected function createTestSuite()
+    protected function createTestSuite($name)
     {
-        return new TestSuite();
+        return new TestSuite($name);
     }
 
     // }}}
