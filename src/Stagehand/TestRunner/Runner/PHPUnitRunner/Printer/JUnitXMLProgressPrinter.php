@@ -91,17 +91,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
 
     // }}}
-    // {{{ __construct()
-
-    /**
-     */
-    public function __construct()
-    {
-        $this->xmlWriter = new Stagehand_TestRunner_Runner_JUnitXMLWriter(array($this, 'write'));
-        parent::__construct(null);
-    }
-
-    // }}}
     // {{{ flush()
 
     /**
@@ -214,6 +203,17 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
         $this->xmlWriter->endTestCase();
+    }
+
+    // }}}
+    // {{{ setXMLWriter()
+
+    /**
+     * @param Stagehand_TestRunner_Runner_JUnitXMLWriter $xmlWriter
+     */
+    public function setXMLWriter(Stagehand_TestRunner_Runner_JUnitXMLWriter $xmlWriter)
+    {
+        $this->xmlWriter = $xmlWriter;
     }
 
     /**#@-*/

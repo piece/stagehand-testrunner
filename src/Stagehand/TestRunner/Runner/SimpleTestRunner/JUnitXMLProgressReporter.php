@@ -78,14 +78,14 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
      */
 
     // }}}
-    // {{{ __construct()
+    // {{{ setXMLWriter()
 
     /**
+     * @param Stagehand_TestRunner_Runner_JUnitXMLWriter $xmlWriter
      */
-    public function __construct()
+    public function setXMLWriter(Stagehand_TestRunner_Runner_JUnitXMLWriter $xmlWriter)
     {
-        $this->xmlWriter = new Stagehand_TestRunner_Runner_JUnitXMLWriter();
-        parent::SimpleReporter();
+        $this->xmlWriter = $xmlWriter;
     }
 
     // }}}
