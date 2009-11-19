@@ -197,7 +197,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintFail($message)
     {
         parent::paintFail($message);
-        $this->echoFailureOrError($message, 'failure');
+        $this->paintFailureOrError($message, 'failure');
     }
 
     // }}}
@@ -209,7 +209,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintError($message)
     {
         parent::paintError($message);
-        $this->echoFailureOrError($message, 'error');
+        $this->paintFailureOrError($message, 'error');
     }
 
     // }}}
@@ -221,7 +221,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintException(Exception $e)
     {
         parent::paintException($e);
-        $this->echoFailureOrError(get_class($e) . ': ' . $e->getMessage(), 'error');
+        $this->paintFailureOrError(get_class($e) . ': ' . $e->getMessage(), 'error');
     }
 
     // }}}
@@ -233,7 +233,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintSkip($message)
     {
         parent::paintSkip($message);
-        $this->echoFailureOrError('Skip: ' . $message, 'error');
+        $this->paintFailureOrError('Skip: ' . $message, 'error');
     }
 
     /**#@-*/
@@ -260,13 +260,13 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     }
 
     // }}}
-    // {{{ echoFailureOrError()
+    // {{{ paintFailureOrError()
 
     /**
      * @param string $message
      * @param string $failureOrError
      */
-    protected function echoFailureOrError($message, $failureOrError)
+    protected function paintFailureOrError($message, $failureOrError)
     {
         $this->xmlWriter->{ 'write' . $failureOrError }(
             $message . "\n\n" .
