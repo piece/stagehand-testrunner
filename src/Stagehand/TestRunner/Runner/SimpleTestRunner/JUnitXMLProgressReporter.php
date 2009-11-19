@@ -98,7 +98,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintGroupStart($testName, $size)
     {
         parent::paintGroupStart($testName, $size);
-        echo $this->xmlWriter->startTestSuite($testName, $size);
+        $this->xmlWriter->startTestSuite($testName, $size);
     }
 
     // }}}
@@ -110,7 +110,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintGroupEnd($testName)
     {
         parent::paintGroupEnd($testName);
-        echo $this->xmlWriter->endTestSuite();
+        $this->xmlWriter->endTestSuite();
     }
 
     // }}}
@@ -122,7 +122,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintCaseStart($testName)
     {
         parent::paintCaseStart($testName);
-        echo $this->xmlWriter->startTestSuite($testName);
+        $this->xmlWriter->startTestSuite($testName);
     }
 
     // }}}
@@ -134,7 +134,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintCaseEnd($testName)
     {
         parent::paintCaseEnd($testName);
-        echo $this->xmlWriter->endTestSuite();
+        $this->xmlWriter->endTestSuite();
     }
 
     // }}}
@@ -146,10 +146,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintMethodStart($testName)
     {
         parent::paintMethodStart($testName);
-        echo $this->xmlWriter->startTestCase(
-                 $testName,
-                 SimpleTest::getContext()->getTest()
-             );
+        $this->xmlWriter->startTestCase(
+            $testName,
+            SimpleTest::getContext()->getTest()
+        );
     }
 
     // }}}
@@ -161,7 +161,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintMethodEnd($testName)
     {
         parent::paintMethodEnd($testName);
-        echo $this->xmlWriter->endTestCase();
+        $this->xmlWriter->endTestCase();
     }
 
     // }}}
@@ -173,7 +173,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintHeader($testName)
     {
         parent::paintHeader($testName);
-        echo $this->xmlWriter->startTestSuites();
+        $this->xmlWriter->startTestSuites();
     }
 
     // }}}
@@ -185,7 +185,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     public function paintFooter($testName)
     {
         parent::paintFooter($testName);
-        echo $this->xmlWriter->endTestSuites();
+        $this->xmlWriter->endTestSuites();
     }
 
     // }}}
@@ -268,10 +268,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
      */
     protected function echoFailureOrError($message, $failureOrError)
     {
-        echo $this->xmlWriter->{ 'write' . $failureOrError }(
-                 $message . "\n\n" .
-                 $this->buildFailureTrace(debug_backtrace())
-             );
+        $this->xmlWriter->{ 'write' . $failureOrError }(
+            $message . "\n\n" .
+            $this->buildFailureTrace(debug_backtrace())
+        );
     }
 
     /**#@-*/

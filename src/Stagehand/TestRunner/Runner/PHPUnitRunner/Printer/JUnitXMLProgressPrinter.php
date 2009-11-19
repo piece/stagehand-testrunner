@@ -97,7 +97,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function __construct()
     {
-        $this->xmlWriter = new Stagehand_TestRunner_Runner_JUnitXMLWriter();
+        $this->xmlWriter = new Stagehand_TestRunner_Runner_JUnitXMLWriter(array($this, 'write'));
         parent::__construct(null);
     }
 
@@ -108,7 +108,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function flush()
     {
-        $this->write($this->xmlWriter->endTestSuites());
+        $this->xmlWriter->endTestSuites();
         parent::flush();
     }
 
@@ -160,7 +160,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @since  Method available since Release 3.0.0
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -176,15 +175,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
         if (!$this->testSuitesWrote) {
-            $this->write($this->xmlWriter->startTestSuites());
+            $this->xmlWriter->startTestSuites();
             $this->testSuitesWrote = true;
         }
 
-        $this->write(
-            $this->xmlWriter->startTestSuite(
-                $suite->getName(), count($suite)
-            )
-        );
+        $this->xmlWriter->startTestSuite($suite->getName(), count($suite));
     }
 
     // }}}
@@ -195,7 +190,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        $this->write($this->xmlWriter->endTestSuite());
+        $this->xmlWriter->endTestSuite();
     }
 
     // }}}
@@ -206,7 +201,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        $this->write($this->xmlWriter->startTestCase($test->getName(), $test));
+        $this->xmlWriter->startTestCase($test->getName(), $test);
     }
 
     // }}}
@@ -218,7 +213,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        $this->write($this->xmlWriter->endTestCase());
+        $this->xmlWriter->endTestCase();
     }
 
     /**#@-*/
@@ -240,14 +235,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
         Exception $e,
         $failureOrError)
     {
-        $this->write(
-            $this->xmlWriter->{ 'write' . $failureOrError }(
-                PHPUnit_Util_XML::convertToUtf8(
-                    $message .
-                    PHPUnit_Util_Filter::getFilteredStacktrace($e, false)
-                ),
-                get_class($e)
-            )
+        $this->xmlWriter->{ 'write' . $failureOrError }(
+            PHPUnit_Util_XML::convertToUtf8(
+                $message .
+                PHPUnit_Util_Filter::getFilteredStacktrace($e, false)
+            ),
+            get_class($e)
         );
     }
 

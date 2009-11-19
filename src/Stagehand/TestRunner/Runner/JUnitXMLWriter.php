@@ -60,6 +60,7 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
      */
 
     protected $xmlWriter;
+    protected $streamWriter;
 
     /**#@-*/
 
@@ -77,24 +78,30 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
     // {{{ __construct()
 
     /**
+     * @param callback $streamWriter
      */
-    public function __construct()
+    public function __construct($streamWriter = null)
     {
         $this->xmlWriter = new XMLWriter();
         $this->xmlWriter->openMemory();
         $this->xmlWriter->startDocument('1.0', 'UTF-8');
+
+        if (is_null($streamWriter)) {
+            $this->streamWriter = create_function('$buffer', 'echo $buffer;');
+        } else {
+            $this->streamWriter = $streamWriter;
+        }
     }
 
     // }}}
     // {{{ startTestSuites()
 
     /**
-     * @return string
      */
     public function startTestSuites()
     {
         $this->xmlWriter->startElement('testsuites');
-        return $this->xmlWriter->flush();
+        $this->flush();
     }
 
     // }}}
@@ -103,7 +110,6 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
     /**
      * @param string  $className
      * @param integer $testCount
-     * @return string
      */
     public function startTestSuite($className, $testCount = null)
     {
@@ -121,7 +127,7 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
             }
         }
 
-        return $this->xmlWriter->flush();
+        $this->flush();
     }
 
     // }}}
@@ -130,7 +136,6 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
     /**
      * @param string $methodName
      * @param mixed  $test
-     * @return string
      */
     public function startTestCase($methodName, $test)
     {
@@ -146,7 +151,7 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
             $this->xmlWriter->writeAttribute('line', $method->getStartLine());
         }
 
-        return $this->xmlWriter->flush();
+        $this->flush();
     }
 
     // }}}
@@ -155,11 +160,10 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
     /**
      * @param string $text
      * @param string $type
-     * @return string
      */
     public function writeError($text, $type = null)
     {
-        return $this->writeFailureOrError($text, $type, 'error');
+        $this->writeFailureOrError($text, $type, 'error');
     }
 
     // }}}
@@ -168,46 +172,42 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
     /**
      * @param string $text
      * @param string $type
-     * @return string
      */
     public function writeFailure($text, $type = null)
     {
-        return $this->writeFailureOrError($text, $type, 'failure');
+        $this->writeFailureOrError($text, $type, 'failure');
     }
 
     // }}}
     // {{{ endTestCase()
 
     /**
-     * @return string
      */
     public function endTestCase()
     {
-        return $this->endElementAndFlush();
+        $this->endElementAndFlush();
     }
 
     // }}}
     // {{{ endTestSuite()
 
     /**
-     * @return string
      */
     public function endTestSuite()
     {
-        return $this->endElementAndFlush();
+        $this->endElementAndFlush();
     }
 
     // }}}
     // {{{ endTestSuites()
 
     /**
-     * @return string
      */
     public function endTestSuites()
     {
         $this->xmlWriter->endElement();
         $this->xmlWriter->endDocument();
-        return $this->xmlWriter->flush();
+        $this->flush();
     }
 
     /**#@-*/
@@ -223,7 +223,6 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
      * @param string $text
      * @param string $type
      * @param string $failureOrError
-     * @return string
      */
     protected function writeFailureOrError($text, $type, $failureOrError)
     {
@@ -234,19 +233,28 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
         $this->xmlWriter->text($text);
         $this->xmlWriter->endElement();
 
-        return $this->xmlWriter->flush();
+        $this->flush();
     }
 
     // }}}
     // {{{ endElementAndFlush()
 
     /**
-     * @return string
      */
     protected function endElementAndFlush()
     {
         $this->xmlWriter->endElement();
-        return $this->xmlWriter->flush();
+        $this->flush();
+    }
+
+    // }}}
+    // {{{ flush()
+
+    /**
+     */
+    protected function flush()
+    {
+        call_user_func($this->streamWriter, $this->xmlWriter->flush());
     }
 
     /**#@-*/
