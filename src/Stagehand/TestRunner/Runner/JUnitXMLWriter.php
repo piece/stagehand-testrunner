@@ -80,17 +80,12 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter
     /**
      * @param callback $streamWriter
      */
-    public function __construct($streamWriter = null)
+    public function __construct($streamWriter)
     {
+        $this->streamWriter = $streamWriter;
         $this->xmlWriter = new XMLWriter();
         $this->xmlWriter->openMemory();
         $this->xmlWriter->startDocument('1.0', 'UTF-8');
-
-        if (is_null($streamWriter)) {
-            $this->streamWriter = create_function('$buffer', 'echo $buffer;');
-        } else {
-            $this->streamWriter = $streamWriter;
-        }
     }
 
     // }}}
