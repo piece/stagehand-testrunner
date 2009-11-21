@@ -77,7 +77,7 @@ class Stagehand_TestRunner_SimpleTestPassTest extends UnitTestCase
      * @access public
      */
 
-    public function testTestShouldPass()
+    public function testPass()
     {
         $this->assertTrue(true);
     }
