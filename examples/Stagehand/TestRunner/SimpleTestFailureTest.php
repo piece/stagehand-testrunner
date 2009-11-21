@@ -77,7 +77,7 @@ class Stagehand_TestRunner_SimpleTestFailureTest extends UnitTestCase
      * @access public
      */
 
-    public function testTestShouldBeFailure()
+    public function testFail()
     {
         $this->assertTrue(false, 'This is an error message.');
     }
