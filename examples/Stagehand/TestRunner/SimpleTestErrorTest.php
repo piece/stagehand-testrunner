@@ -39,7 +39,7 @@ if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_SimpleTestExceptionTest
+// {{{ Stagehand_TestRunner_SimpleTestErrorTest
 
 /**
  * TestCase for the SimpleTest runner.
@@ -50,7 +50,7 @@ if (!@include_once 'simpletest/unit_tester.php') {
  * @version    Release: @package_version@
  * @since      Class available since Release 2.0.0
  */
-class Stagehand_TestRunner_SimpleTestExceptionTest extends UnitTestCase
+class Stagehand_TestRunner_SimpleTestErrorTest extends UnitTestCase
 {
 
     // {{{ properties
