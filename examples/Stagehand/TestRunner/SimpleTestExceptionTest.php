@@ -77,7 +77,7 @@ class Stagehand_TestRunner_SimpleTestExceptionTest extends UnitTestCase
      * @access public
      */
 
-    public function testTestShouldBeException()
+    public function testRaiseError()
     {
         throw new Exception('This is an exception message.');
     }
