@@ -62,6 +62,7 @@ abstract class Stagehand_TestRunner_Runner
      */
 
     protected $notification;
+    protected $config;
 
     /**#@-*/
 
@@ -76,15 +77,26 @@ abstract class Stagehand_TestRunner_Runner
      */
 
     // }}}
+    // {{{ __construct()
+
+    /**
+     * @param Stagehand_TestRunner_Config $config
+     * @since Method available since Release 2.10.0
+     */
+    public function __construct(Stagehand_TestRunner_Config $config)
+    {
+        $this->config = $config;
+    }
+
+    // }}}
     // {{{ run()
 
     /**
      * Runs tests.
      *
-     * @param mixed                       $suite
-     * @param Stagehand_TestRunner_Config $config
+     * @param mixed $suite
      */
-    abstract public function run($suite, Stagehand_TestRunner_Config $config);
+    abstract public function run($suite);
 
     // }}}
     // {{{ getNotification()

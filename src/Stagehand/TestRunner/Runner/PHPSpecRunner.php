@@ -81,15 +81,14 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
     /**
      * Runs tests based on the given ArrayObject object.
      *
-     * @param ArrayObject                 $suite
-     * @param Stagehand_TestRunner_Config $config
+     * @param ArrayObject $suite
      */
-    public function run($suite, Stagehand_TestRunner_Config $config)
+    public function run($suite)
     {
         $result = new PHPSpec_Runner_Result();
         $reporter = new Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter(
                         $result,
-                        $config->colors
+                        $this->config->colors
                                                                            );
         $result->setReporter($reporter);
 
@@ -102,7 +101,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
 
         $reporter->output(true);
 
-        if ($config->usesGrowl) {
+        if ($this->config->usesGrowl) {
             $output = $reporter->toString(true);
 
             $failuresCount = $result->countFailures();

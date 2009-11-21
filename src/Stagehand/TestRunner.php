@@ -382,8 +382,8 @@ All rights reserved.
 
         $runnerClass =
             'Stagehand_TestRunner_Runner_' . $this->testRunnerName . 'Runner';
-        $runner = new $runnerClass();
-        $runner->run($suite, $this->config);
+        $runner = new $runnerClass($this->config);
+        $runner->run($suite);
 
         if ($this->config->usesGrowl) {
             $notification = $runner->getNotification();

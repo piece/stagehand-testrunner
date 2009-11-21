@@ -252,8 +252,16 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter exte
     {
         $failureTrace = '';
         for ($i = 0, $count = count($backtrace); $i < $count; ++$i) {
+            if (!array_key_exists('file', $backtrace[$i])) {
+                continue;
+            }
+
             $failureTrace .=
-                $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . "\n";
+                $backtrace[$i]['file'] .
+                ':' .
+                (array_key_exists('line', $backtrace[$i]) ? $backtrace[$i]['line']
+                                                          : '?') .
+                "\n";
         }
 
         return $failureTrace;

@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,88 +29,31 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.0.0
+ * @since      File available since Release 2.10.0
  */
 
-if (!@include_once 'simpletest/unit_tester.php') {
-    return;
+if (defined('E_DEPRECATED')) {
+    error_reporting(E_ALL & ~E_DEPRECATED);
+} else {
+    error_reporting(E_ALL);
 }
 
-// {{{ Stagehand_TestRunner_SimpleTestPassTest
+set_include_path(realpath(dirname(__FILE__) . '/../examples') . PATH_SEPARATOR .
+                 realpath(dirname(__FILE__) . '/../src') . PATH_SEPARATOR .
+                 get_include_path()
+                 );
 
-/**
- * TestCase for the SimpleTest runner.
- *
- * @package    Stagehand_TestRunner
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    Release: @package_version@
- * @since      Class available since Release 2.0.0
- */
-class Stagehand_TestRunner_SimpleTestPassTest extends UnitTestCase
-{
+require_once 'PHPUnit/Framework.php';
+require_once 'Stagehand/Autoload.php';
 
-    // {{{ properties
+$loader = Stagehand_Autoload::legacyLoader();
+$loader->addNamespace('Stagehand');
+Stagehand_Autoload::register($loader);
 
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    public function testPassWithAnAssertion()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function testPassWithMultipleAssertions()
-    {
-        $this->assertTrue(true);
-        $this->assertTrue(true);
-    }
-
-    public function test日本語を使用できる()
-    {
-        $this->assertTrue(true);
-    }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
-}
-
-// }}}
+Stagehand_LegacyError_PHPError::enableConversion();
 
 /*
  * Local Variables:

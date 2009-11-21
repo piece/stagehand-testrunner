@@ -35,7 +35,7 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_JUnitXMLStreamWriter
+// {{{ Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_TestRunner_Runner_JUnitXMLWriter
+class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand_TestRunner_Runner_JUnitXMLWriter
 {
 
     // {{{ properties
@@ -61,6 +61,7 @@ class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_Test
 
     protected $xmlWriter;
     protected $streamWriter;
+    protected $elementStack = array();
 
     /**#@-*/
 
@@ -81,11 +82,9 @@ class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_Test
      * @param callback $streamWriter
      */
     public function __construct($streamWriter)
-    {
+    { 
         $this->streamWriter = $streamWriter;
-        $this->xmlWriter = new XMLWriter();
-        $this->xmlWriter->openMemory();
-        $this->xmlWriter->startDocument('1.0', 'UTF-8');
+        $this->xmlWriter = new DOMDocument('1.0', 'UTF-8');
     }
 
     // }}}
@@ -95,8 +94,9 @@ class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_Test
      */
     public function startTestSuites()
     {
-        $this->xmlWriter->startElement('testsuites');
-        $this->flush();
+        $testsuites = $this->xmlWriter->createElement('testsuites');
+        $this->xmlWriter->appendChild($testsuites);
+        $this->elementStack[] = $testsuites;
     }
 
     // }}}
@@ -108,21 +108,23 @@ class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_Test
      */
     public function startTestSuite($className, $testCount = null)
     {
-        $this->xmlWriter->startElement('testsuite');
-        $this->xmlWriter->writeAttribute('name', $className);
-        if (!is_null($testCount)) {
-            $this->xmlWriter->writeAttribute('tests', $testCount);
-        }
+        $testsuite =
+            new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement();
+        $this->getCurrentTestsuite()->appendChild($testsuite);
+        $testsuite->setAttribute('name', $className);
+        $testsuite->setAttribute('tests', 0);
+        $testsuite->setAttribute('failures', 0);
+        $testsuite->setAttribute('errors', 0);
 
         if (strlen($className) && class_exists($className, false)) {
             try {
                 $class = new ReflectionClass($className);
-                $this->xmlWriter->writeAttribute('file', $class->getFileName());
+                $testsuite->setAttribute('file', $class->getFileName());
             } catch (ReflectionException $e) {
             }
         }
 
-        $this->flush();
+        $this->elementStack[] = $testsuite;
     }
 
     // }}}
@@ -134,19 +136,20 @@ class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_Test
      */
     public function startTestCase($methodName, $test)
     {
-        $this->xmlWriter->startElement('testcase');
-        $this->xmlWriter->writeAttribute('name', $methodName);
+        $testcase = $this->xmlWriter->createElement('testcase');
+        $this->getCurrentTestsuite()->appendChild($testcase);
+        $testcase->setAttribute('name', $methodName);
 
         $class = new ReflectionClass($test);
         if ($class->hasMethod($methodName)) {
             $method = $class->getMethod($methodName);
 
-            $this->xmlWriter->writeAttribute('class', $class->getName());
-            $this->xmlWriter->writeAttribute('file', $class->getFileName());
-            $this->xmlWriter->writeAttribute('line', $method->getStartLine());
+            $testcase->setAttribute('class', $class->getName());
+            $testcase->setAttribute('file', $class->getFileName());
+            $testcase->setAttribute('line', $method->getStartLine());
         }
 
-        $this->flush();
+        $this->elementStack[] = $testcase;
     }
 
     // }}}
@@ -177,10 +180,25 @@ class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_Test
     // {{{ endTestCase()
 
     /**
+     * @param float   $time
+     * @param integer $assertionCount
      */
-    public function endTestCase()
+    public function endTestCase($time = null, $assertionCount = null)
     {
-        $this->endElementAndFlush();
+        $testCase = array_pop($this->elementStack);
+
+        if (!is_null($assertionCount)) {
+            $this->getCurrentTestsuite()->addAssertionCount($assertionCount);
+            $testCase->setAttribute('assertions', $assertionCount);
+            $testCase->setAttribute('assertions', 1);
+        }
+
+        if (!is_null($time)) {
+            $testCase->setAttribute('time', $time);
+            $this->getCurrentTestsuite()->addTime($time);
+        }
+
+        $this->getCurrentTestsuite()->increaseTestCount();
     }
 
     // }}}
@@ -190,7 +208,21 @@ class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_Test
      */
     public function endTestSuite()
     {
-        $this->endElementAndFlush();
+        $testSuite = array_pop($this->elementStack);
+        if ($this->getCurrentTestsuite() instanceof
+            Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement) {
+            $this->getCurrentTestsuite()->addTestCount($testSuite->getAttribute('tests'));
+            if ($testSuite->hasAttribute('assertions')) {
+                $this->getCurrentTestsuite()->addAssertionCount(
+                    $testSuite->getAttribute('assertions')
+                );
+            }
+            $this->getCurrentTestsuite()->addErrorCount($testSuite->getAttribute('errors'));
+            $this->getCurrentTestsuite()->addFailureCount($testSuite->getAttribute('failures'));
+            if ($testSuite->hasAttribute('time')) {
+                $this->getCurrentTestsuite()->addTime($testSuite->getAttribute('time'));
+            }
+        }
     }
 
     // }}}
@@ -200,8 +232,6 @@ class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_Test
      */
     public function endTestSuites()
     {
-        $this->xmlWriter->endElement();
-        $this->xmlWriter->endDocument();
         $this->flush();
     }
 
@@ -221,25 +251,13 @@ class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_Test
      */
     protected function writeFailureOrError($text, $type, $failureOrError)
     {
-        $this->xmlWriter->startElement($failureOrError);
+        $error = $this->xmlWriter->createElement($failureOrError, $text);
+        $this->getCurrentElement()->appendChild($error);
         if (!is_null($type)) {
-            $this->xmlWriter->writeAttribute('type', $type);
+            $error->setAttribute('type', $type);
         }
-        $this->xmlWriter->text($text);
-        $this->xmlWriter->endElement();
 
-        $this->flush();
-    }
-
-    // }}}
-    // {{{ endElementAndFlush()
-
-    /**
-     */
-    protected function endElementAndFlush()
-    {
-        $this->xmlWriter->endElement();
-        $this->flush();
+        $this->getCurrentTestsuite()->{ 'increase' . $failureOrError . 'Count' }();
     }
 
     // }}}
@@ -249,7 +267,44 @@ class Stagehand_TestRunner_Runner_JUnitXMLStreamWriter implements Stagehand_Test
      */
     protected function flush()
     {
-        call_user_func($this->streamWriter, $this->xmlWriter->flush());
+        call_user_func($this->streamWriter, $this->xmlWriter->saveXML());
+    }
+
+    // }}}
+    // {{{ getCurrentTestsuite()
+
+    /**
+     * @return Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement
+     */
+    protected function getCurrentTestsuite()
+    {
+        if ($this->getCurrentElement()->tagName == 'testcase') {
+            return $this->getPreviousElement();
+        }
+
+        return $this->getCurrentElement();
+    }
+
+    // }}}
+    // {{{ getCurrentElement()
+
+    /**
+     * @return DOMElement
+     */
+    protected function getCurrentElement()
+    {
+        return $this->elementStack[ count($this->elementStack) - 1 ];
+    }
+
+    // }}}
+    // {{{ getPreviousElement()
+
+    /**
+     * @return DOMElement
+     */
+    protected function getPreviousElement()
+    {
+        return $this->elementStack[ count($this->elementStack) - 2 ];
     }
 
     /**#@-*/

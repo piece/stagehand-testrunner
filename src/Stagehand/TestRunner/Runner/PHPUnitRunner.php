@@ -84,11 +84,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
      * Runs tests based on the given PHPUnit_Framework_TestSuite object.
      *
      * @param PHPUnit_Framework_TestSuite $suite
-     * @param Stagehand_TestRunner_Config $config
      */
-    public function run($suite, Stagehand_TestRunner_Config $config)
+    public function run($suite)
     {
-        if ($config->logsJUnitXMLToStdout) {
+        if ($this->config->logsJUnitXMLToStdout) {
             $printer = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter();
             $printer->setXMLWriter(
                 new Stagehand_TestRunner_Runner_JUnitXMLWriter(array($printer, 'write'))
@@ -100,35 +99,35 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
         $arguments = array();
         $arguments['printer'] =
             new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
-                null, false, $config->colors
+                null, false, $this->config->colors
                                                                                 );
 
         Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream::register();
         $arguments['listeners'] = array(
             new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
-                'testdox://', $config->colors, $this->prettifier()
+                'testdox://', $this->config->colors, $this->prettifier()
                                                                                  )
                                         );
-        if (!$config->printsDetailedProgressReport) {
+        if (!$this->config->printsDetailedProgressReport) {
             $arguments['listeners'][] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter(
-                    null, false, $config->colors
+                    null, false, $this->config->colors
                                                                                       );
         } else {
             $arguments['listeners'][] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter(
-                    null, false, $config->colors
+                    null, false, $this->config->colors
                                                                                               );
         }
 
-        if (!is_null($config->junitLogFile)) {
-            $arguments['junitLogfile'] = $config->junitLogFile;
+        if (!is_null($this->config->junitLogFile)) {
+            $arguments['junitLogfile'] = $this->config->junitLogFile;
             $arguments['logIncompleteSkipped'] = true;
         }
 
         $result = PHPUnit_TextUI_TestRunner::run($suite, $arguments);
 
-        if ($config->usesGrowl) {
+        if ($this->config->usesGrowl) {
             ob_start();
             $printer->printResult($result);
             $output = ob_get_contents();

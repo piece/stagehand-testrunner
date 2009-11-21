@@ -86,15 +86,14 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
     /**
      * Runs tests based on the given TestSuite object.
      *
-     * @param TestSuite                   $suite
-     * @param Stagehand_TestRunner_Config $config
+     * @param TestSuite $suite
      */
-    public function run($suite, Stagehand_TestRunner_Config $config)
+    public function run($suite)
     {
-        if ($config->logsJUnitXMLToStdout) {
+        if ($this->config->logsJUnitXMLToStdout) {
             $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter();
             $junitXMLProgressReporter->setXMLWriter(
-                new Stagehand_TestRunner_Runner_JUnitXMLStreamWriter(
+                new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLStreamWriter(
                     create_function('$buffer', 'echo $buffer;')
                 )
             );
@@ -102,13 +101,25 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
             return;
         }
 
-        $reporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter($config);
+        $reporter = new MultipleReporter();
+        $reporter->attachReporter(new Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter($this->config));
+
+        if (!is_null($this->config->junitLogFile)) {
+            $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter();
+            $junitXMLProgressReporter->setXMLWriter(
+                new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter(
+                    array($this, 'writeJUnitXMLToFile')
+                )
+            );
+            $reporter->attachReporter($junitXMLProgressReporter);
+        }
+
         ob_start();
         $suite->run($reporter);
         $output = ob_get_contents();
         ob_end_clean();
 
-        if ($config->usesGrowl) {
+        if ($this->config->usesGrowl) {
             if (preg_match('/^(OK.+)/ms', $output, $matches)) {
                 $this->notification->name = 'Green';
                 $this->notification->description = $matches[1];
@@ -118,7 +129,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
             }
         }
 
-        if ($config->colors) {
+        if ($this->config->colors) {
             print Console_Color::convert(preg_replace(array('/^(OK.+)/ms',
                                                             '/^(FAILURES!!!.+)/ms',
                                                             '/^(\d+\)\s)(.+at \[.+\]$\s+in .+)$/m',
@@ -133,6 +144,26 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
                                          );
         } else {
             print $output;
+        }
+    }
+
+    // }}}
+    // {{{ writeJUnitXMLToFile()
+
+    /**
+     * @param string $buffer
+     * @throws Stagehand_TestRunner_Exception
+     * @since Method available since Release 2.10.0
+     */
+    public function writeJUnitXMLToFile($buffer)
+    {
+        $result = file_put_contents($this->config->junitLogFile, $buffer);
+        if ($result === false) {
+            throw new Stagehand_TestRunner_Exception(
+               'Failed to write the test results into the specified file [ ' .
+               $this->config->junitLogFile .
+               ' ].'
+            );
         }
     }
 
