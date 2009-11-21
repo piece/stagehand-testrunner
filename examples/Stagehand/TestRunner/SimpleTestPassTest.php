@@ -77,7 +77,17 @@ class Stagehand_TestRunner_SimpleTestPassTest extends UnitTestCase
      * @access public
      */
 
-    public function testPass()
+    public function testPass1()
+    {
+        $this->assertTrue(true);
+    }
+
+    public function testPass2()
+    {
+        $this->assertTrue(true);
+    }
+
+    public function test日本語を使用できる()
     {
         $this->assertTrue(true);
     }
