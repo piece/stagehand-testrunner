@@ -77,17 +77,26 @@ class Stagehand_TestRunner_PHPUnitPassTest extends PHPUnit_Framework_TestCase
      * @access public
      */
 
-    public function testTestShouldPass1()
+    /**
+     * @test
+     */
+    public function pass1()
     {
         $this->assertTrue(true);
     }
 
-    public function testTestShouldPass2()
+    /**
+     * @test
+     */
+    public function pass2()
     {
         $this->assertTrue(true);
     }
 
-    public function test日本語を使用できること()
+    /**
+     * @test
+     */
+    public function 日本語を使用できる()
     {
         $this->assertTrue(true);
     }
