@@ -202,7 +202,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter 
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        $this->xmlWriter->endTestCase();
+       if (!$test instanceof PHPUnit_Framework_TestCase) {
+           $this->xmlWriter->endTestCase($time);
+           return;
+       }
+
+       $this->xmlWriter->endTestCase($time, $test->getNumAssertions());
     }
 
     // }}}
