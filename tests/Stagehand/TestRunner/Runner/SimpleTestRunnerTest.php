@@ -109,7 +109,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends PHPUnit_Framework
         $suite->addTestClass('Stagehand_TestRunner_SimpleTestFailureTest');
         $suite->addTestClass('Stagehand_TestRunner_SimpleTestErrorTest');
         $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($config);
+        ob_start();
         $runner->run($suite, $config);
+        ob_end_clean();
         $this->assertFileExists($config->junitLogFile);
 
         $junitXML = new DOMDocument();
@@ -279,7 +281,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends PHPUnit_Framework
         $config->junitLogFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
         $suite = new TestSuite();
         $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($config);
+        ob_start();
         $runner->run($suite, $config);
+        ob_end_clean();
         $this->assertFileExists($config->junitLogFile);
 
         $junitXML = new DOMDocument();
