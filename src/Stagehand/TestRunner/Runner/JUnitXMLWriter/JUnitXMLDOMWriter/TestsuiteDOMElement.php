@@ -114,9 +114,9 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOME
     public function addAssertionCount($assertionCount)
     {
         if (!$this->hasAttribute('assertions')) {
-            $this->setAttribute('assertions', $failureCount);
+            $this->setAttribute('assertions', $assertionCount);
         } else {
-            $this->setAttribute('assertions', $this->getAttribute('assertions') + $failureCount);
+            $this->setAttribute('assertions', $this->getAttribute('assertions') + $assertionCount);
         }
     }
 
