@@ -62,6 +62,10 @@ abstract class Stagehand_TestRunner_Runner
      */
 
     protected $notification;
+
+    /**
+     * @var Stagehand_TestRunner_Config $config
+     */
     protected $config;
 
     /**#@-*/
