@@ -188,9 +188,8 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements St
         $testCase = array_pop($this->elementStack);
 
         if (!is_null($assertionCount)) {
-            $this->getCurrentTestsuite()->addAssertionCount($assertionCount);
             $testCase->setAttribute('assertions', $assertionCount);
-            $testCase->setAttribute('assertions', 1);
+            $this->getCurrentTestsuite()->addAssertionCount($assertionCount);
         }
 
         if (!is_null($time)) {
