@@ -77,7 +77,10 @@ class Stagehand_TestRunner_PHPUnitErrorTest extends PHPUnit_Framework_TestCase
      * @access public
      */
 
-    public function testTestShouldBeError()
+    /**
+     * @test
+     */
+    public function isError()
     {
         $this->foo;
     }

@@ -77,7 +77,10 @@ class Stagehand_TestRunner_PHPUnitFailureTest extends PHPUnit_Framework_TestCase
      * @access public
      */
 
-    public function testTestShouldBeFailure()
+    /**
+     * @test
+     */
+    public function isFailure()
     {
         $this->assertTrue(false, 'This is an error message.');
     }

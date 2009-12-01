@@ -80,7 +80,7 @@ class Stagehand_TestRunner_PHPUnitPassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function pass1()
+    public function passWithAnAssertion()
     {
         $this->assertTrue(true);
     }
@@ -88,7 +88,7 @@ class Stagehand_TestRunner_PHPUnitPassTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function pass2()
+    public function passWithMultipleAssertions()
     {
         $this->assertTrue(true);
     }
