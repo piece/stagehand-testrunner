@@ -215,14 +215,14 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends PHPUnit_Framework
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertTrue($testcase->hasAttribute('name'));
-        $this->assertEquals('testFail', $testcase->hasAttribute('name'));
+        $this->assertEquals('testIsFailure', $testcase->hasAttribute('name'));
         $this->assertTrue($testcase->hasAttribute('class'));
         $this->assertEquals('Stagehand_TestRunner_SimpleTestFailureTest',
                             $testcase->hasAttribute('class'));
         $this->assertTrue($testcase->hasAttribute('file'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $this->assertTrue($testcase->hasAttribute('line'));
-        $method = $class->getMethod('testFail');
+        $method = $class->getMethod('testIsFailure');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertFalse($testcase->hasAttribute('assertions'));
         $this->assertFalse($testcase->hasAttribute('time'));
@@ -252,14 +252,14 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends PHPUnit_Framework
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertTrue($testcase->hasAttribute('name'));
-        $this->assertEquals('testRaiseError', $testcase->hasAttribute('name'));
+        $this->assertEquals('testIsError', $testcase->hasAttribute('name'));
         $this->assertTrue($testcase->hasAttribute('class'));
         $this->assertEquals('Stagehand_TestRunner_SimpleTestErrorTest',
                             $testcase->hasAttribute('class'));
         $this->assertTrue($testcase->hasAttribute('file'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $this->assertTrue($testcase->hasAttribute('line'));
-        $method = $class->getMethod('testRaiseError');
+        $method = $class->getMethod('testIsError');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertFalse($testcase->hasAttribute('assertions'));
         $this->assertFalse($testcase->hasAttribute('time'));
