@@ -53,7 +53,7 @@ $loader = Stagehand_Autoload::legacyLoader();
 $loader->addNamespace('Stagehand');
 Stagehand_Autoload::register($loader);
 
-Stagehand_LegacyError_PHPError::enableConversion();
+Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
 
 /*
  * Local Variables:
