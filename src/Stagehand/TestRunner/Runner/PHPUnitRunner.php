@@ -88,11 +88,13 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
     public function run($suite)
     {
         if ($this->config->logsJUnitXMLToStdout) {
-            $printer = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter();
-            $printer->setXMLWriter(
-                new Stagehand_TestRunner_Runner_JUnitXMLWriter(array($printer, 'write'))
+            $junitXMLPrinter = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter();
+            $junitXMLPrinter->setXMLWriter(
+                new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLStreamWriter(
+                    array($junitXMLPrinter, 'write')
+                )
             );
-            PHPUnit_TextUI_TestRunner::run($suite, array('printer' => $printer));
+            PHPUnit_TextUI_TestRunner::run($suite, array('printer' => $junitXMLPrinter));
             return;
         }
 
