@@ -109,7 +109,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends PHPUnit_Framework
         $suite->addTestClass('Stagehand_TestRunner_SimpleTestErrorTest');
         $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($config);
         ob_start();
-        $runner->run($suite, $config);
+        $runner->run($suite);
         ob_end_clean();
         $this->assertFileExists($config->junitLogFile);
 
@@ -281,7 +281,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends PHPUnit_Framework
         $suite = new TestSuite();
         $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($config);
         ob_start();
-        $runner->run($suite, $config);
+        $runner->run($suite);
         ob_end_clean();
         $this->assertFileExists($config->junitLogFile);
 
