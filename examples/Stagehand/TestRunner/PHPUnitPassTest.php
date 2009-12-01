@@ -91,6 +91,7 @@ class Stagehand_TestRunner_PHPUnitPassTest extends PHPUnit_Framework_TestCase
     public function passWithMultipleAssertions()
     {
         $this->assertTrue(true);
+        $this->assertTrue(true);
     }
 
     /**
