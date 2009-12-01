@@ -61,6 +61,8 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends PHPUnit_Framework
      * @access protected
      */
 
+    protected $backupGlobals = false;
+
     /**#@-*/
 
     /**#@+
