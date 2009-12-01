@@ -47,7 +47,7 @@ require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Printer.php';
 require_once 'PHPUnit/Util/XML.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter
+// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter
 
 /**
  * A result printer for PHPUnit.
@@ -59,7 +59,7 @@ require_once 'PHPUnit/Util/XML.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter extends PHPUnit_Util_Printer implements PHPUnit_Framework_TestListener
+class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends PHPUnit_Util_Printer implements PHPUnit_Framework_TestListener
 {
 
     // {{{ properties
