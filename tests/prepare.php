@@ -35,10 +35,9 @@
  * @since      File available since Release 2.10.0
  */
 
+error_reporting(E_ALL);
 if (defined('E_DEPRECATED')) {
-    error_reporting(E_ALL & ~E_DEPRECATED);
-} else {
-    error_reporting(E_ALL);
+    error_reporting(error_reporting() & ~E_DEPRECATED);
 }
 
 set_include_path(realpath(dirname(__FILE__) . '/../examples') . PATH_SEPARATOR .
