@@ -86,10 +86,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      * @param string  $path
      * @param string  $mode
      * @param integer $options
-     * @param string  $opened_path
+     * @param string  &$opened_path
      * @return boolean
      */
-    public function stream_open($path, $mode, $options, $opened_path)
+    public function stream_open($path, $mode, $options, &$opened_path)
     {
         return true;
     }
