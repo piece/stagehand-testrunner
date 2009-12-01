@@ -64,6 +64,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      */
 
     protected $position = 0;
+    protected $resultID;
 
     /**#@-*/
 
@@ -91,6 +92,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      */
     public function stream_open($path, $mode, $options, &$opened_path)
     {
+        preg_match('!^testdox://(.+)$!', $path, $matches);
+        $this->resultID = $matches[1];
+        Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::initialize($this->resultID);
+        $opened_path = $path;
         return true;
     }
 
@@ -119,7 +124,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      */
     public function stream_read($count)
     {
-        $data = substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, $this->position, $count);
+        $data = substr($this->getTestDox(), $this->position, $count);
         $this->position += strlen($data);
         return $data;
     }
@@ -135,10 +140,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      */
     public function stream_write($data)
     {
-        Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox =
-            substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, 0, $this->position) .
-            $data .
-            substr(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox, $this->position + strlen($data));
+        $this->appendTestDox($data);
         $this->position += strlen($data);
         return strlen($data);
     }
@@ -153,7 +155,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      */
     public function stream_eof()
     {
-        return $this->position >= strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox);
+        return $this->position >= strlen($this->getTestDox());
     }
 
     // }}}
@@ -183,7 +185,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
     {
         switch ($whence) {
         case SEEK_SET:
-            if ($offset < strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox) && $offset >= 0) {
+            if ($offset < strlen($this->getTestDox()) && $offset >= 0) {
                 $this->position = $offset;
                 return true;
             } else {
@@ -197,8 +199,8 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
                 return false;
             }
         case SEEK_END:
-            if (strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox) + $offset >= 0) {
-                $this->position = strlen(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox) + $offset;
+            if (strlen($this->getTestDox()) + $offset >= 0) {
+                $this->position = strlen($this->getTestDox()) + $offset;
                 return true;
             } else {
                 return false;
@@ -215,7 +217,9 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      */
     public static function register()
     {
-        stream_wrapper_register('testdox',  __CLASS__);
+        if (!in_array('testdox', stream_get_wrappers())) {
+            stream_wrapper_register('testdox',  __CLASS__);
+        }
     }
 
     /**#@-*/
@@ -223,6 +227,32 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
     /**#@+
      * @access protected
      */
+
+    // }}}
+    // {{{ getTestDox()
+
+    /**
+     * @return string
+     * @since Method available since Release 2.10.0
+     */
+    protected function getTestDox()
+    {
+        return Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::get($this->resultID);
+    }
+
+    // }}}
+    // {{{ appendTestDox()
+
+    /**
+     * @param string $testDox
+     * @since Method available since Release 2.10.0
+     */
+    protected function appendTestDox($testDox)
+    {
+        Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::append(
+            $this->resultID, $testDox
+        );
+    }
 
     /**#@-*/
 

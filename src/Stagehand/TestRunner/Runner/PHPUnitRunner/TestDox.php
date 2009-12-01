@@ -55,7 +55,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox
      * @access public
      */
 
-    public static $testDox;
+    public static $testDoxesByResult = array();
 
     /**#@-*/
 
@@ -74,6 +74,44 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox
     /**#@+
      * @access public
      */
+
+    // }}}
+    // {{{ initialize()
+
+    /**
+     * @param string $resultID
+     * @since Method available since Release 2.10.0
+     */
+    public static function initialize($resultID)
+    {
+        self::$testDoxesByResult[$resultID] = '';
+    }
+
+    // }}}
+    // {{{ append()
+
+    /**
+     * @param string $resultID
+     * @param string $testDox
+     * @since Method available since Release 2.10.0
+     */
+    public static function append($resultID, $testDox)
+    {
+        self::$testDoxesByResult[$resultID] .= $testDox;
+    }
+
+    // }}}
+    // {{{ get()
+
+    /**
+     * @param string $resultID
+     * @return string
+     * @since Method available since Release 2.10.0
+     */
+    public static function get($resultID)
+    {
+        return self::$testDoxesByResult[$resultID];
+    }
 
     /**#@-*/
 

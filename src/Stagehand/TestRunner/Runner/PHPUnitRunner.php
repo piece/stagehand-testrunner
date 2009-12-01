@@ -96,18 +96,23 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
             return;
         }
 
+        $testResult = new PHPUnit_Framework_TestResult();
+        $printer = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
+                       null, false, $this->config->colors
+                   );
+
         $arguments = array();
-        $arguments['printer'] =
-            new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
-                null, false, $this->config->colors
-                                                                                );
+        $arguments['printer'] = $printer;
 
         Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream::register();
-        $arguments['listeners'] = array(
-            new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
-                'testdox://', $this->config->colors, $this->prettifier()
-                                                                                 )
-                                        );
+        $arguments['listeners'] =
+            array(
+                new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
+                    'testdox://' . spl_object_hash($testResult),
+                    $this->config->colors,
+                    $this->prettifier()
+                )
+            );
         if (!$this->config->printsDetailedProgressReport) {
             $arguments['listeners'][] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter(
@@ -121,15 +126,22 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
         }
 
         if (!is_null($this->config->junitLogFile)) {
-            $arguments['junitLogfile'] = $this->config->junitLogFile;
-            $arguments['logIncompleteSkipped'] = true;
+            $junitXMLListener = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLProgressPrinter($this->config->junitLogFile);
+            $junitXMLListener->setXMLWriter(
+                new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter(
+                    array($junitXMLListener, 'write')
+                )
+            );
+            $arguments['listeners'][] = $junitXMLListener;
         }
 
-        $result = PHPUnit_TextUI_TestRunner::run($suite, $arguments);
+        $testRunner = new Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner();
+        $testRunner->setTestResult($testResult);
+        $testRunner->doRun($suite, $arguments);
 
         if ($this->config->usesGrowl) {
             ob_start();
-            $printer->printResult($result);
+            $printer->printResult($testResult);
             $output = ob_get_contents();
             ob_end_clean();
 

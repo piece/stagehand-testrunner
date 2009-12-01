@@ -86,7 +86,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
      */
     public function printResult(PHPUnit_Framework_TestResult $result)
     {
-        $testDox = trim(Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::$testDox);
+        $testDox =
+            trim(
+                Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::get(
+                    spl_object_hash($result)
+                )
+            );
         if (strlen($testDox)) {
             $this->write("\n\n" . $testDox);
         }
