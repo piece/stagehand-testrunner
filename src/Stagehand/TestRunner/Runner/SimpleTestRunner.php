@@ -91,7 +91,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
     public function run($suite)
     {
         if ($this->config->logsJUnitXMLToStdout) {
-            $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter();
+            $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter();
             $junitXMLProgressReporter->setXMLWriter(
                 new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLStreamWriter(
                     create_function('$buffer', 'echo $buffer;')
@@ -105,7 +105,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         $reporter->attachReporter(new Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter($this->config));
 
         if (!is_null($this->config->junitLogFile)) {
-            $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter();
+            $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter();
             $junitXMLProgressReporter->setXMLWriter(
                 new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter(
                     array($this, 'writeJUnitXMLToFile')

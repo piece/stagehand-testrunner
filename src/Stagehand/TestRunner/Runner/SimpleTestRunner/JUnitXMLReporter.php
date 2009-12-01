@@ -38,7 +38,7 @@
 
 require_once 'simpletest/reporter.php';
 
-// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter
+// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter
 
 /**
  * @package    Stagehand_TestRunner
@@ -48,7 +48,7 @@ require_once 'simpletest/reporter.php';
  * @link       http://simpletest.org/
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLProgressReporter extends SimpleReporter
+class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends SimpleReporter
 {
 
     // {{{ properties
