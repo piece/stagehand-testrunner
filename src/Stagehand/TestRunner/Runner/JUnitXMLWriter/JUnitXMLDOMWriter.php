@@ -131,18 +131,18 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements St
     // {{{ startTestCase()
 
     /**
-     * @param string $methodName
+     * @param string $name
      * @param mixed  $test
      */
-    public function startTestCase($methodName, $test)
+    public function startTestCase($name, $test)
     {
         $testcase = $this->xmlWriter->createElement('testcase');
         $this->getCurrentTestsuite()->appendChild($testcase);
-        $testcase->setAttribute('name', $methodName);
+        $testcase->setAttribute('name', $name);
 
         $class = new ReflectionClass($test);
-        if ($class->hasMethod($methodName)) {
-            $method = $class->getMethod($methodName);
+        if ($class->hasMethod($name)) {
+            $method = $class->getMethod($name);
 
             $testcase->setAttribute('class', $class->getName());
             $testcase->setAttribute('file', $class->getFileName());
