@@ -138,7 +138,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
         $this->assertTrue($childTestsuite->hasChildNodes());
         $this->assertTrue($childTestsuite->hasAttribute('name'));
         $this->assertEquals('Stagehand_TestRunner_PHPUnitPassTest',
-                            $childTestsuite->hasAttribute('name'));
+                            $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
         $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitPassTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
@@ -157,10 +157,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertTrue($testcase->hasAttribute('name'));
-        $this->assertEquals('passWithAnAssertion', $testcase->hasAttribute('name'));
+        $this->assertEquals('passWithAnAssertion', $testcase->getAttribute('name'));
         $this->assertTrue($testcase->hasAttribute('class'));
         $this->assertEquals('Stagehand_TestRunner_PHPUnitPassTest',
-                            $testcase->hasAttribute('class'));
+                            $testcase->getAttribute('class'));
         $this->assertTrue($testcase->hasAttribute('file'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $this->assertTrue($testcase->hasAttribute('line'));
@@ -175,10 +175,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertTrue($testcase->hasAttribute('name'));
         $this->assertEquals('passWithMultipleAssertions',
-                            $testcase->hasAttribute('name'));
+                            $testcase->getAttribute('name'));
         $this->assertTrue($testcase->hasAttribute('class'));
         $this->assertEquals('Stagehand_TestRunner_PHPUnitPassTest',
-                            $testcase->hasAttribute('class'));
+                            $testcase->getAttribute('class'));
         $this->assertTrue($testcase->hasAttribute('file'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $this->assertTrue($testcase->hasAttribute('line'));
@@ -192,10 +192,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
         $testcase = $childTestsuite->childNodes->item(2);
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertTrue($testcase->hasAttribute('name'));
-        $this->assertEquals('日本語を使用できる', $testcase->hasAttribute('name'));
+        $this->assertEquals('日本語を使用できる', $testcase->getAttribute('name'));
         $this->assertTrue($testcase->hasAttribute('class'));
         $this->assertEquals('Stagehand_TestRunner_PHPUnitPassTest',
-                            $testcase->hasAttribute('class'));
+                            $testcase->getAttribute('class'));
         $this->assertTrue($testcase->hasAttribute('file'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $this->assertTrue($testcase->hasAttribute('line'));
@@ -210,7 +210,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
         $this->assertTrue($childTestsuite->hasChildNodes());
         $this->assertTrue($childTestsuite->hasAttribute('name'));
         $this->assertEquals('Stagehand_TestRunner_PHPUnitFailureTest',
-                            $childTestsuite->hasAttribute('name'));
+                            $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
         $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitFailureTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
@@ -229,10 +229,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertTrue($testcase->hasAttribute('name'));
-        $this->assertEquals('isFailure', $testcase->hasAttribute('name'));
+        $this->assertEquals('isFailure', $testcase->getAttribute('name'));
         $this->assertTrue($testcase->hasAttribute('class'));
         $this->assertEquals('Stagehand_TestRunner_PHPUnitFailureTest',
-                            $testcase->hasAttribute('class'));
+                            $testcase->getAttribute('class'));
         $this->assertTrue($testcase->hasAttribute('file'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $this->assertTrue($testcase->hasAttribute('line'));
@@ -255,7 +255,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
         $this->assertTrue($childTestsuite->hasChildNodes());
         $this->assertTrue($childTestsuite->hasAttribute('name'));
         $this->assertEquals('Stagehand_TestRunner_PHPUnitErrorTest',
-                            $childTestsuite->hasAttribute('name'));
+                            $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
         $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitErrorTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
@@ -274,10 +274,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertTrue($testcase->hasAttribute('name'));
-        $this->assertEquals('isError', $testcase->hasAttribute('name'));
+        $this->assertEquals('isError', $testcase->getAttribute('name'));
         $this->assertTrue($testcase->hasAttribute('class'));
         $this->assertEquals('Stagehand_TestRunner_PHPUnitErrorTest',
-                            $testcase->hasAttribute('class'));
+                            $testcase->getAttribute('class'));
         $this->assertTrue($testcase->hasAttribute('file'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $this->assertTrue($testcase->hasAttribute('line'));
