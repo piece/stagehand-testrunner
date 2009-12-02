@@ -334,6 +334,165 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
         $this->assertFalse($parentTestsuite->hasAttribute('time'));
     }
 
+    /**
+     * @test
+     */
+    public function TreatsDataProvider()
+    {
+        $config = new Stagehand_TestRunner_Config();
+        $config->junitLogFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
+        $suite = new PHPUnit_Framework_TestSuite();
+        $suite->addTestSuite('Stagehand_TestRunner_PHPUnitDataProviderTest');
+        ob_start();
+        $runner = new Stagehand_TestRunner_Runner_PHPUnitRunner($config);
+        $runner->run($suite);
+        ob_end_clean();
+        $this->assertFileExists($config->junitLogFile);
+
+        $junitXML = new DOMDocument();
+        $junitXML->load($config->junitLogFile);
+        $this->assertTrue($junitXML->hasChildNodes());
+
+        $this->assertEquals(1, $junitXML->childNodes->length);
+        $this->assertEquals('testsuites', $junitXML->childNodes->item(0)->nodeName);
+        $this->assertEquals(1, $junitXML->childNodes->item(0)->childNodes->length);
+        $this->assertEquals('testsuite', $junitXML->childNodes->item(0)->childNodes->item(0)->nodeName);
+
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $this->assertTrue($parentTestsuite->hasChildNodes());
+        $this->assertTrue($parentTestsuite->hasAttribute('name'));
+        $this->assertTrue($parentTestsuite->hasAttribute('tests'));
+        $this->assertEquals(4, $parentTestsuite->getAttribute('tests'));
+        $this->assertTrue($parentTestsuite->hasAttribute('assertions'));
+        $this->assertEquals(4, $parentTestsuite->getAttribute('assertions'));
+        $this->assertTrue($parentTestsuite->hasAttribute('failures'));
+        $this->assertEquals(1, $parentTestsuite->getAttribute('failures'));
+        $this->assertTrue($parentTestsuite->hasAttribute('errors'));
+        $this->assertEquals(0, $parentTestsuite->getAttribute('errors'));
+        $this->assertEquals(1, $parentTestsuite->childNodes->length);
+        $this->assertEquals('testsuite', $parentTestsuite->childNodes->item(0)->nodeName);
+        $this->assertTrue($parentTestsuite->hasAttribute('time'));
+        $this->assertRegExp('/^\d+\.\d+$/', $parentTestsuite->getAttribute('time'));
+
+        $childTestsuite = $parentTestsuite->childNodes->item(0);
+        $this->assertTrue($childTestsuite->hasChildNodes());
+        $this->assertTrue($childTestsuite->hasAttribute('name'));
+        $this->assertEquals('Stagehand_TestRunner_PHPUnitDataProviderTest',
+                            $childTestsuite->getAttribute('name'));
+        $this->assertTrue($childTestsuite->hasAttribute('file'));
+        $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitDataProviderTest');
+        $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
+        $this->assertTrue($childTestsuite->hasAttribute('tests'));
+        $this->assertEquals(4, $childTestsuite->getAttribute('tests'));
+        $this->assertTrue($childTestsuite->hasAttribute('assertions'));
+        $this->assertEquals(4, $childTestsuite->getAttribute('assertions'));
+        $this->assertTrue($childTestsuite->hasAttribute('failures'));
+        $this->assertEquals(1, $childTestsuite->getAttribute('failures'));
+        $this->assertTrue($childTestsuite->hasAttribute('errors'));
+        $this->assertEquals(0, $childTestsuite->getAttribute('errors'));
+        $this->assertEquals(1, $childTestsuite->childNodes->length);
+        $this->assertEquals('testsuite', $childTestsuite->childNodes->item(0)->nodeName);
+        $this->assertTrue($childTestsuite->hasAttribute('time'));
+        $this->assertRegExp('/^\d+\.\d+$/', $childTestsuite->getAttribute('time'));
+
+        $grandChildTestsuite = $childTestsuite->childNodes->item(0);
+        $this->assertTrue($grandChildTestsuite->hasChildNodes());
+        $this->assertTrue($grandChildTestsuite->hasAttribute('name'));
+        $this->assertEquals('passWithDataProvider',
+                            $grandChildTestsuite->getAttribute('name'));
+        $this->assertTrue($grandChildTestsuite->hasAttribute('file'));
+        $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitDataProviderTest');
+        $this->assertEquals($class->getFileName(), $grandChildTestsuite->getAttribute('file'));
+        $this->assertTrue($grandChildTestsuite->hasAttribute('tests'));
+        $this->assertEquals(4, $grandChildTestsuite->getAttribute('tests'));
+        $this->assertTrue($grandChildTestsuite->hasAttribute('assertions'));
+        $this->assertEquals(4, $grandChildTestsuite->getAttribute('assertions'));
+        $this->assertTrue($grandChildTestsuite->hasAttribute('failures'));
+        $this->assertEquals(1, $grandChildTestsuite->getAttribute('failures'));
+        $this->assertTrue($grandChildTestsuite->hasAttribute('errors'));
+        $this->assertEquals(0, $grandChildTestsuite->getAttribute('errors'));
+        $this->assertEquals(4, $grandChildTestsuite->childNodes->length);
+        $this->assertEquals('testcase', $grandChildTestsuite->childNodes->item(0)->nodeName);
+        $this->assertTrue($grandChildTestsuite->hasAttribute('time'));
+        $this->assertRegExp('/^\d+\.\d+$/', $grandChildTestsuite->getAttribute('time'));
+
+        $testcase = $grandChildTestsuite->childNodes->item(0);
+        $this->assertFalse($testcase->hasChildNodes());
+        $this->assertTrue($testcase->hasAttribute('name'));
+        $this->assertEquals('passWithDataProvider with data set #0', $testcase->getAttribute('name'));
+        $this->assertTrue($testcase->hasAttribute('class'));
+        $this->assertEquals('Stagehand_TestRunner_PHPUnitDataProviderTest',
+                            $testcase->getAttribute('class'));
+        $this->assertTrue($testcase->hasAttribute('file'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $this->assertTrue($testcase->hasAttribute('line'));
+        $method = $class->getMethod('passWithDataProvider');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $this->assertTrue($testcase->hasAttribute('assertions'));
+        $this->assertEquals(1, $testcase->getAttribute('assertions'));
+        $this->assertTrue($testcase->hasAttribute('time'));
+        $this->assertRegExp('/^\d+\.\d+$/', $testcase->getAttribute('time'));
+
+        $testcase = $grandChildTestsuite->childNodes->item(1);
+        $this->assertFalse($testcase->hasChildNodes());
+        $this->assertTrue($testcase->hasAttribute('name'));
+        $this->assertEquals('passWithDataProvider with data set #1', $testcase->getAttribute('name'));
+        $this->assertTrue($testcase->hasAttribute('class'));
+        $this->assertEquals('Stagehand_TestRunner_PHPUnitDataProviderTest',
+                            $testcase->getAttribute('class'));
+        $this->assertTrue($testcase->hasAttribute('file'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $this->assertTrue($testcase->hasAttribute('line'));
+        $method = $class->getMethod('passWithDataProvider');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $this->assertTrue($testcase->hasAttribute('assertions'));
+        $this->assertEquals(1, $testcase->getAttribute('assertions'));
+        $this->assertTrue($testcase->hasAttribute('time'));
+        $this->assertRegExp('/^\d+\.\d+$/', $testcase->getAttribute('time'));
+
+        $testcase = $grandChildTestsuite->childNodes->item(2);
+        $this->assertFalse($testcase->hasChildNodes());
+        $this->assertTrue($testcase->hasAttribute('name'));
+        $this->assertEquals('passWithDataProvider with data set #2', $testcase->getAttribute('name'));
+        $this->assertTrue($testcase->hasAttribute('class'));
+        $this->assertEquals('Stagehand_TestRunner_PHPUnitDataProviderTest',
+                            $testcase->getAttribute('class'));
+        $this->assertTrue($testcase->hasAttribute('file'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $this->assertTrue($testcase->hasAttribute('line'));
+        $method = $class->getMethod('passWithDataProvider');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $this->assertTrue($testcase->hasAttribute('assertions'));
+        $this->assertEquals(1, $testcase->getAttribute('assertions'));
+        $this->assertTrue($testcase->hasAttribute('time'));
+        $this->assertRegExp('/^\d+\.\d+$/', $testcase->getAttribute('time'));
+
+        $testcase = $grandChildTestsuite->childNodes->item(3);
+        $this->assertTrue($testcase->hasChildNodes());
+        $this->assertTrue($testcase->hasAttribute('name'));
+        $this->assertEquals('passWithDataProvider with data set #3', $testcase->getAttribute('name'));
+        $this->assertTrue($testcase->hasAttribute('class'));
+        $this->assertEquals('Stagehand_TestRunner_PHPUnitDataProviderTest',
+                            $testcase->getAttribute('class'));
+        $this->assertTrue($testcase->hasAttribute('file'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $this->assertTrue($testcase->hasAttribute('line'));
+        $method = $class->getMethod('passWithDataProvider');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $this->assertTrue($testcase->hasAttribute('assertions'));
+        $this->assertEquals(1, $testcase->getAttribute('assertions'));
+        $this->assertTrue($testcase->hasAttribute('time'));
+        $this->assertRegExp('/^\d+\.\d+$/', $testcase->getAttribute('time'));
+        $this->assertEquals(1, $testcase->childNodes->length);
+        $failure = $testcase->childNodes->item(0);
+        $this->assertTrue($failure->hasChildNodes());
+        $this->assertTrue($failure->hasAttributes());
+        $this->assertTrue($failure->hasAttribute('type'));
+        $this->assertEquals('PHPUnit_Framework_ExpectationFailedException',
+                            $failure->getAttribute('type'));
+        $this->assertRegexp('/^Stagehand_TestRunner_PHPUnitDataProviderTest::passWithDataProvider with data set #3/', $failure->nodeValue);
+    }
+
     /**#@-*/
 
     /**#@+

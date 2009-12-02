@@ -108,6 +108,13 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements St
      */
     public function startTestSuite($name, $testCount = null)
     {
+        if (preg_match('/^(.+)::(.+)/', $name, $matches)) {
+            $name = $matches[2];
+            $className = $matches[1];
+        } else {
+            $className = $name;
+        }
+
         $testsuite =
             new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement();
         $this->getCurrentTestsuite()->appendChild($testsuite);
@@ -116,9 +123,9 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements St
         $testsuite->setAttribute('failures', 0);
         $testsuite->setAttribute('errors', 0);
 
-        if (strlen($name) && class_exists($name, false)) {
+        if (strlen($className) && class_exists($className, false)) {
             try {
-                $class = new ReflectionClass($name);
+                $class = new ReflectionClass($className);
                 $testsuite->setAttribute('file', $class->getFileName());
             } catch (ReflectionException $e) {
             }
@@ -133,16 +140,21 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements St
     /**
      * @param string $name
      * @param mixed  $test
+     * @param string $methodName
      */
-    public function startTestCase($name, $test)
+    public function startTestCase($name, $test, $methodName = null)
     {
         $testcase = $this->xmlWriter->createElement('testcase');
         $this->getCurrentTestsuite()->appendChild($testcase);
         $testcase->setAttribute('name', $name);
 
+
         $class = new ReflectionClass($test);
-        if ($class->hasMethod($name)) {
-            $method = $class->getMethod($name);
+        if (is_null($methodName)) {
+            $methodName = $name;
+        }
+        if ($class->hasMethod($methodName)) {
+            $method = $class->getMethod($methodName);
 
             $testcase->setAttribute('class', $class->getName());
             $testcase->setAttribute('file', $class->getFileName());

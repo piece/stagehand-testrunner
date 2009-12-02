@@ -190,7 +190,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        $this->xmlWriter->startTestCase($test->getName(), $test);
+        $this->xmlWriter->startTestCase($test->getName(), $test, $test->getName(false));
     }
 
     // }}}
