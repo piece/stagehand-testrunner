@@ -103,22 +103,22 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements St
     // {{{ startTestSuite()
 
     /**
-     * @param string  $className
+     * @param string  $name
      * @param integer $testCount
      */
-    public function startTestSuite($className, $testCount = null)
+    public function startTestSuite($name, $testCount = null)
     {
         $testsuite =
             new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement();
         $this->getCurrentTestsuite()->appendChild($testsuite);
-        $testsuite->setAttribute('name', $className);
+        $testsuite->setAttribute('name', $name);
         $testsuite->setAttribute('tests', 0);
         $testsuite->setAttribute('failures', 0);
         $testsuite->setAttribute('errors', 0);
 
-        if (strlen($className) && class_exists($className, false)) {
+        if (strlen($name) && class_exists($name, false)) {
             try {
-                $class = new ReflectionClass($className);
+                $class = new ReflectionClass($name);
                 $testsuite->setAttribute('file', $class->getFileName());
             } catch (ReflectionException $e) {
             }
