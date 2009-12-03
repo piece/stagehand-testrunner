@@ -337,7 +337,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
     /**
      * @test
      */
-    public function TreatsDataProvider()
+    public function treatsDataProvider()
     {
         $config = new Stagehand_TestRunner_Config();
         $config->junitLogFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
