@@ -47,26 +47,6 @@
 interface Stagehand_TestRunner_Runner_JUnitXMLWriter
 {
 
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
     /**#@+
      * @access public
      */
