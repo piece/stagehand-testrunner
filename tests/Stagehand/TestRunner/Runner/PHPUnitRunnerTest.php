@@ -192,14 +192,14 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
         $testcase = $childTestsuite->childNodes->item(2);
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertTrue($testcase->hasAttribute('name'));
-        $this->assertEquals('日本語を使用できる', $testcase->getAttribute('name'));
+        $this->assertEquals('æ¥æ¬èªãä½¿ç¨ã§ãã', $testcase->getAttribute('name'));
         $this->assertTrue($testcase->hasAttribute('class'));
         $this->assertEquals('Stagehand_TestRunner_PHPUnitPassTest',
                             $testcase->getAttribute('class'));
         $this->assertTrue($testcase->hasAttribute('file'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $this->assertTrue($testcase->hasAttribute('line'));
-        $method = $class->getMethod('日本語を使用できる');
+        $method = $class->getMethod('æ¥æ¬èªãä½¿ç¨ã§ãã');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
@@ -515,7 +515,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil
