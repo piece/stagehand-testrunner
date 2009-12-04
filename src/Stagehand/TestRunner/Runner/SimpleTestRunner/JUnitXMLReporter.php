@@ -48,7 +48,7 @@ require_once 'simpletest/reporter.php';
  * @link       http://simpletest.org/
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends SimpleReporter
+class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends SimpleReporter implements Stagehand_TestRunner_Runner_JUnitXMLWriterAdapter
 {
 
     // {{{ properties
