@@ -81,9 +81,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     // {{{ setXMLWriter()
 
     /**
-     * @param Stagehand_TestRunner_Runner_JUnitXMLWriter $xmlWriter
+     * @param Stagehand_TestRunner_JUnitXMLWriter $xmlWriter
      */
-    public function setXMLWriter(Stagehand_TestRunner_Runner_JUnitXMLWriter $xmlWriter)
+    public function setXMLWriter(Stagehand_TestRunner_JUnitXMLWriter $xmlWriter)
     {
         $this->xmlWriter = $xmlWriter;
     }

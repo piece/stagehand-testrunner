@@ -214,9 +214,9 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
     // {{{ setXMLWriter()
 
     /**
-     * @param Stagehand_TestRunner_Runner_JUnitXMLWriter $xmlWriter
+     * @param Stagehand_TestRunner_JUnitXMLWriter $xmlWriter
      */
-    public function setXMLWriter(Stagehand_TestRunner_Runner_JUnitXMLWriter $xmlWriter)
+    public function setXMLWriter(Stagehand_TestRunner_JUnitXMLWriter $xmlWriter)
     {
         $this->xmlWriter = $xmlWriter;
     }

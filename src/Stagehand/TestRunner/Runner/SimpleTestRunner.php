@@ -107,7 +107,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         if (!is_null($this->config->junitLogFile)) {
             $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter();
             $junitXMLProgressReporter->setXMLWriter(
-                new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter(
+                new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter(
                     array($this, 'writeJUnitXMLToFile')
                 )
             );

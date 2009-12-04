@@ -35,7 +35,7 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter
+// {{{ Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand_TestRunner_Runner_JUnitXMLWriter
+class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand_TestRunner_JUnitXMLWriter
 {
 
     // {{{ properties
@@ -116,7 +116,7 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements St
         }
 
         $testsuite =
-            new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement();
+            new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement();
         $this->getCurrentTestsuite()->appendChild($testsuite);
         $testsuite->setAttribute('name', $name);
         $testsuite->setAttribute('tests', 0);
@@ -221,7 +221,7 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements St
     {
         $testSuite = array_pop($this->elementStack);
         if ($this->getCurrentTestsuite() instanceof
-            Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement) {
+            Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement) {
             $this->getCurrentTestsuite()->addTestCount($testSuite->getAttribute('tests'));
             if ($testSuite->hasAttribute('assertions')) {
                 $this->getCurrentTestsuite()->addAssertionCount(
@@ -285,7 +285,7 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter implements St
     // {{{ getCurrentTestsuite()
 
     /**
-     * @return Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement
+     * @return Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement
      */
     protected function getCurrentTestsuite()
     {

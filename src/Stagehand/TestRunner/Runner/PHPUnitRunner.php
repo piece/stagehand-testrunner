@@ -130,7 +130,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
         if (!is_null($this->config->junitLogFile)) {
             $junitXMLListener = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter($this->config->junitLogFile);
             $junitXMLListener->setXMLWriter(
-                new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLDOMWriter(
+                new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter(
                     array($junitXMLListener, 'write')
                 )
             );

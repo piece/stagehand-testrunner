@@ -35,7 +35,7 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_JUnitXMLWriter
+// {{{ Stagehand_TestRunner_JUnitXMLWriter
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-interface Stagehand_TestRunner_Runner_JUnitXMLWriter
+interface Stagehand_TestRunner_JUnitXMLWriter
 {
 
     /**#@+
