@@ -60,18 +60,6 @@ interface Stagehand_TestRunner_Runner_JUnitXMLWriterAdapter
 
     /**#@-*/
 
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
     // }}}
 }
 
