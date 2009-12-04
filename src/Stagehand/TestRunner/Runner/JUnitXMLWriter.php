@@ -51,17 +51,71 @@ interface Stagehand_TestRunner_Runner_JUnitXMLWriter
      * @access public
      */
 
-    /**#@-*/
+    // {{{ startTestSuites()
 
-    /**#@+
-     * @access protected
+    /**
      */
+    public function startTestSuites();
 
-    /**#@-*/
+    // }}}
+    // {{{ startTestSuite()
 
-    /**#@+
-     * @access private
+    /**
+     * @param string  $name
+     * @param integer $testCount
      */
+    public function startTestSuite($name, $testCount = null);
+
+    // }}}
+    // {{{ startTestCase()
+
+    /**
+     * @param string $name
+     * @param mixed  $test
+     * @param string $methodName
+     */
+    public function startTestCase($name, $test, $methodName = null);
+
+    // }}}
+    // {{{ writeError()
+
+    /**
+     * @param string $text
+     * @param string $type
+     */
+    public function writeError($text, $type = null);
+
+    // }}}
+    // {{{ writeFailure()
+
+    /**
+     * @param string $text
+     * @param string $type
+     */
+    public function writeFailure($text, $type = null);
+
+    // }}}
+    // {{{ endTestCase()
+
+    /**
+     * @param float   $time
+     * @param integer $assertionCount
+     */
+    public function endTestCase($time = null, $assertionCount = null);
+
+    // }}}
+    // {{{ endTestSuite()
+
+    /**
+     */
+    public function endTestSuite();
+
+    // }}}
+    // {{{ endTestSuites()
+
+    /**
+     */
+    public function endTestSuites();
 
     /**#@-*/
 
