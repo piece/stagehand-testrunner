@@ -35,7 +35,7 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunnerTest
+// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_TestCase
+class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Framework_TestCase
 {
 
     // {{{ properties
@@ -112,7 +112,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
 
         $junitXML = new DOMDocument();
         $junitXML->load($config->junitLogFile);
-        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
+        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertTrue($parentTestsuite->hasChildNodes());
@@ -255,7 +255,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
 
         $junitXML = new DOMDocument();
         $junitXML->load($config->junitLogFile);
-        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
+        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertFalse($parentTestsuite->hasChildNodes());
@@ -284,7 +284,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends PHPUnit_Framework_Te
 
         $junitXML = new DOMDocument();
         $junitXML->load($config->junitLogFile);
-        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
+        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertTrue($parentTestsuite->hasChildNodes());
