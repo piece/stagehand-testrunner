@@ -150,6 +150,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             }
             return true;
         case '--log-junit':
+            $this->config->logsResultsInJUnitXML = true;
             $this->config->junitXMLFile = $value;
             return true;
         case '--log-junit-to-stdout':

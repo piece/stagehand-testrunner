@@ -101,6 +101,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
         $config = new Stagehand_TestRunner_Config();
+        $config->logsResultsInJUnitXML = true;
         $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
         $suite = new TestSuite();
         class_exists('Stagehand_TestRunner_SimpleTestPassTest');
@@ -234,6 +235,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormatIfNoTestsAreFound()
     {
         $config = new Stagehand_TestRunner_Config();
+        $config->logsResultsInJUnitXML = true;
         $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
         $suite = new TestSuite();
         $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($config);

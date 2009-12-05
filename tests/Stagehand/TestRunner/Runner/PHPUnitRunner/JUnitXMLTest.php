@@ -99,6 +99,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
         $config = new Stagehand_TestRunner_Config();
+        $config->logsResultsInJUnitXML = true;
         $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
         $suite = new PHPUnit_Framework_TestSuite();
         $suite->addTestSuite('Stagehand_TestRunner_PHPUnitPassTest');
@@ -245,6 +246,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormatIfNoTestsAreFound()
     {
         $config = new Stagehand_TestRunner_Config();
+        $config->logsResultsInJUnitXML = true;
         $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
         $suite = new PHPUnit_Framework_TestSuite();
         ob_start();
@@ -273,6 +275,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
     public function treatsDataProvider()
     {
         $config = new Stagehand_TestRunner_Config();
+        $config->logsResultsInJUnitXML = true;
         $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
         $suite = new PHPUnit_Framework_TestSuite();
         $suite->addTestSuite('Stagehand_TestRunner_PHPUnitDataProviderTest');
