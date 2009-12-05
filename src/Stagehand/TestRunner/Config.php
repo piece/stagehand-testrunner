@@ -65,7 +65,7 @@ class Stagehand_TestRunner_Config
     public $testsOnlySpecifiedClasses = false;
     public $elementsToBeTested = array();
     public $printsDetailedProgressReport = false;
-    public $junitLogFile;
+    public $junitXMLFile;
     public $logsJUnitXMLToStdout = false;
 
     /**#@-*/

@@ -101,7 +101,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
         $config = new Stagehand_TestRunner_Config();
-        $config->junitLogFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
+        $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
         $suite = new TestSuite();
         class_exists('Stagehand_TestRunner_SimpleTestPassTest');
         class_exists('Stagehand_TestRunner_SimpleTestFailureTest');
@@ -113,10 +113,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         ob_start();
         $runner->run($suite);
         ob_end_clean();
-        $this->assertFileExists($config->junitLogFile);
+        $this->assertFileExists($config->junitXMLFile);
 
         $junitXML = new DOMDocument();
-        $junitXML->load($config->junitLogFile);
+        $junitXML->load($config->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -234,16 +234,16 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormatIfNoTestsAreFound()
     {
         $config = new Stagehand_TestRunner_Config();
-        $config->junitLogFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
+        $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
         $suite = new TestSuite();
         $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($config);
         ob_start();
         $runner->run($suite);
         ob_end_clean();
-        $this->assertFileExists($config->junitLogFile);
+        $this->assertFileExists($config->junitXMLFile);
 
         $junitXML = new DOMDocument();
-        $junitXML->load($config->junitLogFile);
+        $junitXML->load($config->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
