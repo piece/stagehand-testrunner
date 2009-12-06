@@ -148,7 +148,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $this->getCurrentTestsuite()->appendChild($testcase);
         $testcase->setAttribute('name', $name);
 
-
         $class = new ReflectionClass($test);
         if (is_null($methodName)) {
             $methodName = $name;
