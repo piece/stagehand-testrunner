@@ -87,16 +87,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
      */
     public function run($suite)
     {
-        if ($this->config->logsJUnitXMLToStdout) {
-            $junitXMLPrinter = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter();
-            $junitXMLPrinter->setXMLWriter(
-                new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLStreamWriter(
-                    array($junitXMLPrinter, 'write')
-                )
-            );
-            PHPUnit_TextUI_TestRunner::run($suite, array('printer' => $junitXMLPrinter));
-            return;
-        }
 
         $testResult = new PHPUnit_Framework_TestResult();
         $printer = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
@@ -129,11 +119,18 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
 
         if ($this->config->logsResultsInJUnitXML) {
             $junitXMLListener = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter($this->config->junitXMLFile);
-            $junitXMLListener->setXMLWriter(
-                new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter(
-                    array($junitXMLListener, 'write')
-                )
-            );
+            if (!$this->config->logsResultsInJUnitXMLInRealtime) {
+                $xmlWriter =
+                    new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter(
+                        array($junitXMLListener, 'write')
+                    );
+            } else {
+                $xmlWriter =
+                    new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter(
+                        array($junitXMLListener, 'write')
+                    );
+            }
+            $junitXMLListener->setXMLWriter($xmlWriter);
             $arguments['listeners'][] = $junitXMLListener;
         }
 

@@ -68,6 +68,8 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
      * @access protected
      */
 
+    protected $junitXMLFileHandle;
+
     /**#@-*/
 
     /**#@+
@@ -81,6 +83,19 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
      */
 
     // }}}
+    // {{{ __destruct()
+
+    /**
+     * @since Method available since Release 2.10.0
+     */
+    public function __destruct()
+    {
+        if (is_resource($this->junitXMLFileHandle)) {
+            fclose($this->junitXMLFileHandle);
+        }
+    }
+
+    // }}}
     // {{{ run()
 
     /**
@@ -90,27 +105,25 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
      */
     public function run($suite)
     {
-        if ($this->config->logsJUnitXMLToStdout) {
-            $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter();
-            $junitXMLProgressReporter->setXMLWriter(
-                new Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLStreamWriter(
-                    create_function('$buffer', 'echo $buffer;')
-                )
-            );
-            $suite->run($junitXMLProgressReporter);
-            return;
-        }
-
         $reporter = new MultipleReporter();
         $reporter->attachReporter(new Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter($this->config));
 
         if ($this->config->logsResultsInJUnitXML) {
+            if (!$this->config->logsResultsInJUnitXMLInRealtime) {
+                $xmlWriter =
+                    new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter(
+                        array($this, 'writeJUnitXMLToFile')
+                    );
+            } else {
+                $xmlWriter =
+                    new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter(
+                        array($this, 'writeJUnitXMLToFile')
+                    );
+            }
+
             $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter();
-            $junitXMLProgressReporter->setXMLWriter(
-                new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter(
-                    array($this, 'writeJUnitXMLToFile')
-                )
-            );
+            $junitXMLProgressReporter->setXMLWriter($xmlWriter);
+            $junitXMLProgressReporter->setTestSuite($suite);
             $reporter->attachReporter($junitXMLProgressReporter);
         }
 
@@ -157,7 +170,20 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
      */
     public function writeJUnitXMLToFile($buffer)
     {
-        $result = file_put_contents($this->config->junitXMLFile, $buffer);
+        if (!is_resource($this->junitXMLFileHandle)) {
+            $result = fopen($this->config->junitXMLFile, 'w');
+            if (!$result) {
+                throw new Stagehand_TestRunner_Exception(
+                   'Failed to open the specified file [ ' .
+                   $this->config->junitXMLFile .
+                   ' ].'
+                );
+            }
+
+            $this->junitXMLFileHandle = $result;
+        }
+
+        $result = fwrite($this->junitXMLFileHandle, $buffer, strlen($buffer));
         if ($result === false) {
             throw new Stagehand_TestRunner_Exception(
                'Failed to write the test results into the specified file [ ' .

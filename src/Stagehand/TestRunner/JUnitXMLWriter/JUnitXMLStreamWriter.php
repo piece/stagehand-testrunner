@@ -35,7 +35,7 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLStreamWriter
+// {{{ Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stagehand_TestRunner_JUnitXMLWriter
+class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stagehand_TestRunner_JUnitXMLWriter
 {
 
     // {{{ properties
@@ -103,20 +103,20 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLStreamWriter implements
     // {{{ startTestSuite()
 
     /**
-     * @param string  $className
+     * @param string  $name
      * @param integer $testCount
      */
-    public function startTestSuite($className, $testCount = null)
+    public function startTestSuite($name, $testCount = null)
     {
         $this->xmlWriter->startElement('testsuite');
-        $this->xmlWriter->writeAttribute('name', $className);
+        $this->xmlWriter->writeAttribute('name', $name);
         if (!is_null($testCount)) {
             $this->xmlWriter->writeAttribute('tests', $testCount);
         }
 
-        if (strlen($className) && class_exists($className, false)) {
+        if (strlen($name) && class_exists($name, false)) {
             try {
-                $class = new ReflectionClass($className);
+                $class = new ReflectionClass($name);
                 $this->xmlWriter->writeAttribute('file', $class->getFileName());
             } catch (ReflectionException $e) {
             }
@@ -129,17 +129,18 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLStreamWriter implements
     // {{{ startTestCase()
 
     /**
-     * @param string $methodName
+     * @param string $name
      * @param mixed  $test
+     * @param string $methodName
      */
-    public function startTestCase($methodName, $test)
+    public function startTestCase($name, $test, $methodName = null)
     {
         $this->xmlWriter->startElement('testcase');
-        $this->xmlWriter->writeAttribute('name', $methodName);
+        $this->xmlWriter->writeAttribute('name', $name);
 
         $class = new ReflectionClass($test);
-        if ($class->hasMethod($methodName)) {
-            $method = $class->getMethod($methodName);
+        if ($class->hasMethod($name)) {
+            $method = $class->getMethod($name);
 
             $this->xmlWriter->writeAttribute('class', $class->getName());
             $this->xmlWriter->writeAttribute('file', $class->getFileName());
@@ -177,8 +178,10 @@ class Stagehand_TestRunner_Runner_JUnitXMLWriter_JUnitXMLStreamWriter implements
     // {{{ endTestCase()
 
     /**
+     * @param float   $time
+     * @param integer $assertionCount
      */
-    public function endTestCase()
+    public function endTestCase($time = null, $assertionCount = null)
     {
         $this->endElementAndFlush();
     }

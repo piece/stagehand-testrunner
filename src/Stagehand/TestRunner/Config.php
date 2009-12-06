@@ -67,7 +67,7 @@ class Stagehand_TestRunner_Config
     public $printsDetailedProgressReport = false;
     public $junitXMLFile;
     public $logsResultsInJUnitXML = false;
-    public $logsJUnitXMLToStdout = false;
+    public $logsResultsInJUnitXMLInRealtime = false;
 
     /**#@-*/
 

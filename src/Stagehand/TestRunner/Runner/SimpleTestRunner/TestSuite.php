@@ -4,8 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
- *               2007-2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,30 +29,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://simpletest.org/
- * @since      File available since Release 2.1.0
+ * @since      File available since Release 2.10.0
  */
 
 require_once 'simpletest/test_case.php';
 
-// {{{ Stagehand_TestRunner_Collector_SimpleTestCollector
+// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite
 
 /**
- * A test collector for SimpleTest.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://simpletest.org/
- * @since      Class available since Release 2.1.0
+ * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestRunner_Collector
+class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
 {
 
     // {{{ properties
@@ -68,11 +63,6 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
      * @access protected
      */
 
-    protected $exclude = '^(UnitTestCase$|PHPUnit)';
-    protected $baseClass = 'UnitTestCase';
-    protected $suffix = 'Test(?:Case)?';
-    protected $include = 'Test(?:Case)?$';
-
     /**#@-*/
 
     /**#@+
@@ -85,38 +75,27 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
      * @access public
      */
 
+    // }}}
+    // {{{ getTestCount()
+
+    /**
+     * @return integer
+     */
+    public function getTestCount()
+    {
+        $testCount = 0;
+        foreach ($this->_test_cases as $testCase) {
+            $testCount += count($testCase->getTests());
+        }
+
+        return $testCount;
+    }
+
     /**#@-*/
 
     /**#@+
      * @access protected
      */
-
-    // }}}
-    // {{{ createTestSuite()
-
-    /**
-     * Creates the test suite object.
-     *
-     * @param string $name
-     * @return TestSuite
-     */
-    protected function createTestSuite($name)
-    {
-        return new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite($name);
-    }
-
-    // }}}
-    // {{{ addTestCase()
-
-    /**
-     * Adds a test case to the test suite object.
-     *
-     * @param string $testCase
-     */
-    protected function addTestCase($testCase)
-    {
-        $this->suite->add(new $testCase());
-    }
 
     /**#@-*/
 
