@@ -495,6 +495,91 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertRegexp('/^Stagehand_TestRunner_PHPUnitErrorTest::isError\s+Stagehand_LegacyError_PHPError_Exception:/', $error->nodeValue);
     }
 
+    /**
+     * @test
+     */
+    public function treatsDataProviderInRealtime()
+    {
+        $config = new Stagehand_TestRunner_Config();
+        $config->logsResultsInJUnitXML = true;
+        $config->logsResultsInJUnitXMLInRealtime = true;
+        $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
+        $suite = new PHPUnit_Framework_TestSuite();
+        $suite->addTestSuite('Stagehand_TestRunner_PHPUnitDataProviderTest');
+        ob_start();
+        $runner = new Stagehand_TestRunner_Runner_PHPUnitRunner($config);
+        $runner->run($suite);
+        ob_end_clean();
+        $this->assertFileExists($config->junitXMLFile);
+
+        $junitXML = new DOMDocument();
+        $junitXML->load($config->junitXMLFile);
+        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLStream.rng'));
+
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $this->assertTrue($parentTestsuite->hasChildNodes());
+        $this->assertEquals(4, $parentTestsuite->getAttribute('tests'));
+        $this->assertEquals(1, $parentTestsuite->childNodes->length);
+
+        $childTestsuite = $parentTestsuite->childNodes->item(0);
+        $this->assertTrue($childTestsuite->hasChildNodes());
+        $this->assertEquals('Stagehand_TestRunner_PHPUnitDataProviderTest',
+                            $childTestsuite->getAttribute('name'));
+        $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitDataProviderTest');
+        $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
+        $this->assertEquals(4, $childTestsuite->getAttribute('tests'));
+        $this->assertEquals(1, $childTestsuite->childNodes->length);
+
+        $grandChildTestsuite = $childTestsuite->childNodes->item(0);
+        $this->assertTrue($grandChildTestsuite->hasChildNodes());
+        $this->assertEquals('passWithDataProvider',
+                            $grandChildTestsuite->getAttribute('name'));
+        $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitDataProviderTest');
+        $this->assertEquals($class->getFileName(), $grandChildTestsuite->getAttribute('file'));
+        $this->assertEquals(4, $grandChildTestsuite->getAttribute('tests'));
+        $this->assertEquals(4, $grandChildTestsuite->childNodes->length);
+
+        $testcase = $grandChildTestsuite->childNodes->item(0);
+        $this->assertFalse($testcase->hasChildNodes());
+        $this->assertEquals('passWithDataProvider with data set #0', $testcase->getAttribute('name'));
+        $this->assertEquals('Stagehand_TestRunner_PHPUnitDataProviderTest',
+                            $testcase->getAttribute('class'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $method = $class->getMethod('passWithDataProvider');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+
+        $testcase = $grandChildTestsuite->childNodes->item(1);
+        $this->assertFalse($testcase->hasChildNodes());
+        $this->assertEquals('passWithDataProvider with data set #1', $testcase->getAttribute('name'));
+        $this->assertEquals('Stagehand_TestRunner_PHPUnitDataProviderTest',
+                            $testcase->getAttribute('class'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $method = $class->getMethod('passWithDataProvider');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+
+        $testcase = $grandChildTestsuite->childNodes->item(2);
+        $this->assertFalse($testcase->hasChildNodes());
+        $this->assertEquals('passWithDataProvider with data set #2', $testcase->getAttribute('name'));
+        $this->assertEquals('Stagehand_TestRunner_PHPUnitDataProviderTest',
+                            $testcase->getAttribute('class'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $method = $class->getMethod('passWithDataProvider');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+
+        $testcase = $grandChildTestsuite->childNodes->item(3);
+        $this->assertTrue($testcase->hasChildNodes());
+        $this->assertEquals('passWithDataProvider with data set #3', $testcase->getAttribute('name'));
+        $this->assertEquals('Stagehand_TestRunner_PHPUnitDataProviderTest',
+                            $testcase->getAttribute('class'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $method = $class->getMethod('passWithDataProvider');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $failure = $testcase->childNodes->item(0);
+        $this->assertEquals('PHPUnit_Framework_ExpectationFailedException',
+                            $failure->getAttribute('type'));
+        $this->assertRegexp('/^Stagehand_TestRunner_PHPUnitDataProviderTest::passWithDataProvider with data set #3/', $failure->nodeValue);
+    }
+
     /**#@-*/
 
     /**#@+

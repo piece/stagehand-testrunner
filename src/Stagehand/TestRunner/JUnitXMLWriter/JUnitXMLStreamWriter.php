@@ -108,15 +108,22 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
      */
     public function startTestSuite($name, $testCount = null)
     {
+        if (preg_match('/^(.+)::(.+)/', $name, $matches)) {
+            $name = $matches[2];
+            $className = $matches[1];
+        } else {
+            $className = $name;
+        }
+
         $this->xmlWriter->startElement('testsuite');
         $this->xmlWriter->writeAttribute('name', $name);
         if (!is_null($testCount)) {
             $this->xmlWriter->writeAttribute('tests', $testCount);
         }
 
-        if (strlen($name) && class_exists($name, false)) {
+        if (strlen($className) && class_exists($className, false)) {
             try {
-                $class = new ReflectionClass($name);
+                $class = new ReflectionClass($className);
                 $this->xmlWriter->writeAttribute('file', $class->getFileName());
             } catch (ReflectionException $e) {
             }
@@ -139,8 +146,11 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         $this->xmlWriter->writeAttribute('name', $name);
 
         $class = new ReflectionClass($test);
-        if ($class->hasMethod($name)) {
-            $method = $class->getMethod($name);
+        if (is_null($methodName)) {
+            $methodName = $name;
+        }
+        if ($class->hasMethod($methodName)) {
+            $method = $class->getMethod($methodName);
 
             $this->xmlWriter->writeAttribute('class', $class->getName());
             $this->xmlWriter->writeAttribute('file', $class->getFileName());
