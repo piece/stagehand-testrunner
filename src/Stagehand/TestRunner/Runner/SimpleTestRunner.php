@@ -115,10 +115,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
                         array($this, 'writeJUnitXMLToFile')
                     );
             } else {
-                $xmlWriter =
-                    new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter(
-                        array($this, 'writeJUnitXMLToFile')
-                    );
+                $xmlWriter = $this->junitXMLStreamWriter(
+                                 array($this, 'writeJUnitXMLToFile')
+                             );
             }
 
             $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter();
@@ -198,6 +197,19 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
     /**#@+
      * @access protected
      */
+
+    // }}}
+    // {{{ junitXMLStreamWriter()
+
+    /**
+     * @param callback $streamWriter
+     * @return Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter
+     * @since Method available since Release 2.10.0
+     */
+    protected function junitXMLStreamWriter($streamWriter)
+    {
+        return new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter($streamWriter);
+    }
 
     /**#@-*/
 

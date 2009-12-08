@@ -266,11 +266,28 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $suite->add(new Stagehand_TestRunner_SimpleTestPassTest());
         $suite->add(new Stagehand_TestRunner_SimpleTestFailureTest());
         $suite->add(new Stagehand_TestRunner_SimpleTestErrorTest());
-        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($config);
+        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest_MockSimpleTestRunner($config);
         ob_start();
         $runner->run($suite);
         ob_end_clean();
         $this->assertFileExists($config->junitXMLFile);
+
+        $streamContents = $this->readAttribute($runner, 'streamContents');
+        $this->assertEquals(22, count($streamContents));
+        $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>
+<testsuites', $streamContents[0]);
+        $this->assertRegExp('!^><testsuite name="Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite" tests="5" file=".+"!', $streamContents[1]);
+        $this->assertRegExp('!^><testsuite name="Stagehand_TestRunner_SimpleTestPassTest" tests="3" file=".+"!', $streamContents[2]);
+        $this->assertRegExp('!^><testcase name="testPassWithAnAssertion" class="Stagehand_TestRunner_SimpleTestPassTest" file=".+" line="80"!', $streamContents[3]);
+        $this->assertEquals('/>', $streamContents[4]);
+        $this->assertRegExp('!^<testcase name="testPassWithMultipleAssertions" class="Stagehand_TestRunner_SimpleTestPassTest" file=".+" line="85"!', $streamContents[5]);
+        $this->assertEquals('/>', $streamContents[6]);
+        $this->assertRegExp('!^<testcase name="test日本語を使用できる" class="Stagehand_TestRunner_SimpleTestPassTest" file=".+" line="91"!', $streamContents[7]);
+        $this->assertEquals('/>', $streamContents[8]);
+        $this->assertEquals('</testsuite>', $streamContents[9]);
+        $this->assertEquals('</testsuite></testsuites>
+', $streamContents[20]);
+        $this->assertEquals('', $streamContents[21]);
 
         $junitXML = new DOMDocument();
         $junitXML->load($config->junitXMLFile);

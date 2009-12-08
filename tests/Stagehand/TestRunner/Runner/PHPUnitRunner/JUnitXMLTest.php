@@ -398,6 +398,22 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         ob_end_clean();
         $this->assertFileExists($this->config->junitXMLFile);
 
+        $streamContents = $this->readAttribute($runner, 'streamContents');
+        $this->assertEquals(22, count($streamContents));
+        $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>
+<testsuites', $streamContents[0]);
+        $this->assertEquals('><testsuite name="" tests="5"', $streamContents[1]);
+        $this->assertEquals('><testsuite name="Stagehand_TestRunner_PHPUnitPassTest" tests="3" file="/home/iteman/GITREPOS/stagehand-testrunner/examples/Stagehand/TestRunner/PHPUnitPassTest.php"', $streamContents[2]);
+        $this->assertEquals('><testcase name="passWithAnAssertion" class="Stagehand_TestRunner_PHPUnitPassTest" file="/home/iteman/GITREPOS/stagehand-testrunner/examples/Stagehand/TestRunner/PHPUnitPassTest.php" line="83"', $streamContents[3]);
+        $this->assertEquals('/>', $streamContents[4]);
+        $this->assertEquals('<testcase name="passWithMultipleAssertions" class="Stagehand_TestRunner_PHPUnitPassTest" file="/home/iteman/GITREPOS/stagehand-testrunner/examples/Stagehand/TestRunner/PHPUnitPassTest.php" line="91"', $streamContents[5]);
+        $this->assertEquals('/>', $streamContents[6]);
+        $this->assertEquals('<testcase name="日本語を使用できる" class="Stagehand_TestRunner_PHPUnitPassTest" file="/home/iteman/GITREPOS/stagehand-testrunner/examples/Stagehand/TestRunner/PHPUnitPassTest.php" line="100"', $streamContents[7]);
+        $this->assertEquals('/>', $streamContents[8]);
+        $this->assertEquals('</testsuite>', $streamContents[9]);
+        $this->assertEquals('</testsuites>
+', $streamContents[21]);
+
         $junitXML = new DOMDocument();
         $junitXML->load($this->config->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLStream.rng'));
@@ -490,12 +506,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals('Stagehand_LegacyError_PHPError_Exception',
                             $error->getAttribute('type'));
         $this->assertRegexp('/^Stagehand_TestRunner_PHPUnitErrorTest::isError\s+Stagehand_LegacyError_PHPError_Exception:/', $error->nodeValue);
-    }
-
-    public function watchStream($buffer)
-    {
-        call_user_func($this->streamWriter, $buffer);
-        $this->streamContents[] = $buffer;
     }
 
     /**

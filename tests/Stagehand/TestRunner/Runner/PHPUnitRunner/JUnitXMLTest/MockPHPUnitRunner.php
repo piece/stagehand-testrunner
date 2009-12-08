@@ -35,31 +35,80 @@
  * @since      File available since Release 2.10.0
  */
 
-error_reporting(E_ALL);
-if (defined('E_DEPRECATED')) {
-    error_reporting(error_reporting() & ~E_DEPRECATED);
+// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest_MockPHPUnitRunner
+
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 2.10.0
+ */
+class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest_MockPHPUnitRunner extends Stagehand_TestRunner_Runner_PHPUnitRunner
+{
+
+    // {{{ properties
+
+    /**#@+
+     * @access public
+     */
+
+    /**#@-*/
+
+    /**#@+
+     * @access protected
+     */
+
+    protected $streamWriter;
+    protected $streamContents = array();
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
+
+    /**#@-*/
+
+    /**#@+
+     * @access public
+     */
+
+    public function watchStream($buffer)
+    {
+        $this->streamContents[] = $buffer;
+        call_user_func($this->streamWriter, $buffer);
+    }
+
+    /**#@-*/
+
+    /**#@+
+     * @access protected
+     */
+
+    protected function junitXMLStreamWriter($streamWriter)
+    {
+        $this->streamWriter = $streamWriter;
+        return parent::junitXMLStreamWriter(array($this, 'watchStream'));
+    }
+
+    /**#@-*/
+
+    /**#@+
+     * @access private
+     */
+
+    /**#@-*/
+
+    // }}}
 }
 
-set_include_path(
-    realpath(dirname(__FILE__)) . PATH_SEPARATOR .
-    realpath(dirname(__FILE__) . '/../examples') . PATH_SEPARATOR .
-    realpath(dirname(__FILE__) . '/../src') . PATH_SEPARATOR .
-    get_include_path()
-);
-
-require_once 'PHPUnit/Framework.php';
-require_once 'Stagehand/Autoload.php';
-
-$loader = Stagehand_Autoload::legacyLoader();
-$loader->addNamespace('Stagehand');
-Stagehand_Autoload::register($loader);
-
-Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
+// }}}
 
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

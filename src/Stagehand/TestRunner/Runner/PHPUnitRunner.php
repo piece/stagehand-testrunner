@@ -125,10 +125,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
                         array($junitXMLListener, 'write')
                     );
             } else {
-                $xmlWriter =
-                    new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter(
-                        array($junitXMLListener, 'write')
-                    );
+                $xmlWriter = $this->junitXMLStreamWriter(array($junitXMLListener, 'write'));
             }
             $junitXMLListener->setXMLWriter($xmlWriter);
             $arguments['listeners'][] = $junitXMLListener;
@@ -170,6 +167,19 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
     protected function prettifier()
     {
         return new Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier();
+    }
+
+    // }}}
+    // {{{ junitXMLStreamWriter()
+
+    /**
+     * @param callback $streamWriter
+     * @return Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter
+     * @since Method available since Release 2.10.0
+     */
+    protected function junitXMLStreamWriter($streamWriter)
+    {
+        return new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter($streamWriter);
     }
 
     /**#@-*/
