@@ -66,13 +66,13 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
      */
     protected $config;
 
+    protected $tmpDirectory;
+
     /**#@-*/
 
     /**#@+
      * @access private
      */
-
-    private $tmpDirectory;
 
     /**#@-*/
 
