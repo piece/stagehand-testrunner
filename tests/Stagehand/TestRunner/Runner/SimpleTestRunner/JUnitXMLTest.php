@@ -63,6 +63,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
 
     protected $backupGlobals = false;
 
+    /**
+     * @var Stagehand_TestRunner_Config
+     */
+    protected $config;
+
     /**#@-*/
 
     /**#@+
@@ -80,6 +85,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
     public function setUp()
     {
         $this->tmpDirectory = dirname(__FILE__) . '/' . basename(__FILE__, '.php');
+        $this->config = new Stagehand_TestRunner_Config();
+        $this->config->logsResultsInJUnitXML = true;
+        $this->config->junitXMLFile =
+            $this->tmpDirectory . '/' . $this->getName(false) . '.xml';
     }
 
     public function tearDown()
@@ -100,21 +109,18 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
      */
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
-        $config = new Stagehand_TestRunner_Config();
-        $config->logsResultsInJUnitXML = true;
-        $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
         $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite();
         $suite->add(new Stagehand_TestRunner_SimpleTestPassTest());
         $suite->add(new Stagehand_TestRunner_SimpleTestFailureTest());
         $suite->add(new Stagehand_TestRunner_SimpleTestErrorTest());
-        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($config);
+        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($this->config);
         ob_start();
         $runner->run($suite);
         ob_end_clean();
-        $this->assertFileExists($config->junitXMLFile);
+        $this->assertFileExists($this->config->junitXMLFile);
 
         $junitXML = new DOMDocument();
-        $junitXML->load($config->junitXMLFile);
+        $junitXML->load($this->config->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -231,18 +237,15 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
      */
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormatIfNoTestsAreFound()
     {
-        $config = new Stagehand_TestRunner_Config();
-        $config->logsResultsInJUnitXML = true;
-        $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
         $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite();
-        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($config);
+        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($this->config);
         ob_start();
         $runner->run($suite);
         ob_end_clean();
-        $this->assertFileExists($config->junitXMLFile);
+        $this->assertFileExists($this->config->junitXMLFile);
 
         $junitXML = new DOMDocument();
-        $junitXML->load($config->junitXMLFile);
+        $junitXML->load($this->config->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -258,19 +261,16 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
      */
     public function logsTestResultsInRealtimeIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
-        $config = new Stagehand_TestRunner_Config();
-        $config->logsResultsInJUnitXML = true;
-        $config->logsResultsInJUnitXMLInRealtime = true;
-        $config->junitXMLFile = $this->tmpDirectory . '/' . __FUNCTION__ . '.xml';
+        $this->config->logsResultsInJUnitXMLInRealtime = true;
         $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite();
         $suite->add(new Stagehand_TestRunner_SimpleTestPassTest());
         $suite->add(new Stagehand_TestRunner_SimpleTestFailureTest());
         $suite->add(new Stagehand_TestRunner_SimpleTestErrorTest());
-        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest_MockSimpleTestRunner($config);
+        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest_MockSimpleTestRunner($this->config);
         ob_start();
         $runner->run($suite);
         ob_end_clean();
-        $this->assertFileExists($config->junitXMLFile);
+        $this->assertFileExists($this->config->junitXMLFile);
 
         $streamContents = $this->readAttribute($runner, 'streamContents');
         $this->assertEquals(22, count($streamContents));
@@ -290,7 +290,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $this->assertEquals('', $streamContents[21]);
 
         $junitXML = new DOMDocument();
-        $junitXML->load($config->junitXMLFile);
+        $junitXML->load($this->config->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLStream.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
