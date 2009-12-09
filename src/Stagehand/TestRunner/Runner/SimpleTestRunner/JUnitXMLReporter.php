@@ -73,6 +73,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
      */
     protected $testSuite;
 
+    /**
+     * @var Stagehand_TestRunner_Config
+     */
+    protected $config;
+
     /**#@-*/
 
     /**#@+
@@ -84,6 +89,17 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     /**#@+
      * @access public
      */
+
+    // }}}
+    // {{{ __construct()
+
+    /**
+     * @param Stagehand_TestRunner_Config $config
+     */
+    public function __construct(Stagehand_TestRunner_Config $config)
+    {
+        $this->config = $config;
+    }
 
     // }}}
     // {{{ setXMLWriter()
@@ -258,6 +274,23 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         $this->paintFailureOrError('Skip: ' . $message, 'error');
     }
 
+    // }}}
+    // {{{ shouldInvoke()
+
+    /**
+     * @param string $testCase
+     * @param string $method
+     * @return boolean
+     */
+    public function shouldInvoke($testCase, $method)
+    {
+        if ($this->config->testsOnlySpecified()) {
+            return $this->shouldInvokeOnlySpecified($testCase, $method);
+        }
+
+        return parent::shouldInvoke($testCase, $method);
+    }
+
     /**#@-*/
 
     /**#@+
@@ -302,6 +335,30 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
             $message . "\n\n" .
             $this->buildFailureTrace(debug_backtrace())
         );
+    }
+
+    // }}}
+    // {{{ shouldInvokeOnlySpecified()
+
+    /**
+     * @param string $testCase
+     * @param string $method
+     * @return boolean
+     */
+    protected function shouldInvokeOnlySpecified($testCase, $method)
+    {
+        $test = new ReflectionClass($testCase);
+        if ($test->isAbstract()) {
+            return false;
+        }
+
+        if ($this->config->testsOnlySpecifiedMethods) {
+            return $this->config->inMethodsToBeTested($testCase, $method);
+        } elseif ($this->config->testsOnlySpecifiedClasses) {
+            return $this->config->inClassesToBeTested($testCase);
+        }
+
+        return false;
     }
 
     /**#@-*/
