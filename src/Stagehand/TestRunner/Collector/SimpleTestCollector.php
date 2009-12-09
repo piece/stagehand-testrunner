@@ -115,6 +115,11 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
      */
     protected function addTestCase($testCase)
     {
+        $test = new ReflectionClass($testCase);
+        if ($test->isAbstract()) {
+            return false;
+        }
+
         $this->suite->add(new $testCase());
     }
 
