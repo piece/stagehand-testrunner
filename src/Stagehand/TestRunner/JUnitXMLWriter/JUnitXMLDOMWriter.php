@@ -218,19 +218,19 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
      */
     public function endTestSuite()
     {
-        $testSuite = array_pop($this->elementStack);
+        $suite = array_pop($this->elementStack);
         if ($this->getCurrentTestsuite() instanceof
             Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement) {
-            $this->getCurrentTestsuite()->addTestCount($testSuite->getAttribute('tests'));
-            if ($testSuite->hasAttribute('assertions')) {
+            $this->getCurrentTestsuite()->addTestCount($suite->getAttribute('tests'));
+            if ($suite->hasAttribute('assertions')) {
                 $this->getCurrentTestsuite()->addAssertionCount(
-                    $testSuite->getAttribute('assertions')
+                    $suite->getAttribute('assertions')
                 );
             }
-            $this->getCurrentTestsuite()->addErrorCount($testSuite->getAttribute('errors'));
-            $this->getCurrentTestsuite()->addFailureCount($testSuite->getAttribute('failures'));
-            if ($testSuite->hasAttribute('time')) {
-                $this->getCurrentTestsuite()->addTime($testSuite->getAttribute('time'));
+            $this->getCurrentTestsuite()->addErrorCount($suite->getAttribute('errors'));
+            $this->getCurrentTestsuite()->addFailureCount($suite->getAttribute('failures'));
+            if ($suite->hasAttribute('time')) {
+                $this->getCurrentTestsuite()->addTime($suite->getAttribute('time'));
             }
         }
     }

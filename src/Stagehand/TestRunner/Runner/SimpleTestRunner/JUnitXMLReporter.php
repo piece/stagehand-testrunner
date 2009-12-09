@@ -71,7 +71,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     /**
      * @var Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite
      */
-    protected $testSuite;
+    protected $suite;
 
     /**
      * @var Stagehand_TestRunner_Config
@@ -116,11 +116,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     // {{{ setTestSuite()
 
     /**
-     * @param Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite $testSuite
+     * @param Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite $suite
      */
-    public function setTestSuite(Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite $testSuite)
+    public function setTestSuite(Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite $suite)
     {
-        $this->testSuite = $testSuite;
+        $this->suite = $suite;
     }
 
     // }}}
@@ -133,7 +133,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function paintGroupStart($testName, $size)
     {
         parent::paintGroupStart($testName, $size);
-        $this->xmlWriter->startTestSuite($testName, $this->testSuite->getTestCount());
+        $this->xmlWriter->startTestSuite($testName, $this->suite->getTestCount());
     }
 
     // }}}
