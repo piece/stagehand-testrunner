@@ -347,11 +347,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
      */
     protected function shouldInvokeOnlySpecified($testCase, $method)
     {
-        $test = new ReflectionClass($testCase);
-        if ($test->isAbstract()) {
-            return false;
-        }
-
         if ($this->config->testsOnlySpecifiedMethods) {
             return $this->config->inMethodsToBeTested($testCase, $method);
         } elseif ($this->config->testsOnlySpecifiedClasses) {
