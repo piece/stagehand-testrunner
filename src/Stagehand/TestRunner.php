@@ -63,7 +63,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
 
     protected $exceptionClass = 'Stagehand_TestRunner_Exception';
     protected $shortOptions = 'hVRcp:aw:gm:v';
-    protected $longOptions = array('growl-password=', 'log-junit=', 'log-junit-to-stdout', 'classes=');
+    protected $longOptions = array('growl-password=', 'log-junit=', 'log-junit-realtime', 'classes=');
     protected $testRunnerName;
     protected $config;
 
@@ -153,7 +153,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             $this->config->logsResultsInJUnitXML = true;
             $this->config->junitXMLFile = $value;
             return true;
-        case '--log-junit-to-stdout':
+        case '--log-junit-realtime':
             $this->config->logsResultsInJUnitXMLInRealtime = true;
             return true;
         case 'v':
@@ -244,9 +244,9 @@ OPTIONS
      Logs test results into the specified file in the JUnit XML format.
      (PHPUnit and PHPT)
 
-  --log-junit-to-stdout
-     Logs test results into stdout by element-by-element in the JUnit XML format.
-     (PHPUnit)
+  --log-junit-realtime
+     Logs test results in real-time into the specified file in the JUnit XML format.
+     (PHPUnit and SimpleTest)
 
   -v
      Prints detailed progress report. (PHPUnit and PHPT)
