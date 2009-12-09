@@ -35,14 +35,14 @@
  * @since      File available since Release 2.2.0
  */
 
-if (!class_exists('PHPUnit_Framework_TestCase', false)) {
+if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitCommon
+// {{{ Stagehand_TestRunner_SimpleTestCommonTest
 
 /**
- * TestCase for the PHPUnit runner.
+ * TestCase for the SimpleTest runner.
  *
  * @package    Stagehand_TestRunner
  * @copyright  2008-2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -50,7 +50,7 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
  * @version    Release: @package_version@
  * @since      Class available since Release 2.2.0
  */
-class Stagehand_TestRunner_PHPUnitCommon extends PHPUnit_Framework_TestCase
+abstract class Stagehand_TestRunner_SimpleTestCommonTest extends UnitTestCase
 {
 
     // {{{ properties

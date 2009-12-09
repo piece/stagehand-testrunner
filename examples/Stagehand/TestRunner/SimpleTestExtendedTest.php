@@ -39,7 +39,7 @@ if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-require_once dirname(__FILE__) . '/SimpleTestCommon.php';
+require_once dirname(__FILE__) . '/SimpleTestCommonTest.php';
 
 // {{{ Stagehand_TestRunner_SimpleTestExtendedTest
 
@@ -52,7 +52,7 @@ require_once dirname(__FILE__) . '/SimpleTestCommon.php';
  * @version    Release: @package_version@
  * @since      Class available since Release 2.2.0
  */
-class Stagehand_TestRunner_SimpleTestExtendedTest extends Stagehand_TestRunner_SimpleTestCommon
+class Stagehand_TestRunner_SimpleTestExtendedTest extends Stagehand_TestRunner_SimpleTestCommonTest
 {
 
     // {{{ properties

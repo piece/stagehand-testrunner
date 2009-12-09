@@ -39,7 +39,7 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
-require_once dirname(__FILE__) . '/PHPUnitCommon.php';
+require_once dirname(__FILE__) . '/PHPUnitCommonTest.php';
 
 // {{{ Stagehand_TestRunner_PHPUnitExtendedTest
 
@@ -52,7 +52,7 @@ require_once dirname(__FILE__) . '/PHPUnitCommon.php';
  * @version    Release: @package_version@
  * @since      Class available since Release 2.2.0
  */
-class Stagehand_TestRunner_PHPUnitExtendedTest extends Stagehand_TestRunner_PHPUnitCommon
+class Stagehand_TestRunner_PHPUnitExtendedTest extends Stagehand_TestRunner_PHPUnitCommonTest
 {
 
     // {{{ properties
