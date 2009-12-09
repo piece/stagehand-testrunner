@@ -87,11 +87,12 @@ class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_
     /**
      * Creates the test suite object.
      *
+     * @param string $name
      * @return PHPUnit_Framework_TestSuite
      */
-    protected function createTestSuite()
+    protected function createTestSuite($name)
     {
-        return new PHPUnit_Framework_TestSuite('PHPT Tests');
+        return new PHPUnit_Framework_TestSuite($name);
     }
 
     // }}}

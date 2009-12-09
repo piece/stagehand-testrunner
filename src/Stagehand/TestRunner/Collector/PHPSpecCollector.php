@@ -89,11 +89,12 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
     // {{{ createTestSuite()
 
     /**
-     * Creates the test suite ArrayObject.
+     * Creates the test suite object.
      *
+     * @param string $name
      * @return ArrayObject
      */
-    protected function createTestSuite()
+    protected function createTestSuite($name)
     {
         return new ArrayObject();
     }
