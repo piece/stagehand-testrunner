@@ -39,8 +39,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
-require_once dirname(__FILE__) . '/PHPUnitCommonTest.php';
-
 // {{{ Stagehand_TestRunner_PHPUnitExtendedTest
 
 /**

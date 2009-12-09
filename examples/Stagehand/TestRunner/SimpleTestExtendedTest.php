@@ -39,8 +39,6 @@ if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-require_once dirname(__FILE__) . '/SimpleTestCommonTest.php';
-
 // {{{ Stagehand_TestRunner_SimpleTestExtendedTest
 
 /**
