@@ -235,21 +235,24 @@ OPTIONS
      Specifies PASSWORD for Growl.
 
   -m METHOD1,METHOD2,...
-     Runs only the specified tests in the specified file. (PHPUnit only)
+     Runs only the specified tests in the specified file.
+     (PHPUnit and SimpleTest)
 
   --classes=CLASS1,CLASS2,...
-     Runs only the specified test classes in the specified file. (PHPUnit only)
+     Runs only the specified test classes in the specified file.
+     (PHPUnit and SimpleTest)
 
   --log-junit=FILE
      Logs test results into the specified file in the JUnit XML format.
-     (PHPUnit and PHPT)
+     (PHPUnit, SimpleTest, and PHPT)
 
   --log-junit-realtime
      Logs test results in real-time into the specified file in the JUnit XML format.
      (PHPUnit and SimpleTest)
 
   -v
-     Prints detailed progress report. (PHPUnit and PHPT)
+     Prints detailed progress report.
+     (PHPUnit and PHPT)
 ";
     }
 
