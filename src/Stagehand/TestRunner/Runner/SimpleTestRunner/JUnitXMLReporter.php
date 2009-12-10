@@ -77,6 +77,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
      * @var Stagehand_TestRunner_Config
      */
     protected $config;
+    protected $methodStartTime;
 
     /**#@-*/
 
@@ -188,6 +189,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
             $testName,
             SimpleTest::getContext()->getTest()
         );
+        $this->methodStartTime = microtime(true);
     }
 
     // }}}
@@ -198,8 +200,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
      */
     public function paintMethodEnd($testName)
     {
+        $elapsedTime = microtime(true) - $this->methodStartTime;
         parent::paintMethodEnd($testName);
-        $this->xmlWriter->endTestCase();
+        $this->xmlWriter->endTestCase($elapsedTime);
     }
 
     // }}}
