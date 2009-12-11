@@ -153,7 +153,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $method = $class->getMethod('testPassWithAnAssertion');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertFalse($testcase->hasAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
 
         $testcase = $childTestsuite->childNodes->item(1);
         $this->assertFalse($testcase->hasChildNodes());
@@ -165,7 +164,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $method = $class->getMethod('testPassWithMultipleAssertions');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertFalse($testcase->hasAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
 
         $testcase = $childTestsuite->childNodes->item(2);
         $this->assertFalse($testcase->hasChildNodes());
@@ -176,7 +174,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $method = $class->getMethod('test日本語を使用できる');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertFalse($testcase->hasAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
 
         $childTestsuite = $parentTestsuite->childNodes->item(1);
         $this->assertTrue($childTestsuite->hasChildNodes());
@@ -200,7 +197,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $method = $class->getMethod('testIsFailure');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertFalse($testcase->hasAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
         $failure = $testcase->childNodes->item(0);
         $this->assertRegexp('/^This is an error message\./', $failure->nodeValue);
 
@@ -226,7 +222,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $method = $class->getMethod('testIsError');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertFalse($testcase->hasAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
         $error = $testcase->childNodes->item(0);
         $this->assertRegexp('/^Exception: This is an exception message\./',
                             $error->nodeValue);
@@ -254,7 +249,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $this->assertFalse($parentTestsuite->hasAttribute('assertions'));
         $this->assertEquals(0, $parentTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $parentTestsuite->getAttribute('errors'));
-        $this->assertFalse($parentTestsuite->hasAttribute('time'));
+        $this->assertEquals(sprintf('%F', 0), $parentTestsuite->getAttribute('time'));
     }
 
     /**

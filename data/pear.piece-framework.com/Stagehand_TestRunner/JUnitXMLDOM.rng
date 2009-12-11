@@ -41,13 +41,11 @@
             </data>
           </attribute>
         </optional>
-        <optional>
-          <attribute name="time">
-            <data type="float">
-              <param name="minInclusive">0.0</param>
-            </data>
-          </attribute>
-        </optional>
+        <attribute name="time">
+          <data type="float">
+            <param name="minInclusive">0.0</param>
+          </data>
+        </attribute>
       </interleave>
       <interleave>
         <zeroOrMore>
@@ -79,11 +77,9 @@
             <data type="integer"/>
           </attribute>
         </optional>
-        <optional>
-          <attribute name="time">
-            <data type="float"/>
-          </attribute>
-        </optional>
+        <attribute name="time">
+          <data type="float"/>
+        </attribute>
       </interleave>
       <optional>
         <choice>

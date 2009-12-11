@@ -129,7 +129,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals(1, $parentTestsuite->getAttribute('failures'));
         $this->assertEquals(1, $parentTestsuite->getAttribute('errors'));
         $this->assertEquals(3, $parentTestsuite->childNodes->length);
-        $this->assertTrue($parentTestsuite->hasAttribute('time'));
 
         $childTestsuite = $parentTestsuite->childNodes->item(0);
         $this->assertTrue($childTestsuite->hasChildNodes());
@@ -144,7 +143,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals(0, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $childTestsuite->getAttribute('errors'));
         $this->assertEquals(3, $childTestsuite->childNodes->length);
-        $this->assertTrue($childTestsuite->hasAttribute('time'));
 
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertFalse($testcase->hasChildNodes());
@@ -156,7 +154,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
 
         $testcase = $childTestsuite->childNodes->item(1);
         $this->assertFalse($testcase->hasChildNodes());
@@ -169,7 +166,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(2, $testcase->getAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
 
         $testcase = $childTestsuite->childNodes->item(2);
         $this->assertFalse($testcase->hasChildNodes());
@@ -181,7 +177,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
 
         $childTestsuite = $parentTestsuite->childNodes->item(1);
         $this->assertTrue($childTestsuite->hasChildNodes());
@@ -196,7 +191,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals(1, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $childTestsuite->getAttribute('errors'));
         $this->assertEquals(1, $childTestsuite->childNodes->length);
-        $this->assertTrue($childTestsuite->hasAttribute('time'));
 
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
@@ -208,7 +202,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
         $failure = $testcase->childNodes->item(0);
         $this->assertEquals('PHPUnit_Framework_ExpectationFailedException',
                             $failure->getAttribute('type'));
@@ -227,7 +220,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals(0, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(1, $childTestsuite->getAttribute('errors'));
         $this->assertEquals(1, $childTestsuite->childNodes->length);
-        $this->assertTrue($childTestsuite->hasAttribute('time'));
 
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
@@ -239,7 +231,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(0, $testcase->getAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
         $error = $testcase->childNodes->item(0);
         $this->assertEquals('Stagehand_LegacyError_PHPError_Exception',
                             $error->getAttribute('type'));
@@ -269,7 +260,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals(0, $parentTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $parentTestsuite->getAttribute('errors'));
         $this->assertEquals(0, $parentTestsuite->childNodes->length);
-        $this->assertFalse($parentTestsuite->hasAttribute('time'));
+        $this->assertEquals(sprintf('%F', 0), $parentTestsuite->getAttribute('time'));
     }
 
     /**
@@ -297,7 +288,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals(1, $parentTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $parentTestsuite->getAttribute('errors'));
         $this->assertEquals(1, $parentTestsuite->childNodes->length);
-        $this->assertTrue($parentTestsuite->hasAttribute('time'));
 
         $childTestsuite = $parentTestsuite->childNodes->item(0);
         $this->assertTrue($childTestsuite->hasChildNodes());
@@ -312,7 +302,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals(1, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $childTestsuite->getAttribute('errors'));
         $this->assertEquals(1, $childTestsuite->childNodes->length);
-        $this->assertTrue($childTestsuite->hasAttribute('time'));
 
         $grandChildTestsuite = $childTestsuite->childNodes->item(0);
         $this->assertTrue($grandChildTestsuite->hasChildNodes());
@@ -327,7 +316,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals(1, $grandChildTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $grandChildTestsuite->getAttribute('errors'));
         $this->assertEquals(4, $grandChildTestsuite->childNodes->length);
-        $this->assertTrue($grandChildTestsuite->hasAttribute('time'));
 
         $testcase = $grandChildTestsuite->childNodes->item(0);
         $this->assertFalse($testcase->hasChildNodes());
@@ -339,7 +327,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
 
         $testcase = $grandChildTestsuite->childNodes->item(1);
         $this->assertFalse($testcase->hasChildNodes());
@@ -351,7 +338,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
 
         $testcase = $grandChildTestsuite->childNodes->item(2);
         $this->assertFalse($testcase->hasChildNodes());
@@ -363,7 +349,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
 
         $testcase = $grandChildTestsuite->childNodes->item(3);
         $this->assertTrue($testcase->hasChildNodes());
@@ -375,7 +360,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
-        $this->assertTrue($testcase->hasAttribute('time'));
         $failure = $testcase->childNodes->item(0);
         $this->assertEquals('PHPUnit_Framework_ExpectationFailedException',
                             $failure->getAttribute('type'));

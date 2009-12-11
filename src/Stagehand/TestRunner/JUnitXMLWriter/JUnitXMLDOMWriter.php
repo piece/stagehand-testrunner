@@ -122,6 +122,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $testsuite->setAttribute('tests', 0);
         $testsuite->setAttribute('failures', 0);
         $testsuite->setAttribute('errors', 0);
+        $testsuite->setAttribute('time', sprintf('%F', 0));
 
         if (strlen($className) && class_exists($className, false)) {
             try {
@@ -227,9 +228,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
             }
             $this->getCurrentTestsuite()->addErrorCount($suite->getAttribute('errors'));
             $this->getCurrentTestsuite()->addFailureCount($suite->getAttribute('failures'));
-            if ($suite->hasAttribute('time')) {
-                $this->getCurrentTestsuite()->addTime($suite->getAttribute('time'));
-            }
+            $this->getCurrentTestsuite()->addTime($suite->getAttribute('time'));
         }
     }
 
