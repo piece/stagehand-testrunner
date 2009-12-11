@@ -203,10 +203,8 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
             $this->getCurrentTestsuite()->addAssertionCount($assertionCount);
         }
 
-        if (!is_null($time)) {
-            $testCase->setAttribute('time', $time);
-            $this->getCurrentTestsuite()->addTime($time);
-        }
+        $testCase->setAttribute('time', $time);
+        $this->getCurrentTestsuite()->addTime($time);
 
         $this->getCurrentTestsuite()->increaseTestCount();
     }
