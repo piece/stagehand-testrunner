@@ -34,13 +34,11 @@
             <data type="string"/>
           </attribute>
         </optional>
-        <optional>
-          <attribute name="assertions">
-            <data type="integer">
-              <param name="minInclusive">0</param>
-            </data>
-          </attribute>
-        </optional>
+        <attribute name="assertions">
+          <data type="integer">
+            <param name="minInclusive">0</param>
+          </data>
+        </attribute>
         <attribute name="time">
           <data type="float">
             <param name="minInclusive">0.0</param>
@@ -72,11 +70,9 @@
         <attribute name="line">
           <data type="integer"/>
         </attribute>
-        <optional>
-          <attribute name="assertions">
-            <data type="integer"/>
-          </attribute>
-        </optional>
+        <attribute name="assertions">
+          <data type="integer"/>
+        </attribute>
         <attribute name="time">
           <data type="float"/>
         </attribute>

@@ -126,7 +126,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertTrue($parentTestsuite->hasChildNodes());
         $this->assertEquals(5, $parentTestsuite->getAttribute('tests'));
-        $this->assertFalse($parentTestsuite->hasAttribute('assertions'));
+        $this->assertEquals(5, $parentTestsuite->getAttribute('assertions'));
         $this->assertEquals(1, $parentTestsuite->getAttribute('failures'));
         $this->assertEquals(1, $parentTestsuite->getAttribute('errors'));
         $this->assertEquals(3, $parentTestsuite->childNodes->length);
@@ -139,7 +139,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $class = new ReflectionClass('Stagehand_TestRunner_SimpleTestPassTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(3, $childTestsuite->getAttribute('tests'));
-        $this->assertFalse($childTestsuite->hasAttribute('assertions'));
+        $this->assertEquals(4, $childTestsuite->getAttribute('assertions'));
         $this->assertEquals(0, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $childTestsuite->getAttribute('errors'));
         $this->assertEquals(3, $childTestsuite->childNodes->length);
@@ -152,7 +152,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testPassWithAnAssertion');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertFalse($testcase->hasAttribute('assertions'));
+        $this->assertEquals(1, $testcase->getAttribute('assertions'));
 
         $testcase = $childTestsuite->childNodes->item(1);
         $this->assertFalse($testcase->hasChildNodes());
@@ -163,7 +163,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testPassWithMultipleAssertions');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertFalse($testcase->hasAttribute('assertions'));
+        $this->assertEquals(2, $testcase->getAttribute('assertions'));
 
         $testcase = $childTestsuite->childNodes->item(2);
         $this->assertFalse($testcase->hasChildNodes());
@@ -173,7 +173,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('test日本語を使用できる');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertFalse($testcase->hasAttribute('assertions'));
+        $this->assertEquals(1, $testcase->getAttribute('assertions'));
 
         $childTestsuite = $parentTestsuite->childNodes->item(1);
         $this->assertTrue($childTestsuite->hasChildNodes());
@@ -183,7 +183,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $class = new ReflectionClass('Stagehand_TestRunner_SimpleTestFailureTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
-        $this->assertFalse($childTestsuite->hasAttribute('assertions'));
+        $this->assertEquals(1, $childTestsuite->getAttribute('assertions'));
         $this->assertEquals(1, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $childTestsuite->getAttribute('errors'));
         $this->assertEquals(1, $childTestsuite->childNodes->length);
@@ -196,7 +196,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testIsFailure');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertFalse($testcase->hasAttribute('assertions'));
+        $this->assertEquals(1, $testcase->getAttribute('assertions'));
         $failure = $testcase->childNodes->item(0);
         $this->assertRegexp('/^This is an error message\./', $failure->nodeValue);
 
@@ -208,7 +208,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $class = new ReflectionClass('Stagehand_TestRunner_SimpleTestErrorTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
-        $this->assertFalse($childTestsuite->hasAttribute('assertions'));
+        $this->assertEquals(0, $childTestsuite->getAttribute('assertions'));
         $this->assertEquals(0, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(1, $childTestsuite->getAttribute('errors'));
         $this->assertEquals(1, $childTestsuite->childNodes->length);
@@ -221,7 +221,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testIsError');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertFalse($testcase->hasAttribute('assertions'));
+        $this->assertEquals(0, $testcase->getAttribute('assertions'));
         $error = $testcase->childNodes->item(0);
         $this->assertRegexp('/^Exception: This is an exception message\./',
                             $error->nodeValue);
@@ -246,7 +246,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertFalse($parentTestsuite->hasChildNodes());
         $this->assertEquals(0, $parentTestsuite->getAttribute('tests'));
-        $this->assertFalse($parentTestsuite->hasAttribute('assertions'));
+        $this->assertEquals(0, $parentTestsuite->getAttribute('assertions'));
         $this->assertEquals(0, $parentTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $parentTestsuite->getAttribute('errors'));
         $this->assertEquals(sprintf('%F', 0), $parentTestsuite->getAttribute('time'));

@@ -120,6 +120,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $this->getCurrentTestsuite()->appendChild($testsuite);
         $testsuite->setAttribute('name', $name);
         $testsuite->setAttribute('tests', 0);
+        $testsuite->setAttribute('assertions', 0);
         $testsuite->setAttribute('failures', 0);
         $testsuite->setAttribute('errors', 0);
         $testsuite->setAttribute('time', sprintf('%F', 0));
@@ -198,15 +199,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
     public function endTestCase($time = null, $assertionCount = null)
     {
         $testCase = array_pop($this->elementStack);
-
-        if (!is_null($assertionCount)) {
-            $testCase->setAttribute('assertions', $assertionCount);
-            $this->getCurrentTestsuite()->addAssertionCount($assertionCount);
-        }
-
+        $testCase->setAttribute('assertions', $assertionCount);
         $testCase->setAttribute('time', $time);
+        $this->getCurrentTestsuite()->addAssertionCount($assertionCount);
         $this->getCurrentTestsuite()->addTime($time);
-
         $this->getCurrentTestsuite()->increaseTestCount();
     }
 

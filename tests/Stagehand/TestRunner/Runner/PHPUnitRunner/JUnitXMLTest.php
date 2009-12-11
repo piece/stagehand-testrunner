@@ -124,7 +124,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertTrue($parentTestsuite->hasChildNodes());
         $this->assertEquals(5, $parentTestsuite->getAttribute('tests'));
-        $this->assertTrue($parentTestsuite->hasAttribute('assertions'));
         $this->assertEquals(5, $parentTestsuite->getAttribute('assertions'));
         $this->assertEquals(1, $parentTestsuite->getAttribute('failures'));
         $this->assertEquals(1, $parentTestsuite->getAttribute('errors'));
@@ -138,7 +137,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitPassTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(3, $childTestsuite->getAttribute('tests'));
-        $this->assertTrue($childTestsuite->hasAttribute('assertions'));
         $this->assertEquals(4, $childTestsuite->getAttribute('assertions'));
         $this->assertEquals(0, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $childTestsuite->getAttribute('errors'));
@@ -152,7 +150,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('passWithAnAssertion');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
 
         $testcase = $childTestsuite->childNodes->item(1);
@@ -164,7 +161,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('passWithMultipleAssertions');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(2, $testcase->getAttribute('assertions'));
 
         $testcase = $childTestsuite->childNodes->item(2);
@@ -175,7 +171,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('日本語を使用できる');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
 
         $childTestsuite = $parentTestsuite->childNodes->item(1);
@@ -186,7 +181,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitFailureTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
-        $this->assertTrue($childTestsuite->hasAttribute('assertions'));
         $this->assertEquals(1, $childTestsuite->getAttribute('assertions'));
         $this->assertEquals(1, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $childTestsuite->getAttribute('errors'));
@@ -200,7 +194,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('isFailure');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
         $failure = $testcase->childNodes->item(0);
         $this->assertEquals('PHPUnit_Framework_ExpectationFailedException',
@@ -215,7 +208,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitErrorTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
-        $this->assertTrue($childTestsuite->hasAttribute('assertions'));
         $this->assertEquals(0, $childTestsuite->getAttribute('assertions'));
         $this->assertEquals(0, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(1, $childTestsuite->getAttribute('errors'));
@@ -229,7 +221,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('isError');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(0, $testcase->getAttribute('assertions'));
         $error = $testcase->childNodes->item(0);
         $this->assertEquals('Stagehand_LegacyError_PHPError_Exception',
@@ -256,7 +247,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertFalse($parentTestsuite->hasChildNodes());
         $this->assertEquals(0, $parentTestsuite->getAttribute('tests'));
-        $this->assertFalse($parentTestsuite->hasAttribute('assertions'));
+        $this->assertEquals(0, $parentTestsuite->getAttribute('assertions'));
         $this->assertEquals(0, $parentTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $parentTestsuite->getAttribute('errors'));
         $this->assertEquals(0, $parentTestsuite->childNodes->length);
@@ -283,7 +274,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertTrue($parentTestsuite->hasChildNodes());
         $this->assertEquals(4, $parentTestsuite->getAttribute('tests'));
-        $this->assertTrue($parentTestsuite->hasAttribute('assertions'));
         $this->assertEquals(4, $parentTestsuite->getAttribute('assertions'));
         $this->assertEquals(1, $parentTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $parentTestsuite->getAttribute('errors'));
@@ -297,7 +287,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitDataProviderTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(4, $childTestsuite->getAttribute('tests'));
-        $this->assertTrue($childTestsuite->hasAttribute('assertions'));
         $this->assertEquals(4, $childTestsuite->getAttribute('assertions'));
         $this->assertEquals(1, $childTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $childTestsuite->getAttribute('errors'));
@@ -311,7 +300,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $class = new ReflectionClass('Stagehand_TestRunner_PHPUnitDataProviderTest');
         $this->assertEquals($class->getFileName(), $grandChildTestsuite->getAttribute('file'));
         $this->assertEquals(4, $grandChildTestsuite->getAttribute('tests'));
-        $this->assertTrue($grandChildTestsuite->hasAttribute('assertions'));
         $this->assertEquals(4, $grandChildTestsuite->getAttribute('assertions'));
         $this->assertEquals(1, $grandChildTestsuite->getAttribute('failures'));
         $this->assertEquals(0, $grandChildTestsuite->getAttribute('errors'));
@@ -325,7 +313,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('passWithDataProvider');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
 
         $testcase = $grandChildTestsuite->childNodes->item(1);
@@ -336,7 +323,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('passWithDataProvider');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
 
         $testcase = $grandChildTestsuite->childNodes->item(2);
@@ -347,7 +333,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('passWithDataProvider');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
 
         $testcase = $grandChildTestsuite->childNodes->item(3);
@@ -358,7 +343,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends PHPUnit_Fra
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('passWithDataProvider');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
-        $this->assertTrue($testcase->hasAttribute('assertions'));
         $this->assertEquals(1, $testcase->getAttribute('assertions'));
         $failure = $testcase->childNodes->item(0);
         $this->assertEquals('PHPUnit_Framework_ExpectationFailedException',
