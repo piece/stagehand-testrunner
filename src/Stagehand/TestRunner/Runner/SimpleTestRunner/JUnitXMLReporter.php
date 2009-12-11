@@ -142,7 +142,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     // {{{ paintGroupEnd()
 
     /**
-     * @param string  $testName
+     * @param string $testName
      */
     public function paintGroupEnd($testName)
     {
