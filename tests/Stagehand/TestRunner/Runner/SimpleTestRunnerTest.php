@@ -86,20 +86,14 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         $runner->run($suite);
         ob_end_clean();
 
-        $junitXML = new DOMDocument();
-        $junitXML->load($this->config->junitXMLFile);
-        $xpath = new DOMXPath($junitXML);
-        $testcases = $xpath->query('//testcase');
-        $this->assertEquals(2, $testcases->length);
-        $testcase = $testcases->item(0);
-        $this->assertEquals('testPass1', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_SimpleTestMultipleClasses1Test',
-                            $testcase->getAttribute('class')
+        $this->assertTestCaseCount(2);
+        $this->assertTestCaseExists(
+            'testPass1',
+            'Stagehand_TestRunner_SimpleTestMultipleClasses1Test'
         );
-        $testcase = $testcases->item(1);
-        $this->assertEquals('testPass1', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_SimpleTestMultipleClasses2Test',
-                            $testcase->getAttribute('class')
+        $this->assertTestCaseExists(
+            'testPass1',
+            'Stagehand_TestRunner_SimpleTestMultipleClasses2Test'
         );
     }
 
@@ -120,15 +114,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         $runner->run($suite);
         ob_end_clean();
 
-        $junitXML = new DOMDocument();
-        $junitXML->load($this->config->junitXMLFile);
-        $xpath = new DOMXPath($junitXML);
-        $testcases = $xpath->query('//testcase');
-        $this->assertEquals(1, $testcases->length);
-        $testcase = $testcases->item(0);
-        $this->assertEquals('testPass1', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_SimpleTestMultipleClasses1Test',
-                            $testcase->getAttribute('class')
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists(
+            'testPass1',
+            'Stagehand_TestRunner_SimpleTestMultipleClasses1Test'
         );
     }
 
@@ -149,20 +138,14 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         $runner->run($suite);
         ob_end_clean();
 
-        $junitXML = new DOMDocument();
-        $junitXML->load($this->config->junitXMLFile);
-        $xpath = new DOMXPath($junitXML);
-        $testcases = $xpath->query('//testcase');
-        $this->assertEquals(2, $testcases->length);
-        $testcase = $testcases->item(0);
-        $this->assertEquals('testPass1', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_SimpleTestMultipleClasses1Test',
-                            $testcase->getAttribute('class')
+        $this->assertTestCaseCount(2);
+        $this->assertTestCaseExists(
+            'testPass1',
+            'Stagehand_TestRunner_SimpleTestMultipleClasses1Test'
         );
-        $testcase = $testcases->item(1);
-        $this->assertEquals('testPass2', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_SimpleTestMultipleClasses1Test',
-                            $testcase->getAttribute('class')
+        $this->assertTestCaseExists(
+            'testPass2',
+            'Stagehand_TestRunner_SimpleTestMultipleClasses1Test'
         );
      }
 

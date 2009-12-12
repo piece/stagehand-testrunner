@@ -110,6 +110,26 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
      * @access protected
      */
 
+    protected function assertTestCaseCount($count)
+    {
+        $testcases = $this->createXPath()->query('//testcase');
+        $this->assertEquals($count, $testcases->length);
+    }
+
+    protected function assertTestCaseExists($method, $class)
+    {
+        $testcases = $this->createXPath()
+                          ->query("//testcase[@name='$method'][@class='$class']");
+        $this->assertEquals(1, $testcases->length);
+    }
+
+    protected function createXPath()
+    {
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+        return new DOMXPath($junitXML);
+    }
+
     /**#@-*/
 
     /**#@+
