@@ -72,11 +72,13 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
  
     /**
+     * @param string $method
      * @test
+     * @dataProvider provideMethods
      */
-    public function runsOnlyTheSpecifiedMethods()
+    public function runsOnlyTheSpecifiedMethods($method)
     {
-        $this->config->addMethodToBeTested('testPass1');
+        $this->config->addMethodToBeTested($method);
         $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite();
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
         $suite->add(new Stagehand_TestRunner_SimpleTestMultipleClasses1Test());
@@ -97,14 +99,19 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         );
     }
 
-    /**
+     public function provideMethods()
+     {
+         return array(array('testPass1'), array('testpass1'));
+     }
+
+     /**
+     * @param string $method
      * @test
+     * @dataProvider provideFullyQualifiedMethodNames
      */
-    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName()
+    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($method)
     {
-        $this->config->addMethodToBeTested(
-            'Stagehand_TestRunner_SimpleTestMultipleClasses1Test::testPass1'
-        );
+        $this->config->addMethodToBeTested($method);
         $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite();
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
         $suite->add(new Stagehand_TestRunner_SimpleTestMultipleClasses1Test());
@@ -121,14 +128,22 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         );
     }
 
-    /**
+     public function provideFullyQualifiedMethodNames()
+     {
+         return array(
+                    array('Stagehand_TestRunner_SimpleTestMultipleClasses1Test::testPass1'),
+                    array('stagehand_testrunner_simpletestmultipleclasses1test::testpass1')
+                );
+     }
+
+     /**
+     * @param $string $class
      * @test
+     * @dataProvider provideClasses
      */
-    public function runsOnlyTheSpecifiedClasses()
+    public function runsOnlyTheSpecifiedClasses($class)
     {
-        $this->config->addClassToBeTested(
-            'Stagehand_TestRunner_SimpleTestMultipleClasses1Test'
-        );
+        $this->config->addClassToBeTested($class);
         $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite();
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
         $suite->add(new Stagehand_TestRunner_SimpleTestMultipleClasses1Test());
@@ -149,7 +164,15 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         );
      }
 
-    /**#@-*/
+     public function provideClasses()
+     {
+         return array(
+                    array('Stagehand_TestRunner_SimpleTestMultipleClasses1Test'),
+                    array('stagehand_testrunner_simpletestmultipleclasses1test')
+                );
+     }
+
+     /**#@-*/
 
     /**#@+
      * @access protected
