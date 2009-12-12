@@ -46,7 +46,7 @@ require_once 'simpletest/test_case.php';
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_Framework_TestCase
+class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehand_TestRunner_Runner_TestCase
 {
 
     // {{{ properties
@@ -61,15 +61,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
      * @access protected
      */
 
-    protected $backupGlobals = false;
-
-    /**
-     * @var Stagehand_TestRunner_Config
-     */
-    protected $config;
-
-    protected $tmpDirectory;
-
     /**#@-*/
 
     /**#@+
@@ -82,28 +73,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends PHPUnit_
      * @access public
      */
  
-    public function setUp()
-    {
-        $this->tmpDirectory = dirname(__FILE__) . '/' . basename(__FILE__, '.php');
-        $this->config = new Stagehand_TestRunner_Config();
-        $this->config->logsResultsInJUnitXML = true;
-        $this->config->junitXMLFile =
-            $this->tmpDirectory . '/' . $this->getName(false) . '.xml';
-    }
-
-    public function tearDown()
-    {
-        $directoryScanner = new Stagehand_DirectoryScanner(array($this, 'removeJUnitXMLFile'));
-        $directoryScanner->addExclude('^.*');
-        $directoryScanner->addInclude('\.xml$');
-        $directoryScanner->scan($this->tmpDirectory);
-    }
-
-    public function removeJUnitXMLFile($element)
-    {
-        unlink($element);
-    }
-
     /**
      * @test
      */
