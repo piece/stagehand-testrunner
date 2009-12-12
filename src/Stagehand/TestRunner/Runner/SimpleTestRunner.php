@@ -106,7 +106,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
     public function run($suite)
     {
         $reporter = new MultipleReporter();
-        $reporter->attachReporter(new Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter($this->config));
+        $reporter->attachReporter($this->decorateReporter(new TextReporter()));
 
         if ($this->config->logsResultsInJUnitXML) {
             if (!$this->config->logsResultsInJUnitXMLInRealtime) {
@@ -120,10 +120,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
                              );
             }
 
-            $junitXMLProgressReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter($this->config);
-            $junitXMLProgressReporter->setXMLWriter($xmlWriter);
-            $junitXMLProgressReporter->setTestSuite($suite);
-            $reporter->attachReporter($junitXMLProgressReporter);
+            $junitXMLReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter($this->config);
+            $junitXMLReporter->setXMLWriter($xmlWriter);
+            $junitXMLReporter->setTestSuite($suite);
+            $reporter->attachReporter($this->decorateReporter($junitXMLReporter));
         }
 
         ob_start();
@@ -209,6 +209,30 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
     protected function junitXMLStreamWriter($streamWriter)
     {
         return new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter($streamWriter);
+    }
+
+    // }}}
+    // {{{ decorateReporter()
+
+    /**
+     * @param mixed $reporter
+     * @return mixed
+     * @since Method available since Release 2.10.0
+     */
+    protected function decorateReporter($reporter)
+    {
+        if ($this->config->testsOnlySpecifiedMethods) {
+            $filterReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_MethodFilterReporter($reporter);
+            $filterReporter->setConfig($this->config);
+            return $filterReporter;
+        }
+        if ($this->config->testsOnlySpecifiedClasses) {
+            $filterReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_ClassFilterReporter($reporter);
+            $filterReporter->setConfig($this->config);
+            return $filterReporter;
+        }
+
+        return $reporter;
     }
 
     /**#@-*/

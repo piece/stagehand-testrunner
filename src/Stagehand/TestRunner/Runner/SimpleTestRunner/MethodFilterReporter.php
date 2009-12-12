@@ -36,9 +36,9 @@
  * @since      File available since Release 2.10.0
  */
 
-require_once 'simpletest/reporter.php';
+require_once 'simpletest/scorer.php';
 
-// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter
+// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner_MethodFilterReporter
 
 /**
  * @package    Stagehand_TestRunner
@@ -48,7 +48,7 @@ require_once 'simpletest/reporter.php';
  * @link       http://simpletest.org/
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter extends TextReporter
+class Stagehand_TestRunner_Runner_SimpleTestRunner_MethodFilterReporter extends SimpleReporterDecorator
 {
 
     // {{{ properties
@@ -63,6 +63,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter extends TextRepo
      * @access protected
      */
 
+    /**
+     * @var Stagehand_TestRunner_Config
+     */
     protected $config;
 
     /**#@-*/
@@ -78,12 +81,12 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter extends TextRepo
      */
 
     // }}}
-    // {{{ __construct()
+    // {{{ setConfig()
 
     /**
      * @param Stagehand_TestRunner_Config $config
      */
-    public function __construct(Stagehand_TestRunner_Config $config)
+    public function setConfig(Stagehand_TestRunner_Config $config)
     {
         $this->config = $config;
     }
@@ -98,11 +101,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter extends TextRepo
      */
     public function shouldInvoke($testCase, $method)
     {
-        if ($this->config->testsOnlySpecified()) {
-            return $this->shouldInvokeOnlySpecified($testCase, $method);
-        }
-
-        return parent::shouldInvoke($testCase, $method);
+        return $this->config->inMethodsToBeTested($testCase, $method);
     }
 
     /**#@-*/
@@ -110,25 +109,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TextReporter extends TextRepo
     /**#@+
      * @access protected
      */
-
-    // }}}
-    // {{{ shouldInvokeOnlySpecified()
-
-    /**
-     * @param string $testCase
-     * @param string $method
-     * @return boolean
-     */
-    protected function shouldInvokeOnlySpecified($testCase, $method)
-    {
-        if ($this->config->testsOnlySpecifiedMethods) {
-            return $this->config->inMethodsToBeTested($testCase, $method);
-        } elseif ($this->config->testsOnlySpecifiedClasses) {
-            return $this->config->inClassesToBeTested($testCase);
-        }
-
-        return false;
-    }
 
     /**#@-*/
 
