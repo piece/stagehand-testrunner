@@ -99,12 +99,12 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         );
     }
 
-     public function provideMethods()
-     {
-         return array(array('testPass1'), array('testpass1'));
-     }
+    public function provideMethods()
+    {
+        return array(array('testPass1'), array('testpass1'));
+    }
 
-     /**
+    /**
      * @param string $method
      * @test
      * @dataProvider provideFullyQualifiedMethodNames
@@ -128,15 +128,15 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         );
     }
 
-     public function provideFullyQualifiedMethodNames()
-     {
-         return array(
-                    array('Stagehand_TestRunner_SimpleTestMultipleClasses1Test::testPass1'),
-                    array('stagehand_testrunner_simpletestmultipleclasses1test::testpass1')
-                );
-     }
+    public function provideFullyQualifiedMethodNames()
+    {
+        return array(
+                   array('Stagehand_TestRunner_SimpleTestMultipleClasses1Test::testPass1'),
+                   array('stagehand_testrunner_simpletestmultipleclasses1test::testpass1')
+               );
+    }
 
-     /**
+    /**
      * @param $string $class
      * @test
      * @dataProvider provideClasses
@@ -162,17 +162,17 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
             'testPass2',
             'Stagehand_TestRunner_SimpleTestMultipleClasses1Test'
         );
-     }
+    }
 
-     public function provideClasses()
-     {
-         return array(
-                    array('Stagehand_TestRunner_SimpleTestMultipleClasses1Test'),
-                    array('stagehand_testrunner_simpletestmultipleclasses1test')
-                );
-     }
+    public function provideClasses()
+    {
+        return array(
+                   array('Stagehand_TestRunner_SimpleTestMultipleClasses1Test'),
+                   array('stagehand_testrunner_simpletestmultipleclasses1test')
+               );
+    }
 
-     /**#@-*/
+    /**#@-*/
 
     /**#@+
      * @access protected
