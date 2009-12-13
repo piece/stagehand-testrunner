@@ -59,6 +59,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      * @access protected
      */
 
+    /**
+     * @var Stagehand_TestRunner_Collector_PHPUnitCollector
+     */
+    protected $collector;
+
     /**#@-*/
 
     /**#@+
@@ -71,6 +76,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      * @access public
      */
  
+    public function setUp()
+    {
+        parent::setUp();
+        $this->collector = new Stagehand_TestRunner_Collector_PHPUnitCollector($this->config);
+    }
+
     /**
      * @param string $method
      * @test
@@ -80,14 +91,9 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     {
         $this->config->addMethodToBeTested($method);
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
-        $collector = new Stagehand_TestRunner_Collector_PHPUnitCollector($this->config);
-        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
-        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
-        $suite = $collector->collect();
-        $runner = new Stagehand_TestRunner_Runner_PHPUnitRunner($this->config);
-        ob_start();
-        $runner->run($suite);
-        ob_end_clean();
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
+        $this->runTests();
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists(
             'pass1',
@@ -113,14 +119,9 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     {
         $this->config->addMethodToBeTested($method);
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
-        $collector = new Stagehand_TestRunner_Collector_PHPUnitCollector($this->config);
-        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
-        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
-        $suite = $collector->collect();
-        $runner = new Stagehand_TestRunner_Runner_PHPUnitRunner($this->config);
-        ob_start();
-        $runner->run($suite);
-        ob_end_clean();
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
+        $this->runTests();
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'pass1',
@@ -145,14 +146,9 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     {
         $this->config->addClassToBeTested($class);
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
-        $collector = new Stagehand_TestRunner_Collector_PHPUnitCollector($this->config);
-        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
-        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
-        $suite = $collector->collect();
-        $runner = new Stagehand_TestRunner_Runner_PHPUnitRunner($this->config);
-        ob_start();
-        $runner->run($suite);
-        ob_end_clean();
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
+        $this->runTests();
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists(
             'pass1',
@@ -177,6 +173,14 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     /**#@+
      * @access protected
      */
+
+    protected function runTests()
+    {
+        $runner = new Stagehand_TestRunner_Runner_PHPUnitRunner($this->config);
+        ob_start();
+        $runner->run($this->collector->collect());
+        ob_end_clean();
+    }
 
     /**#@-*/
 
