@@ -71,7 +71,7 @@ class Stagehand_TestRunner_Runner_RunnerFactory
         }
 
         return new $class($this->config); 
-   }
+    }
 }
 
 /*
