@@ -87,7 +87,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
      */
     public function run($suite)
     {
-
         $testResult = new PHPUnit_Framework_TestResult();
         $printer = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
                        null, false, $this->config->colors
