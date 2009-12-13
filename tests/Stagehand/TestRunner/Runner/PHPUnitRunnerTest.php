@@ -64,6 +64,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      */
     protected $collector;
 
+    /**
+     * @var Stagehand_TestRunner_Runner_PHPUnitRunner
+     */
+    protected $runner;
+
     /**#@-*/
 
     /**#@+
@@ -174,11 +179,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      * @access protected
      */
 
-    protected function runTests()
+    protected function runTests($runnerClass = 'Stagehand_TestRunner_Runner_PHPUnitRunner')
     {
-        $runner = new Stagehand_TestRunner_Runner_PHPUnitRunner($this->config);
+        $this->runner = new $runnerClass($this->config);
         ob_start();
-        $runner->run($this->collector->collect());
+        $this->runner->run($this->collector->collect());
         ob_end_clean();
     }
 
