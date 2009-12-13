@@ -44,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_TestRunner_Runner_TestCase
+class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_TestRunner_Runner_PHPUnitRunner_TestCase
 {
 
     // {{{ properties
@@ -59,16 +59,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
      * @access protected
      */
 
-    /**
-     * @var Stagehand_TestRunner_Collector_PHPUnitCollector
-     */
-    protected $collector;
-
-    /**
-     * @var Stagehand_TestRunner_Runner_PHPUnitRunner
-     */
-    protected $runner;
-
     /**#@-*/
 
     /**#@+
@@ -80,12 +70,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
     /**#@+
      * @access public
      */
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->collector = new Stagehand_TestRunner_Collector_PHPUnitCollector($this->config);
-    }
 
     /**
      * @test
@@ -528,14 +512,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
     /**#@+
      * @access protected
      */
-
-    protected function runTests($runnerClass = 'Stagehand_TestRunner_Runner_PHPUnitRunner')
-    {
-        $this->runner = new $runnerClass($this->config);
-        ob_start();
-        $this->runner->run($this->collector->collect());
-        ob_end_clean();
-    }
 
     /**#@-*/
 
