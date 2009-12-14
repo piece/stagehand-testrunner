@@ -68,6 +68,7 @@ abstract class Stagehand_TestRunner_Runner_PHPUnitRunner_TestCase extends Stageh
      * @var Stagehand_TestRunner_Runner_PHPUnitRunner
      */
     protected $runner;
+    protected $backupGlobals = false;
 
     /**#@-*/
 
