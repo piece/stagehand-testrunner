@@ -66,6 +66,7 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
     protected $runner;
     protected $framework;
     protected $output;
+    protected $backupGlobalsBlacklist = array('_CONSOLE_COLOR_CODES');
 
     protected function setUp()
     {
