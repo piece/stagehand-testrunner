@@ -202,7 +202,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
      * @param float   $time
      * @param integer $assertionCount
      */
-    public function endTestCase($time = null, $assertionCount = null)
+    public function endTestCase($time, $assertionCount = null)
     {
         $testCase = array_pop($this->elementStack);
         if (!is_null($assertionCount)) {

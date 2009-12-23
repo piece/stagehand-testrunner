@@ -101,7 +101,7 @@ interface Stagehand_TestRunner_JUnitXMLWriter
      * @param float   $time
      * @param integer $assertionCount
      */
-    public function endTestCase($time = null, $assertionCount = null);
+    public function endTestCase($time, $assertionCount = null);
 
     // }}}
     // {{{ endTestSuite()

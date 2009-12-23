@@ -197,7 +197,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
      * @param float   $time
      * @param integer $assertionCount
      */
-    public function endTestCase($time = null, $assertionCount = null)
+    public function endTestCase($time, $assertionCount = null)
     {
         $this->endElementAndFlush();
     }
