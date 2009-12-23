@@ -40,19 +40,26 @@ require_once 'PEAR.php';
 
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
-$releaseVersion = '2.9.0';
+$packageName = 'Stagehand_TestRunner';
+$releaseVersion = '2.10.0';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
-$notes = 'What\'s New in Stagehand_TestRunner 2.9.0
+$notes = "What's New in $packageName $releaseVersion
 
- Can specify multiple files and directories as test target.:
+ Logs test results in real-time into the specified file in the JUnit XML format. (PHPUnit, PHPT, and SimpleTest):
 
-  phpunitrunner DIRECTORY_OR_FILE1 DIRECTORY_OR_FILE2 ...
+  phpunitrunner --log-junit=FILE --log-junit-realtime DIRECTORY_OR_FILE
 
-  In previous versions, one file or directory could only be specified as test target.
+  By specifying the --log-junit-realtime option, the test results get to be written in real-time by element-by-element.
 
-  As of this version, multiple files and directories can be specified as test target.';
+ Enhanced SimpleTest support:
+
+  The following features have been supported in SimpleTest:
+
+   * Runs only the specified tests in the specified file.
+   * Runs only the tests in the specified classes.
+   * Logs test results into the specified file in the JUnit XML format.";
 
 $package = new PEAR_PackageFileManager2();
 $package->setOptions(array('filelistgenerator' => 'file',
@@ -62,13 +69,15 @@ $package->setOptions(array('filelistgenerator' => 'file',
                            'packagefile'       => 'package.xml',
                            'packagedirectory'  => '.',
                            'dir_roles'         => array('bin' => 'script',
+                                                        'data' => 'php',
                                                         'doc' => 'doc',
+                                                        'examples' => 'doc',
                                                         'src' => 'php',
                                                         'tests' => 'test'),
                            'ignore'            => array('package.php'))
                      );
 
-$package->setPackage('Stagehand_TestRunner');
+$package->setPackage($packageName);
 $package->setPackageType('php');
 $package->setSummary('A test runner for Test Driven Development');
 $package->setDescription('Stagehand_TestRunner provides a test runner to run unit tests. Stagehand_TestRunner strongly supports Test Driven Development by various features.');
@@ -79,7 +88,7 @@ $package->setAPIStability($apiStability);
 $package->setReleaseVersion($releaseVersion);
 $package->setReleaseStability($releaseStability);
 $package->setNotes($notes);
-$package->setPhpDep('5.1.2');
+$package->setPhpDep('5.2.0');
 $package->setPearinstallerDep('1.4.3');
 $package->addPackageDepWithChannel('required', 'Stagehand_AccessControl', 'pear.piece-framework.com', '0.1.0');
 $package->addPackageDepWithChannel('required', 'Stagehand_AlterationMonitor', 'pear.piece-framework.com', '1.0.0');
@@ -91,7 +100,10 @@ $package->addPackageDepWithChannel('optional', 'Net_Growl', 'pear.php.net', '0.7
 $package->addPackageDepWithChannel('optional', 'PHPSpec', 'pear.phpspec.org', '0.2.3');
 $package->addPackageDepWithChannel('optional', 'PHPUnit', 'pear.phpunit.de', '3.4.1');
 $package->addExtensionDep('required', 'pcre');
-$package->addExtensionDep('required', 'spl');
+$package->addExtensionDep('required', 'SPL');
+$package->addExtensionDep('optional', 'dom');
+$package->addExtensionDep('optional', 'mbstring');
+$package->addExtensionDep('optional', 'xmlwriter');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'kubo@iteman.jp');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
 $package->addInstallAs('bin/phpspecrunner', 'phpspecrunner');
@@ -102,6 +114,7 @@ $package->addInstallAs('bin/phpunitrunner', 'phpunitrunner');
 $package->addInstallAs('bin/phpunitrunner.bat', 'phpunitrunner.bat');
 $package->addInstallAs('bin/simpletestrunner', 'simpletestrunner');
 $package->addInstallAs('bin/simpletestrunner.bat', 'simpletestrunner.bat');
+
 $package->generateContents();
 
 if (array_key_exists(1, $_SERVER['argv']) && $_SERVER['argv'][1] == 'make') {

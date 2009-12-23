@@ -13,10 +13,10 @@
   <email>kubo@iteman.jp</email>
   <active>yes</active>
  </lead>
- <date>2009-11-12</date>
- <time>17:14:20</time>
+ <date>2009-12-24</date>
+ <time>02:03:33</time>
  <version>
-  <release>2.9.0</release>
+  <release>2.10.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -25,15 +25,21 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-What&apos;s New in Stagehand_TestRunner 2.9.0
+What&apos;s New in Stagehand_TestRunner 2.10.0
 
- Can specify multiple files and directories as test target.:
+ Logs test results in real-time into the specified file in the JUnit XML format. (PHPUnit, PHPT, and SimpleTest):
 
-  phpunitrunner DIRECTORY_OR_FILE1 DIRECTORY_OR_FILE2 ...
+  phpunitrunner --log-junit=FILE --log-junit-realtime DIRECTORY_OR_FILE
 
-  In previous versions, one file or directory could only be specified as test target.
+  By specifying the --log-junit-realtime option, the test results get to be written in real-time by element-by-element.
 
-  As of this version, multiple files and directories can be specified as test target.
+ Enhanced SimpleTest support:
+
+  The following features have been supported in SimpleTest:
+
+   * Runs only the specified tests in the specified file.
+   * Runs only the tests in the specified classes.
+   * Logs test results into the specified file in the JUnit XML format.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -63,11 +69,144 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
    </dir> <!-- /bin -->
+   <dir name="data">
+    <dir name="pear.piece-framework.com">
+     <dir name="Stagehand_TestRunner">
+      <file baseinstalldir="/" name="JUnitXMLDOM.rng" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="JUnitXMLStream.rng" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /data/pear.piece-framework.com/Stagehand_TestRunner -->
+    </dir> <!-- /data/pear.piece-framework.com -->
+   </dir> <!-- /data -->
    <dir name="doc">
     <file baseinstalldir="/" name="LICENSE" role="doc">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
     </file>
    </dir> <!-- /doc -->
+   <dir name="examples">
+    <dir name="Stagehand">
+     <dir name="TestRunner">
+      <dir name="PHPSpec">
+       <file baseinstalldir="/" name="DescriptionOfBehaviourAndExpectationSpec.php" role="doc">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /examples/Stagehand/TestRunner/PHPSpec -->
+      <dir name="PHPSpecSpec">
+       <file baseinstalldir="/" name="PHPSpecPassSpec.php" role="doc">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /examples/Stagehand/TestRunner/PHPSpecSpec -->
+      <dir name="PHPUnitTest1">
+       <file baseinstalldir="/" name="PHPUnitPassTest.php" role="doc">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /examples/Stagehand/TestRunner/PHPUnitTest1 -->
+      <dir name="PHPUnitTest2">
+       <file baseinstalldir="/" name="PHPUnitPassTest.php" role="doc">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /examples/Stagehand/TestRunner/PHPUnitTest2 -->
+      <dir name="SimpleTestTest">
+       <file baseinstalldir="/" name="SimpleTestPassTest.php" role="doc">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /examples/Stagehand/TestRunner/SimpleTestTest -->
+      <file baseinstalldir="/" name="PHPSpecCommon.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPSpecErrorSpec.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPSpecExceptionSpec.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPSpecExtendedSpec.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPSpecFailureSpec.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPSpecNoSpecsSpec.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPSpecPassSpec.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPSpecPendingSpec.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPTFailure.phpt" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPTPass.phpt" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitCommonTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitDataProviderTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitDependsTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitErrorTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitExtendedTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitFailureTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitIncompleteTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitMultipleClassesTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitNoTestsTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitPassTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitSkippedTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="PHPUnitUTF8ConversionTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestCommonTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestErrorTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestExtendedTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestFailureTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestMultipleClassesTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestNoTestsTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="SimpleTestPassTest.php" role="doc">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+     </dir> <!-- /examples/Stagehand/TestRunner -->
+    </dir> <!-- /examples/Stagehand -->
+    <file baseinstalldir="/" name="prepare.php" role="doc">
+     <tasks:replace from="@package_version@" to="version" type="package-info" />
+    </file>
+   </dir> <!-- /examples -->
    <dir name="src">
     <dir name="Stagehand">
      <dir name="TestRunner">
@@ -90,6 +229,30 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
       </dir> <!-- /src/Stagehand/TestRunner/Collector -->
+      <dir name="JUnitXMLWriter">
+       <dir name="JUnitXMLDOMWriter">
+        <file baseinstalldir="/" name="TestsuiteDOMElement.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /src/Stagehand/TestRunner/JUnitXMLWriter/JUnitXMLDOMWriter -->
+       <dir name="UTF8Converter">
+        <file baseinstalldir="/" name="NullUTF8Converter.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file baseinstalldir="/" name="UTF8ConverterFactory.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /src/Stagehand/TestRunner/JUnitXMLWriter/UTF8Converter -->
+       <file baseinstalldir="/" name="JUnitXMLDOMWriter.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file baseinstalldir="/" name="JUnitXMLStreamWriter.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file baseinstalldir="/" name="UTF8Converter.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /src/Stagehand/TestRunner/JUnitXMLWriter -->
       <dir name="Runner">
        <dir name="PHPSpecRunner">
         <file baseinstalldir="/" name="TextReporter.php" role="php">
@@ -99,6 +262,9 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
        <dir name="PHPUnitRunner">
         <dir name="Printer">
          <file baseinstalldir="/" name="DetailedProgressPrinter.php" role="php">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
+         <file baseinstalldir="/" name="JUnitXMLPrinter.php" role="php">
           <tasks:replace from="@package_version@" to="version" type="package-info" />
          </file>
          <file baseinstalldir="/" name="ProgressPrinter.php" role="php">
@@ -122,7 +288,27 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
         <file baseinstalldir="/" name="TestDox.php" role="php">
          <tasks:replace from="@package_version@" to="version" type="package-info" />
         </file>
+        <file baseinstalldir="/" name="TestRunner.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
        </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPUnitRunner -->
+       <dir name="SimpleTestRunner">
+        <file baseinstalldir="/" name="ClassFilterReporter.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file baseinstalldir="/" name="JUnitXMLReporter.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file baseinstalldir="/" name="MethodFilterReporter.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file baseinstalldir="/" name="TestSuite.php" role="php">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /src/Stagehand/TestRunner/Runner/SimpleTestRunner -->
+       <file baseinstalldir="/" name="JUnitXMLWriterAdapter.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
        <file baseinstalldir="/" name="PHPSpecRunner.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
@@ -148,6 +334,9 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
       <file baseinstalldir="/" name="Exception.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
+      <file baseinstalldir="/" name="JUnitXMLWriter.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
       <file baseinstalldir="/" name="Runner.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
@@ -160,109 +349,40 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
    <dir name="tests">
     <dir name="Stagehand">
      <dir name="TestRunner">
-      <dir name="PHPSpec">
-       <file baseinstalldir="/" name="DescriptionOfBehaviourAndExpectationSpec.php" role="test">
+      <dir name="Runner">
+       <dir name="PHPUnitRunner">
+        <dir name="JUnitXMLTest">
+         <file baseinstalldir="/" name="MockPHPUnitRunner.php" role="test">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
+        </dir> <!-- /tests/Stagehand/TestRunner/Runner/PHPUnitRunner/JUnitXMLTest -->
+        <file baseinstalldir="/" name="JUnitXMLTest.php" role="test">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+        <file baseinstalldir="/" name="TestCase.php" role="test">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /tests/Stagehand/TestRunner/Runner/PHPUnitRunner -->
+       <dir name="SimpleTestRunner">
+        <dir name="JUnitXMLTest">
+         <file baseinstalldir="/" name="MockSimpleTestRunner.php" role="test">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
+        </dir> <!-- /tests/Stagehand/TestRunner/Runner/SimpleTestRunner/JUnitXMLTest -->
+        <file baseinstalldir="/" name="JUnitXMLTest.php" role="test">
+         <tasks:replace from="@package_version@" to="version" type="package-info" />
+        </file>
+       </dir> <!-- /tests/Stagehand/TestRunner/Runner/SimpleTestRunner -->
+       <file baseinstalldir="/" name="PHPUnitRunnerTest.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPSpec -->
-      <dir name="PHPSpecSpec">
-       <file baseinstalldir="/" name="PHPSpecPassSpec.php" role="test">
+       <file baseinstalldir="/" name="SimpleTestRunnerTest.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPSpecSpec -->
-      <dir name="PHPUnitTest1">
-       <file baseinstalldir="/" name="PHPUnitPassTest.php" role="test">
+       <file baseinstalldir="/" name="TestCase.php" role="test">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnitTest1 -->
-      <dir name="PHPUnitTest2">
-       <file baseinstalldir="/" name="PHPUnitPassTest.php" role="test">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/PHPUnitTest2 -->
-      <dir name="SimpleTestTest">
-       <file baseinstalldir="/" name="SimpleTestPassTest.php" role="test">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/SimpleTestTest -->
-      <file baseinstalldir="/" name="PHPSpecCommon.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecErrorSpec.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecExceptionSpec.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecExtendedSpec.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecFailureSpec.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecNoSpecsSpec.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecPassSpec.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecPendingSpec.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPTFailure.phpt" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPTPass.phpt" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitCommon.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitDependsTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitErrorTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitExtendedTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitFailureTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitIncompleteTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitMultipleClassesTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitNoTestsTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitPassTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitSkippedTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestCommon.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestExceptionTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestExtendedTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestFailureTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestNoTestsTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestPassTest.php" role="test">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
+      </dir> <!-- /tests/Stagehand/TestRunner/Runner -->
      </dir> <!-- /tests/Stagehand/TestRunner -->
     </dir> <!-- /tests/Stagehand -->
     <file baseinstalldir="/" name="prepare.php" role="test">
@@ -274,7 +394,7 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
  <dependencies>
   <required>
    <php>
-    <min>5.0.3</min>
+    <min>5.2.0</min>
    </php>
    <pearinstaller>
     <min>1.4.3</min>
@@ -308,7 +428,7 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
     <name>pcre</name>
    </extension>
    <extension>
-    <name>spl</name>
+    <name>SPL</name>
    </extension>
   </required>
   <optional>
@@ -332,6 +452,15 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
     <channel>pear.phpunit.de</channel>
     <min>3.4.1</min>
    </package>
+   <extension>
+    <name>dom</name>
+   </extension>
+   <extension>
+    <name>mbstring</name>
+   </extension>
+   <extension>
+    <name>xmlwriter</name>
+   </extension>
   </optional>
  </dependencies>
  <phprelease>
@@ -349,6 +478,35 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
  <changelog>
   <release>
    <version>
+    <release>2.10.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-12-24</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+What&apos;s New in Stagehand_TestRunner 2.10.0
+
+ Logs test results in real-time into the specified file in the JUnit XML format. (PHPUnit, PHPT, and SimpleTest):
+
+  phpunitrunner --log-junit=FILE --log-junit-realtime DIRECTORY_OR_FILE
+
+  By specifying the --log-junit-realtime option, the test results get to be written in real-time by element-by-element.
+
+ Enhanced SimpleTest support:
+
+  The following features have been supported in SimpleTest:
+
+   * Runs only the specified tests in the specified file.
+   * Runs only the tests in the specified classes.
+   * Logs test results into the specified file in the JUnit XML format.
+   </notes>
+  </release>
+  <release>
+   <version>
     <release>2.9.0</release>
     <api>1.1.0</api>
    </version>
@@ -356,7 +514,7 @@ What&apos;s New in Stagehand_TestRunner 2.9.0
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-11-12</date>
+   <date>2009-12-23</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
 What&apos;s New in Stagehand_TestRunner 2.9.0
