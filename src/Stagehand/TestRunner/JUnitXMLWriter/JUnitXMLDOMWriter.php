@@ -205,7 +205,9 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
     public function endTestCase($time = null, $assertionCount = null)
     {
         $testCase = array_pop($this->elementStack);
-        $testCase->setAttribute('assertions', $assertionCount);
+        if (!is_null($assertionCount)) {
+            $testCase->setAttribute('assertions', $assertionCount);
+        }
         $testCase->setAttribute('time', $time);
         $this->getCurrentTestsuite()->addAssertionCount($assertionCount);
         $this->getCurrentTestsuite()->addTime($time);
