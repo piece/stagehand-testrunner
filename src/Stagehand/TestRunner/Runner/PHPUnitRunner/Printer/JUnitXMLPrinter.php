@@ -241,10 +241,8 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
         $failureOrError)
     {
         $this->xmlWriter->{ 'write' . $failureOrError }(
-            PHPUnit_Util_XML::convertToUtf8(
-                $message .
-                PHPUnit_Util_Filter::getFilteredStacktrace($e, false)
-            ),
+            $message .
+            PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
             get_class($e)
         );
     }

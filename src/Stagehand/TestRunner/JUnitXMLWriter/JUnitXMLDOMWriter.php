@@ -63,6 +63,11 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
     protected $streamWriter;
     protected $elementStack = array();
 
+    /**
+     * @var Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter
+     */
+    protected $utf8Converter;
+
     /**#@-*/
 
     /**#@+
@@ -85,6 +90,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
     { 
         $this->streamWriter = $streamWriter;
         $this->xmlWriter = new DOMDocument('1.0', 'UTF-8');
+        $this->utf8Converter = Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_UTF8ConverterFactory::create();
     }
 
     // }}}
@@ -118,7 +124,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $testsuite =
             new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement();
         $this->getCurrentTestsuite()->appendChild($testsuite);
-        $testsuite->setAttribute('name', $name);
+        $testsuite->setAttribute('name', $this->utf8Converter->convert($name));
         $testsuite->setAttribute('tests', 0);
         $testsuite->setAttribute('assertions', 0);
         $testsuite->setAttribute('failures', 0);
@@ -128,7 +134,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         if (strlen($className) && class_exists($className, false)) {
             try {
                 $class = new ReflectionClass($className);
-                $testsuite->setAttribute('file', $class->getFileName());
+                $testsuite->setAttribute('file', $this->utf8Converter->convert($class->getFileName()));
             } catch (ReflectionException $e) {
             }
         }
@@ -148,7 +154,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
     {
         $testcase = $this->xmlWriter->createElement('testcase');
         $this->getCurrentTestsuite()->appendChild($testcase);
-        $testcase->setAttribute('name', $name);
+        $testcase->setAttribute('name', $this->utf8Converter->convert($name));
 
         $class = new ReflectionClass($test);
         if (is_null($methodName)) {
@@ -157,8 +163,8 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         if ($class->hasMethod($methodName)) {
             $method = $class->getMethod($methodName);
 
-            $testcase->setAttribute('class', $class->getName());
-            $testcase->setAttribute('file', $class->getFileName());
+            $testcase->setAttribute('class', $this->utf8Converter->convert($class->getName()));
+            $testcase->setAttribute('file', $this->utf8Converter->convert($class->getFileName()));
             $testcase->setAttribute('line', $method->getStartLine());
         }
 
@@ -254,10 +260,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
      */
     protected function writeFailureOrError($text, $type, $failureOrError)
     {
-        $error = $this->xmlWriter->createElement($failureOrError, $text);
+        $error = $this->xmlWriter->createElement($failureOrError, $this->utf8Converter->convert($text));
         $this->getCurrentElement()->appendChild($error);
         if (!is_null($type)) {
-            $error->setAttribute('type', $type);
+            $error->setAttribute('type', $this->utf8Converter->convert($type));
         }
 
         $this->getCurrentTestsuite()->{ 'increase' . $failureOrError . 'Count' }();

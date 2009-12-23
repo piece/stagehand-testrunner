@@ -62,6 +62,11 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
     protected $xmlWriter;
     protected $streamWriter;
 
+    /**
+     * @var Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter
+     */
+    protected $utf8Converter;
+
     /**#@-*/
 
     /**#@+
@@ -86,6 +91,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         $this->xmlWriter = new XMLWriter();
         $this->xmlWriter->openMemory();
         $this->xmlWriter->startDocument('1.0', 'UTF-8');
+        $this->utf8Converter = Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_UTF8ConverterFactory::create();
     }
 
     // }}}
@@ -116,7 +122,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         }
 
         $this->xmlWriter->startElement('testsuite');
-        $this->xmlWriter->writeAttribute('name', $name);
+        $this->xmlWriter->writeAttribute('name', $this->utf8Converter->convert($name));
         if (!is_null($testCount)) {
             $this->xmlWriter->writeAttribute('tests', $testCount);
         }
@@ -124,7 +130,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         if (strlen($className) && class_exists($className, false)) {
             try {
                 $class = new ReflectionClass($className);
-                $this->xmlWriter->writeAttribute('file', $class->getFileName());
+                $this->xmlWriter->writeAttribute('file', $this->utf8Converter->convert($class->getFileName()));
             } catch (ReflectionException $e) {
             }
         }
@@ -143,7 +149,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
     public function startTestCase($name, $test, $methodName = null)
     {
         $this->xmlWriter->startElement('testcase');
-        $this->xmlWriter->writeAttribute('name', $name);
+        $this->xmlWriter->writeAttribute('name', $this->utf8Converter->convert($name));
 
         $class = new ReflectionClass($test);
         if (is_null($methodName)) {
@@ -152,8 +158,8 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         if ($class->hasMethod($methodName)) {
             $method = $class->getMethod($methodName);
 
-            $this->xmlWriter->writeAttribute('class', $class->getName());
-            $this->xmlWriter->writeAttribute('file', $class->getFileName());
+            $this->xmlWriter->writeAttribute('class', $this->utf8Converter->convert($class->getName()));
+            $this->xmlWriter->writeAttribute('file', $this->utf8Converter->convert($class->getFileName()));
             $this->xmlWriter->writeAttribute('line', $method->getStartLine());
         }
 
@@ -236,9 +242,9 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
     {
         $this->xmlWriter->startElement($failureOrError);
         if (!is_null($type)) {
-            $this->xmlWriter->writeAttribute('type', $type);
+            $this->xmlWriter->writeAttribute('type', $this->utf8Converter->convert($type));
         }
-        $this->xmlWriter->text($text);
+        $this->xmlWriter->text($this->utf8Converter->convert($text));
         $this->xmlWriter->endElement();
 
         $this->flush();
