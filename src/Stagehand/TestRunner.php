@@ -379,28 +379,53 @@ All rights reserved.
      */
     protected function runTests()
     {
+        $runner = $this->createRunner();
+        $runner->run($this->createCollector()->collect());
+        if ($this->config->usesGrowl) {
+            $this->notifyGrowlOfResults($runner->getNotification());
+        }
+    }
+
+    /**
+     * @return Stagehand_TestRunner_Collector
+     * @since Method available since Release 2.11.0
+     */
+    protected function createCollector()
+    {
         $collectorClass =
             'Stagehand_TestRunner_Collector_' . $this->testRunnerName . 'Collector';
-        $collector = new $collectorClass($this->config);
-        $suite = $collector->collect();
+        return new $collectorClass($this->config);
+    }
 
+    /**
+     * @return Stagehand_TestRunner_Runner
+     * @since Method available since Release 2.11.0
+     */
+    protected function createRunner()
+    {
         $runnerClass =
             'Stagehand_TestRunner_Runner_' . $this->testRunnerName . 'Runner';
-        $runner = new $runnerClass($this->config);
-        $runner->run($suite);
+        return new $runnerClass($this->config);
+    }
 
-        if ($this->config->usesGrowl) {
-            $notification = $runner->getNotification();
-            $application = new Net_Growl_Application('Stagehand_TestRunner',
-                                                     array('Green', 'Red'),
-                                                     $this->config->growlPassword
-                                                     );
-            $growl = new Net_Growl($application);
-            $growl->notify($notification->name,
-                           'Test Results by Stagehand_TestRunner',
-                           $notification->description
-                           );
-        }
+    /**
+     * @param stdClass $notification
+     * @since Method available since Release 2.11.0
+     */
+    protected function notifyGrowlOfResults(stdClass $notification)
+    {
+        $growl = new Net_Growl(
+                     new Net_Growl_Application(
+                         'Stagehand_TestRunner',
+                         array('Green', 'Red'),
+                         $this->config->growlPassword
+                     )
+                 );
+        $growl->notify(
+            $notification->name,
+            'Test Results by Stagehand_TestRunner',
+            $notification->description
+        );
     }
 
     /**#@-*/
