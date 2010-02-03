@@ -35,8 +35,6 @@
  * @since      File available since Release 0.5.0
  */
 
-// {{{ Stagehand_TestRunner
-
 /**
  * A testrunner script to run tests automatically.
  *
@@ -48,39 +46,11 @@
  */
 class Stagehand_TestRunner extends Stagehand_CLIController
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $exceptionClass = 'Stagehand_TestRunner_Exception';
     protected $shortOptions = 'hVRcp:aw:gm:v';
     protected $longOptions = array('growl-password=', 'log-junit=', 'log-junit-realtime', 'classes=');
     protected $testRunnerName;
     protected $config;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ __construct()
 
     /**
      * @param string $testRunnerName
@@ -90,15 +60,6 @@ class Stagehand_TestRunner extends Stagehand_CLIController
         $this->testRunnerName = $testRunnerName;
         $this->config = new Stagehand_TestRunner_Config();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ configureByOption()
 
     /**
      * @param string $option
@@ -162,9 +123,6 @@ class Stagehand_TestRunner extends Stagehand_CLIController
         }
     }
 
-    // }}}
-    // {{{ configureByArg()
-
     /**
      * @param string $arg
      * @return boolean
@@ -174,9 +132,6 @@ class Stagehand_TestRunner extends Stagehand_CLIController
         $this->config->targetPaths[] = $arg;
         return true;
     }
-
-    // }}}
-    // {{{ doRun()
 
     /**
      */
@@ -188,9 +143,6 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             $this->monitorAlteration();
         }
     }
-
-    // }}}
-    // {{{ printUsage()
 
     /**
      * Prints the usage.
@@ -256,9 +208,6 @@ OPTIONS
 ";
     }
 
-    // }}}
-    // {{{ printVersion()
-
     /**
      * Prints the version.
      */
@@ -271,9 +220,6 @@ Copyright (c) 2005-2009 KUBO Atsuhiro <kubo@iteman.jp>,
 All rights reserved.
 ";
     }
-
-    // }}}
-    // {{{ monitorAlteration()
 
     /**
      * Monitors for changes in one or more target directories and runs tests in
@@ -369,9 +315,6 @@ All rights reserved.
         $monitor->monitor();
     }
 
-    // }}}
-    // {{{ runTests()
-
     /**
      * Runs tests.
      *
@@ -427,19 +370,7 @@ All rights reserved.
             $notification->description
         );
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:
