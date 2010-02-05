@@ -59,48 +59,15 @@ require_once 'PHPUnit/Util/XML.php';
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends PHPUnit_Util_Printer implements PHPUnit_Framework_TestListener, Stagehand_TestRunner_Runner_JUnitXMLWriterAdapter
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $autoFlush = true;
     protected $xmlWriter;
     protected $testSuitesWrote = false;
 
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ flush()
-
-    /**
-     */
     public function flush()
     {
         $this->xmlWriter->endTestSuites();
         parent::flush();
     }
-
-    // }}}
-    // {{{ addError()
 
     /**
      * @param PHPUnit_Framework_Test $test
@@ -112,9 +79,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
         $this->addFailureOrError($test, $e, $time, 'error');
     }
 
-    // }}}
-    // {{{ addFailure()
-
     /**
      * @param PHPUnit_Framework_Test                 $test
      * @param PHPUnit_Framework_AssertionFailedError $e
@@ -124,9 +88,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
     {
         $this->addFailureOrError($test, $e, $time, 'failure');
     }
-
-    // }}}
-    // {{{ addIncompleteTest()
 
     /**
      * @param PHPUnit_Framework_Test $test
@@ -141,9 +102,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
             'error'
         );
     }
-
-    // }}}
-    // {{{ addSkippedTest()
 
     /**
      * Skipped test.
@@ -161,9 +119,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
         );
     }
 
-    // }}}
-    // {{{ startTestSuite()
-
     /**
      * @param PHPUnit_Framework_TestSuite $suite
      */
@@ -177,9 +132,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
         $this->xmlWriter->startTestSuite($suite->getName(), count($suite));
     }
 
-    // }}}
-    // {{{ endTestSuite()
-
     /**
      * @param PHPUnit_Framework_TestSuite $suite
      */
@@ -188,9 +140,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
         $this->xmlWriter->endTestSuite();
     }
 
-    // }}}
-    // {{{ startTest()
-
     /**
      * @param PHPUnit_Framework_Test $test
      */
@@ -198,9 +147,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
     {
         $this->xmlWriter->startTestCase($test->getName(), $test, $test->getName(false));
     }
-
-    // }}}
-    // {{{ endTest()
 
     /**
      * @param PHPUnit_Framework_Test $test
@@ -216,9 +162,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
        $this->xmlWriter->endTestCase($time, $test->getNumAssertions());
     }
 
-    // }}}
-    // {{{ setXMLWriter()
-
     /**
      * @param Stagehand_TestRunner_JUnitXMLWriter $xmlWriter
      */
@@ -226,15 +169,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
     {
         $this->xmlWriter = $xmlWriter;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ writeFailureOrError()
 
     /**
      * @param string    $message
@@ -252,9 +186,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
             get_class($e)
         );
     }
-
-    // }}}
-    // {{{ addFailureOrError()
 
     /**
      * @param PHPUnit_Framework_Test $test
@@ -278,19 +209,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
 
         $this->writeFailureOrError($message, $e, $failureOrError);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:
