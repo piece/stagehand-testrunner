@@ -50,9 +50,12 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
  */
 class Stagehand_TestRunner_PHPUnitIncompleteTest extends PHPUnit_Framework_TestCase
 {
-    public function testTestShouldBeImcomplete()
+    /**
+     * @test
+     */
+    public function isIncomplete()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $this->markTestIncomplete('This test has not been implemented yet');
     }
 }
 
