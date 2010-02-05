@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -47,13 +47,11 @@ require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Printer.php';
 require_once 'PHPUnit/Util/XML.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter
-
 /**
  * A result printer for PHPUnit.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
