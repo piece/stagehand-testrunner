@@ -50,9 +50,12 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
  */
 class Stagehand_TestRunner_PHPUnitSkippedTest extends PHPUnit_Framework_TestCase
 {
-    public function testTestShouldBeSkipped()
+    /**
+     * @test
+     */
+    public function isSkipped()
     {
-        $this->markTestSkipped('Foo is not available.');
+        $this->markTestSkipped('Foo is not available');
     }
 }
 
