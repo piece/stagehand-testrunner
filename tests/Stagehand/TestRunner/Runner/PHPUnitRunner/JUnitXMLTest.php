@@ -507,6 +507,51 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
         $this->assertRegexp('/^Stagehand_TestRunner_PHPUnitDataProviderTest::passWithDataProvider with data set #3/', $failure->nodeValue);
     }
 
+    /**
+     * @test
+     */
+    public function includesTheSpecifiedMessageAtTheValueOfTheErrorElementForIncompleteAndSkippedTests()
+    {
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitIncompleteTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitSkippedTest');
+        $this->runTests();
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $childTestsuite = $parentTestsuite->childNodes->item(0);
+        $this->assertEquals(
+            'Stagehand_TestRunner_PHPUnitIncompleteTest',
+            $childTestsuite->getAttribute('name')
+        );
+        $testcase = $childTestsuite->childNodes->item(0);
+        $this->assertEquals('isIncomplete', $testcase->getAttribute('name'));
+        $error = $testcase->childNodes->item(0);
+        $this->assertEquals(
+            'PHPUnit_Framework_IncompleteTestError',
+            $error->getAttribute('type')
+        );
+        $this->assertRegexp(
+            '!^Incomplete Test: This test has not been implemented yet\s+/!',
+            $error->nodeValue
+        );
+        $childTestsuite = $parentTestsuite->childNodes->item(1);
+        $this->assertEquals(
+            'Stagehand_TestRunner_PHPUnitSkippedTest',
+            $childTestsuite->getAttribute('name')
+        );
+        $testcase = $childTestsuite->childNodes->item(0);
+        $this->assertEquals('isSkipped', $testcase->getAttribute('name'));
+        $error = $testcase->childNodes->item(0);
+        $this->assertEquals(
+            'PHPUnit_Framework_SkippedTestError',
+            $error->getAttribute('type')
+        );
+        $this->assertRegexp(
+            '!^Skipped Test: Foo is not available\s+/!',
+            $error->nodeValue
+        );
+    }
+
     /**#@-*/
 
     /**#@+

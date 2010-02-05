@@ -137,7 +137,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeFailureOrError('Incomplete Test', $e, 'error');
+        $this->writeFailureOrError(
+            'Incomplete Test: ' . $e->getMessage() . "\n\n",
+            $e,
+            'error'
+        );
     }
 
     // }}}
@@ -152,7 +156,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->writeFailureOrError('Skipped Test', $e, 'error');
+        $this->writeFailureOrError(
+            'Skipped Test: ' . $e->getMessage() . "\n\n",
+            $e,
+            'error'
+        );
     }
 
     // }}}
