@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.0.0
@@ -39,67 +39,22 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitSkippedTest
-
 /**
  * TestCase for the PHPUnit runner.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.0.0
  */
 class Stagehand_TestRunner_PHPUnitSkippedTest extends PHPUnit_Framework_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function testTestShouldBeSkipped()
     {
         $this->markTestSkipped('Foo is not available.');
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:
