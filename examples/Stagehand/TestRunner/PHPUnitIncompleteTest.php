@@ -39,7 +39,7 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitImcompleteTest
+// {{{ Stagehand_TestRunner_PHPUnitIncompleteTest
 
 /**
  * TestCase for the PHPUnit runner.
@@ -50,7 +50,7 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
  * @version    Release: @package_version@
  * @since      Class available since Release 1.0.0
  */
-class Stagehand_TestRunner_PHPUnitImcompleteTest extends PHPUnit_Framework_TestCase
+class Stagehand_TestRunner_PHPUnitIncompleteTest extends PHPUnit_Framework_TestCase
 {
 
     // {{{ properties
