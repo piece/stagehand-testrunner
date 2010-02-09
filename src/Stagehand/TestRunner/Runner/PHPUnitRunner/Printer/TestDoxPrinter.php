@@ -130,6 +130,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
             return;
         }
 
+        $testStatus = $this->testStatuses[$name];
         if ($this->testStatuses[$name] == PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE
             || $this->testStatuses[$name] == PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED) {
             $name = $name .
@@ -143,7 +144,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
         }
 
         if ($this->colors) {
-            switch ($this->testStatuses[$name]) {
+            switch ($testStatus) {
             case PHPUnit_Runner_BaseTestRunner::STATUS_PASSED:
                 $name = Stagehand_TestRunner_Coloring::green($name);
                 break;
