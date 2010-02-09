@@ -40,8 +40,6 @@
 
 require_once 'simpletest/test_case.php';
 
-// {{{ Stagehand_TestRunner_Collector_SimpleTestCollector
-
 /**
  * A test collector for SimpleTest.
  *
@@ -55,38 +53,10 @@ require_once 'simpletest/test_case.php';
  */
 class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestRunner_Collector
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $exclude = '^(UnitTestCase$|PHPUnit)';
     protected $baseClass = 'UnitTestCase';
     protected $suffix = 'Test(?:Case)?';
     protected $include = 'Test(?:Case)?$';
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ addTestCase()
 
     /**
      * Adds a test case to the test suite object.
@@ -102,15 +72,6 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
         $this->suite->add(new $testCase());
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ createTestSuite()
-
     /**
      * Creates the test suite object.
      *
@@ -121,19 +82,7 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
     {
         return new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite($name);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

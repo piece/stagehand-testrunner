@@ -35,8 +35,6 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_TestCase
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,19 +44,6 @@
  */
 abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     /**
      * @var Stagehand_TestRunner_Config
      */
@@ -76,18 +61,6 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
     protected $runner;
     protected $runnerName;
     protected $output;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
  
     public function setUp()
     {
@@ -118,12 +91,6 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
     {
         unlink($element);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
 
     protected function assertTestCaseCount($count)
     {
@@ -158,19 +125,7 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
         $this->output = ob_get_contents();
         ob_end_clean();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

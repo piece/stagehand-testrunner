@@ -37,8 +37,6 @@
 
 require_once 'simpletest/test_case.php';
 
-// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
@@ -48,32 +46,7 @@ require_once 'simpletest/test_case.php';
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehand_TestRunner_Runner_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $runnerName = 'SimpleTest';
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
  
     /**
      * @test
@@ -334,25 +307,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertRegexp('/^Exception: This is an exception message\./',
                             $error->nodeValue);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

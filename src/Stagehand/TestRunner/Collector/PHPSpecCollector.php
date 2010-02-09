@@ -36,8 +36,6 @@
  * @since      File available since Release 2.1.0
  */
 
-// {{{ Stagehand_TestRunner_Collector_PHPSpecCollector
-
 /**
  * A test collector for PHPSpec.
  *
@@ -50,37 +48,9 @@
  */
 class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunner_Collector
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $baseClass = 'PHPSpec_Context';
     protected $suffix = 'Spec';
     protected $include = '(^[Dd]escribe|[Ss]pec$)';
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ addTestCase()
 
     /**
      * Adds a test case to the test suite ArrayObject.
@@ -92,15 +62,6 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
         $this->suite[] = $testCase;
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ createTestSuite()
-
     /**
      * Creates the test suite object.
      *
@@ -111,19 +72,7 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
     {
         return new ArrayObject();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

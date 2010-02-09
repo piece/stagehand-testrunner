@@ -37,8 +37,6 @@
 
 require_once 'PHPUnit/Extensions/PhptTestCase.php';
 
-// {{{ Stagehand_TestRunner_Collector_PHPTCollector
-
 /**
  * A test collector for PHPT.
  *
@@ -50,34 +48,6 @@ require_once 'PHPUnit/Extensions/PhptTestCase.php';
  */
 class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_Collector
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ addTestCase()
-
     /**
      * Adds a test case to the test suite object.
      *
@@ -87,15 +57,6 @@ class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_
     {
         $this->suite->addTest(new PHPUnit_Extensions_PhptTestCase($testCase));
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ createTestSuite()
 
     /**
      * Creates the test suite object.
@@ -107,9 +68,6 @@ class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_
     {
         return new PHPUnit_Framework_TestSuite($name);
     }
-
-    // }}}
-    // {{{ collectTestCasesFromFile()
 
     /**
      * Collects all test cases included in the given file.
@@ -124,19 +82,7 @@ class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_
 
         $this->testCases[] = $file;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

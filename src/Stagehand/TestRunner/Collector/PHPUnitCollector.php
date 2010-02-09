@@ -36,8 +36,6 @@
  * @since      File available since Release 2.1.0
  */
 
-// {{{ Stagehand_TestRunner_Collector_PHPUnitCollector
-
 /**
  * A test collector for PHPUnit.
  *
@@ -50,38 +48,10 @@
  */
 class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunner_Collector
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $exclude = '^PHPUnit';
     protected $baseClass = 'PHPUnit_Framework_TestCase';
     protected $suffix = 'Test(?:Case)?';
     protected $include = 'Test(?:Case)?$';
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ addTestCase()
 
     /**
      * Adds a test case to the test suite object.
@@ -97,15 +67,6 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
         $this->suite->addTestSuite($testCase);
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ createTestSuite()
-
     /**
      * Creates the test suite object.
      *
@@ -116,9 +77,6 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
     {
         return new PHPUnit_Framework_TestSuite($name);
     }
-
-    // }}}
-    // {{{ addTestCaseOnlySpecified()
 
     /**
      * @param string $testCase
@@ -139,19 +97,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
             }
         }
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:
