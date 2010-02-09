@@ -157,6 +157,33 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
                );
     }
 
+    /**
+     * @param string $method
+     * @test
+     * @dataProvider provideFullyQualifiedMethodNamesForIncompleteAndSkippedTests
+     * @since Method available since Release 2.11.0
+     */
+    public function includesTheSpecifiedMessageAtTheTestDoxForIncompleteAndSkippedTests($method)
+    {
+        $this->config->addMethodToBeTested($method);
+        $class = substr($method, 0, strpos($method, '::'));
+        class_exists($class);
+        $this->collector->collectTestCase($class);
+        $this->runTests();
+        $this->assertRegExp('/^ \[ \] .+\s\(.+\)$/m', $this->output);
+    }
+
+    /**
+     * @since Method available since Release 2.11.0
+     */
+    public function provideFullyQualifiedMethodNamesForIncompleteAndSkippedTests()
+    {
+        return array(
+                   array('Stagehand_TestRunner_PHPUnitIncompleteTest::isIncomplete'),
+                   array('Stagehand_TestRunner_PHPUnitSkippedTest::isSkipped')
+               );
+    }
+
     /**#@-*/
 
     /**#@+

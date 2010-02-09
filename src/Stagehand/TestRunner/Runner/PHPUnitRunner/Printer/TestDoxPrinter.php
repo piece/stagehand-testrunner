@@ -68,6 +68,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
 
     protected $colors;
     protected $testStatuses = array();
+    protected $testStatusMessages = array();
     protected $testTypeOfInterest = 'PHPUnit_Framework_Test';
 
     /**#@-*/
@@ -97,6 +98,32 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
         parent::__construct($out);
         $this->colors = $colors;
         $this->prettifier = $prettifier;
+    }
+
+    /**
+     * @param PHPUnit_Framework_Test $test
+     * @param Exception              $e
+     * @param float                  $time
+     * @since Method available since Release 2.11.0
+     */
+    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    {
+        parent::addIncompleteTest($test, $e, $time);
+        $this->testStatusMessages[ $this->currentTestMethodPrettified ] = $test->getStatusMessage();
+    }
+
+    /**
+     * Skipped test.
+     *
+     * @param  PHPUnit_Framework_Test $test
+     * @param  Exception              $e
+     * @param  float                  $time
+     * @since Method available since Release 2.11.0
+     */
+    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    {
+        parent::addSkippedTest($test, $e, $time);
+        $this->testStatusMessages[ $this->currentTestMethodPrettified ] = $test->getStatusMessage();
     }
 
     // }}}
@@ -145,6 +172,18 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
     {
         if (!strlen($name)) {
             return;
+        }
+
+        if ($this->testStatuses[$name] == PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE
+            || $this->testStatuses[$name] == PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED) {
+            $name = $name .
+                    ' (' .
+                    str_replace(
+                        array("\x0d", "\x0a"),
+                        '',
+                        $this->testStatusMessages[$name]
+                    ) .
+                    ')';
         }
 
         if ($this->colors) {

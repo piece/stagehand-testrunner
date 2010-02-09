@@ -69,6 +69,7 @@ abstract class Stagehand_TestRunner_Runner_PHPUnitRunner_TestCase extends Stageh
      */
     protected $runner;
     protected $backupGlobals = false;
+    protected $output;
 
     /**#@-*/
 
@@ -99,6 +100,7 @@ abstract class Stagehand_TestRunner_Runner_PHPUnitRunner_TestCase extends Stageh
         $this->runner = new $runnerClass($this->config);
         ob_start();
         $this->runner->run($this->collector->collect());
+        $this->output = ob_get_contents();
         ob_end_clean();
     }
 
