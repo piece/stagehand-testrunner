@@ -100,8 +100,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
             array(
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
                     'testdox://' . spl_object_hash($testResult),
-                    $this->config->colors,
-                    $this->prettifier()
+                    $this->config->colors
                 )
             );
         if (!$this->config->printsDetailedProgressReport) {
@@ -155,18 +154,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
     /**#@+
      * @access protected
      */
-
-    // }}}
-    // {{{ prettifier()
-
-    /**
-     * @return Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier
-     * @since Method available since Release 2.7.0
-     */
-    protected function prettifier()
-    {
-        return new Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier();
-    }
 
     // }}}
     // {{{ junitXMLStreamWriter()
