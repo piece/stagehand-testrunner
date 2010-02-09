@@ -39,8 +39,6 @@
 require_once 'PHPUnit/Util/TestDox/ResultPrinter/Text.php';
 require_once 'PHPUnit/Runner/BaseTestRunner.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter
-
 /**
  * A result printer for TestDox documentation.
  *
@@ -54,37 +52,10 @@ require_once 'PHPUnit/Runner/BaseTestRunner.php';
 class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends PHPUnit_Util_TestDox_ResultPrinter_Text
 {
 
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $colors;
     protected $testStatuses = array();
     protected $testStatusMessages = array();
     protected $testTypeOfInterest = 'PHPUnit_Framework_Test';
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ __construct()
 
     /**
      * Constructor.
@@ -126,9 +97,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
         $this->testStatusMessages[ $this->currentTestMethodPrettified ] = $test->getStatusMessage();
     }
 
-    // }}}
-    // {{{ startTest()
-
     /**
      * @param PHPUnit_Framework_Test $test
      * @since Method available since Release 2.7.0
@@ -140,9 +108,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
         }
     }
 
-    // }}}
-    // {{{ endTest()
-
     /**
      * @param PHPUnit_Framework_Test $test
      * @param float                  $time
@@ -153,15 +118,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
         $this->testStatuses[ $this->currentTestMethodPrettified ] = $this->testStatus;
         parent::endTest($test, $time);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ onTest()
 
     /**
      * @param string  $name
@@ -206,19 +162,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
 
         parent::onTest($name, $success);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

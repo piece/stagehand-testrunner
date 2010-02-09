@@ -35,8 +35,6 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_TestCase
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,19 +44,6 @@
  */
 abstract class Stagehand_TestRunner_Runner_PHPUnitRunner_TestCase extends Stagehand_TestRunner_Runner_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     /**
      * @var Stagehand_TestRunner_Collector_PHPUnitCollector
      */
@@ -71,29 +56,11 @@ abstract class Stagehand_TestRunner_Runner_PHPUnitRunner_TestCase extends Stageh
     protected $backupGlobals = false;
     protected $output;
 
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function setUp()
     {
         parent::setUp();
         $this->collector = new Stagehand_TestRunner_Collector_PHPUnitCollector($this->config);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
 
     protected function runTests($runnerClass = 'Stagehand_TestRunner_Runner_PHPUnitRunner')
     {
@@ -103,19 +70,7 @@ abstract class Stagehand_TestRunner_Runner_PHPUnitRunner_TestCase extends Stageh
         $this->output = ob_get_contents();
         ob_end_clean();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:
