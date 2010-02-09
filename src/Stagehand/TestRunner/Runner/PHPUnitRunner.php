@@ -38,8 +38,6 @@
 
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner
-
 /**
  * A test runner for PHPUnit.
  *
@@ -52,34 +50,6 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Runner
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ run()
-
     /**
      * Runs tests based on the given PHPUnit_Framework_TestSuite object.
      *
@@ -149,15 +119,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
         }
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ junitXMLStreamWriter()
-
     /**
      * @param callback $streamWriter
      * @return Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter
@@ -167,19 +128,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
     {
         return new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter($streamWriter);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:
