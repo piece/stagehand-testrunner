@@ -85,6 +85,23 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
      * @access public
      */
 
+    // }}}
+    // {{{ addTestCase()
+
+    /**
+     * Adds a test case to the test suite object.
+     *
+     * @param string $testCase
+     */
+    public function addTestCase($testCase)
+    {
+        $test = new ReflectionClass($testCase);
+        if ($test->isAbstract()) {
+            return;
+        }
+        $this->suite->add(new $testCase());
+    }
+
     /**#@-*/
 
     /**#@+
@@ -103,24 +120,6 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
     protected function createTestSuite($name)
     {
         return new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite($name);
-    }
-
-    // }}}
-    // {{{ addTestCase()
-
-    /**
-     * Adds a test case to the test suite object.
-     *
-     * @param string $testCase
-     */
-    public function addTestCase($testCase)
-    {
-        $test = new ReflectionClass($testCase);
-        if ($test->isAbstract()) {
-            return;
-        }
-
-        $this->suite->add(new $testCase());
     }
 
     /**#@-*/

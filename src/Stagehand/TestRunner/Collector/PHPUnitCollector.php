@@ -80,6 +80,23 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      * @access public
      */
 
+    // }}}
+    // {{{ addTestCase()
+
+    /**
+     * Adds a test case to the test suite object.
+     *
+     * @param string $testCase
+     */
+    public function addTestCase($testCase)
+    {
+        if ($this->config->testsOnlySpecified()) {
+            $this->addTestCaseOnlySpecified($testCase);
+            return;
+        }
+        $this->suite->addTestSuite($testCase);
+    }
+
     /**#@-*/
 
     /**#@+
@@ -98,24 +115,6 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
     protected function createTestSuite($name)
     {
         return new PHPUnit_Framework_TestSuite($name);
-    }
-
-    // }}}
-    // {{{ addTestCase()
-
-    /**
-     * Adds a test case to the test suite object.
-     *
-     * @param string $testCase
-     */
-    public function addTestCase($testCase)
-    {
-        if ($this->config->testsOnlySpecified()) {
-            $this->addTestCaseOnlySpecified($testCase);
-            return;
-        }
-
-        $this->suite->addTestSuite($testCase);
     }
 
     // }}}

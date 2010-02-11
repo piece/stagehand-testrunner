@@ -176,6 +176,17 @@ abstract class Stagehand_TestRunner_Collector
         }
     }
 
+    // }}}
+    // {{{ addTestCase()
+
+    /**
+     * Adds a test case to the test suite object.
+     *
+     * @param string $testCase
+     * @abstract
+     */
+    abstract public function addTestCase($testCase);
+
     /**#@-*/
 
     /**#@+
@@ -192,17 +203,6 @@ abstract class Stagehand_TestRunner_Collector
      * @return mixed
      */
     abstract protected function createTestSuite($name);
-
-    // }}}
-    // {{{ addTestCase()
-
-    /**
-     * Adds a test case to the test suite object.
-     *
-     * @param string $testCase
-     * @abstract
-     */
-    abstract public function addTestCase($testCase);
 
     // }}}
     // {{{ buildTestSuite()

@@ -79,6 +79,19 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
      * @access public
      */
 
+    // }}}
+    // {{{ addTestCase()
+
+    /**
+     * Adds a test case to the test suite ArrayObject.
+     *
+     * @param string $testCase
+     */
+    public function addTestCase($testCase)
+    {
+        $this->suite[] = $testCase;
+    }
+
     /**#@-*/
 
     /**#@+
@@ -97,19 +110,6 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
     protected function createTestSuite($name)
     {
         return new ArrayObject();
-    }
-
-    // }}}
-    // {{{ addTestCase()
-
-    /**
-     * Adds a test case to the test suite ArrayObject.
-     *
-     * @param string $testCase
-     */
-    public function addTestCase($testCase)
-    {
-        $this->suite[] = $testCase;
     }
 
     /**#@-*/
