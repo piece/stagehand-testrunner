@@ -113,7 +113,7 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
      *
      * @param string $testCase
      */
-    protected function addTestCase($testCase)
+    public function addTestCase($testCase)
     {
         $test = new ReflectionClass($testCase);
         if ($test->isAbstract()) {

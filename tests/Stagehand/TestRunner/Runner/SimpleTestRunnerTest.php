@@ -59,6 +59,8 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      * @access protected
      */
 
+    protected $runnerName = 'SimpleTest';
+
     /**#@-*/
 
     /**#@+
@@ -79,14 +81,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     public function runsOnlyTheSpecifiedMethods($method)
     {
         $this->config->addMethodToBeTested($method);
-        $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite();
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
-        $suite->add(new Stagehand_TestRunner_SimpleTestMultipleClasses1Test());
-        $suite->add(new Stagehand_TestRunner_SimpleTestMultipleClasses2Test());
-        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($this->config);
-        ob_start();
-        $runner->run($suite);
-        ob_end_clean();
+        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
+        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
+        $this->runTests();
 
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists(
@@ -112,14 +110,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($method)
     {
         $this->config->addMethodToBeTested($method);
-        $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite();
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
-        $suite->add(new Stagehand_TestRunner_SimpleTestMultipleClasses1Test());
-        $suite->add(new Stagehand_TestRunner_SimpleTestMultipleClasses2Test());
-        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($this->config);
-        ob_start();
-        $runner->run($suite);
-        ob_end_clean();
+        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
+        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
+        $this->runTests();
 
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
@@ -144,14 +138,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     public function runsOnlyTheSpecifiedClasses($class)
     {
         $this->config->addClassToBeTested($class);
-        $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite();
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
-        $suite->add(new Stagehand_TestRunner_SimpleTestMultipleClasses1Test());
-        $suite->add(new Stagehand_TestRunner_SimpleTestMultipleClasses2Test());
-        $runner = new Stagehand_TestRunner_Runner_SimpleTestRunner($this->config);
-        ob_start();
-        $runner->run($suite);
-        ob_end_clean();
+        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
+        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
+        $this->runTests();
 
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists(

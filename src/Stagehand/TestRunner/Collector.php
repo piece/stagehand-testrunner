@@ -202,7 +202,7 @@ abstract class Stagehand_TestRunner_Collector
      * @param string $testCase
      * @abstract
      */
-    abstract protected function addTestCase($testCase);
+    abstract public function addTestCase($testCase);
 
     // }}}
     // {{{ buildTestSuite()

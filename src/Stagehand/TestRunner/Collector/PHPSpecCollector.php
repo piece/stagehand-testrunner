@@ -107,7 +107,7 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
      *
      * @param string $testCase
      */
-    protected function addTestCase($testCase)
+    public function addTestCase($testCase)
     {
         $this->suite[] = $testCase;
     }

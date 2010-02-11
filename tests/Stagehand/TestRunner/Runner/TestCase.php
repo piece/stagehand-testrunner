@@ -65,6 +65,18 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
     protected $config;
     protected $tmpDirectory;
 
+    /**
+     * @var Stagehand_TestRunner_Collector
+     */
+    protected $collector;
+
+    /**
+     * @var Stagehand_TestRunner_Runner
+     */
+    protected $runner;
+    protected $runnerName;
+    protected $output;
+
     /**#@-*/
 
     /**#@+
@@ -89,6 +101,9 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
             '.' .
             $this->getName(false) .
             '.xml';
+        $collectorClass =
+            'Stagehand_TestRunner_Collector_' . $this->runnerName . 'Collector';
+        $this->collector = new $collectorClass($this->config);
     }
 
     public function tearDown()
@@ -128,6 +143,20 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
         $junitXML = new DOMDocument();
         $junitXML->load($this->config->junitXMLFile);
         return new DOMXPath($junitXML);
+    }
+
+    protected function runTests($runnerClass = null)
+    {
+        if (is_null($runnerClass)) {
+            $runnerClass =
+                'Stagehand_TestRunner_Runner_' . $this->runnerName . 'Runner';
+        }
+
+        $this->runner = new $runnerClass($this->config);
+        ob_start();
+        $this->runner->run($this->collector->collect());
+        $this->output = ob_get_contents();
+        ob_end_clean();
     }
 
     /**#@-*/

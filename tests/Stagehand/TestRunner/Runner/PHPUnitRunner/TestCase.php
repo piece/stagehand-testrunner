@@ -44,32 +44,8 @@
  */
 abstract class Stagehand_TestRunner_Runner_PHPUnitRunner_TestCase extends Stagehand_TestRunner_Runner_TestCase
 {
-    /**
-     * @var Stagehand_TestRunner_Collector_PHPUnitCollector
-     */
-    protected $collector;
-
-    /**
-     * @var Stagehand_TestRunner_Runner_PHPUnitRunner
-     */
-    protected $runner;
     protected $backupGlobals = false;
-    protected $output;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->collector = new Stagehand_TestRunner_Collector_PHPUnitCollector($this->config);
-    }
-
-    protected function runTests($runnerClass = 'Stagehand_TestRunner_Runner_PHPUnitRunner')
-    {
-        $this->runner = new $runnerClass($this->config);
-        ob_start();
-        $this->runner->run($this->collector->collect());
-        $this->output = ob_get_contents();
-        ob_end_clean();
-    }
+    protected $runnerName = 'PHPUnit';
 }
 
 /*

@@ -103,7 +103,7 @@ class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_
      *
      * @param string $testCase
      */
-    protected function addTestCase($testCase)
+    public function addTestCase($testCase)
     {
         $this->suite->addTest(new PHPUnit_Extensions_PhptTestCase($testCase));
     }

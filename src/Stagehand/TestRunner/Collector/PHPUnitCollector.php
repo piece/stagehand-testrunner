@@ -108,7 +108,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      *
      * @param string $testCase
      */
-    protected function addTestCase($testCase)
+    public function addTestCase($testCase)
     {
         if ($this->config->testsOnlySpecified()) {
             $this->addTestCaseOnlySpecified($testCase);
