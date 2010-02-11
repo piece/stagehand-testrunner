@@ -42,8 +42,11 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner_Runner_PHPUnitRunner_TestCase
+class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner_Runner_TestCase
 {
+    protected $runnerName = 'PHPUnit';
+    protected $backupGlobals = false;
+
     /**
      * @param string $method
      * @test
