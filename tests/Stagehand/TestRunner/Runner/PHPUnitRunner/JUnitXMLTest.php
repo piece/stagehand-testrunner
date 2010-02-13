@@ -44,7 +44,7 @@
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_TestRunner_Runner_TestCase
 {
-    protected $framework = 'PHPUnit';
+    protected $framework = Stagehand_TestRunner_Framework::PHPUNIT;
     protected $backupGlobals = false;
 
     /**

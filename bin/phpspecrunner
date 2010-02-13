@@ -46,7 +46,7 @@ Stagehand_Autoload::register($loader);
 
 require_once 'PHPSpec/Framework.php';
 
-$runner = new Stagehand_TestRunner('PHPSpec');
+$runner = new Stagehand_TestRunner(Stagehand_TestRunner_Framework::PHPSPEC);
 $result = $runner->run();
 
 exit($result);

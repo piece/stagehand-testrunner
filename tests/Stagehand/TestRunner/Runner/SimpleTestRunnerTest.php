@@ -44,8 +44,8 @@
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRunner_Runner_TestCase
 {
-    protected $framework = 'SimpleTest';
- 
+    protected $framework = Stagehand_TestRunner_Framework::SIMPLETEST;
+
     /**
      * @param string $method
      * @test

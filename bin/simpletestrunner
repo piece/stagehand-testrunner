@@ -44,7 +44,7 @@ $loader = Stagehand_Autoload::legacyLoader();
 $loader->addNamespace('Stagehand');
 Stagehand_Autoload::register($loader);
 
-$runner = new Stagehand_TestRunner('SimpleTest');
+$runner = new Stagehand_TestRunner(Stagehand_TestRunner_Framework::SIMPLETEST);
 $result = $runner->run();
 
 exit($result);

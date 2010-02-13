@@ -46,8 +46,8 @@ require_once 'simpletest/test_case.php';
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehand_TestRunner_Runner_TestCase
 {
-    protected $framework = 'SimpleTest';
- 
+    protected $framework = Stagehand_TestRunner_Framework::SIMPLETEST;
+
     /**
      * @test
      */
