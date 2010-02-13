@@ -44,7 +44,7 @@
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner_Runner_TestCase
 {
-    protected $runnerName = 'PHPUnit';
+    protected $framework = 'PHPUnit';
     protected $backupGlobals = false;
 
     /**

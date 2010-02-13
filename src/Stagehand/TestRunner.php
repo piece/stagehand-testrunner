@@ -49,16 +49,15 @@ class Stagehand_TestRunner extends Stagehand_CLIController
     protected $exceptionClass = 'Stagehand_TestRunner_Exception';
     protected $shortOptions = 'hVRcp:aw:gm:v';
     protected $longOptions = array('growl-password=', 'log-junit=', 'log-junit-realtime', 'classes=');
-    protected $testRunnerName;
     protected $config;
 
     /**
-     * @param string $testRunnerName
+     * @param string $framework
      */
-    public function __construct($testRunnerName)
+    public function __construct($framework)
     {
-        $this->testRunnerName = $testRunnerName;
         $this->config = new Stagehand_TestRunner_Config();
+        $this->config->framework = $framework;
     }
 
     /**
@@ -213,7 +212,7 @@ OPTIONS
      */
     protected function printVersion()
     {
-        echo "Stagehand_TestRunner @package_version@ ({$this->testRunnerName})
+        echo "Stagehand_TestRunner @package_version@ ({$this->config->framework})
 
 Copyright (c) 2005-2009 KUBO Atsuhiro <kubo@iteman.jp>,
               2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
@@ -335,9 +334,8 @@ All rights reserved.
      */
     protected function createCollector()
     {
-        $collectorClass =
-            'Stagehand_TestRunner_Collector_' . $this->testRunnerName . 'Collector';
-        return new $collectorClass($this->config);
+        $factory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
+        return $factory->create();
     }
 
     /**
@@ -346,9 +344,8 @@ All rights reserved.
      */
     protected function createRunner()
     {
-        $runnerClass =
-            'Stagehand_TestRunner_Runner_' . $this->testRunnerName . 'Runner';
-        return new $runnerClass($this->config);
+        $factory = new Stagehand_TestRunner_Runner_RunnerFactory($this->config);
+        return $factory->create();
     }
 
     /**

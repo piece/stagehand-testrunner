@@ -44,7 +44,7 @@
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_TestRunner_Runner_TestCase
 {
-    protected $runnerName = 'PHPUnit';
+    protected $framework = 'PHPUnit';
     protected $backupGlobals = false;
 
     /**
@@ -289,10 +289,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
     public function logsTestResultsInRealtimeIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
         $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->runnerClass = 'Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest_MockPHPUnitRunner';
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitFailureTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitErrorTest');
-        $this->runTests('Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest_MockPHPUnitRunner');
+        $this->runTests();
         $this->assertFileExists($this->config->junitXMLFile);
 
         $streamContents = $this->readAttribute($this->runner, 'streamContents');

@@ -46,7 +46,7 @@ require_once 'simpletest/test_case.php';
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehand_TestRunner_Runner_TestCase
 {
-    protected $runnerName = 'SimpleTest';
+    protected $framework = 'SimpleTest';
  
     /**
      * @test
@@ -194,10 +194,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
     public function logsTestResultsInRealtimeIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
         $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->runnerClass = 'Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest_MockSimpleTestRunner';
         $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestPassTest');
         $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestFailureTest');
         $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestErrorTest');
-        $this->runTests('Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest_MockSimpleTestRunner');
+        $this->runTests();
         $this->assertFileExists($this->config->junitXMLFile);
 
         $streamContents = $this->readAttribute($this->runner, 'streamContents');

@@ -59,13 +59,14 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
      * @var Stagehand_TestRunner_Runner
      */
     protected $runner;
-    protected $runnerName;
+    protected $framework;
     protected $output;
  
     public function setUp()
     {
         $this->tmpDirectory = dirname(__FILE__) . '/../../../../tmp';
         $this->config = new Stagehand_TestRunner_Config();
+        $this->config->framework = $this->framework;
         $this->config->logsResultsInJUnitXML = true;
         $this->config->junitXMLFile =
             $this->tmpDirectory .
@@ -74,9 +75,8 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
             '.' .
             $this->getName(false) .
             '.xml';
-        $collectorClass =
-            'Stagehand_TestRunner_Collector_' . $this->runnerName . 'Collector';
-        $this->collector = new $collectorClass($this->config);
+        $factory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
+        $this->collector = $factory->create();
     }
 
     public function tearDown()
@@ -112,14 +112,10 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
         return new DOMXPath($junitXML);
     }
 
-    protected function runTests($runnerClass = null)
+    protected function runTests()
     {
-        if (is_null($runnerClass)) {
-            $runnerClass =
-                'Stagehand_TestRunner_Runner_' . $this->runnerName . 'Runner';
-        }
-
-        $this->runner = new $runnerClass($this->config);
+        $factory = new Stagehand_TestRunner_Runner_RunnerFactory($this->config);
+        $this->runner = $factory->create();
         ob_start();
         $this->runner->run($this->collector->collect());
         $this->output = ob_get_contents();

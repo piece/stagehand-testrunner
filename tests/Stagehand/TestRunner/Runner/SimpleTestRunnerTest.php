@@ -44,7 +44,7 @@
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRunner_Runner_TestCase
 {
-    protected $runnerName = 'SimpleTest';
+    protected $framework = 'SimpleTest';
  
     /**
      * @param string $method
