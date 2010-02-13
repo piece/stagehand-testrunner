@@ -61,7 +61,7 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
     protected $runner;
     protected $framework;
     protected $output;
- 
+
     public function setUp()
     {
         $this->tmpDirectory = dirname(__FILE__) . '/../../../../tmp';

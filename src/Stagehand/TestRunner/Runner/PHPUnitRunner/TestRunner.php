@@ -77,7 +77,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner extends PHPUnit_TextU
     /**#@+
      * @access public
      */
- 
+
     // }}}
     // {{{ setTestResult()
 
