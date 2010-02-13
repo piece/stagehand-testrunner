@@ -51,8 +51,6 @@ $result = $runner->run();
 
 exit($result);
 
-// {{{ preload()
-
 /**
  * Finds the preload option and preloads a file as a PHP script if it is
  * specified.
@@ -83,8 +81,6 @@ function preload()
         }
     }
 }
-
-// }}}
 
 /*
  * Local Variables:

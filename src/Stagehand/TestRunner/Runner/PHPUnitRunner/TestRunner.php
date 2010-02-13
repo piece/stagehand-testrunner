@@ -37,8 +37,6 @@
 
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
@@ -48,38 +46,10 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner extends PHPUnit_TextUI_TestRunner
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     /**
      * @var PHPUnit_Framework_TestResult
      */
     protected $testResult;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ setTestResult()
 
     /**
      * @param PHPUnit_Framework_TestResult $testResult
@@ -89,15 +59,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner extends PHPUnit_TextU
         $this->testResult = $testResult;
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ createTestResult()
-
     /**
      * @return PHPUnit_Framework_TestResult
      */
@@ -105,19 +66,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner extends PHPUnit_TextU
     {
         return $this->testResult;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

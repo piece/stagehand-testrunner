@@ -35,8 +35,6 @@
  * @since      File available since Release 2.7.0
  */
 
-// {{{ Stagehand_TestRunner_Config
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,13 +44,6 @@
  */
 class Stagehand_TestRunner_Config
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
     public $targetPaths = array();
     public $recursivelyScans = false;
     public $colors = false;
@@ -71,36 +62,12 @@ class Stagehand_TestRunner_Config
     public $framework;
     public $runnerClass;
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ __construct()
-
     /**
      */
     public function __construct()
     {
         $this->directory = getcwd();
     }
-
-    // }}}
-    // {{{ addMethodToBeTested()
 
     /**
      * @param string $methodToBeTested
@@ -112,9 +79,6 @@ class Stagehand_TestRunner_Config
         $this->elementsToBeTested[] = strtolower($methodToBeTested);
     }
 
-    // }}}
-    // {{{ addClassToBeTested()
-
     /**
      * @param string $classToBeTested
      * @since Method available since Release 2.8.0
@@ -125,9 +89,6 @@ class Stagehand_TestRunner_Config
         $this->elementsToBeTested[] = strtolower($classToBeTested);
     }
 
-    // }}}
-    // {{{ testsOnlySpecified()
-
     /**
      * @return boolean
      * @since Method available since Release 2.8.0
@@ -136,9 +97,6 @@ class Stagehand_TestRunner_Config
     {
         return $this->testsOnlySpecifiedMethods || $this->testsOnlySpecifiedClasses;
     }
-
-    // }}}
-    // {{{ inMethodsToBeTested()
 
     /**
      * @param string $class
@@ -157,9 +115,6 @@ class Stagehand_TestRunner_Config
         return false;
     }
 
-    // }}}
-    // {{{ inClassesToBeTested()
-
     /**
      * @param string $class
      * @return boolean
@@ -170,15 +125,6 @@ class Stagehand_TestRunner_Config
         return $this->inElementsToBeTested($class);
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ inElementsToBeTested()
-
     /**
      * @param string $element
      * @return boolean
@@ -188,19 +134,7 @@ class Stagehand_TestRunner_Config
     {
         return in_array(strtolower($element), $this->elementsToBeTested);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:
