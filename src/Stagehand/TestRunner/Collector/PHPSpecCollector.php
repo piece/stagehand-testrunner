@@ -53,11 +53,10 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
     protected $include = '(^[Dd]escribe|[Ss]pec$)';
 
     /**
-     * Adds a test case to the test suite ArrayObject.
-     *
      * @param string $testCase
+     * @since Method available since Release 2.11.0
      */
-    public function addTestCase($testCase)
+    public function collectTestCase($testCase)
     {
         $this->suite[] = $testCase;
     }

@@ -54,16 +54,6 @@ class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_
      */
     public function collectTestCase($testCase)
     {
-        $this->addTestCase($testCase);
-    }
-
-    /**
-     * Adds a test case to the test suite object.
-     *
-     * @param string $testCase
-     */
-    public function addTestCase($testCase)
-    {
         $this->suite->addTest(new PHPUnit_Extensions_PhptTestCase($testCase));
     }
 

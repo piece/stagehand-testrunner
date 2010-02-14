@@ -59,11 +59,10 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
     protected $include = 'Test(?:Case)?$';
 
     /**
-     * Adds a test case to the test suite object.
-     *
      * @param string $testCase
+     * @since Method available since Release 2.11.0
      */
-    public function addTestCase($testCase)
+    public function collectTestCase($testCase)
     {
         $test = new ReflectionClass($testCase);
         if ($test->isAbstract()) {

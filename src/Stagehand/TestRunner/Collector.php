@@ -122,25 +122,7 @@ abstract class Stagehand_TestRunner_Collector
      * @param string $testCase
      * @since Method available since Release 2.10.0
      */
-    public function collectTestCase($testCase)
-    {
-        if (!is_subclass_of($testCase, $this->baseClass)) {
-            return;
-        }
-
-        if ($this->allowDeny->evaluate($testCase) ==
-            Stagehand_AccessControl_AccessState::ALLOW) {
-            $this->addTestCase($testCase);
-        }
-    }
-
-    /**
-     * Adds a test case to the test suite object.
-     *
-     * @param string $testCase
-     * @abstract
-     */
-    abstract public function addTestCase($testCase);
+    abstract public function collectTestCase($testCase);
 
     /**#@-*/
 
@@ -175,7 +157,14 @@ abstract class Stagehand_TestRunner_Collector
 
         $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
         for ($i = 0, $count = count($newClasses); $i < $count; ++$i) {
-            $this->collectTestCase($newClasses[$i]);
+            if (!is_subclass_of($newClasses[$i], $this->baseClass)) {
+                return;
+            }
+
+            if ($this->allowDeny->evaluate($newClasses[$i]) ==
+                Stagehand_AccessControl_AccessState::ALLOW) {
+                $this->collectTestCase($newClasses[$i]);
+            }
         }
     }
 }
