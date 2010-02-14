@@ -49,6 +49,15 @@ require_once 'PHPUnit/Extensions/PhptTestCase.php';
 class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_Collector
 {
     /**
+     * @param string $testCase
+     * @since Method available since Release 2.11.0
+     */
+    public function collectTestCase($testCase)
+    {
+        $this->addTestCase($testCase);
+    }
+
+    /**
      * Adds a test case to the test suite object.
      *
      * @param string $testCase
@@ -80,7 +89,7 @@ class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_
             return;
         }
 
-        $this->testCases[] = $file;
+        $this->collectTestCase($file);
     }
 }
 

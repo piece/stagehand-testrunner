@@ -102,8 +102,6 @@ abstract class Stagehand_TestRunner_Collector
             }
         }
 
-        $this->buildTestSuite();
-
         return $this->suite;
     }
 
@@ -133,7 +131,7 @@ abstract class Stagehand_TestRunner_Collector
 
         if ($this->allowDeny->evaluate($testCase) ==
             Stagehand_AccessControl_AccessState::ALLOW) {
-            $this->testCases[] = $testCase;
+            $this->addTestCase($testCase);
         }
     }
 
@@ -158,18 +156,6 @@ abstract class Stagehand_TestRunner_Collector
      * @return mixed
      */
     abstract protected function createTestSuite($name);
-
-    /**
-     * Builds the test suite object.
-     *
-     * @return mixed
-     */
-    protected function buildTestSuite()
-    {
-        foreach ($this->testCases as $testCase) {
-            $this->addTestCase($testCase);
-        }
-    }
 
     /**
      * Collects all test cases included in the given file.
