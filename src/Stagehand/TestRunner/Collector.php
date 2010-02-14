@@ -51,7 +51,6 @@ abstract class Stagehand_TestRunner_Collector
     protected $suffix;
     protected $include;
     protected $config;
-    protected $testCases = array();
     protected $allowDeny;
     protected $suite;
 
