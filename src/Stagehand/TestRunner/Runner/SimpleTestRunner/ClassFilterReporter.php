@@ -38,8 +38,6 @@
 
 require_once 'simpletest/scorer.php';
 
-// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner_ClassFilterReporter
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -50,38 +48,10 @@ require_once 'simpletest/scorer.php';
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunner_ClassFilterReporter extends SimpleReporterDecorator
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     /**
      * @var Stagehand_TestRunner_Config
      */
     protected $config;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ setConfig()
 
     /**
      * @param Stagehand_TestRunner_Config $config
@@ -90,9 +60,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_ClassFilterReporter extends S
     {
         $this->config = $config;
     }
-
-    // }}}
-    // {{{ shouldInvoke()
 
     /**
      * @param string $testCase
@@ -103,25 +70,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_ClassFilterReporter extends S
     {
         return $this->config->inClassesToBeTested($testCase);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

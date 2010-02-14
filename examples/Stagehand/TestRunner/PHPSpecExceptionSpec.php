@@ -39,8 +39,6 @@ if (!class_exists('PHPSpec_Context')) {
     return;
 }
 
-// {{{ DescribePhpSpecException
-
 /**
  * TestCase for the PHPSpec runner.
  *
@@ -52,54 +50,11 @@ if (!class_exists('PHPSpec_Context')) {
  */
 class DescribePhpSpecException extends PHPSpec_Context
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function itShouldBeException()
     {
         throw new Exception('This is an exception message.');
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

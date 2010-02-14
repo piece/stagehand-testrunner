@@ -35,8 +35,6 @@
  * @since      File available since Release 2.4.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox
-
 /**
  * A class which has only one static property to keep TestDox documentation.
  *
@@ -48,35 +46,7 @@
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
     public static $testDoxesByResult = array();
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ initialize()
 
     /**
      * @param string $resultID
@@ -86,9 +56,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox
     {
         self::$testDoxesByResult[$resultID] = '';
     }
-
-    // }}}
-    // {{{ append()
 
     /**
      * @param string $resultID
@@ -100,9 +67,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox
         self::$testDoxesByResult[$resultID] .= $testDox;
     }
 
-    // }}}
-    // {{{ get()
-
     /**
      * @param string $resultID
      * @return string
@@ -112,25 +76,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox
     {
         return self::$testDoxesByResult[$resultID];
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

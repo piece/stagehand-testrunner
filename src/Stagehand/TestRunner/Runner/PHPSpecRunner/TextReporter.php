@@ -36,8 +36,6 @@
  * @since      File available since Release 2.0.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter
-
 /**
  * A reporter for PHPSpec.
  *
@@ -50,35 +48,7 @@
  */
 class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Runner_Reporter_Text
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $color;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ __construct()
 
     /**
      * @param PHPSpec_Runner_Result $result
@@ -89,9 +59,6 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
         parent::__construct($result);
         $this->color = $color;
     }
-
-    // }}}
-    // {{{ outputStatus()
 
     /**
      * @param string $symbol
@@ -117,9 +84,6 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
 
         parent::outputStatus($symbol);
     }
-
-    // }}}
-    // {{{ output()
 
     /**
      * @param boolean $specs
@@ -180,25 +144,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
 
         print $output;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

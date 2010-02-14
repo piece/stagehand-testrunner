@@ -39,8 +39,6 @@ if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_SimpleTestNoTestsTest
-
 /**
  * TestCase for the SimpleTest runner.
  *
@@ -50,51 +48,7 @@ if (!@include_once 'simpletest/unit_tester.php') {
  * @version    Release: @package_version@
  * @since      Class available since Release 2.7.0
  */
-class Stagehand_TestRunner_SimpleTestNoTestsTest extends UnitTestCase
-{
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
-}
-
-// }}}
+class Stagehand_TestRunner_SimpleTestNoTestsTest extends UnitTestCase {}
 
 /*
  * Local Variables:

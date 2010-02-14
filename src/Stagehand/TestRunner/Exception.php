@@ -35,8 +35,6 @@
  * @since      File available since Release 2.1.0
  */
 
-// {{{ Stagehand_TestRunner_Exception
-
 /**
  * An exception class for the Stagehand_TestRunner package.
  *
@@ -47,8 +45,6 @@
  * @since      Class available since Release 2.1.0
  */
 class Stagehand_TestRunner_Exception extends Exception {}
-
-// }}}
 
 /*
  * Local Variables:

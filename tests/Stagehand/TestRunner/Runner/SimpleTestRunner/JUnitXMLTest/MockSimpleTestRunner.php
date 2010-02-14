@@ -35,8 +35,6 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest_MockSimpleTestRunner
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,33 +44,8 @@
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest_MockSimpleTestRunner extends Stagehand_TestRunner_Runner_SimpleTestRunner
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $streamWriter;
     protected $streamContents = array();
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
 
     public function watchStream($buffer)
     {
@@ -80,30 +53,12 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest_MockSimpleTestRu
         call_user_func($this->streamWriter, $buffer);
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected function junitXMLStreamWriter($streamWriter)
     {
         $this->streamWriter = $streamWriter;
         return parent::junitXMLStreamWriter(array($this, 'watchStream'));
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

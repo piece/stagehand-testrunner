@@ -39,8 +39,6 @@ if (!class_exists('PHPSpec_Context')) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPSpecCommon
-
 /**
  * TestCase for the PHPSpec runner.
  *
@@ -52,54 +50,11 @@ if (!class_exists('PHPSpec_Context')) {
  */
 class Stagehand_TestRunner_PHPSpecCommon extends PHPSpec_Context
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function itShouldPassCommon()
     {
         $this->spec(true)->should->beTrue();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

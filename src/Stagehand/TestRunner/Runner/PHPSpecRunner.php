@@ -36,8 +36,6 @@
  * @since      File available since Release 2.1.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_PHPSpecRunner
-
 /**
  * A test runner for PHPSpec.
  *
@@ -50,34 +48,6 @@
  */
 class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Runner
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ run()
-
     /**
      * Runs tests based on the given ArrayObject object.
      *
@@ -123,25 +93,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
             $this->notification->description = $matches[1];
         }
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

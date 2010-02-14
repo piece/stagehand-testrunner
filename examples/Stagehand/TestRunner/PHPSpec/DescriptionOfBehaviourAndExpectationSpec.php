@@ -39,8 +39,6 @@ if (!class_exists('PHPSpec_Context')) {
     return;
 }
 
-// {{{ Describe振舞やエクスペクテーションの説明
-
 /**
  * TestCase for the PHPSpec runner.
  *
@@ -52,55 +50,11 @@ if (!class_exists('PHPSpec_Context')) {
  */
 class Describe振舞やエクスペクテーションの説明 extends PHPSpec_Context
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function itは日本語を使用できること()
     {
         $this->spec($this->getSpecMethods())->should->be(array('itは日本語を使用できること'));
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
-// {{{ 日本語Spec
 
 /**
  * TestCase for the PHPSpec runner.
@@ -113,55 +67,11 @@ class Describe振舞やエクスペクテーションの説明 extends PHPSpec_C
  */
 class 日本語Spec extends PHPSpec_Context
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function itShouldPass()
     {
         $this->spec(true)->should->beTrue();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
-// {{{ EnglishSpec
 
 /**
  * TestCase for the PHPSpec runner.
@@ -174,54 +84,11 @@ class 日本語Spec extends PHPSpec_Context
  */
 class EnglishSpec extends PHPSpec_Context
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function itShouldPass()
     {
         $this->spec(true)->should->beTrue();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

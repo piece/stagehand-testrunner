@@ -39,8 +39,6 @@ if (!class_exists('PHPSpec_Context')) {
     return;
 }
 
-// {{{ DescribePhpSpecPending
-
 /**
  * TestCase for the PHPSpec runner.
  *
@@ -52,54 +50,11 @@ if (!class_exists('PHPSpec_Context')) {
  */
 class DescribePhpSpecPending extends PHPSpec_Context
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function itShouldBePending()
     {
         $this->pending('This example has not been implemented yet.');
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

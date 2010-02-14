@@ -35,8 +35,6 @@
  * @since      File available since Release 2.7.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_PHPTRunner
-
 /**
  * A test runner for PHPT.
  *
@@ -48,40 +46,6 @@
  */
 class Stagehand_TestRunner_Runner_PHPTRunner extends Stagehand_TestRunner_Runner_PHPUnitRunner
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ prettifier()
-
     /**
      * @return Stagehand_TestRunner_Runner_PHPTRunner
      */
@@ -89,9 +53,6 @@ class Stagehand_TestRunner_Runner_PHPTRunner extends Stagehand_TestRunner_Runner
     {
         return $this;
     }
-
-    // }}}
-    // {{{ prettifyTestClass()
 
     /**
      * @param string $name
@@ -102,9 +63,6 @@ class Stagehand_TestRunner_Runner_PHPTRunner extends Stagehand_TestRunner_Runner
         return 'PHPT Tests';
     }
 
-    // }}}
-    // {{{ prettifyTestMethod()
-
     /**
      * @param string $name
      * @return string
@@ -113,19 +71,7 @@ class Stagehand_TestRunner_Runner_PHPTRunner extends Stagehand_TestRunner_Runner
     {
         return $name;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

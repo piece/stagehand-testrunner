@@ -39,8 +39,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitFailureTest
-
 /**
  * TestCase for the PHPUnit runner.
  *
@@ -52,31 +50,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
  */
 class Stagehand_TestRunner_PHPUnitFailureTest extends PHPUnit_Framework_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     /**
      * @test
      */
@@ -84,25 +57,7 @@ class Stagehand_TestRunner_PHPUnitFailureTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue(false, 'This is an error message.');
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

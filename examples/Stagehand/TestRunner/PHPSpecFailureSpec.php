@@ -39,8 +39,6 @@ if (!class_exists('PHPSpec_Context')) {
     return;
 }
 
-// {{{ DescribePhpSpecFailure
-
 /**
  * TestCase for the PHPSpec runner.
  *
@@ -52,54 +50,11 @@ if (!class_exists('PHPSpec_Context')) {
  */
 class DescribePhpSpecFailure extends PHPSpec_Context
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function itShouldBeFailure()
     {
         $this->spec(false)->should->beTrue();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

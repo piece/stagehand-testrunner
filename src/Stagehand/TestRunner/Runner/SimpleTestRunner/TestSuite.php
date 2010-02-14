@@ -38,8 +38,6 @@
 
 require_once 'simpletest/test_case.php';
 
-// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -50,34 +48,6 @@ require_once 'simpletest/test_case.php';
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ getTestCount()
-
     /**
      * @return integer
      */
@@ -90,25 +60,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
 
         return $testCount;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

@@ -39,8 +39,6 @@ if (!class_exists('PHPSpec_Context')) {
     return;
 }
 
-// {{{ DescribePhpSpecNoSpecs
-
 /**
  * TestCase for the PHPSpec runner.
  *
@@ -50,51 +48,7 @@ if (!class_exists('PHPSpec_Context')) {
  * @version    Release: @package_version@
  * @since      Class available since Release 2.7.0
  */
-class DescribePhpSpecNoSpecs extends PHPSpec_Context
-{
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
-}
-
-// }}}
+class DescribePhpSpecNoSpecs extends PHPSpec_Context {}
 
 /*
  * Local Variables:

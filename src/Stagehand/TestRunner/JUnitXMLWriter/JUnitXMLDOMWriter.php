@@ -35,8 +35,6 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,19 +44,6 @@
  */
 class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand_TestRunner_JUnitXMLWriter
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $xmlWriter;
     protected $streamWriter;
     protected $elementStack = array();
@@ -67,21 +52,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
      * @var Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter
      */
     protected $utf8Converter;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ __construct()
 
     /**
      * @param callback $streamWriter
@@ -93,9 +63,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $this->utf8Converter = Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_UTF8ConverterFactory::create();
     }
 
-    // }}}
-    // {{{ startTestSuites()
-
     /**
      */
     public function startTestSuites()
@@ -104,9 +71,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $this->xmlWriter->appendChild($testsuites);
         $this->elementStack[] = $testsuites;
     }
-
-    // }}}
-    // {{{ startTestSuite()
 
     /**
      * @param string  $name
@@ -142,9 +106,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $this->elementStack[] = $testsuite;
     }
 
-    // }}}
-    // {{{ startTestCase()
-
     /**
      * @param string $name
      * @param mixed  $test
@@ -171,9 +132,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $this->elementStack[] = $testcase;
     }
 
-    // }}}
-    // {{{ writeError()
-
     /**
      * @param string $text
      * @param string $type
@@ -183,9 +141,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $this->writeFailureOrError($text, $type, 'error');
     }
 
-    // }}}
-    // {{{ writeFailure()
-
     /**
      * @param string $text
      * @param string $type
@@ -194,9 +149,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
     {
         $this->writeFailureOrError($text, $type, 'failure');
     }
-
-    // }}}
-    // {{{ endTestCase()
 
     /**
      * @param float   $time
@@ -213,9 +165,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $this->getCurrentTestsuite()->addTime($time);
         $this->getCurrentTestsuite()->increaseTestCount();
     }
-
-    // }}}
-    // {{{ endTestSuite()
 
     /**
      */
@@ -236,24 +185,12 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         }
     }
 
-    // }}}
-    // {{{ endTestSuites()
-
     /**
      */
     public function endTestSuites()
     {
         $this->flush();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ writeFailureOrError()
 
     /**
      * @param string $text
@@ -271,18 +208,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         $this->getCurrentTestsuite()->{ 'increase' . $failureOrError . 'Count' }();
     }
 
-    // }}}
-    // {{{ flush()
-
-    /**
-     */
     protected function flush()
     {
         call_user_func($this->streamWriter, $this->xmlWriter->saveXML());
     }
-
-    // }}}
-    // {{{ getCurrentTestsuite()
 
     /**
      * @return Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement
@@ -296,9 +225,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         return $this->getCurrentElement();
     }
 
-    // }}}
-    // {{{ getCurrentElement()
-
     /**
      * @return DOMElement
      */
@@ -307,9 +233,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         return $this->elementStack[ count($this->elementStack) - 1 ];
     }
 
-    // }}}
-    // {{{ getPreviousElement()
-
     /**
      * @return DOMElement
      */
@@ -317,19 +240,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
     {
         return $this->elementStack[ count($this->elementStack) - 2 ];
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

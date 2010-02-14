@@ -39,8 +39,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_EUCJPからUTF8への変換Test
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -50,31 +48,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
  */
 class Stagehand_TestRunner_EUCJPからUTF8への変換Test extends PHPUnit_Framework_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     /**
      * @test
      */
@@ -82,25 +55,7 @@ class Stagehand_TestRunner_EUCJPからUTF8への変換Test extends PHPUnit_Framework_T
     {
         throw new Exception('EUC-JP から UTF-8 への変換');
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

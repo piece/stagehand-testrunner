@@ -41,8 +41,6 @@ require_once 'PHPUnit/Framework/Test.php';
 require_once 'PHPUnit/Framework/AssertionFailedError.php';
 require_once 'PHPUnit/Framework/TestCase.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter
-
 /**
  * A result printer for PHPUnit.
  *
@@ -55,34 +53,6 @@ require_once 'PHPUnit/Framework/TestCase.php';
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends PHPUnit_TextUI_ResultPrinter
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ addError()
-
     /**
      * An error occurred.
      *
@@ -100,9 +70,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
         $this->writeProgress(Stagehand_TestRunner_Coloring::magenta('E'));
         $this->lastTestFailed = TRUE;
     }
-
-    // }}}
-    // {{{ addFailure()
 
     /**
      * A failure occurred.
@@ -122,9 +89,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
         $this->lastTestFailed = TRUE;
     }
 
-    // }}}
-    // {{{ addIncompleteTest()
-
     /**
      * Incomplete test.
      *
@@ -143,9 +107,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
         $this->lastTestFailed = TRUE;
     }
 
-    // }}}
-    // {{{ addSkippedTest()
-
     /**
      * Skipped test.
      *
@@ -163,9 +124,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
         $this->writeProgress(Stagehand_TestRunner_Coloring::yellow('S'));
         $this->lastTestFailed = TRUE;
     }
-
-    // }}}
-    // {{{ endTest()
 
     /**
      * A test ended.
@@ -191,25 +149,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
         $this->lastEvent = self::EVENT_TEST_END;
         $this->lastTestFailed = false;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

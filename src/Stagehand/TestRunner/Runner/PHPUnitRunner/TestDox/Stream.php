@@ -36,8 +36,6 @@
  * @since      File available since Release 2.4.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
-
 /**
  * A stream wrapper to print TestDox documentation.
  *
@@ -50,36 +48,8 @@
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $position = 0;
     protected $resultID;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ stream_open()
 
     /**
      * The implementation of stream_open().
@@ -99,9 +69,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
         return true;
     }
 
-    // }}}
-    // {{{ stream_close()
-
     /**
      * The implementation of stream_close().
      *
@@ -112,9 +79,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
      * @return boolean
      */
     public function stream_close() {}
-
-    // }}}
-    // {{{ stream_read()
 
     /**
      * The implementation of stream_read().
@@ -129,9 +93,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
         return $data;
     }
 
-    // }}}
-    // {{{ stream_write()
-
     /**
      * The implementation of stream_write().
      *
@@ -145,9 +106,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
         return strlen($data);
     }
 
-    // }}}
-    // {{{ stream_eof()
-
     /**
      * The implementation of stream_eof().
      *
@@ -158,9 +116,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
         return $this->position >= strlen($this->getTestDox());
     }
 
-    // }}}
-    // {{{ stream_tell()
-
     /**
      * The implementation of stream_tell().
      *
@@ -170,9 +125,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
     {
         return $this->position;
     }
-
-    // }}}
-    // {{{ stream_seek()
 
     /**
      * The implementation of stream_seek().
@@ -210,26 +162,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
         }        
     }
 
-    // }}}
-    // {{{ register()
-
-    /**
-     */
     public static function register()
     {
         if (!in_array('testdox', stream_get_wrappers())) {
             stream_wrapper_register('testdox',  __CLASS__);
         }
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ getTestDox()
 
     /**
      * @return string
@@ -239,9 +177,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
     {
         return Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::get($this->resultID);
     }
-
-    // }}}
-    // {{{ appendTestDox()
 
     /**
      * @param string $testDox
@@ -253,19 +188,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream
             $this->resultID, $testDox
         );
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

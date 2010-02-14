@@ -39,8 +39,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitDataProviderTest
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -50,31 +48,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
  */
 class Stagehand_TestRunner_PHPUnitDataProviderTest extends PHPUnit_Framework_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     /**
      * @test
      * @dataProvider provideData
@@ -93,25 +66,7 @@ class Stagehand_TestRunner_PHPUnitDataProviderTest extends PHPUnit_Framework_Tes
                    array(1, 1, 3)
                );
     }    
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

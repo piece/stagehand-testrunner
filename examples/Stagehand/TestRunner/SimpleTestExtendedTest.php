@@ -39,8 +39,6 @@ if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_SimpleTestExtendedTest
-
 /**
  * TestCase for the SimpleTest runner.
  *
@@ -52,54 +50,11 @@ if (!@include_once 'simpletest/unit_tester.php') {
  */
 class Stagehand_TestRunner_SimpleTestExtendedTest extends Stagehand_TestRunner_SimpleTestCommonTest
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function testTestShouldPassExtended()
     {
         $this->assertTrue(true);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

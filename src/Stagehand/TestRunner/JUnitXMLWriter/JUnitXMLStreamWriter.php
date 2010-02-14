@@ -35,8 +35,6 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,19 +44,6 @@
  */
 class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stagehand_TestRunner_JUnitXMLWriter
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $xmlWriter;
     protected $streamWriter;
 
@@ -66,21 +51,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
      * @var Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter
      */
     protected $utf8Converter;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ __construct()
 
     /**
      * @param callback $streamWriter
@@ -94,19 +64,11 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         $this->utf8Converter = Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_UTF8ConverterFactory::create();
     }
 
-    // }}}
-    // {{{ startTestSuites()
-
-    /**
-     */
     public function startTestSuites()
     {
         $this->xmlWriter->startElement('testsuites');
         $this->flush();
     }
-
-    // }}}
-    // {{{ startTestSuite()
 
     /**
      * @param string  $name
@@ -138,9 +100,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         $this->flush();
     }
 
-    // }}}
-    // {{{ startTestCase()
-
     /**
      * @param string $name
      * @param mixed  $test
@@ -166,9 +125,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         $this->flush();
     }
 
-    // }}}
-    // {{{ writeError()
-
     /**
      * @param string $text
      * @param string $type
@@ -177,9 +133,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
     {
         $this->writeFailureOrError($text, $type, 'error');
     }
-
-    // }}}
-    // {{{ writeFailure()
 
     /**
      * @param string $text
@@ -190,9 +143,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         $this->writeFailureOrError($text, $type, 'failure');
     }
 
-    // }}}
-    // {{{ endTestCase()
-
     /**
      * @param float   $time
      * @param integer $assertionCount
@@ -202,36 +152,17 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         $this->endElementAndFlush();
     }
 
-    // }}}
-    // {{{ endTestSuite()
-
-    /**
-     */
     public function endTestSuite()
     {
         $this->endElementAndFlush();
     }
 
-    // }}}
-    // {{{ endTestSuites()
-
-    /**
-     */
     public function endTestSuites()
     {
         $this->xmlWriter->endElement();
         $this->xmlWriter->endDocument();
         $this->flush();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ writeFailureOrError()
 
     /**
      * @param string $text
@@ -250,39 +181,17 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         $this->flush();
     }
 
-    // }}}
-    // {{{ endElementAndFlush()
-
-    /**
-     */
     protected function endElementAndFlush()
     {
         $this->xmlWriter->endElement();
         $this->flush();
     }
 
-    // }}}
-    // {{{ flush()
-
-    /**
-     */
     protected function flush()
     {
         call_user_func($this->streamWriter, $this->xmlWriter->flush());
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

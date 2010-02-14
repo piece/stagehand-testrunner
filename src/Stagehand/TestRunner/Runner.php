@@ -35,8 +35,6 @@
  * @since      File available since Release 2.3.0
  */
 
-// {{{ Stagehand_TestRunner_Runner
-
 /**
  * The base class for test runners.
  *
@@ -48,40 +46,12 @@
  */
 abstract class Stagehand_TestRunner_Runner
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $notification;
 
     /**
      * @var Stagehand_TestRunner_Config
      */
     protected $config;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ __construct()
 
     /**
      * @param Stagehand_TestRunner_Config $config
@@ -92,18 +62,12 @@ abstract class Stagehand_TestRunner_Runner
         $this->config = $config;
     }
 
-    // }}}
-    // {{{ run()
-
     /**
      * Runs tests.
      *
      * @param mixed $suite
      */
     abstract public function run($suite);
-
-    // }}}
-    // {{{ getNotification()
 
     /**
      * Gets a notification object for Growl.
@@ -114,25 +78,7 @@ abstract class Stagehand_TestRunner_Runner
     {
         return $this->notification;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

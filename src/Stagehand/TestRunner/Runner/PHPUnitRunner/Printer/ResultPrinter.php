@@ -39,8 +39,6 @@
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
 require_once 'PHPUnit/Framework/TestResult.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter
-
 /**
  * A result printer for PHPUnit.
  *
@@ -53,34 +51,6 @@ require_once 'PHPUnit/Framework/TestResult.php';
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PHPUnit_TextUI_ResultPrinter
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ printResult()
-
     /**
      * @param PHPUnit_Framework_TestResult $result
      */
@@ -98,9 +68,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
 
         parent::printResult($result);
     }
-
-    // }}}
-    // {{{ startTestSuite()
 
     /**
      * @param PHPUnit_Framework_TestSuite $suite
@@ -126,33 +93,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
         $this->verbose = $oldVerbose;
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ writeProgress()
-
     /**
      * @param string $progress
      * @since Method available since Release 2.7.0
      */
     protected function writeProgress($progress) {}
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

@@ -39,8 +39,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitPassTest
-
 /**
  * TestCase for the PHPUnit runner.
  *
@@ -52,31 +50,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
  */
 class Stagehand_TestRunner_PHPUnitPassTest extends PHPUnit_Framework_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     /**
      * @test
      */
@@ -101,25 +74,7 @@ class Stagehand_TestRunner_PHPUnitPassTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue(true);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

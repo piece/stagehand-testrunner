@@ -41,8 +41,6 @@ require_once 'PHPUnit/Framework/Test.php';
 require_once 'PHPUnit/Framework/AssertionFailedError.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter
-
 /**
  * A result printer for PHPUnit.
  *
@@ -55,34 +53,6 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter extends PHPUnit_TextUI_ResultPrinter
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ addError()
-
     /**
      * An error occurred.
      *
@@ -98,9 +68,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
 
         parent::addError($test, $e, $time);
     }
-
-    // }}}
-    // {{{ addFailure()
 
     /**
      * A failure occurred.
@@ -118,9 +85,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
         parent::addFailure($test, $e, $time);
     }
 
-    // }}}
-    // {{{ addIncompleteTest()
-
     /**
      * Incomplete test.
      *
@@ -137,9 +101,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
         parent::addIncompleteTest($test, $e, $time);
     }
 
-    // }}}
-    // {{{ addSkippedTest()
-
     /**
      * Skipped test.
      *
@@ -155,9 +116,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
 
         parent::addSkippedTest($test, $e, $time);
     }
-
-    // }}}
-    // {{{ startTestSuite()
 
     /**
      * A testsuite started.
@@ -177,9 +135,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
         parent::startTestSuite($suite);
     }
 
-    // }}}
-    // {{{ startTest()
-
     /**
      * A test started.
      *
@@ -195,9 +150,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
 
         parent::startTest($test);
     }
-
-    // }}}
-    // {{{ endTest()
 
     /**
      * A test ended.
@@ -216,27 +168,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
         parent::endTest($test, $time);
     }
 
-    // }}}
-    // {{{ writeProgress()
-
     /**
      * @param  string $progress
      * @since  Method available since Release 2.7.0
      */
     protected function writeProgress($progress) {}
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

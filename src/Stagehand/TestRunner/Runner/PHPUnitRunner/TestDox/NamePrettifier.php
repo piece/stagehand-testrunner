@@ -38,8 +38,6 @@
 
 require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
 
-// {{{ Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier
-
 /**
  * Prettifies class and method names for use in TestDox documentation.
  *
@@ -52,34 +50,6 @@ require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
  */
 class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier extends PHPUnit_Util_TestDox_NamePrettifier
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ prettifyTestMethod()
-
     /**
      * Prettifies the name of a test method.
      *
@@ -128,25 +98,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier extends P
 
         return $buffer;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

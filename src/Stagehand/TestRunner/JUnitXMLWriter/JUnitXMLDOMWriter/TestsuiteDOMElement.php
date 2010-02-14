@@ -35,8 +35,6 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,34 +44,6 @@
  */
 class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement extends DOMElement
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ __construct()
-
     /**
      * @param string $name
      * @param string $value
@@ -84,9 +54,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement 
         parent::__construct('testsuite', $value, $namespaceURI);
     }
 
-    // }}}
-    // {{{ addTestCount()
-
     /**
      * @param integer $testCount
      */
@@ -95,18 +62,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement 
         $this->setAttribute('tests', $this->getAttribute('tests') + $testCount);
     }
 
-    // }}}
-    // {{{ increaseTestCount()
-
-    /**
-     */
     public function increaseTestCount()
     {
         $this->addTestCount(1);
     }
-
-    // }}}
-    // {{{ addAssertionCount()
 
     /**
      * @param integer $assertionCount
@@ -120,18 +79,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement 
         }
     }
 
-    // }}}
-    // {{{ increaseAssertionCount()
-
-    /**
-     */
     public function increaseAssertionCount()
     {
         $this->addAssertionCount(1);
     }
-
-    // }}}
-    // {{{ addFailureCount()
 
     /**
      * @param integer $failureCount
@@ -141,18 +92,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement 
         $this->setAttribute('failures', $this->getAttribute('failures') + $failureCount);
     }
 
-    // }}}
-    // {{{ increaseFailureCount()
-
-    /**
-     */
     public function increaseFailureCount()
     {
         $this->addFailureCount(1);
     }
-
-    // }}}
-    // {{{ addErrorCount()
 
     /**
      * @param integer $errorCount
@@ -162,18 +105,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement 
         $this->setAttribute('errors', $this->getAttribute('errors') + $errorCount);
     }
 
-    // }}}
-    // {{{ increaseErrorCount()
-
-    /**
-     */
     public function increaseErrorCount()
     {
         $this->addErrorCount(1);
     }
-
-    // }}}
-    // {{{ addTime()
 
     /**
      * @param float $time
@@ -186,19 +121,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter_TestsuiteDOMElement 
             $this->setAttribute('time', $this->getAttribute('time') + $time);
         }
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

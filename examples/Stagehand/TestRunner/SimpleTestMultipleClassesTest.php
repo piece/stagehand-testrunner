@@ -39,8 +39,6 @@ if (!@include_once 'simpletest/unit_tester.php') {
     return;
 }
 
-// {{{ Stagehand_TestRunner_SimpleTestMultipleClassesTest
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -49,9 +47,6 @@ if (!@include_once 'simpletest/unit_tester.php') {
  * @since      Class available since Release 2.10.0
  */
 class Stagehand_TestRunner_SimpleTestMultipleClassesTest {}
-
-// }}}
-// {{{ Stagehand_TestRunner_SimpleTestMultipleClasses1Test
 
 /**
  * TestCase for the SimpleTest runner.
@@ -64,31 +59,6 @@ class Stagehand_TestRunner_SimpleTestMultipleClassesTest {}
  */
 class Stagehand_TestRunner_SimpleTestMultipleClasses1Test extends UnitTestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function testPass1()
     {
         $this->assertTrue(true);
@@ -98,26 +68,7 @@ class Stagehand_TestRunner_SimpleTestMultipleClasses1Test extends UnitTestCase
     {
         $this->assertTrue(true);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
-// {{{ Stagehand_TestRunner_SimpleTestMultipleClasses2Test
 
 /**
  * TestCase for the SimpleTest runner.
@@ -130,31 +81,6 @@ class Stagehand_TestRunner_SimpleTestMultipleClasses1Test extends UnitTestCase
  */
 class Stagehand_TestRunner_SimpleTestMultipleClasses2Test extends UnitTestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function testPass1()
     {
         $this->assertTrue(true);
@@ -164,25 +90,7 @@ class Stagehand_TestRunner_SimpleTestMultipleClasses2Test extends UnitTestCase
     {
         $this->assertTrue(true);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

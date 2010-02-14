@@ -35,8 +35,6 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_Runner_JUnitXMLWriterAdapter
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,24 +44,11 @@
  */
 interface Stagehand_TestRunner_Runner_JUnitXMLWriterAdapter
 {
-
-    /**#@+
-     * @access public
-     */
-
-    // {{{ setXMLWriter()
-
     /**
      * @param Stagehand_TestRunner_JUnitXMLWriter $xmlWriter
      */
     public function setXMLWriter(Stagehand_TestRunner_JUnitXMLWriter $xmlWriter);
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

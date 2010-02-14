@@ -35,8 +35,6 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_JUnitXMLWriter
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,28 +44,13 @@
  */
 interface Stagehand_TestRunner_JUnitXMLWriter
 {
-
-    /**#@+
-     * @access public
-     */
-
-    // {{{ startTestSuites()
-
-    /**
-     */
     public function startTestSuites();
-
-    // }}}
-    // {{{ startTestSuite()
 
     /**
      * @param string  $name
      * @param integer $testCount
      */
     public function startTestSuite($name, $testCount = null);
-
-    // }}}
-    // {{{ startTestCase()
 
     /**
      * @param string $name
@@ -76,17 +59,11 @@ interface Stagehand_TestRunner_JUnitXMLWriter
      */
     public function startTestCase($name, $test, $methodName = null);
 
-    // }}}
-    // {{{ writeError()
-
     /**
      * @param string $text
      * @param string $type
      */
     public function writeError($text, $type = null);
-
-    // }}}
-    // {{{ writeFailure()
 
     /**
      * @param string $text
@@ -94,35 +71,16 @@ interface Stagehand_TestRunner_JUnitXMLWriter
      */
     public function writeFailure($text, $type = null);
 
-    // }}}
-    // {{{ endTestCase()
-
     /**
      * @param float   $time
      * @param integer $assertionCount
      */
     public function endTestCase($time, $assertionCount = null);
 
-    // }}}
-    // {{{ endTestSuite()
-
-    /**
-     */
     public function endTestSuite();
 
-    // }}}
-    // {{{ endTestSuites()
-
-    /**
-     */
     public function endTestSuites();
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

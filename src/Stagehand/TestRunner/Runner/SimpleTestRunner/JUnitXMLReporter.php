@@ -38,8 +38,6 @@
 
 require_once 'simpletest/scorer.php';
 
-// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -50,19 +48,6 @@ require_once 'simpletest/scorer.php';
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends SimpleReporter implements Stagehand_TestRunner_Runner_JUnitXMLWriterAdapter
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     /**
      * @var Stagehand_TestRunner_JUnitXMLWriter
      */
@@ -75,21 +60,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     protected $methodStartTime;
     protected $assertionCount;
 
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ setXMLWriter()
-
     /**
      * @param Stagehand_TestRunner_JUnitXMLWriter $xmlWriter
      */
@@ -98,9 +68,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         $this->xmlWriter = $xmlWriter;
     }
 
-    // }}}
-    // {{{ setTestSuite()
-
     /**
      * @param Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite $suite
      */
@@ -108,9 +75,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     {
         $this->suite = $suite;
     }
-
-    // }}}
-    // {{{ paintGroupStart()
 
     /**
      * @param string  $testName
@@ -122,9 +86,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         $this->xmlWriter->startTestSuite($testName, $this->suite->getTestCount());
     }
 
-    // }}}
-    // {{{ paintGroupEnd()
-
     /**
      * @param string $testName
      */
@@ -133,9 +94,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         parent::paintGroupEnd($testName);
         $this->xmlWriter->endTestSuite();
     }
-
-    // }}}
-    // {{{ paintCasetart()
 
     /**
      * @param string $testName
@@ -149,9 +107,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         );
     }
 
-    // }}}
-    // {{{ paintCaseEnd()
-
     /**
      * @param string $testName
      */
@@ -160,9 +115,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         parent::paintCaseEnd($testName);
         $this->xmlWriter->endTestSuite();
     }
-
-    // }}}
-    // {{{ paintMethodStart()
 
     /**
      * @param string $testName
@@ -178,9 +130,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         $this->assertionCount = 0;
     }
 
-    // }}}
-    // {{{ paintMethodEnd()
-
     /**
      * @param string $testName
      */
@@ -191,9 +140,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         $this->xmlWriter->endTestCase($elapsedTime, $this->assertionCount);
     }
 
-    // }}}
-    // {{{ paintHeader()
-
     /**
      * @param string $testName
      */
@@ -202,9 +148,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         parent::paintHeader($testName);
         $this->xmlWriter->startTestSuites();
     }
-
-    // }}}
-    // {{{ paintFooter()
 
     /**
      * @param string $testName
@@ -215,9 +158,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         $this->xmlWriter->endTestSuites();
     }
 
-    // }}}
-    // {{{ paintPass()
-
     /**
      * @param string $message
      */
@@ -226,9 +166,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         parent::paintPass($message);
         ++$this->assertionCount;
     }
-
-    // }}}
-    // {{{ paintFail()
 
     /**
      * @param string $message
@@ -240,9 +177,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         ++$this->assertionCount;
     }
 
-    // }}}
-    // {{{ paintError()
-
     /**
      * @param string $message
      */
@@ -251,9 +185,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         parent::paintError($message);
         $this->paintFailureOrError($message, 'error');
     }
-
-    // }}}
-    // {{{ paintException()
 
     /**
      * @param Exception $e
@@ -264,9 +195,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         $this->paintFailureOrError(get_class($e) . ': ' . $e->getMessage(), 'error');
     }
 
-    // }}}
-    // {{{ paintSkip()
-
     /**
      * @param string $message
      */
@@ -275,15 +203,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         parent::paintSkip($message);
         $this->paintFailureOrError('Skip: ' . $message, 'error');
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ buildFailureTrace()
 
     /**
      * @param array $backtrace
@@ -307,9 +226,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         return $failureTrace;
     }
 
-    // }}}
-    // {{{ paintFailureOrError()
-
     /**
      * @param string $message
      * @param string $failureOrError
@@ -321,19 +237,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
             $this->buildFailureTrace(debug_backtrace())
         );
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

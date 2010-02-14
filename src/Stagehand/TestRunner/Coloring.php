@@ -35,8 +35,6 @@
  * @since      File available since Release 2.4.0
  */
 
-// {{{ Stagehand_TestRunner_Coloring
-
 /**
  * A utility for coloring.
  *
@@ -48,34 +46,6 @@
  */
 class Stagehand_TestRunner_Coloring
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ green()
-
     /**
      * @param string $text
      * @return text
@@ -87,9 +57,6 @@ class Stagehand_TestRunner_Coloring
         error_reporting($oldErrorReportingLevel);
         return $green;
     }
-
-    // }}}
-    // {{{ red()
 
     /**
      * @param string $text
@@ -103,9 +70,6 @@ class Stagehand_TestRunner_Coloring
         return $red;
     }
 
-    // }}}
-    // {{{ magenta()
-
     /**
      * @param string $text
      * @return text
@@ -118,9 +82,6 @@ class Stagehand_TestRunner_Coloring
         return $magenta;
     }
 
-    // }}}
-    // {{{ yellow()
-
     /**
      * @param string $text
      * @return text
@@ -132,25 +93,7 @@ class Stagehand_TestRunner_Coloring
         error_reporting($oldErrorReportingLevel);
         return $yellow;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

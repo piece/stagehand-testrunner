@@ -39,7 +39,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitMultipleClassesTest
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -48,9 +47,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
  * @since      Class available since Release 2.10.0
  */
 class Stagehand_TestRunner_PHPUnitMultipleClassesTest {}
-
-// }}}
-// {{{ Stagehand_TestRunner_PHPUnitMultipleClasses1Test
 
 /**
  * TestCase for the PHPUnit runner.
@@ -63,31 +59,6 @@ class Stagehand_TestRunner_PHPUnitMultipleClassesTest {}
  */
 class Stagehand_TestRunner_PHPUnitMultipleClasses1Test extends PHPUnit_Framework_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     /**
      * @test
      */
@@ -103,26 +74,7 @@ class Stagehand_TestRunner_PHPUnitMultipleClasses1Test extends PHPUnit_Framework
     {
         $this->assertTrue(true);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
-// {{{ Stagehand_TestRunner_PHPUnitMultipleClasses2Test
 
 /**
  * TestCase for the PHPUnit runner.
@@ -135,31 +87,6 @@ class Stagehand_TestRunner_PHPUnitMultipleClasses1Test extends PHPUnit_Framework
  */
 class Stagehand_TestRunner_PHPUnitMultipleClasses2Test extends PHPUnit_Framework_TestCase
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     /**
      * @test
      */
@@ -175,25 +102,7 @@ class Stagehand_TestRunner_PHPUnitMultipleClasses2Test extends PHPUnit_Framework
     {
         $this->assertTrue(true);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

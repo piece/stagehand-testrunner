@@ -40,8 +40,6 @@
 
 require_once 'simpletest/reporter.php';
 
-// {{{ Stagehand_TestRunner_Runner_SimpleTestRunner
-
 /**
  * A test runner for SimpleTest.
  *
@@ -55,35 +53,7 @@ require_once 'simpletest/reporter.php';
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_Runner
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $junitXMLFileHandle;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ __destruct()
 
     /**
      * @since Method available since Release 2.10.0
@@ -94,9 +64,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
             fclose($this->junitXMLFileHandle);
         }
     }
-
-    // }}}
-    // {{{ run()
 
     /**
      * Runs tests based on the given TestSuite object.
@@ -159,9 +126,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         }
     }
 
-    // }}}
-    // {{{ writeJUnitXMLToFile()
-
     /**
      * @param string $buffer
      * @throws Stagehand_TestRunner_Exception
@@ -192,15 +156,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         }
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ junitXMLStreamWriter()
-
     /**
      * @param callback $streamWriter
      * @return Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter
@@ -210,9 +165,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
     {
         return new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter($streamWriter);
     }
-
-    // }}}
-    // {{{ decorateReporter()
 
     /**
      * @param mixed $reporter
@@ -234,19 +186,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
 
         return array_pop($reporters);
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

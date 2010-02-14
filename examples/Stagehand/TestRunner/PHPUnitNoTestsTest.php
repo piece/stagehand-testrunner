@@ -39,8 +39,6 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
     return;
 }
 
-// {{{ Stagehand_TestRunner_PHPUnitNoTestsTest
-
 /**
  * TestCase for the PHPUnit runner.
  *
@@ -50,51 +48,7 @@ if (!class_exists('PHPUnit_Framework_TestCase', false)) {
  * @version    Release: @package_version@
  * @since      Class available since Release 2.7.0
  */
-class Stagehand_TestRunner_PHPUnitNoTestsTest extends PHPUnit_Framework_TestCase
-{
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
-}
-
-// }}}
+class Stagehand_TestRunner_PHPUnitNoTestsTest extends PHPUnit_Framework_TestCase {}
 
 /*
  * Local Variables:

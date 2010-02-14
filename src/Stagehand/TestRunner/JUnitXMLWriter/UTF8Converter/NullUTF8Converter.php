@@ -35,8 +35,6 @@
  * @since      File available since Release 2.10.0
  */
 
-// {{{ Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_NullUTF8Converter
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,34 +44,6 @@
  */
 class Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_NullUTF8Converter extends Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ convert()
-
     /**
      * @param string $text
      * @return string
@@ -82,25 +52,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_NullUTF8Converter extend
     {
         return $text;
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

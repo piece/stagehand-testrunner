@@ -38,8 +38,6 @@
 
 require_once 'PHPUnit/Framework/TestSuite.php';
 
-// {{{ Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
@@ -50,35 +48,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  */
 class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite extends PHPUnit_Framework_TestSuite
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     protected $config;
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
-    // }}}
-    // {{{ __construct()
 
     /**
      * @param ReflectionClass             $theClass
@@ -89,9 +59,6 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite exte
         $this->config = $config;
         parent::__construct($theClass);
     }
-
-    // }}}
-    // {{{ addTest()
 
     /**
      * @param PHPUnit_Framework_Test $test
@@ -108,15 +75,6 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite exte
         parent::addTest($test, $groups);
     }
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    // }}}
-    // {{{ addTestMethod()
-
     /**
      * @param ReflectionClass  $class
      * @param ReflectionMethod $method
@@ -128,19 +86,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite exte
             parent::addTestMethod($class, $method, $names);
         }
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:

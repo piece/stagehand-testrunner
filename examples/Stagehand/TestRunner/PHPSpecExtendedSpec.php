@@ -41,8 +41,6 @@ if (!class_exists('PHPSpec_Context')) {
 
 require_once dirname(__FILE__) . '/PHPSpecCommon.php';
 
-// {{{ DescribePhpSpecExtended
-
 /**
  * TestCase for the PHPSpec runner.
  *
@@ -54,54 +52,11 @@ require_once dirname(__FILE__) . '/PHPSpecCommon.php';
  */
 class DescribePhpSpecExtended extends Stagehand_TestRunner_PHPSpecCommon
 {
-
-    // {{{ properties
-
-    /**#@+
-     * @access public
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access public
-     */
-
     public function itShouldPassExtended()
     {
         $this->spec(true)->should->beTrue();
     }
-
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
-    /**#@-*/
-
-    /**#@+
-     * @access private
-     */
-
-    /**#@-*/
-
-    // }}}
 }
-
-// }}}
 
 /*
  * Local Variables:
