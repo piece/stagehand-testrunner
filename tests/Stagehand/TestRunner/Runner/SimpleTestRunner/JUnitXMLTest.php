@@ -53,9 +53,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
      */
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestPassTest');
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestFailureTest');
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestErrorTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestPassTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestFailureTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestErrorTest');
         $this->runTests();
         $this->assertFileExists($this->config->junitXMLFile);
 
@@ -195,9 +195,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
     {
         $this->config->logsResultsInJUnitXMLInRealtime = true;
         $this->config->runnerClass = 'Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest_MockSimpleTestRunner';
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestPassTest');
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestFailureTest');
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestErrorTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestPassTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestFailureTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestErrorTest');
         $this->runTests();
         $this->assertFileExists($this->config->junitXMLFile);
 

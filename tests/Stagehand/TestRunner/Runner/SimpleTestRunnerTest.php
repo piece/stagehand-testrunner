@@ -55,8 +55,8 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     {
         $this->config->addMethodToBeTested($method);
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
         $this->runTests();
 
         $this->assertTestCaseCount(2);
@@ -84,8 +84,8 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     {
         $this->config->addMethodToBeTested($method);
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
         $this->runTests();
 
         $this->assertTestCaseCount(1);
@@ -112,8 +112,8 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     {
         $this->config->addClassToBeTested($class);
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
-        $this->collector->addTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
         $this->runTests();
 
         $this->assertTestCaseCount(2);
