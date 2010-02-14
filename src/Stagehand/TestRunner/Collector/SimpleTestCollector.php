@@ -69,6 +69,7 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
         if ($test->isAbstract()) {
             return;
         }
+
         $this->suite->add(new $testCase());
     }
 
