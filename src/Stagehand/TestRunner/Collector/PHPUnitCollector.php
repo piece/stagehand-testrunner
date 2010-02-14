@@ -64,6 +64,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
             $this->addTestCaseOnlySpecified($testCase);
             return;
         }
+
         $this->suite->addTestSuite($testCase);
     }
 
