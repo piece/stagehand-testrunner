@@ -79,12 +79,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
             $arguments['listeners'][] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter(
                     null, false, $this->config->colors
-                                                                                      );
+                );
         } else {
             $arguments['listeners'][] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter(
                     null, false, $this->config->colors
-                                                                                              );
+                );
         }
 
         if ($this->config->logsResultsInJUnitXML) {
