@@ -62,11 +62,13 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
      *
      * @param  resource $out
      * @param  boolean  $colors
+     * @param  mixed    $prettifier
      */
-    public function __construct($out = NULL, $colors)
+    public function __construct($out = NULL, $colors, $prettifier)
     {
         parent::__construct($out);
         $this->colors = $colors;
+        $this->prettifier = $prettifier;
     }
 
     /**

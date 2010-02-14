@@ -37,6 +37,7 @@
  */
 
 require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
 
 /**
  * A test runner for PHPUnit.
@@ -70,7 +71,8 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
             array(
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
                     'testdox://' . spl_object_hash($testResult),
-                    $this->config->colors
+                    $this->config->colors,
+                    $this->prettifier()
                 )
             );
         if (!$this->config->printsDetailedProgressReport) {
@@ -117,6 +119,15 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
                 $this->notification->description = "{$matches[1]}{$matches[2]}";
             }
         }
+    }
+
+    /**
+     * @return PHPUnit_Util_TestDox_NamePrettifier
+     * @since Method available since Release 2.7.0
+     */
+    protected function prettifier()
+    {
+        return new PHPUnit_Util_TestDox_NamePrettifier();
     }
 
     /**
