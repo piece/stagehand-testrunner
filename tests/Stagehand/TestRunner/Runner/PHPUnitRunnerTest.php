@@ -202,7 +202,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      * @test
      * @since Method available since Release 2.11.0
      */
-    public function notStopsTheTestRunWhenATestCaseIsSkipped()
+    public function notStopTheTestRunWhenATestCaseIsSkipped()
     {
         $this->config->stopsOnFailure = true;
         class_exists('Stagehand_TestRunner_PHPUnitSkippedTest');
@@ -217,7 +217,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      * @test
      * @since Method available since Release 2.11.0
      */
-    public function notStopsTheTestRunWhenATestCaseIsIncomplete()
+    public function notStopTheTestRunWhenATestCaseIsIncomplete()
     {
         $this->config->stopsOnFailure = true;
         class_exists('Stagehand_TestRunner_PHPUnitIncompleteTest');
