@@ -159,6 +159,74 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
                    array('Stagehand_TestRunner_PHPUnitSkippedTest::isSkipped')
                );
     }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.0
+     */
+    public function stopsTheTestRunWhenTheFirstFailureIsRaised()
+    {
+        $this->config->stopsOnFailure = true;
+        class_exists('Stagehand_TestRunner_PHPUnitFailureTest');
+        class_exists('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitFailureTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->runTests();
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists(
+            'isFailure',
+            'Stagehand_TestRunner_PHPUnitFailureTest'
+        );
+    }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.0
+     */
+    public function stopsTheTestRunWhenTheFirstErrorIsRaised()
+    {
+        $this->config->stopsOnFailure = true;
+        class_exists('Stagehand_TestRunner_PHPUnitErrorTest');
+        class_exists('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitErrorTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->runTests();
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists(
+            'isError',
+            'Stagehand_TestRunner_PHPUnitErrorTest'
+        );
+    }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.0
+     */
+    public function notStopsTheTestRunWhenATestCaseIsSkipped()
+    {
+        $this->config->stopsOnFailure = true;
+        class_exists('Stagehand_TestRunner_PHPUnitSkippedTest');
+        class_exists('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitSkippedTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->runTests();
+        $this->assertTestCaseCount(4);
+    }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.0
+     */
+    public function notStopsTheTestRunWhenATestCaseIsIncomplete()
+    {
+        $this->config->stopsOnFailure = true;
+        class_exists('Stagehand_TestRunner_PHPUnitIncompleteTest');
+        class_exists('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitIncompleteTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->runTests();
+        $this->assertTestCaseCount(4);
+    }
 }
 
 /*

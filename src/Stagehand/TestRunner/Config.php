@@ -61,6 +61,7 @@ class Stagehand_TestRunner_Config
     public $logsResultsInJUnitXMLInRealtime = false;
     public $framework;
     public $runnerClass;
+    public $stopsOnFailure = false;
 
     /**
      */

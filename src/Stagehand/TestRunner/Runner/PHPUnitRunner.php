@@ -101,6 +101,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
             $arguments['listeners'][] = $junitXMLListener;
         }
 
+        if ($this->config->stopsOnFailure) {
+            $arguments['stopOnFailure'] = true;
+        }
+
         $testRunner = new Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner();
         $testRunner->setTestResult($testResult);
         $testRunner->doRun($suite, $arguments);
