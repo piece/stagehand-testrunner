@@ -72,6 +72,8 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
      */
     public function run($suite)
     {
+        $suite->stopsOnFailure = $this->config->stopsOnFailure;
+
         $reporter = new MultipleReporter();
         $reporter->attachReporter($this->decorateReporter(new TextReporter()));
 

@@ -48,6 +48,8 @@ require_once 'simpletest/test_case.php';
  */
 class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
 {
+    public $stopsOnFailure = false;
+
     /**
      * @return integer
      */
@@ -59,6 +61,40 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
         }
 
         return $testCount;
+    }
+
+    /**
+     * Invokes run() on all of the held test cases, instantiating
+     * them if necessary.
+     *
+     * @param  SimpleReporter $reporter
+     * @since  Method available since Release 2.11.0
+     */
+    function run(&$reporter)
+    {
+        $reporter->paintGroupStart($this->getLabel(), $this->getSize());
+        $result = true;
+
+        for ($i = 0, $count = count($this->_test_cases); $i < $count; $i++) {
+            if (is_string($this->_test_cases[$i])) {
+                $class = $this->_test_cases[$i];
+                $test = &new $class();
+            } else {
+                $test = &$this->_test_cases[$i];
+            }
+
+            $result = $test->run($reporter);
+            unset($test);
+
+            if ($result === false
+                && $this->stopsOnFailure === true
+                ) {
+                break;
+            }
+        }
+
+        $reporter->paintGroupEnd($this->getLabel());
+        return $reporter->getStatus();
     }
 }
 

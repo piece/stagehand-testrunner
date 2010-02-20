@@ -134,6 +134,44 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
                    array('stagehand_testrunner_simpletestmultipleclasses1test')
                );
     }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.0
+     */
+    public function stopsTheTestRunWhenTheFirstFailureIsRaised()
+    {
+        $this->config->stopsOnFailure = true;
+        class_exists('Stagehand_TestRunner_SimpleTestFailureTest');
+        class_exists('Stagehand_TestRunner_SimpleTestPassTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestFailureTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestPassTest');
+        $this->runTests();
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists(
+            'testIsFailure',
+            'Stagehand_TestRunner_SimpleTestFailureTest'
+        );
+    }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.0
+     */
+    public function stopsTheTestRunWhenTheFirstErrorIsRaised()
+    {
+        $this->config->stopsOnFailure = true;
+        class_exists('Stagehand_TestRunner_SimpleTestErrorTest');
+        class_exists('Stagehand_TestRunner_SimpleTestPassTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestErrorTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestPassTest');
+        $this->runTests();
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists(
+            'testIsError',
+            'Stagehand_TestRunner_SimpleTestErrorTest'
+        );
+    }
 }
 
 /*
