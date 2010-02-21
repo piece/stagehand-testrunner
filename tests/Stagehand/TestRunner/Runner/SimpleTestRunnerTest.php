@@ -144,13 +144,13 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         $this->config->stopsOnFailure = true;
         class_exists('Stagehand_TestRunner_SimpleTestFailureTest');
         class_exists('Stagehand_TestRunner_SimpleTestPassTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestFailureTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestFailureAndSuccessTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestPassTest');
         $this->runTests();
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testIsFailure',
-            'Stagehand_TestRunner_SimpleTestFailureTest'
+            'Stagehand_TestRunner_SimpleTestFailureAndSuccessTest'
         );
     }
 
@@ -163,13 +163,13 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         $this->config->stopsOnFailure = true;
         class_exists('Stagehand_TestRunner_SimpleTestErrorTest');
         class_exists('Stagehand_TestRunner_SimpleTestPassTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestErrorTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestErrorAndSuccessTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestPassTest');
         $this->runTests();
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testIsError',
-            'Stagehand_TestRunner_SimpleTestErrorTest'
+            'Stagehand_TestRunner_SimpleTestErrorAndSuccessTest'
         );
     }
 }
