@@ -72,8 +72,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
      */
     public function run($suite)
     {
-        $suite->stopsOnFailure = $this->config->stopsOnFailure;
-
         $reporter = new MultipleReporter();
         $reporter->attachReporter($this->decorateReporter(new TextReporter()));
 
@@ -184,6 +182,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
                 $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_ClassFilterReporter($reporter);
             }
             $reporters[ count($reporters) - 1 ]->setConfig($this->config);
+        }
+
+        if ($this->config->stopsOnFailure) {
+            $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_FailureStopperReporter($reporter);
         }
 
         return array_pop($reporters);

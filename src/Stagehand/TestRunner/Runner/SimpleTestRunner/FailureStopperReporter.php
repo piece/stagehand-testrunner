@@ -33,10 +33,10 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://simpletest.org/
- * @since      File available since Release 2.10.0
+ * @since      File available since Release 2.11.0
  */
 
-require_once 'simpletest/test_case.php';
+require_once 'simpletest/scorer.php';
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,21 +44,47 @@ require_once 'simpletest/test_case.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://simpletest.org/
- * @since      Class available since Release 2.10.0
+ * @since      Class available since Release 2.11.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
+class Stagehand_TestRunner_Runner_SimpleTestRunner_FailureStopperReporter extends SimpleReporterDecorator
 {
-    /**
-     * @return integer
-     */
-    public function getTestCount()
-    {
-        $testCount = 0;
-        foreach ($this->_test_cases as $testCase) {
-            $testCount += count($testCase->getTests());
-        }
+    protected $isPasses = true;
 
-        return $testCount;
+    /**
+     * @param string $testCase
+     * @param string $method
+     * @return boolean
+     */
+    public function shouldInvoke($testCase, $method)
+    {
+        return $this->isPasses;
+    }
+
+    /**
+     * @param string $message
+     */
+    function paintFail($message)
+    {
+        $this->isPasses = false;
+        return parent::paintFail($message);
+    }
+
+    /**
+     * @param string $message
+     */
+    function paintError($message)
+    {
+        $this->isPasses = false;
+        return parent::paintError($message);
+    }
+
+    /**
+     * @param string $message
+     */
+    function paintException($message)
+    {
+        $this->isPasses = false;
+        return parent::paintException($message);
     }
 }
 
