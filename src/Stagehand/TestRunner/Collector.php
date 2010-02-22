@@ -158,7 +158,7 @@ abstract class Stagehand_TestRunner_Collector
         $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
         for ($i = 0, $count = count($newClasses); $i < $count; ++$i) {
             if (!is_subclass_of($newClasses[$i], $this->baseClass)) {
-                return;
+                continue;
             }
 
             if ($this->allowDeny->evaluate($newClasses[$i]) ==
