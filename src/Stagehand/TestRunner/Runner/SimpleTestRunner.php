@@ -6,6 +6,7 @@
  *
  * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
  *               2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ *               2010 KUMAKURA Yousuke <kumatch@gmail.com>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +33,7 @@
  * @package    Stagehand_TestRunner
  * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
  * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://simpletest.org/
@@ -46,6 +48,7 @@ require_once 'simpletest/reporter.php';
  * @package    Stagehand_TestRunner
  * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
  * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://simpletest.org/
@@ -185,7 +188,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         }
 
         if ($this->config->stopsOnFailure) {
-            $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_FailureStopperReporter($reporter);
+            $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_StopOnFailureReporter($reporter);
         }
 
         return array_pop($reporters);

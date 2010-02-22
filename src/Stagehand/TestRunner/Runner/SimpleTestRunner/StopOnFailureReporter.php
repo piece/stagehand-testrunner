@@ -4,7 +4,8 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010 KUMAKURA Yousuke <kumatch@gmail.com>,
+ *               2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,35 +30,35 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
+ * @link       http://simpletest.org/
  * @since      File available since Release 2.11.0
  */
 
-if (!@include_once 'simpletest/unit_tester.php') {
-    return;
-}
+require_once 'simpletest/scorer.php';
 
 /**
- * TestCase for the SimpleTest runner.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
+ * @link       http://simpletest.org/
  * @since      Class available since Release 2.11.0
  */
-class Stagehand_TestRunner_SimpleTestErrorAndSuccessTest extends UnitTestCase
+class Stagehand_TestRunner_Runner_SimpleTestRunner_StopOnFailureReporter extends SimpleReporterDecorator
 {
-    public function testIsError()
+    /**
+     * @param string $testCase
+     * @param string $method
+     * @return boolean
+     */
+    public function shouldInvoke($testCase, $method)
     {
-        throw new Exception('This is an exception message.');
-    }
-
-    public function testIsSuccess()
-    {
-        $this->assertTrue(true);
+        return $this->getStatus();
     }
 }
 

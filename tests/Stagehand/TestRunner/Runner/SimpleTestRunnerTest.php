@@ -5,6 +5,7 @@
  * PHP version 5
  *
  * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ *               2010 KUMAKURA Yousuke <kumatch@gmail.com>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +31,7 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -38,6 +40,7 @@
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
@@ -142,15 +145,15 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     public function stopsTheTestRunWhenTheFirstFailureIsRaised()
     {
         $this->config->stopsOnFailure = true;
-        class_exists('Stagehand_TestRunner_SimpleTestFailureTest');
+        class_exists('Stagehand_TestRunner_SimpleTestFailureAndPassTest');
         class_exists('Stagehand_TestRunner_SimpleTestPassTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestFailureAndSuccessTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestFailureAndPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestPassTest');
         $this->runTests();
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testIsFailure',
-            'Stagehand_TestRunner_SimpleTestFailureAndSuccessTest'
+            'Stagehand_TestRunner_SimpleTestFailureAndPassTest'
         );
     }
 
@@ -161,15 +164,15 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     public function stopsTheTestRunWhenTheFirstErrorIsRaised()
     {
         $this->config->stopsOnFailure = true;
-        class_exists('Stagehand_TestRunner_SimpleTestErrorTest');
+        class_exists('Stagehand_TestRunner_SimpleTestErrorAndPassTest');
         class_exists('Stagehand_TestRunner_SimpleTestPassTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestErrorAndSuccessTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestErrorAndPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestPassTest');
         $this->runTests();
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testIsError',
-            'Stagehand_TestRunner_SimpleTestErrorAndSuccessTest'
+            'Stagehand_TestRunner_SimpleTestErrorAndPassTest'
         );
     }
 }

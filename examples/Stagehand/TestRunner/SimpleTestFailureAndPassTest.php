@@ -4,7 +4,8 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010 KUMAKURA Yousuke <kumatch@gmail.com>,
+ *               2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,62 +30,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://simpletest.org/
  * @since      File available since Release 2.11.0
  */
 
-require_once 'simpletest/scorer.php';
+if (!@include_once 'simpletest/unit_tester.php') {
+    return;
+}
 
 /**
+ * TestCase for the SimpleTest runner.
+ *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://simpletest.org/
  * @since      Class available since Release 2.11.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunner_FailureStopperReporter extends SimpleReporterDecorator
+class Stagehand_TestRunner_SimpleTestFailureAndPassTest extends UnitTestCase
 {
-    protected $isPasses = true;
-
-    /**
-     * @param string $testCase
-     * @param string $method
-     * @return boolean
-     */
-    public function shouldInvoke($testCase, $method)
+    public function testIsFailure()
     {
-        return $this->isPasses;
+        $this->assertTrue(false, 'This is an error message.');
     }
 
-    /**
-     * @param string $message
-     */
-    function paintFail($message)
+    public function testPass()
     {
-        $this->isPasses = false;
-        return parent::paintFail($message);
-    }
-
-    /**
-     * @param string $message
-     */
-    function paintError($message)
-    {
-        $this->isPasses = false;
-        return parent::paintError($message);
-    }
-
-    /**
-     * @param string $message
-     */
-    function paintException($message)
-    {
-        $this->isPasses = false;
-        return parent::paintException($message);
+        $this->assertTrue(true);
     }
 }
 

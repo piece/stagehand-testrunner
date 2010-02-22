@@ -4,7 +4,8 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010 KUMAKURA Yousuke <kumatch@gmail.com>,
+ *               2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +30,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.11.0
@@ -43,21 +45,22 @@ if (!@include_once 'simpletest/unit_tester.php') {
  * TestCase for the SimpleTest runner.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.11.0
  */
-class Stagehand_TestRunner_SimpleTestFailureAndSuccessTest extends UnitTestCase
+class Stagehand_TestRunner_SimpleTestErrorAndPassTest extends UnitTestCase
 {
-    public function testIsFailure()
+    public function testIsError()
     {
-        $this->assertTrue(false, 'This is an error message.');
+        throw new Exception('This is an exception message.');
     }
 
-    public function testIsSuccess()
+    public function testPass()
     {
-        $this->assertTrue(true, 'This is an error message.');
+        $this->assertTrue(true);
     }
 }
 
