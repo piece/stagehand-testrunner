@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2005-2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2005-2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2005-2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2005-2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 0.1.0
@@ -105,6 +105,7 @@ $package->addExtensionDep('optional', 'dom');
 $package->addExtensionDep('optional', 'mbstring');
 $package->addExtensionDep('optional', 'xmlwriter');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'kubo@iteman.jp');
+$package->addMaintainer('developer', 'kumatch', 'KUMAKURA Yousuke', 'kumatch@gmail.com');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
 $package->addInstallAs('bin/phpspecrunner', 'phpspecrunner');
 $package->addInstallAs('bin/phpspecrunner.bat', 'phpspecrunner.bat');
