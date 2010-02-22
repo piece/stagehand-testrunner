@@ -167,15 +167,15 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function stopsTheTestRunWhenTheFirstFailureIsRaised()
     {
         $this->config->stopsOnFailure = true;
-        class_exists('Stagehand_TestRunner_PHPUnitFailureTest');
+        class_exists('Stagehand_TestRunner_PHPUnitFailureAndPassTest');
         class_exists('Stagehand_TestRunner_PHPUnitPassTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitFailureTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitFailureAndPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
         $this->runTests();
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'isFailure',
-            'Stagehand_TestRunner_PHPUnitFailureTest'
+            'Stagehand_TestRunner_PHPUnitFailureAndPassTest'
         );
     }
 
@@ -186,15 +186,15 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function stopsTheTestRunWhenTheFirstErrorIsRaised()
     {
         $this->config->stopsOnFailure = true;
-        class_exists('Stagehand_TestRunner_PHPUnitErrorTest');
+        class_exists('Stagehand_TestRunner_PHPUnitErrorAndPassTest');
         class_exists('Stagehand_TestRunner_PHPUnitPassTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitErrorTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitErrorAndPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
         $this->runTests();
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'isError',
-            'Stagehand_TestRunner_PHPUnitErrorTest'
+            'Stagehand_TestRunner_PHPUnitErrorAndPassTest'
         );
     }
 
