@@ -177,21 +177,22 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
     protected function decorateReporter($reporter)
     {
         $reporters[] = $reporter;
-        if ($this->config->testsOnlySpecified()) {
-            if ($this->config->testsOnlySpecifiedMethods) {
-                $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_MethodFilterReporter($reporter);
-            }
-            if ($this->config->testsOnlySpecifiedClasses) {
-                $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_ClassFilterReporter($reporter);
-            }
+
+        if ($this->config->testsOnlySpecifiedMethods) {
+            $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_MethodFilterReporter($reporters[ count($reporters) - 1 ]);
+            $reporters[ count($reporters) - 1 ]->setConfig($this->config);
+        }
+
+        if ($this->config->testsOnlySpecifiedClasses) {
+            $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_ClassFilterReporter($reporters[ count($reporters) - 1 ]);
             $reporters[ count($reporters) - 1 ]->setConfig($this->config);
         }
 
         if ($this->config->stopsOnFailure) {
-            $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_StopOnFailureReporter($reporter);
+            $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_StopOnFailureReporter($reporters[ count($reporters) - 1 ]);
         }
 
-        return array_pop($reporters);
+        return $reporters[ count($reporters) - 1 ];
     }
 }
 
