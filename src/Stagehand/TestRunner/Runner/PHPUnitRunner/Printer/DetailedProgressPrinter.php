@@ -62,9 +62,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->write($this->colors ? Stagehand_TestRunner_Coloring::magenta('raised an error')
-                                   : 'raised an error'
-                     );
+        $message = 'raised an error';
+        $this->write(
+            $this->colors ? Stagehand_TestRunner_Coloring::magenta($message)
+                          : $message
+        );
 
         parent::addError($test, $e, $time);
     }
@@ -78,9 +80,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        $this->write($this->colors ? Stagehand_TestRunner_Coloring::red('failed')
-                                   : 'failed'
-                     );
+        $message = 'failed';
+        $this->write(
+            $this->colors ? Stagehand_TestRunner_Coloring::red($message)
+                          : $message
+        );
 
         parent::addFailure($test, $e, $time);
     }
@@ -94,9 +98,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->write($this->colors ? Stagehand_TestRunner_Coloring::yellow('was incomplete')
-                                   : 'was incomplete'
-                     );
+        $message = 'was incomplete';
+        $this->write(
+            $this->colors ? Stagehand_TestRunner_Coloring::yellow($message)
+                          : $message
+        );
 
         parent::addIncompleteTest($test, $e, $time);
     }
@@ -110,9 +116,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->write($this->colors ? Stagehand_TestRunner_Coloring::yellow('skipped')
-                                   : 'skipped'
-                     );
+        $message = 'skipped';
+        $this->write(
+            $this->colors ? Stagehand_TestRunner_Coloring::yellow($message)
+                          : $message
+        );
 
         parent::addSkippedTest($test, $e, $time);
     }
@@ -160,9 +168,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
         if (!$this->lastTestFailed) {
-            $this->write($this->colors ? Stagehand_TestRunner_Coloring::green('passed')
-                                      : 'passed'
-                         );
+            $message = 'passed';
+            $this->write(
+                $this->colors ? Stagehand_TestRunner_Coloring::green($message)
+                              : $message
+                );
         }
 
         parent::endTest($test, $time);
