@@ -98,7 +98,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $message = 'was incomplete';
+        $message = 'was incomplete (' . $e->getMessage() . ')';
         $this->write(
             $this->colors ? Stagehand_TestRunner_Coloring::yellow($message)
                           : $message
@@ -116,7 +116,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $message = 'skipped';
+        $message = 'skipped (' . $e->getMessage() . ')';
         $this->write(
             $this->colors ? Stagehand_TestRunner_Coloring::yellow($message)
                           : $message

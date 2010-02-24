@@ -141,11 +141,17 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      */
     public function includesTheSpecifiedMessageAtTheTestDoxForIncompleteAndSkippedTests($method)
     {
+        $this->config->printsDetailedProgressReport = true;
         $this->config->addMethodToBeTested($method);
-        $class = substr($method, 0, strpos($method, '::'));
+        preg_match('/^(.*?)::(.*)/', $method, $matches);
+        $class = $matches[1];
+        $method = $matches[2];
         class_exists($class);
         $this->collector->collectTestCase($class);
         $this->runTests();
+        $this->assertRegExp(
+            '/^  ' . $method . ' ... .+\s\(.+\)$/m', $this->output
+        );
         $this->assertRegExp('/^ \[ \] .+\s\(.+\)$/m', $this->output);
     }
 
