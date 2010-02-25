@@ -36,7 +36,28 @@
  * @since      File available since Release 2.7.0
  */
 
-preload();
+// Finds the preload option and preloads a file as a PHP script if it is specified.
+$preload = create_function('', '
+do {
+    for ($i = 1, $count = count($_SERVER[\'argv\']); $i < $count; ++$i) {
+        if ($_SERVER[\'argv\'][$i] == \'-p\') {
+            $preloadFileIndex = $i + 1;
+            break 2;
+        }
+    }
+    return;
+} while (false);
+if (!array_key_exists($preloadFileIndex, $_SERVER[\'argv\'])) {
+    return;
+}
+$preloadFile = $_SERVER[\'argv\'][$preloadFileIndex];
+$result = include_once $preloadFile;
+if (!$result) {
+    echo "ERROR: Cannot load [ $preloadFile ]. Make sure the file path and permission are correct.\n";
+    exit(1);
+}
+');
+$preload();
 
 require_once 'Stagehand/Autoload.php';
 
@@ -50,37 +71,6 @@ $runner = new Stagehand_TestRunner(Stagehand_TestRunner_Framework::PHPT);
 $result = $runner->run();
 
 exit($result);
-
-/**
- * Finds the preload option and preloads a file as a PHP script if it is
- * specified.
- */
-function preload()
-{
-    do {
-        for ($i = 1, $count = count($_SERVER['argv']); $i < $count; ++$i) {
-            if (preg_match('/^-.*p/', $_SERVER['argv'][$i])) {
-                $preloadFileIndex = $i + 1;
-                break 2;
-            }
-        }
-
-        return;
-    } while (false);
-
-    if (!array_key_exists($preloadFileIndex, $_SERVER['argv'])) {
-        return;
-    }
-
-    $preloadFile = $_SERVER['argv'][$preloadFileIndex];
-    if (!is_null($preloadFile)) {
-        $result = include_once $preloadFile;
-        if (!$result) {
-            echo "ERROR: Cannot load [ $preloadFile ]. Make sure the file path and permission are correct.\n";
-            exit(1);
-        }
-    }
-}
 
 /*
  * Local Variables:
