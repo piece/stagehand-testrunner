@@ -167,6 +167,37 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     }
 
     /**
+     * @param string $method
+     * @test
+     * @dataProvider provideFullyQualifiedMethodNamesForIncompleteAndSkippedTestsWithoutMessage
+     * @since Method available since Release 2.11.0
+     */
+    public function printsNormalOutputForIncompleteAndSkippedTestsIfTheMessageIsNotSpecified($method)
+    {
+        $this->config->printsDetailedProgressReport = true;
+        $this->config->addMethodToBeTested($method);
+        preg_match('/^(.*?)::(.*)/', $method, $matches);
+        $class = $matches[1];
+        $method = $matches[2];
+        class_exists($class);
+        $this->collector->collectTestCase($class);
+        $this->runTests();
+        $this->assertRegExp('/^  ' . $method . ' ... [^()]+$/m', $this->output);
+        $this->assertRegExp('/^ \[ \] [^()]+$/m', $this->output);
+    }
+
+    /**
+     * @since Method available since Release 2.11.0
+     */
+    public function provideFullyQualifiedMethodNamesForIncompleteAndSkippedTestsWithoutMessage()
+    {
+        return array(
+                   array('Stagehand_TestRunner_PHPUnitIncompleteTest::isIncompleteWithoutMessage'),
+                   array('Stagehand_TestRunner_PHPUnitSkippedTest::isSkippedWithoutMessage')
+               );
+    }
+
+    /**
      * @test
      * @since Method available since Release 2.11.0
      */
@@ -216,7 +247,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitSkippedTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
         $this->runTests();
-        $this->assertTestCaseCount(4);
+        $this->assertTestCaseCount(5);
     }
 
     /**
@@ -231,7 +262,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitIncompleteTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
         $this->runTests();
-        $this->assertTestCaseCount(4);
+        $this->assertTestCaseCount(5);
     }
 }
 

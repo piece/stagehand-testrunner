@@ -57,6 +57,15 @@ class Stagehand_TestRunner_PHPUnitSkippedTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestSkipped('Foo is not available');
     }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.0
+     */
+    public function isSkippedWithoutMessage()
+    {
+        $this->markTestSkipped();
+    }
 }
 
 /*

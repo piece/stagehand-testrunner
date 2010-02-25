@@ -133,14 +133,16 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
         $testStatus = $this->testStatuses[$name];
         if ($this->testStatuses[$name] == PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE
             || $this->testStatuses[$name] == PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED) {
-            $name = $name .
-                    ' (' .
-                    str_replace(
-                        array("\x0d", "\x0a"),
-                        '',
-                        $this->testStatusMessages[$name]
-                    ) .
-                    ')';
+            if (strlen($this->testStatusMessages[$name])) {
+                $name = $name .
+                        ' (' .
+                        str_replace(
+                            array("\x0d", "\x0a"),
+                            '',
+                            $this->testStatusMessages[$name]
+                        ) .
+                        ')';
+            }
         }
 
         if ($this->colors) {

@@ -57,6 +57,15 @@ class Stagehand_TestRunner_PHPUnitIncompleteTest extends PHPUnit_Framework_TestC
     {
         $this->markTestIncomplete('This test has not been implemented yet');
     }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.0
+     */
+    public function isIncompleteWithoutMessage()
+    {
+        $this->markTestIncomplete();
+    }
 }
 
 /*
