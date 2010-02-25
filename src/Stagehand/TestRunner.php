@@ -211,13 +211,13 @@ OPTIONS
      Logs test results in real-time into the specified file in the JUnit XML format.
      (PHPUnit, SimpleTest, and PHPT)
 
-  --stop-on-failure
-     Stops the test run when the first failure or error is raised.
-     (PHPUnit, SimpleTest, and PHPT)
-
   -v
      Prints detailed progress report.
      (PHPUnit and PHPT)
+
+  --stop-on-failure
+     Stops the test run when the first failure or error is raised.
+     (PHPUnit, SimpleTest, and PHPT)
 ";
     }
 
