@@ -139,7 +139,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      * @dataProvider provideFullyQualifiedMethodNamesForIncompleteAndSkippedTests
      * @since Method available since Release 2.11.0
      */
-    public function includesTheSpecifiedMessageAtTheTestDoxForIncompleteAndSkippedTests($method)
+    public function printsTheSpecifiedMessageForIncompleteAndSkippedTests($method)
     {
         $this->config->printsDetailedProgressReport = true;
         $this->config->addMethodToBeTested($method);
