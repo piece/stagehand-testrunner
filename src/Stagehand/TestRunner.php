@@ -228,8 +228,9 @@ OPTIONS
     {
         echo "Stagehand_TestRunner @package_version@ ({$this->config->framework})
 
-Copyright (c) 2005-2009 KUBO Atsuhiro <kubo@iteman.jp>,
+Copyright (c) 2005-2010 KUBO Atsuhiro <kubo@iteman.jp>,
               2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
+              2010 KUMAKURA Yousuke <kumatch@gmail.com>,
 All rights reserved.
 ";
     }
