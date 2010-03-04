@@ -185,7 +185,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
             $this->write(
                 $this->colors ? Stagehand_TestRunner_Coloring::green($message)
                               : $message
-                );
+            );
         }
 
         parent::endTest($test, $time);
