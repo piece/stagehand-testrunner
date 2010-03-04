@@ -144,7 +144,8 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
         if (strlen($suite->getName())) {
-            if ($this->lastEvent == PHPUnit_TextUI_ResultPrinter::EVENT_TESTSUITE_END) {
+            if ($this->lastEvent == PHPUnit_TextUI_ResultPrinter::EVENT_TESTSUITE_END
+                || $this->lastEvent == PHPUnit_TextUI_ResultPrinter::EVENT_TEST_END) {
                 $this->write("\n\n");
             }
 
@@ -161,7 +162,8 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        if ($this->lastEvent == PHPUnit_TextUI_ResultPrinter::EVENT_TEST_END) {
+        if ($this->lastEvent == PHPUnit_TextUI_ResultPrinter::EVENT_TEST_END
+            || $this->lastEvent == PHPUnit_TextUI_ResultPrinter::EVENT_TESTSUITE_END) {
             $this->write("\n");
         }
 
