@@ -80,7 +80,9 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
      */
     protected function createTestSuite($name)
     {
-        return new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite($name);
+        $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite($name);
+        $suite->setConfig($this->config);
+        return $suite;
     }
 }
 

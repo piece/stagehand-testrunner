@@ -93,6 +93,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
             $junitXMLReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter($this->config);
             $junitXMLReporter->setXMLWriter($xmlWriter);
             $junitXMLReporter->setTestSuite($suite);
+            $junitXMLReporter->setConfig($this->config);
             $reporter->attachReporter($this->decorateReporter($junitXMLReporter));
         }
 

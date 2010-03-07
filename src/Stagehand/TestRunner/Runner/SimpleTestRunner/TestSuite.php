@@ -49,16 +49,57 @@ require_once 'simpletest/test_case.php';
 class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
 {
     /**
+     * @var Stagehand_TestRunner_Config
+     */
+    protected $config;
+
+    /**
      * @return integer
      */
     public function getTestCount()
     {
         $testCount = 0;
         foreach ($this->_test_cases as $testCase) {
-            $testCount += count($testCase->getTests());
+            $testCount += $this->countTestsInTestCase($testCase);
         }
 
         return $testCount;
+    }
+
+    /**
+     * @param SimpleTestCase $testCase
+     * @return integer
+     * @since Method available since Release 2.11.1
+     */
+    public function countTestsInTestCase(SimpleTestCase $testCase)
+    {
+        $tests = $testCase->getTests();
+        $testCount = 0;
+        if ($this->config->testsOnlySpecified()) {
+            if ($this->config->testsOnlySpecifiedMethods) {
+                foreach ($tests as $method) {
+                    if ($this->config->inMethodsToBeTested(get_class($testCase), $method)) {
+                        ++$testCount;
+                    }
+                }
+            } elseif ($this->config->testsOnlySpecifiedClasses) {
+                if ($this->config->inClassesToBeTested(get_class($testCase))) {
+                    $testCount = count($tests);
+                }
+            }
+        } else {
+            $testCount = count($tests);
+        }
+
+        return $testCount;
+    }
+
+    /**
+     * @param Stagehand_TestRunner_Config $config
+     */
+    public function setConfig(Stagehand_TestRunner_Config $config)
+    {
+        $this->config = $config;
     }
 }
 

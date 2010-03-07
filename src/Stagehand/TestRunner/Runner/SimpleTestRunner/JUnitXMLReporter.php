@@ -61,6 +61,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     protected $assertionCount;
 
     /**
+     * @var Stagehand_TestRunner_Config
+     */
+    protected $config;
+
+    /**
      * @param Stagehand_TestRunner_JUnitXMLWriter $xmlWriter
      */
     public function setXMLWriter(Stagehand_TestRunner_JUnitXMLWriter $xmlWriter)
@@ -74,6 +79,14 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function setTestSuite(Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite $suite)
     {
         $this->suite = $suite;
+    }
+
+    /**
+     * @param Stagehand_TestRunner_Config $config
+     */
+    public function setConfig(Stagehand_TestRunner_Config $config)
+    {
+        $this->config = $config;
     }
 
     /**
@@ -103,7 +116,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         parent::paintCaseStart($testName);
         $this->xmlWriter->startTestSuite(
             $testName,
-            count(SimpleTest::getContext()->getTest()->getTests())
+            $this->suite->countTestsInTestCase(SimpleTest::getContext()->getTest())
         );
     }
 

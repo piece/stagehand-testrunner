@@ -308,6 +308,47 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertRegexp('/^Exception: This is an exception message\./',
                             $error->nodeValue);
     }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.1
+     */
+    public function countsTheNumberOfTestsForMethodFiltersWithTheRealtimeOption()
+    {
+        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->addMethodToBeTested('testPass1');
+        class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
+        $this->runTests();
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $this->assertEquals(1, $parentTestsuite->getAttribute('tests'));
+        $childTestsuite = $parentTestsuite->childNodes->item(0);
+        $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
+    }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.1
+     */
+    public function countsTheNumberOfTestsForClassFiltersWithTheRealtimeOption()
+    {
+        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->addClassToBeTested('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
+        class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
+        $this->runTests();
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $this->assertEquals(2, $parentTestsuite->getAttribute('tests'));
+        $childTestsuite = $parentTestsuite->childNodes->item(0);
+        $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
+    }
 }
 
 /*

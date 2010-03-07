@@ -528,6 +528,46 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
             $error->nodeValue
         );
     }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.1
+     */
+    public function countsTheNumberOfTestsForMethodFiltersWithTheRealtimeOption()
+    {
+        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->addMethodToBeTested('pass1');
+        class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $this->runTests();
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $this->assertEquals(1, $parentTestsuite->getAttribute('tests'));
+        $childTestsuite = $parentTestsuite->childNodes->item(0);
+        $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
+    }
+    /**
+     * @test
+     * @since Method available since Release 2.11.1
+     */
+    public function countsTheNumberOfTestsForClassFiltersWithTheRealtimeOption()
+    {
+        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->addClassToBeTested('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
+        $this->runTests();
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $this->assertEquals(2, $parentTestsuite->getAttribute('tests'));
+        $childTestsuite = $parentTestsuite->childNodes->item(0);
+        $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
+    }
 }
 
 /*
