@@ -56,7 +56,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
     /**
      * @return integer
      */
-    public function getTestCount()
+    public function countTests()
     {
         $testCount = 0;
         foreach ($this->_test_cases as $testCase) {

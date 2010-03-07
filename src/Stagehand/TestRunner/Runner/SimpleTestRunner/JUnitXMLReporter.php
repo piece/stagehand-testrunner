@@ -96,7 +96,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function paintGroupStart($testName, $size)
     {
         parent::paintGroupStart($testName, $size);
-        $this->xmlWriter->startTestSuite($testName, $this->suite->getTestCount());
+        $this->xmlWriter->startTestSuite($testName, $this->suite->countTests());
     }
 
     /**
