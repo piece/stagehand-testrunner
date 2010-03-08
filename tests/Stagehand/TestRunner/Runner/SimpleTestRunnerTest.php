@@ -145,8 +145,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     public function stopsTheTestRunWhenTheFirstFailureIsRaised()
     {
         $this->config->stopsOnFailure = true;
-        class_exists('Stagehand_TestRunner_SimpleTestFailureAndPassTest');
-        class_exists('Stagehand_TestRunner_SimpleTestPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestFailureAndPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestPassTest');
         $this->runTests();
@@ -164,8 +162,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     public function stopsTheTestRunWhenTheFirstErrorIsRaised()
     {
         $this->config->stopsOnFailure = true;
-        class_exists('Stagehand_TestRunner_SimpleTestErrorAndPassTest');
-        class_exists('Stagehand_TestRunner_SimpleTestPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestErrorAndPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestPassTest');
         $this->runTests();

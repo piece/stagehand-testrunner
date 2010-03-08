@@ -53,7 +53,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinterT
     public function printsSkippedTestsWithADataProvider()
     {
         $this->config->printsDetailedProgressReport = true;
-        class_exists('Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest');
         $this->collector->collectTestCase(
             'Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest'
         );
@@ -75,7 +74,6 @@ Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest::isSkippedWithTheDataPro
     public function printsIncompleteTestsWithADataProvider()
     {
         $this->config->printsDetailedProgressReport = true;
-        class_exists('Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest');
         $this->collector->collectTestCase(
             'Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest'
         );

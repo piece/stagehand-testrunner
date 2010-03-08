@@ -146,7 +146,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         preg_match('/^(.*?)::(.*)/', $method, $matches);
         $class = $matches[1];
         $method = $matches[2];
-        class_exists($class);
         $this->collector->collectTestCase($class);
         $this->runTests();
         $this->assertRegExp(
@@ -179,7 +178,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         preg_match('/^(.*?)::(.*)/', $method, $matches);
         $class = $matches[1];
         $method = $matches[2];
-        class_exists($class);
         $this->collector->collectTestCase($class);
         $this->runTests();
         $this->assertRegExp('/^  ' . $method . ' ... [^()]+$/m', $this->output);
@@ -204,8 +202,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function stopsTheTestRunWhenTheFirstFailureIsRaised()
     {
         $this->config->stopsOnFailure = true;
-        class_exists('Stagehand_TestRunner_PHPUnitFailureAndPassTest');
-        class_exists('Stagehand_TestRunner_PHPUnitPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitFailureAndPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
         $this->runTests();
@@ -223,8 +219,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function stopsTheTestRunWhenTheFirstErrorIsRaised()
     {
         $this->config->stopsOnFailure = true;
-        class_exists('Stagehand_TestRunner_PHPUnitErrorAndPassTest');
-        class_exists('Stagehand_TestRunner_PHPUnitPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitErrorAndPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
         $this->runTests();
@@ -242,8 +236,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function notStopTheTestRunWhenATestCaseIsSkipped()
     {
         $this->config->stopsOnFailure = true;
-        class_exists('Stagehand_TestRunner_PHPUnitSkippedTest');
-        class_exists('Stagehand_TestRunner_PHPUnitPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitSkippedTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
         $this->runTests();
@@ -257,8 +249,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function notStopTheTestRunWhenATestCaseIsIncomplete()
     {
         $this->config->stopsOnFailure = true;
-        class_exists('Stagehand_TestRunner_PHPUnitIncompleteTest');
-        class_exists('Stagehand_TestRunner_PHPUnitPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitIncompleteTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
         $this->runTests();
