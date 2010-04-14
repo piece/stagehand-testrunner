@@ -1,4 +1,5 @@
-#Tue Dec 22 16:56:14 JST 2009
+#Sun Apr 11 03:20:37 JST 2010
 eclipse.preferences.version=1
 preload_script=/stagehand-testrunner/tests/prepare.php
+test_folders=/stagehand-testrunner/tests
 testing_framework=PHPUnit
