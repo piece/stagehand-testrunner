@@ -548,6 +548,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
         $childTestsuite = $parentTestsuite->childNodes->item(0);
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
     }
+
     /**
      * @test
      * @since Method available since Release 2.11.1
