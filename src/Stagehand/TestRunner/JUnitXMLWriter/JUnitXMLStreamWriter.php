@@ -44,7 +44,11 @@
  */
 class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stagehand_TestRunner_JUnitXMLWriter
 {
+    /**
+     * @var Stagehand_TestRunner_JUnitXMLWriter_XMLStreamWriter
+     */
     protected $xmlWriter;
+
     protected $streamWriter;
 
     /**
@@ -58,9 +62,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
     public function __construct($streamWriter)
     {
         $this->streamWriter = $streamWriter;
-        $this->xmlWriter = new XMLWriter();
-        $this->xmlWriter->openMemory();
-        $this->xmlWriter->startDocument('1.0', 'UTF-8');
+        $this->xmlWriter = new Stagehand_TestRunner_JUnitXMLWriter_XMLStreamWriter();
         $this->utf8Converter = Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_UTF8ConverterFactory::create();
     }
 
@@ -160,7 +162,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
     public function endTestSuites()
     {
         $this->xmlWriter->endElement();
-        $this->xmlWriter->endDocument();
         $this->flush();
     }
 
