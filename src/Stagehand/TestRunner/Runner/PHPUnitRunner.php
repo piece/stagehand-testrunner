@@ -131,7 +131,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
      */
     protected function prettifier()
     {
-        return new PHPUnit_Util_TestDox_NamePrettifier();
+        return new Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier();
     }
 
     /**

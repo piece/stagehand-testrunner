@@ -254,6 +254,22 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $this->runTests();
         $this->assertTestCaseCount(5);
     }
+
+    /**
+     * @test
+     * @since Method available since Release 2.11.2
+     */
+    public function notBreakTestDoxOutputIfTheSameTestMethodNamesExceptTrailingNumbers()
+    {
+        $this->config->addClassToBeTested('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $this->runTests();
+        $this->assertRegExp(
+            '/^Stagehand_TestRunner_PHPUnitMultipleClasses1\n \[x\] Pass 1\n \[x\] Pass 2$/m',
+            $this->output
+        );
+    }
 }
 
 /*
