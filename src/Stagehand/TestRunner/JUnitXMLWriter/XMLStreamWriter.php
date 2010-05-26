@@ -71,7 +71,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_XMLStreamWriter
         }
 
         $currentElement = array_pop($this->elements);
-        echo 'Current Element is ' . $currentElement . "\n";
         $this->buffer .= '</' . $currentElement . '>';
     }
 
