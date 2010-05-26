@@ -69,6 +69,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
     public function startTestSuites()
     {
         $this->xmlWriter->startElement('testsuites');
+        $this->xmlWriter->closeStartTag();
         $this->flush();
     }
 
@@ -99,6 +100,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
             }
         }
 
+        $this->xmlWriter->closeStartTag();
         $this->flush();
     }
 
@@ -124,6 +126,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
             $this->xmlWriter->writeAttribute('line', $method->getStartLine());
         }
 
+        $this->xmlWriter->closeStartTag();
         $this->flush();
     }
 
