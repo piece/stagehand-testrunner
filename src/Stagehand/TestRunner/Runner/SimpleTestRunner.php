@@ -59,16 +59,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
     protected $junitXMLFileHandle;
 
     /**
-     * @since Method available since Release 2.10.0
-     */
-    public function __destruct()
-    {
-        if (is_resource($this->junitXMLFileHandle)) {
-            fclose($this->junitXMLFileHandle);
-        }
-    }
-
-    /**
      * Runs tests based on the given TestSuite object.
      *
      * @param TestSuite $suite
@@ -101,6 +91,12 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         $suite->run($reporter);
         $output = ob_get_contents();
         ob_end_clean();
+
+        if ($this->config->logsResultsInJUnitXML) {
+            if (is_resource($this->junitXMLFileHandle)) {
+                fclose($this->junitXMLFileHandle);
+            }
+        }
 
         if ($this->config->usesGrowl) {
             if (preg_match('/^(OK.+)/ms', $output, $matches)) {
