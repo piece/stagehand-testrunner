@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
     http://pear.php.net/dtd/tasks-1.0.xsd
     http://pear.php.net/dtd/package-2.0
     http://pear.php.net/dtd/package-2.0.xsd">
@@ -19,10 +19,10 @@
   <email>kumatch@gmail.com</email>
   <active>yes</active>
  </developer>
- <date>2010-03-09</date>
- <time>02:09:10</time>
+ <date>2010-05-31</date>
+ <time>12:38:03</time>
  <version>
-  <release>2.11.1</release>
+  <release>2.11.2</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -31,13 +31,13 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-What&apos;s New in Stagehand_TestRunner 2.11.1
+What&apos;s New in Stagehand_TestRunner 2.11.2
 
  Two defect fixes
 
-  A defect has been fixed that caused the layout of the detailed progress report to be broken by incomplete or skipped tests with data providers. (Issue #136)
+  (Issue #173, #175)
 
-  And a defect has been fixed that caused wrong number of tests to be output to a JUnit XML if using method/class filters with the real-time option. (Issue #141)
+  A defect has been fixed that caused a start tag not to be closed when the tag and all attributes are written. And also a defect has been fixed that caused TestDox output to be broken if the same test method names except trailing numbers.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -271,6 +271,9 @@ What&apos;s New in Stagehand_TestRunner 2.11.1
        <file baseinstalldir="/" name="UTF8Converter.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
+       <file baseinstalldir="/" name="XMLStreamWriter.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
       </dir> <!-- /src/Stagehand/TestRunner/JUnitXMLWriter -->
       <dir name="Runner">
        <dir name="PHPSpecRunner">
@@ -491,9 +494,6 @@ What&apos;s New in Stagehand_TestRunner 2.11.1
    <extension>
     <name>mbstring</name>
    </extension>
-   <extension>
-    <name>xmlwriter</name>
-   </extension>
   </optional>
  </dependencies>
  <phprelease>
@@ -509,6 +509,27 @@ What&apos;s New in Stagehand_TestRunner 2.11.1
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.11.2</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-05-31</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+What&apos;s New in Stagehand_TestRunner 2.11.2
+
+ Two defect fixes
+
+  (Issue #173, #175)
+
+  A defect has been fixed that caused a start tag not to be closed when the tag and all attributes are written. And also a defect has been fixed that caused TestDox output to be broken if the same test method names except trailing numbers.
+   </notes>
+  </release>
   <release>
    <version>
     <release>2.11.1</release>

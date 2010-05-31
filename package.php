@@ -41,7 +41,7 @@ require_once 'PEAR.php';
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
 $packageName = 'Stagehand_TestRunner';
-$releaseVersion = '2.11.1';
+$releaseVersion = '2.11.2';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
@@ -49,9 +49,9 @@ $notes = "What's New in $packageName $releaseVersion
 
  Two defect fixes
 
-  A defect has been fixed that caused the layout of the detailed progress report to be broken by incomplete or skipped tests with data providers. (Issue #136)
+  (Issue #173, #175)
 
-  And a defect has been fixed that caused wrong number of tests to be output to a JUnit XML if using method/class filters with the real-time option. (Issue #141)";
+  A defect has been fixed that caused a start tag not to be closed when the tag and all attributes are written. And also a defect has been fixed that caused TestDox output to be broken if the same test method names except trailing numbers.";
 
 $package = new PEAR_PackageFileManager2();
 $package->setOptions(array('filelistgenerator' => 'file',
@@ -95,7 +95,6 @@ $package->addExtensionDep('required', 'pcre');
 $package->addExtensionDep('required', 'SPL');
 $package->addExtensionDep('optional', 'dom');
 $package->addExtensionDep('optional', 'mbstring');
-$package->addExtensionDep('optional', 'xmlwriter');
 $package->addMaintainer('lead', 'iteman', 'KUBO Atsuhiro', 'kubo@iteman.jp');
 $package->addMaintainer('developer', 'kumatch', 'KUMAKURA Yousuke', 'kumatch@gmail.com');
 $package->addGlobalReplacement('package-info', '@package_version@', 'version');
