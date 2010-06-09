@@ -393,9 +393,7 @@ All rights reserved.
      */
     protected function shouldPrepare()
     {
-        $class = 'Stagehand_TestRunner_Preparator_' .
-                 $this->config->framework .
-                 'Preparator';
+        $class = $this->getPreparetorClass();
         return class_exists($class);
     }
 
@@ -405,10 +403,17 @@ All rights reserved.
      */
     protected function createPreparator()
     {
-        $class = 'Stagehand_TestRunner_Preparator_' .
-                 $this->config->framework .
-                 'Preparator';
+        $class = $this->getPreparetorClass();
         return new $class();
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 2.12.0
+     */
+    protected function getPreparetorClass()
+    {
+        return 'Stagehand_TestRunner_Preparator_' . $this->config->framework . 'Preparator';
     }
 }
 
