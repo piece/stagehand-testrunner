@@ -103,6 +103,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
 
         if ($this->config->stopsOnFailure) {
             $arguments['stopOnFailure'] = true;
+            $arguments['stopOnError'] = true;
         }
 
         $testRunner = new Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner();

@@ -336,6 +336,10 @@ All rights reserved.
      */
     protected function runTests()
     {
+        if ($this->shouldPrepare()) {
+            $preparetor = $this->createPreparator();
+            $preparetor->prepare();
+        }
         $runner = $this->createRunner();
         $runner->run($this->createCollector()->collect());
         if ($this->config->usesGrowl) {
@@ -381,6 +385,30 @@ All rights reserved.
             'Test Results by Stagehand_TestRunner',
             $notification->description
         );
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 2.12.0
+     */
+    protected function shouldPrepare()
+    {
+        $class = 'Stagehand_TestRunner_Preparator_' .
+                 $this->config->framework .
+                 'Preparator';
+        return class_exists($class);
+    }
+
+    /**
+     * @return Stagehand_TestRunner_Preparator
+     * @since Method available since Release 2.12.0
+     */
+    protected function createPreparator()
+    {
+        $class = 'Stagehand_TestRunner_Preparator_' .
+                 $this->config->framework .
+                 'Preparator';
+        return new $class();
     }
 }
 
