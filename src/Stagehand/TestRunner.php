@@ -353,8 +353,8 @@ All rights reserved.
      */
     protected function createCollector()
     {
-        $factory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
-        return $factory->create();
+        $class = 'Stagehand_TestRunner_Collector_' . $this->config->framework . 'Collector';
+        return new $class($this->config);
     }
 
     /**
