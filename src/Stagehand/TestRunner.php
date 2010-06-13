@@ -337,8 +337,7 @@ All rights reserved.
     protected function runTests()
     {
         if ($this->shouldPrepare()) {
-            $preparetor = $this->createPreparator();
-            $preparetor->prepare();
+            $this->createPreparator()->prepare();
         }
         $runner = $this->createRunner();
         $runner->run($this->createCollector()->collect());
