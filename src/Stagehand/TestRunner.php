@@ -224,6 +224,9 @@ OPTIONS
   --stop-on-failure
      Stops the test run when the first failure or error is raised.
      (PHPUnit, SimpleTest, and PHPT)
+
+  --file-suffixes=SUFFIX1,SUFFIX2,...
+     Specifies file suffixes.
 ";
     }
 
