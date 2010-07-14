@@ -54,7 +54,8 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             'log-junit=',
             'log-junit-realtime',
             'classes=',
-            'stop-on-failure'
+            'stop-on-failure',
+            'file-suffix=',
         );
     protected $config;
 
@@ -128,6 +129,11 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             return true;
         case 'v':
             $this->config->printsDetailedProgressReport = true;
+            return true;
+        case '--file-suffix':
+            foreach (explode(',', $value) as $fileSuffixes) {
+                $this->config->addFileSuffix($fileSuffixes);
+            }
             return true;
         }
     }

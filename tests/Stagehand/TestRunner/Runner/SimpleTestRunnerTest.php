@@ -171,6 +171,26 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
             'Stagehand_TestRunner_SimpleTestErrorAndPassTest'
         );
     }
+
+    /**
+     * @test
+     * @since Method available since Release 2.12.0
+     */
+    public function runsOnlyTheSpecifiedSuffixFiles()
+    {
+        $file = dirname(__FILE__) .
+            '/../../../../examples/Stagehand/TestRunner/SimpleTestPassOnSpecifiedSuffixFile_test_.php';
+        $this->collector->collectTestCases($file);
+
+        $this->runTests();
+        $this->assertTestCaseCount(0);
+
+        $this->config->addFileSuffix('_test_');
+        $this->collector->collectTestCases($file);
+
+        $this->runTests();
+        $this->assertTestCaseCount(3);
+    }
 }
 
 /*

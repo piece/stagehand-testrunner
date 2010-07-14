@@ -62,6 +62,7 @@ class Stagehand_TestRunner_Config
     public $framework;
     public $runnerClass;
     public $stopsOnFailure = false;
+    public $fileSuffixes = array();
 
     /**
      */
@@ -134,6 +135,15 @@ class Stagehand_TestRunner_Config
     protected function inElementsToBeTested($element)
     {
         return in_array(strtolower($element), $this->elementsToBeTested);
+    }
+
+    /**
+     * @param string $fileSuffix
+     * @since Method available since Release 2.12.0
+     */
+    public function addFileSuffix($fileSuffix)
+    {
+        $this->fileSuffixes[] = $fileSuffix;
     }
 }
 
