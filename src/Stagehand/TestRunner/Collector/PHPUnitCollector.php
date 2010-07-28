@@ -90,7 +90,11 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
         }
 
         if ($this->config->testsOnlySpecifiedMethods) {
-            $this->suite->addTestSuite(new Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite($test, $this->config));
+            $this->suite->addTestSuite(
+                version_compare(PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
+                    ? new Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite_PHPUnit35MethodFilterTestSuite($test, $this->config)
+                    : new Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite_PHPUnit34MethodFilterTestSuite($test, $this->config)
+            );
         } elseif ($this->config->testsOnlySpecifiedClasses) {
             if ($this->config->inClassesToBeTested($test->getName())) {
                 $this->suite->addTestSuite($test);

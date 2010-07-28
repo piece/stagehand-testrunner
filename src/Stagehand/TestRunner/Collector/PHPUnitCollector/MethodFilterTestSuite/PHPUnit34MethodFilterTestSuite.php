@@ -33,10 +33,8 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
- * @since      File available since Release 2.7.0
+ * @since      File available since Release 2.12.0
  */
-
-require_once 'PHPUnit/Framework/TestSuite.php';
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,35 +42,20 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
- * @since      Class available since Release 2.7.0
+ * @since      Class available since Release 2.12.0
  */
-class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite extends PHPUnit_Framework_TestSuite
+class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite_PHPUnit34MethodFilterTestSuite extends Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite
 {
-    protected $config;
-
     /**
-     * @param ReflectionClass             $theClass
-     * @param Stagehand_TestRunner_Config $config
+     * @param ReflectionClass  $class
+     * @param ReflectionMethod $method
+     * @param array            $names
      */
-    public function __construct(ReflectionClass $theClass, Stagehand_TestRunner_Config $config)
+    protected function addTestMethod(ReflectionClass $class, ReflectionMethod $method, array &$names)
     {
-        $this->config = $config;
-        parent::__construct($theClass);
-    }
-
-    /**
-     * @param PHPUnit_Framework_Test $test
-     * @param array                  $groups
-     */
-    public function addTest(PHPUnit_Framework_Test $test, $groups = array())
-    {
-        if ($test instanceof PHPUnit_Framework_Warning
-            && preg_match('/^No tests found in class/', $test->getMessage())
-            ) {
-            return;
+        if ($this->config->inMethodsToBeTested($class->getName(), $method->getName())) {
+            parent::addTestMethod($class, $method, $names);
         }
-
-        parent::addTest($test, $groups);
     }
 }
 
