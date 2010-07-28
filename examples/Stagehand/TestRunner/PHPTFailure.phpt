@@ -1,9 +1,7 @@
 --TEST--
 Run a PHPT test to be failed
 --SKIPIF--
-if (!class_exists('PHPUnit_Framework_TestCase', false)) {
-    exit 0;
-}
+if (!class_exists('PHPUnit_Framework_TestCase')) exit 0;
 --FILE--
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
