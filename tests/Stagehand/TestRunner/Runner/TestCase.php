@@ -75,8 +75,8 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
             '.' .
             $this->getName(false) .
             '.xml';
-        $factory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
-        $this->collector = $factory->create();
+        $collectorClass = 'Stagehand_TestRunner_Collector_' . $this->config->framework . 'Collector';
+        $this->collector = new $collectorClass($this->config);
     }
 
     public function tearDown()
