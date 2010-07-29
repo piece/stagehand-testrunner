@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
     http://pear.php.net/dtd/tasks-1.0.xsd
     http://pear.php.net/dtd/package-2.0
     http://pear.php.net/dtd/package-2.0.xsd">
@@ -19,10 +19,10 @@
   <email>kumatch@gmail.com</email>
   <active>yes</active>
  </developer>
- <date>2010-05-31</date>
- <time>12:38:03</time>
+ <date>2010-07-29</date>
+ <time>15:57:49</time>
  <version>
-  <release>2.11.2</release>
+  <release>2.12.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -31,13 +31,13 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-What&apos;s New in Stagehand_TestRunner 2.11.2
+What&apos;s New in Stagehand_TestRunner 2.12.0
 
- Two defect fixes
+ Supports PHPUnit 3.5.
 
-  (Issue #173, #175)
+  (Issue #179)
 
-  A defect has been fixed that caused a start tag not to be closed when the tag and all attributes are written. And also a defect has been fixed that caused TestDox output to be broken if the same test method names except trailing numbers.
+  PHPUnit 3.5 has been supported.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -228,13 +228,18 @@ What&apos;s New in Stagehand_TestRunner 2.11.2
      <dir name="TestRunner">
       <dir name="Collector">
        <dir name="PHPUnitCollector">
+        <dir name="MethodFilterTestSuite">
+         <file baseinstalldir="/" name="PHPUnit34MethodFilterTestSuite.php" role="php">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
+         <file baseinstalldir="/" name="PHPUnit35MethodFilterTestSuite.php" role="php">
+          <tasks:replace from="@package_version@" to="version" type="package-info" />
+         </file>
+        </dir> <!-- /src/Stagehand/TestRunner/Collector/PHPUnitCollector/MethodFilterTestSuite -->
         <file baseinstalldir="/" name="MethodFilterTestSuite.php" role="php">
          <tasks:replace from="@package_version@" to="version" type="package-info" />
         </file>
        </dir> <!-- /src/Stagehand/TestRunner/Collector/PHPUnitCollector -->
-       <file baseinstalldir="/" name="CollectorFactory.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
        <file baseinstalldir="/" name="PHPSpecCollector.php" role="php">
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
@@ -275,6 +280,17 @@ What&apos;s New in Stagehand_TestRunner 2.11.2
         <tasks:replace from="@package_version@" to="version" type="package-info" />
        </file>
       </dir> <!-- /src/Stagehand/TestRunner/JUnitXMLWriter -->
+      <dir name="Preparator">
+       <file baseinstalldir="/" name="PHPSpecPreparator.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file baseinstalldir="/" name="PHPTPreparator.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+       <file baseinstalldir="/" name="PHPUnitPreparator.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+       </file>
+      </dir> <!-- /src/Stagehand/TestRunner/Preparator -->
       <dir name="Runner">
        <dir name="PHPSpecRunner">
         <file baseinstalldir="/" name="TextReporter.php" role="php">
@@ -366,6 +382,9 @@ What&apos;s New in Stagehand_TestRunner 2.11.2
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
       <file baseinstalldir="/" name="JUnitXMLWriter.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+      </file>
+      <file baseinstalldir="/" name="Preparator.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
       </file>
       <file baseinstalldir="/" name="Runner.php" role="php">
@@ -509,6 +528,27 @@ What&apos;s New in Stagehand_TestRunner 2.11.2
   </filelist>
  </phprelease>
  <changelog>
+  <release>
+   <version>
+    <release>2.12.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-07-29</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+What&apos;s New in Stagehand_TestRunner 2.12.0
+
+ Supports PHPUnit 3.5.
+
+  (Issue #179)
+
+  PHPUnit 3.5 has been supported.
+   </notes>
+  </release>
   <release>
    <version>
     <release>2.11.2</release>

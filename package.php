@@ -41,17 +41,17 @@ require_once 'PEAR.php';
 PEAR::staticPushErrorHandling(PEAR_ERROR_CALLBACK, create_function('$error', 'var_dump($error); exit();'));
 
 $packageName = 'Stagehand_TestRunner';
-$releaseVersion = '2.11.2';
+$releaseVersion = '2.12.0';
 $releaseStability = 'stable';
 $apiVersion = '1.1.0';
 $apiStability = 'stable';
 $notes = "What's New in $packageName $releaseVersion
 
- Two defect fixes
+ Supports PHPUnit 3.5.
 
-  (Issue #173, #175)
+  (Issue #179)
 
-  A defect has been fixed that caused a start tag not to be closed when the tag and all attributes are written. And also a defect has been fixed that caused TestDox output to be broken if the same test method names except trailing numbers.";
+  PHPUnit 3.5 has been supported.";
 
 $package = new PEAR_PackageFileManager2();
 $package->setOptions(array('filelistgenerator' => 'file',
