@@ -146,6 +146,10 @@ class Stagehand_TestRunner extends Stagehand_CLIController
      */
     protected function doRun()
     {
+        if (!count($this->config->targetPaths)) {
+            $this->config->targetPaths[] = $this->config->directory;
+        }
+
         if (!$this->config->enablesAutotest) {
             $this->runTests();
         } else {
