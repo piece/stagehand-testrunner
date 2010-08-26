@@ -78,12 +78,12 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
         if ($this->config->testsOnlySpecified()) {
             if ($this->config->testsOnlySpecifiedMethods) {
                 foreach ($tests as $method) {
-                    if ($this->config->inMethodsToBeTested(get_class($testCase), $method)) {
+                    if ($this->config->isTestingMethod(get_class($testCase), $method)) {
                         ++$testCount;
                     }
                 }
             } elseif ($this->config->testsOnlySpecifiedClasses) {
-                if ($this->config->inClassesToBeTested(get_class($testCase))) {
+                if ($this->config->isTestingClass(get_class($testCase))) {
                     $testCount = count($tests);
                 }
             }

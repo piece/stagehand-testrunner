@@ -82,12 +82,12 @@ abstract class Stagehand_TestRunner_Collector
      */
     public function collect()
     {
-        foreach ($this->config->targetPaths as $targetPath) {
-            $absoluteTargetPath = realpath($targetPath);
+        foreach ($this->config->testingResources as $testingPath) {
+            $absoluteTargetPath = realpath($testingPath);
             if ($absoluteTargetPath === false) {
                 throw new Stagehand_TestRunner_Exception(
                     'The directory or file [ ' .
-                    $targetPath .
+                    $testingPath .
                     ' ] is not found'
                                                          );
             }

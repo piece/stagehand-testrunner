@@ -54,7 +54,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      */
     public function runsOnlyTheSpecifiedMethods($method)
     {
-        $this->config->addMethodToBeTested($method);
+        $this->config->addTestingMethod($method);
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
@@ -82,7 +82,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      */
     public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($method)
     {
-        $this->config->addMethodToBeTested($method);
+        $this->config->addTestingMethod($method);
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
@@ -109,7 +109,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      */
     public function runsOnlyTheSpecifiedClasses($class)
     {
-        $this->config->addClassToBeTested($class);
+        $this->config->addTestingClass($class);
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
@@ -142,7 +142,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function printsTheSpecifiedMessageForIncompleteAndSkippedTests($method)
     {
         $this->config->printsDetailedProgressReport = true;
-        $this->config->addMethodToBeTested($method);
+        $this->config->addTestingMethod($method);
         preg_match('/^(.*?)::(.*)/', $method, $matches);
         $class = $matches[1];
         $method = $matches[2];
@@ -174,7 +174,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function printsNormalOutputForIncompleteAndSkippedTestsIfTheMessageIsNotSpecified($method)
     {
         $this->config->printsDetailedProgressReport = true;
-        $this->config->addMethodToBeTested($method);
+        $this->config->addTestingMethod($method);
         preg_match('/^(.*?)::(.*)/', $method, $matches);
         $class = $matches[1];
         $method = $matches[2];
@@ -261,7 +261,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      */
     public function notBreakTestDoxOutputIfTheSameTestMethodNamesExceptTrailingNumbers()
     {
-        $this->config->addClassToBeTested('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $this->config->addTestingClass('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         $this->runTests();

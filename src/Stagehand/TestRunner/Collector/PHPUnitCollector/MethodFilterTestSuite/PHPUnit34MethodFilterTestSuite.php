@@ -53,7 +53,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite_PHPU
      */
     protected function addTestMethod(ReflectionClass $class, ReflectionMethod $method, array &$names)
     {
-        if ($this->config->inMethodsToBeTested($class->getName(), $method->getName())) {
+        if ($this->config->isTestingMethod($class->getName(), $method->getName())) {
             parent::addTestMethod($class, $method, $names);
         }
     }

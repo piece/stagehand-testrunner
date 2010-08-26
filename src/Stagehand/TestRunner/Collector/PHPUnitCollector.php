@@ -96,7 +96,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
                     : new Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite_PHPUnit34MethodFilterTestSuite($test, $this->config)
             );
         } elseif ($this->config->testsOnlySpecifiedClasses) {
-            if ($this->config->inClassesToBeTested($test->getName())) {
+            if ($this->config->isTestingClass($test->getName())) {
                 $this->suite->addTestSuite($test);
             }
         }

@@ -44,7 +44,7 @@
  */
 class Stagehand_TestRunner_Config
 {
-    public $targetPaths = array();
+    public $testingResources = array();
     public $recursivelyScans = false;
     public $colors = false;
     public $preloadFile;
@@ -54,7 +54,6 @@ class Stagehand_TestRunner_Config
     public $growlPassword;
     public $testsOnlySpecifiedMethods = false;
     public $testsOnlySpecifiedClasses = false;
-    public $elementsToBeTested = array();
     public $printsDetailedProgressReport = false;
     public $junitXMLFile;
     public $logsResultsInJUnitXML = false;
@@ -62,32 +61,35 @@ class Stagehand_TestRunner_Config
     public $framework;
     public $runnerClass;
     public $stopsOnFailure = false;
+    public $workingDirectoryAtStartup;
+    protected $testingMethods = array();
+    protected $testingClasses = array();
 
     /**
      */
     public function __construct()
     {
-        $this->directory = getcwd();
+        $this->workingDirectoryAtStartup = getcwd();
     }
 
     /**
-     * @param string $methodToBeTested
+     * @param string $testingMethod
      * @since Method available since Release 2.8.0
      */
-    public function addMethodToBeTested($methodToBeTested)
+    public function addTestingMethod($testingMethod)
     {
         $this->testsOnlySpecifiedMethods = true;
-        $this->elementsToBeTested[] = strtolower($methodToBeTested);
+        $this->testingMethods[] = strtolower($testingMethod);
     }
 
     /**
-     * @param string $classToBeTested
+     * @param string $testingClass
      * @since Method available since Release 2.8.0
      */
-    public function addClassToBeTested($classToBeTested)
+    public function addTestingClass($testingClass)
     {
         $this->testsOnlySpecifiedClasses = true;
-        $this->elementsToBeTested[] = strtolower($classToBeTested);
+        $this->testingClasses[] = strtolower($testingClass);
     }
 
     /**
@@ -105,10 +107,10 @@ class Stagehand_TestRunner_Config
      * @return boolean
      * @since Method available since Release 2.10.0
      */
-    public function inMethodsToBeTested($class, $method)
+    public function isTestingMethod($class, $method)
     {
         foreach (array($class . '::' . $method, $method) as $fullyQualifiedMethodName) {
-            if ($this->inElementsToBeTested($fullyQualifiedMethodName)) {
+            if (in_array(strtolower($fullyQualifiedMethodName), $this->testingMethods)) {
                 return true;
             }
         }
@@ -121,19 +123,9 @@ class Stagehand_TestRunner_Config
      * @return boolean
      * @since Method available since Release 2.10.0
      */
-    public function inClassesToBeTested($class)
+    public function isTestingClass($class)
     {
-        return $this->inElementsToBeTested($class);
-    }
-
-    /**
-     * @param string $element
-     * @return boolean
-     * @since Method available since Release 2.10.0
-     */
-    protected function inElementsToBeTested($element)
-    {
-        return in_array(strtolower($element), $this->elementsToBeTested);
+        return in_array(strtolower($class), $this->testingClasses);
     }
 }
 

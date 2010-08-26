@@ -68,7 +68,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_ClassFilterReporter extends S
      */
     public function shouldInvoke($testCase, $method)
     {
-        return $this->config->inClassesToBeTested($testCase);
+        return $this->config->isTestingClass($testCase);
     }
 }
 

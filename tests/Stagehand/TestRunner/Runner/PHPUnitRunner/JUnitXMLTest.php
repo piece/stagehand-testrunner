@@ -535,7 +535,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
     public function countsTheNumberOfTestsForMethodFiltersWithTheRealtimeOption()
     {
         $this->config->logsResultsInJUnitXMLInRealtime = true;
-        $this->config->addMethodToBeTested('pass1');
+        $this->config->addTestingMethod('pass1');
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         $this->runTests();
@@ -555,7 +555,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
     public function countsTheNumberOfTestsForClassFiltersWithTheRealtimeOption()
     {
         $this->config->logsResultsInJUnitXMLInRealtime = true;
-        $this->config->addClassToBeTested('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $this->config->addTestingClass('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');

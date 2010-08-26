@@ -58,8 +58,8 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
         $runner->run();
         ob_end_clean();
         $config = $this->readAttribute($runner, 'config');
-        $this->assertEquals(1, count($config->targetPaths));
-        $this->assertEquals(dirname(__FILE__), $config->targetPaths[0]);
+        $this->assertEquals(1, count($config->testingResources));
+        $this->assertEquals(dirname(__FILE__), $config->testingResources[0]);
     }
 }
 

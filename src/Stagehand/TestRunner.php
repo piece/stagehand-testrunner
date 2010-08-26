@@ -107,13 +107,13 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             $this->config->growlPassword = $value;
             return true;
         case 'm':
-            foreach (explode(',', $value) as $methodToBeTested) {
-                $this->config->addMethodToBeTested($methodToBeTested);
+            foreach (explode(',', $value) as $testingMethod) {
+                $this->config->addTestingMethod($testingMethod);
             }
             return true;
         case '--classes':
-            foreach (explode(',', $value) as $classToBeTested) {
-                $this->config->addClassToBeTested($classToBeTested);
+            foreach (explode(',', $value) as $testingClass) {
+                $this->config->addTestingClass($testingClass);
             }
             return true;
         case '--log-junit':
@@ -138,7 +138,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
      */
     protected function configureByArg($arg)
     {
-        $this->config->targetPaths[] = $arg;
+        $this->config->testingResources[] = $arg;
         return true;
     }
 
@@ -146,8 +146,8 @@ class Stagehand_TestRunner extends Stagehand_CLIController
      */
     protected function doRun()
     {
-        if (!count($this->config->targetPaths)) {
-            $this->config->targetPaths[] = $this->config->directory;
+        if (!count($this->config->testingResources)) {
+            $this->config->testingResources[] = $this->config->workingDirectoryAtStartup;
         }
 
         if (!$this->config->enablesAutotest) {
@@ -251,7 +251,7 @@ All rights reserved.
     {
         $monitoredDirectories = array();
         foreach (array_merge($this->config->monitoredDirectories,
-                             $this->config->targetPaths) as $directory
+                             $this->config->testingResources) as $directory
                  ) {
             if (!is_dir($directory)) {
                 throw new Stagehand_TestRunner_Exception(
@@ -318,8 +318,8 @@ All rights reserved.
             $options[] = '--growl-password=' . $this->config->growlPassword;
         }
 
-        foreach ($this->config->targetPaths as $targetPath) {
-            $options[] = $targetPath;
+        foreach ($this->config->testingResources as $testingPath) {
+            $options[] = $testingPath;
         }
 
         $monitor = new Stagehand_AlterationMonitor($monitoredDirectories,

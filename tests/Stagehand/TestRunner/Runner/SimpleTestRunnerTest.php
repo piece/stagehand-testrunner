@@ -56,7 +56,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function runsOnlyTheSpecifiedMethods($method)
     {
-        $this->config->addMethodToBeTested($method);
+        $this->config->addTestingMethod($method);
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
@@ -85,7 +85,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($method)
     {
-        $this->config->addMethodToBeTested($method);
+        $this->config->addTestingMethod($method);
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
@@ -113,7 +113,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function runsOnlyTheSpecifiedClasses($class)
     {
-        $this->config->addClassToBeTested($class);
+        $this->config->addTestingClass($class);
         class_exists('Stagehand_TestRunner_SimpleTestMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_SimpleTestMultipleClasses2Test');
