@@ -96,7 +96,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             $this->config->enablesAutotest = true;
             return true;
         case 'w':
-            $this->config->monitoredDirectories = explode(',', $value);
+            $this->config->monitoringDirectories = explode(',', $value);
             return true;
         case 'g':
             if (@include_once 'Net/Growl.php') {
@@ -249,8 +249,8 @@ All rights reserved.
      */
     protected function monitorAlteration()
     {
-        $monitoredDirectories = array();
-        foreach (array_merge($this->config->monitoredDirectories,
+        $monitoringDirectories = array();
+        foreach (array_merge($this->config->monitoringDirectories,
                              $this->config->testingResources) as $directory
                  ) {
             if (!is_dir($directory)) {
@@ -270,8 +270,8 @@ All rights reserved.
                                                          );
             }
 
-            if (!in_array($directory, $monitoredDirectories)) {
-                $monitoredDirectories[] = $directory;
+            if (!in_array($directory, $monitoringDirectories)) {
+                $monitoringDirectories[] = $directory;
             }
         }
 
@@ -318,11 +318,11 @@ All rights reserved.
             $options[] = '--growl-password=' . $this->config->growlPassword;
         }
 
-        foreach ($this->config->testingResources as $testingPath) {
-            $options[] = $testingPath;
+        foreach ($this->config->testingResources as $testingResource) {
+            $options[] = $testingResource;
         }
 
-        $this->createAlterationMonitor($monitoredDirectories, $command, $options)->monitor();
+        $this->createAlterationMonitor($monitoringDirectories, $command, $options)->monitor();
     }
 
     /**
@@ -412,16 +412,16 @@ All rights reserved.
     }
 
     /**
-     * @param array  $monitoredDirectories
+     * @param array  $monitoringDirectories
      * @param string $command
      * @param array  $options
      * @return Stagehand_AlterationMonitor
      * @since Method available since Release 2.12.1
      */
-    protected function createAlterationMonitor(array $monitoredDirectories, $command, array $options)
+    protected function createAlterationMonitor(array $monitoringDirectories, $command, array $options)
     {
         return new Stagehand_AlterationMonitor(
-                       $monitoredDirectories,
+                       $monitoringDirectories,
                        create_function(
                            '',
                            "passthru('" .

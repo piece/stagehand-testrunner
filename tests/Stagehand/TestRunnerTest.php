@@ -90,14 +90,14 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(dirname(__FILE__), $this->optionsForAlterationMonitor[1]);
     }
 
-    public function createAlterationMonitor(array $monitoredDirectories, $command, array $options)
+    public function createAlterationMonitor(array $monitoringDirectories, $command, array $options)
     {
         $this->commandForAlterationMonitor = $command;
         $this->optionsForAlterationMonitor = $options;
         $monitor = $this->getMock(
                        'Stagehand_AlterationMonitor',
                        array('monitor'),
-                       array($monitoredDirectories, null)
+                       array($monitoringDirectories, null)
                    );
         $monitor->expects($this->any())
                 ->method('monitor')
