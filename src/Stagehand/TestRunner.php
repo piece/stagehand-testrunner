@@ -290,7 +290,7 @@ All rights reserved.
             $command = str_replace('/', '\\', $command);
         }
 
-        if (!preg_match('/(?:testrunner(?:-st)?|specrunner)(?:\.bat)?$/', $command)) {
+        if (!preg_match('/(?:phpspec|phpt|phpunit|simpletest)runner(?:\.bat)?$/', $command)) {
             $configFile = get_cfg_var('cfg_file_path');
             if ($configFile !== false) {
                 $options[] = '-c';
@@ -322,15 +322,7 @@ All rights reserved.
             $options[] = $testingPath;
         }
 
-        $monitor = new Stagehand_AlterationMonitor($monitoredDirectories,
-                                                   create_function('',
-                                                      "passthru('" .
-                                                       $command .
-                                                       ' ' .
-                                                       implode(' ', $options) .
-                                                       "');")
-                                                   );
-        $monitor->monitor();
+        $this->createAlterationMonitor($monitoredDirectories, $command, $options)->monitor();
     }
 
     /**
@@ -417,6 +409,28 @@ All rights reserved.
     protected function getPreparetorClass()
     {
         return 'Stagehand_TestRunner_Preparator_' . $this->config->framework . 'Preparator';
+    }
+
+    /**
+     * @param array  $monitoredDirectories
+     * @param string $command
+     * @param array  $options
+     * @return Stagehand_AlterationMonitor
+     * @since Method available since Release 2.12.1
+     */
+    protected function createAlterationMonitor(array $monitoredDirectories, $command, array $options)
+    {
+        return new Stagehand_AlterationMonitor(
+                       $monitoredDirectories,
+                       create_function(
+                           '',
+                           "passthru('" .
+                           $command .
+                           ' ' .
+                           implode(' ', $options) .
+                           "');"
+                       )
+               );
     }
 }
 

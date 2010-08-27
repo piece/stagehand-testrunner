@@ -44,8 +44,12 @@
  */
 class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
 {
+    private $commandForAlterationMonitor;
+    private $optionsForAlterationMonitor;
+
     /**
      * @test
+     * @link http://redmine.piece-framework.com/issues/197
      */
     public function treatsTheCurrentDirectoryAsTheTestDirectoryIfNoDirectoriesOrFilesAreSpecified()
     {
@@ -60,6 +64,59 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
         $config = $this->readAttribute($runner, 'config');
         $this->assertEquals(1, count($config->testingResources));
         $this->assertEquals(dirname(__FILE__), $config->testingResources[0]);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideLauncherScript
+     * @param string $launcherScript
+     * @link http://redmine.piece-framework.com/issues/196
+     */
+    public function buildsACommandStringCorrectlyWhenLaunchingByALauncherScriptWithMonitoringChanges($launcherScript)
+    {
+        $_SERVER['argv'] = $GLOBALS['argv'] = array($launcherScript, '-a', dirname(__FILE__));
+        $runner = $this->getMock(
+                      'Stagehand_TestRunner',
+                      array('createAlterationMonitor'),
+                      array(Stagehand_TestRunner_Framework::PHPUNIT)
+                  );
+        $runner->expects($this->any())
+               ->method('createAlterationMonitor')
+               ->will($this->returnCallback(array($this, 'createAlterationMonitor')));
+        $runner->run();
+        $this->assertEquals($launcherScript, $this->commandForAlterationMonitor);
+        $this->assertEquals(2, count($this->optionsForAlterationMonitor));
+        $this->assertEquals('-R', $this->optionsForAlterationMonitor[0]);
+        $this->assertEquals(dirname(__FILE__), $this->optionsForAlterationMonitor[1]);
+    }
+
+    public function createAlterationMonitor(array $monitoredDirectories, $command, array $options)
+    {
+        $this->commandForAlterationMonitor = $command;
+        $this->optionsForAlterationMonitor = $options;
+        $monitor = $this->getMock(
+                       'Stagehand_AlterationMonitor',
+                       array('monitor'),
+                       array($monitoredDirectories, null)
+                   );
+        $monitor->expects($this->any())
+                ->method('monitor')
+                ->will($this->returnValue(null));
+        return $monitor;
+    }
+
+    public function provideLauncherScript()
+    {
+        return array(
+                   array('phpspecrunner'),
+                   array('phpspecrunner.bat'),
+                   array('phptrunner'),
+                   array('phptrunner.bat'),
+                   array('phpunitrunner'),
+                   array('phpunitrunner.bat'),
+                   array('simpletestrunner'),
+                   array('simpletestrunner.bat')
+               );
     }
 }
 
