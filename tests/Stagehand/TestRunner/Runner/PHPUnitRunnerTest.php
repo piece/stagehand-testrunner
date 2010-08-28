@@ -274,6 +274,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     /**
      * @test
      * @dataProvider provideDataForCreatesANotificationForGrowl
+     * @link http://redmine.piece-framework.com/issues/192
      * @since Method available since Release 2.12.1
      */
     public function createsANotificationForGrowlWithColors($testClass, $name, $description)
@@ -291,6 +292,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     /**
      * @test
      * @dataProvider provideDataForCreatesANotificationForGrowl
+     * @link http://redmine.piece-framework.com/issues/192
      * @since Method available since Release 2.12.1
      */
     public function createsANotificationForGrowlWithoutColors($testClass, $name, $description)
