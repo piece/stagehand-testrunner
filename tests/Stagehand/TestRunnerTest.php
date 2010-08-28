@@ -57,11 +57,16 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $oldCurrentDirectory = getcwd();
         chdir(dirname(__FILE__));
-        $runner = new Stagehand_TestRunner(Stagehand_TestRunner_Framework::PHPUNIT);
+        $runner = $this->getMock(
+                      'Stagehand_TestRunner',
+                      array('runTests'),
+                      array(Stagehand_TestRunner_Framework::PHPUNIT)
+                  );
+        $runner->expects($this->any())
+               ->method('runTests')
+               ->will($this->returnValue(null));
         chdir($oldCurrentDirectory);
-        ob_start();
         $runner->run();
-        ob_end_clean();
         $config = $this->readAttribute($runner, 'config');
         $this->assertEquals(1, count($config->testingResources));
         $this->assertEquals(dirname(__FILE__), $config->testingResources[0]);
