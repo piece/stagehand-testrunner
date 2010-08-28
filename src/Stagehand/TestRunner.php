@@ -277,6 +277,8 @@ All rights reserved.
 
         if (array_key_exists('_', $_SERVER)) {
             $command = $_SERVER['_'];
+        } elseif (array_key_exists('PHP_COMMAND', $_SERVER)) {
+            $command = $_SERVER['PHP_COMMAND'];
         } else {
             $command = $_SERVER['argv'][0];
         }
@@ -286,11 +288,7 @@ All rights reserved.
             $command = $matches[1] . ':\\' . str_replace('/', '\\', $matches[2]);
         }
 
-        if (preg_match('/\.bat$/', $command)) {
-            $command = str_replace('/', '\\', $command);
-        }
-
-        if (!preg_match('/(?:phpspec|phpt|phpunit|simpletest)runner(?:\.bat)?$/', $command)) {
+        if (!preg_match('/(?:phpspec|phpt|phpunit|simpletest)runner$/', $command)) {
             $configFile = get_cfg_var('cfg_file_path');
             if ($configFile !== false) {
                 $options[] = '-c';

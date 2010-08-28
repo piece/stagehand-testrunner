@@ -54,6 +54,7 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
     public function treatsTheCurrentDirectoryAsTheTestDirectoryIfNoDirectoriesOrFilesAreSpecified()
     {
         $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-p', 'tests/prepare.php', '-R');
+        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $oldCurrentDirectory = getcwd();
         chdir(dirname(__FILE__));
         $runner = new Stagehand_TestRunner(Stagehand_TestRunner_Framework::PHPUNIT);
@@ -74,7 +75,9 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
      */
     public function buildsACommandStringCorrectlyWhenLaunchingByALauncherScriptWithMonitoringChanges($launcherScript)
     {
+        $_SERVER['_'] = '/usr/bin/php';
         $_SERVER['argv'] = $GLOBALS['argv'] = array($launcherScript, '-a', dirname(__FILE__));
+        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $runner = $this->getMock(
                       'Stagehand_TestRunner',
                       array('createAlterationMonitor'),
@@ -84,10 +87,12 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
                ->method('createAlterationMonitor')
                ->will($this->returnCallback(array($this, 'createAlterationMonitor')));
         $runner->run();
-        $this->assertEquals($launcherScript, $this->commandForAlterationMonitor);
-        $this->assertEquals(2, count($this->optionsForAlterationMonitor));
-        $this->assertEquals('-R', $this->optionsForAlterationMonitor[0]);
-        $this->assertEquals(dirname(__FILE__), $this->optionsForAlterationMonitor[1]);
+        $this->assertEquals($_SERVER['_'], $this->commandForAlterationMonitor);
+        $this->assertEquals(5, count($this->optionsForAlterationMonitor));
+        $this->assertEquals('-c', $this->optionsForAlterationMonitor[0]);
+        $this->assertEquals($launcherScript, $this->optionsForAlterationMonitor[2]);
+        $this->assertEquals('-R', $this->optionsForAlterationMonitor[3]);
+        $this->assertEquals(dirname(__FILE__), $this->optionsForAlterationMonitor[4]);
     }
 
     public function createAlterationMonitor(array $monitoringDirectories, $command, array $options)
@@ -109,13 +114,9 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
     {
         return array(
                    array('phpspecrunner'),
-                   array('phpspecrunner.bat'),
                    array('phptrunner'),
-                   array('phptrunner.bat'),
                    array('phpunitrunner'),
-                   array('phpunitrunner.bat'),
-                   array('simpletestrunner'),
-                   array('simpletestrunner.bat')
+                   array('simpletestrunner')
                );
     }
 }
