@@ -270,6 +270,51 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
             $this->output
         );
     }
+
+    /**
+     * @test
+     * @dataProvider provideDataForCreatesANotificationForGrowl
+     * @since Method available since Release 2.12.1
+     */
+    public function createsANotificationForGrowlWithColors($testClass, $name, $description)
+    {
+        require_once 'Console/Color.php';
+        $this->config->usesGrowl = true;
+        $this->config->colors = true;
+        $this->collector->collectTestCase($testClass);
+        $this->runTests();
+        $notification = $this->runner->getNotification();
+        $this->assertEquals($name, $notification->name);
+        $this->assertEquals($description, $notification->description);
+    }
+
+    /**
+     * @test
+     * @dataProvider provideDataForCreatesANotificationForGrowl
+     * @since Method available since Release 2.12.1
+     */
+    public function createsANotificationForGrowlWithoutColors($testClass, $name, $description)
+    {
+        require_once 'Console/Color.php';
+        $this->config->usesGrowl = true;
+        $this->config->colors = false;
+        $this->collector->collectTestCase($testClass);
+        $this->runTests();
+        $notification = $this->runner->getNotification();
+        $this->assertEquals($name, $notification->name);
+        $this->assertEquals($description, $notification->description);
+    }
+
+    public function provideDataForCreatesANotificationForGrowl()
+    {
+        return array(
+                   array('Stagehand_TestRunner_PHPUnitPassTest', 'Green', 'OK (3 tests, 4 assertions)'),
+                   array('Stagehand_TestRunner_PHPUnitFailureTest', 'Red', "FAILURES!\nTests: 1, Assertions: 1, Failures: 1."),
+                   array('Stagehand_TestRunner_PHPUnitErrorTest', 'Red', "FAILURES!\nTests: 1, Assertions: 0, Errors: 1."),
+                   array('Stagehand_TestRunner_PHPUnitIncompleteTest', 'Red', "OK, but incomplete or skipped tests!\nTests: 2, Assertions: 0, Incomplete: 2."),
+                   array('Stagehand_TestRunner_PHPUnitSkippedTest', 'Red', "OK, but incomplete or skipped tests!\nTests: 2, Assertions: 0, Skipped: 2.")
+               );
+    }
 }
 
 /*

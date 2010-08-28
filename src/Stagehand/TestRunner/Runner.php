@@ -60,6 +60,7 @@ abstract class Stagehand_TestRunner_Runner
     public function __construct(Stagehand_TestRunner_Config $config)
     {
         $this->config = $config;
+        $this->notification = new stdClass();
     }
 
     /**

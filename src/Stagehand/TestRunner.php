@@ -100,7 +100,7 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             return true;
         case 'g':
             if (@include_once 'Net/Growl.php') {
-                $usesGrowl = true;
+                $this->config->usesGrowl = true;
             }
             return true;
         case '--growl-password':

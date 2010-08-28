@@ -80,7 +80,6 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
             $exceptionsCount = $result->countExceptions();
             $pendingsCount = $result->countPending();
 
-            $this->notification = new stdClass();
             if ($failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount + $pendingsCount == 0) {
                 $this->notification->name = 'Green';
             } elseif ($pendingsCount && $failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount == 0) {
