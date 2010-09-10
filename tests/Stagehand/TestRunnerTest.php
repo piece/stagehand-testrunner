@@ -32,7 +32,7 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.12.1
+ * @since      File available since Release 2.13.0
  */
 
 /**
@@ -40,7 +40,7 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.12.1
+ * @since      Class available since Release 2.13.0
  */
 class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
 {

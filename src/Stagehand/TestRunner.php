@@ -414,7 +414,7 @@ All rights reserved.
      * @param string $command
      * @param array  $options
      * @return Stagehand_AlterationMonitor
-     * @since Method available since Release 2.12.1
+     * @since Method available since Release 2.13.0
      */
     protected function createAlterationMonitor(array $monitoringDirectories, $command, array $options)
     {
