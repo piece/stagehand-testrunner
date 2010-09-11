@@ -19,10 +19,10 @@
   <email>kumatch@gmail.com</email>
   <active>yes</active>
  </developer>
- <date>2010-07-29</date>
- <time>15:57:49</time>
+ <date>2010-09-11</date>
+ <time>17:27:03</time>
  <version>
-  <release>2.12.0</release>
+  <release>2.13.0</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -31,420 +31,77 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-What&apos;s New in Stagehand_TestRunner 2.12.0
+What&apos;s New in Stagehand_TestRunner 2.13.0
 
- Supports PHPUnit 3.5.
+ New Directory Structure
+  As of this version, the sources are located directly under the &quot;php_dir&quot; (PEAR directory).
 
-  (Issue #179)
+ Three Defect Fixes
+  The following defects have been fixed:
 
-  PHPUnit 3.5 has been supported.
+  * Growl does not work. (Issue #192)
+  * A fatal error is raised when launching by a launcher script with the -a option. (Issue #196)
+  * The current directory is not treated as the test directory if no directories or files are specified. (Issue #197)
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <dir name="bin">
-    <file baseinstalldir="/" name="phpspecrunner" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="phpspecrunner.bat" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="phptrunner" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="phptrunner.bat" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="phpunitrunner" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="phpunitrunner.bat" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="simpletestrunner" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-    <file baseinstalldir="/" name="simpletestrunner.bat" role="script">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-   </dir> <!-- /bin -->
-   <dir name="data">
-    <dir name="pear.piece-framework.com">
-     <dir name="Stagehand_TestRunner">
-      <file baseinstalldir="/" name="JUnitXMLDOM.rng" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="JUnitXMLStream.rng" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-     </dir> <!-- /data/pear.piece-framework.com/Stagehand_TestRunner -->
-    </dir> <!-- /data/pear.piece-framework.com -->
-   </dir> <!-- /data -->
-   <dir name="doc">
-    <file baseinstalldir="/" name="LICENSE" role="doc">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-   </dir> <!-- /doc -->
-   <dir name="examples">
-    <dir name="Stagehand">
-     <dir name="TestRunner">
-      <dir name="PHPSpec">
-       <file baseinstalldir="/" name="DescriptionOfBehaviourAndExpectationSpec.php" role="doc">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /examples/Stagehand/TestRunner/PHPSpec -->
-      <dir name="PHPSpecSpec">
-       <file baseinstalldir="/" name="PHPSpecPassSpec.php" role="doc">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /examples/Stagehand/TestRunner/PHPSpecSpec -->
-      <dir name="PHPUnitTest1">
-       <file baseinstalldir="/" name="PHPUnitPassTest.php" role="doc">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /examples/Stagehand/TestRunner/PHPUnitTest1 -->
-      <dir name="PHPUnitTest2">
-       <file baseinstalldir="/" name="PHPUnitPassTest.php" role="doc">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /examples/Stagehand/TestRunner/PHPUnitTest2 -->
-      <dir name="SimpleTestTest">
-       <file baseinstalldir="/" name="SimpleTestPassTest.php" role="doc">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /examples/Stagehand/TestRunner/SimpleTestTest -->
-      <file baseinstalldir="/" name="PHPSpecCommon.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecErrorSpec.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecExceptionSpec.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecExtendedSpec.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecFailureSpec.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecNoSpecsSpec.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecPassSpec.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPSpecPendingSpec.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPTFailure.phpt" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPTPass.phpt" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitCommonTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitDataProviderTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitDependsTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitErrorAndPassTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitErrorTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitExtendedTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitFailureAndPassTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitFailureTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitIncompleteTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitIncompleteWithDataProviderTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitMultipleClassesTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitNoTestsTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitPassTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitSkippedTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitSkippedWithDataProviderTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="PHPUnitUTF8ConversionTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestCommonTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestErrorAndPassTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestErrorTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestExtendedTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestFailureAndPassTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestFailureTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestMultipleClassesTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestNoTestsTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="SimpleTestPassTest.php" role="doc">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-     </dir> <!-- /examples/Stagehand/TestRunner -->
-    </dir> <!-- /examples/Stagehand -->
-    <file baseinstalldir="/" name="prepare.php" role="doc">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-   </dir> <!-- /examples -->
-   <dir name="src">
-    <dir name="Stagehand">
-     <dir name="TestRunner">
-      <dir name="Collector">
-       <dir name="PHPUnitCollector">
-        <dir name="MethodFilterTestSuite">
-         <file baseinstalldir="/" name="PHPUnit34MethodFilterTestSuite.php" role="php">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-         <file baseinstalldir="/" name="PHPUnit35MethodFilterTestSuite.php" role="php">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-        </dir> <!-- /src/Stagehand/TestRunner/Collector/PHPUnitCollector/MethodFilterTestSuite -->
-        <file baseinstalldir="/" name="MethodFilterTestSuite.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-       </dir> <!-- /src/Stagehand/TestRunner/Collector/PHPUnitCollector -->
-       <file baseinstalldir="/" name="PHPSpecCollector.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="PHPTCollector.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="PHPUnitCollector.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="SimpleTestCollector.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /src/Stagehand/TestRunner/Collector -->
-      <dir name="JUnitXMLWriter">
-       <dir name="JUnitXMLDOMWriter">
-        <file baseinstalldir="/" name="TestsuiteDOMElement.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-       </dir> <!-- /src/Stagehand/TestRunner/JUnitXMLWriter/JUnitXMLDOMWriter -->
-       <dir name="UTF8Converter">
-        <file baseinstalldir="/" name="NullUTF8Converter.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-        <file baseinstalldir="/" name="UTF8ConverterFactory.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-       </dir> <!-- /src/Stagehand/TestRunner/JUnitXMLWriter/UTF8Converter -->
-       <file baseinstalldir="/" name="JUnitXMLDOMWriter.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="JUnitXMLStreamWriter.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="UTF8Converter.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="XMLStreamWriter.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /src/Stagehand/TestRunner/JUnitXMLWriter -->
-      <dir name="Preparator">
-       <file baseinstalldir="/" name="PHPSpecPreparator.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="PHPTPreparator.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="PHPUnitPreparator.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /src/Stagehand/TestRunner/Preparator -->
-      <dir name="Runner">
-       <dir name="PHPSpecRunner">
-        <file baseinstalldir="/" name="TextReporter.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-       </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPSpecRunner -->
-       <dir name="PHPUnitRunner">
-        <dir name="Printer">
-         <file baseinstalldir="/" name="DetailedProgressPrinter.php" role="php">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-         <file baseinstalldir="/" name="JUnitXMLPrinter.php" role="php">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-         <file baseinstalldir="/" name="ProgressPrinter.php" role="php">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-         <file baseinstalldir="/" name="ResultPrinter.php" role="php">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-         <file baseinstalldir="/" name="TestDoxPrinter.php" role="php">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-        </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPUnitRunner/Printer -->
-        <dir name="TestDox">
-         <file baseinstalldir="/" name="NamePrettifier.php" role="php">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-         <file baseinstalldir="/" name="Stream.php" role="php">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-        </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox -->
-        <file baseinstalldir="/" name="TestDox.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-        <file baseinstalldir="/" name="TestRunner.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-       </dir> <!-- /src/Stagehand/TestRunner/Runner/PHPUnitRunner -->
-       <dir name="SimpleTestRunner">
-        <file baseinstalldir="/" name="ClassFilterReporter.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-        <file baseinstalldir="/" name="JUnitXMLReporter.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-        <file baseinstalldir="/" name="MethodFilterReporter.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-        <file baseinstalldir="/" name="StopOnFailureReporter.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-        <file baseinstalldir="/" name="TestSuite.php" role="php">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-       </dir> <!-- /src/Stagehand/TestRunner/Runner/SimpleTestRunner -->
-       <file baseinstalldir="/" name="JUnitXMLWriterAdapter.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="PHPSpecRunner.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="PHPTRunner.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="PHPUnitRunner.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="RunnerFactory.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="SimpleTestRunner.php" role="php">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /src/Stagehand/TestRunner/Runner -->
-      <file baseinstalldir="/" name="Collector.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="Coloring.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="Config.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="Exception.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="Framework.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="JUnitXMLWriter.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="Preparator.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-      <file baseinstalldir="/" name="Runner.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-     </dir> <!-- /src/Stagehand/TestRunner -->
-     <file baseinstalldir="/" name="TestRunner.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-     </file>
-    </dir> <!-- /src/Stagehand -->
-   </dir> <!-- /src -->
-   <dir name="tests">
-    <dir name="Stagehand">
-     <dir name="TestRunner">
-      <dir name="Runner">
-       <dir name="PHPUnitRunner">
-        <dir name="JUnitXMLTest">
-         <file baseinstalldir="/" name="MockPHPUnitRunner.php" role="test">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-        </dir> <!-- /tests/Stagehand/TestRunner/Runner/PHPUnitRunner/JUnitXMLTest -->
-        <dir name="Printer">
-         <file baseinstalldir="/" name="DetailedProgressPrinterTest.php" role="test">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-        </dir> <!-- /tests/Stagehand/TestRunner/Runner/PHPUnitRunner/Printer -->
-        <file baseinstalldir="/" name="JUnitXMLTest.php" role="test">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-       </dir> <!-- /tests/Stagehand/TestRunner/Runner/PHPUnitRunner -->
-       <dir name="SimpleTestRunner">
-        <dir name="JUnitXMLTest">
-         <file baseinstalldir="/" name="MockSimpleTestRunner.php" role="test">
-          <tasks:replace from="@package_version@" to="version" type="package-info" />
-         </file>
-        </dir> <!-- /tests/Stagehand/TestRunner/Runner/SimpleTestRunner/JUnitXMLTest -->
-        <file baseinstalldir="/" name="JUnitXMLTest.php" role="test">
-         <tasks:replace from="@package_version@" to="version" type="package-info" />
-        </file>
-       </dir> <!-- /tests/Stagehand/TestRunner/Runner/SimpleTestRunner -->
-       <file baseinstalldir="/" name="PHPTRunnerTest.php" role="test">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="PHPUnitRunnerTest.php" role="test">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="SimpleTestRunnerTest.php" role="test">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-       <file baseinstalldir="/" name="TestCase.php" role="test">
-        <tasks:replace from="@package_version@" to="version" type="package-info" />
-       </file>
-      </dir> <!-- /tests/Stagehand/TestRunner/Runner -->
-     </dir> <!-- /tests/Stagehand/TestRunner -->
-    </dir> <!-- /tests/Stagehand -->
-    <file baseinstalldir="/" name="prepare.php" role="test">
-     <tasks:replace from="@package_version@" to="version" type="package-info" />
-    </file>
-   </dir> <!-- /tests -->
-  </dir> <!-- / -->
+   <file baseinstalldir="/" md5sum="94b84b4b831c4c2a24633f89a32718bc" name="bin/phpspecrunner" role="script" />
+   <file baseinstalldir="/" md5sum="51045e3e78b507c8c3e2e9d46c471a26" name="bin/phpspecrunner.bat" role="script" />
+   <file baseinstalldir="/" md5sum="93f49bba99e05d497d4d8c587a70d8b7" name="bin/phptrunner" role="script" />
+   <file baseinstalldir="/" md5sum="d502fc541d18c58784edc9b8dddb5159" name="bin/phptrunner.bat" role="script" />
+   <file baseinstalldir="/" md5sum="f5f0e8b1d4858025190bb9bb60ee6fdf" name="bin/phpunitrunner" role="script" />
+   <file baseinstalldir="/" md5sum="83eae3fe37e45713909854083a37d561" name="bin/phpunitrunner.bat" role="script" />
+   <file baseinstalldir="/" md5sum="2f1c8587c7f71a6e6d329a466eff238f" name="bin/simpletestrunner" role="script" />
+   <file baseinstalldir="/" md5sum="f8b3eb9001cad42fc74ffb4919ec3fe1" name="bin/simpletestrunner.bat" role="script" />
+   <file baseinstalldir="/" md5sum="147dba885e6ddfdc2976c289c4e101bd" name="doc/LICENSE" role="doc" />
+   <file baseinstalldir="/" md5sum="6f43c1d479ce36f88418e49403f74f0c" name="Stagehand/TestRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="734d4ce08728e8c58d6f9868ec19dc7b" name="Stagehand/TestRunner/Collector.php" role="php" />
+   <file baseinstalldir="/" md5sum="24c8a926141d19f80dab0b3f7d87775c" name="Stagehand/TestRunner/Coloring.php" role="php" />
+   <file baseinstalldir="/" md5sum="558428b8832b79322e510fe235e233b9" name="Stagehand/TestRunner/Config.php" role="php" />
+   <file baseinstalldir="/" md5sum="ef2d1109b3f0c0c4a010d95143dba003" name="Stagehand/TestRunner/Exception.php" role="php" />
+   <file baseinstalldir="/" md5sum="ce4f3e8bb3f7b8248a1a5c066315fe67" name="Stagehand/TestRunner/Framework.php" role="php" />
+   <file baseinstalldir="/" md5sum="97285b5409f8a54ddda8bab078fdb584" name="Stagehand/TestRunner/JUnitXMLWriter.php" role="php" />
+   <file baseinstalldir="/" md5sum="20f552ca38fb6b6671e260f01bbbffea" name="Stagehand/TestRunner/Preparator.php" role="php" />
+   <file baseinstalldir="/" md5sum="1fe7361cfa6bb585bcaf78583832266e" name="Stagehand/TestRunner/Runner.php" role="php" />
+   <file baseinstalldir="/" md5sum="a1bbc35754106c49521e1b43bc761fb7" name="Stagehand/TestRunner/Collector/PHPSpecCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="de0c153d53615ddd3d49485b212a572b" name="Stagehand/TestRunner/Collector/PHPTCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="a749549c86f0cd70e7ccf24d7695f00a" name="Stagehand/TestRunner/Collector/PHPUnitCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="3f8c4c40da4ecf3a6909f245d61b5e7c" name="Stagehand/TestRunner/Collector/SimpleTestCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="7724508bcf9819074fb0151abeaee394" name="Stagehand/TestRunner/Collector/PHPUnitCollector/MethodFilterTestSuite.php" role="php" />
+   <file baseinstalldir="/" md5sum="6687f95958c3d44c93268f7673af6b55" name="Stagehand/TestRunner/Collector/PHPUnitCollector/MethodFilterTestSuite/PHPUnit34MethodFilterTestSuite.php" role="php" />
+   <file baseinstalldir="/" md5sum="e27c7f9b0315c79ef98739879e2133f2" name="Stagehand/TestRunner/Collector/PHPUnitCollector/MethodFilterTestSuite/PHPUnit35MethodFilterTestSuite.php" role="php" />
+   <file baseinstalldir="/" md5sum="e43750e0561180bc2ce641991469463e" name="Stagehand/TestRunner/JUnitXMLWriter/JUnitXMLDOMWriter.php" role="php" />
+   <file baseinstalldir="/" md5sum="1d2b55caa70aec72ee62b06c0c45409a" name="Stagehand/TestRunner/JUnitXMLWriter/JUnitXMLStreamWriter.php" role="php" />
+   <file baseinstalldir="/" md5sum="10e6b86f71eab64fabdc5569ba963c8f" name="Stagehand/TestRunner/JUnitXMLWriter/UTF8Converter.php" role="php" />
+   <file baseinstalldir="/" md5sum="eb43568aba6f13e7d5b363cc87b44b40" name="Stagehand/TestRunner/JUnitXMLWriter/XMLStreamWriter.php" role="php" />
+   <file baseinstalldir="/" md5sum="5ba857b607ff7ff1ced9fa24b560957c" name="Stagehand/TestRunner/JUnitXMLWriter/JUnitXMLDOMWriter/TestsuiteDOMElement.php" role="php" />
+   <file baseinstalldir="/" md5sum="9c3957f95fcb93a30242d47a28f8428e" name="Stagehand/TestRunner/JUnitXMLWriter/UTF8Converter/NullUTF8Converter.php" role="php" />
+   <file baseinstalldir="/" md5sum="9af9d1466cd712c4772d8ce19cc86e28" name="Stagehand/TestRunner/JUnitXMLWriter/UTF8Converter/UTF8ConverterFactory.php" role="php" />
+   <file baseinstalldir="/" md5sum="480886ade1df8e2c9892c2ac74556401" name="Stagehand/TestRunner/Preparator/PHPSpecPreparator.php" role="php" />
+   <file baseinstalldir="/" md5sum="1553cf956101bbc9618f5d4dbd4aa071" name="Stagehand/TestRunner/Preparator/PHPTPreparator.php" role="php" />
+   <file baseinstalldir="/" md5sum="fec30bcc7d7a4f20bb4a40c41543aabe" name="Stagehand/TestRunner/Preparator/PHPUnitPreparator.php" role="php" />
+   <file baseinstalldir="/" md5sum="845eb2032b2b57e529d83c6ec5948659" name="Stagehand/TestRunner/Runner/JUnitXMLWriterAdapter.php" role="php" />
+   <file baseinstalldir="/" md5sum="ba95f68708acb8f438966f84d9d59d41" name="Stagehand/TestRunner/Runner/PHPSpecRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="4e5deb06ff9588fb36184a61824ffe2e" name="Stagehand/TestRunner/Runner/PHPTRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="c1ede2a58bd7599d52637cc465184bde" name="Stagehand/TestRunner/Runner/PHPUnitRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="7abaeda541f9ae0a565d15af5e0d4e8d" name="Stagehand/TestRunner/Runner/RunnerFactory.php" role="php" />
+   <file baseinstalldir="/" md5sum="dad9425b4444c454cc3cae4c41429945" name="Stagehand/TestRunner/Runner/SimpleTestRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="682f848b3df8136dd045097afdf10224" name="Stagehand/TestRunner/Runner/PHPSpecRunner/TextReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="85743fd0dd56e75d4759e2207bdc4131" name="Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox.php" role="php" />
+   <file baseinstalldir="/" md5sum="d06633f8dfe3cff74c3c47409909c43d" name="Stagehand/TestRunner/Runner/PHPUnitRunner/TestRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="58953165f17c2254c4eed22fb3646bb4" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/DetailedProgressPrinter.php" role="php" />
+   <file baseinstalldir="/" md5sum="27b3617109ba17c4f05817121b716929" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/JUnitXMLPrinter.php" role="php" />
+   <file baseinstalldir="/" md5sum="bcfa3730086a96f0f63ba4b500b0859f" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/ProgressPrinter.php" role="php" />
+   <file baseinstalldir="/" md5sum="573576aaff73fc53a25052b740fa0c1b" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/ResultPrinter.php" role="php" />
+   <file baseinstalldir="/" md5sum="3fc8620656f83d3ef800bff1eec60aaa" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/TestDoxPrinter.php" role="php" />
+   <file baseinstalldir="/" md5sum="a320eaab2816e8acaa480b57a471a8f3" name="Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox/NamePrettifier.php" role="php" />
+   <file baseinstalldir="/" md5sum="cde0a76ab498c287a1301017a80e025b" name="Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox/Stream.php" role="php" />
+   <file baseinstalldir="/" md5sum="a221b839f526b895a726e9c011883b4c" name="Stagehand/TestRunner/Runner/SimpleTestRunner/ClassFilterReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="5fe73ff53f01687b1ec3bbd8c2bc227a" name="Stagehand/TestRunner/Runner/SimpleTestRunner/JUnitXMLReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="13f51485b6c46a535e3b74d1ddc54e55" name="Stagehand/TestRunner/Runner/SimpleTestRunner/MethodFilterReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="070a86a101d729750bbde07e5efefe9f" name="Stagehand/TestRunner/Runner/SimpleTestRunner/StopOnFailureReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="92c53b7be57ad3955d691250e7724c7d" name="Stagehand/TestRunner/Runner/SimpleTestRunner/TestSuite.php" role="php" />
+  </dir>
  </contents>
  <dependencies>
   <required>
@@ -498,11 +155,6 @@ What&apos;s New in Stagehand_TestRunner 2.12.0
     <min>0.7.0</min>
    </package>
    <package>
-    <name>PHPSpec</name>
-    <channel>pear.phpspec.org</channel>
-    <min>0.2.3</min>
-   </package>
-   <package>
     <name>PHPUnit</name>
     <channel>pear.phpunit.de</channel>
     <min>3.4.1</min>
@@ -530,65 +182,489 @@ What&apos;s New in Stagehand_TestRunner 2.12.0
  <changelog>
   <release>
    <version>
-    <release>2.12.0</release>
-    <api>1.1.0</api>
+    <release>0.3.0</release>
+    <api>0.3.0</api>
    </version>
    <stability>
-    <release>stable</release>
-    <api>stable</api>
+    <release>beta</release>
+    <api>beta</api>
    </stability>
-   <date>2010-07-29</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <date>2006-04-18</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
    <notes>
-What&apos;s New in Stagehand_TestRunner 2.12.0
-
- Supports PHPUnit 3.5.
-
-  (Issue #179)
-
-  PHPUnit 3.5 has been supported.
+The first release of Stagehand_TestRunner.
    </notes>
   </release>
   <release>
    <version>
-    <release>2.11.2</release>
-    <api>1.1.0</api>
+    <release>0.3.1</release>
+    <api>0.3.0</api>
    </version>
    <stability>
-    <release>stable</release>
-    <api>stable</api>
+    <release>beta</release>
+    <api>beta</api>
    </stability>
-   <date>2010-05-31</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <date>2006-07-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
    <notes>
-What&apos;s New in Stagehand_TestRunner 2.11.2
+This release includes an enhancement as follows:
 
- Two defect fixes
+## Enhancements ##
 
-  (Issue #173, #175)
-
-  A defect has been fixed that caused a start tag not to be closed when the tag and all attributes are written. And also a defect has been fixed that caused TestDox output to be broken if the same test method names except trailing numbers.
+##### Stagehand_TestRunner_PHPUnit2TestRunner, Stagehand_TestRunner_PHPUnitTestRunner #####
+- Changed the code so as to use $array[] = $value instead of array_push($array, $value).
    </notes>
   </release>
   <release>
    <version>
-    <release>2.11.1</release>
+    <release>0.3.2</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-07-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+This release includes fixing two problems as follows:
+
+## Defect fixes ##
+
+##### Stagehand_TestRunner_PHPUnit2TestRunner #####
+- Changed a code to the previous code.
+
+##### Stagehand_TestRunner_PHPUnitTestRunner #####
+- Added missing brackets.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-10-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+This is the first release with the new PEAR Channel Server pear.piece-framework.com. There are no changes from the previous release except the PEAR Channel Server is changed.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.5.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-07-12</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 0.5.0
+
+ * Command Line Interface Support: testrunner1/testrunner2 can be used to run tests automatically without TestRunner.php and AllTestRunner.php. Also these commands can be used to run only the specified test case.
+
+See the following release notes for details.
+
+Enhancements
+============ 
+
+- Added testrunner1/testrunner2 scripts to run tests automatically without TestRunner.php and AllTestRunner.php.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-07-31</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+This is the first stable release of Stagehand_TestRunner.
+
+What&apos;s New in Stagehand_TestRunner 1.0.0
+
+ * PHPUnit 3 Support: Stagehand_TestRunner can now be used with PHPUnit 3. If you use PHPUnit 3, use the testrunner3 script for running tests.
+
+See the following release notes for details.
+
+Enhancements
+============ 
+
+- Added support for specifying a file name directly. (Stagehand_TestRunner)
+- Added support for PHPUnit 3.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
     <api>1.1.0</api>
    </version>
    <stability>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2010-03-09</date>
+   <date>2007-10-20</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 1.1.0
+
+ * SimpleTest Support: Stagehand_TestRunner can now be used with SimpleTest (http://simpletest.org/). If you use SimpleTest v1.0.1beta2 or greater, use the testrunner-st script for running tests.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-10-26</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 1.2.0
+
+ * Coloring the result of a test runner run: The result of a test runner run can be colored by &quot;-c&quot; option.
+ * PHP script preloading: An arbitrary PHP script can be loaded before tests run for testing in a closed environment.
+
+See the following release notes for details.
+
+Enhancements
+============
+
+- Added support for coloring the result of a test runner run with ANSI console colors.
+- Added support for preloading an arbitrary PHP script for testing in a closed environment. (Ticket #4)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.0.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-01-26</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.0.0
+
+ * PHPSpec Support: Stagehand_TestRunner can now be used with PHPSpec (http://code.google.com/p/phpspec/). If you use PHPSpec 0.2.0devel or greater, use the specrunner script for running tests.
+ * Migration to PHP 5: Stagehand_TestRunner now works with PHP 5.0.3 or greater.
+ * End of support for PHPUnit 1 and 2: Starting with this release, PHPUnit 1 and 2 are no longer supported.
+ * New directory structure: The source code of Stagehand_TestRunner is now located in the php_dir/src directory. Please add php_dir/src into your include_path before starting to use this package.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-03-06</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.1.0
+
+ * autotest Support: autotest support can now be used by -a option. When using autotest, one or more directories to be watched for changes can specify by the -w option.
+ * Explicit test directory: An arbitrary directory can now be used as the test directory by specifying the directory as the last argument for testrunner commands.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.2.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-05-11</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.2.0
+
+ * Test.php support: Test classes ending with &quot;Test.php&quot; have become targets of running tests by testrunner/testrunner-st (PHPUnit/SimpleTest).
+ * Test class extensions: Extending test classes has become a lot easier since the PHPUnit/SimpleTest collectors now target only classes ending with Test or TestCase.
+
+See the following release notes for details.
+
+Enhancements
+============ 
+
+- Removed the second argument for passthru(). (Stagehand_TestRunner_AlterationMonitor)
+- Removed error_reporting(). (specrunner/testrunner/testrunner-st)
+- Added some error handling. (Stagehand_TestRunner)
+- Added support for running tests ending with &quot;Test.php&quot;. (PHPUnit/SimpleTest)
+- Changed a collector&apos;s behavior so as to target only classes ending with Test or TestCase. (Ticket #18) (PHPUnit/SimpleTest)
+- Added &apos;^.#&apos; to the exclude patterns. (Stagehand_TestRunner_DirectoryScanner)
+- Changed code so as to exit the program when loading a preload file is failed. (specrunner/testrunner/testrunner-st)
+
+Defect Fixes
+============
+
+- Fixed a defect that caused tests to be run every time if fileperms()/filemtime() fails when using autotest.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.3.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-05-25</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.3.0
+
+ * Growl support: Growl support can now be used by the -g option. If the Growl requires password, specify the password by the --growl-password option.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.4.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-09-18</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.4.0
+
+ * Enhanced PHPUnit support: TestDox documentation has been supported. And also real-time progress report has been supported.
+ * Improved preloading option handling: Preloading option handling has been improved so as to be able to use &quot;-p&quot; with other options such like &quot;-Rcp prepare.php&quot;
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.5.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-09-23</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.5.0
+
+ * Enhanced PHPUnit support: Results output has been improved so as to be same as PHPUnit 3.3.0.
+ * A defect fix: A defect has been fixed so that the Growl message is output only &quot;FAILURES!&quot; when a test fails.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.6.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-10-23</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.6.0
+
+ * Enhanced PHPUnit support: A feature to display detailed progress report instead of normal progress report has been added. This feature will make it easy to find out where a fatal error occurred. This feature can be used by the -v option.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.6.1</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-01-14</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.6.1
+
+ * A defect fix: A defect has been fixed that caused warning messages to be displayed if E_STRICT was enabled.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.6.2</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-01-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
+   <notes>
+A new release of Stagehand_TestRunner is now available.
+
+What&apos;s New in Stagehand_TestRunner 2.6.2
+
+ * A defect fix: A defect with PHPUnit has been fixed that caused the numerical part of the prettified method name for a method ending with a number to be lost.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.7.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-09-25</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-What&apos;s New in Stagehand_TestRunner 2.11.1
+What&apos;s New in Stagehand_TestRunner 2.7.0
 
- Two defect fixes
+ Runs only the specified tests in the specified file. (PHPUnit only):
 
-  A defect has been fixed that caused the layout of the detailed progress report to be broken by incomplete or skipped tests with data providers. (Issue #136)
+  From the specified file, only methods which you want to test can now be specified.
 
-  And a defect has been fixed that caused wrong number of tests to be output to a JUnit XML if using method/class filters with the real-time option. (Issue #141)
+ Supports PHPUnit 3.4.:
+
+  PHPUnit 3.4 has been supported. As of this version, PHPUnit 3.3.x are no longer supported.
+
+ Supports JUnit XML output. (PHPUnit and PHPT).
+
+  Test results can now be logged in the JUnit XML format into the specified file.
+
+ Supports PHPT.:
+
+  PHPT has been supported. PHPUnit is required to use this feature.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.8.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-10-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+What&apos;s New in Stagehand_TestRunner 2.8.0
+
+ Runs only the tests in the specified classes. (PHPUnit only):
+
+  phpunitrunner --classes=CLASS1,CLASS2,... FILE
+
+  Runs the tests in the specified classes which are included in the specified file. Multiple classes can be specified by a comma delimited list.
+
+ Improvements for testing specified methods:
+
+  Can specify fully-qualified method names.:
+
+   In the version 2.7.0, if multiple classes have same method, their methods are run when testing specified methods.
+
+   As of this version, fully-qualified method names can be specified as CLASS::METHOD for resolving this ambiguity.
+
+  Be case-insensitive.:
+
+   In the version 2.7.0, it is case-sensitive even though PHP methods are case-insensitive.
+
+   As of this version, it has been made case-insensitive.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.9.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-12-23</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+What&apos;s New in Stagehand_TestRunner 2.9.0
+
+ Can specify multiple files and directories as test target.:
+
+  phpunitrunner DIRECTORY_OR_FILE1 DIRECTORY_OR_FILE2 ...
+
+  In previous versions, one file or directory could only be specified as test target.
+
+  As of this version, multiple files and directories can be specified as test target.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.10.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-12-24</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+What&apos;s New in Stagehand_TestRunner 2.10.0
+
+ Logs test results in real-time into the specified file in the JUnit XML format. (PHPUnit, PHPT, and SimpleTest):
+
+  phpunitrunner --log-junit=FILE --log-junit-realtime DIRECTORY_OR_FILE
+
+  By specifying the --log-junit-realtime option, the test results get to be written in real-time by element-by-element.
+
+ Enhanced SimpleTest support:
+
+  The following features have been supported in SimpleTest:
+
+   * Runs only the specified tests in the specified file.
+   * Runs only the tests in the specified classes.
+   * Logs test results into the specified file in the JUnit XML format.
    </notes>
   </release>
   <release>
@@ -648,489 +724,90 @@ What&apos;s New in Stagehand_TestRunner 2.11.0
   </release>
   <release>
    <version>
-    <release>2.10.0</release>
+    <release>2.11.1</release>
     <api>1.1.0</api>
    </version>
    <stability>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-12-24</date>
+   <date>2010-03-09</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-What&apos;s New in Stagehand_TestRunner 2.10.0
+What&apos;s New in Stagehand_TestRunner 2.11.1
 
- Logs test results in real-time into the specified file in the JUnit XML format. (PHPUnit, PHPT, and SimpleTest):
+ Two defect fixes
 
-  phpunitrunner --log-junit=FILE --log-junit-realtime DIRECTORY_OR_FILE
+  A defect has been fixed that caused the layout of the detailed progress report to be broken by incomplete or skipped tests with data providers. (Issue #136)
 
-  By specifying the --log-junit-realtime option, the test results get to be written in real-time by element-by-element.
-
- Enhanced SimpleTest support:
-
-  The following features have been supported in SimpleTest:
-
-   * Runs only the specified tests in the specified file.
-   * Runs only the tests in the specified classes.
-   * Logs test results into the specified file in the JUnit XML format.
+  And a defect has been fixed that caused wrong number of tests to be output to a JUnit XML if using method/class filters with the real-time option. (Issue #141)
    </notes>
   </release>
   <release>
    <version>
-    <release>2.9.0</release>
+    <release>2.11.2</release>
     <api>1.1.0</api>
    </version>
    <stability>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-12-23</date>
+   <date>2010-05-31</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-What&apos;s New in Stagehand_TestRunner 2.9.0
+What&apos;s New in Stagehand_TestRunner 2.11.2
 
- Can specify multiple files and directories as test target.:
+ Two defect fixes
 
-  phpunitrunner DIRECTORY_OR_FILE1 DIRECTORY_OR_FILE2 ...
+  (Issue #173, #175)
 
-  In previous versions, one file or directory could only be specified as test target.
-
-  As of this version, multiple files and directories can be specified as test target.
+  A defect has been fixed that caused a start tag not to be closed when the tag and all attributes are written. And also a defect has been fixed that caused TestDox output to be broken if the same test method names except trailing numbers.
    </notes>
   </release>
   <release>
    <version>
-    <release>2.8.0</release>
+    <release>2.12.0</release>
     <api>1.1.0</api>
    </version>
    <stability>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-10-27</date>
+   <date>2010-07-29</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-What&apos;s New in Stagehand_TestRunner 2.8.0
+What&apos;s New in Stagehand_TestRunner 2.12.0
 
- Runs only the tests in the specified classes. (PHPUnit only):
+ Supports PHPUnit 3.5.
 
-  phpunitrunner --classes=CLASS1,CLASS2,... FILE
+  (Issue #179)
 
-  Runs the tests in the specified classes which are included in the specified file. Multiple classes can be specified by a comma delimited list.
-
- Improvements for testing specified methods:
-
-  Can specify fully-qualified method names.:
-
-   In the version 2.7.0, if multiple classes have same method, their methods are run when testing specified methods.
-
-   As of this version, fully-qualified method names can be specified as CLASS::METHOD for resolving this ambiguity.
-
-  Be case-insensitive.:
-
-   In the version 2.7.0, it is case-sensitive even though PHP methods are case-insensitive.
-
-   As of this version, it has been made case-insensitive.
+  PHPUnit 3.5 has been supported.
    </notes>
   </release>
   <release>
    <version>
-    <release>2.7.0</release>
+    <release>2.13.0</release>
     <api>1.1.0</api>
    </version>
    <stability>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-09-25</date>
+   <date>2010-09-11</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
    <notes>
-What&apos;s New in Stagehand_TestRunner 2.7.0
+What&apos;s New in Stagehand_TestRunner 2.13.0
 
- Runs only the specified tests in the specified file. (PHPUnit only):
+ New Directory Structure
+  As of this version, the sources are located directly under the &quot;php_dir&quot; (PEAR directory).
 
-  From the specified file, only methods which you want to test can now be specified.
+ Three Defect Fixes
+  The following defects have been fixed:
 
- Supports PHPUnit 3.4.:
-
-  PHPUnit 3.4 has been supported. As of this version, PHPUnit 3.3.x are no longer supported.
-
- Supports JUnit XML output. (PHPUnit and PHPT).
-
-  Test results can now be logged in the JUnit XML format into the specified file.
-
- Supports PHPT.:
-
-  PHPT has been supported. PHPUnit is required to use this feature.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>2.6.2</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2009-01-27</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 2.6.2
-
- * A defect fix: A defect with PHPUnit has been fixed that caused the numerical part of the prettified method name for a method ending with a number to be lost.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>2.6.1</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2009-01-14</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 2.6.1
-
- * A defect fix: A defect has been fixed that caused warning messages to be displayed if E_STRICT was enabled.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>2.6.0</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2008-10-23</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 2.6.0
-
- * Enhanced PHPUnit support: A feature to display detailed progress report instead of normal progress report has been added. This feature will make it easy to find out where a fatal error occurred. This feature can be used by the -v option.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>2.5.0</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2008-09-23</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 2.5.0
-
- * Enhanced PHPUnit support: Results output has been improved so as to be same as PHPUnit 3.3.0.
- * A defect fix: A defect has been fixed so that the Growl message is output only &quot;FAILURES!&quot; when a test fails.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>2.4.0</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2008-09-18</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 2.4.0
-
- * Enhanced PHPUnit support: TestDox documentation has been supported. And also real-time progress report has been supported.
- * Improved preloading option handling: Preloading option handling has been improved so as to be able to use &quot;-p&quot; with other options such like &quot;-Rcp prepare.php&quot;
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>2.3.0</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2008-05-25</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 2.3.0
-
- * Growl support: Growl support can now be used by the -g option. If the Growl requires password, specify the password by the --growl-password option.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>2.2.0</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2008-05-11</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 2.2.0
-
- * Test.php support: Test classes ending with &quot;Test.php&quot; have become targets of running tests by testrunner/testrunner-st (PHPUnit/SimpleTest).
- * Test class extensions: Extending test classes has become a lot easier since the PHPUnit/SimpleTest collectors now target only classes ending with Test or TestCase.
-
-See the following release notes for details.
-
-Enhancements
-============ 
-
-- Removed the second argument for passthru(). (Stagehand_TestRunner_AlterationMonitor)
-- Removed error_reporting(). (specrunner/testrunner/testrunner-st)
-- Added some error handling. (Stagehand_TestRunner)
-- Added support for running tests ending with &quot;Test.php&quot;. (PHPUnit/SimpleTest)
-- Changed a collector&apos;s behavior so as to target only classes ending with Test or TestCase. (Ticket #18) (PHPUnit/SimpleTest)
-- Added &apos;^.#&apos; to the exclude patterns. (Stagehand_TestRunner_DirectoryScanner)
-- Changed code so as to exit the program when loading a preload file is failed. (specrunner/testrunner/testrunner-st)
-
-Defect Fixes
-============
-
-- Fixed a defect that caused tests to be run every time if fileperms()/filemtime() fails when using autotest.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>2.1.0</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2008-03-06</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 2.1.0
-
- * autotest Support: autotest support can now be used by -a option. When using autotest, one or more directories to be watched for changes can specify by the -w option.
- * Explicit test directory: An arbitrary directory can now be used as the test directory by specifying the directory as the last argument for testrunner commands.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>2.0.0</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2008-01-26</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 2.0.0
-
- * PHPSpec Support: Stagehand_TestRunner can now be used with PHPSpec (http://code.google.com/p/phpspec/). If you use PHPSpec 0.2.0devel or greater, use the specrunner script for running tests.
- * Migration to PHP 5: Stagehand_TestRunner now works with PHP 5.0.3 or greater.
- * End of support for PHPUnit 1 and 2: Starting with this release, PHPUnit 1 and 2 are no longer supported.
- * New directory structure: The source code of Stagehand_TestRunner is now located in the php_dir/src directory. Please add php_dir/src into your include_path before starting to use this package.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>1.2.0</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2007-10-26</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 1.2.0
-
- * Coloring the result of a test runner run: The result of a test runner run can be colored by &quot;-c&quot; option.
- * PHP script preloading: An arbitrary PHP script can be loaded before tests run for testing in a closed environment.
-
-See the following release notes for details.
-
-Enhancements
-============
-
-- Added support for coloring the result of a test runner run with ANSI console colors.
-- Added support for preloading an arbitrary PHP script for testing in a closed environment. (Ticket #4)
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>1.1.0</release>
-    <api>1.1.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2007-10-20</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 1.1.0
-
- * SimpleTest Support: Stagehand_TestRunner can now be used with SimpleTest (http://simpletest.org/). If you use SimpleTest v1.0.1beta2 or greater, use the testrunner-st script for running tests.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>1.0.0</release>
-    <api>0.3.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2007-07-31</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-This is the first stable release of Stagehand_TestRunner.
-
-What&apos;s New in Stagehand_TestRunner 1.0.0
-
- * PHPUnit 3 Support: Stagehand_TestRunner can now be used with PHPUnit 3. If you use PHPUnit 3, use the testrunner3 script for running tests.
-
-See the following release notes for details.
-
-Enhancements
-============ 
-
-- Added support for specifying a file name directly. (Stagehand_TestRunner)
-- Added support for PHPUnit 3.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>0.5.0</release>
-    <api>0.3.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-07-12</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-A new release of Stagehand_TestRunner is now available.
-
-What&apos;s New in Stagehand_TestRunner 0.5.0
-
- * Command Line Interface Support: testrunner1/testrunner2 can be used to run tests automatically without TestRunner.php and AllTestRunner.php. Also these commands can be used to run only the specified test case.
-
-See the following release notes for details.
-
-Enhancements
-============ 
-
-- Added testrunner1/testrunner2 scripts to run tests automatically without TestRunner.php and AllTestRunner.php.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>0.4.0</release>
-    <api>0.3.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2006-10-09</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-This is the first release with the new PEAR Channel Server pear.piece-framework.com. There are no changes from the previous release except the PEAR Channel Server is changed.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>0.3.2</release>
-    <api>0.3.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2006-07-27</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-This release includes fixing two problems as follows:
-
-## Defect fixes ##
-
-##### Stagehand_TestRunner_PHPUnit2TestRunner #####
-- Changed a code to the previous code.
-
-##### Stagehand_TestRunner_PHPUnitTestRunner #####
-- Added missing brackets.
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>0.3.1</release>
-    <api>0.3.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2006-07-27</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-This release includes an enhancement as follows:
-
-## Enhancements ##
-
-##### Stagehand_TestRunner_PHPUnit2TestRunner, Stagehand_TestRunner_PHPUnitTestRunner #####
-- Changed the code so as to use $array[] = $value instead of array_push($array, $value).
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>0.3.0</release>
-    <api>0.3.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2006-04-18</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License (revised)</license>
-   <notes>
-The first release of Stagehand_TestRunner.
+  * Growl does not work. (Issue #192)
+  * A fatal error is raised when launching by a launcher script with the -a option. (Issue #196)
+  * The current directory is not treated as the test directory if no directories or files are specified. (Issue #197)
    </notes>
   </release>
  </changelog>
