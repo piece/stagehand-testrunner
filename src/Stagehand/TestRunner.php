@@ -191,8 +191,8 @@ OPTIONS
      Preloads FILE before running tests.
 
   -a
-     Monitors for changes in the specified directories and run tests when
-     changes are detected.
+     Monitors for changes in the specified directories and run tests when changes
+     are detected.
 
   -w DIRECTORY1,DIRECTORY2,...
      Specifies one or more directories to be monitored for changes.
