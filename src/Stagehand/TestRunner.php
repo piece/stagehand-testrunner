@@ -226,6 +226,11 @@ OPTIONS
   --stop-on-failure
      Stops the test run when the first failure or error is raised.
      (PHPUnit, SimpleTest, and PHPT)
+
+  --phpunit-config=FILE
+     Configures the PHPUnit runtime environment by the specified XML configuration
+     file.
+     (PHPUnit)
 ";
     }
 
