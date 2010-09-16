@@ -317,6 +317,35 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
                    array('Stagehand_TestRunner_PHPUnitSkippedTest', 'Red', "OK, but incomplete or skipped tests!\nTests: 2, Assertions: 0, Skipped: 2.")
                );
     }
+
+    /**
+     * @test
+     * @link http://redmine.piece-framework.com/issues/202
+     * @since Method available since Release 2.14.0
+     */
+    public function configuresPHPUnitRuntimeEnvironmentByTheXmlConfigurationFile()
+    {
+        $GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_PHPUNITRUNNERTEST_bootstrapLoaded'] = false;
+        $configDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . basename(__FILE__, '.php');
+        $logFile = $configDirectory . DIRECTORY_SEPARATOR . 'logfile.tap';
+        $oldIncludePath = set_include_path($configDirectory . PATH_SEPARATOR . get_include_path());
+        $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml';
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->runTests();
+        $this->assertTrue($GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_PHPUNITRUNNERTEST_bootstrapLoaded']);
+        $this->assertFileExists($logFile);
+
+        $expectedLog = 'TAP version 13
+ok 1 - Stagehand_TestRunner_PHPUnitPassTest::passWithAnAssertion
+ok 2 - Stagehand_TestRunner_PHPUnitPassTest::passWithMultipleAssertions
+ok 3 - Stagehand_TestRunner_PHPUnitPassTest::日本語を使用できる
+1..3
+';
+        $actualLog = file_get_contents($logFile);
+        $this->assertEquals($expectedLog, $actualLog);
+        unlink($logFile);
+        set_include_path($oldIncludePath);
+    }
 }
 
 /*

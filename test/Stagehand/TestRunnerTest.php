@@ -124,6 +124,37 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
                    array('simpletestrunner')
                );
     }
+
+    /**
+     * @test
+     * @link http://redmine.piece-framework.com/issues/202
+     */
+    public function supportsPhpunitXmlConfigurationFile()
+    {
+        $phpunitConfigFile = 'phpunit.xml';
+        $_SERVER['argv'] = $GLOBALS['argv'] =
+            array(
+                'bin/phpunitrunner',
+                '-p', 'tests/prepare.php',
+                '--phpunit-config=' . $phpunitConfigFile
+            );
+        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
+        $oldCurrentDirectory = getcwd();
+        chdir(dirname(__FILE__));
+        $runner = $this->getMock(
+                      'Stagehand_TestRunner',
+                      array('runTests'),
+                      array(Stagehand_TestRunner_Framework::PHPUNIT)
+                  );
+        $runner->expects($this->any())
+               ->method('runTests')
+               ->will($this->returnValue(null));
+        chdir($oldCurrentDirectory);
+        $runner->run();
+        $config = $this->readAttribute($runner, 'config');
+        $this->assertTrue($config->usesPHPUnitConfigFile());
+        $this->assertEquals($phpunitConfigFile, $config->phpunitConfigFile);
+    }
 }
 
 /*

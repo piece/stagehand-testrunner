@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="bootstrap.php">
+  <logging>
+    <log type="tap" target="logfile.tap"/>
+  </logging>
+</phpunit>

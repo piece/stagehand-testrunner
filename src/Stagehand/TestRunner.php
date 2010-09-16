@@ -54,7 +54,8 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             'log-junit=',
             'log-junit-realtime',
             'classes=',
-            'stop-on-failure'
+            'stop-on-failure',
+            'phpunit-config='
         );
     protected $config;
 
@@ -125,6 +126,9 @@ class Stagehand_TestRunner extends Stagehand_CLIController
             return true;
         case '--stop-on-failure':
             $this->config->stopsOnFailure = true;
+            return true;
+        case '--phpunit-config':
+            $this->config->phpunitConfigFile = $value;
             return true;
         case 'v':
             $this->config->printsDetailedProgressReport = true;
