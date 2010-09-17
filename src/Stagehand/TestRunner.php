@@ -339,83 +339,8 @@ All rights reserved.
      */
     protected function runTests()
     {
-        if ($this->shouldPrepare()) {
-            $this->createPreparator()->prepare();
-        }
-        $runner = $this->createRunner();
-        $runner->run($this->createCollector()->collect());
-        if ($this->config->usesGrowl) {
-            $this->notifyGrowlOfResults($runner->getNotification());
-        }
-    }
-
-    /**
-     * @return Stagehand_TestRunner_Collector
-     * @since Method available since Release 2.11.0
-     */
-    protected function createCollector()
-    {
-        $class = 'Stagehand_TestRunner_Collector_' . $this->config->framework . 'Collector';
-        return new $class($this->config);
-    }
-
-    /**
-     * @return Stagehand_TestRunner_Runner
-     * @since Method available since Release 2.11.0
-     */
-    protected function createRunner()
-    {
-        $factory = new Stagehand_TestRunner_Runner_RunnerFactory($this->config);
-        return $factory->create();
-    }
-
-    /**
-     * @param stdClass $notification
-     * @since Method available since Release 2.11.0
-     */
-    protected function notifyGrowlOfResults(stdClass $notification)
-    {
-        $growl = new Net_Growl(
-                     new Net_Growl_Application(
-                         'Stagehand_TestRunner',
-                         array('Green', 'Red'),
-                         $this->config->growlPassword
-                     )
-                 );
-        $growl->notify(
-            $notification->name,
-            'Test Results by Stagehand_TestRunner',
-            $notification->description
-        );
-    }
-
-    /**
-     * @return boolean
-     * @since Method available since Release 2.12.0
-     */
-    protected function shouldPrepare()
-    {
-        $class = $this->getPreparetorClass();
-        return class_exists($class);
-    }
-
-    /**
-     * @return Stagehand_TestRunner_Preparator
-     * @since Method available since Release 2.12.0
-     */
-    protected function createPreparator()
-    {
-        $class = $this->getPreparetorClass();
-        return new $class($this->config);
-    }
-
-    /**
-     * @return string
-     * @since Method available since Release 2.12.0
-     */
-    protected function getPreparetorClass()
-    {
-        return 'Stagehand_TestRunner_Preparator_' . $this->config->framework . 'Preparator';
+        $runner = new Stagehand_TestRunner_TestRunner($this->config);
+        $runner->run();
     }
 
     /**
