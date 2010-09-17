@@ -51,6 +51,11 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
     protected $tmpDirectory;
 
     /**
+     * @var Stagehand_TestRunner_Preparator
+     */
+    protected $preparator;
+
+    /**
      * @var Stagehand_TestRunner_Collector
      */
     protected $collector;
@@ -75,6 +80,12 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
             '.' .
             $this->getName(false) .
             '.xml';
+
+        $preparatorClass = 'Stagehand_TestRunner_Preparator_' . $this->config->framework . 'Preparator';
+        if (class_exists($preparatorClass)) {
+            $this->preparator = new $preparatorClass($this->config);
+        }
+
         $collectorClass = 'Stagehand_TestRunner_Collector_' . $this->config->framework . 'Collector';
         $this->collector = new $collectorClass($this->config);
     }
@@ -114,6 +125,9 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
 
     protected function runTests()
     {
+        if (!is_null($this->preparator)) {
+            $this->preparator->prepare();
+        }
         $factory = new Stagehand_TestRunner_Runner_RunnerFactory($this->config);
         $this->runner = $factory->create();
         ob_start();
