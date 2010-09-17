@@ -406,7 +406,7 @@ All rights reserved.
     protected function createPreparator()
     {
         $class = $this->getPreparetorClass();
-        return new $class();
+        return new $class($this->config);
     }
 
     /**

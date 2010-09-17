@@ -44,7 +44,7 @@ require_once 'PHPUnit/Runner/Version.php';
  * @version    Release: @package_version@
  * @since      Class available since Release 2.12.0
  */
-class Stagehand_TestRunner_Preparator_PHPUnitPreparator implements Stagehand_TestRunner_Preparator
+class Stagehand_TestRunner_Preparator_PHPUnitPreparator extends Stagehand_TestRunner_Preparator
 {
     public function prepare()
     {

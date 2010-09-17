@@ -42,7 +42,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.12.0
  */
-class Stagehand_TestRunner_Preparator_PHPSpecPreparator implements Stagehand_TestRunner_Preparator
+class Stagehand_TestRunner_Preparator_PHPSpecPreparator extends Stagehand_TestRunner_Preparator
 {
     public function prepare()
     {
