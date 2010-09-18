@@ -73,7 +73,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
      */
     public function countTestsInTestCase(SimpleTestCase $testCase)
     {
-        $tests = $testCase->getTests();
+        $tests = $this->getTestsInTestCase($testCase);
         $testCount = 0;
         if ($this->config->testsOnlySpecified()) {
             if ($this->config->testsOnlySpecifiedMethods) {
@@ -100,6 +100,16 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
     public function setConfig(Stagehand_TestRunner_Config $config)
     {
         $this->config = $config;
+    }
+
+    /**
+     * @param SimpleTestCase $testCase
+     * @return integer
+     * @since Method available since Release 2.14.0
+     */
+    protected function getTestsInTestCase(SimpleTestCase $testCase)
+    {
+        return $testCase->getTests();
     }
 }
 

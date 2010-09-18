@@ -57,6 +57,7 @@ require_once 'simpletest/reporter.php';
 class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_Runner
 {
     protected $junitXMLFileHandle;
+    protected $junitXMLReporterClass = 'Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter';
 
     /**
      * Runs tests based on the given TestSuite object.
@@ -80,7 +81,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
                              );
             }
 
-            $junitXMLReporter = new Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter($this->config);
+            $junitXMLReporter = new $this->junitXMLReporterClass($this->config);
             $junitXMLReporter->setXMLWriter($xmlWriter);
             $junitXMLReporter->setTestSuite($suite);
             $junitXMLReporter->setConfig($this->config);

@@ -57,6 +57,7 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
     protected $baseClass = 'UnitTestCase';
     protected $suffix = 'Test(?:Case)?';
     protected $include = 'Test(?:Case)?$';
+    protected $suiteClass = 'Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite';
 
     /**
      * @param string $testCase
@@ -80,7 +81,7 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
      */
     protected function createTestSuite($name)
     {
-        $suite = new Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite($name);
+        $suite = new $this->suiteClass($name);
         $suite->setConfig($this->config);
         return $suite;
     }

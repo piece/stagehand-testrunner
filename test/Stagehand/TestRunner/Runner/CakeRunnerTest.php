@@ -32,7 +32,7 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.11.0
+ * @since      File available since Release 2.14.0
  */
 
 /**
@@ -40,21 +40,47 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.11.0
+ * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Framework
+class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Runner_SimpleTestRunnerTest
 {
-    const PHPUNIT = 'PHPUnit';
-    const SIMPLETEST = 'SimpleTest';
-    const PHPT = 'PHPT';
-    const PHPSPEC = 'PHPSpec';
-    const CAKE = 'Cake';
+    protected $framework = Stagehand_TestRunner_Framework::CAKE;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->config->cakephpAppPath = dirname(__FILE__) . '/../../../../vendor/cakephp/app';
+        $this->preparator->prepare();
+    }
+
+    /**
+     * @test
+     */
+    public function runsTests()
+    {
+        $this->loadClasses();
+        $this->collector->collectTestCase('Stagehand_TestRunner_CakePassTest');
+        $this->runTests();
+
+        $this->assertTestCaseCount(3);
+        $this->assertTestCaseExists('testPassWithAnAssertion', 'Stagehand_TestRunner_CakePassTest');
+        $this->assertTestCaseExists('testPassWithMultipleAssertions', 'Stagehand_TestRunner_CakePassTest');
+        $this->assertTestCaseExists('test日本語を使用できる', 'Stagehand_TestRunner_CakePassTest');
+    }
+
+    protected function loadClasses()
+    {
+        include_once 'Stagehand/TestRunner/cake_pass.test.php';
+        include_once 'Stagehand/TestRunner/cake_multiple_classes.test.php';
+        include_once 'Stagehand/TestRunner/cake_failure_and_pass.test.php';
+        include_once 'Stagehand/TestRunner/cake_error_and_pass.test.php';
+    }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

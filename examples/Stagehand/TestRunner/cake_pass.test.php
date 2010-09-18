@@ -32,7 +32,7 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.11.0
+ * @since      File available since Release 2.14.0
  */
 
 /**
@@ -40,21 +40,31 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.11.0
+ * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Framework
+class Stagehand_TestRunner_CakePassTest extends CakeTestCase
 {
-    const PHPUNIT = 'PHPUnit';
-    const SIMPLETEST = 'SimpleTest';
-    const PHPT = 'PHPT';
-    const PHPSPEC = 'PHPSpec';
-    const CAKE = 'Cake';
+    public function testPassWithAnAssertion()
+    {
+        $this->assertTrue(true);
+    }
+
+    public function testPassWithMultipleAssertions()
+    {
+        $this->assertTrue(true);
+        $this->assertTrue(true);
+    }
+
+    public function test日本語を使用できる()
+    {
+        $this->assertTrue(true);
+    }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

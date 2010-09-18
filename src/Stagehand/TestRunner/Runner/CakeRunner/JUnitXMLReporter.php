@@ -32,7 +32,7 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.11.0
+ * @since      File available since Release 2.14.0
  */
 
 /**
@@ -40,15 +40,37 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.11.0
+ * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Framework
+class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLReporter extends Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter
 {
-    const PHPUNIT = 'PHPUnit';
-    const SIMPLETEST = 'SimpleTest';
-    const PHPT = 'PHPT';
-    const PHPSPEC = 'PHPSpec';
-    const CAKE = 'Cake';
+    /**
+     * @param string $testName
+     */
+    public function paintMethodStart($testName)
+    {
+        if ($this->shouldPaintMethod($testName)) {
+            parent::paintMethodStart($testName);
+        }
+    }
+
+    /**
+     * @param string $testName
+     */
+    public function paintMethodEnd($testName)
+    {
+        if ($this->shouldPaintMethod($testName)) {
+            parent::paintMethodEnd($testName);
+        }
+    }
+
+    /**
+     * @param string $testName
+     */
+    protected function shouldPaintMethod($testName)
+    {
+        return !in_array(strtolower($testName), SimpleTest::getContext()->getTest()->methods);
+    }
 }
 
 /*

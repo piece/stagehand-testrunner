@@ -32,23 +32,29 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.11.0
+ * @since      File available since Release 2.14.0
  */
 
 /**
+ * TestCase for the SimpleTest runner.
+ *
  * @package    Stagehand_TestRunner
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.11.0
+ * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Framework
+class Stagehand_TestRunner_CakeFailureAndPassTest extends CakeTestCase
 {
-    const PHPUNIT = 'PHPUnit';
-    const SIMPLETEST = 'SimpleTest';
-    const PHPT = 'PHPT';
-    const PHPSPEC = 'PHPSpec';
-    const CAKE = 'Cake';
+    public function testIsFailure()
+    {
+        $this->assertTrue(false, 'This is an error message.');
+    }
+
+    public function testPass()
+    {
+        $this->assertTrue(true);
+    }
 }
 
 /*

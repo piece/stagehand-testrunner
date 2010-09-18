@@ -63,6 +63,8 @@ class Stagehand_TestRunner_Config
     public $stopsOnFailure = false;
     public $workingDirectoryAtStartup;
     public $phpunitConfigFile;
+    public $cakephpAppPath;
+    public $cakephpCorePath;
     protected $testingMethods = array();
     protected $testingClasses = array();
 

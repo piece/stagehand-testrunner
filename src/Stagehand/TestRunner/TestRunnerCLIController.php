@@ -55,7 +55,9 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             'log-junit-realtime',
             'classes=',
             'stop-on-failure',
-            'phpunit-config='
+            'phpunit-config=',
+            'cakephp-app-path=',
+            'cakephp-core-path='
         );
     protected $config;
 
@@ -130,6 +132,14 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             return true;
         case '--phpunit-config':
             $this->config->phpunitConfigFile = $value;
+            return true;
+        case '--cakephp-app-path':
+            $this->validateDirectory($value, $option);
+            $this->config->cakephpAppPath = $value;
+            return true;
+        case '--cakephp-core-path':
+            $this->validateDirectory($value, $option);
+            $this->config->cakephpCorePath = $value;
             return true;
         case 'v':
             $this->config->printsDetailedProgressReport = true;
@@ -232,6 +242,17 @@ OPTIONS
      Configures the PHPUnit runtime environment by the specified XML configuration
      file.
      (PHPUnit)
+
+  --cakephp-app-path=DIRECTORY
+     Specifies the path of your app folder.
+     By default, the current working directory is used.
+     (Cake)
+
+  --cakephp-core-path=DIRECTORY
+     Specifies the path of your CakePHP libraries folder (/path/to/cake).
+     By default, the \"cake\" directory under the parent directory of your app
+     folder is used. (/path/to/app/../cake)
+     (Cake)
 ";
     }
 
@@ -375,6 +396,35 @@ All rights reserved.
         ini_set('html_errors', false);
         ini_set('implicit_flush', true);
         ini_set('max_execution_time', 0);
+    }
+
+    /**
+     * @param string $directory
+     * @param string $option
+     * @throws Stagehand_TestRunner_Exception
+     * @since Method available since Release 2.14.0
+     */
+    protected function validateDirectory($directory, $option)
+    {
+        if (!is_readable($directory)) {
+            throw new Stagehand_TestRunner_Exception(
+                      'The specified path [ ' .
+                      $directory .
+                      ' ] by the ' .
+                      $option .
+                      ' option is not found or not readable.'
+                  );
+        }
+
+        if (!is_dir($directory)) {
+            throw new Stagehand_TestRunner_Exception(
+                      'The specified path [ ' .
+                      $directory .
+                      ' ] by the ' .
+                      $option .
+                      ' option is not a directory.'
+                  );
+        }
     }
 }
 
