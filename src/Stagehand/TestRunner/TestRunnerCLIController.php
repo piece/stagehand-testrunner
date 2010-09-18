@@ -66,6 +66,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
     {
         $this->config = new Stagehand_TestRunner_Config();
         $this->config->framework = $framework;
+        $this->configurePHPRuntimeConfiguration();
     }
 
     /**
@@ -363,6 +364,17 @@ All rights reserved.
                            "');"
                        )
                );
+    }
+
+    /**
+     * @since Method available since Release 2.14.0
+     */
+    protected function configurePHPRuntimeConfiguration()
+    {
+        ini_set('display_errors', true);
+        ini_set('html_errors', false);
+        ini_set('implicit_flush', true);
+        ini_set('max_execution_time', 0);
     }
 }
 
