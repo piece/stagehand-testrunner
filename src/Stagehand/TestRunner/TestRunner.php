@@ -64,9 +64,7 @@ class Stagehand_TestRunner_TestRunner
      */
     public function run()
     {
-        if ($this->shouldPrepare()) {
-            $this->createPreparator()->prepare();
-        }
+        $this->createPreparator()->prepare();
 
         $runner = $this->createRunner();
         $runner->run($this->createCollector()->collect());
@@ -74,15 +72,6 @@ class Stagehand_TestRunner_TestRunner
         if ($this->config->usesGrowl) {
             $this->notifyGrowlOfResults($runner->getNotification());
         }
-    }
-
-    /**
-     * @return boolean
-     * @since Method available since Release 2.12.0
-     */
-    protected function shouldPrepare()
-    {
-        return Stagehand_TestRunner_Preparator_PreparatorFactory::preparatorExists($this->config->framework);
     }
 
     /**

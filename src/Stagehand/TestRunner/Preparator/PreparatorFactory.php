@@ -62,26 +62,8 @@ class Stagehand_TestRunner_Preparator_PreparatorFactory
      */
     public function create()
     {
-        $class = self::getPreparetorClass($this->config->framework);
+        $class = 'Stagehand_TestRunner_Preparator_' . $this->config->framework . 'Preparator';
         return new $class($this->config);
-    }
-
-    /**
-     * @param string $framework
-     * @return boolean
-     */
-    public static function preparatorExists($framework)
-    {
-        return class_exists(self::getPreparetorClass($framework));
-    }
-
-    /**
-     * @return string
-     * @since Method available since Release 2.12.0
-     */
-    protected static function getPreparetorClass($framework)
-    {
-        return 'Stagehand_TestRunner_Preparator_' . $framework . 'Preparator';
     }
 }
 

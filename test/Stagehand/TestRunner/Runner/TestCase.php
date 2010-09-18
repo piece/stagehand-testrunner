@@ -81,10 +81,8 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
             $this->getName(false) .
             '.xml';
 
-        if (Stagehand_TestRunner_Preparator_PreparatorFactory::preparatorExists($this->config->framework)) {
-            $preparatorFactory = new Stagehand_TestRunner_Preparator_PreparatorFactory($this->config);
-            $this->preparator = $preparatorFactory->create();
-        }
+        $preparatorFactory = new Stagehand_TestRunner_Preparator_PreparatorFactory($this->config);
+        $this->preparator = $preparatorFactory->create();
 
         $collectorFactory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
         $this->collector = $collectorFactory->create();
