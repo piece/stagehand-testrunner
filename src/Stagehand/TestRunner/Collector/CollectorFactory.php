@@ -42,7 +42,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_TestRunner
+class Stagehand_TestRunner_Collector_CollectorFactory
 {
     /**
      * @var Stagehand_TestRunner_Config
@@ -58,81 +58,12 @@ class Stagehand_TestRunner_TestRunner
     }
 
     /**
-     * Runs tests.
-     *
-     * @since Method available since Release 2.1.0
-     */
-    public function run()
-    {
-        if ($this->shouldPrepare()) {
-            $this->createPreparator()->prepare();
-        }
-
-        $runner = $this->createRunner();
-        $runner->run($this->createCollector()->collect());
-
-        if ($this->config->usesGrowl) {
-            $this->notifyGrowlOfResults($runner->getNotification());
-        }
-    }
-
-    /**
-     * @return boolean
-     * @since Method available since Release 2.12.0
-     */
-    protected function shouldPrepare()
-    {
-        return Stagehand_TestRunner_Preparator_PreparatorFactory::preparatorExists($this->config->framework);
-    }
-
-    /**
-     * @return Stagehand_TestRunner_Preparator
-     * @since Method available since Release 2.12.0
-     */
-    protected function createPreparator()
-    {
-        $factory = new Stagehand_TestRunner_Preparator_PreparatorFactory($this->config);
-        return $factory->create();
-    }
-
-    /**
      * @return Stagehand_TestRunner_Collector
-     * @since Method available since Release 2.11.0
      */
-    protected function createCollector()
+    public function create()
     {
-        $factory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
-        return $factory->create();
-    }
-
-    /**
-     * @return Stagehand_TestRunner_Runner
-     * @since Method available since Release 2.11.0
-     */
-    protected function createRunner()
-    {
-        $factory = new Stagehand_TestRunner_Runner_RunnerFactory($this->config);
-        return $factory->create();
-    }
-
-    /**
-     * @param stdClass $notification
-     * @since Method available since Release 2.11.0
-     */
-    protected function notifyGrowlOfResults(stdClass $notification)
-    {
-        $growl = new Net_Growl(
-                     new Net_Growl_Application(
-                         'Stagehand_TestRunner',
-                         array('Green', 'Red'),
-                         $this->config->growlPassword
-                     )
-                 );
-        $growl->notify(
-            $notification->name,
-            'Test Results by Stagehand_TestRunner',
-            $notification->description
-        );
+        $class = 'Stagehand_TestRunner_Collector_' . $this->config->framework . 'Collector';
+        return new $class($this->config);
     }
 }
 
