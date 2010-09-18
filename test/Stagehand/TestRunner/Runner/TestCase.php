@@ -81,13 +81,13 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
             $this->getName(false) .
             '.xml';
 
-        $preparatorClass = 'Stagehand_TestRunner_Preparator_' . $this->config->framework . 'Preparator';
-        if (class_exists($preparatorClass)) {
-            $this->preparator = new $preparatorClass($this->config);
+        if (Stagehand_TestRunner_Preparator_PreparatorFactory::preparatorExists($this->config->framework)) {
+            $preparatorFactory = new Stagehand_TestRunner_Preparator_PreparatorFactory($this->config);
+            $this->preparator = $preparatorFactory->create();
         }
 
-        $collectorClass = 'Stagehand_TestRunner_Collector_' . $this->config->framework . 'Collector';
-        $this->collector = new $collectorClass($this->config);
+        $collectorFactory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
+        $this->collector = $collectorFactory->create();
     }
 
     public function tearDown()
@@ -125,13 +125,27 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
 
     protected function runTests()
     {
-        if (!is_null($this->preparator)) {
-            $this->preparator->prepare();
-        }
         $factory = new Stagehand_TestRunner_Runner_RunnerFactory($this->config);
         $this->runner = $factory->create();
+        $testRunner = $this->getMock(
+                          'Stagehand_TestRunner_TestRunner',
+                          array('createPreparator', 'createCollector', 'createRunner', 'notifyGrowlOfResults'),
+                          array($this->config)
+                      );
+        $testRunner->expects($this->any())
+                   ->method('createPreparator')
+                   ->will($this->returnValue($this->preparator));
+        $testRunner->expects($this->any())
+                   ->method('createCollector')
+                   ->will($this->returnValue($this->collector));
+        $testRunner->expects($this->any())
+                   ->method('createRunner')
+                   ->will($this->returnValue($this->runner));
+        $testRunner->expects($this->any())
+                   ->method('notifyGrowlOfResults')
+                   ->will($this->returnValue(null));
         ob_start();
-        $this->runner->run($this->collector->collect());
+        $testRunner->run();
         $this->output = ob_get_contents();
         ob_end_clean();
     }
