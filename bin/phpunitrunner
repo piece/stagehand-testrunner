@@ -65,8 +65,8 @@ $loader = Stagehand_Autoload::legacyLoader();
 $loader->addNamespace('Stagehand');
 Stagehand_Autoload::register($loader);
 
-$runner = new Stagehand_TestRunner(Stagehand_TestRunner_Framework::PHPUNIT);
-$result = $runner->run();
+$controller = new Stagehand_TestRunner_TestRunnerCLIController(Stagehand_TestRunner_Framework::PHPUNIT);
+$result = $controller->run();
 
 exit($result);
 

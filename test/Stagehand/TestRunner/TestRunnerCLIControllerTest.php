@@ -42,7 +42,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.13.0
  */
-class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
+class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework_TestCase
 {
     private $commandForAlterationMonitor;
     private $optionsForAlterationMonitor;
@@ -58,7 +58,7 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
         $oldCurrentDirectory = getcwd();
         chdir(dirname(__FILE__));
         $runner = $this->getMock(
-                      'Stagehand_TestRunner',
+                      'Stagehand_TestRunner_TestRunnerCLIController',
                       array('runTests'),
                       array(Stagehand_TestRunner_Framework::PHPUNIT)
                   );
@@ -84,7 +84,7 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
         $_SERVER['argv'] = $GLOBALS['argv'] = array($launcherScript, '-a', dirname(__FILE__));
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $runner = $this->getMock(
-                      'Stagehand_TestRunner',
+                      'Stagehand_TestRunner_TestRunnerCLIController',
                       array('createAlterationMonitor'),
                       array(Stagehand_TestRunner_Framework::PHPUNIT)
                   );
@@ -142,7 +142,7 @@ class Stagehand_TestRunnerTest extends PHPUnit_Framework_TestCase
         $oldCurrentDirectory = getcwd();
         chdir(dirname(__FILE__));
         $runner = $this->getMock(
-                      'Stagehand_TestRunner',
+                      'Stagehand_TestRunner_TestRunnerCLIController',
                       array('runTests'),
                       array(Stagehand_TestRunner_Framework::PHPUNIT)
                   );
