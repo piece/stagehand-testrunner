@@ -323,7 +323,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      * @link http://redmine.piece-framework.com/issues/202
      * @since Method available since Release 2.14.0
      */
-    public function configuresPHPUnitRuntimeEnvironmentByTheXmlConfigurationFile()
+    public function configuresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile()
     {
         $GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_PHPUNITRUNNERTEST_bootstrapLoaded'] = false;
         $configDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . basename(__FILE__, '.php');
