@@ -42,7 +42,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_TestSuite_CakeTestSuite extends Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite
+class Stagehand_TestRunner_TestSuite_CakeTestSuite extends Stagehand_TestRunner_TestSuite_SimpleTestTestSuite
 {
     /**
      * @param SimpleTestCase $testCase

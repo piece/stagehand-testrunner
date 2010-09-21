@@ -57,7 +57,7 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
     protected $baseClass = 'UnitTestCase';
     protected $suffix = 'Test(?:Case)?';
     protected $include = 'Test(?:Case)?$';
-    protected $suiteClass = 'Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite';
+    protected $suiteClass = 'Stagehand_TestRunner_TestSuite_SimpleTestTestSuite';
 
     /**
      * @param string $testCase

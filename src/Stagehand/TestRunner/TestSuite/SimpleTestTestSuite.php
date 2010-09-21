@@ -46,7 +46,7 @@ require_once 'simpletest/test_case.php';
  * @link       http://simpletest.org/
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite extends TestSuite
+class Stagehand_TestRunner_TestSuite_SimpleTestTestSuite extends TestSuite
 {
     /**
      * @var Stagehand_TestRunner_Config

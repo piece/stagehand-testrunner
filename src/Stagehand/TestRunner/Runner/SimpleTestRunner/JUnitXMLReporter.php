@@ -54,7 +54,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     protected $xmlWriter;
 
     /**
-     * @var Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite
+     * @var Stagehand_TestRunner_TestSuite_SimpleTestTestSuite
      */
     protected $suite;
     protected $methodStartTime;
@@ -74,9 +74,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     }
 
     /**
-     * @param Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite $suite
+     * @param Stagehand_TestRunner_TestSuite_SimpleTestTestSuite $suite
      */
-    public function setTestSuite(Stagehand_TestRunner_Runner_SimpleTestRunner_TestSuite $suite)
+    public function setTestSuite(Stagehand_TestRunner_TestSuite_SimpleTestTestSuite $suite)
     {
         $this->suite = $suite;
     }
