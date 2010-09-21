@@ -44,7 +44,7 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.12.0
  */
-class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite_PHPUnit35MethodFilterTestSuite extends Stagehand_TestRunner_TestSuite_PHPUnitMethodFilterTestSuite
+class Stagehand_TestRunner_TestSuite_PHPUnit35MethodFilterTestSuite extends Stagehand_TestRunner_TestSuite_PHPUnitMethodFilterTestSuite
 {
     /**
      * @param ReflectionClass  $class

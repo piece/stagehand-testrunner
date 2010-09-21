@@ -92,7 +92,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
         if ($this->config->testsOnlySpecifiedMethods) {
             $this->suite->addTestSuite(
                 version_compare(PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
-                    ? new Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite_PHPUnit35MethodFilterTestSuite($test, $this->config)
+                    ? new Stagehand_TestRunner_TestSuite_PHPUnit35MethodFilterTestSuite($test, $this->config)
                     : new Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite_PHPUnit34MethodFilterTestSuite($test, $this->config)
             );
         } elseif ($this->config->testsOnlySpecifiedClasses) {
