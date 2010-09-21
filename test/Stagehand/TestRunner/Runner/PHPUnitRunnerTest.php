@@ -327,24 +327,36 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     {
         $GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_PHPUNITRUNNERTEST_bootstrapLoaded'] = false;
         $configDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . basename(__FILE__, '.php');
+        $oldWorkingDirectory = getcwd();
+        chdir($configDirectory);
         $logFile = $configDirectory . DIRECTORY_SEPARATOR . 'logfile.tap';
         $oldIncludePath = set_include_path($configDirectory . PATH_SEPARATOR . get_include_path());
         $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml';
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
-        $this->runTests();
-        $this->assertTrue($GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_PHPUNITRUNNERTEST_bootstrapLoaded']);
-        $this->assertFileExists($logFile);
 
-        $expectedLog = 'TAP version 13
+        $e = null;
+        try {
+            $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
+            $this->runTests();
+            $this->assertTrue($GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_PHPUNITRUNNERTEST_bootstrapLoaded']);
+            $this->assertFileExists($logFile);
+
+            $expectedLog = 'TAP version 13
 ok 1 - Stagehand_TestRunner_PHPUnitPassTest::passWithAnAssertion
 ok 2 - Stagehand_TestRunner_PHPUnitPassTest::passWithMultipleAssertions
 ok 3 - Stagehand_TestRunner_PHPUnitPassTest::日本語を使用できる
 1..3
 ';
-        $actualLog = file_get_contents($logFile);
-        $this->assertEquals($expectedLog, $actualLog);
+            $actualLog = file_get_contents($logFile);
+            $this->assertEquals($expectedLog, $actualLog);
+        } catch (Exception $e) {
+        }
+
         unlink($logFile);
         set_include_path($oldIncludePath);
+        chdir($oldWorkingDirectory);
+        if (!is_null($e)) {
+            throw $e;
+        }
     }
 }
 
