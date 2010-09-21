@@ -46,7 +46,7 @@ class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLTest extends Stagehand_Test
 {
     protected $framework = Stagehand_TestRunner_Framework::CAKE;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->config->cakephpAppPath = dirname(__FILE__) . '/../../../../../vendor/cakephp/app';

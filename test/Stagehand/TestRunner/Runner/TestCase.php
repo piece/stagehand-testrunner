@@ -67,7 +67,7 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
     protected $framework;
     protected $output;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->tmpDirectory = dirname(__FILE__) . '/../../../../tmp';
         $this->config = new Stagehand_TestRunner_Config();
@@ -88,7 +88,7 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
         $this->collector = $collectorFactory->create();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $directoryScanner = new Stagehand_DirectoryScanner(array($this, 'removeJUnitXMLFile'));
         $directoryScanner->addExclude('^.*');
