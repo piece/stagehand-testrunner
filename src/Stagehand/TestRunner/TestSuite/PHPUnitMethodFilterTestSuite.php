@@ -46,7 +46,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.7.0
  */
-class Stagehand_TestRunner_Collector_PHPUnitCollector_MethodFilterTestSuite extends PHPUnit_Framework_TestSuite
+class Stagehand_TestRunner_TestSuite_PHPUnitMethodFilterTestSuite extends PHPUnit_Framework_TestSuite
 {
     protected $config;
 
