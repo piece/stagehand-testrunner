@@ -57,7 +57,8 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             'stop-on-failure',
             'phpunit-config=',
             'cakephp-app-path=',
-            'cakephp-core-path='
+            'cakephp-core-path=',
+            'file-suffixes='
         );
     protected $config;
 
@@ -140,6 +141,11 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
         case '--cakephp-core-path':
             $this->validateDirectory($value, $option);
             $this->config->cakephpCorePath = $value;
+            return true;
+        case '--file-suffixes':
+            foreach (explode(',', $value) as $fileSuffix) {
+                $this->config->addFileSuffix($fileSuffix);
+            }
             return true;
         case 'v':
             $this->config->printsDetailedProgressReport = true;
@@ -253,6 +259,9 @@ OPTIONS
      By default, the \"cake\" directory under the parent directory of your app
      folder is used. (/path/to/app/../cake)
      (Cake)
+
+  --file-suffixes=SUFFIX1,SUFFIX2,...
+     Specifies file suffixes.
 ";
     }
 

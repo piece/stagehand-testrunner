@@ -358,6 +358,26 @@ ok 3 - Stagehand_TestRunner_PHPUnitPassTest::日本語を使用できる
             throw $e;
         }
     }
+
+    /**
+     * @test
+     * @since Method available since Release 2.14.0
+     */
+    public function runsOnlyTheSpecifiedSuffixFiles()
+    {
+        $file = dirname(__FILE__) .
+            '/../../../../examples/Stagehand/TestRunner/PHPUnitPassOnSpecifiedSuffixFile_test_.php';
+        $this->collector->collectTestCases($file);
+
+        $this->runTests();
+        $this->assertTestCaseCount(0);
+
+        $this->config->addFileSuffix('_test_');
+        $this->collector->collectTestCases($file);
+
+        $this->runTests();
+        $this->assertTestCaseCount(3);
+    }
 }
 
 /*
