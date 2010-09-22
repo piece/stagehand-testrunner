@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,48 +29,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.0.0
+ * @since      File available since Release 2.14.0
  */
-
-if (!class_exists('PHPUnit_Framework_TestCase', false)) {
-    return;
-}
 
 /**
- * TestCase for the PHPUnit runner.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.0.0
+ * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_PHPUnitPassOnSpecifiedSuffixFileTest extends PHPUnit_Framework_TestCase
+class Stagehand_TestRunner_SimpleTestWithAnySuffixTest extends UnitTestCase
 {
-    /**
-     * @test
-     */
-    public function passWithAnAssertion()
-    {
-        $this->assertTrue(true);
-    }
-
-    /**
-     * @test
-     */
-    public function passWithMultipleAssertions()
-    {
-        $this->assertTrue(true);
-        $this->assertTrue(true);
-    }
-
-    /**
-     * @test
-     */
-    public function 日本語を使用できる()
+    public function testPass()
     {
         $this->assertTrue(true);
     }
@@ -79,7 +53,7 @@ class Stagehand_TestRunner_PHPUnitPassOnSpecifiedSuffixFileTest extends PHPUnit_
 /*
  * Local Variables:
  * mode: php
- * coding: utf-8
+ * coding: iso-8859-1
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

@@ -155,6 +155,33 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $this->assertTrue($config->usesPHPUnitConfigFile());
         $this->assertEquals($phpunitConfigFile, $config->phpunitConfigFile);
     }
+
+    /**
+     * @test
+     * @link http://redmine.piece-framework.com/issues/211
+     * @since Method available since Release 2.14.0
+     */
+    public function supportsTestFilesWithAnySuffix()
+    {
+        $testFileSuffix = '_test_';
+        $_SERVER['argv'] = $GLOBALS['argv'] =
+            array(
+                'bin/phpunitrunner',
+                '-p', 'tests/prepare.php',
+                '--test-file-suffix=' . $testFileSuffix
+            );
+        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
+        $runner = $this->getMock(
+                      'Stagehand_TestRunner_TestRunnerCLIController',
+                      array('runTests'),
+                      array(Stagehand_TestRunner_Framework::PHPUNIT)
+                  );
+        $runner->expects($this->any())
+               ->method('runTests')
+               ->will($this->returnValue(null));
+        $runner->run();
+        $this->assertEquals($testFileSuffix, $this->readAttribute($runner, 'config')->testFileSuffix);
+    }
 }
 
 /*

@@ -361,22 +361,24 @@ ok 3 - Stagehand_TestRunner_PHPUnitPassTest::日本語を使用できる
 
     /**
      * @test
+     * @link http://redmine.piece-framework.com/issues/211
      * @since Method available since Release 2.14.0
      */
-    public function runsOnlyTheSpecifiedSuffixFiles()
+    public function runsTheFilesWithTheSpecifiedSuffix()
     {
         $file = dirname(__FILE__) .
-            '/../../../../examples/Stagehand/TestRunner/PHPUnitPassOnSpecifiedSuffixFile_test_.php';
+            '/../../../../examples/Stagehand/TestRunner/PHPUnitWithAnySuffix_test_.php';
         $this->collector->collectTestCases($file);
 
         $this->runTests();
         $this->assertTestCaseCount(0);
 
-        $this->config->addFileSuffix('_test_');
+        $this->config->testFileSuffix = '_test_';
         $this->collector->collectTestCases($file);
 
         $this->runTests();
-        $this->assertTestCaseCount(3);
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists('pass', 'Stagehand_TestRunner_PHPUnitWithAnySuffixTest');
     }
 }
 

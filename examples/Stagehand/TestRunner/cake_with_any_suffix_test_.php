@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,39 +29,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.0.0
+ * @since      File available since Release 2.14.0
  */
-
-if (!@include_once 'simpletest/unit_tester.php') {
-    return;
-}
 
 /**
- * TestCase for the SimpleTest runner.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.0.0
+ * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_SimpleTestPassOnSpecifiedSuffixFileTest extends UnitTestCase
+class Stagehand_TestRunner_CakeWithAnySuffixTest extends CakeTestCase
 {
-    public function testPassWithAnAssertion()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function testPassWithMultipleAssertions()
-    {
-        $this->assertTrue(true);
-        $this->assertTrue(true);
-    }
-
-    public function test日本語を使用できる()
+    public function testPass()
     {
         $this->assertTrue(true);
     }
@@ -70,7 +53,7 @@ class Stagehand_TestRunner_SimpleTestPassOnSpecifiedSuffixFileTest extends UnitT
 /*
  * Local Variables:
  * mode: php
- * coding: utf-8
+ * coding: iso-8859-1
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

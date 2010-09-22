@@ -58,7 +58,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             'phpunit-config=',
             'cakephp-app-path=',
             'cakephp-core-path=',
-            'file-suffixes='
+            'test-file-suffix='
         );
     protected $config;
 
@@ -142,10 +142,8 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             $this->validateDirectory($value, $option);
             $this->config->cakephpCorePath = $value;
             return true;
-        case '--file-suffixes':
-            foreach (explode(',', $value) as $fileSuffix) {
-                $this->config->addFileSuffix($fileSuffix);
-            }
+        case '--test-file-suffix':
+            $this->config->testFileSuffix = $value;
             return true;
         case 'v':
             $this->config->printsDetailedProgressReport = true;
@@ -260,8 +258,14 @@ OPTIONS
      folder is used. (/path/to/app/../cake)
      (Cake)
 
-  --file-suffixes=SUFFIX1,SUFFIX2,...
-     Specifies file suffixes.
+  --test-file-suffix=SUFFIX
+     Specifies the suffix of your test files by a regex literal without the .php file
+     extension.
+     The default values are:
+       Test(?:Case)? for PHPUnit, SimpleTest
+       \.test        for Cake
+       Spec          for PHPSpec
+     (PHPUnit, SimpleTest, Cake, and PHPSpec)
 ";
     }
 

@@ -65,7 +65,7 @@ class Stagehand_TestRunner_Config
     public $phpunitConfigFile;
     public $cakephpAppPath;
     public $cakephpCorePath;
-    public $fileSuffixes = array();
+    public $testFileSuffix;
     protected $testingMethods = array();
     protected $testingClasses = array();
 
@@ -139,15 +139,6 @@ class Stagehand_TestRunner_Config
     public function usesPHPUnitConfigFile()
     {
         return !is_null($this->phpunitConfigFile);
-    }
-
-    /**
-     * @param string $fileSuffix
-     * @since Method available since Release 2.12.0
-     */
-    public function addFileSuffix($fileSuffix)
-    {
-        $this->fileSuffixes[] = $fileSuffix;
     }
 }
 
