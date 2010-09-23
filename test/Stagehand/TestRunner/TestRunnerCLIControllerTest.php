@@ -128,6 +128,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     /**
      * @test
      * @link http://redmine.piece-framework.com/issues/202
+     * @since Method available since Release 2.14.0
      */
     public function supportsPhpunitXmlConfigurationFile()
     {
