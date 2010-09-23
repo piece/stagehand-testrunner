@@ -131,15 +131,6 @@ class Stagehand_TestRunner_Config
     {
         return in_array(strtolower($class), $this->testingClasses);
     }
-
-    /**
-     * @return boolean
-     * @since Method available since Release 2.14.0
-     */
-    public function usesPHPUnitConfigFile()
-    {
-        return !is_null($this->phpunitConfigFile);
-    }
 }
 
 /*

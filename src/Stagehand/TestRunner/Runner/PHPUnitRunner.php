@@ -106,7 +106,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
             $arguments['stopOnError'] = true;
         }
 
-        if ($this->config->usesPHPUnitConfigFile()) {
+        if (!is_null($this->config->phpunitConfigFile)) {
             $arguments['configuration'] = $this->config->phpunitConfigFile;
         }
 

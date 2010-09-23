@@ -153,7 +153,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         chdir($oldCurrentDirectory);
         $runner->run();
         $config = $this->readAttribute($runner, 'config');
-        $this->assertTrue($config->usesPHPUnitConfigFile());
+        $this->assertNotNull($config->phpunitConfigFile);
         $this->assertEquals($phpunitConfigFile, $config->phpunitConfigFile);
     }
 
