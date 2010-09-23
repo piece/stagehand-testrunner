@@ -145,33 +145,52 @@ abstract class Stagehand_TestRunner_Collector
      */
     protected function collectTestCasesFromFile($file)
     {
+        if (!$this->shouldTreatFileAsTest($file)) return;
+
+        foreach ($this->findNewClasses($file) as $newClass) {
+            if ($this->shouldTreatClassAsTest($newClass)) {
+                $this->collectTestCase($newClass);
+            }
+        }
+    }
+
+    /**
+     * @param string $file
+     * @return boolean
+     * @since Method available since Release 2.14.0
+     */
+    protected function shouldTreatFileAsTest($file)
+    {
         if (is_null($this->config->testFileSuffix)) {
             $suffix = $this->suffix;
         } else {
             $suffix = $this->config->testFileSuffix;
         }
 
-        if (!preg_match('/' . str_replace('/', '\/', $suffix) . '\.php$/', $file)) {
-            return;
-        }
+        return (boolean)preg_match('/' . str_replace('/', '\/', $suffix) . '\.php$/', $file);
+    }
 
+    /**
+     * @param string $class
+     * @return boolean
+     * @since Method available since Release 2.14.0
+     */
+    protected function shouldTreatClassAsTest($class)
+    {
+        return is_subclass_of($class, $this->baseClass)
+               && $this->allowDeny->evaluate($class) == Stagehand_AccessControl_AccessState::ALLOW;
+    }
+
+    /**
+     * @param string $file
+     * @return boolean
+     * @since Method available since Release 2.14.0
+     */
+    protected function findNewClasses($file)
+    {
         $currentClasses = get_declared_classes();
-
-        if (!include_once($file)) {
-            return;
-        }
-
-        $newClasses = array_values(array_diff(get_declared_classes(), $currentClasses));
-        for ($i = 0, $count = count($newClasses); $i < $count; ++$i) {
-            if (!is_subclass_of($newClasses[$i], $this->baseClass)) {
-                continue;
-            }
-
-            if ($this->allowDeny->evaluate($newClasses[$i]) ==
-                Stagehand_AccessControl_AccessState::ALLOW) {
-                $this->collectTestCase($newClasses[$i]);
-            }
-        }
+        if (!include_once($file)) return;
+        return array_values(array_diff(get_declared_classes(), $currentClasses));
     }
 }
 
