@@ -42,7 +42,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.11.1
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinterTest extends Stagehand_TestRunner_Runner_TestCase
+class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinterTest extends Stagehand_TestRunner_TestCase
 {
     protected $framework = Stagehand_TestRunner_Framework::PHPUNIT;
 

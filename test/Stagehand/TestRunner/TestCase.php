@@ -42,7 +42,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_TestCase
+abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Stagehand_TestRunner_Config
@@ -69,7 +69,7 @@ abstract class Stagehand_TestRunner_Runner_TestCase extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->tmpDirectory = dirname(__FILE__) . '/../../../../tmp';
+        $this->tmpDirectory = dirname(__FILE__) . '/../../../tmp';
         $this->config = new Stagehand_TestRunner_Config();
         $this->config->framework = $this->framework;
         $this->config->logsResultsInJUnitXML = true;

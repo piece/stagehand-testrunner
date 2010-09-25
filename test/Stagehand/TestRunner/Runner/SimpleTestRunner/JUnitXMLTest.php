@@ -42,7 +42,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehand_TestRunner_Runner_TestCase
+class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehand_TestRunner_TestCase
 {
     protected $framework = Stagehand_TestRunner_Framework::SIMPLETEST;
     protected $oldErrorHandler;
