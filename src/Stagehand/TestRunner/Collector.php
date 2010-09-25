@@ -189,7 +189,7 @@ abstract class Stagehand_TestRunner_Collector
     protected function findNewClasses($file)
     {
         $currentClasses = get_declared_classes();
-        if (!include_once($file)) return;
+        if (!include_once($file)) return array();
         return array_values(array_diff(get_declared_classes(), $currentClasses));
     }
 }
