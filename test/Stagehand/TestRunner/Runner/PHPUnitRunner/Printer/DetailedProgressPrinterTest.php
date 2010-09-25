@@ -45,7 +45,6 @@
 class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinterTest extends Stagehand_TestRunner_Runner_TestCase
 {
     protected $framework = Stagehand_TestRunner_Framework::PHPUNIT;
-    protected $backupGlobals = false;
 
     /**
      * @test

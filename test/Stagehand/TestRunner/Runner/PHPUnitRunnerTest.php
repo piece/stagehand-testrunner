@@ -45,7 +45,6 @@
 class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner_Runner_TestCase
 {
     protected $framework = Stagehand_TestRunner_Framework::PHPUNIT;
-    protected $backupGlobals = false;
 
     /**
      * @param string $method
