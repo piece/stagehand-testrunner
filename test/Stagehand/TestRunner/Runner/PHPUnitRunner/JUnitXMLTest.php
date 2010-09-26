@@ -567,6 +567,75 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
         $childTestsuite = $parentTestsuite->childNodes->item(0);
         $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
     }
+
+    /**
+     * @test
+     * @dataProvider provideWritingModes
+     * @param boolean $logsResultsInJUnitXMLInRealtime
+     * @link http://redmine.piece-framework.com/issues/216
+     * @since Method available since Release 2.14.0
+     */
+    public function generatesAValidXmlIfAnyTestCasesAreSkippedByDependsAnnotations($logsResultsInJUnitXMLInRealtime)
+    {
+        $this->config->logsResultsInJUnitXMLInRealtime = $logsResultsInJUnitXMLInRealtime;
+        if ($this->config->logsResultsInJUnitXMLInRealtime) {
+            $relaxNGSchema = dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLStream.rng';
+        } else {
+            $relaxNGSchema = dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng';
+        }
+        $testClass = 'Stagehand_TestRunner_PHPUnitDependsTest';
+        class_exists($testClass);
+        $this->collector->collectTestCase($testClass);
+        $this->runTests();
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+        $this->assertTrue($junitXML->relaxNGValidate($relaxNGSchema));
+
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $this->assertTrue($parentTestsuite->hasChildNodes());
+        $this->assertEquals(2, $parentTestsuite->getAttribute('tests'));
+        if (!$this->config->logsResultsInJUnitXMLInRealtime) {
+            $this->assertEquals(1, $parentTestsuite->getAttribute('assertions'));
+            $this->assertEquals(1, $parentTestsuite->getAttribute('failures'));
+            $this->assertEquals(1, $parentTestsuite->getAttribute('errors'));
+        }
+        $this->assertEquals(1, $parentTestsuite->childNodes->length);
+
+        $childTestsuite = $parentTestsuite->childNodes->item(0);
+        $this->assertTrue($childTestsuite->hasChildNodes());
+        $this->assertEquals($testClass, $childTestsuite->getAttribute('name'));
+        $this->assertTrue($childTestsuite->hasAttribute('file'));
+        $class = new ReflectionClass($testClass);
+        $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
+        $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
+        if (!$this->config->logsResultsInJUnitXMLInRealtime) {
+            $this->assertEquals(1, $childTestsuite->getAttribute('assertions'));
+            $this->assertEquals(1, $childTestsuite->getAttribute('failures'));
+            $this->assertEquals(1, $childTestsuite->getAttribute('errors'));
+        }
+        $this->assertEquals(2, $childTestsuite->childNodes->length);
+
+        $testcase = $childTestsuite->childNodes->item(0);
+        $this->assertEquals('pass', $testcase->getAttribute('name'));
+        if (!$this->config->logsResultsInJUnitXMLInRealtime) {
+            $this->assertEquals(1, $testcase->getAttribute('assertions'));
+        }
+
+        $testcase = $childTestsuite->childNodes->item(1);
+        $this->assertTrue($testcase->hasChildNodes());
+        $this->assertEquals('skip', $testcase->getAttribute('name'));
+        if (!$this->config->logsResultsInJUnitXMLInRealtime) {
+            $this->assertEquals(0, $testcase->getAttribute('assertions'));
+        }
+        $error = $testcase->childNodes->item(0);
+        $this->assertEquals('PHPUnit_Framework_SkippedTestError', $error->getAttribute('type'));
+        $this->assertRegexp('/^Skipped Test: This test depends on "Stagehand_TestRunner_PHPUnitDependsTest::pass" to pass./', $error->nodeValue);
+    }
+
+    public function provideWritingModes()
+    {
+        return array(array(false), array(true));
+    }
 }
 
 /*
