@@ -108,11 +108,54 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         $this->assertEquals($count, $testcases->length);
     }
 
+    /**
+     * @param integer $count
+     * @param string  $method
+     * @param string  $class
+     * @since Method available since Release 2.14.0
+     */
+    protected function assertTestCaseAssertionCount($count, $method, $class)
+    {
+        $testcases = $this->createXPath()
+                          ->query("//testcase[@name='$method'][@class='$class']");
+        $this->assertEquals(1, $testcases->length);
+        $testcase = $testcases->item(0);
+        $this->assertTrue($testcase->hasAttribute('assertions'));
+        $this->assertEquals($count, $testcase->getAttribute('assertions'));
+    }
+
     protected function assertTestCaseExists($method, $class)
     {
         $testcases = $this->createXPath()
                           ->query("//testcase[@name='$method'][@class='$class']");
         $this->assertEquals(1, $testcases->length);
+    }
+
+
+    /**
+     * @param string $method
+     * @param string $class
+     * @since Method available since Release 2.14.0
+     */
+    protected function assertTestCaseHasFailure($method, $class)
+    {
+        $failures = $this->createXPath()
+                         ->query("//testcase[@name='$method'][@class='$class']/failure");
+        $this->assertEquals(1, $failures->length);
+    }
+
+    /**
+     * @param string $pattern
+     * @param string $method
+     * @param string $class
+     * @since Method available since Release 2.14.0
+     */
+    protected function assertTestCaseFailureMessageEquals($pattern, $method, $class)
+    {
+        $failures = $this->createXPath()
+                         ->query("//testcase[@name='$method'][@class='$class']/failure");
+        $this->assertEquals(1, $failures->length);
+        $this->assertRegExp($pattern, $failures->item(0)->nodeValue, $failures->item(0)->nodeValue);
     }
 
     protected function createXPath()

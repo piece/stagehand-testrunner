@@ -379,6 +379,28 @@ ok 3 - Stagehand_TestRunner_PHPUnitPassTest::日本語を使用できる
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists('pass', 'Stagehand_TestRunner_PHPUnitWithAnySuffixTest');
     }
+
+    /**
+     * @test
+     * @link http://redmine.piece-framework.com/issues/219
+     * @since Method available since Release 2.14.0
+     */
+    public function reportsOnlyTheFirstFailureInASingleTestToJunitXml()
+    {
+        $testClass = 'Stagehand_TestRunner_' . $this->framework . 'MultipleFailuresTest';
+        $this->collector->collectTestCase($testClass);
+        $this->runTests();
+
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
+
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists('isFailure', $testClass);
+        $this->assertTestCaseAssertionCount(1, 'isFailure', $testClass);
+        $this->assertTestCaseHasFailure('isFailure', $testClass);
+        $this->assertTestCaseFailureMessageEquals('/The First Failure/', 'isFailure', $testClass);
+    }
 }
 
 /*

@@ -59,6 +59,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     protected $suite;
     protected $methodStartTime;
     protected $assertionCount;
+    protected $reportedFailure;
 
     /**
      * @var Stagehand_TestRunner_Config
@@ -141,6 +142,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         );
         $this->methodStartTime = microtime(true);
         $this->assertionCount = 0;
+        $this->reportedFailure = false;
     }
 
     /**
@@ -185,9 +187,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
      */
     public function paintFail($message)
     {
+        if ($this->reportedFailure) return;
         parent::paintFail($message);
         $this->paintFailureOrError($message, 'failure');
         ++$this->assertionCount;
+        $this->reportedFailure = true;
     }
 
     /**
