@@ -37,9 +37,7 @@
  * @since      File available since Release 2.11.0
  */
 
-if (!@include_once 'simpletest/unit_tester.php') {
-    return;
-}
+if (!@include_once 'simpletest/unit_tester.php') return;
 
 /**
  * TestCase for the SimpleTest runner.

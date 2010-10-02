@@ -35,9 +35,7 @@
  * @since      File available since Release 2.10.0
  */
 
-if (!@include_once 'simpletest/unit_tester.php') {
-    return;
-}
+if (!@include_once 'simpletest/unit_tester.php') return;
 
 /**
  * @package    Stagehand_TestRunner
