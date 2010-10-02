@@ -53,7 +53,6 @@ require_once 'simpletest/test_case.php';
  */
 class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestRunner_Collector
 {
-    protected $exclude = '^(UnitTestCase$|PHPUnit)';
     protected $superTypes = array('SimpleTestCase');
     protected $suffix = 'Test(?:Case)?';
     protected $include = 'Test(?:Case)?$';

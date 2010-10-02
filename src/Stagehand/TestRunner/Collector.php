@@ -189,6 +189,10 @@ abstract class Stagehand_TestRunner_Collector
     protected function validateSuperType($class)
     {
         foreach ($this->superTypes as $superType) {
+            if ($class == $superType) {
+                return false;
+            }
+
             if (is_subclass_of($class, $superType)) {
                 return true;
             }
