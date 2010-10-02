@@ -35,6 +35,8 @@
  * @since      File available since Release 2.14.0
  */
 
+if (!@include_once 'simpletest/web_tester.php') return;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
