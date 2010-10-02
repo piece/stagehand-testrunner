@@ -45,7 +45,7 @@
 class Stagehand_TestRunner_Collector_CakeCollector extends Stagehand_TestRunner_Collector_SimpleTestCollector
 {
     protected $exclude = '^(CakeTestCase$)';
-    protected $baseClasses = array('CakeTestCase', 'CakeWebTestCase');
+    protected $superTypes = array('CakeTestCase', 'CakeWebTestCase');
     protected $suffix = '\.test';
     protected $suiteClass = 'Stagehand_TestRunner_TestSuite_CakeTestSuite';
 }
