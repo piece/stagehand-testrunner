@@ -54,7 +54,7 @@ require_once 'simpletest/test_case.php';
 class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestRunner_Collector
 {
     protected $exclude = '^(UnitTestCase$|PHPUnit)';
-    protected $baseClass = 'UnitTestCase';
+    protected $baseClasses = array('SimpleTestCase');
     protected $suffix = 'Test(?:Case)?';
     protected $include = 'Test(?:Case)?$';
     protected $suiteClass = 'Stagehand_TestRunner_TestSuite_SimpleTestTestSuite';

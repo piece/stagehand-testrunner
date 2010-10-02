@@ -42,12 +42,15 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Collector_CakeCollector extends Stagehand_TestRunner_Collector_SimpleTestCollector
+class Stagehand_TestRunner_SimpleTestWebPageTest extends WebTestCase
 {
-    protected $exclude = '^(CakeTestCase$)';
-    protected $baseClasses = array('CakeTestCase', 'CakeWebTestCase');
-    protected $suffix = '\.test';
-    protected $suiteClass = 'Stagehand_TestRunner_TestSuite_CakeTestSuite';
+    public function setUp() {
+        $this->get('http://www.example.com/');
+    }
+
+    public function testIsPass() {
+        $this->assertTitle('Example Web Page');
+    }
 }
 
 /*

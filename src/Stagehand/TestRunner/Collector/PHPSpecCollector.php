@@ -48,7 +48,7 @@
  */
 class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunner_Collector
 {
-    protected $baseClass = 'PHPSpec_Context';
+    protected $baseClasses = array('PHPSpec_Context');
     protected $suffix = 'Spec';
     protected $include = '(^[Dd]escribe|[Ss]pec$)';
 

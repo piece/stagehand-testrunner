@@ -47,7 +47,7 @@
 abstract class Stagehand_TestRunner_Collector
 {
     protected $exclude;
-    protected $baseClass;
+    protected $baseClasses;
     protected $suffix;
     protected $include;
     protected $config;
@@ -177,8 +177,24 @@ abstract class Stagehand_TestRunner_Collector
      */
     protected function shouldTreatClassAsTest($class)
     {
-        return is_subclass_of($class, $this->baseClass)
+        return $this->validateBaseClass($class)
                && $this->allowDeny->evaluate($class) == Stagehand_AccessControl_AccessState::ALLOW;
+    }
+
+    /**
+     * @param string $class
+     * @return boolean
+     * @since Method available since Release 2.14.0
+     */
+    protected function validateBaseClass($class)
+    {
+        foreach ($this->baseClasses as $baseClass) {
+            if (is_subclass_of($class, $baseClass)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

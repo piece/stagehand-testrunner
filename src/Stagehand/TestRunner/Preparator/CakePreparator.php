@@ -80,6 +80,7 @@ class Stagehand_TestRunner_Preparator_CakePreparator extends Stagehand_TestRunne
         ob_end_clean();
         new Stagehand_TestRunner_Preparator_CakePreparator_TestRunnerShellDispatcher(array('-root', $rootPath, '-app', $appPath));
         require_once $corePath . '/tests/lib/cake_test_case.php';
+        require_once $corePath . '/tests/lib/cake_web_test_case.php';
 
         self::$isInvoked = true;
     }

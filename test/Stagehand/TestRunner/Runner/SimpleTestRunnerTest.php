@@ -238,6 +238,30 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         $this->assertTestCaseFailureMessageEquals('/^The First Failure/', 'testIsFailure', $testClass);
     }
 
+    /**
+     * @test
+     * @link http://redmine.piece-framework.com/issues/222
+     * @since Method available since Release 2.14.0
+     */
+    public function supportsWebPageTesting()
+    {
+        if (!fsockopen('www.example.com', 80, $errno, $errstr, 1)) {
+            $this->markTestSkipped('Cannot connect to http://www.example.com.');
+        }
+
+        $this->loadClasses();
+        $testClass = 'Stagehand_TestRunner_' . $this->framework . 'WebPageTest';
+        $this->collector->collectTestCase($testClass);
+        $this->runTests();
+
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
+
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists('testIsPass', $testClass);
+    }
+
     protected function loadClasses()
     {
         class_exists('Stagehand_TestRunner_' . $this->framework . 'MultipleClassesTest');

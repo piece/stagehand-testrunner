@@ -47,6 +47,7 @@ class Stagehand_TestRunner_Preparator_SimpleTestPreparator extends Stagehand_Tes
     public function prepare()
     {
         require_once 'simpletest/unit_tester.php';
+        require_once 'simpletest/web_tester.php';
     }
 }
 
