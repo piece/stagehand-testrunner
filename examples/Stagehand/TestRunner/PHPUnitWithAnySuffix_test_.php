@@ -35,6 +35,8 @@
  * @since      File available since Release 2.14.0
  */
 
+if (!class_exists('PHPUnit_Framework_TestCase')) return;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
