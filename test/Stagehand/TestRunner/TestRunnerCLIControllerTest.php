@@ -94,6 +94,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
      */
     public function buildsACommandLineStringWithAutotest($command, $options, $phpConfigDir, $builtCommand, $builtOptions)
     {
+        unset($_SERVER['PHP_COMMAND']);
         $this->phpConfigDir = $phpConfigDir;
         if (!is_null($command)) {
             $_SERVER['_'] = $command;
