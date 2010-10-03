@@ -62,7 +62,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
                 )
             );
         if (strlen($testDox)) {
-            $this->write("\n\n" . $testDox);
+            $this->write(PHP_EOL . PHP_EOL . $testDox);
         }
 
         parent::printResult($result);

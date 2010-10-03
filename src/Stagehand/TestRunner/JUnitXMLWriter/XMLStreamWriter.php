@@ -50,7 +50,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_XMLStreamWriter
 
     public function __construct()
     {
-        $this->buffer = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $this->buffer = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
     }
 
     public function startElement($element)

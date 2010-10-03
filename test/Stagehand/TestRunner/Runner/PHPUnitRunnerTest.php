@@ -236,7 +236,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $this->collector->collectTestCase($testingClass);
         $this->runTests();
         $this->assertRegExp(
-            '/^  ' . $testingMethod . ' ... .+\s\(.+\)$/m', $this->output
+            '/^  ' . $testingMethod . ' ... .+\s\(.+\)/m', $this->output
         );
         $this->assertRegExp('/^ \[ \] .+\s\(.+\)$/m', $this->output);
     }

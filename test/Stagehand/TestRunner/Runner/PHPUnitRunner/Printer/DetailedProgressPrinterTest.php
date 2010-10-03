@@ -56,14 +56,13 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinterT
             'Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest'
         );
         $this->runTests();
-        $expected = '
-Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest
-  pass1 ... passed
-
-Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest::isSkippedWithTheDataProvider
-  isSkippedWithTheDataProvider with data set #0 ... skipped
-  pass2 ... passed
-';
+        $expected = PHP_EOL .
+'Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest' . PHP_EOL .
+'  pass1 ... passed' . PHP_EOL .
+PHP_EOL .
+'Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest::isSkippedWithTheDataProvider' . PHP_EOL .
+'  isSkippedWithTheDataProvider with data set #0 ... skipped' . PHP_EOL .
+'  pass2 ... passed' . PHP_EOL;
         $this->assertTrue(strstr($this->output, $expected) !== false);
     }
 
@@ -77,14 +76,13 @@ Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest::isSkippedWithTheDataPro
             'Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest'
         );
         $this->runTests();
-        $expected = '
-Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest
-  pass1 ... passed
-
-Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest::isIncompleteWithTheDataProvider
-  isIncompleteWithTheDataProvider with data set #0 ... skipped
-  pass2 ... passed
-';
+        $expected = PHP_EOL .
+'Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest' . PHP_EOL .
+'  pass1 ... passed' . PHP_EOL .
+PHP_EOL .
+'Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest::isIncompleteWithTheDataProvider' . PHP_EOL .
+'  isIncompleteWithTheDataProvider with data set #0 ... skipped' . PHP_EOL .
+'  pass2 ... passed' . PHP_EOL;
         $this->assertTrue(strstr($this->output, $expected) !== false);
     }
 }

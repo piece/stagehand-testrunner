@@ -149,10 +149,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
         if (strlen($suite->getName())) {
             if ($this->lastEvent == PHPUnit_TextUI_ResultPrinter::EVENT_TESTSUITE_END
                 || $this->lastEvent == PHPUnit_TextUI_ResultPrinter::EVENT_TEST_END) {
-                $this->write("\n\n");
+                $this->write(PHP_EOL . PHP_EOL);
             }
 
-            $this->write($suite->getName() . "\n");
+            $this->write($suite->getName() . PHP_EOL);
         }
 
         parent::startTestSuite($suite);
@@ -180,7 +180,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
     {
         if ($this->lastEvent == PHPUnit_TextUI_ResultPrinter::EVENT_TEST_END
             || $this->lastEvent == PHPUnit_TextUI_ResultPrinter::EVENT_TESTSUITE_END) {
-            $this->write("\n");
+            $this->write(PHP_EOL);
         }
 
         $this->write('  ' . $test->getName() . ' ... ');
