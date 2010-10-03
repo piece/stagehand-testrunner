@@ -57,7 +57,12 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriterTest extends Stage
         $this->collector->collectTestCase($testClass);
         $this->runTests();
         $this->assertRegExp(
-            '/Stagehand_TestRunner_PHPUnitSpecialCharactersInFailureMessageTest::isFailure\n\n&amp;&quot;&#039;&lt;&gt;\nFailed asserting that &lt;boolean:false&gt; is true\.\n\n/m',
+            '/Stagehand_TestRunner_PHPUnitSpecialCharactersInFailureMessageTest::isFailure' . PHP_EOL .
+            PHP_EOL .
+            '&amp;&quot;&#039;&lt;&gt;' . PHP_EOL . 
+            'Failed asserting that &lt;boolean:false&gt; is true\.' . PHP_EOL .
+            PHP_EOL .
+            '/m',
             file_get_contents($this->config->junitXMLFile)
         );
     }

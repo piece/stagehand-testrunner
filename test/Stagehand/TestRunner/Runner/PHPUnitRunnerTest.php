@@ -339,14 +339,13 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
             $this->assertTrue($GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_PHPUNITRUNNERTEST_bootstrapLoaded']);
             $this->assertFileExists($logFile);
 
-            $expectedLog = 'TAP version 13
-ok 1 - Stagehand_TestRunner_PHPUnitPassTest::passWithAnAssertion
-ok 2 - Stagehand_TestRunner_PHPUnitPassTest::passWithMultipleAssertions
-ok 3 - Stagehand_TestRunner_PHPUnitPassTest::日本語を使用できる
-1..3
-';
+            $expectedLog = 'TAP version 13' . PHP_EOL .
+'ok 1 - Stagehand_TestRunner_PHPUnitPassTest::passWithAnAssertion' . PHP_EOL .
+'ok 2 - Stagehand_TestRunner_PHPUnitPassTest::passWithMultipleAssertions' . PHP_EOL .
+'ok 3 - Stagehand_TestRunner_PHPUnitPassTest::日本語を使用できる' . PHP_EOL .
+'1..3' . PHP_EOL;
             $actualLog = file_get_contents($logFile);
-            $this->assertEquals($expectedLog, $actualLog);
+            $this->assertEquals($expectedLog, $actualLog, $actualLog);
         } catch (Exception $e) {
         }
 
