@@ -74,7 +74,8 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
             '_GET',
             '_COOKIE',
             '_SERVER',
-            '_FILES'
+            '_FILES',
+            '_REQUEST'
         );
 
     protected function setUp()
