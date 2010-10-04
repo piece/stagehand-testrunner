@@ -27,21 +27,38 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">2.13.0</property>
+  <property name="package.releaseversion">2.14.0</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">1.1.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
 
- New Directory Structure
-  As of this version, the sources are located directly under the "php_dir" (PEAR directory).
+ Supports CakePHP.
+  (Issue #212)
+
+  The testing framework of CakePHP has been supported. For more information, see the User Guide.
+
+ Supports the PHPUnit XML configuration file.
+  (Issue #202)
+
+  The PHPUnit XML configuration file has been supported. For more information, see the User Guide.
+
+ Supports Web Page Testing.
+  (Issue #222)
+
+  Web Page Testing by WebTestCase (SimpleTest), CakeWebTestCase (CakePHP) has been supported.
+
+ Specifies the test file suffix.
+  (Issue #211)
+
+  The suffix of your test files can be specified by a regular expression literal. For more information, see the User Guide.
 
  Three Defect Fixes
   The following defects have been fixed:
 
-  * Growl does not work. (Issue #192)
-  * A fatal error is raised when launching by a launcher script with the -a option. (Issue #196)
-  * The current directory is not treated as the test directory if no directories or files are specified. (Issue #197)]]></property>
+  * An error Warning: DOMDocument::createElement(): unterminated entity reference is raised if a failure/error message contains ampersands. (Issue #215)
+  * An invalid XML is generated if a test case is skipped by the @depends annotations. (Issue #216)
+  * An invalid XML is generated when multiple failures are included in a single test. (Issue #219)]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A test runner for Test Driven Development</property>
   <property name="package.description"><![CDATA[Stagehand_TestRunner provides a test runner to run unit tests. Stagehand_TestRunner strongly supports Test Driven Development by various features.]]></property>
@@ -116,6 +133,8 @@
         <pear minimum_version="${package.pearinstallerdep}"/>
       </dependencies>
       <release>
+        <install name="bin/cakerunner" as="cakerunner"/>
+        <install name="bin/cakerunner.bat" as="cakerunner.bat"/>
         <install name="bin/phpspecrunner" as="phpspecrunner"/>
         <install name="bin/phpspecrunner.bat" as="phpspecrunner.bat"/>
         <install name="bin/phptrunner" as="phptrunner"/>
