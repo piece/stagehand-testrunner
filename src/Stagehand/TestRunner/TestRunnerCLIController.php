@@ -250,13 +250,13 @@ OPTIONS
   --cakephp-app-path=DIRECTORY
      Specifies the path of your app folder.
      By default, the current working directory is used.
-     (Cake)
+     (CakePHP)
 
   --cakephp-core-path=DIRECTORY
      Specifies the path of your CakePHP libraries folder (/path/to/cake).
      By default, the \"cake\" directory under the parent directory of your app
      folder is used. (/path/to/app/../cake)
-     (Cake)
+     (CakePHP)
 
   --test-file-suffix=SUFFIX
      Specifies the suffix of your test files by a regular expression literal.
@@ -267,7 +267,7 @@ OPTIONS
        CakePHP: \.test
        PHPT: -
        PHPSpec: Spec
-     (PHPUnit, SimpleTest, Cake, and PHPSpec)
+     (PHPUnit, SimpleTest, CakePHP, and PHPSpec)
 ";
     }
 
