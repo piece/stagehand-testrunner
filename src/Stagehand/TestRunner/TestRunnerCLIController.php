@@ -259,12 +259,14 @@ OPTIONS
      (Cake)
 
   --test-file-suffix=SUFFIX
-     Specifies the suffix of your test files by a regex literal without the .php file
-     extension.
+     Specifies the suffix of your test files by a regular expression literal.
+     The regular expression literal must not contain *.php*.
      The default values are:
-       Test(?:Case)? for PHPUnit, SimpleTest
-       \.test        for Cake
-       Spec          for PHPSpec
+       PHPUnit: Test(?:Case)?
+       SimpleTest: Test(?:Case)?
+       CakePHP: \.test
+       PHPT: -
+       PHPSpec: Spec
      (PHPUnit, SimpleTest, Cake, and PHPSpec)
 ";
     }
