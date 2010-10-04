@@ -27,38 +27,21 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">2.14.0</property>
+  <property name="package.releaseversion">2.14.1</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">1.1.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
 
- Supports CakePHP.
-  (Issue #212)
+ A Defect Fix
 
-  The testing framework of CakePHP has been supported. For more information, see the User Guide.
+  The following defect has been fixed:
 
- Supports the PHPUnit XML configuration file.
-  (Issue #202)
+  * An error "Fatal error: Cannot redeclare class UnitTestCase" is raised when using the project's internal CakePHP libraries. (Issue #226)
 
-  The PHPUnit XML configuration file has been supported. For more information, see the User Guide.
+Backward Compatibility
 
- Supports Web Page Testing.
-  (Issue #222)
-
-  Web Page Testing by WebTestCase (SimpleTest), CakeWebTestCase (CakePHP) has been supported.
-
- Specifies the test file suffix.
-  (Issue #211)
-
-  The suffix of your test files can be specified by a regular expression literal. For more information, see the User Guide.
-
- Three Defect Fixes
-  The following defects have been fixed:
-
-  * An error Warning: DOMDocument::createElement(): unterminated entity reference is raised if a failure/error message contains ampersands. (Issue #215)
-  * An invalid XML is generated if a test case is skipped by the @depends annotations. (Issue #216)
-  * An invalid XML is generated when multiple failures are included in a single test. (Issue #219)]]></property>
+ When using CakePHP the SimpleTest package must be placed in the *vendors* directory as *vendors/simpletest*.]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A test runner for Test Driven Development</property>
   <property name="package.description"><![CDATA[Stagehand_TestRunner provides a test runner to run unit tests. Stagehand_TestRunner strongly supports Test Driven Development by various features.]]></property>
