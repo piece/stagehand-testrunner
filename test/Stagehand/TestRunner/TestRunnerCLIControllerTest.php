@@ -55,7 +55,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     {
         $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-p', 'tests/prepare.php', '-R');
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $oldCurrentDirectory = getcwd();
+        $oldWorkingDirectory = getcwd();
         chdir(dirname(__FILE__));
         $runner = $this->getMock(
                       'Stagehand_TestRunner_TestRunnerCLIController',
@@ -65,7 +65,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $runner->expects($this->any())
                ->method('runTests')
                ->will($this->returnValue(null));
-        chdir($oldCurrentDirectory);
+        chdir($oldWorkingDirectory);
         $runner->run();
         $config = $this->readAttribute($runner, 'config');
         $this->assertEquals(1, count($config->testingResources));
@@ -140,7 +140,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
                 '--phpunit-config=' . $phpunitConfigFile
             );
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $oldCurrentDirectory = getcwd();
+        $oldWorkingDirectory = getcwd();
         chdir(dirname(__FILE__));
         $runner = $this->getMock(
                       'Stagehand_TestRunner_TestRunnerCLIController',
@@ -150,7 +150,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $runner->expects($this->any())
                ->method('runTests')
                ->will($this->returnValue(null));
-        chdir($oldCurrentDirectory);
+        chdir($oldWorkingDirectory);
         $runner->run();
         $config = $this->readAttribute($runner, 'config');
         $this->assertNotNull($config->phpunitConfigFile);
