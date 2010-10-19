@@ -36,8 +36,6 @@
  * @since      File available since Release 2.10.0
  */
 
-require_once 'simpletest/test_case.php';
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>

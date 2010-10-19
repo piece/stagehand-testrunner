@@ -38,8 +38,6 @@
  * @since      File available since Release 2.1.0
  */
 
-require_once 'simpletest/test_case.php';
-
 /**
  * A test collector for SimpleTest.
  *

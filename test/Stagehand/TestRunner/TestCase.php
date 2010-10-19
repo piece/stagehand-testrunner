@@ -91,9 +91,11 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
             '.' .
             $this->getName(false) .
             '.xml';
+        $this->configure($this->config);
 
         $preparatorFactory = new Stagehand_TestRunner_Preparator_PreparatorFactory($this->config);
         $this->preparator = $preparatorFactory->create();
+        $this->preparator->prepare();
 
         $collectorFactory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
         $this->collector = $collectorFactory->create();
@@ -200,6 +202,10 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         $testRunner->run();
         $this->output = ob_get_contents();
         ob_end_clean();
+    }
+
+    protected function configure(Stagehand_TestRunner_Config $config)
+    {
     }
 }
 

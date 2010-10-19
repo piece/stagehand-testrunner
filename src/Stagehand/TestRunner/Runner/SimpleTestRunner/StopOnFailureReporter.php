@@ -38,8 +38,6 @@
  * @since      File available since Release 2.11.0
  */
 
-require_once 'simpletest/scorer.php';
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>

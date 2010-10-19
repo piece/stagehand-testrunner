@@ -35,6 +35,10 @@
  * @since      File available since Release 2.14.0
  */
 
+require_once 'simpletest/unit_tester.php';
+require_once 'simpletest/mock_objects.php';
+require_once 'simpletest/web_tester.php';
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,19 +50,17 @@ class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLTest extends Stagehand_Test
 {
     protected $framework = Stagehand_TestRunner_Framework::CAKE;
 
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->config->cakephpAppPath = dirname(__FILE__) . '/../../../../../vendor/cakephp/app';
-        $this->preparator->prepare();
-    }
-
     protected function loadClasses()
     {
         include_once 'Stagehand/TestRunner/cake_pass.test.php';
         include_once 'Stagehand/TestRunner/cake_failure.test.php';
         include_once 'Stagehand/TestRunner/cake_error.test.php';
         include_once 'Stagehand/TestRunner/cake_multiple_classes.test.php';
+    }
+
+    protected function configure(Stagehand_TestRunner_Config $config)
+    {
+        $config->cakephpAppPath = dirname(__FILE__) . '/../../../../../vendor/cakephp/app';
     }
 }
 

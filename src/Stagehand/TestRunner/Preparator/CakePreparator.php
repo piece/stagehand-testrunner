@@ -42,16 +42,13 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Preparator_CakePreparator extends Stagehand_TestRunner_Preparator_SimpleTestPreparator
+class Stagehand_TestRunner_Preparator_CakePreparator extends Stagehand_TestRunner_Preparator
 {
     protected static $isInvoked = false;
 
     public function prepare()
     {
         if (self::$isInvoked) return;
-
-        parent::prepare();
-        require_once 'simpletest/mock_objects.php';
 
         if (!defined('DISABLE_AUTO_DISPATCH')) {
             define('DISABLE_AUTO_DISPATCH', true);
@@ -79,8 +76,8 @@ class Stagehand_TestRunner_Preparator_CakePreparator extends Stagehand_TestRunne
         require_once $corePath . '/console/cake.php';
         ob_end_clean();
         new Stagehand_TestRunner_Preparator_CakePreparator_TestRunnerShellDispatcher(array('-root', $rootPath, '-app', $appPath));
-        require_once $corePath . '/tests/lib/cake_test_case.php';
-        require_once $corePath . '/tests/lib/cake_web_test_case.php';
+        require_once $corePath . '/tests/lib/test_manager.php';
+        new TestManager();
 
         self::$isInvoked = true;
     }

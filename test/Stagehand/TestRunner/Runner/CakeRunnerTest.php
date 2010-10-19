@@ -35,6 +35,10 @@
  * @since      File available since Release 2.14.0
  */
 
+require_once 'simpletest/unit_tester.php';
+require_once 'simpletest/mock_objects.php';
+require_once 'simpletest/web_tester.php';
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
@@ -45,13 +49,6 @@
 class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Runner_SimpleTestRunnerTest
 {
     protected $framework = Stagehand_TestRunner_Framework::CAKE;
-
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->config->cakephpAppPath = dirname(__FILE__) . '/../../../../vendor/cakephp/app';
-        $this->preparator->prepare();
-    }
 
     /**
      * @test
@@ -98,6 +95,11 @@ class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Ru
         include_once 'Stagehand/TestRunner/cake_error_and_pass.test.php';
         include_once 'Stagehand/TestRunner/cake_multiple_failures.test.php';
         include_once 'Stagehand/TestRunner/cake_web_page.test.php';
+    }
+
+    protected function configure(Stagehand_TestRunner_Config $config)
+    {
+        $config->cakephpAppPath = dirname(__FILE__) . '/../../../../vendor/cakephp/app';
     }
 }
 
