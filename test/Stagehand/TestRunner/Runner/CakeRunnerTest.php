@@ -97,6 +97,10 @@ class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Ru
         include_once 'Stagehand/TestRunner/cake_web_page.test.php';
     }
 
+    /**
+     * @param Stagehand_TestRunner_Config $config
+     * @since Method available since Release 2.14.1
+     */
     protected function configure(Stagehand_TestRunner_Config $config)
     {
         $config->cakephpAppPath = dirname(__FILE__) . '/../../../../vendor/cakephp/app';
