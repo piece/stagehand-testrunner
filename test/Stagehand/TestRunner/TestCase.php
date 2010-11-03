@@ -80,6 +80,7 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
         $this->tmpDirectory = dirname(__FILE__) . '/../../../tmp';
         $this->config = new Stagehand_TestRunner_Config();
         $this->config->framework = $this->framework;

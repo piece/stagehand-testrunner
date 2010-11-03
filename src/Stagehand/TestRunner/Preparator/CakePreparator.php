@@ -44,11 +44,13 @@
  */
 class Stagehand_TestRunner_Preparator_CakePreparator extends Stagehand_TestRunner_Preparator
 {
-    protected static $isInvoked = false;
-
     public function prepare()
     {
-        if (self::$isInvoked) return;
+        if (defined('STAGEHAND_TESTRUNNER_PREPARATOR_CAKEPREPARATOR_PREPARECALLEDMARKER')) {
+            return;
+        }
+
+        define('STAGEHAND_TESTRUNNER_PREPARATOR_CAKEPREPARATOR_PREPARECALLEDMARKER', true);
 
         if (!defined('DISABLE_AUTO_DISPATCH')) {
             define('DISABLE_AUTO_DISPATCH', true);
@@ -78,8 +80,6 @@ class Stagehand_TestRunner_Preparator_CakePreparator extends Stagehand_TestRunne
         new Stagehand_TestRunner_Preparator_CakePreparator_TestRunnerShellDispatcher(array('-root', $rootPath, '-app', $appPath));
         require_once $corePath . '/tests/lib/test_manager.php';
         new TestManager();
-
-        self::$isInvoked = true;
     }
 }
 

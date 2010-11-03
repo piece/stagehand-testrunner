@@ -50,24 +50,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     protected $framework = Stagehand_TestRunner_Framework::SIMPLETEST;
     protected $oldErrorHandler;
 
-    public function handleError()
-    {
-    }
-
-    protected function setUp()
-    {
-        $this->oldErrorHandler = set_error_handler(array($this, 'handleError'));
-        parent::setUp();
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-        if (!is_null($this->oldErrorHandler)) {
-            set_error_handler($this->oldErrorHandler);
-        }
-    }
-
     /**
      * @param string $method
      * @test
