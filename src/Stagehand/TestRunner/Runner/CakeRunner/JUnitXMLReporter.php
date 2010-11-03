@@ -69,7 +69,9 @@ class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLReporter extends Stagehand_
      */
     protected function shouldPaintMethod($testName)
     {
-        return !in_array(strtolower($testName), SimpleTest::getContext()->getTest()->methods);
+        $testCase = SimpleTest::getContext()->getTest();
+        if (!($testCase instanceof CakeTestCase)) return true;
+        return !in_array(strtolower($testName), $testCase->methods);
     }
 }
 

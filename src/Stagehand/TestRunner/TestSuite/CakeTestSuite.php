@@ -52,6 +52,7 @@ class Stagehand_TestRunner_TestSuite_CakeTestSuite extends Stagehand_TestRunner_
     {
         $tests = array();
         foreach (parent::getTestsInTestCase($testCase) as $test) {
+            if (!($testCase instanceof CakeTestCase)) continue;
             if (!in_array(strtolower($test), $testCase->methods)) {
                 $tests[] = $test;
             }
