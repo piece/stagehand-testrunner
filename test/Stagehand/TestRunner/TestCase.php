@@ -141,9 +141,12 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
     {
         $testcases = $this->createXPath()
                           ->query("//testcase[@name='$method'][@class='$class']");
-        $this->assertEquals(1, $testcases->length);
+        $this->assertEquals(
+            1,
+            $testcases->length,
+            'The test case [ ' . $class . '::' . $method . ' ] is not found in the result report.'
+        );
     }
-
 
     /**
      * @param string $method
