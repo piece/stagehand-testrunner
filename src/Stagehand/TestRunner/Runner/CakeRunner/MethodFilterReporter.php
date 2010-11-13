@@ -32,7 +32,8 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @link       http://simpletest.org/
+ * @since      File available since Release 2.14.2
  */
 
 /**
@@ -40,20 +41,24 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @link       http://simpletest.org/
+ * @since      Class available since Release 2.14.2
  */
-class Stagehand_TestRunner_Runner_CakeRunner extends Stagehand_TestRunner_Runner_SimpleTestRunner
+class Stagehand_TestRunner_Runner_CakeRunner_MethodFilterReporter extends Stagehand_TestRunner_Runner_SimpleTestRunner_MethodFilterReporter
 {
-    protected $junitXMLReporterClass = 'Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLReporter';
-
     /**
-     * @param mixed $reporter
-     * @return SimpleReporterDecorator
-     * @since Method available since Release 2.14.2
+     * @param string $testCase
+     * @param string $method
+     * @return boolean
      */
-    protected function createMethodFilterReporter($reporter)
+    public function shouldInvoke($testCase, $method)
     {
-        return new Stagehand_TestRunner_Runner_CakeRunner_MethodFilterReporter($reporter);
+        $test = SimpleTest::getContext()->getTest();
+        if (($test instanceof CakeTestCase) && in_array(strtolower($method), $test->methods)) {
+            return true;
+        }
+
+        return parent::shouldInvoke($testCase, $method);
     }
 }
 

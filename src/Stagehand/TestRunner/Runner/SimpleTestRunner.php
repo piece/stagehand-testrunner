@@ -175,7 +175,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         $reporters[] = $reporter;
 
         if ($this->config->testsOnlySpecifiedMethods) {
-            $reporters[] = new Stagehand_TestRunner_Runner_SimpleTestRunner_MethodFilterReporter($reporters[ count($reporters) - 1 ]);
+            $reporters[] = $this->createMethodFilterReporter($reporters[ count($reporters) - 1 ]);
             $reporters[ count($reporters) - 1 ]->setConfig($this->config);
         }
 
@@ -189,6 +189,16 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         }
 
         return $reporters[ count($reporters) - 1 ];
+    }
+
+    /**
+     * @param mixed $reporter
+     * @return SimpleReporterDecorator
+     * @since Method available since Release 2.14.2
+     */
+    protected function createMethodFilterReporter($reporter)
+    {
+        return new Stagehand_TestRunner_Runner_SimpleTestRunner_MethodFilterReporter($reporter);
     }
 }
 

@@ -95,6 +95,7 @@ class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Ru
         include_once 'Stagehand/TestRunner/cake_error_and_pass.test.php';
         include_once 'Stagehand/TestRunner/cake_multiple_failures.test.php';
         include_once 'Stagehand/TestRunner/cake_web_page.test.php';
+        include_once 'Stagehand/TestRunner/cake_always_called_methods.test.php';
     }
 
     /**
@@ -104,6 +105,30 @@ class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Ru
     protected function configure(Stagehand_TestRunner_Config $config)
     {
         $config->cakephpAppPath = dirname(__FILE__) . '/../../../../vendor/cakephp/app';
+    }
+
+    /**
+     * @test
+     * @link http://redmine.piece-framework.com/issues/235
+     * @since Method available since Release 2.14.2
+     */
+    public function executesTheSpecialMethodsWhenRunningOnlyTheSpecifiedMethods()
+    {
+        $testClass = 'Stagehand_TestRunner_CakeAlwaysCalledMethodsTest';
+        $specialMethods = array('start', 'end', 'startcase', 'endcase', 'starttest', 'endtest');
+        $GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_CAKERUNNERTEST_calledMethods'] = array();
+        foreach ($specialMethods as $specialMethod) {
+            $GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_CAKERUNNERTEST_calledMethods'][$specialMethod] = 0;
+        }
+        $this->config->addTestingMethod('testPass');
+        $this->collector->collectTestCase($testClass);
+        $this->runTests();
+
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists('testPass', $testClass);
+        foreach ($specialMethods as $specialMethod) {
+            $this->assertEquals(1, $GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_CAKERUNNERTEST_calledMethods'][$specialMethod]);
+        }
     }
 }
 

@@ -32,7 +32,7 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 2.14.2
  */
 
 /**
@@ -40,27 +40,61 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 2.14.2
  */
-class Stagehand_TestRunner_Runner_CakeRunner extends Stagehand_TestRunner_Runner_SimpleTestRunner
+class Stagehand_TestRunner_CakeAlwaysCalledMethodsTest extends CakeTestCase
 {
-    protected $junitXMLReporterClass = 'Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLReporter';
-
-    /**
-     * @param mixed $reporter
-     * @return SimpleReporterDecorator
-     * @since Method available since Release 2.14.2
-     */
-    protected function createMethodFilterReporter($reporter)
+    public function testPass()
     {
-        return new Stagehand_TestRunner_Runner_CakeRunner_MethodFilterReporter($reporter);
+        $this->assertTrue(true);
+    }
+
+    public function start()
+    {
+        parent::start();
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    public function end()
+    {
+        parent::end();
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    public function startCase()
+    {
+        parent::startCase();
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    public function endCase()
+    {
+        parent::endCase();
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    public function startTest($method)
+    {
+        parent::startTest($method);
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    public function endTest($method)
+    {
+        parent::endTest($method);
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    protected function logMethodCall($method)
+    {
+        ++$GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_CAKERUNNERTEST_calledMethods'][ strtolower($method) ];
     }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil
