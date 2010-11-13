@@ -27,21 +27,17 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">2.14.1</property>
+  <property name="package.releaseversion">2.14.2</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">1.1.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
+Two Defect Fixes
 
- A Defect Fix
+ The following defects have been fixed:
 
-  The following defect has been fixed:
-
-  * An error "Fatal error: Cannot redeclare class UnitTestCase" is raised when using the project's internal CakePHP libraries. (Issue #226)
-
-Backward Compatibility
-
- When using CakePHP the SimpleTest package must be placed in the *vendors* directory as *vendors/simpletest*.]]></property>
+ * CakeWebTestCase does not work with JUnit XML output. (Issue #232)
+ * CakeTestCase does not work with the -m option. (Issue #235)]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A test runner for Test Driven Development</property>
   <property name="package.description"><![CDATA[Stagehand_TestRunner provides a test runner to run unit tests. Stagehand_TestRunner strongly supports Test Driven Development by various features.]]></property>
