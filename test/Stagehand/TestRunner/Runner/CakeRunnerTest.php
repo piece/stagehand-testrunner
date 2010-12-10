@@ -91,12 +91,15 @@ class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Ru
     {
         include_once 'Stagehand/TestRunner/cake_pass.test.php';
         include_once 'Stagehand/TestRunner/cake_multiple_classes.test.php';
-        include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
         include_once 'Stagehand/TestRunner/cake_failure_and_pass.test.php';
         include_once 'Stagehand/TestRunner/cake_error_and_pass.test.php';
         include_once 'Stagehand/TestRunner/cake_multiple_failures.test.php';
         include_once 'Stagehand/TestRunner/cake_web_page.test.php';
         include_once 'Stagehand/TestRunner/cake_always_called_methods.test.php';
+
+        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+            include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
+        }
     }
 
     /**

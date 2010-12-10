@@ -56,7 +56,10 @@ class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLTest extends Stagehand_Test
         include_once 'Stagehand/TestRunner/cake_failure.test.php';
         include_once 'Stagehand/TestRunner/cake_error.test.php';
         include_once 'Stagehand/TestRunner/cake_multiple_classes.test.php';
-        include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
+
+        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+            include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
+        }
     }
 
     /**

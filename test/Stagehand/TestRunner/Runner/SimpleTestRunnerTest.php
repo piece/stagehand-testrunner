@@ -184,6 +184,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function runsOnlyTheSpecifiedClassesWithNamespaces($class)
     {
+        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+            $this->markTestSkipped('Your PHP version is less than 5.3.0.');
+        }
+
         $this->loadClasses();
         $this->config->addTestingClass($class);
         $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test');
@@ -321,7 +325,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     protected function loadClasses()
     {
         class_exists('Stagehand_TestRunner_' . $this->framework . 'MultipleClassesTest');
-        class_exists('\Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespaceTest');
+        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+            class_exists('\Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespaceTest');
+        }
     }
 }
 
