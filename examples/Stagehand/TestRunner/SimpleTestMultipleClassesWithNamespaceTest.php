@@ -32,47 +32,66 @@
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 2.15.0
  */
 
-require_once 'simpletest/unit_tester.php';
-require_once 'simpletest/mock_objects.php';
-require_once 'simpletest/web_tester.php';
+namespace Stagehand\TestRunner;
+
+if (!@include_once 'simpletest/unit_tester.php') return;
 
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 2.15.0
  */
-class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLTest extends Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest
-{
-    protected $framework = Stagehand_TestRunner_Framework::CAKE;
+class SimpleTestMultipleClassesWithNamespaceTest {}
 
-    protected function loadClasses()
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 2.15.0
+ */
+class SimpleTestMultipleClassesWithNamespace1Test extends \UnitTestCase
+{
+    public function testPass1()
     {
-        include_once 'Stagehand/TestRunner/cake_pass.test.php';
-        include_once 'Stagehand/TestRunner/cake_failure.test.php';
-        include_once 'Stagehand/TestRunner/cake_error.test.php';
-        include_once 'Stagehand/TestRunner/cake_multiple_classes.test.php';
-        include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
+        $this->assertTrue(true);
     }
 
-    /**
-     * @param Stagehand_TestRunner_Config $config
-     * @since Method available since Release 2.14.1
-     */
-    protected function configure(Stagehand_TestRunner_Config $config)
+    public function testPass2()
     {
-        $config->cakephpAppPath = dirname(__FILE__) . '/../../../../../vendor/cakephp/app';
+        $this->assertTrue(true);
+    }
+}
+
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 2.15.0
+ */
+class SimpleTestMultipleClassesWithNamespace2Test extends \UnitTestCase
+{
+    public function testPass1()
+    {
+        $this->assertTrue(true);
+    }
+
+    public function testPass2()
+    {
+        $this->assertTrue(true);
     }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: utf-8
+ * coding: iso-8859-1
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

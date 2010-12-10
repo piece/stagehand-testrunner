@@ -83,7 +83,7 @@ class Stagehand_TestRunner_Config
     public function addTestingMethod($testingMethod)
     {
         $this->testsOnlySpecifiedMethods = true;
-        $this->testingMethods[] = strtolower($testingMethod);
+        $this->testingMethods[] = strtolower(ltrim($testingMethod, '\\'));
     }
 
     /**
@@ -93,7 +93,7 @@ class Stagehand_TestRunner_Config
     public function addTestingClass($testingClass)
     {
         $this->testsOnlySpecifiedClasses = true;
-        $this->testingClasses[] = strtolower($testingClass);
+        $this->testingClasses[] = strtolower(ltrim($testingClass, '\\'));
     }
 
     /**

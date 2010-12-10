@@ -50,9 +50,14 @@ set_include_path(
 @require_once 'PHPUnit/Framework.php'; // TODO Remove this if Stagehand_TestRunner will not support PHPUnit 3.4.
 require_once 'Stagehand/Autoload.php';
 
-$loader = Stagehand_Autoload::legacyLoader();
-$loader->addNamespace('Stagehand');
-Stagehand_Autoload::register($loader);
+$legacyLoader = Stagehand_Autoload::legacyLoader();
+$legacyLoader->addNamespace('Stagehand');
+Stagehand_Autoload::register($legacyLoader);
+if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+    $namespaceLoader = Stagehand_Autoload::namespaceLoader();
+    $namespaceLoader->addNamespace('Stagehand\TestRunner');
+    Stagehand_Autoload::register($namespaceLoader);
+}
 
 Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
 

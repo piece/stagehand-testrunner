@@ -102,6 +102,42 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     }
 
     /**
+     * @param string $method
+     * @test
+     * @dataProvider provideFullyQualifiedMethodNamesWithNamespaces
+     * @since Method available since Release 2.15.0
+     */
+    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodNameWithNamespaces($method)
+    {
+        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+            $this->markTestSkipped('Your PHP version is less than 5.3.0.');
+        }
+
+        $this->config->addTestingMethod($method);
+        class_exists('\Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespaceTest');
+        $this->collector->collectTestCase('Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test');
+        $this->collector->collectTestCase('Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace2Test');
+        $this->runTests();
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists(
+            'pass1',
+            'Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test'
+        );
+    }
+
+    /**
+     * @since Method available since Release 2.15.0
+     */
+    public function provideFullyQualifiedMethodNamesWithNamespaces()
+    {
+        return array(
+                   array('\Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test::pass1'),
+                   array('\STAGEHAND\TESTRUNNER\PHPUNITMULTIPLECLASSESWITHNAMESPACE1TEST::PASS1'),
+                   array('Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test::pass1')
+               );
+    }
+
+    /**
      * @param $string $class
      * @test
      * @dataProvider provideClasses
@@ -129,6 +165,46 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         return array(
                    array('Stagehand_TestRunner_PHPUnitMultipleClasses1Test'),
                    array('stagehand_testrunner_phpunitmultipleclasses1test')
+               );
+    }
+
+    /**
+     * @param $string $class
+     * @test
+     * @dataProvider provideClassesWithNamespaces
+     * @since Method available since Release 2.15.0
+     */
+    public function runsOnlyTheSpecifiedClassesWithNamespaces($class)
+    {
+        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+            $this->markTestSkipped('Your PHP version is less than 5.3.0.');
+        }
+
+        $this->config->addTestingClass($class);
+        class_exists('\Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespaceTest');
+        $this->collector->collectTestCase('Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test');
+        $this->collector->collectTestCase('Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace2Test');
+        $this->runTests();
+        $this->assertTestCaseCount(2);
+        $this->assertTestCaseExists(
+            'pass1',
+            'Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test'
+        );
+        $this->assertTestCaseExists(
+            'pass2',
+            'Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test'
+        );
+    }
+
+    /**
+     * @since Method available since Release 2.15.0
+     */
+    public function provideClassesWithNamespaces()
+    {
+        return array(
+                   array('\Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test'),
+                   array('\stagehand\testrunner\phpunitmultipleclasseswithnamespace1test'),
+                   array('Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test')
                );
     }
 

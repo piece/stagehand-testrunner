@@ -108,6 +108,43 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     }
 
     /**
+     * @param string $method
+     * @test
+     * @dataProvider provideFullyQualifiedMethodNamesWithNamespaces
+     * @since Method available since Release 2.15.0
+     */
+    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodNameWithNamespaces($method)
+    {
+        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+            $this->markTestSkipped('Your PHP version is less than 5.3.0.');
+        }
+
+        $this->loadClasses();
+        $this->config->addTestingMethod($method);
+        $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test');
+        $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace2Test');
+        $this->runTests();
+
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists(
+            'testPass1',
+            'Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test'
+        );
+    }
+
+    /**
+     * @since Method available since Release 2.15.0
+     */
+    public function provideFullyQualifiedMethodNamesWithNamespaces()
+    {
+        return array(
+                   array('\Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test::testPass1'),
+                   array('\stagehand\testrunner\\' . strtolower($this->framework) . 'multipleclasseswithnamespace1test::testpass1'),
+                   array('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test::testPass1')
+               );
+    }
+
+    /**
      * @param $string $class
      * @test
      * @dataProvider provideClasses
@@ -136,6 +173,43 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         return array(
                    array('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test'),
                    array('stagehand_testrunner_' . $this->framework . 'multipleclasses1test')
+               );
+    }
+
+    /**
+     * @param $string $class
+     * @test
+     * @dataProvider provideClassesWithNamespaces
+     * @since Method available since Release 2.15.0
+     */
+    public function runsOnlyTheSpecifiedClassesWithNamespaces($class)
+    {
+        $this->loadClasses();
+        $this->config->addTestingClass($class);
+        $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test');
+        $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace2Test');
+        $this->runTests();
+
+        $this->assertTestCaseCount(2);
+        $this->assertTestCaseExists(
+            'testPass1',
+            'Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test'
+        );
+        $this->assertTestCaseExists(
+            'testPass2',
+            'Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test'
+        );
+    }
+
+    /**
+     * @since Method available since Release 2.15.0
+     */
+    public function provideClassesWithNamespaces()
+    {
+        return array(
+                   array('\Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test'),
+                   array('\stagehand\testrunner\\' . $this->framework . 'multipleclassesWithNamespace1test'),
+                   array('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test')
                );
     }
 
@@ -247,6 +321,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
     protected function loadClasses()
     {
         class_exists('Stagehand_TestRunner_' . $this->framework . 'MultipleClassesTest');
+        class_exists('\Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespaceTest');
     }
 }
 
