@@ -106,6 +106,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      * @test
      * @dataProvider provideFullyQualifiedMethodNamesWithNamespaces
      * @since Method available since Release 2.15.0
+     * @link http://redmine.piece-framework.com/issues/245
      */
     public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodNameWithNamespaces($method)
     {
@@ -127,6 +128,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
 
     /**
      * @since Method available since Release 2.15.0
+     * @link http://redmine.piece-framework.com/issues/245
      */
     public function provideFullyQualifiedMethodNamesWithNamespaces()
     {
@@ -173,6 +175,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      * @test
      * @dataProvider provideClassesWithNamespaces
      * @since Method available since Release 2.15.0
+     * @link http://redmine.piece-framework.com/issues/245
      */
     public function runsOnlyTheSpecifiedClassesWithNamespaces($class)
     {
@@ -198,6 +201,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
 
     /**
      * @since Method available since Release 2.15.0
+     * @link http://redmine.piece-framework.com/issues/245
      */
     public function provideClassesWithNamespaces()
     {
