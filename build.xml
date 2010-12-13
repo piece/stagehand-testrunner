@@ -27,17 +27,21 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">2.14.2</property>
+  <property name="package.releaseversion">2.15.0</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">1.1.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
-Two Defect Fixes
+Supports URL-encoded class and method names.
+ (Issue #247)
 
- The following defects have been fixed:
+ The --classes and -m options can now accept URL-encoded string. This feature is intended to be used for the class and method names which contain multibyte characters.
 
- * CakeWebTestCase does not work with JUnit XML output. (Issue #232)
- * CakeTestCase does not work with the -m option. (Issue #235)]]></property>
+A Defect Fix
+
+ The following defect has been fixed:
+
+ * No tests found when specifying the fully qualified class name with a namespace. (Issue #245)]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A test runner for Test Driven Development</property>
   <property name="package.description"><![CDATA[Stagehand_TestRunner provides a test runner to run unit tests. Stagehand_TestRunner strongly supports Test Driven Development by various features.]]></property>
