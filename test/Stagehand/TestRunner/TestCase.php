@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -37,7 +37,7 @@
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
@@ -146,6 +146,26 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
             $testcases->length,
             'The test case [ ' . $class . '::' . $method . ' ] is not found in the result report.'
         );
+    }
+
+    /**
+     * @param string $method
+     * @param string $class
+     * @since Method available since Release 2.16.0
+     */
+    protected function assertTestCasePassed($method, $class)
+    {
+        $failures = $this->createXPath()
+                         ->query("//testcase[@name='$method'][@class='$class']/failure");
+        if ($failures->length) {
+            $this->fail($failures->item(0)->nodeValue);
+        }
+
+        $errors = $this->createXPath()
+                         ->query("//testcase[@name='$method'][@class='$class']/error");
+        if ($errors->length) {
+            $this->fail($errors->item(0)->nodeValue);
+        }
     }
 
     /**

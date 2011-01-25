@@ -108,10 +108,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
 
         if (!is_null($this->config->phpunitConfigFile)) {
             $arguments['configuration'] = $this->config->phpunitConfigFile;
-            $browsers = PHPUnit_Util_Configuration::getInstance($arguments['configuration'])->getSeleniumBrowserConfiguration();
-            if (count($browsers)) {
-                PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
-            }
         }
 
         $testRunner = new Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner();

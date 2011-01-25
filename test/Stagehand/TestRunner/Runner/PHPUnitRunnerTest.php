@@ -488,23 +488,14 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      */
     public function supportsTheSeleniumElementInTheXmlConfigurationFile()
     {
+        $GLOBALS['STAGEHAND_TESTRUNNER_PHPUNITSELENIUMTEST_enables'] = true;
         $configDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . basename(__FILE__, '.php');
         $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . 'selenium.xml';
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->preparator->prepare();
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitSeleniumTest');
         $this->runTests();
 
-        $browsers = PHPUnit_Extensions_SeleniumTestCase::$browsers;
-        $this->assertEquals(1, count($browsers));
-        $expectedBrowser = array(
-                               'name' => 'Firefox on Linux',
-                               'browser' => '*firefox /usr/lib/firefox/firefox-bin',
-                               'host' => 'my.linux.box',
-                               'port' => '4444',
-                               'timeout' => '30000',
-                           );
-        foreach ($expectedBrowser as $key => $value) {
-            $this->assertEquals($value, $browsers[0][$key], $browsers[0][$key]);
-        }
+        $this->assertTestCasePassed(__FUNCTION__, 'Stagehand_TestRunner_PHPUnitSeleniumTest');
     }
 }
 
