@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -37,7 +37,7 @@
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
@@ -479,6 +479,32 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $this->assertTestCaseAssertionCount(1, 'isFailure', $testClass);
         $this->assertTestCaseHasFailure('isFailure', $testClass);
         $this->assertTestCaseFailureMessageEquals('/The First Failure/', 'isFailure', $testClass);
+    }
+
+    /**
+     * @test
+     * @link http://redmine.piece-framework.com/issues/237
+     * @since Method available since Release 2.16.0
+     */
+    public function supportsTheSeleniumElementInTheXmlConfigurationFile()
+    {
+        $configDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . basename(__FILE__, '.php');
+        $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . 'selenium.xml';
+        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
+        $this->runTests();
+
+        $browsers = PHPUnit_Extensions_SeleniumTestCase::$browsers;
+        $this->assertEquals(1, count($browsers));
+        $expectedBrowser = array(
+                               'name' => 'Firefox on Linux',
+                               'browser' => '*firefox /usr/lib/firefox/firefox-bin',
+                               'host' => 'my.linux.box',
+                               'port' => '4444',
+                               'timeout' => '30000',
+                           );
+        foreach ($expectedBrowser as $key => $value) {
+            $this->assertEquals($value, $browsers[0][$key], $browsers[0][$key]);
+        }
     }
 }
 

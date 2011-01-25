@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -43,7 +43,7 @@ require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
  * A test runner for PHPUnit.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -108,6 +108,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
 
         if (!is_null($this->config->phpunitConfigFile)) {
             $arguments['configuration'] = $this->config->phpunitConfigFile;
+            $browsers = PHPUnit_Util_Configuration::getInstance($arguments['configuration'])->getSeleniumBrowserConfiguration();
+            if (count($browsers)) {
+                PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
+            }
         }
 
         $testRunner = new Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner();
