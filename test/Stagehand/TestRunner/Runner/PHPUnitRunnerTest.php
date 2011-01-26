@@ -477,7 +477,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists('isFailure', $testClass);
         $this->assertTestCaseAssertionCount(1, 'isFailure', $testClass);
-        $this->assertTestCaseHasFailure('isFailure', $testClass);
+        $this->assertTestCaseFailed('isFailure', $testClass);
         $this->assertTestCaseFailureMessageEquals('/The First Failure/', 'isFailure', $testClass);
     }
 

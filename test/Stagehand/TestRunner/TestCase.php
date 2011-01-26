@@ -173,7 +173,7 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
      * @param string $class
      * @since Method available since Release 2.14.0
      */
-    protected function assertTestCaseHasFailure($method, $class)
+    protected function assertTestCaseFailed($method, $class)
     {
         $failures = $this->createXPath()
                          ->query("//testcase[@name='$method'][@class='$class']/failure");
