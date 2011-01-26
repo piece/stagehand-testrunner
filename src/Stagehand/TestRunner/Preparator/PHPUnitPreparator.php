@@ -56,11 +56,37 @@ class Stagehand_TestRunner_Preparator_PHPUnitPreparator extends Stagehand_TestRu
 
         if (!is_null($this->config->phpunitConfigFile)) {
             require_once 'PHPUnit/Util/Configuration.php';
+            $phpunitConfiguration = PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getPHPUnitConfiguration();
+            if (array_key_exists('bootstrap', $phpunitConfiguration)) {
+                if (array_key_exists('syntaxCheck', $phpunitConfiguration)) {
+                    $this->handleBootstrap($phpunitConfiguration['bootstrap'], $phpunitConfiguration['syntaxCheck']);
+                } else {
+                    $this->handleBootstrap($phpunitConfiguration['bootstrap']);
+                }
+            }
+
             $browsers = PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getSeleniumBrowserConfiguration();
             if (count($browsers)) {
                 require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
                 PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
             }
+        }
+    }
+
+    /**
+     * Loads a bootstrap file.
+     *
+     * @param  string  $filename
+     * @param  boolean $syntaxCheck
+     * @see PHPUnit_TextUI_Command::handleBootstrap()
+     * @since Method available since Release 2.16.0
+     */
+    protected function handleBootstrap($filename, $syntaxCheck = false)
+    {
+        try {
+            PHPUnit_Util_Fileloader::checkAndLoad($filename, $syntaxCheck);
+        } catch (RuntimeException $e) {
+            PHPUnit_TextUI_TestRunner::showError($e->getMessage());
         }
     }
 }
