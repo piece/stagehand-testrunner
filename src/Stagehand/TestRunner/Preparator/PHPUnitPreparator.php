@@ -57,6 +57,7 @@ class Stagehand_TestRunner_Preparator_PHPUnitPreparator extends Stagehand_TestRu
         if (!is_null($this->config->phpunitConfigFile)) {
             $browsers = PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getSeleniumBrowserConfiguration();
             if (count($browsers)) {
+                require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
                 PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
             }
         }
