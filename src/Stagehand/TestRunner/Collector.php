@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.1.0
@@ -39,7 +39,7 @@
  * The base class for test collectors.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.1.0
@@ -145,7 +145,7 @@ abstract class Stagehand_TestRunner_Collector
      */
     protected function collectTestCasesFromFile($file)
     {
-        if (!$this->shouldTreatFileAsTest($file)) return;
+        if (!$this->shouldTreatFileAsTest(basename($file))) return;
 
         foreach ($this->findNewClasses($file) as $newClass) {
             if ($this->shouldTreatClassAsTest($newClass)) {
@@ -161,13 +161,15 @@ abstract class Stagehand_TestRunner_Collector
      */
     protected function shouldTreatFileAsTest($file)
     {
-        if (is_null($this->config->testFileSuffix)) {
-            $suffix = $this->suffix;
+        if (!is_null($this->config->testFilePattern)) {
+            $suffix = $this->config->testFilePattern;
+        } elseif (!is_null($this->config->testFileSuffix)) {
+            $suffix = $this->config->testFileSuffix . '\.php$';
         } else {
-            $suffix = $this->config->testFileSuffix;
+            $suffix = $this->suffix;
         }
 
-        return (boolean)preg_match('/' . str_replace('/', '\/', $suffix) . '\.php$/', $file);
+        return (boolean)preg_match('/' . str_replace('/', '\/', $suffix) . '/', $file);
     }
 
     /**

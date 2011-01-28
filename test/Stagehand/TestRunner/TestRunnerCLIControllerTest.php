@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.13.0
@@ -37,7 +37,7 @@
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.13.0
@@ -155,6 +155,33 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $config = $this->readAttribute($runner, 'config');
         $this->assertNotNull($config->phpunitConfigFile);
         $this->assertEquals($phpunitConfigFile, $config->phpunitConfigFile);
+    }
+
+    /**
+     * @test
+     * @link http://redmine.piece-framework.com/issues/230
+     * @since Method available since Release 2.16.0
+     */
+    public function supportsTestFilesWithAnyPattern()
+    {
+        $testFilePattern = '^test_';
+        $_SERVER['argv'] = $GLOBALS['argv'] =
+            array(
+                'bin/phpunitrunner',
+                '-p', 'tests/prepare.php',
+                '--test-file-pattern=' . $testFilePattern
+            );
+        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
+        $runner = $this->getMock(
+                      'Stagehand_TestRunner_TestRunnerCLIController',
+                      array('runTests'),
+                      array(Stagehand_TestRunner_Framework::PHPUNIT)
+                  );
+        $runner->expects($this->any())
+               ->method('runTests')
+               ->will($this->returnValue(null));
+        $runner->run();
+        $this->assertEquals($testFilePattern, $this->readAttribute($runner, 'config')->testFilePattern);
     }
 
     /**

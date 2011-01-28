@@ -439,6 +439,28 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
 
     /**
      * @test
+     * @link http://redmine.piece-framework.com/issues/230
+     * @since Method available since Release 2.16.0
+     */
+    public function runsTheFilesWithTheSpecifiedPattern()
+    {
+        $file = dirname(__FILE__) .
+            '/../../../../examples/Stagehand/TestRunner/test_PHPUnitWithAnyPattern.php';
+        $this->collector->collectTestCases($file);
+
+        $this->runTests();
+        $this->assertTestCaseCount(0);
+
+        $this->config->testFilePattern = '^test_.+\.php$';
+        $this->collector->collectTestCases($file);
+
+        $this->runTests();
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists('pass', 'Stagehand_TestRunner_PHPUnitWithAnyPatternTest');
+    }
+
+    /**
+     * @test
      * @link http://redmine.piece-framework.com/issues/211
      * @since Method available since Release 2.14.0
      */

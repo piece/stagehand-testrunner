@@ -4,8 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
- *               2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,57 +29,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://simpletest.org/
- * @since      File available since Release 2.1.0
+ * @since      File available since Release 2.16.0
  */
+
+if (!class_exists('PHPUnit_Framework_TestCase')) return;
 
 /**
- * A test collector for SimpleTest.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://simpletest.org/
- * @since      Class available since Release 2.1.0
+ * @since      Class available since Release 2.16.0
  */
-class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestRunner_Collector
+class Stagehand_TestRunner_PHPUnitWithAnyPatternTest extends PHPUnit_Framework_TestCase
 {
-    protected $superTypes = array('SimpleTestCase');
-    protected $suffix = 'Test(?:Case)?\.php$';
-    protected $include = 'Test(?:Case)?$';
-    protected $suiteClass = 'Stagehand_TestRunner_TestSuite_SimpleTestTestSuite';
-
     /**
-     * @param string $testCase
-     * @since Method available since Release 2.11.0
+     * @test
      */
-    public function collectTestCase($testCase)
+    public function pass()
     {
-        $test = new ReflectionClass($testCase);
-        if ($test->isAbstract()) {
-            return;
-        }
-
-        $this->suite->add(new $testCase());
-    }
-
-    /**
-     * Creates the test suite object.
-     *
-     * @param string $name
-     * @return TestSuite
-     */
-    protected function createTestSuite($name)
-    {
-        $suite = new $this->suiteClass($name);
-        $suite->setConfig($this->config);
-        return $suite;
+        $this->assertTrue(true);
     }
 }
 

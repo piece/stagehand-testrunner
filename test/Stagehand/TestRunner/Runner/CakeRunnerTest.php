@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.14.0
@@ -41,7 +41,7 @@ require_once 'simpletest/web_tester.php';
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
@@ -63,6 +63,28 @@ class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Ru
         $this->assertTestCaseExists('testPassWithAnAssertion', 'Stagehand_TestRunner_CakePassTest');
         $this->assertTestCaseExists('testPassWithMultipleAssertions', 'Stagehand_TestRunner_CakePassTest');
         $this->assertTestCaseExists('test日本語を使用できる', 'Stagehand_TestRunner_CakePassTest');
+    }
+
+    /**
+     * @test
+     * @link http://redmine.piece-framework.com/issues/230
+     * @since Method available since Release 2.16.0
+     */
+    public function runsTheFilesWithTheSpecifiedPattern()
+    {
+        $file = dirname(__FILE__) .
+            '/../../../../examples/Stagehand/TestRunner/test_cake_with_any_pattern.php';
+        $this->collector->collectTestCases($file);
+
+        $this->runTests();
+        $this->assertTestCaseCount(0);
+
+        $this->config->testFilePattern = '^test_.+\.php$';
+        $this->collector->collectTestCases($file);
+
+        $this->runTests();
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists('testPass', 'Stagehand_TestRunner_CakeWithAnyPatternTest');
     }
 
     /**

@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.7.0
@@ -37,7 +37,7 @@
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.7.0
@@ -65,7 +65,22 @@ class Stagehand_TestRunner_Config
     public $phpunitConfigFile;
     public $cakephpAppPath;
     public $cakephpCorePath;
+
+    /**
+     * The pattern of test files by a regular expression literal.
+     * The regular expression literal must not contain .php.
+     *
+     * @var string
+     * @since Property available since Release 2.16.0
+     */
+    public $testFilePattern;
+
+    /**
+     * @var string
+     * @deprecated Property deprecated in Release 2.16.0
+     */
     public $testFileSuffix;
+
     protected $testingMethods = array();
     protected $testingClasses = array();
 

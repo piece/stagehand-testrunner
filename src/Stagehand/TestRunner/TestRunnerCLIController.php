@@ -58,6 +58,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             'phpunit-config=',
             'cakephp-app-path=',
             'cakephp-core-path=',
+            'test-file-pattern=',
             'test-file-suffix='
         );
     protected $config;
@@ -141,6 +142,9 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
         case '--cakephp-core-path':
             $this->validateDirectory($value, $option);
             $this->config->cakephpCorePath = $value;
+            return true;
+        case '--test-file-pattern':
+            $this->config->testFilePattern = $value;
             return true;
         case '--test-file-suffix':
             $this->config->testFileSuffix = $value;
@@ -258,15 +262,20 @@ OPTIONS
      folder is used. (/path/to/app/../cake)
      (CakePHP)
 
+  --test-file-pattern=PATTERN
+     Specifies the pattern of your test files by a regular expression literal.
+     The default values are:
+       PHPUnit: Test(?:Case)?\.php$
+       SimpleTest: Test(?:Case)?\.php$
+       CakePHP: \.test\.php$
+       PHPT: -
+       PHPSpec: Spec\.php$
+     (PHPUnit, SimpleTest, CakePHP, and PHPSpec)
+
   --test-file-suffix=SUFFIX
+     (deprecated in Stagehand_TestRunner 2.16.0)
      Specifies the suffix of your test files by a regular expression literal.
      The regular expression literal must not contain *.php*.
-     The default values are:
-       PHPUnit: Test(?:Case)?
-       SimpleTest: Test(?:Case)?
-       CakePHP: \.test
-       PHPT: -
-       PHPSpec: Spec
      (PHPUnit, SimpleTest, CakePHP, and PHPSpec)
 ";
     }
