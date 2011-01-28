@@ -70,7 +70,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
         $arguments['listeners'] =
             array(
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
-                    'testdox://' . spl_object_hash($testResult),
+                    fopen('testdox://' . spl_object_hash($testResult), 'w'),
                     $this->config->colors,
                     $this->prettifier()
                 )
