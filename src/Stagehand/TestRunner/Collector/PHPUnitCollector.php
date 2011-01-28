@@ -49,7 +49,7 @@
 class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunner_Collector
 {
     protected $superTypes = array('PHPUnit_Framework_TestCase');
-    protected $suffix = 'Test(?:Case)?\.php$';
+    protected $filePattern = 'Test(?:Case)?\.php$';
     protected $include = 'Test(?:Case)?$';
 
     /**

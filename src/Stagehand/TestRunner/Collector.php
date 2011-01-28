@@ -48,7 +48,7 @@ abstract class Stagehand_TestRunner_Collector
 {
     protected $exclude;
     protected $superTypes;
-    protected $suffix;
+    protected $filePattern;
     protected $include;
     protected $config;
     protected $allowDeny;
@@ -162,14 +162,14 @@ abstract class Stagehand_TestRunner_Collector
     protected function shouldTreatFileAsTest($file)
     {
         if (!is_null($this->config->testFilePattern)) {
-            $suffix = $this->config->testFilePattern;
+            $filePattern = $this->config->testFilePattern;
         } elseif (!is_null($this->config->testFileSuffix)) {
-            $suffix = $this->config->testFileSuffix . '\.php$';
+            $filePattern = $this->config->testFileSuffix . '\.php$';
         } else {
-            $suffix = $this->suffix;
+            $filePattern = $this->filePattern;
         }
 
-        return (boolean)preg_match('/' . str_replace('/', '\/', $suffix) . '/', $file);
+        return (boolean)preg_match('/' . str_replace('/', '\/', $filePattern) . '/', $file);
     }
 
     /**

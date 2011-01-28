@@ -52,7 +52,7 @@
 class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestRunner_Collector
 {
     protected $superTypes = array('SimpleTestCase');
-    protected $suffix = 'Test(?:Case)?\.php$';
+    protected $filePattern = 'Test(?:Case)?\.php$';
     protected $include = 'Test(?:Case)?$';
     protected $suiteClass = 'Stagehand_TestRunner_TestSuite_SimpleTestTestSuite';
 

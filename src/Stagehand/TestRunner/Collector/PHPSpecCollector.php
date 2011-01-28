@@ -49,7 +49,7 @@
 class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunner_Collector
 {
     protected $superTypes = array('PHPSpec_Context');
-    protected $suffix = 'Spec\.php$';
+    protected $filePattern = 'Spec\.php$';
     protected $include = '(^[Dd]escribe|[Ss]pec$)';
 
     /**
