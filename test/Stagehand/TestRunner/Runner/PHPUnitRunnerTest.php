@@ -47,6 +47,17 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     protected $framework = Stagehand_TestRunner_Framework::PHPUNIT;
 
     /**
+     * @since Method available since Release 2.16.0
+     */
+    protected function loadClasses()
+    {
+        class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
+        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+            class_exists('\Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespaceTest');
+        }
+    }
+
+    /**
      * @param string $method
      * @test
      * @dataProvider provideMethods
@@ -54,7 +65,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function runsOnlyTheSpecifiedMethods($method)
     {
         $this->config->addTestingMethod($method);
-        class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
         $this->runTests();
@@ -82,7 +92,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($method)
     {
         $this->config->addTestingMethod($method);
-        class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
         $this->runTests();
@@ -115,7 +124,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         }
 
         $this->config->addTestingMethod($method);
-        class_exists('\Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespaceTest');
         $this->collector->collectTestCase('Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test');
         $this->collector->collectTestCase('Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace2Test');
         $this->runTests();
@@ -147,7 +155,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function runsOnlyTheSpecifiedClasses($class)
     {
         $this->config->addTestingClass($class);
-        class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
         $this->runTests();
@@ -184,7 +191,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         }
 
         $this->config->addTestingClass($class);
-        class_exists('\Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespaceTest');
         $this->collector->collectTestCase('Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test');
         $this->collector->collectTestCase('Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace2Test');
         $this->runTests();
@@ -341,7 +347,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function notBreakTestDoxOutputIfTheSameTestMethodNamesExceptTrailingNumbers()
     {
         $this->config->addTestingClass('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
-        class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         $this->runTests();
         $this->assertRegExp(
