@@ -67,6 +67,14 @@ class Stagehand_TestRunner_Config
     public $cakephpCorePath;
 
     /**
+     * The path of your CIUnit tests directory.
+     *
+     * @var string
+     * @since Property available since Release 2.16.0
+     */
+    public $ciunitPath;
+
+    /**
      * The pattern of test files by a regular expression literal.
      * The regular expression literal must not contain .php.
      *

@@ -59,7 +59,8 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             'cakephp-app-path=',
             'cakephp-core-path=',
             'test-file-pattern=',
-            'test-file-suffix='
+            'test-file-suffix=',
+            'ciunit-path=',
         );
     protected $config;
 
@@ -142,6 +143,10 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
         case '--cakephp-core-path':
             $this->validateDirectory($value, $option);
             $this->config->cakephpCorePath = $value;
+            return true;
+        case '--ciunit-path':
+            $this->validateDirectory($value, $option);
+            $this->config->ciunitPath = $value;
             return true;
         case '--test-file-pattern':
             $this->config->testFilePattern = $value;
@@ -261,6 +266,11 @@ OPTIONS
      By default, the \"cake\" directory under the parent directory of your app
      folder is used. (/path/to/app/../cake)
      (CakePHP)
+
+  --ciunit-path=DIRECTORY
+     Specifies the path of your CIUnit tests directory.
+     By default, the current working directory is used.
+     (CIUnit)
 
   --test-file-pattern=PATTERN
      Specifies the pattern of your test files by a regular expression literal.

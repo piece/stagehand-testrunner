@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,27 +29,35 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.11.0
+ * @since      File available since Release 2.16.0
  */
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.11.0
+ * @since      Class available since Release 2.16.0
  */
-class Stagehand_TestRunner_Framework
+class Stagehand_TestRunner_Preparator_CIUnitPreparator extends Stagehand_TestRunner_Preparator_PHPUnitPreparator
 {
-    const PHPUNIT = 'PHPUnit';
-    const SIMPLETEST = 'SimpleTest';
-    const PHPT = 'PHPT';
-    const PHPSPEC = 'PHPSpec';
-    const CAKE = 'Cake';
-    const CIUNIT = 'CIUnit';
+    public function prepare()
+    {
+        parent::prepare();
+
+        if (is_null($this->config->ciunitPath)) {
+            $ciunitPath = $this->config->workingDirectoryAtStartup;
+        } else {
+            $ciunitPath = $this->config->ciunitPath;
+        }
+
+        $oldErrorReportingLevel = error_reporting();
+        require_once $ciunitPath . '/CIUnit.php';
+        error_reporting($oldErrorReportingLevel);
+    }
 }
 
 /*

@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,33 +29,51 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.11.0
+ * @since      File available since Release 2.16.0
  */
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.11.0
+ * @since      Class available since Release 2.16.0
  */
-class Stagehand_TestRunner_Framework
+class testStagehand_TestRunner_CIUnitPass extends CIUnit_TestCase
 {
-    const PHPUNIT = 'PHPUnit';
-    const SIMPLETEST = 'SimpleTest';
-    const PHPT = 'PHPT';
-    const PHPSPEC = 'PHPSpec';
-    const CAKE = 'Cake';
-    const CIUNIT = 'CIUnit';
+    /**
+     * @test
+     */
+    public function passWithAnAssertion()
+    {
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     */
+    public function passWithMultipleAssertions()
+    {
+        $this->assertTrue(true);
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     */
+    public function 日本語を使用できる()
+    {
+        $this->assertTrue(true);
+    }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil
