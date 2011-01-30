@@ -55,7 +55,6 @@ class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Ru
      */
     public function runsTests()
     {
-        $this->loadClasses();
         $this->collector->collectTestCase('Stagehand_TestRunner_CakePassTest');
         $this->runTests();
 

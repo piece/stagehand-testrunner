@@ -100,6 +100,8 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
 
         $collectorFactory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
         $this->collector = $collectorFactory->create();
+
+        $this->loadClasses();
     }
 
     protected function tearDown()
@@ -233,6 +235,13 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
      * @since Method available since Release 2.14.1
      */
     protected function configure(Stagehand_TestRunner_Config $config)
+    {
+    }
+
+    /**
+     * @since Method available since Release 2.16.0
+     */
+    protected function loadClasses()
     {
     }
 }

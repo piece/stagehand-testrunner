@@ -57,7 +57,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function runsOnlyTheSpecifiedMethods($method)
     {
-        $this->loadClasses();
         $this->config->addTestingMethod($method);
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses2Test');
@@ -86,7 +85,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($method)
     {
-        $this->loadClasses();
         $this->config->addTestingMethod($method);
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses2Test');
@@ -120,7 +118,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
             $this->markTestSkipped('Your PHP version is less than 5.3.0.');
         }
 
-        $this->loadClasses();
         $this->config->addTestingMethod($method);
         $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test');
         $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace2Test');
@@ -153,7 +150,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function runsOnlyTheSpecifiedClasses($class)
     {
-        $this->loadClasses();
         $this->config->addTestingClass($class);
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses2Test');
@@ -191,7 +187,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
             $this->markTestSkipped('Your PHP version is less than 5.3.0.');
         }
 
-        $this->loadClasses();
         $this->config->addTestingClass($class);
         $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test');
         $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace2Test');
@@ -227,7 +222,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function stopsTheTestRunWhenTheFirstFailureIsRaised()
     {
-        $this->loadClasses();
         $this->config->stopsOnFailure = true;
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'FailureAndPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'PassTest');
@@ -245,7 +239,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function stopsTheTestRunWhenTheFirstErrorIsRaised()
     {
-        $this->loadClasses();
         $this->config->stopsOnFailure = true;
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'ErrorAndPassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'PassTest');
@@ -308,7 +301,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function reportsOnlyTheFirstFailureInASingleTestToJunitXml()
     {
-        $this->loadClasses();
         $testClass = 'Stagehand_TestRunner_' . $this->framework . 'MultipleFailuresTest';
         $this->collector->collectTestCase($testClass);
         $this->runTests();
@@ -335,7 +327,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
             $this->markTestSkipped('Cannot connect to http://www.example.com.');
         }
 
-        $this->loadClasses();
         $testClass = 'Stagehand_TestRunner_' . $this->framework . 'WebPageTest';
         $this->collector->collectTestCase($testClass);
         $this->runTests();
