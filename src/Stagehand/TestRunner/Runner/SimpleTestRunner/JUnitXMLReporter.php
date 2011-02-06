@@ -187,7 +187,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     {
         if ($this->reportedFailure) return;
         parent::paintFail($message);
-        $this->paintFailureOrError($message, 'failure');
+        $this->xmlWriter->writeFailure($message);
         ++$this->assertionCount;
         $this->reportedFailure = true;
     }
@@ -198,7 +198,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function paintError($message)
     {
         parent::paintError($message);
-        $this->paintFailureOrError($message, 'error');
+        $this->xmlWriter->writeError($message);
     }
 
     /**
@@ -207,11 +207,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function paintException(Exception $e)
     {
         parent::paintException($e);
-        $this->paintFailureOrError(
+        $this->xmlWriter->writeError(
             get_class($e) . ': ' . $e->getMessage() . PHP_EOL . PHP_EOL .
             $e->getFile() . ':' . $e->getLine() . PHP_EOL .
-            $this->buildFailureTrace($e->getTrace()),
-            'error'
+            $this->buildFailureTrace($e->getTrace())
         );
     }
 
@@ -221,7 +220,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function paintSkip($message)
     {
         parent::paintSkip($message);
-        $this->paintFailureOrError($message, 'error');
+        $this->xmlWriter->writeError($message);
     }
 
     /**
@@ -244,15 +243,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         }
 
         return $failureTrace;
-    }
-
-    /**
-     * @param string $message
-     * @param string $failureOrError
-     */
-    protected function paintFailureOrError($message, $failureOrError)
-    {
-        $this->xmlWriter->{ 'write' . $failureOrError }($message);
     }
 }
 
