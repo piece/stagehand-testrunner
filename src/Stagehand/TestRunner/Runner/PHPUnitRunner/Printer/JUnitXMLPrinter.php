@@ -97,7 +97,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->addFailureOrError($test, $e, $time, 'error', 'Incomplete Test: ');
+        $this->addFailureOrError($test, $e, $time, 'error');
     }
 
     /**
@@ -109,7 +109,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $this->addFailureOrError($test, $e, $time, 'error', 'Skipped Test: ');
+        $this->addFailureOrError($test, $e, $time, 'error');
     }
 
     /**
@@ -189,8 +189,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
         PHPUnit_Framework_Test $test,
         Exception $e,
         $time,
-        $failureOrError,
-        $message = null)
+        $failureOrError)
     {
         $testIsArtificial = false;
         if (!$this->testStarted) {
@@ -198,12 +197,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
             $testIsArtificial = true;
         }
 
-        if (is_null($message)) {
-            if ($test instanceof PHPUnit_Framework_SelfDescribing) {
-                $message = $test->toString() . "\n\n";
-            } else {
-                $message = '';
-            }
+        if ($test instanceof PHPUnit_Framework_SelfDescribing) {
+            $message = $test->toString() . "\n\n";
+        } else {
+            $message = '';
         }
 
         $message .= PHPUnit_Framework_TestFailure::exceptionToString($e) . "\n";

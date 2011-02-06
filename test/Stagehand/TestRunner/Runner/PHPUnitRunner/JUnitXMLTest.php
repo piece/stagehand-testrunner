@@ -506,7 +506,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
             $error->getAttribute('type')
         );
         $this->assertRegExp(
-            '!^Incomplete Test: This test has not been implemented yet\s+!',
+            '!^Stagehand_TestRunner_PHPUnitIncompleteTest::isIncomplete\s+This test has not been implemented yet\s+!',
             $error->nodeValue
         );
         $childTestsuite = $parentTestsuite->childNodes->item(1);
@@ -522,7 +522,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
             $error->getAttribute('type')
         );
         $this->assertRegExp(
-            '!^Skipped Test: Foo is not available\s+!',
+            '!^Stagehand_TestRunner_PHPUnitSkippedTest::isSkipped\s+Foo is not available\s+!',
             $error->nodeValue
         );
     }
@@ -629,7 +629,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
         }
         $error = $testcase->childNodes->item(0);
         $this->assertEquals('PHPUnit_Framework_SkippedTestError', $error->getAttribute('type'));
-        $this->assertRegexp('/^Skipped Test: This test depends on "Stagehand_TestRunner_PHPUnitDependsTest::pass" to pass./', $error->nodeValue);
+        $this->assertRegExp('/^Stagehand_TestRunner_PHPUnitDependsTest::skip\s+This test depends on "Stagehand_TestRunner_PHPUnitDependsTest::pass" to pass./', $error->nodeValue);
     }
 
     public function provideWritingModes()
