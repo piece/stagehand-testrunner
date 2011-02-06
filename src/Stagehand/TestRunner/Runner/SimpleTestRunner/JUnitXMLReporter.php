@@ -187,7 +187,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     {
         if ($this->reportedFailure) return;
         parent::paintFail($message);
-        $this->xmlWriter->writeFailure($message);
+        if (preg_match('!^(.*) at \[(.+) line (\d+)]$!', $message, $matches)) {
+            $this->xmlWriter->writeFailure($matches[1], null, $matches[2], $matches[3]);
+        } else {
+            $this->xmlWriter->writeFailure($message);
+        }
         ++$this->assertionCount;
         $this->reportedFailure = true;
     }
@@ -198,7 +202,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function paintError($message)
     {
         parent::paintError($message);
-        $this->xmlWriter->writeError($message);
+        if (preg_match('!^Unexpected PHP error \[(.*)\] severity \[.*\] in \[(.+) line (\d+)]$!', $message, $matches)) {
+            $this->xmlWriter->writeError($matches[1], null, $matches[2], $matches[3]);
+        } else {
+            $this->xmlWriter->writeError($message);
+        }
     }
 
     /**
@@ -210,7 +218,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         $this->xmlWriter->writeError(
             get_class($e) . ': ' . $e->getMessage() . PHP_EOL . PHP_EOL .
             $e->getFile() . ':' . $e->getLine() . PHP_EOL .
-            $this->buildFailureTrace($e->getTrace())
+            $this->buildFailureTrace($e->getTrace()),
+            null,
+            $e->getFile(),
+            $e->getLine()
         );
     }
 
@@ -220,7 +231,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function paintSkip($message)
     {
         parent::paintSkip($message);
-        $this->xmlWriter->writeError($message);
+        if (preg_match('!^(.*) at \[(.+) line (\d+)]$!', $message, $matches)) {
+            $this->xmlWriter->writeError($matches[1], null, $matches[2], $matches[3]);
+        } else {
+            $this->xmlWriter->writeError($message);
+        }
     }
 
     /**

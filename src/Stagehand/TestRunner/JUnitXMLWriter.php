@@ -62,14 +62,18 @@ interface Stagehand_TestRunner_JUnitXMLWriter
     /**
      * @param string $text
      * @param string $type
+     * @param string $file
+     * @param string $line
      */
-    public function writeError($text, $type = null);
+    public function writeError($text, $type = null, $file = null, $line = null);
 
     /**
      * @param string $text
      * @param string $type
+     * @param string $file
+     * @param string $line
      */
-    public function writeFailure($text, $type = null);
+    public function writeFailure($text, $type = null, $file = null, $line = null);
 
     /**
      * @param float   $time

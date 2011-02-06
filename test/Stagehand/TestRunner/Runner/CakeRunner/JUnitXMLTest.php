@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.14.0
@@ -41,7 +41,7 @@ require_once 'simpletest/web_tester.php';
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
@@ -56,6 +56,9 @@ class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLTest extends Stagehand_Test
         include_once 'Stagehand/TestRunner/cake_failure.test.php';
         include_once 'Stagehand/TestRunner/cake_error.test.php';
         include_once 'Stagehand/TestRunner/cake_multiple_classes.test.php';
+        include_once 'Stagehand/TestRunner/cake_common.test.php';
+        include_once 'Stagehand/TestRunner/cake_extended.test.php';
+        include_once 'Stagehand/TestRunner/cake_failure_in_anonymous_function.test.php';
 
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
             include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
@@ -69,6 +72,20 @@ class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLTest extends Stagehand_Test
     protected function configure(Stagehand_TestRunner_Config $config)
     {
         $config->cakephpAppPath = dirname(__FILE__) . '/../../../../../vendor/cakephp/app';
+    }
+
+    /**
+     * @link http://redmine.piece-framework.com/issues/261
+     * @since Method available since Release 2.16.0
+     */
+    public function provideFailurePatterns()
+    {
+        return array(
+            array('testIsFailure', 'Stagehand_TestRunner_CakeFailureTest', 49, null, false),
+            array('testIsError', 'Stagehand_TestRunner_CakeErrorTest', 49, null, false),
+            array('testTestShouldFailCommon', 'Stagehand_TestRunner_CakeExtendedTest', 54, 'Stagehand_TestRunner_CakeCommonTest', false),
+            array('testIsFailure', 'Stagehand_TestRunner_CakeFailureInAnonymousFunctionTest', 49, null, true),
+        );
     }
 }
 

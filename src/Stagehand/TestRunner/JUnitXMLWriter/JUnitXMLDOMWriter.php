@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -37,7 +37,7 @@
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
@@ -123,9 +123,8 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
         }
         if ($class->hasMethod($methodName)) {
             $method = $class->getMethod($methodName);
-
-            $testcase->setAttribute('class', $this->utf8Converter->convert($class->getName()));
-            $testcase->setAttribute('file', $this->utf8Converter->convert($class->getFileName()));
+            $testcase->setAttribute('class', $this->utf8Converter->convert($method->getDeclaringClass()->getName()));
+            $testcase->setAttribute('file', $this->utf8Converter->convert($method->getDeclaringClass()->getFileName()));
             $testcase->setAttribute('line', $method->getStartLine());
         }
 
@@ -135,8 +134,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
     /**
      * @param string $text
      * @param string $type
+     * @param string $file
+     * @param string $line
      */
-    public function writeError($text, $type = null)
+    public function writeError($text, $type = null, $file = null, $line = null)
     {
         $this->writeFailureOrError($text, $type, 'error');
     }
@@ -144,8 +145,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
     /**
      * @param string $text
      * @param string $type
+     * @param string $file
+     * @param string $line
      */
-    public function writeFailure($text, $type = null)
+    public function writeFailure($text, $type = null, $file = null, $line = null)
     {
         $this->writeFailureOrError($text, $type, 'failure');
     }

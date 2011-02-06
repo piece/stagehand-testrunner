@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -51,7 +51,7 @@ require_once 'PHPUnit/Util/XML.php';
  * A result printer for PHPUnit.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -122,7 +122,14 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
             $this->testSuitesWrote = true;
         }
 
-        $this->xmlWriter->startTestSuite($suite->getName(), count($suite));
+        $name = $suite->getName();
+        if (preg_match('/^(.+)::(.+)/', $name, $matches)) {
+            $this->currentTestClassName = $matches[1];
+        } else {
+            $this->currentTestClassName = $name;
+        }
+
+        $this->xmlWriter->startTestSuite($name, count($suite));
     }
 
     /**
@@ -204,11 +211,45 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
         }
 
         $message .= PHPUnit_Framework_TestFailure::exceptionToString($e) . "\n";
-        $this->writeFailureOrError($message, $e, $failureOrError);
+
+        if ($test instanceof PHPUnit_Framework_Warning) {
+            $testClass = new ReflectionClass($this->currentTestClassName);
+            $file = $testClass->getFileName();
+            $line = 1;
+        } else {
+            list($file, $line) = $this->findFileAndLineOfFailureOrError($e, new ReflectionClass($test));
+        }
+        $this->xmlWriter->{ 'write' . $failureOrError }(
+            $message .
+            PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
+            get_class($e),
+            $file,
+            $line
+        );
 
         if ($testIsArtificial) {
             $this->endTest($test, 0);
         }
+    }
+
+    /**
+     * @param Exception $e
+     * @param ReflectionClass $class
+     * @return array
+     * @since Method available since Release 2.16.0
+     */
+    protected function findFileAndLineOfFailureOrError(Exception $e, ReflectionClass $class)
+    {
+        if ($class->getName() == 'PHPUnit_Framework_TestCase') return;
+        if ($e->getFile() == $class->getFileName()) {
+            return array($e->getFile(), $e->getLine());
+        }
+        foreach ($e->getTrace() as $trace) {
+            if (array_key_exists('file', $trace) && $trace['file'] == $class->getFileName()) {
+                return array($trace['file'], $trace['line']);
+            }
+        }
+        return $this->findFileAndLineOfFailureOrError($e, $class->getParentClass());
     }
 }
 

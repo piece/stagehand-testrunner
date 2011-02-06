@@ -375,6 +375,91 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $childTestsuite = $parentTestsuite->childNodes->item(0);
         $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
     }
+
+    /**
+     * @test
+     * @dataProvider provideWritingModes
+     * @param boolean $logsResultsInJUnitXMLInRealtime
+     * @link http://redmine.piece-framework.com/issues/261
+     * @since Method available since Release 2.16.0
+     */
+    public function logsTheClassAndFileWhereATestCaseHasBeenDefined($logsResultsInJUnitXMLInRealtime)
+    {
+        $methodName = 'testTestShouldPassCommon';
+        $className = 'Stagehand_TestRunner_' . $this->framework . 'ExtendedTest';
+        $parentClassName = 'Stagehand_TestRunner_' . $this->framework . 'CommonTest';
+        $this->config->logsResultsInJUnitXMLInRealtime = $logsResultsInJUnitXMLInRealtime;
+        $this->collector->collectTestCase($className);
+        $this->runTests();
+
+        $testcases = $this->createXPath()
+                          ->query("//testcase[@name='$methodName'][@class='$parentClassName']");
+        $this->assertEquals(1, $testcases->length);
+        $testcase = $testcases->item(0);
+        $this->assertTrue($testcase->hasAttribute('file'));
+
+        $parentClass = new ReflectionClass($parentClassName);
+        $this->assertEquals($parentClass->getFileName(), $testcase->getAttribute('file'));
+    }
+
+    public function provideWritingModes()
+    {
+        return array(array(false), array(true));
+    }
+
+    /**
+     * @test
+     * @dataProvider provideFailurePatterns
+     * @param string  $methodName
+     * @param string  $className
+     * @param integer $line
+     * @param string  $actualClassName
+     * @param boolean $requiresPHP53
+     * @link http://redmine.piece-framework.com/issues/261
+     * @since Method available since Release 2.16.0
+     */
+    public function logsTheFileAndLineWhereAFailureOrErrorHasOccuredInRealtime($methodName, $className, $line, $actualClassName, $requiresPHP53)
+    {
+        if ($requiresPHP53 && version_compare(PHP_VERSION, '5.3.0', '<')) {
+            $this->markTestSkipped('Your PHP version is less than 5.3.0.');
+        }
+
+        $this->loadClasses();
+
+        if (is_null($actualClassName)) {
+            $actualClassName = $className;
+        }
+        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->addTestingMethod($methodName);
+        $this->collector->collectTestCase($className);
+        $this->runTests();
+
+        $failures = $this->createXPath()
+                         ->query("//testcase[@name='$methodName'][@class='$actualClassName']/failure | //testcase[@name='$methodName'][@class='$actualClassName']/error");
+        $this->assertEquals(1, $failures->length);
+        $failure = $failures->item(0);
+        $this->assertTrue($failure->hasAttribute('file'));
+        $this->assertTrue($failure->hasAttribute('line'));
+
+        $actualClass = new ReflectionClass($actualClassName);
+        $this->assertEquals($actualClass->getFileName(), $failure->getAttribute('file'));
+        $this->assertTrue($actualClass->hasMethod($methodName));
+        $this->assertEquals($line, $failure->getAttribute('line'));
+    }
+
+    /**
+     * @link http://redmine.piece-framework.com/issues/261
+     * @since Method available since Release 2.16.0
+     */
+    public function provideFailurePatterns()
+    {
+        return array(
+            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureTest', 53, null, false),
+            array('testIsError', 'Stagehand_TestRunner_SimpleTestErrorTest', 53, null, false),
+            array('testTestShouldFailCommon', 'Stagehand_TestRunner_SimpleTestExtendedTest', 61, 'Stagehand_TestRunner_SimpleTestCommonTest', false),
+            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureInAnonymousFunctionTest', 51, null, true),
+        );
+    }
 }
 
 /*

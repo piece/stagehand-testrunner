@@ -61,21 +61,45 @@
   </define>
   <define name="Failure">
     <element name="failure">
-      <optional>
-        <attribute name="type">
-          <data type="string"/>
-        </attribute>
-      </optional>
+      <interleave>
+        <optional>
+          <attribute name="type">
+            <data type="string"/>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="file">
+            <data type="string"/>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="line">
+            <data type="integer"/>
+          </attribute>
+        </optional>
+      </interleave>
       <text/>
     </element>
   </define>
   <define name="Error">
     <element name="error">
-      <optional>
-        <attribute name="type">
-          <data type="string"/>
-        </attribute>
-      </optional>
+      <interleave>
+        <optional>
+          <attribute name="type">
+            <data type="string"/>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="file">
+            <data type="string"/>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="line">
+            <data type="integer"/>
+          </attribute>
+        </optional>
+      </interleave>
       <text/>
     </element>
   </define>
