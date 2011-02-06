@@ -221,7 +221,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function paintSkip($message)
     {
         parent::paintSkip($message);
-        $this->paintFailureOrError('Skip: ' . $message, 'error');
+        $this->paintFailureOrError($message, 'error');
     }
 
     /**
