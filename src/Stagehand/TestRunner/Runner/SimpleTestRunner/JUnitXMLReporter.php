@@ -207,7 +207,12 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function paintException(Exception $e)
     {
         parent::paintException($e);
-        $this->paintFailureOrError(get_class($e) . ': ' . $e->getMessage(), 'error');
+        $this->paintFailureOrError(
+            get_class($e) . ': ' . $e->getMessage() . PHP_EOL . PHP_EOL .
+            $e->getFile() . ':' . $e->getLine() . PHP_EOL .
+            $this->buildFailureTrace($e->getTrace()),
+            'error'
+        );
     }
 
     /**
