@@ -51,6 +51,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
     {
     }
 
+    protected function loadClasses()
+    {
+        class_exists('Stagehand_TestRunner_' . $this->framework . 'MultipleClassesTest');
+    }
+
     protected function setUp()
     {
         $this->oldErrorHandler = set_error_handler(array($this, 'handleError'));
@@ -369,11 +374,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals(2, $parentTestsuite->getAttribute('tests'));
         $childTestsuite = $parentTestsuite->childNodes->item(0);
         $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
-    }
-
-    protected function loadClasses()
-    {
-        class_exists('Stagehand_TestRunner_' . $this->framework . 'MultipleClassesTest');
     }
 }
 
