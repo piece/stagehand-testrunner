@@ -172,20 +172,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
     }
 
     /**
-     * @param string    $message
-     * @param Exception $e
-     * @param string    $failureOrError
-     */
-    protected function writeFailureOrError($message, Exception $e, $failureOrError)
-    {
-        $this->xmlWriter->{ 'write' . $failureOrError }(
-            $message .
-            PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
-            get_class($e)
-        );
-    }
-
-    /**
      * @param PHPUnit_Framework_Test $test
      * @param Exception              $e
      * @param float                  $time
