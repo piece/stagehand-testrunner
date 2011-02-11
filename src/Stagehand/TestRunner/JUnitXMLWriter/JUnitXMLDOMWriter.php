@@ -136,8 +136,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
      * @param string $type
      * @param string $file
      * @param string $line
+     * @param string $message
+     * @param string $trace
      */
-    public function writeError($text, $type = null, $file = null, $line = null)
+    public function writeError($text, $type = null, $file = null, $line = null, $message = null, $trace = null)
     {
         $this->writeFailureOrError($text, $type, 'error');
     }
@@ -147,8 +149,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
      * @param string $type
      * @param string $file
      * @param string $line
+     * @param string $message
+     * @param string $trace
      */
-    public function writeFailure($text, $type = null, $file = null, $line = null)
+    public function writeFailure($text, $type = null, $file = null, $line = null, $message = null, $trace = null)
     {
         $this->writeFailureOrError($text, $type, 'failure');
     }

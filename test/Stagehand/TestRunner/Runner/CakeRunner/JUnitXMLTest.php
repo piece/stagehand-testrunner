@@ -81,10 +81,10 @@ class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLTest extends Stagehand_Test
     public function provideFailurePatterns()
     {
         return array(
-            array('testIsFailure', 'Stagehand_TestRunner_CakeFailureTest', 49, null, false),
-            array('testIsError', 'Stagehand_TestRunner_CakeErrorTest', 49, null, false),
-            array('testTestShouldFailCommon', 'Stagehand_TestRunner_CakeExtendedTest', 54, 'Stagehand_TestRunner_CakeCommonTest', false),
-            array('testIsFailure', 'Stagehand_TestRunner_CakeFailureInAnonymousFunctionTest', 49, null, true),
+            array('testIsFailure', 'Stagehand_TestRunner_CakeFailureTest', 49, 'This is an error message.', false, null, false),
+            array('testIsError', 'Stagehand_TestRunner_CakeErrorTest', 49, 'This is an exception message.', true, null, false),
+            array('testTestShouldFailCommon', 'Stagehand_TestRunner_CakeExtendedTest', 54, '', false, 'Stagehand_TestRunner_CakeCommonTest', false),
+            array('testIsFailure', 'Stagehand_TestRunner_CakeFailureInAnonymousFunctionTest', 49, 'This is an error message.', false, null, true),
         );
     }
 }

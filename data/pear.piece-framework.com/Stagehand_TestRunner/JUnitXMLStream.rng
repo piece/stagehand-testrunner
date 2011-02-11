@@ -77,6 +77,16 @@
             <data type="integer"/>
           </attribute>
         </optional>
+        <optional>
+          <attribute name="message">
+            <data type="string"/>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="trace">
+            <data type="string"/>
+          </attribute>
+        </optional>
       </interleave>
       <text/>
     </element>
@@ -97,6 +107,16 @@
         <optional>
           <attribute name="line">
             <data type="integer"/>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="message">
+            <data type="string"/>
+          </attribute>
+        </optional>
+        <optional>
+          <attribute name="trace">
+            <data type="string"/>
           </attribute>
         </optional>
       </interleave>

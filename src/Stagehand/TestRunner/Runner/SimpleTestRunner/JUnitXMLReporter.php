@@ -188,7 +188,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         if ($this->reportedFailure) return;
         parent::paintFail($message);
         if (preg_match('!^(.*) at \[(.+) line (\d+)]$!', $message, $matches)) {
-            $this->xmlWriter->writeFailure($matches[1], null, $matches[2], $matches[3]);
+            $this->xmlWriter->writeFailure($matches[1], null, $matches[2], $matches[3], $matches[1]);
         } else {
             $this->xmlWriter->writeFailure($message);
         }
@@ -203,7 +203,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     {
         parent::paintError($message);
         if (preg_match('!^Unexpected PHP error \[(.*)\] severity \[.*\] in \[(.+) line (\d+)]$!', $message, $matches)) {
-            $this->xmlWriter->writeError($matches[1], null, $matches[2], $matches[3]);
+            $this->xmlWriter->writeError($matches[1], null, $matches[2], $matches[3], $matches[1]);
         } else {
             $this->xmlWriter->writeError($message);
         }
@@ -215,13 +215,16 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     public function paintException(Exception $e)
     {
         parent::paintException($e);
+        $failureTrace = $this->buildFailureTrace($e->getTrace());
         $this->xmlWriter->writeError(
             get_class($e) . ': ' . $e->getMessage() . PHP_EOL . PHP_EOL .
             $e->getFile() . ':' . $e->getLine() . PHP_EOL .
-            $this->buildFailureTrace($e->getTrace()),
+            $failureTrace,
             null,
             $e->getFile(),
-            $e->getLine()
+            $e->getLine(),
+            $e->getMessage(),
+            $failureTrace
         );
     }
 
@@ -232,7 +235,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     {
         parent::paintSkip($message);
         if (preg_match('!^(.*) at \[(.+) line (\d+)]$!', $message, $matches)) {
-            $this->xmlWriter->writeError($matches[1], null, $matches[2], $matches[3]);
+            $this->xmlWriter->writeError($matches[1], null, $matches[2], $matches[3], $matches[1]);
         } else {
             $this->xmlWriter->writeError($message);
         }

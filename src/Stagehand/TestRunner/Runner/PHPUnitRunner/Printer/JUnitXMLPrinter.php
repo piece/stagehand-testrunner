@@ -219,12 +219,15 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
         } else {
             list($file, $line) = $this->findFileAndLineOfFailureOrError($e, new ReflectionClass($test));
         }
+        $trace = PHPUnit_Util_Filter::getFilteredStacktrace($e, false);
         $this->xmlWriter->{ 'write' . $failureOrError }(
             $message .
-            PHPUnit_Util_Filter::getFilteredStacktrace($e, false),
+            $trace,
             get_class($e),
             $file,
-            $line
+            $line,
+            $message,
+            $trace
         );
 
         if ($testIsArtificial) {

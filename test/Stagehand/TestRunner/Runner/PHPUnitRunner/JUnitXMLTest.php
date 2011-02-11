@@ -669,12 +669,13 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
      * @param string  $methodName
      * @param string  $className
      * @param integer $line
+     * @param string  $message
      * @param string  $actualClassName
      * @param boolean $requiresPHP53
      * @link http://redmine.piece-framework.com/issues/261
      * @since Method available since Release 2.16.0
      */
-    public function logsTheFileAndLineWhereAFailureOrErrorHasOccuredInRealtime($methodName, $className, $line, $actualClassName, $requiresPHP53)
+    public function logsTheFileAndLineWhereAFailureOrErrorHasOccuredInRealtime($methodName, $className, $line, $message, $actualClassName, $requiresPHP53)
     {
         if ($requiresPHP53 && version_compare(PHP_VERSION, '5.3.0', '<')) {
             $this->markTestSkipped('Your PHP version is less than 5.3.0.');
@@ -694,11 +695,15 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
         $failure = $failures->item(0);
         $this->assertTrue($failure->hasAttribute('file'));
         $this->assertTrue($failure->hasAttribute('line'));
+        $this->assertTrue($failure->hasAttribute('message'));
+        $this->assertTrue($failure->hasAttribute('trace'));
 
         $actualClass = new ReflectionClass($actualClassName);
         $this->assertEquals($actualClass->getFileName(), $failure->getAttribute('file'));
         $this->assertTrue($actualClass->hasMethod($methodName));
         $this->assertEquals($line, $failure->getAttribute('line'));
+        $this->assertRegExp('/' . preg_quote($message, '/') . '/', $failure->getAttribute('message'));
+        $this->assertRegExp('/(?:^.+:\d+$)+/m', $failure->getAttribute('trace'));
     }
 
     /**
@@ -708,11 +713,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
     public function provideFailurePatterns()
     {
         return array(
-            array('isFailure', 'Stagehand_TestRunner_PHPUnitFailureTest', 56, null, false),
-            array('isError', 'Stagehand_TestRunner_PHPUnitErrorTest', 56, null, false),
-            array('testTestShouldFailCommon', 'Stagehand_TestRunner_PHPUnitExtendedTest', 61, 'Stagehand_TestRunner_PHPUnitCommonTest', false),
-            array('isFailure', 'Stagehand_TestRunner_PHPUnitFailureInAnonymousFunctionTest', 56, null, true),
-            array('isException', 'Stagehand_TestRunner_PHPUnitExceptionTest', 54, null, false),
+            array('isFailure', 'Stagehand_TestRunner_PHPUnitFailureTest', 56, 'This is an error message.', null, false),
+            array('isError', 'Stagehand_TestRunner_PHPUnitErrorTest', 56, 'Undefined property: Stagehand_TestRunner_PHPUnitErrorTest::$foo', null, false),
+            array('testTestShouldFailCommon', 'Stagehand_TestRunner_PHPUnitExtendedTest', 61, 'Failed asserting that <boolean:false> is true.', 'Stagehand_TestRunner_PHPUnitCommonTest', false),
+            array('isFailure', 'Stagehand_TestRunner_PHPUnitFailureInAnonymousFunctionTest', 56, 'This is an error message.', null, true),
+            array('isException', 'Stagehand_TestRunner_PHPUnitExceptionTest', 54, 'This is an error message.', null, false),
         );
     }
 
@@ -734,10 +739,14 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
         $failure = $failures->item(0);
         $this->assertTrue($failure->hasAttribute('file'));
         $this->assertTrue($failure->hasAttribute('line'));
+        $this->assertTrue($failure->hasAttribute('message'));
+        $this->assertTrue($failure->hasAttribute('trace'));
 
         $class = new ReflectionClass($className);
         $this->assertEquals($class->getFileName(), $failure->getAttribute('file'));
         $this->assertEquals(1, $failure->getAttribute('line'));
+        $this->assertRegExp('/No tests found in class "Stagehand_TestRunner_PHPUnitNoTestsTest"\./', $failure->getAttribute('message'));
+        $this->assertRegExp('/(?:^.+:\d+$)+/m', $failure->getAttribute('trace'));
     }
 }
 

@@ -134,10 +134,12 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
      * @param string $type
      * @param string $file
      * @param string $line
+     * @param string $message
+     * @param string $trace
      */
-    public function writeError($text, $type = null, $file = null, $line = null)
+    public function writeError($text, $type = null, $file = null, $line = null, $message = null, $trace = null)
     {
-        $this->writeFailureOrError($text, $type, 'error', $file, $line);
+        $this->writeFailureOrError($text, $type, 'error', $file, $line, $message, $trace);
     }
 
     /**
@@ -145,10 +147,12 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
      * @param string $type
      * @param string $file
      * @param string $line
+     * @param string $message
+     * @param string $trace
      */
-    public function writeFailure($text, $type = null, $file = null, $line = null)
+    public function writeFailure($text, $type = null, $file = null, $line = null, $message = null, $trace = null)
     {
-        $this->writeFailureOrError($text, $type, 'failure', $file, $line);
+        $this->writeFailureOrError($text, $type, 'failure', $file, $line, $message, $trace);
     }
 
     /**
@@ -177,8 +181,10 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
      * @param string $failureOrError
      * @param string $file
      * @param string $line
+     * @param string $message
+     * @param string $trace
      */
-    protected function writeFailureOrError($text, $type, $failureOrError, $file, $line)
+    protected function writeFailureOrError($text, $type, $failureOrError, $file, $line, $message, $trace)
     {
         $this->xmlWriter->startElement($failureOrError);
         if (!is_null($type)) {
@@ -189,6 +195,12 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         }
         if (!is_null($line)) {
             $this->xmlWriter->writeAttribute('line', $line);
+        }
+        if (!is_null($message)) {
+            $this->xmlWriter->writeAttribute('message', $this->utf8Converter->convert($message));
+        }
+        if (!is_null($trace)) {
+            $this->xmlWriter->writeAttribute('trace', $this->utf8Converter->convert($trace));
         }
         $this->xmlWriter->text($this->utf8Converter->convert($text));
         $this->xmlWriter->endElement();
