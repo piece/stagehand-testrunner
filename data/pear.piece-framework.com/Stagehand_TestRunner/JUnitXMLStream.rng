@@ -82,11 +82,6 @@
             <data type="string"/>
           </attribute>
         </optional>
-        <optional>
-          <attribute name="trace">
-            <data type="string"/>
-          </attribute>
-        </optional>
       </interleave>
       <text/>
     </element>
@@ -111,11 +106,6 @@
         </optional>
         <optional>
           <attribute name="message">
-            <data type="string"/>
-          </attribute>
-        </optional>
-        <optional>
-          <attribute name="trace">
             <data type="string"/>
           </attribute>
         </optional>

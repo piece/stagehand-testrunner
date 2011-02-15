@@ -696,14 +696,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
         $this->assertTrue($failure->hasAttribute('file'));
         $this->assertTrue($failure->hasAttribute('line'));
         $this->assertTrue($failure->hasAttribute('message'));
-        $this->assertTrue($failure->hasAttribute('trace'));
 
         $actualClass = new ReflectionClass($actualClassName);
         $this->assertEquals($actualClass->getFileName(), $failure->getAttribute('file'));
         $this->assertTrue($actualClass->hasMethod($methodName));
         $this->assertEquals($line, $failure->getAttribute('line'));
         $this->assertRegExp('/' . preg_quote($message, '/') . '/', $failure->getAttribute('message'));
-        $this->assertRegExp('/(?:^.+:\d+$)+/m', $failure->getAttribute('trace'));
     }
 
     /**
@@ -740,13 +738,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
         $this->assertTrue($failure->hasAttribute('file'));
         $this->assertTrue($failure->hasAttribute('line'));
         $this->assertTrue($failure->hasAttribute('message'));
-        $this->assertTrue($failure->hasAttribute('trace'));
 
         $class = new ReflectionClass($className);
         $this->assertEquals($class->getFileName(), $failure->getAttribute('file'));
         $this->assertEquals(1, $failure->getAttribute('line'));
         $this->assertRegExp('/No tests found in class "Stagehand_TestRunner_PHPUnitNoTestsTest"\./', $failure->getAttribute('message'));
-        $this->assertRegExp('/(?:^.+:\d+$)+/m', $failure->getAttribute('trace'));
     }
 }
 

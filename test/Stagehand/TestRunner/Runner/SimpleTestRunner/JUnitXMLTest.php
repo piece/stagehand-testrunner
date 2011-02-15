@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -37,7 +37,7 @@
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
@@ -414,13 +414,12 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
      * @param string  $className
      * @param integer $line
      * @param string  $message
-     * @param boolean $hasTrace
      * @param string  $actualClassName
      * @param boolean $requiresPHP53
      * @link http://redmine.piece-framework.com/issues/261
      * @since Method available since Release 2.16.0
      */
-    public function logsTheFileAndLineWhereAFailureOrErrorHasOccuredInRealtime($methodName, $className, $line, $message, $hasTrace, $actualClassName, $requiresPHP53)
+    public function logsTheFileAndLineWhereAFailureOrErrorHasOccuredInRealtime($methodName, $className, $line, $message, $actualClassName, $requiresPHP53)
     {
         if ($requiresPHP53 && version_compare(PHP_VERSION, '5.3.0', '<')) {
             $this->markTestSkipped('Your PHP version is less than 5.3.0.');
@@ -443,11 +442,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertTrue($failure->hasAttribute('file'));
         $this->assertTrue($failure->hasAttribute('line'));
         $this->assertTrue($failure->hasAttribute('message'));
-        if ($hasTrace) {
-            $this->assertTrue($failure->hasAttribute('trace'));
-        } else {
-            $this->assertFalse($failure->hasAttribute('trace'));
-        }
 
         $actualClass = new ReflectionClass($actualClassName);
         $this->assertEquals($actualClass->getFileName(), $failure->getAttribute('file'));
@@ -455,9 +449,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals($line, $failure->getAttribute('line'));
         if (strlen($message)) {
             $this->assertRegExp('/' . preg_quote($message, '/') . '/', $failure->getAttribute('message'));
-        }
-        if ($hasTrace) {
-            $this->assertRegExp('/(?:^.+:\d+$)+/m', $failure->getAttribute('trace'));
         }
     }
 
@@ -468,10 +459,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
     public function provideFailurePatterns()
     {
         return array(
-            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureTest', 53, 'This is an error message.', false, null, false),
-            array('testIsError', 'Stagehand_TestRunner_SimpleTestErrorTest', 53, 'This is an exception message.', true, null, false),
-            array('testTestShouldFailCommon', 'Stagehand_TestRunner_SimpleTestExtendedTest', 61, '', false, 'Stagehand_TestRunner_SimpleTestCommonTest', false),
-            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureInAnonymousFunctionTest', 51, 'This is an error message.', false, null, true),
+            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureTest', 53, 'This is an error message.', null, false),
+            array('testIsError', 'Stagehand_TestRunner_SimpleTestErrorTest', 53, 'This is an exception message.', null, false),
+            array('testTestShouldFailCommon', 'Stagehand_TestRunner_SimpleTestExtendedTest', 61, '', 'Stagehand_TestRunner_SimpleTestCommonTest', false),
+            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureInAnonymousFunctionTest', 51, 'This is an error message.', null, true),
         );
     }
 }
