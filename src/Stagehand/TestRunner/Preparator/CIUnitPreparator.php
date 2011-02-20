@@ -44,6 +44,23 @@
  */
 class Stagehand_TestRunner_Preparator_CIUnitPreparator extends Stagehand_TestRunner_Preparator_PHPUnitPreparator
 {
+    /**
+     * @var array
+     */
+    protected $superglobals = array(
+        '_GET' => null,
+        'PATH_INFO' => null,
+        'QUERY_STRING' => null,
+    );
+
+    /**
+     * @var array
+     */
+    protected $environmentVariables = array(
+        'PATH_INFO' => null,
+        'QUERY_STRING' => null,
+    );
+
     public function prepare()
     {
         parent::prepare();
@@ -54,9 +71,64 @@ class Stagehand_TestRunner_Preparator_CIUnitPreparator extends Stagehand_TestRun
             $ciunitPath = $this->config->ciunitPath;
         }
 
-        $oldErrorReportingLevel = error_reporting();
+        /* Removes some superglobals and environment variables to avoid getting invalid
+         * URI string by the CIUnit URI object since some cases PDT sets some
+         * environment variables for debugging.
+         */
+        $this->backupVariables();
         require_once $ciunitPath . '/CIUnit.php';
-        error_reporting($oldErrorReportingLevel);
+        $this->restoreVariables();
+    }
+
+    protected function backupVariables()
+    {
+        if (isset($_GET)) {
+            $this->superglobals['_GET'] = $_GET;
+            foreach (array_keys($_GET) as $key) {
+                unset($_GET[$key]);
+            }
+        }
+
+        if (array_key_exists('PATH_INFO', $_SERVER)) {
+            $this->superglobals['PATH_INFO'] = $_SERVER['PATH_INFO'];
+            unset($_SERVER['PATH_INFO']);
+        }
+        if (getenv('PATH_INFO') !== false) {
+            $this->environmentVariables['PATH_INFO'] = getenv('PATH_INFO');
+            putenv('PATH_INFO');
+        }
+
+        if (array_key_exists('QUERY_STRING', $_SERVER)) {
+            $this->superglobals['QUERY_STRING'] = $_SERVER['QUERY_STRING'];
+            unset($_SERVER['QUERY_STRING']);
+        }
+        if (getenv('QUERY_STRING') !== false) {
+            $this->environmentVariables['QUERY_STRING'] = getenv('QUERY_STRING');
+            putenv('QUERY_STRING');
+        }
+    }
+
+    protected function restoreVariables()
+    {
+        if (!is_null($this->superglobals['_GET'])) {
+            foreach (array_keys($this->superglobals['_GET']) as $key) {
+                $_GET[$key] = $this->superglobals['_GET'][$key];
+            }
+        }
+
+        if (!is_null($this->superglobals['PATH_INFO'])) {
+            $_SERVER['PATH_INFO'] = $this->superglobals['PATH_INFO'];
+        }
+        if (!is_null($this->environmentVariables['PATH_INFO'])) {
+            putenv('PATH_INFO=' . $this->environmentVariables['PATH_INFO']);
+        }
+
+        if (!is_null($this->superglobals['QUERY_STRING'])) {
+            $_SERVER['QUERY_STRING'] = $this->superglobals['QUERY_STRING'];
+        }
+        if (!is_null($this->environmentVariables['QUERY_STRING'])) {
+            putenv('QUERY_STRING=' . $this->environmentVariables['QUERY_STRING']);
+        }
     }
 }
 
