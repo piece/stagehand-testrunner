@@ -117,6 +117,8 @@ A Defect Fix
       <release>
         <install name="bin/cakerunner" as="cakerunner"/>
         <install name="bin/cakerunner.bat" as="cakerunner.bat"/>
+        <install name="bin/ciunitrunner" as="ciunitrunner"/>
+        <install name="bin/ciunitrunner.bat" as="ciunitrunner.bat"/>
         <install name="bin/phpspecrunner" as="phpspecrunner"/>
         <install name="bin/phpspecrunner.bat" as="phpspecrunner.bat"/>
         <install name="bin/phptrunner" as="phptrunner"/>
