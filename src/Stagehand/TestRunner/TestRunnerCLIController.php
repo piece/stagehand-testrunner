@@ -229,32 +229,32 @@ OPTIONS
 
   -m METHOD1,METHOD2,...
      Runs only the specified tests in the specified file.
-     (PHPUnit and SimpleTest)
+     (PHPUnit, CIUnit, SimpleTest, CakePHP)
 
   --classes=CLASS1,CLASS2,...
      Runs only the specified test classes in the specified file.
-     (PHPUnit and SimpleTest)
+     (PHPUnit, CIUnit, SimpleTest, CakePHP)
 
   --log-junit=FILE
      Logs test results into the specified file in the JUnit XML format.
-     (PHPUnit, SimpleTest, and PHPT)
+     (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPT)
 
   --log-junit-realtime
      Logs test results in real-time into the specified file in the JUnit XML format.
-     (PHPUnit, SimpleTest, and PHPT)
+     (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPT)
 
   -v
      Prints detailed progress report.
-     (PHPUnit and PHPT)
+     (PHPUnit, CIUnit, and PHPT)
 
   --stop-on-failure
      Stops the test run when the first failure or error is raised.
-     (PHPUnit, SimpleTest, and PHPT)
+     (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPT)
 
   --phpunit-config=FILE
      Configures the PHPUnit runtime environment by the specified XML configuration
      file.
-     (PHPUnit)
+     (PHPUnit and CIUnit)
 
   --cakephp-app-path=DIRECTORY
      Specifies the path of your app folder.
@@ -280,13 +280,13 @@ OPTIONS
        CakePHP: \.test\.php$
        PHPT: -
        PHPSpec: Spec\.php$
-     (PHPUnit, SimpleTest, CakePHP, and PHPSpec)
+     (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPSpec)
 
   --test-file-suffix=SUFFIX
      (deprecated in Stagehand_TestRunner 2.16.0)
      Specifies the suffix of your test files by a regular expression literal.
      The regular expression literal must not contain *.php*.
-     (PHPUnit, SimpleTest, CakePHP, and PHPSpec)
+     (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPSpec)
 ";
     }
 
