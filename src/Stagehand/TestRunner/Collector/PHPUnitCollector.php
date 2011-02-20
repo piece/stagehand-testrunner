@@ -50,7 +50,6 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
 {
     protected $superTypes = array('PHPUnit_Framework_TestCase');
     protected $filePattern = 'Test(?:Case)?\.php$';
-    protected $classPattern = 'Test(?:Case)?$';
 
     /**
      * @param string $testCase

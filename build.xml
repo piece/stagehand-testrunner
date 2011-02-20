@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -100,7 +100,6 @@ A Defect Fix
       <dirroles key="doc" value="doc"/>
       <dirroles key="Stagehand" value="php"/>
       <dependencies>
-        <package type="required" name="Stagehand_AccessControl" channel="${package.channel}" minimum_version="0.1.0"/>
         <package type="required" name="Stagehand_AlterationMonitor" channel="${package.channel}" minimum_version="1.0.0"/>
         <package type="required" name="Stagehand_Autoload" channel="${package.channel}" minimum_version="0.4.0"/>
         <package type="required" name="Stagehand_CLIController" channel="${package.channel}" minimum_version="0.1.0"/>

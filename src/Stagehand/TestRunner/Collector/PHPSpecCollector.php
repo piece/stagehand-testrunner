@@ -50,7 +50,6 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
 {
     protected $superTypes = array('PHPSpec_Context');
     protected $filePattern = 'Spec\.php$';
-    protected $classPattern = '(^[Dd]escribe|[Ss]pec$)';
 
     /**
      * @param string $testCase
