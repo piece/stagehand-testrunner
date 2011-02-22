@@ -106,10 +106,7 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $directoryScanner = new Stagehand_DirectoryScanner(array($this, 'removeJUnitXMLFile'));
-        $directoryScanner->addExclude('^.*');
-        $directoryScanner->addInclude('\.xml$');
-        $directoryScanner->scan($this->tmpDirectory);
+        unlink($this->config->junitXMLFile);
     }
 
     public function removeJUnitXMLFile($element)
