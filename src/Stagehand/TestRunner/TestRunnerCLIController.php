@@ -276,6 +276,7 @@ OPTIONS
      Specifies the pattern of your test files by a regular expression literal.
      The default values are:
        PHPUnit: Test(?:Case)?\.php$
+       CIUnit:  ^test.+\.php$
        SimpleTest: Test(?:Case)?\.php$
        CakePHP: \.test\.php$
        PHPT: -
