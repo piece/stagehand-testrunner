@@ -27,41 +27,36 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">2.16.0</property>
+  <property name="package.releaseversion">2.17.0</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">1.1.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
-Supports CIUnit.
+ Sometimes PHPUnit reports warning messages such as follows:
 
- (Issue #231)
+ Warning: Deprecated PHPUnit features are being used 1 times!
+ Use --verbose for more information.
 
- CIUnit has been supported. CIUnit is a testing framework for CodeIgniter based on PHPUnit. For more information, see the User Guide.
+ If the "--verbose" option is enabled, PHPUnit reports more detailed information as follows:
 
-Supports the <selenium> element in the PHPUnit XML configuration file.
+ PHPUnit 3.5.10 by Sebastian Bergmann.
 
- (Issue #237)
+ ...................
 
- The <selenium> element in the PHPUnit XML configuration file has been supported.
+ Time: 0 seconds, Memory: 3.50Mb
 
-Specifies the test file pattern.
+ /home/iteman/GITREPOS/stagehand-fsm/test/Stagehand/FSM/FSMTest.php:(between 281 and 297) - assertType() will be removed in PHPUnit 3.6 and should no longer be used. assertInternalType() should be used for asserting internal types such as "integer" or "string" whereas assertInstanceOf() should be used for asserting that an object is an instance of a specified class or interface.
+ ...
 
- (Issue #230)
+ This information would be useful to improve your test code.
 
- The pattern of your test files can be specified by a regular expression literal. For more information, see the User Guide.
-
-Logs more correct information about test cases into JUnit XML files.
-
- (Issue #261)
-
- More correct information about test cases is now logged into JUnit XML files.
-
-Two Defect Fixes
+Three Defect Fixes
 
  The following defects have been fixed:
 
- * A "bootstrap" PHP file that is specified by the XML configuration file is not loaded. (Issue #257)
- * An error "Notice: Undefined property: ...DetailedProgressPrinter::$lastEvent" is raised if the -v option is specified. (Issue #258)
+ * The excluded tests by the <groups> element are contained in the number of tests. (Issue #288)
+ * The value of the constant TEST_CAKE_CORE_INCLUDE_PATH is wrong. (Issue #290)
+ * JUnit XML output is broken if a test class is skipped. (Issue #291)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A test runner for Test Driven Development</property>
@@ -116,7 +111,6 @@ Two Defect Fixes
       <version release="${package.releaseversion}" api="${package.apiversion}"/>
       <stability release="${package.releasestability}" api="${package.apistability}"/>
       <lead user="iteman" name="KUBO Atsuhiro" email="kubo@iteman.jp"/>
-      <developer user="kumatch" name="KUMAKURA Yousuke" email="kumatch@gmail.com"/>
       <dirroles key="bin" value="script"/>
       <dirroles key="doc" value="doc"/>
       <dirroles key="Stagehand" value="php"/>
