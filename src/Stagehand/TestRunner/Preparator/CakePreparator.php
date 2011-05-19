@@ -71,7 +71,7 @@ class Stagehand_TestRunner_Preparator_CakePreparator extends Stagehand_TestRunne
         }
 
         if (!defined('TEST_CAKE_CORE_INCLUDE_PATH')) {
-            define('TEST_CAKE_CORE_INCLUDE_PATH', dirname($corePath));
+            define('TEST_CAKE_CORE_INCLUDE_PATH', rtrim($corePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
         }
 
         ob_start();
