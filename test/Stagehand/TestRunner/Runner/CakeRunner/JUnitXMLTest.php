@@ -35,10 +35,6 @@
  * @since      File available since Release 2.14.0
  */
 
-require_once 'simpletest/unit_tester.php';
-require_once 'simpletest/mock_objects.php';
-require_once 'simpletest/web_tester.php';
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
