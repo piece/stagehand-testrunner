@@ -35,10 +35,6 @@
  * @since      File available since Release 2.14.0
  */
 
-require_once 'simpletest/unit_tester.php';
-require_once 'simpletest/mock_objects.php';
-require_once 'simpletest/web_tester.php';
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -50,6 +46,137 @@ class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLTest extends Stagehand_Test
 {
     protected $framework = Stagehand_TestRunner_Framework::CAKE;
 
+    /**
+     * @test
+     */
+    public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormatIfSkipTest()
+    {
+        $this->loadClasses();
+        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'SkipTest');
+        $this->runTests();
+        $this->assertFileExists($this->config->junitXMLFile);
+
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
+
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $this->assertFalse($parentTestsuite->hasChildNodes());
+        $this->assertEquals(0, $parentTestsuite->getAttribute('tests'));
+        $this->assertEquals(0, $parentTestsuite->getAttribute('assertions'));
+        $this->assertEquals(0, $parentTestsuite->getAttribute('failures'));
+        $this->assertEquals(0, $parentTestsuite->getAttribute('errors'));
+        $this->assertEquals(0, $parentTestsuite->childNodes->length);
+    }
+
+    /**
+     * @test
+     */
+    public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormatIfSkipIfTest()
+    {
+        $this->loadClasses();
+        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'SkipIfTest');
+        $this->runTests();
+        $this->assertFileExists($this->config->junitXMLFile);
+
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
+
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $this->assertTrue($parentTestsuite->hasChildNodes());
+        $this->assertEquals(1, $parentTestsuite->getAttribute('tests'));
+        $this->assertEquals(0, $parentTestsuite->getAttribute('assertions'));
+        $this->assertEquals(0, $parentTestsuite->getAttribute('failures'));
+        $this->assertEquals(1, $parentTestsuite->getAttribute('errors'));
+        $this->assertEquals(1, $parentTestsuite->childNodes->length);
+
+        $childTestsuite = $parentTestsuite->childNodes->item(0);
+        $this->assertTrue($childTestsuite->hasChildNodes());
+        $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'SkipIfTest',
+                            $childTestsuite->hasAttribute('name'));
+        $this->assertTrue($childTestsuite->hasAttribute('file'));
+        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'SkipIfTest');
+        $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
+        $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
+        $this->assertEquals(0, $childTestsuite->getAttribute('assertions'));
+        $this->assertEquals(0, $childTestsuite->getAttribute('failures'));
+        $this->assertEquals(1, $childTestsuite->getAttribute('errors'));
+        $this->assertEquals(1, $childTestsuite->childNodes->length);
+
+        $testcase = $childTestsuite->childNodes->item(0);
+        $this->assertTrue($testcase->hasChildNodes());
+        $this->assertEquals('testSkipIf', $testcase->hasAttribute('name'));
+        $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'SkipIfTest',
+                            $testcase->hasAttribute('class'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $method = $class->getMethod('testSkipIf');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $this->assertEquals(0, $testcase->getAttribute('assertions'));
+        $error = $testcase->childNodes->item(0);
+        $this->assertRegexp('/^This is an skip message\./',
+                            $error->nodeValue);
+    }
+
+    /**
+     * @test
+     */
+    public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormatIfSkipIfWithPassTest()
+    {
+        $this->loadClasses();
+        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'SkipIfWithPassTest');
+        $this->runTests();
+        $this->assertFileExists($this->config->junitXMLFile);
+
+        $junitXML = new DOMDocument();
+        $junitXML->load($this->config->junitXMLFile);
+        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
+
+        $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
+        $this->assertTrue($parentTestsuite->hasChildNodes());
+        $this->assertEquals(2, $parentTestsuite->getAttribute('tests'));
+        $this->assertEquals(1, $parentTestsuite->getAttribute('assertions'));
+        $this->assertEquals(0, $parentTestsuite->getAttribute('failures'));
+        $this->assertEquals(1, $parentTestsuite->getAttribute('errors'));
+        $this->assertEquals(1, $parentTestsuite->childNodes->length);
+
+        $childTestsuite = $parentTestsuite->childNodes->item(0);
+        $this->assertTrue($childTestsuite->hasChildNodes());
+        $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'SkipIfWithPassTest',
+                            $childTestsuite->hasAttribute('name'));
+        $this->assertTrue($childTestsuite->hasAttribute('file'));
+        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'SkipIfWithPassTest');
+        $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
+        $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
+        $this->assertEquals(1, $childTestsuite->getAttribute('assertions'));
+        $this->assertEquals(0, $childTestsuite->getAttribute('failures'));
+        $this->assertEquals(1, $childTestsuite->getAttribute('errors'));
+        $this->assertEquals(2, $childTestsuite->childNodes->length);
+
+        $testcase = $childTestsuite->childNodes->item(0);
+        $this->assertTrue($testcase->hasChildNodes());
+        $this->assertEquals('testSkipIf', $testcase->hasAttribute('name'));
+        $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'SkipIfWithPassTest',
+                            $testcase->hasAttribute('class'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $method = $class->getMethod('testSkipIf');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $this->assertEquals(0, $testcase->getAttribute('assertions'));
+        $error = $testcase->childNodes->item(0);
+        $this->assertRegexp('/^This is an skip message\./',
+                            $error->nodeValue);
+
+        $testcase = $childTestsuite->childNodes->item(1);
+        $this->assertFalse($testcase->hasChildNodes());
+        $this->assertEquals('testSkipIf', $testcase->hasAttribute('name'));
+        $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'SkipIfWithPassTest',
+                            $testcase->hasAttribute('class'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $method = $class->getMethod('testPass');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $this->assertEquals(1, $testcase->getAttribute('assertions'));
+    }
+
     protected function loadClasses()
     {
         include_once 'Stagehand/TestRunner/cake_pass.test.php';
@@ -59,6 +186,9 @@ class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLTest extends Stagehand_Test
         include_once 'Stagehand/TestRunner/cake_common.test.php';
         include_once 'Stagehand/TestRunner/cake_extended.test.php';
         include_once 'Stagehand/TestRunner/cake_failure_in_anonymous_function.test.php';
+        include_once 'Stagehand/TestRunner/cake_skip.test.php';
+        include_once 'Stagehand/TestRunner/cake_skip_if.test.php';
+        include_once 'Stagehand/TestRunner/cake_skip_if_with_pass.test.php';
 
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
             include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';

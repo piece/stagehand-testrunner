@@ -204,6 +204,9 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter implements Stagehand
      */
     protected function writeFailureOrError($text, $type, $failureOrError)
     {
+        if ($this->getCurrentElement()->nodeName !== 'testcase') {
+            return;
+        }
         $error = $this->xmlWriter->createElement($failureOrError, htmlspecialchars($text, ENT_QUOTES, 'UTF-8')); // TODO Since the DOM implementation ignores ENT_QUOTES, single quotes and double quotes is output as is.
         $this->getCurrentElement()->appendChild($error);
         if (!is_null($type)) {

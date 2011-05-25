@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,38 +29,31 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.10.0
+ * @since      File available since Release 2.14.0
  */
 
-error_reporting(E_ALL);
-if (defined('E_DEPRECATED')) {
-    error_reporting(error_reporting() & ~E_DEPRECATED);
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 2.14.0
+ */
+class Stagehand_TestRunner_CakeSkipIfWithPassTest extends CakeTestCase
+{
+    public function testSkipIf()
+    {
+        $this->skipIf(true, 'This is an skip message.');
+    }
+
+    public function testPass()
+    {
+        $this->assertTrue(true);
+    }
 }
-
-set_include_path(
-    realpath(dirname(__FILE__)) . PATH_SEPARATOR .
-    realpath(dirname(__FILE__) . '/../examples') . PATH_SEPARATOR .
-    realpath(dirname(__FILE__) . '/../vendor') . PATH_SEPARATOR .
-    realpath(dirname(__FILE__) . '/../src') . PATH_SEPARATOR .
-    get_include_path()
-);
-
-@require_once 'PHPUnit/Framework.php'; // TODO Remove this if Stagehand_TestRunner will not support PHPUnit 3.4.
-require_once 'Stagehand/Autoload.php';
-
-$legacyLoader = Stagehand_Autoload::legacyLoader();
-$legacyLoader->addNamespace('Stagehand');
-Stagehand_Autoload::register($legacyLoader);
-if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-    $namespaceLoader = Stagehand_Autoload::namespaceLoader();
-    $namespaceLoader->addNamespace('Stagehand\TestRunner');
-    Stagehand_Autoload::register($namespaceLoader);
-}
-
-Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
 
 /*
  * Local Variables:
