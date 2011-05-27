@@ -79,6 +79,8 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'PassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'FailureTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'ErrorTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'SkipClassTest');
+        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'SkipMethodTest');
         $this->runTests();
         $this->assertFileExists($this->config->junitXMLFile);
 
@@ -88,11 +90,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertTrue($parentTestsuite->hasChildNodes());
-        $this->assertEquals(5, $parentTestsuite->getAttribute('tests'));
-        $this->assertEquals(5, $parentTestsuite->getAttribute('assertions'));
+        $this->assertEquals(8, $parentTestsuite->getAttribute('tests'));
+        $this->assertEquals(6, $parentTestsuite->getAttribute('assertions'));
         $this->assertEquals(1, $parentTestsuite->getAttribute('failures'));
-        $this->assertEquals(1, $parentTestsuite->getAttribute('errors'));
-        $this->assertEquals(3, $parentTestsuite->childNodes->length);
+        $this->assertEquals(3, $parentTestsuite->getAttribute('errors'));
+        $this->assertEquals(5, $parentTestsuite->childNodes->length);
 
         $childTestsuite = $parentTestsuite->childNodes->item(0);
         $this->assertTrue($childTestsuite->hasChildNodes());
@@ -188,6 +190,70 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $error = $testcase->childNodes->item(0);
         $this->assertRegexp('/^Exception: This is an exception message\./',
                             $error->nodeValue);
+
+        $childTestsuite = $parentTestsuite->childNodes->item(3);
+        $this->assertTrue($childTestsuite->hasChildNodes());
+        $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'SkipClassTest',
+                            $childTestsuite->hasAttribute('name'));
+        $this->assertTrue($childTestsuite->hasAttribute('file'));
+        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'SkipClassTest');
+        $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
+        $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
+        $this->assertEquals(0, $childTestsuite->getAttribute('assertions'));
+        $this->assertEquals(0, $childTestsuite->getAttribute('failures'));
+        $this->assertEquals(1, $childTestsuite->getAttribute('errors'));
+        $this->assertEquals(1, $childTestsuite->childNodes->length);
+
+        $testcase = $childTestsuite->childNodes->item(0);
+        $this->assertTrue($testcase->hasChildNodes());
+        $this->assertEquals('skip', $testcase->hasAttribute('name'));
+        $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'SkipClassTest',
+                            $testcase->hasAttribute('class'));
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $method = $class->getMethod('skip');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $this->assertEquals(0, $testcase->getAttribute('assertions'));
+        $error = $testcase->childNodes->item(0);
+        $this->assertRegexp('/^This is a skip message\./', $error->nodeValue);
+
+        $childTestsuite = $parentTestsuite->childNodes->item(4);
+        $this->assertTrue($childTestsuite->hasChildNodes());
+        $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'SkipMethodTest',
+                            $childTestsuite->hasAttribute('name'));
+        $this->assertTrue($childTestsuite->hasAttribute('file'));
+        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'SkipMethodTest');
+        $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
+        $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
+        $this->assertEquals(1, $childTestsuite->getAttribute('assertions'));
+        $this->assertEquals(0, $childTestsuite->getAttribute('failures'));
+        $this->assertEquals(1, $childTestsuite->getAttribute('errors'));
+        $this->assertEquals(2, $childTestsuite->childNodes->length);
+
+        $testcase = $childTestsuite->childNodes->item(0);
+        $this->assertFalse($testcase->hasChildNodes());
+        $this->assertEquals('testPass', $testcase->hasAttribute('name'));
+        $this->assertEquals(
+            'Stagehand_TestRunner_' . $this->framework . 'SkipMethodTest',
+            $testcase->hasAttribute('class')
+        );
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $method = $class->getMethod('testPass');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $this->assertEquals(1, $testcase->getAttribute('assertions'));
+
+        $testcase = $childTestsuite->childNodes->item(1);
+        $this->assertTrue($testcase->hasChildNodes());
+        $this->assertEquals('skip', $testcase->hasAttribute('name'));
+        $this->assertEquals(
+            'Stagehand_TestRunner_' . $this->framework . 'SkipMethodTest',
+            $testcase->hasAttribute('class')
+        );
+        $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
+        $method = $class->getMethod('testIsSkipped');
+        $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
+        $this->assertEquals(0, $testcase->getAttribute('assertions'));
+        $error = $testcase->childNodes->item(0);
+        $this->assertRegexp('/^This is a skip message\./', $error->nodeValue);
     }
 
     /**

@@ -35,10 +35,6 @@
  * @since      File available since Release 2.14.0
  */
 
-require_once 'simpletest/unit_tester.php';
-require_once 'simpletest/mock_objects.php';
-require_once 'simpletest/web_tester.php';
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -59,6 +55,8 @@ class Stagehand_TestRunner_Runner_CakeRunner_JUnitXMLTest extends Stagehand_Test
         include_once 'Stagehand/TestRunner/cake_common.test.php';
         include_once 'Stagehand/TestRunner/cake_extended.test.php';
         include_once 'Stagehand/TestRunner/cake_failure_in_anonymous_function.test.php';
+        include_once 'Stagehand/TestRunner/cake_skip_class.test.php';
+        include_once 'Stagehand/TestRunner/cake_skip_method.test.php';
 
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
             include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
