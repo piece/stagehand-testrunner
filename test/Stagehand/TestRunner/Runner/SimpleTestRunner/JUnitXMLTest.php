@@ -459,10 +459,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
     public function provideFailurePatterns()
     {
         return array(
-            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureTest', 53, 'This is an error message.', null, false),
-            array('testIsError', 'Stagehand_TestRunner_SimpleTestErrorTest', 53, 'This is an exception message.', null, false),
-            array('testTestShouldFailCommon', 'Stagehand_TestRunner_SimpleTestExtendedTest', 61, '', 'Stagehand_TestRunner_SimpleTestCommonTest', false),
-            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureInAnonymousFunctionTest', 51, 'This is an error message.', null, true),
+            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureTest', 51, 'This is an error message.', null, false),
+            array('testIsError', 'Stagehand_TestRunner_SimpleTestErrorTest', 51, 'This is an exception message.', null, false),
+            array('testTestShouldFailCommon', 'Stagehand_TestRunner_SimpleTestExtendedTest', 59, '', 'Stagehand_TestRunner_SimpleTestCommonTest', false),
+            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureInAnonymousFunctionTest', 49, 'This is an error message.', null, true),
         );
     }
 }
