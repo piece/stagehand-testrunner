@@ -51,9 +51,9 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
     protected $tmpDirectory;
 
     /**
-     * @var Stagehand_TestRunner_Preparator
+     * @var Stagehand_TestRunner_Preparer
      */
-    protected $preparator;
+    protected $preparer;
 
     /**
      * @var Stagehand_TestRunner_Collector
@@ -94,9 +94,9 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
             '.xml';
         $this->configure($this->config);
 
-        $preparatorFactory = new Stagehand_TestRunner_Preparator_PreparatorFactory($this->config);
-        $this->preparator = $preparatorFactory->create();
-        $this->preparator->prepare();
+        $preparerFactory = new Stagehand_TestRunner_Preparer_PreparerFactory($this->config);
+        $this->preparer = $preparerFactory->create();
+        $this->preparer->prepare();
 
         $collectorFactory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
         $this->collector = $collectorFactory->create();
@@ -208,12 +208,12 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         $this->runner = $factory->create();
         $testRunner = $this->getMock(
                           'Stagehand_TestRunner_TestRunner',
-                          array('createPreparator', 'createCollector', 'createRunner', 'notifyGrowlOfResults'),
+                          array('createPreparer', 'createCollector', 'createRunner', 'notifyGrowlOfResults'),
                           array($this->config)
                       );
         $testRunner->expects($this->any())
-                   ->method('createPreparator')
-                   ->will($this->returnValue($this->preparator));
+                   ->method('createPreparer')
+                   ->will($this->returnValue($this->preparer));
         $testRunner->expects($this->any())
                    ->method('createCollector')
                    ->will($this->returnValue($this->collector));

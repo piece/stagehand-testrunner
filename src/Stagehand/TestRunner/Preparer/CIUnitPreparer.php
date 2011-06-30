@@ -42,7 +42,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.16.0
  */
-class Stagehand_TestRunner_Preparator_CIUnitPreparator extends Stagehand_TestRunner_Preparator_PHPUnitPreparator
+class Stagehand_TestRunner_Preparer_CIUnitPreparer extends Stagehand_TestRunner_Preparer_PHPUnitPreparer
 {
     /**
      * @var array

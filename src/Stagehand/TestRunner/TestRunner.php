@@ -64,7 +64,7 @@ class Stagehand_TestRunner_TestRunner
      */
     public function run()
     {
-        $this->createPreparator()->prepare();
+        $this->createPreparer()->prepare();
 
         $runner = $this->createRunner();
         $runner->run($this->createCollector()->collect());
@@ -75,12 +75,12 @@ class Stagehand_TestRunner_TestRunner
     }
 
     /**
-     * @return Stagehand_TestRunner_Preparator
+     * @return Stagehand_TestRunner_Preparer
      * @since Method available since Release 2.12.0
      */
-    protected function createPreparator()
+    protected function createPreparer()
     {
-        $factory = new Stagehand_TestRunner_Preparator_PreparatorFactory($this->config);
+        $factory = new Stagehand_TestRunner_Preparer_PreparerFactory($this->config);
         return $factory->create();
     }
 

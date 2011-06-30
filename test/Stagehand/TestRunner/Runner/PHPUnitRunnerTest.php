@@ -613,7 +613,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $reflectionClass = new ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
         $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . 'selenium.xml';
-        $this->preparator->prepare();
+        $this->preparer->prepare();
         $this->collector->collectTestCase($testingClass);
         $this->runTests();
 

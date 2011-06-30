@@ -42,28 +42,12 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Preparator_PreparatorFactory
+class Stagehand_TestRunner_Preparer_SimpleTestPreparer extends Stagehand_TestRunner_Preparer
 {
-    /**
-     * @var Stagehand_TestRunner_Config
-     */
-    protected $config;
-
-    /**
-     * @param Stagehand_TestRunner_Config $config
-     */
-    public function __construct(Stagehand_TestRunner_Config $config)
+    public function prepare()
     {
-        $this->config = $config;
-    }
-
-    /**
-     * @return Stagehand_TestRunner_Collector
-     */
-    public function create()
-    {
-        $class = 'Stagehand_TestRunner_Preparator_' . $this->config->framework . 'Preparator';
-        return new $class($this->config);
+        require_once 'simpletest/unit_tester.php';
+        require_once 'simpletest/web_tester.php';
     }
 }
 

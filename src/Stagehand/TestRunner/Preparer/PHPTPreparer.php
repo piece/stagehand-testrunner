@@ -42,23 +42,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.12.0
  */
-abstract class Stagehand_TestRunner_Preparator
-{
-    /**
-     * @var Stagehand_TestRunner_Config
-     */
-    protected $config;
-
-    /**
-     * @param Stagehand_TestRunner_Config $config
-     */
-    public function __construct(Stagehand_TestRunner_Config $config)
-    {
-        $this->config = $config;
-    }
-
-    abstract public function prepare();
-}
+class Stagehand_TestRunner_Preparer_PHPTPreparer extends Stagehand_TestRunner_Preparer_PHPUnitPreparer {}
 
 /*
  * Local Variables:

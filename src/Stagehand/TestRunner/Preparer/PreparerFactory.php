@@ -42,44 +42,28 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Preparator_CakePreparator extends Stagehand_TestRunner_Preparator
+class Stagehand_TestRunner_Preparer_PreparerFactory
 {
-    public function prepare()
+    /**
+     * @var Stagehand_TestRunner_Config
+     */
+    protected $config;
+
+    /**
+     * @param Stagehand_TestRunner_Config $config
+     */
+    public function __construct(Stagehand_TestRunner_Config $config)
     {
-        if (defined('STAGEHAND_TESTRUNNER_PREPARATOR_CAKEPREPARATOR_PREPARECALLEDMARKER')) {
-            return;
-        }
+        $this->config = $config;
+    }
 
-        define('STAGEHAND_TESTRUNNER_PREPARATOR_CAKEPREPARATOR_PREPARECALLEDMARKER', true);
-
-        if (!defined('DISABLE_AUTO_DISPATCH')) {
-            define('DISABLE_AUTO_DISPATCH', true);
-        }
-
-        if (is_null($this->config->cakephpAppPath)) {
-            $cakephpAppPath = $this->config->workingDirectoryAtStartup;
-        } else {
-            $cakephpAppPath = $this->config->cakephpAppPath;
-        }
-
-        $rootPath = realpath($cakephpAppPath . '/..');
-        $appPath = basename(realpath($cakephpAppPath));
-        if (is_null($this->config->cakephpCorePath)) {
-            $corePath = $rootPath . DIRECTORY_SEPARATOR . 'cake';
-        } else {
-            $corePath = realpath($this->config->cakephpCorePath);
-        }
-
-        if (!defined('TEST_CAKE_CORE_INCLUDE_PATH')) {
-            define('TEST_CAKE_CORE_INCLUDE_PATH', rtrim($corePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
-        }
-
-        ob_start();
-        require_once $corePath . '/console/cake.php';
-        ob_end_clean();
-        new Stagehand_TestRunner_Preparator_CakePreparator_TestRunnerShellDispatcher(array('-root', $rootPath, '-app', $appPath));
-        require_once $corePath . '/tests/lib/test_manager.php';
-        new TestManager();
+    /**
+     * @return Stagehand_TestRunner_Collector
+     */
+    public function create()
+    {
+        $class = 'Stagehand_TestRunner_Preparer_' . $this->config->framework . 'Preparer';
+        return new $class($this->config);
     }
 }
 

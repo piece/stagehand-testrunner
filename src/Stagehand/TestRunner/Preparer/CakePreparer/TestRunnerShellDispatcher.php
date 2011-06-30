@@ -42,7 +42,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Preparator_CakePreparator_TestRunnerShellDispatcher extends ShellDispatcher
+class Stagehand_TestRunner_Preparer_CakePreparer_TestRunnerShellDispatcher extends ShellDispatcher
 {
     public function _initEnvironment()
     {

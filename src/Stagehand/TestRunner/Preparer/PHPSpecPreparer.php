@@ -42,7 +42,13 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.12.0
  */
-class Stagehand_TestRunner_Preparator_PHPTPreparator extends Stagehand_TestRunner_Preparator_PHPUnitPreparator {}
+class Stagehand_TestRunner_Preparer_PHPSpecPreparer extends Stagehand_TestRunner_Preparer
+{
+    public function prepare()
+    {
+        require_once 'PHPSpec/Framework.php';
+    }
+}
 
 /*
  * Local Variables:
