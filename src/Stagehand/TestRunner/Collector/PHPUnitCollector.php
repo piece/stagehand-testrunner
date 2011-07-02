@@ -36,6 +36,8 @@
  * @since      File available since Release 2.1.0
  */
 
+require_once 'PHPUnit/Runner/BaseTestRunner.php';
+
 /**
  * A test collector for PHPUnit.
  *
@@ -62,7 +64,27 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
             return;
         }
 
-        $this->suite->addTestSuite($testCase);
+        $testClass = new ReflectionClass($testCase);
+        if ($testClass->isAbstract()) {
+            return;
+        }
+
+        $suiteMethod = false;
+        if ($testClass->hasMethod(PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME)) {
+            $method = $testClass->getMethod(PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME);
+            if ($method->isStatic()) {
+                $this->suite->addTest($method->invoke(null, $testClass->getName()));
+                $suiteMethod = true;
+            }
+        }
+
+        if (!$suiteMethod) {
+            $this->suite->addTest(
+                version_compare(PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
+                    ? new Stagehand_TestRunner_TestSuite_PHPUnit35GroupFilterTestSuite($testClass, $this->config)
+                    : new Stagehand_TestRunner_TestSuite_PHPUnit34GroupFilterTestSuite($testClass, $this->config)
+            );
+        }
     }
 
     /**

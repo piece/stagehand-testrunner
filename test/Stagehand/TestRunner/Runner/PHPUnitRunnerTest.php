@@ -630,6 +630,54 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
             array('Stagehand_TestRunner_PHPUnitSeleniumTest'),
         );
     }
+
+    /**
+     * @param string $testingClass
+     * @param array $testingMethods
+     * @param string $xmlConfigurationFile
+     * @test
+     * @dataProvider provideDataForGroupsTest
+     * @link http://redmine.piece-framework.com/issues/288
+     * @since Method available since Release 2.17.0
+     */
+    public function notCountTheExcludedTestsByTheGroupsElementAsTheDivisorOfATestRun($testingClass, array $testingMethods, $xmlConfigurationFile)
+    {
+        $reflectionClass = new ReflectionClass($this);
+        $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
+        $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile;
+        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->preparer->prepare();
+        $this->collector->collectTestCase($testingClass);
+        $this->runTests();
+
+        $this->assertTestCaseCount(count($testingMethods));
+        foreach ($testingMethods as $testingMethod) {
+            $this->assertTestCaseExists($testingMethod, $testingClass);
+        }
+        $this->assertCollectedTestCaseCount(count($testingMethods));
+    }
+
+    /**
+     * @return array
+     * @since Method available since Release 2.17.0
+     */
+    public function provideDataForGroupsTest()
+    {
+        return array(
+            array($this->groupsTest(), array('a'), 'groups_include.xml'),
+            array($this->groupsTest(), array('b', 'c'), 'groups_exclude.xml'),
+            array($this->groupsTest(), array(), 'groups_include_exclude.xml'),
+        );
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 2.17.0
+     */
+    protected function groupsTest()
+    {
+        return 'Stagehand_TestRunner_PHPUnitGroupsTest'; 
+    }
 }
 
 /*

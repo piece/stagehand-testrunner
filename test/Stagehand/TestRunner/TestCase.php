@@ -122,6 +122,19 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
 
     /**
      * @param integer $count
+     * @since Method available since Release 2.17.0
+     */
+    protected function assertCollectedTestCaseCount($count)
+    {
+        $testsuites = $this->createXPath()->query('/testsuites/testsuite');
+        $this->assertEquals(1, $testsuites->length);
+        $testsuite = $testsuites->item(0);
+        $this->assertTrue($testsuite->hasAttribute('tests'));
+        $this->assertEquals($count, $testsuite->getAttribute('tests'));
+    }
+
+    /**
+     * @param integer $count
      * @param string  $method
      * @param string  $class
      * @since Method available since Release 2.14.0

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit>
+  <groups>
+    <include>
+      <group>one</group>
+    </include>
+    <exclude>
+      <group>one</group>
+    </exclude>
+  </groups>
+</phpunit>
