@@ -59,13 +59,13 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      */
     public function collectTestCase($testCase)
     {
-        if ($this->config->testsOnlySpecified()) {
-            $this->addTestCaseOnlySpecified($testCase);
+        $testClass = new ReflectionClass($testCase);
+        if ($testClass->isAbstract()) {
             return;
         }
 
-        $testClass = new ReflectionClass($testCase);
-        if ($testClass->isAbstract()) {
+        if ($this->config->testsOnlySpecified()) {
+            $this->addTestCaseOnlySpecified($testClass);
             return;
         }
 
@@ -99,25 +99,20 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
     }
 
     /**
-     * @param string $testCase
+     * @param ReflectionClass $testClass
      * @since Method available since Release 2.10.0
      */
-    protected function addTestCaseOnlySpecified($testCase)
+    protected function addTestCaseOnlySpecified(ReflectionClass $testClass)
     {
-        $test = new ReflectionClass($testCase);
-        if ($test->isAbstract()) {
-            return;
-        }
-
         if ($this->config->testsOnlySpecifiedMethods) {
             $this->suite->addTestSuite(
                 version_compare(PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
-                    ? new Stagehand_TestRunner_TestSuite_PHPUnit35MethodFilterTestSuite($test, $this->config)
-                    : new Stagehand_TestRunner_TestSuite_PHPUnit34MethodFilterTestSuite($test, $this->config)
+                    ? new Stagehand_TestRunner_TestSuite_PHPUnit35MethodFilterTestSuite($testClass, $this->config)
+                    : new Stagehand_TestRunner_TestSuite_PHPUnit34MethodFilterTestSuite($testClass, $this->config)
             );
         } elseif ($this->config->testsOnlySpecifiedClasses) {
-            if ($this->config->isTestingClass($test->getName())) {
-                $this->suite->addTestSuite($test);
+            if ($this->config->isTestingClass($testClass->getName())) {
+                $this->suite->addTestSuite($testClass);
             }
         }
     }
