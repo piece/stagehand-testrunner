@@ -60,7 +60,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
     {
         $testResult = new PHPUnit_Framework_TestResult();
         $printer = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
-                       null, false, $this->config->colors
+                       null, true, $this->config->colors
                    );
 
         $arguments = array();
