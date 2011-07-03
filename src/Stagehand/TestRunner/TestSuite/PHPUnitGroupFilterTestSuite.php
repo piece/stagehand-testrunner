@@ -36,8 +36,6 @@
  * @since      File available since Release 2.17.0
  */
 
-require_once 'PHPUnit/Framework/TestSuite.php';
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>

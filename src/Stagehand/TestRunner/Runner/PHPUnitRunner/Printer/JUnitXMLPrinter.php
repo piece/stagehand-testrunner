@@ -36,12 +36,6 @@
  * @since      File available since Release 2.10.0
  */
 
-require_once 'PHPUnit/Framework/SelfDescribing.php';
-require_once 'PHPUnit/Framework/Test.php';
-require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'PHPUnit/Framework/TestFailure.php';
-require_once 'PHPUnit/Framework/TestListener.php';
-require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/Util/Class.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Printer.php';
