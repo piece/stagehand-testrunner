@@ -110,12 +110,11 @@ class Stagehand_TestRunner_TestRunner
      */
     protected function notifyGrowlOfResults(stdClass $notification)
     {
-        $growl = new Net_Growl(
-                     new Net_Growl_Application(
-                         'Stagehand_TestRunner',
-                         array('Green', 'Red'),
-                         $this->config->growlPassword
-                     )
+        $appName = 'Stagehand_TestRunner';
+        $growl = Net_Growl::singleton(
+                     $appName,
+                     array('Green', 'Red'),
+                     $this->config->growlPassword
                  );
         $growl->notify(
             $notification->name,
