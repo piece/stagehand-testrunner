@@ -27,36 +27,17 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">2.17.0</property>
+  <property name="package.releaseversion">2.17.1</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">1.1.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
- Sometimes PHPUnit reports warning messages such as follows:
 
- Warning: Deprecated PHPUnit features are being used 1 times!
- Use --verbose for more information.
+A Defect Fix
 
- If the "--verbose" option is enabled, PHPUnit reports more detailed information as follows:
+ The following defect has been fixed:
 
- PHPUnit 3.5.10 by Sebastian Bergmann.
-
- ...................
-
- Time: 0 seconds, Memory: 3.50Mb
-
- /home/iteman/GITREPOS/stagehand-fsm/test/Stagehand/FSM/FSMTest.php:(between 281 and 297) - assertType() will be removed in PHPUnit 3.6 and should no longer be used. assertInternalType() should be used for asserting internal types such as "integer" or "string" whereas assertInstanceOf() should be used for asserting that an object is an instance of a specified class or interface.
- ...
-
- This information would be useful to improve your test code.
-
-Three Defect Fixes
-
- The following defects have been fixed:
-
- * The excluded tests by the <groups> element are contained in the number of tests. (Issue #288)
- * The value of the constant TEST_CAKE_CORE_INCLUDE_PATH is wrong. (Issue #290)
- * JUnit XML output is broken if a test class is skipped. (Issue #291)
+ * An error "PHP Fatal error: Call to protected Net_Growl::__construct() from context 'Stagehand_TestRunner_TestRunner' in ..." is raised when using Growl. (Issue #305)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A test runner for Test Driven Development</property>
