@@ -48,42 +48,33 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinterT
 
     /**
      * @test
+     * @dataProvider targets
      */
-    public function printsSkippedTestsWithADataProvider()
+    public function printsSkippedTestsWithADataProvider($testClass, $testMethod)
     {
         $this->config->printsDetailedProgressReport = true;
-        $this->collector->collectTestCase(
-            'Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest'
-        );
+        $this->collector->collectTestCase($testClass);
         $this->runTests();
         $expected = PHP_EOL .
-'Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest' . PHP_EOL .
+$testClass . PHP_EOL .
 '  pass1 ... passed' . PHP_EOL .
 PHP_EOL .
-'Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest::isSkippedWithTheDataProvider' . PHP_EOL .
-'  isSkippedWithTheDataProvider with data set #0 ... skipped' . PHP_EOL .
+$testClass . '::' . $testMethod . PHP_EOL .
+'  ' . $testMethod . ' with data set #0 ... skipped' . PHP_EOL .
 '  pass2 ... passed' . PHP_EOL;
         $this->assertTrue(strstr($this->output, $expected) !== false);
     }
 
     /**
-     * @test
+     * @return array
+     * @since Method available since Release 2.17.0
      */
-    public function printsIncompleteTestsWithADataProvider()
+    public function targets()
     {
-        $this->config->printsDetailedProgressReport = true;
-        $this->collector->collectTestCase(
-            'Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest'
+        return array(
+            array('Stagehand_TestRunner_PHPUnitSkippedWithDataProviderTest', 'isSkippedWithTheDataProvider'),
+            array('Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest', 'isIncompleteWithTheDataProvider'),
         );
-        $this->runTests();
-        $expected = PHP_EOL .
-'Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest' . PHP_EOL .
-'  pass1 ... passed' . PHP_EOL .
-PHP_EOL .
-'Stagehand_TestRunner_PHPUnitIncompleteWithDataProviderTest::isIncompleteWithTheDataProvider' . PHP_EOL .
-'  isIncompleteWithTheDataProvider with data set #0 ... skipped' . PHP_EOL .
-'  pass2 ... passed' . PHP_EOL;
-        $this->assertTrue(strstr($this->output, $expected) !== false);
     }
 }
 
