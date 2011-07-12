@@ -676,7 +676,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      */
     protected function groupsTest()
     {
-        return 'Stagehand_TestRunner_PHPUnitGroupsTest'; 
+        return 'Stagehand_TestRunner_PHPUnitGroupsTest';
     }
 }
 
