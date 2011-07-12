@@ -59,7 +59,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriterTest extends Stage
         $this->assertRegExp(
             '/Stagehand_TestRunner_PHPUnitSpecialCharactersInFailureMessageTest::isFailure' . PHP_EOL .
             PHP_EOL .
-            '&amp;&quot;&#039;&lt;&gt;' . PHP_EOL . 
+            '&amp;&quot;&#039;&lt;&gt;' . PHP_EOL .
             'Failed asserting that &lt;boolean:false&gt; is true\.' . PHP_EOL .
             PHP_EOL .
             '/m',
