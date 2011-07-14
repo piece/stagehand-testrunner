@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpspec.org/
@@ -40,7 +40,7 @@
  * A test runner for PHPSpec.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpspec.org/
@@ -81,16 +81,18 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
             $pendingsCount = $result->countPending();
 
             if ($failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount + $pendingsCount == 0) {
-                $this->notification->name = 'Green';
+                $notificationResult = true;
             } elseif ($pendingsCount && $failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount == 0) {
-                $this->notification->name = 'Green';
+                $notificationResult = true;
             } else {
-                $this->notification->name = 'Red';
+                $notificationResult = false;
             }
 
             preg_match('/^(\d+ examples?, \d+ failures?.*)/m', $output, $matches);
-            $this->notification->description = $matches[1];
-        }
+            $notificationDescription = $matches[1];
+
+            $this->notification = new Stagehand_TestRunner_Notification_Notification($notificationResult, $notificationMessage);
+      }
     }
 }
 

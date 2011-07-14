@@ -115,21 +115,26 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
         $testRunner->doRun($suite, $arguments);
 
         if ($this->config->usesGrowl) {
+            if ($testResult->failureCount() + $testResult->errorCount() + $testResult->skippedCount() + $testResult->notImplementedCount() == 0) {
+                $notificationResult = true;
+            } else {
+                $notificationResult = false;
+            }
+
             ob_start();
             $printer->printResult($testResult);
             $output = ob_get_contents();
             ob_end_clean();
 
             if (preg_match('/^(?:\x1b\[30;42m\x1b\[2K)?(OK .+)/m', $output, $matches)) {
-                $this->notification->name = 'Green';
-                $this->notification->description = $matches[1];
+                $notificationMessage = $matches[1];
             } elseif (preg_match('/^(?:\x1b\[37;41m\x1b\[2K)?(FAILURES!)\s^(?:\x1b\[0m\x1b\[37;41m\x1b\[2K)?(.+)/m', $output, $matches)) {
-                $this->notification->name = 'Red';
-                $this->notification->description = $matches[1] . "\n" . $matches[2];
+                $notificationMessage = $matches[1] . "\n" . $matches[2];
             } elseif (preg_match('/^(?:\x1b\[30;43m\x1b\[2K)?(OK, but incomplete or skipped tests!)\s^(?:\x1b\[0m\x1b\[30;43m\x1b\[2K)?(.+)/m', $output, $matches)) {
-                $this->notification->name = 'Red';
-                $this->notification->description = $matches[1] . "\n" . $matches[2];
+                $notificationMessage = $matches[1] . "\n" . $matches[2];
             }
+
+            $this->notification = new Stagehand_TestRunner_Notification_Notification($notificationResult, $notificationMessage);
         }
     }
 

@@ -5,6 +5,7 @@
  * PHP version 5
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +31,7 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -38,6 +40,7 @@
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
@@ -64,6 +67,13 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
      * @var Stagehand_TestRunner_Runner
      */
     protected $runner;
+
+    /**
+     * @var Stagehand_TestRunner_Notification_GrowlNotifier
+     * @since Property available since Release 2.18.0
+     */
+    protected $growlNotifier;
+
     protected $framework;
     protected $output;
     protected $backupGlobalsBlacklist =
@@ -77,6 +87,11 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
             '_FILES',
             '_REQUEST'
         );
+
+    /**
+     * @since Property available since Release 2.18.0
+     */
+    protected $phpOS = 'Linux';
 
     protected function setUp()
     {
@@ -101,6 +116,14 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         $collectorFactory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
         $this->collector = $collectorFactory->create();
 
+        $this->growlNotifier = $this->getMock('Stagehand_TestRunner_Notification_GrowlNotifier', array('executeNotifyCommand', 'getPHPOS'));
+        $this->growlNotifier->expects($this->any())
+                    ->method('executeNotifyCommand')
+                    ->will($this->returnValue(null));
+        $this->growlNotifier->expects($this->any())
+                    ->method('getPHPOS')
+                    ->will($this->returnCallback(array($this, 'getPHPOS')));
+
         $this->loadClasses();
     }
 
@@ -112,6 +135,14 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
     public function removeJUnitXMLFile($element)
     {
         unlink($element);
+    }
+
+    /**
+     * @since Method available since Release 2.18.0
+     */
+    public function getPHPOS()
+    {
+        return $this->phpOS;
     }
 
     protected function assertTestCaseCount($count)
@@ -221,7 +252,7 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         $this->runner = $factory->create();
         $testRunner = $this->getMock(
                           'Stagehand_TestRunner_TestRunner',
-                          array('createPreparer', 'createCollector', 'createRunner', 'notifyGrowlOfResults'),
+                          array('createPreparer', 'createCollector', 'createRunner', 'createGrowlNotifier'),
                           array($this->config)
                       );
         $testRunner->expects($this->any())
@@ -234,8 +265,9 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
                    ->method('createRunner')
                    ->will($this->returnValue($this->runner));
         $testRunner->expects($this->any())
-                   ->method('notifyGrowlOfResults')
-                   ->will($this->returnValue(null));
+                   ->method('createGrowlNotifier')
+                   ->will($this->returnValue($this->growlNotifier));
+
         ob_start();
         $testRunner->run();
         $this->output = ob_get_contents();

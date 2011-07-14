@@ -5,6 +5,7 @@
  * PHP version 5
  *
  * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +31,7 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.14.0
@@ -38,6 +40,7 @@
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
@@ -48,6 +51,12 @@ class Stagehand_TestRunner_TestRunner
      * @var Stagehand_TestRunner_Config
      */
     protected $config;
+
+    /**
+     * @var boolean $result
+     * @since Property available since Release 2.18.0
+     */
+    protected $result;
 
     /**
      * @param Stagehand_TestRunner_Config $config
@@ -67,10 +76,10 @@ class Stagehand_TestRunner_TestRunner
         $this->createPreparer()->prepare();
 
         $runner = $this->createRunner();
-        $runner->run($this->createCollector()->collect());
+        $this->result = $runner->run($this->createCollector()->collect());
 
         if ($this->config->usesGrowl) {
-            $this->notifyGrowlOfResults($runner->getNotification());
+            $this->notifyResult($runner->getNotification());
         }
     }
 
@@ -105,22 +114,21 @@ class Stagehand_TestRunner_TestRunner
     }
 
     /**
-     * @param stdClass $notification
+     * @return Stagehand_TestRunner_Notification_GrowlNotifier
+     * @since Method available since Release 2.18.0
+     */
+    protected function createGrowlNotifier()
+    {
+        return new Stagehand_TestRunner_Notification_GrowlNotifier();
+    }
+
+    /**
+     * @param Stagehand_TestRunner_Notification_Notification $result
      * @since Method available since Release 2.11.0
      */
-    protected function notifyGrowlOfResults(stdClass $notification)
+    protected function notifyResult(Stagehand_TestRunner_Notification_Notification $result)
     {
-        $appName = 'Stagehand_TestRunner';
-        $growl = Net_Growl::singleton(
-                     $appName,
-                     array('Green', 'Red'),
-                     $this->config->growlPassword
-                 );
-        $growl->notify(
-            $notification->name,
-            'Test Results by Stagehand_TestRunner',
-            $notification->description
-        );
+        $this->createGrowlNotifier()->notifyResult($result);
     }
 }
 

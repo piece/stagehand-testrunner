@@ -4,7 +4,8 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2008-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,57 +30,46 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2008-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.3.0
+ * @since      File available since Release 2.18.0
  */
 
 /**
- * The base class for test runners.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2008-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.3.0
+ * @since      Class available since Release 2.18.0
  */
-abstract class Stagehand_TestRunner_Runner
+class Stagehand_TestRunner_Notification_Notification
 {
-    /**
-     * @var Stagehand_TestRunner_Notification_Notification
-     */
-    protected $notification;
+    protected $isPassed;
+    protected $message;
 
-    /**
-     * @var Stagehand_TestRunner_Config
-     */
-    protected $config;
-
-    /**
-     * @param Stagehand_TestRunner_Config $config
-     * @since Method available since Release 2.10.0
-     */
-    public function __construct(Stagehand_TestRunner_Config $config)
+    public function __construct($isPassed, $message)
     {
-        $this->config = $config;
+        $this->isPassed = $isPassed;
+        $message = strtr($message, "\x0d\x0a", ' ');
+        $message = strtr($message, "\x0d", ' ');
+        $message = strtr($message, "\x0a", ' ');
+        $this->message = $message;
     }
 
     /**
-     * Runs tests.
-     *
-     * @param mixed $suite
+     * @return boolean
      */
-    abstract public function run($suite);
-
-    /**
-     * Gets a notification object for Growl.
-     *
-     * @return Stagehand_TestRunner_Notification_Notification
-     */
-    public function getNotification()
+    public function isPassed()
     {
-        return $this->notification;
+        return $this->isPassed;
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
     }
 }
 

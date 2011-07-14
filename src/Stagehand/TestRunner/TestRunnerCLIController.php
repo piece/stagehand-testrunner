@@ -106,9 +106,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             $this->config->monitoringDirectories = explode(',', $value);
             return true;
         case 'g':
-            if (@include_once 'Net/Growl.php') {
-                $this->config->usesGrowl = true;
-            }
+            $this->config->usesGrowl = true;
             return true;
         case '--growl-password':
             $this->config->growlPassword = $value;
@@ -222,7 +220,7 @@ OPTIONS
      Specifies one or more directories to be monitored for changes.
 
   -g
-     Notifies test results to Growl.
+     Notifies test results to Growl by using the growlnotify command in Mac OS X and Windows.
 
   --growl-password=PASSWORD
      Specifies PASSWORD for Growl.
@@ -301,6 +299,7 @@ OPTIONS
 Copyright (c) 2005-2011 KUBO Atsuhiro <kubo@iteman.jp>,
               2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
               2010 KUMAKURA Yousuke <kumatch@gmail.com>,
+              2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
 All rights reserved.
 ";
     }

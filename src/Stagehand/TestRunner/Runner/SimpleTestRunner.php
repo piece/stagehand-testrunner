@@ -5,7 +5,7 @@
  * PHP version 5
  *
  * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
- *               2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ *               2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2010 KUMAKURA Yousuke <kumatch@gmail.com>,
  * All rights reserved.
  *
@@ -32,7 +32,7 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -45,7 +45,7 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -64,8 +64,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
      */
     public function run($suite)
     {
+        $textReporter = new TextReporter();
         $reporter = new MultipleReporter();
-        $reporter->attachReporter($this->decorateReporter(new TextReporter()));
+        $reporter->attachReporter($this->decorateReporter($textReporter));
 
         if ($this->config->logsResultsInJUnitXML) {
             if (!$this->config->logsResultsInJUnitXMLInRealtime) {
@@ -98,13 +99,16 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         }
 
         if ($this->config->usesGrowl) {
-            if (preg_match('/^(OK.+)/ms', $output, $matches)) {
-                $this->notification->name = 'Green';
-                $this->notification->description = $matches[1];
-            } elseif (preg_match('/^(FAILURES.+)/ms', $output, $matches)) {
-                $this->notification->name = 'Red';
-                $this->notification->description = $matches[1];
+            if ($textReporter->getFailCount() + $textReporter->getExceptionCount() == 0) {
+                $notificationResult = true;
+            } else {
+                $notificationResult = false;
             }
+
+            preg_match('/^((?:OK|FAILURES).+)/ms', $output, $matches);
+            $notificationDescription = $matches[1];
+
+            $this->notification = new Stagehand_TestRunner_Notification_Notification($notificationResult, $notificationMessage);
         }
 
         if ($this->config->colors) {

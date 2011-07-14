@@ -206,11 +206,11 @@ class Stagehand_TestRunner_Runner_CIUnitRunnerTest extends Stagehand_TestRunner_
     public function provideDataForCreatesANotificationForGrowl()
     {
         return array(
-            array('testStagehand_TestRunner_CIUnitPass', 'Green', 'OK (3 tests, 4 assertions)'),
-            array('testStagehand_TestRunner_CIUnitFailure', 'Red', "FAILURES!\nTests: 1, Assertions: 1, Failures: 1."),
-            array('testStagehand_TestRunner_CIUnitError', 'Red', "FAILURES!\nTests: 1, Assertions: 0, Errors: 1."),
-            array('testStagehand_TestRunner_CIUnitIncomplete', 'Red', "OK, but incomplete or skipped tests!\nTests: 2, Assertions: 0, Incomplete: 2."),
-            array('testStagehand_TestRunner_CIUnitSkipped', 'Red', "OK, but incomplete or skipped tests!\nTests: 2, Assertions: 0, Skipped: 2."),
+            array('testStagehand_TestRunner_CIUnitPass', true, 'OK (3 tests, 4 assertions)'),
+            array('testStagehand_TestRunner_CIUnitFailure', false, 'FAILURES! Tests: 1, Assertions: 1, Failures: 1.'),
+            array('testStagehand_TestRunner_CIUnitError', false, 'FAILURES! Tests: 1, Assertions: 0, Errors: 1.'),
+            array('testStagehand_TestRunner_CIUnitIncomplete', false, 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Incomplete: 2.'),
+            array('testStagehand_TestRunner_CIUnitSkipped', false, 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Skipped: 2.'),
         );
     }
 
