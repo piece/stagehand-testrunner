@@ -300,6 +300,7 @@ Copyright (c) 2005-2011 KUBO Atsuhiro <kubo@iteman.jp>,
               2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
               2010 KUMAKURA Yousuke <kumatch@gmail.com>,
               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
+              2011 KUBO Noriko <noricott@gmail.com>,
 All rights reserved.
 ";
     }

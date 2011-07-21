@@ -49,12 +49,14 @@ class Stagehand_TestRunner_Notification_GrowlNotifier
 {
     public static $ICON_PASSED;
     public static $ICON_FAILED;
+    public static $ICON_STOPPED;
 
     public function __construct()
     {
         $growlIconDir = dirname(__FILE__);
-        self::$ICON_PASSED = $growlIconDir . DIRECTORY_SEPARATOR . 'passed.gif';
-        self::$ICON_FAILED = $growlIconDir . DIRECTORY_SEPARATOR . 'failed.gif';
+        self::$ICON_PASSED = $growlIconDir . DIRECTORY_SEPARATOR . 'passed.png';
+        self::$ICON_FAILED = $growlIconDir . DIRECTORY_SEPARATOR . 'failed.png';
+        self::$ICON_STOPPED = $growlIconDir . DIRECTORY_SEPARATOR . 'stopped.png';
     }
 
     /**
