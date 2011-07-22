@@ -47,7 +47,7 @@
 class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIController
 {
     protected $exceptionClass = 'Stagehand_TestRunner_Exception';
-    protected $shortOptions = 'hVRcp:aw:gm:v';
+    protected $shortOptions = 'hVRcp:aw:gm:vn';
     protected $longOptions =
         array(
             'growl-password=',
@@ -105,6 +105,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
         case 'w':
             $this->config->monitoringDirectories = explode(',', $value);
             return true;
+        case 'n':
         case 'g':
             $this->config->usesGrowl = true;
             return true;
@@ -219,8 +220,10 @@ OPTIONS
   -w DIRECTORY1,DIRECTORY2,...
      Specifies one or more directories to be monitored for changes.
 
+  -n
   -g
-     Notifies test results to Growl by using the growlnotify command in Mac OS X and Windows.
+     Notifies test results by using the growlnotify command in Mac OS X and Windows
+     or the notify-send command in Linux.
 
   --growl-password=PASSWORD
      Specifies PASSWORD for Growl.

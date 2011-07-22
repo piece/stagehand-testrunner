@@ -80,6 +80,8 @@ class Stagehand_TestRunner_TestRunnerTest extends Stagehand_TestRunner_TestCase
             array('Stagehand_TestRunner_PHPUnitFailureTest', false, 'win'),
             array('Stagehand_TestRunner_PHPUnitPassTest', true, 'darwin'),
             array('Stagehand_TestRunner_PHPUnitFailureTest', false, 'darwin'),
+            array('Stagehand_TestRunner_PHPUnitPassTest', true, 'linux'),
+            array('Stagehand_TestRunner_PHPUnitFailureTest', false, 'linux'),
         );
     }
 
@@ -106,6 +108,11 @@ class Stagehand_TestRunner_TestRunnerTest extends Stagehand_TestRunner_TestCase
                 '" --priority -2 --image "' . preg_quote($icon) .
                 '" --title "' . $title .
                 '" --message ".+"$!';
+        } elseif ($this->growlNotifier->isLinux()) {
+            $expected = '!^notify-send --urgency=low --icon="' .
+            preg_quote($icon) .
+            '" "' . $title .
+            '" ".+"$!';
         }
 
         $this->assertRegExp($expected, $command);

@@ -84,6 +84,14 @@ class Stagehand_TestRunner_Notification_GrowlNotifier
     }
 
     /**
+     * @return boolean
+     */
+    public function isLinux()
+    {
+        return strtolower(substr($this->getPHPOS(), 0, strlen('linux'))) == 'linux';
+    }
+
+    /**
      * @param Stagehand_TestRunner_Notification_Notification $result
      * @return string
      */
@@ -102,6 +110,13 @@ class Stagehand_TestRunner_Notification_GrowlNotifier
             return sprintf(
                 'growlnotify --name "%s" --priority -2 --image "%s" --title "%s" --message "%s"',
                 $title,
+                $result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED,
+                $title,
+                $result->getMessage()
+            );
+        } elseif ($this->isLinux()) {
+            return sprintf(
+                'notify-send --urgency=low --icon="%s" "%s" "%s"',
                 $result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED,
                 $title,
                 $result->getMessage()

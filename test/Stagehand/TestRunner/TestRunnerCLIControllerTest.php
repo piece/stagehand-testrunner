@@ -210,6 +210,38 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $runner->run();
         $this->assertEquals($testFileSuffix, $this->readAttribute($runner, 'config')->testFileSuffix);
     }
+
+    /**
+     * @test
+     * @dataProvider notificationOptions
+     * @param string $option
+     * @link http://redmine.piece-framework.com/issues/311
+     * @since Method available since Release 2.18.0
+     */
+    public function supportsNotifications($option)
+    {
+        $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', $option);
+        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
+        $runner = $this->getMock(
+                      'Stagehand_TestRunner_TestRunnerCLIController',
+                      array('runTests'),
+                      array(Stagehand_TestRunner_Framework::PHPUNIT)
+                  );
+        $runner->expects($this->any())
+               ->method('runTests')
+               ->will($this->returnValue(null));
+        $runner->run();
+        $this->assertTrue($this->readAttribute($runner, 'config')->usesGrowl);
+    }
+
+    /**
+     * @return array
+     * @since Method available since Release 2.18.0
+     */
+    public function notificationOptions()
+    {
+        return array(array('-n'), array('-g'),);
+    }
 }
 
 /*
