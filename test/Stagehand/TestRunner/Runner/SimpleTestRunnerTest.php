@@ -323,10 +323,14 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
      */
     public function supportsWebPageTesting()
     {
-        if (!fsockopen('www.example.com', 80, $errno, $errstr, 1)) {
-            $this->markTestSkipped('Cannot connect to http://www.example.com.');
-        }
-
+        $browser = $this->getMock('SimpleBrowser', array('getTransportError', 'getTitle'));
+        $browser->expects($this->any())
+                ->method('getTransportError')
+                ->will($this->returnValue(null));
+        $browser->expects($this->any())
+                ->method('getTitle')
+                ->will($this->returnValue('IANA &mdash; Example domains'));
+        $GLOBALS['STAGEHAND_TESTRUNNER_' . strtoupper($this->framework) . 'WEBPAGETEST_browser'] = $browser;
         $testClass = 'Stagehand_TestRunner_' . $this->framework . 'WebPageTest';
         $this->collector->collectTestCase($testClass);
         $this->runTests();
@@ -336,7 +340,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('testIsPass', $testClass);
+        $this->assertTestCasePassed('testIsPass', $testClass);
     }
 
     protected function loadClasses()

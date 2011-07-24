@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.14.0
@@ -37,19 +37,35 @@
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
 class Stagehand_TestRunner_CakeWebPageTest extends CakeWebTestCase
 {
+    /**
+     * @return SimpleBrowser
+     * @since Method available since Release 2.18.0
+     */
+    public function &createBrowser() {
+        return $GLOBALS['STAGEHAND_TESTRUNNER_CAKEWEBPAGETEST_browser'];
+    }
+
+    /**
+     * @since Method available since Release 2.18.0
+     */
+    public function skip()
+    {
+        $this->skipIf(@is_null($GLOBALS['STAGEHAND_TESTRUNNER_CAKEWEBPAGETEST_browser']), 'This is a skip message.');
+    }
+
     public function setUp() {
         $this->get('http://www.example.com/');
     }
 
     public function testIsPass() {
-        $this->assertTitle('Example Web Page');
+        $this->assertTitle('IANA &mdash; Example domains');
     }
 }
 

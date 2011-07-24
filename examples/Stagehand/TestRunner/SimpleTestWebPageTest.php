@@ -44,6 +44,22 @@
  */
 class Stagehand_TestRunner_SimpleTestWebPageTest extends WebTestCase
 {
+    /**
+     * @return SimpleBrowser
+     * @since Method available since Release 2.18.0
+     */
+    public function &createBrowser() {
+        return $GLOBALS['STAGEHAND_TESTRUNNER_SIMPLETESTWEBPAGETEST_browser'];
+    }
+
+    /**
+     * @since Method available since Release 2.18.0
+     */
+    public function skip()
+    {
+        $this->skipIf(@is_null($GLOBALS['STAGEHAND_TESTRUNNER_SIMPLETESTWEBPAGETEST_browser']), 'This is a skip message.');
+    }
+
     public function setUp() {
         $this->get('http://www.example.com/');
     }
