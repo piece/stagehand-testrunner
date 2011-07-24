@@ -106,9 +106,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
             }
 
             preg_match('/^((?:OK|FAILURES).+)/ms', $output, $matches);
-            $notificationDescription = $matches[1];
-
-            $this->notification = new Stagehand_TestRunner_Notification_Notification($notificationResult, $notificationMessage);
+            $this->notification = new Stagehand_TestRunner_Notification_Notification($notificationResult, $matches[1]);
         }
 
         if ($this->config->colors) {
