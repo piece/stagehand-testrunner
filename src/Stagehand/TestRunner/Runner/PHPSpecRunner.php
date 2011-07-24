@@ -81,9 +81,9 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
             $pendingsCount = $result->countPending();
 
             if ($failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount + $pendingsCount == 0) {
-                $notificationResult = true;
+                $notificationResult = Stagehand_TestRunner_Notification_Notification::RESULT_PASSED;
             } else {
-                $notificationResult = false;
+                $notificationResult = Stagehand_TestRunner_Notification_Notification::RESULT_FAILED;
             }
 
             preg_match('/^(\d+ examples?, \d+ failures?.*)/m', $output, $matches);

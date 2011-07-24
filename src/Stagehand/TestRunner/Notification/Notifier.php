@@ -47,6 +47,10 @@
  */
 class Stagehand_TestRunner_Notification_Notifier
 {
+    const TITLE_PASSED = 'Test Passed';
+    const TITLE_FAILED = 'Test Failed';
+    const TITLE_STOPPED = 'Test Stopped';
+
     public static $ICON_PASSED;
     public static $ICON_FAILED;
     public static $ICON_STOPPED;
@@ -60,11 +64,11 @@ class Stagehand_TestRunner_Notification_Notifier
     }
 
     /**
-     * @param Stagehand_TestRunner_Notification_Notification $result
+     * @param Stagehand_TestRunner_Notification_Notification $notification
      */
-    public function notifyResult(Stagehand_TestRunner_Notification_Notification $result)
+    public function notifyResult(Stagehand_TestRunner_Notification_Notification $notification)
     {
-        $this->executeNotifyCommand($this->buildNotifyCommand($result));
+        $this->executeNotifyCommand($this->buildNotifyCommand($notification));
     }
 
     /**
@@ -95,33 +99,44 @@ class Stagehand_TestRunner_Notification_Notifier
      * @param Stagehand_TestRunner_Notification_Notification $result
      * @return string
      */
-    protected function buildNotifyCommand(Stagehand_TestRunner_Notification_Notification $result)
+    protected function buildNotifyCommand(Stagehand_TestRunner_Notification_Notification $notification)
     {
-        $title = $result->isPassed() ? 'Test Passed' : 'Test Failed';
+        if ($notification->isPassed()) {
+            $title = self::TITLE_PASSED;
+            $icon = self::$ICON_PASSED;
+        } elseif ($notification->isFailed()) {
+            $title = self::TITLE_FAILED;
+            $icon = self::$ICON_FAILED;
+        } elseif ($notification->isStopped()) {
+            $title = self::TITLE_STOPPED;
+            $icon = self::$ICON_STOPPED;
+        }
+
         if ($this->isWin()) {
             return sprintf(
-                'growlnotify /t:%s /p:-2 /i:%s /a:Stagehand_TestRunner /r:%s,%s /n:%s /silent:true %s',
+                'growlnotify /t:%s /p:-2 /i:%s /a:Stagehand_TestRunner /r:%s,%s,%s /n:%s /silent:true %s',
                 escapeshellarg($title),
-                escapeshellarg($result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED),
-                escapeshellarg('Test Passed'),
-                escapeshellarg('Test Failed'),
+                escapeshellarg($icon),
+                escapeshellarg(self::TITLE_PASSED),
+                escapeshellarg(self::TITLE_FAILED),
+                escapeshellarg(self::TITLE_STOPPED),
                 escapeshellarg($title),
-                escapeshellarg($result->getMessage())
+                escapeshellarg($notification->getMessage())
             );
         } elseif ($this->isDarwin()) {
             return sprintf(
                 'growlnotify --name %s --priority -2 --image %s --title %s --message %s',
                 escapeshellarg($title),
-                escapeshellarg($result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED),
+                escapeshellarg($icon),
                 escapeshellarg($title),
-                escapeshellarg($result->getMessage())
+                escapeshellarg($notification->getMessage())
             );
         } elseif ($this->isLinux()) {
             return sprintf(
                 'notify-send --urgency=low --icon=%s %s %s',
-                escapeshellarg($result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED),
+                escapeshellarg($icon),
                 escapeshellarg($title),
-                escapeshellarg($result->getMessage())
+                escapeshellarg($notification->getMessage())
             );
         }
     }

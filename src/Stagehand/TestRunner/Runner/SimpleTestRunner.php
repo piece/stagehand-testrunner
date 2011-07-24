@@ -100,9 +100,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
 
         if ($this->config->usesNotification) {
             if ($textReporter->getFailCount() + $textReporter->getExceptionCount() == 0) {
-                $notificationResult = true;
+                $notificationResult = Stagehand_TestRunner_Notification_Notification::RESULT_PASSED;
             } else {
-                $notificationResult = false;
+                $notificationResult = Stagehand_TestRunner_Notification_Notification::RESULT_FAILED;
             }
 
             preg_match('/^((?:OK|FAILURES).+)/ms', $output, $matches);

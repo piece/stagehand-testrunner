@@ -91,17 +91,21 @@ class Stagehand_TestRunner_TestRunnerTest extends Stagehand_TestRunner_TestCase
     public function executeGrowlNotifyCommand($command)
     {
         if ($this->result) {
-            $title = 'Test Passed';
+            $title = Stagehand_TestRunner_Notification_Notifier::TITLE_PASSED;
             $icon = Stagehand_TestRunner_Notification_Notifier::$ICON_PASSED;
         } else {
-            $title = 'Test Failed';
+            $title = Stagehand_TestRunner_Notification_Notifier::TITLE_FAILED;
             $icon = Stagehand_TestRunner_Notification_Notifier::$ICON_FAILED;
         }
 
         if ($this->notifier->isWin()) {
             $expected = '!^growlnotify /t:' . escapeshellarg($title) .
                 ' /p:-2 /i:' . escapeshellarg(preg_quote($icon)) .
-                ' /a:Stagehand_TestRunner /r:' . escapeshellarg('Test Passed') . ',' . escapeshellarg('Test Failed') . ' /n:' . escapeshellarg($title) .
+                ' /a:Stagehand_TestRunner /r:' .
+                escapeshellarg(Stagehand_TestRunner_Notification_Notifier::TITLE_PASSED) . ',' .
+                escapeshellarg(Stagehand_TestRunner_Notification_Notifier::TITLE_FAILED) . ',' .
+                escapeshellarg(Stagehand_TestRunner_Notification_Notifier::TITLE_STOPPED) .
+                ' /n:' . escapeshellarg($title) .
                 ' /silent:true ' . escapeshellarg('.+') . '$!';
         } elseif ($this->notifier->isDarwin()) {
             $expected = '!^growlnotify --name ' . escapeshellarg($title) .

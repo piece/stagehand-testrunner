@@ -116,9 +116,9 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
 
         if ($this->config->usesNotification) {
             if ($testResult->failureCount() + $testResult->errorCount() + $testResult->skippedCount() + $testResult->notImplementedCount() == 0) {
-                $notificationResult = true;
+                $notificationResult = Stagehand_TestRunner_Notification_Notification::RESULT_PASSED;
             } else {
-                $notificationResult = false;
+                $notificationResult = Stagehand_TestRunner_Notification_Notification::RESULT_FAILED;
             }
 
             ob_start();

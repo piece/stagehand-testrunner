@@ -65,6 +65,13 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
     protected $config;
 
     /**
+     * @since Property available since Release 2.18.0
+     */
+    protected $runnerCommandForAlterationMonitoring;
+
+    protected $output;
+
+    /**
      * @param string $framework
      */
     public function __construct($framework)
@@ -380,7 +387,7 @@ All rights reserved.
         }
 
         if ($this->config->usesNotification) {
-            $options[] = '-g';
+            $options[] = '-n';
         }
 
         if (!is_null($this->config->growlPassword)) {
@@ -414,17 +421,41 @@ All rights reserved.
      */
     protected function createAlterationMonitor(array $monitoringDirectories, $command, array $options)
     {
-        return new Stagehand_AlterationMonitor(
-                       $monitoringDirectories,
-                       create_function(
-                           '',
-                           "passthru('" .
-                           $command .
-                           ' ' .
-                           implode(' ', $options) .
-                           "');"
-                       )
-               );
+        $this->runnerCommandForAlterationMonitoring = $command . ' ' . implode(' ', $options);
+        return new Stagehand_AlterationMonitor($monitoringDirectories, array($this, 'executeRunnerCommand'));
+    }
+
+    /**
+     * @since Method available since Release 2.18.0
+     */
+    public function executeRunnerCommand()
+    {
+        $this->output = '';
+        ob_start(array($this, 'filterOutput'), 2);
+        passthru($this->runnerCommandForAlterationMonitoring, $exitStatus);
+        ob_end_flush();
+        if ($exitStatus != 0 && $this->config->usesNotification) {
+            $message = ltrim(Stagehand_TestRunner_Util_String::normalizeNewline($this->output));
+            $firstNewlinePosition = strpos($message, PHP_EOL);
+            if ($firstNewlinePosition !== false) {
+                $message = substr($message, 0, $firstNewlinePosition);
+            }
+            $notifier = new Stagehand_TestRunner_Notification_Notifier();
+            $notifier->notifyResult(
+                new Stagehand_TestRunner_Notification_Notification(
+                    Stagehand_TestRunner_Notification_Notification::RESULT_STOPPED,
+                    $message
+            ));
+        }
+    }
+
+    /**
+     * @since Method available since Release 2.18.0
+     */
+    public function filterOutput($buffer)
+    {
+        $this->output .= $buffer;
+        return $buffer;
     }
 
     /**

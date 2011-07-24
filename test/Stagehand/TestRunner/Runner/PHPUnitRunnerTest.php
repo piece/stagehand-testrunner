@@ -409,8 +409,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $notification = $this->runner->getNotification();
         if ($result) {
             $this->assertTrue($notification->isPassed());
+            $this->assertFalse($notification->isFailed());
+            $this->assertFalse($notification->isStopped());
         } else {
             $this->assertFalse($notification->isPassed());
+            $this->assertTrue($notification->isFailed());
+            $this->assertFalse($notification->isStopped());
         }
         $this->assertEquals($description, $notification->getMessage());
     }

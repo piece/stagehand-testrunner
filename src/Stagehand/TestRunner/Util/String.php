@@ -5,7 +5,6 @@
  * PHP version 5
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
- *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +30,6 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
- * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.18.0
@@ -40,56 +38,18 @@
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
- * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-class Stagehand_TestRunner_Notification_Notification
+class Stagehand_TestRunner_Util_String
 {
-    const RESULT_PASSED = 'RESULT_PASSED';
-    const RESULT_FAILED = 'RESULT_FAILED';
-    const RESULT_STOPPED = 'RESULT_STOPPED';
-
-    protected $result;
-    protected $message;
-
-    public function __construct($result, $message)
+    public static function normalizeNewline($target)
     {
-        $this->result = $result;
-        $message = strtr($message, "\x0d\x0a", ' ');
-        $message = strtr($message, "\x0d", ' ');
-        $message = strtr($message, "\x0a", ' ');
-        $this->message = $message;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPassed()
-    {
-        return $this->result == self::RESULT_PASSED;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isFailed()
-    {
-        return $this->result == self::RESULT_FAILED;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isStopped()
-    {
-        return $this->result == self::RESULT_STOPPED;
-    }
-
-    public function getMessage()
-    {
-        return $this->message;
+        $target = strtr($target, "\x0d\x0a", PHP_EOL);
+        $target = strtr($target, "\x0d", PHP_EOL);
+        $target = strtr($target, "\x0a", PHP_EOL);
+        return $target;
     }
 }
 
