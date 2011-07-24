@@ -99,20 +99,20 @@ class Stagehand_TestRunner_TestRunnerTest extends Stagehand_TestRunner_TestCase
         }
 
         if ($this->notifier->isWin()) {
-            $expected = '!^growlnotify /t:"' . $title .
-                '" /p:-2 /i:"' . preg_quote($icon) .
-                '" /a:Stagehand_TestRunner /r:"Test Passed","Test Failed" /n:"' . $title .
-                '" /silent:true ".+"$!';
+            $expected = '!^growlnotify /t:' . escapeshellarg($title) .
+                ' /p:-2 /i:' . escapeshellarg(preg_quote($icon)) .
+                ' /a:Stagehand_TestRunner /r:' . escapeshellarg('Test Passed') . ',' . escapeshellarg('Test Failed') . ' /n:' . escapeshellarg($title) .
+                ' /silent:true ' . escapeshellarg('.+') . '$!';
         } elseif ($this->notifier->isDarwin()) {
-            $expected = '!^growlnotify --name "' . $title .
-                '" --priority -2 --image "' . preg_quote($icon) .
-                '" --title "' . $title .
-                '" --message ".+"$!';
+            $expected = '!^growlnotify --name ' . escapeshellarg($title) .
+                ' --priority -2 --image ' . escapeshellarg(preg_quote($icon)) .
+                ' --title ' . escapeshellarg($title) .
+                ' --message ' . escapeshellarg('.+') . '$!';
         } elseif ($this->notifier->isLinux()) {
-            $expected = '!^notify-send --urgency=low --icon="' .
-            preg_quote($icon) .
-            '" "' . $title .
-            '" ".+"$!';
+            $expected = '!^notify-send --urgency=low --icon=' .
+            escapeshellarg(preg_quote($icon)) .
+            ' ' . escapeshellarg($title) .
+            ' ' . escapeshellarg('.+') . '$!';
         }
 
         $this->assertRegExp($expected, $command);

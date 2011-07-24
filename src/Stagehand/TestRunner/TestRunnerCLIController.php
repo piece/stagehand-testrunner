@@ -357,20 +357,22 @@ All rights reserved.
             $command = $matches[1] . ':\\' . str_replace('/', '\\', $matches[2]);
         }
 
+        $command = escapeshellarg($command);
+
         if (!preg_match('/(?:phpspec|phpt|phpunit|simpletest)runner$/', $command)) {
             $configFile = get_cfg_var('cfg_file_path');
             if ($configFile !== false) {
                 $options[] = '-c';
-                $options[] = dirname($configFile);
+                $options[] = escapeshellarg(dirname($configFile));
             }
 
-            $options[] = $_SERVER['argv'][0];
+            $options[] = escapeshellarg($_SERVER['argv'][0]);
         }
 
         $options[] = '-R';
 
         if (!is_null($this->config->preloadFile)) {
-            $options[] = '-p ' . $this->config->preloadFile;
+            $options[] = '-p ' . escapeshellarg($this->config->preloadFile);
         }
 
         if ($this->config->colors) {
@@ -382,11 +384,11 @@ All rights reserved.
         }
 
         if (!is_null($this->config->growlPassword)) {
-            $options[] = '--growl-password=' . $this->config->growlPassword;
+            $options[] = '--growl-password=' . escapeshellarg($this->config->growlPassword);
         }
 
         foreach ($this->config->testingResources as $testingResource) {
-            $options[] = $testingResource;
+            $options[] = escapeshellarg($testingResource);
         }
 
         $this->createAlterationMonitor($monitoringDirectories, $command, $options)->monitor();

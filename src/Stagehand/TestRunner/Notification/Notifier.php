@@ -100,26 +100,28 @@ class Stagehand_TestRunner_Notification_Notifier
         $title = $result->isPassed() ? 'Test Passed' : 'Test Failed';
         if ($this->isWin()) {
             return sprintf(
-                'growlnotify /t:"%s" /p:-2 /i:"%s" /a:Stagehand_TestRunner /r:"Test Passed","Test Failed" /n:"%s" /silent:true "%s"',
-                $title,
-                $result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED,
-                $title,
-                $result->getMessage()
+                'growlnotify /t:%s /p:-2 /i:%s /a:Stagehand_TestRunner /r:%s,%s /n:%s /silent:true %s',
+                escapeshellarg($title),
+                escapeshellarg($result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED),
+                escapeshellarg('Test Passed'),
+                escapeshellarg('Test Failed'),
+                escapeshellarg($title),
+                escapeshellarg($result->getMessage())
             );
         } elseif ($this->isDarwin()) {
             return sprintf(
-                'growlnotify --name "%s" --priority -2 --image "%s" --title "%s" --message "%s"',
-                $title,
-                $result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED,
-                $title,
-                $result->getMessage()
+                'growlnotify --name %s --priority -2 --image %s --title %s --message %s',
+                escapeshellarg($title),
+                escapeshellarg($result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED),
+                escapeshellarg($title),
+                escapeshellarg($result->getMessage())
             );
         } elseif ($this->isLinux()) {
             return sprintf(
-                'notify-send --urgency=low --icon="%s" "%s" "%s"',
-                $result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED,
-                $title,
-                $result->getMessage()
+                'notify-send --urgency=low --icon=%s %s %s',
+                escapeshellarg($result->isPassed() ? self::$ICON_PASSED : self::$ICON_FAILED),
+                escapeshellarg($title),
+                escapeshellarg($result->getMessage())
             );
         }
     }

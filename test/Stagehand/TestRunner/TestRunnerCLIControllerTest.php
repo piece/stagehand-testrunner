@@ -92,12 +92,12 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
                ->method('createAlterationMonitor')
                ->will($this->returnCallback(array($this, 'createAlterationMonitor')));
         $runner->run();
-        $this->assertEquals($_SERVER['_'], $this->commandForAlterationMonitor);
+        $this->assertEquals(escapeshellarg($_SERVER['_']), $this->commandForAlterationMonitor);
         $this->assertEquals(5, count($this->optionsForAlterationMonitor));
         $this->assertEquals('-c', $this->optionsForAlterationMonitor[0]);
-        $this->assertEquals($launcherScript, $this->optionsForAlterationMonitor[2]);
+        $this->assertEquals(escapeshellarg($launcherScript), $this->optionsForAlterationMonitor[2]);
         $this->assertEquals('-R', $this->optionsForAlterationMonitor[3]);
-        $this->assertEquals(dirname(__FILE__), $this->optionsForAlterationMonitor[4]);
+        $this->assertEquals(escapeshellarg(dirname(__FILE__)), $this->optionsForAlterationMonitor[4]);
     }
 
     public function createAlterationMonitor(array $monitoringDirectories, $command, array $options)
