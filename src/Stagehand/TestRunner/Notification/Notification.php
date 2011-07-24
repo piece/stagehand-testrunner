@@ -57,10 +57,7 @@ class Stagehand_TestRunner_Notification_Notification
     public function __construct($result, $message)
     {
         $this->result = $result;
-        $message = strtr($message, "\x0d\x0a", ' ');
-        $message = strtr($message, "\x0d", ' ');
-        $message = strtr($message, "\x0a", ' ');
-        $this->message = $message;
+        $this->message = strtr(Stagehand_TestRunner_Util_String::normalizeNewline($message), PHP_EOL, ' ');
     }
 
     /**
