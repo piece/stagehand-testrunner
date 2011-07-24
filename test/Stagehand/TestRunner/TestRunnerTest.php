@@ -60,9 +60,9 @@ class Stagehand_TestRunner_TestRunnerTest extends Stagehand_TestRunner_TestCase
      */
     public function createNotificationWithAIcon($testClass, $result, $phpOS)
     {
-        $this->config->usesGrowl = true;
+        $this->config->usesNotification = true;
         $this->collector->collectTestCase($testClass);
-        $this->growlNotifier->expects($this->any())
+        $this->notifier->expects($this->any())
                     ->method('executeNotifyCommand')
                     ->will($this->returnCallback(array($this, 'executeGrowlNotifyCommand')));
         $this->phpOS = $phpOS;
@@ -92,23 +92,23 @@ class Stagehand_TestRunner_TestRunnerTest extends Stagehand_TestRunner_TestCase
     {
         if ($this->result) {
             $title = 'Test Passed';
-            $icon = Stagehand_TestRunner_Notification_GrowlNotifier::$ICON_PASSED;
+            $icon = Stagehand_TestRunner_Notification_Notifier::$ICON_PASSED;
         } else {
             $title = 'Test Failed';
-            $icon = Stagehand_TestRunner_Notification_GrowlNotifier::$ICON_FAILED;
+            $icon = Stagehand_TestRunner_Notification_Notifier::$ICON_FAILED;
         }
 
-        if ($this->growlNotifier->isWin()) {
+        if ($this->notifier->isWin()) {
             $expected = '!^growlnotify /t:"' . $title .
                 '" /p:-2 /i:"' . preg_quote($icon) .
                 '" /a:Stagehand_TestRunner /r:"Test Passed","Test Failed" /n:"' . $title .
                 '" /silent:true ".+"$!';
-        } elseif ($this->growlNotifier->isDarwin()) {
+        } elseif ($this->notifier->isDarwin()) {
             $expected = '!^growlnotify --name "' . $title .
                 '" --priority -2 --image "' . preg_quote($icon) .
                 '" --title "' . $title .
                 '" --message ".+"$!';
-        } elseif ($this->growlNotifier->isLinux()) {
+        } elseif ($this->notifier->isLinux()) {
             $expected = '!^notify-send --urgency=low --icon="' .
             preg_quote($icon) .
             '" "' . $title .

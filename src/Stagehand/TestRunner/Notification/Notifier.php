@@ -45,7 +45,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-class Stagehand_TestRunner_Notification_GrowlNotifier
+class Stagehand_TestRunner_Notification_Notifier
 {
     public static $ICON_PASSED;
     public static $ICON_FAILED;

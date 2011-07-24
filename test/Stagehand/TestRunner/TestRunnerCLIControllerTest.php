@@ -231,7 +231,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
                ->method('runTests')
                ->will($this->returnValue(null));
         $runner->run();
-        $this->assertTrue($this->readAttribute($runner, 'config')->usesGrowl);
+        $this->assertTrue($this->readAttribute($runner, 'config')->usesNotification);
     }
 
     /**

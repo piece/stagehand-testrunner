@@ -402,7 +402,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function createsANotificationForGrowlWithColors($testClass, $result, $description)
     {
         require_once 'Console/Color.php';
-        $this->config->usesGrowl = true;
+        $this->config->usesNotification = true;
         $this->config->colors = true;
         $this->collector->collectTestCase($testClass);
         $this->runTests();
@@ -427,7 +427,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     public function createsANotificationForGrowlWithoutColors($testClass, $result, $description)
     {
         require_once 'Console/Color.php';
-        $this->config->usesGrowl = true;
+        $this->config->usesNotification = true;
         $this->config->colors = false;
         $this->collector->collectTestCase($testClass);
         $this->runTests();

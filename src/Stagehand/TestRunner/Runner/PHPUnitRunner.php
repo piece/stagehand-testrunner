@@ -114,7 +114,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
         $testRunner->setTestResult($testResult);
         $testRunner->doRun($suite, $arguments);
 
-        if ($this->config->usesGrowl) {
+        if ($this->config->usesNotification) {
             if ($testResult->failureCount() + $testResult->errorCount() + $testResult->skippedCount() + $testResult->notImplementedCount() == 0) {
                 $notificationResult = true;
             } else {

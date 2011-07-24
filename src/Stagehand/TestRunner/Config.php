@@ -50,7 +50,7 @@ class Stagehand_TestRunner_Config
     public $preloadFile;
     public $enablesAutotest = false;
     public $monitoringDirectories = array();
-    public $usesGrowl = false;
+    public $usesNotification = false;
     public $growlPassword;
     public $testsOnlySpecifiedMethods = false;
     public $testsOnlySpecifiedClasses = false;

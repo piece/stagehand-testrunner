@@ -69,10 +69,10 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
     protected $runner;
 
     /**
-     * @var Stagehand_TestRunner_Notification_GrowlNotifier
+     * @var Stagehand_TestRunner_Notification_Notifier
      * @since Property available since Release 2.18.0
      */
-    protected $growlNotifier;
+    protected $notifier;
 
     protected $framework;
     protected $output;
@@ -116,11 +116,11 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         $collectorFactory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
         $this->collector = $collectorFactory->create();
 
-        $this->growlNotifier = $this->getMock('Stagehand_TestRunner_Notification_GrowlNotifier', array('executeNotifyCommand', 'getPHPOS'));
-        $this->growlNotifier->expects($this->any())
+        $this->notifier = $this->getMock('Stagehand_TestRunner_Notification_Notifier', array('executeNotifyCommand', 'getPHPOS'));
+        $this->notifier->expects($this->any())
                     ->method('executeNotifyCommand')
                     ->will($this->returnValue(null));
-        $this->growlNotifier->expects($this->any())
+        $this->notifier->expects($this->any())
                     ->method('getPHPOS')
                     ->will($this->returnCallback(array($this, 'getPHPOS')));
 
@@ -252,7 +252,7 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         $this->runner = $factory->create();
         $testRunner = $this->getMock(
                           'Stagehand_TestRunner_TestRunner',
-                          array('createPreparer', 'createCollector', 'createRunner', 'createGrowlNotifier'),
+                          array('createPreparer', 'createCollector', 'createRunner', 'createNotifier'),
                           array($this->config)
                       );
         $testRunner->expects($this->any())
@@ -265,8 +265,8 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
                    ->method('createRunner')
                    ->will($this->returnValue($this->runner));
         $testRunner->expects($this->any())
-                   ->method('createGrowlNotifier')
-                   ->will($this->returnValue($this->growlNotifier));
+                   ->method('createNotifier')
+                   ->will($this->returnValue($this->notifier));
 
         ob_start();
         $testRunner->run();

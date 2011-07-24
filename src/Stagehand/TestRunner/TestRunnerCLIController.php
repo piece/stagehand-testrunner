@@ -107,7 +107,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             return true;
         case 'n':
         case 'g':
-            $this->config->usesGrowl = true;
+            $this->config->usesNotification = true;
             return true;
         case '--growl-password':
             $this->config->growlPassword = $value;
@@ -377,7 +377,7 @@ All rights reserved.
             $options[] = '-c';
         }
 
-        if ($this->config->usesGrowl) {
+        if ($this->config->usesNotification) {
             $options[] = '-g';
         }
 

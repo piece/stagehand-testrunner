@@ -78,7 +78,7 @@ class Stagehand_TestRunner_TestRunner
         $runner = $this->createRunner();
         $this->result = $runner->run($this->createCollector()->collect());
 
-        if ($this->config->usesGrowl) {
+        if ($this->config->usesNotification) {
             $this->notifyResult($runner->getNotification());
         }
     }
@@ -114,12 +114,12 @@ class Stagehand_TestRunner_TestRunner
     }
 
     /**
-     * @return Stagehand_TestRunner_Notification_GrowlNotifier
+     * @return Stagehand_TestRunner_Notification_Notifier
      * @since Method available since Release 2.18.0
      */
-    protected function createGrowlNotifier()
+    protected function createNotifier()
     {
-        return new Stagehand_TestRunner_Notification_GrowlNotifier();
+        return new Stagehand_TestRunner_Notification_Notifier();
     }
 
     /**
@@ -128,7 +128,7 @@ class Stagehand_TestRunner_TestRunner
      */
     protected function notifyResult(Stagehand_TestRunner_Notification_Notification $result)
     {
-        $this->createGrowlNotifier()->notifyResult($result);
+        $this->createNotifier()->notifyResult($result);
     }
 }
 

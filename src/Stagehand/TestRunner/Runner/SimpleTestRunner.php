@@ -98,7 +98,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
             }
         }
 
-        if ($this->config->usesGrowl) {
+        if ($this->config->usesNotification) {
             if ($textReporter->getFailCount() + $textReporter->getExceptionCount() == 0) {
                 $notificationResult = true;
             } else {
