@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2007-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpspec.org/
@@ -40,7 +40,7 @@
  * A reporter for PHPSpec.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpspec.org/
@@ -68,16 +68,16 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
         if ($this->color) {
             switch ($symbol) {
             case '.':
-                $symbol = Stagehand_TestRunner_Coloring::green($symbol);
+                $symbol = Stagehand_TestRunner_Util_Coloring::green($symbol);
                 break;
             case 'F':
-                $symbol = Stagehand_TestRunner_Coloring::red($symbol);
+                $symbol = Stagehand_TestRunner_Util_Coloring::red($symbol);
                 break;
             case 'E':
-                $symbol = Stagehand_TestRunner_Coloring::magenta($symbol);
+                $symbol = Stagehand_TestRunner_Util_Coloring::magenta($symbol);
                 break;
             case 'P':
-                $symbol = Stagehand_TestRunner_Coloring::yellow($symbol);
+                $symbol = Stagehand_TestRunner_Util_Coloring::yellow($symbol);
                 break;
             }
         }
@@ -124,18 +124,18 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
                                          '/^(Failures:)/m',
                                          '/^(Pending:)/m'
                                          ),
-                                   array(Stagehand_TestRunner_Coloring::$colorLabel('$1'),
-                                         Stagehand_TestRunner_Coloring::magenta('$1$2$3'),
-                                         Stagehand_TestRunner_Coloring::red('$1$2$3'),
-                                         Stagehand_TestRunner_Coloring::red('$1$2$3'),
-                                         Stagehand_TestRunner_Coloring::yellow('$1$2$3'),
-                                         Stagehand_TestRunner_Coloring::green('$1$2$3'),
-                                         '$1' . Stagehand_TestRunner_Coloring::magenta('$2'),
-                                         '$1' . Stagehand_TestRunner_Coloring::red('$2'),
-                                         '$1' . Stagehand_TestRunner_Coloring::yellow('$2'),
-                                         Stagehand_TestRunner_Coloring::magenta('$1'),
-                                         Stagehand_TestRunner_Coloring::red('$1'),
-                                         Stagehand_TestRunner_Coloring::yellow('$1')
+                                   array(Stagehand_TestRunner_Util_Coloring::$colorLabel('$1'),
+                                         Stagehand_TestRunner_Util_Coloring::magenta('$1$2$3'),
+                                         Stagehand_TestRunner_Util_Coloring::red('$1$2$3'),
+                                         Stagehand_TestRunner_Util_Coloring::red('$1$2$3'),
+                                         Stagehand_TestRunner_Util_Coloring::yellow('$1$2$3'),
+                                         Stagehand_TestRunner_Util_Coloring::green('$1$2$3'),
+                                         '$1' . Stagehand_TestRunner_Util_Coloring::magenta('$2'),
+                                         '$1' . Stagehand_TestRunner_Util_Coloring::red('$2'),
+                                         '$1' . Stagehand_TestRunner_Util_Coloring::yellow('$2'),
+                                         Stagehand_TestRunner_Util_Coloring::magenta('$1'),
+                                         Stagehand_TestRunner_Util_Coloring::red('$1'),
+                                         Stagehand_TestRunner_Util_Coloring::yellow('$1')
                                          ),
                                    Console_Color::escape($output)
                                    );

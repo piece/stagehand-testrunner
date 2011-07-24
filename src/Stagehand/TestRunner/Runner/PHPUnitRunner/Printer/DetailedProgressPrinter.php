@@ -67,7 +67,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
     {
         $message = 'raised an error';
         $this->write(
-            $this->colors ? Stagehand_TestRunner_Coloring::magenta($message)
+            $this->colors ? Stagehand_TestRunner_Util_Coloring::magenta($message)
                           : $message
         );
 
@@ -85,7 +85,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
     {
         $message = 'failed';
         $this->write(
-            $this->colors ? Stagehand_TestRunner_Coloring::red($message)
+            $this->colors ? Stagehand_TestRunner_Util_Coloring::red($message)
                           : $message
         );
 
@@ -109,7 +109,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
         }
 
         $this->write(
-            $this->colors ? Stagehand_TestRunner_Coloring::yellow($message)
+            $this->colors ? Stagehand_TestRunner_Util_Coloring::yellow($message)
                           : $message
         );
 
@@ -132,7 +132,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
         }
 
         $this->write(
-            $this->colors ? Stagehand_TestRunner_Coloring::yellow($message)
+            $this->colors ? Stagehand_TestRunner_Util_Coloring::yellow($message)
                           : $message
         );
 
@@ -200,7 +200,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter 
         if (!$this->lastTestFailed) {
             $message = 'passed';
             $this->write(
-                $this->colors ? Stagehand_TestRunner_Coloring::green($message)
+                $this->colors ? Stagehand_TestRunner_Util_Coloring::green($message)
                               : $message
             );
         }

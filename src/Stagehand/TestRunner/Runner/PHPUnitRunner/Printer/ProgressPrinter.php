@@ -64,7 +64,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
             return;
         }
 
-        $this->writeProgress(Stagehand_TestRunner_Coloring::magenta('E'));
+        $this->writeProgress(Stagehand_TestRunner_Util_Coloring::magenta('E'));
         $this->lastTestFailed = TRUE;
     }
 
@@ -82,7 +82,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
             return;
         }
 
-        $this->writeProgress(Stagehand_TestRunner_Coloring::red('F'));
+        $this->writeProgress(Stagehand_TestRunner_Util_Coloring::red('F'));
         $this->lastTestFailed = TRUE;
     }
 
@@ -100,7 +100,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
             return;
         }
 
-        $this->writeProgress(Stagehand_TestRunner_Coloring::yellow('I'));
+        $this->writeProgress(Stagehand_TestRunner_Util_Coloring::yellow('I'));
         $this->lastTestFailed = TRUE;
     }
 
@@ -118,7 +118,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
             return;
         }
 
-        $this->writeProgress(Stagehand_TestRunner_Coloring::yellow('S'));
+        $this->writeProgress(Stagehand_TestRunner_Util_Coloring::yellow('S'));
         $this->lastTestFailed = TRUE;
     }
 
@@ -136,7 +136,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter extends 
         }
 
         if (!$this->lastTestFailed) {
-            $this->writeProgress(Stagehand_TestRunner_Coloring::green('.'));
+            $this->writeProgress(Stagehand_TestRunner_Util_Coloring::green('.'));
         }
 
         if ($test instanceof PHPUnit_Framework_TestCase) {
