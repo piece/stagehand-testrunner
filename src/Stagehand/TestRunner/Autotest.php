@@ -180,7 +180,7 @@ class Stagehand_TestRunner_Autotest
     {
         $options = array();
 
-        if (!preg_match('/(?:phpspec|phpt|phpunit|simpletest)runner$/', $this->runnerCommand)) {
+        if (!preg_match('/(?:cake|ciunit|phpspec|phpt|phpunit|simpletest)runner$/', $this->runnerCommand)) {
             $configFile = get_cfg_var('cfg_file_path');
             if ($configFile !== false) {
                 $options[] = '-c';
@@ -206,6 +206,38 @@ class Stagehand_TestRunner_Autotest
 
         if (!is_null($this->config->growlPassword)) {
             $options[] = '--growl-password=' . escapeshellarg($this->config->growlPassword);
+        }
+
+        if ($this->config->printsDetailedProgressReport) {
+            $options[] = '-v';
+        }
+
+        if ($this->config->stopsOnFailure) {
+            $options[] = '--stop-on-failure';
+        }
+
+        if (!is_null($this->config->phpunitConfigFile)) {
+            $options[] = '--phpunit-config=' . escapeshellarg($this->config->phpunitConfigFile);
+        }
+
+        if (!is_null($this->config->cakephpAppPath)) {
+            $options[] = '--cakephp-app-path=' . escapeshellarg($this->config->cakephpAppPath);
+        }
+
+        if (!is_null($this->config->cakephpCorePath)) {
+            $options[] = '--cakephp-core-path=' . escapeshellarg($this->config->cakephpCorePath);
+        }
+
+        if (!is_null($this->config->ciunitPath)) {
+            $options[] = '--ciunit-path=' . escapeshellarg($this->config->ciunitPath);
+        }
+
+        if (!is_null($this->config->testFilePattern)) {
+            $options[] = '--test-file-pattern=' . escapeshellarg($this->config->testFilePattern);
+        }
+
+        if (!is_null($this->config->testFileSuffix)) {
+            $options[] = '--test-file-suffix=' . escapeshellarg($this->config->testFileSuffix);
         }
 
         foreach ($this->config->testingResources as $testingResource) {
