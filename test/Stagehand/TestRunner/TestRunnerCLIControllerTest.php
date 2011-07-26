@@ -44,8 +44,11 @@
  */
 class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework_TestCase
 {
-    private $commandForAlterationMonitor;
-    private $optionsForAlterationMonitor;
+    /**
+     * @var Stagehand_TestRunner_Autotest
+     * @since Property available since Release 2.18.0
+     */
+    protected $autotest;
 
     /**
      * @test
@@ -85,34 +88,47 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $runner = $this->getMock(
                       'Stagehand_TestRunner_TestRunnerCLIController',
-                      array('createAlterationMonitor'),
+                      array('createAutotest'),
                       array(Stagehand_TestRunner_Framework::PHPUNIT)
                   );
         $runner->expects($this->any())
-               ->method('createAlterationMonitor')
-               ->will($this->returnCallback(array($this, 'createAlterationMonitor')));
+               ->method('createAutotest')
+               ->will($this->returnCallback(array($this, 'createAutotest')));
         $runner->run();
-        $this->assertEquals(escapeshellarg($_SERVER['_']), $this->commandForAlterationMonitor);
-        $this->assertEquals(5, count($this->optionsForAlterationMonitor));
-        $this->assertEquals('-c', $this->optionsForAlterationMonitor[0]);
-        $this->assertEquals(escapeshellarg($launcherScript), $this->optionsForAlterationMonitor[2]);
-        $this->assertEquals('-R', $this->optionsForAlterationMonitor[3]);
-        $this->assertEquals(escapeshellarg(dirname(__FILE__)), $this->optionsForAlterationMonitor[4]);
+
+        $this->assertEquals(
+            escapeshellarg($_SERVER['_']),
+            $this->readAttribute($this->autotest, 'runnerCommand')
+        );
+
+        $runnerOptions = $this->readAttribute($this->autotest, 'runnerOptions');
+        $this->assertEquals(5, count($runnerOptions));
+        $this->assertEquals('-c', $runnerOptions[0]);
+        $this->assertEquals(escapeshellarg($launcherScript), $runnerOptions[2]);
+        $this->assertEquals('-R', $runnerOptions[3]);
+        $this->assertEquals(escapeshellarg(dirname(__FILE__)), $runnerOptions[4]);
     }
 
-    public function createAlterationMonitor(array $monitoringDirectories, $command, array $options)
+    /**
+     * @param Stagehand_TestRunner_Config $config
+     * @return Stagehand_TestRunner_Autotest
+     * @since Method available since Release 2.18.0
+     */
+    public function createAutotest(Stagehand_TestRunner_Config $config)
     {
-        $this->commandForAlterationMonitor = $command;
-        $this->optionsForAlterationMonitor = $options;
-        $monitor = $this->getMock(
-                       'Stagehand_AlterationMonitor',
-                       array('monitor'),
-                       array($monitoringDirectories, null)
-                   );
+        $monitor = $this->getMock('Stagehand_AlterationMonitor', array('monitor'), array(null, null));
         $monitor->expects($this->any())
                 ->method('monitor')
                 ->will($this->returnValue(null));
-        return $monitor;
+        $this->autotest = $this->getMock(
+            'Stagehand_TestRunner_Autotest',
+            array('createAlterationMonitor'),
+            array($config)
+        );
+        $this->autotest->expects($this->any())
+                       ->method('createAlterationMonitor')
+                       ->will($this->returnValue($monitor));
+        return $this->autotest;
     }
 
     public function provideLauncherScript()

@@ -65,13 +65,6 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
     protected $config;
 
     /**
-     * @since Property available since Release 2.18.0
-     */
-    protected $runnerCommandForAlterationMonitoring;
-
-    protected $output;
-
-    /**
      * @param string $framework
      */
     public function __construct($framework)
@@ -187,7 +180,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
         if (!$this->config->enablesAutotest) {
             $this->runTests();
         } else {
-            $this->monitorAlteration();
+            $this->createAutotest($this->config)->monitorAlteration();
         }
     }
 
@@ -316,89 +309,13 @@ All rights reserved.
     }
 
     /**
-     * Monitors for changes in one or more target directories and runs tests in
-     * the test directory recursively when changes are detected. And also the test
-     * directory is always added to the directories to be monitored.
-     *
-     * @throws Stagehand_TestRunner_Exception
-     * @since Method available since Release 2.1.0
+     * @param Stagehand_TestRunner_Config $config
+     * @return Stagehand_TestRunner_Autotest
+     * @since Method available since Release 2.18.0
      */
-    protected function monitorAlteration()
+    protected function createAutotest(Stagehand_TestRunner_Config $config)
     {
-        $monitoringDirectories = array();
-        foreach (array_merge($this->config->monitoringDirectories,
-                             $this->config->testingResources) as $directory
-                 ) {
-            if (!is_dir($directory)) {
-                throw new Stagehand_TestRunner_Exception(
-                    'A specified path [ ' .
-                    $directory .
-                    ' ] is not found or not a directory'
-                                                         );
-            }
-
-            $directory = realpath($directory);
-            if ($directory === false) {
-                throw new Stagehand_TestRunner_Exception(
-                    'Cannnot get the absolute path of a specified directory [ ' .
-                    $directory .
-                    ' ]. Make sure all elements of the absolute path have valid permissions.'
-                                                         );
-            }
-
-            if (!in_array($directory, $monitoringDirectories)) {
-                $monitoringDirectories[] = $directory;
-            }
-        }
-
-        if (array_key_exists('_', $_SERVER)) {
-            $command = $_SERVER['_'];
-        } elseif (array_key_exists('PHP_COMMAND', $_SERVER)) {
-            $command = $_SERVER['PHP_COMMAND'];
-        } else {
-            $command = $_SERVER['argv'][0];
-        }
-
-        $options = array();
-        if (preg_match('!^/cygdrive/([a-z])/(.+)!', $command, $matches)) {
-            $command = $matches[1] . ':\\' . str_replace('/', '\\', $matches[2]);
-        }
-
-        $command = escapeshellarg($command);
-
-        if (!preg_match('/(?:phpspec|phpt|phpunit|simpletest)runner$/', $command)) {
-            $configFile = get_cfg_var('cfg_file_path');
-            if ($configFile !== false) {
-                $options[] = '-c';
-                $options[] = escapeshellarg(dirname($configFile));
-            }
-
-            $options[] = escapeshellarg($_SERVER['argv'][0]);
-        }
-
-        $options[] = '-R';
-
-        if (!is_null($this->config->preloadFile)) {
-            $options[] = '-p ' . escapeshellarg($this->config->preloadFile);
-        }
-
-        if ($this->config->colors) {
-            $options[] = '-c';
-        }
-
-        if ($this->config->usesNotification) {
-            $options[] = '-n';
-        }
-
-        if (!is_null($this->config->growlPassword)) {
-            $options[] = '--growl-password=' . escapeshellarg($this->config->growlPassword);
-        }
-
-        foreach ($this->config->testingResources as $testingResource) {
-            $options[] = escapeshellarg($testingResource);
-        }
-
-        $this->createAlterationMonitor($monitoringDirectories, $command, $options)->monitor();
+        return new Stagehand_TestRunner_Autotest($config);
     }
 
     /**
@@ -410,52 +327,6 @@ All rights reserved.
     {
         $runner = new Stagehand_TestRunner_TestRunner($this->config);
         $runner->run();
-    }
-
-    /**
-     * @param array  $monitoringDirectories
-     * @param string $command
-     * @param array  $options
-     * @return Stagehand_AlterationMonitor
-     * @since Method available since Release 2.13.0
-     */
-    protected function createAlterationMonitor(array $monitoringDirectories, $command, array $options)
-    {
-        $this->runnerCommandForAlterationMonitoring = $command . ' ' . implode(' ', $options);
-        return new Stagehand_AlterationMonitor($monitoringDirectories, array($this, 'executeRunnerCommand'));
-    }
-
-    /**
-     * @since Method available since Release 2.18.0
-     */
-    public function executeRunnerCommand()
-    {
-        $this->output = '';
-        ob_start(array($this, 'filterOutput'), 2);
-        passthru($this->runnerCommandForAlterationMonitoring, $exitStatus);
-        ob_end_flush();
-        if ($exitStatus != 0 && $this->config->usesNotification) {
-            $message = ltrim(Stagehand_TestRunner_Util_String::normalizeNewline($this->output));
-            $firstNewlinePosition = strpos($message, PHP_EOL);
-            if ($firstNewlinePosition !== false) {
-                $message = substr($message, 0, $firstNewlinePosition);
-            }
-            $notifier = new Stagehand_TestRunner_Notification_Notifier();
-            $notifier->notifyResult(
-                new Stagehand_TestRunner_Notification_Notification(
-                    Stagehand_TestRunner_Notification_Notification::RESULT_STOPPED,
-                    $message
-            ));
-        }
-    }
-
-    /**
-     * @since Method available since Release 2.18.0
-     */
-    public function filterOutput($buffer)
-    {
-        $this->output .= $buffer;
-        return $buffer;
     }
 
     /**
