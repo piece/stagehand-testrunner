@@ -82,7 +82,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     public function buildsACommandStringCorrectlyWhenLaunchingByALauncherScriptWithAutotest()
     {
         $_SERVER['_'] = '/usr/bin/php';
-        $_SERVER['argv'] = $GLOBALS['argv'] = array('phpunitrunner', '-a', dirname(__FILE__));
+        $_SERVER['argv'] = $GLOBALS['argv'] = array('phpunitrunner', '-a', 'foo');
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $runner = $this->getMock(
                       'Stagehand_TestRunner_TestRunnerCLIController',
@@ -104,7 +104,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $this->assertEquals('-c', $runnerOptions[0]);
         $this->assertEquals(escapeshellarg('phpunitrunner'), $runnerOptions[2]);
         $this->assertEquals('-R', $runnerOptions[3]);
-        $this->assertEquals(escapeshellarg(dirname(__FILE__)), $runnerOptions[4]);
+        $this->assertEquals(escapeshellarg('foo'), $runnerOptions[4]);
     }
 
     /**
