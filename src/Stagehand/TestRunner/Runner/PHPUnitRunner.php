@@ -36,9 +36,6 @@
  * @since      File available since Release 2.1.0
  */
 
-require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
-
 /**
  * A test runner for PHPUnit.
  *
