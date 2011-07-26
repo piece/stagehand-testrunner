@@ -144,7 +144,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
      */
     protected function prettifier()
     {
-        return new Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier();
+        if (version_compare(PHPUnit_Runner_Version::id(), '3.5.14', '>=')) {
+            require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
+            return new PHPUnit_Util_TestDox_NamePrettifier();
+        } else {
+            return new Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier();
+        }
     }
 
     /**
