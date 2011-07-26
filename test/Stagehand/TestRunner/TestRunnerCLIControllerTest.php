@@ -77,14 +77,12 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
 
     /**
      * @test
-     * @dataProvider provideLauncherScript
-     * @param string $launcherScript
      * @link http://redmine.piece-framework.com/issues/196
      */
-    public function buildsACommandStringCorrectlyWhenLaunchingByALauncherScriptWithAutotest($launcherScript)
+    public function buildsACommandStringCorrectlyWhenLaunchingByALauncherScriptWithAutotest()
     {
         $_SERVER['_'] = '/usr/bin/php';
-        $_SERVER['argv'] = $GLOBALS['argv'] = array($launcherScript, '-a', dirname(__FILE__));
+        $_SERVER['argv'] = $GLOBALS['argv'] = array('phpunitrunner', '-a', dirname(__FILE__));
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $runner = $this->getMock(
                       'Stagehand_TestRunner_TestRunnerCLIController',
@@ -104,7 +102,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $runnerOptions = $this->readAttribute($this->autotest, 'runnerOptions');
         $this->assertEquals(5, count($runnerOptions));
         $this->assertEquals('-c', $runnerOptions[0]);
-        $this->assertEquals(escapeshellarg($launcherScript), $runnerOptions[2]);
+        $this->assertEquals(escapeshellarg('phpunitrunner'), $runnerOptions[2]);
         $this->assertEquals('-R', $runnerOptions[3]);
         $this->assertEquals(escapeshellarg(dirname(__FILE__)), $runnerOptions[4]);
     }
@@ -129,16 +127,6 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
                        ->method('createAlterationMonitor')
                        ->will($this->returnValue($monitor));
         return $this->autotest;
-    }
-
-    public function provideLauncherScript()
-    {
-        return array(
-                   array('phpspecrunner'),
-                   array('phptrunner'),
-                   array('phpunitrunner'),
-                   array('simpletestrunner')
-               );
     }
 
     /**
