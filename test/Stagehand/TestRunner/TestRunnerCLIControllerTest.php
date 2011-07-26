@@ -81,7 +81,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
      * @param string $launcherScript
      * @link http://redmine.piece-framework.com/issues/196
      */
-    public function buildsACommandStringCorrectlyWhenLaunchingByALauncherScriptWithAlterationMonitoring($launcherScript)
+    public function buildsACommandStringCorrectlyWhenLaunchingByALauncherScriptWithAutotest($launcherScript)
     {
         $_SERVER['_'] = '/usr/bin/php';
         $_SERVER['argv'] = $GLOBALS['argv'] = array($launcherScript, '-a', dirname(__FILE__));
