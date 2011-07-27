@@ -44,7 +44,7 @@
  */
 class Stagehand_TestRunner_Util_String
 {
-    public static function normalizeNewline($target)
+    public static function normalizeNewlines($target)
     {
         $target = str_replace("\x0d\x0a", PHP_EOL, $target);
         $target = str_replace("\x0d", PHP_EOL, $target);

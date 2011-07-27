@@ -100,7 +100,7 @@ class Stagehand_TestRunner_Autotest
         passthru($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions), $exitStatus);
         ob_end_flush();
         if ($exitStatus != 0 && $this->config->usesNotification) {
-            $message = ltrim(Stagehand_TestRunner_Util_String::normalizeNewline($this->output));
+            $message = ltrim(Stagehand_TestRunner_Util_String::normalizeNewlines($this->output));
             $firstNewlinePosition = strpos($message, PHP_EOL);
             if ($firstNewlinePosition !== false) {
                 $message = substr($message, 0, $firstNewlinePosition);
