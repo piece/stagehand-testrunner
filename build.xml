@@ -27,37 +27,16 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">2.18.0</property>
+  <property name="package.releaseversion">2.18.1</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">1.1.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
+A Defect Fix
 
-Improved Notifications
+ The following defect has been fixed:
 
- (Issue #309, #311)
-
- The following improvements have been made:
-
- * Provides the icons for notifications.
- * Uses the "growlnotify" command (Windows, Mac OS X) or the "notify-send" command instead of the Net_Growl package.
- * Sends the fatal error message when monitoring changes.
-
- For more information, see the User Guide (http://redmine.piece-framework.com/projects/stagehand-testrunner/wiki/Stagehand_TestRunner_User_Guide_2_18_0#Notifies-test-results).
-
-Runs tests at the beginning of monitoring changes.
-
- (Issue #318)
-
- If the "-a" option is specified, Stagehand_TestRunner runs tests unconditionally at the beginning.
-
-Three Defect Fixes
-
- The following defects have been fixed:
-
- * The preload script is not loaded when specifying multiple options after one "-". (Issue #312)
- * Some command line options are lost with the monitoring feature. (Issue #314)
- * An underscore is not treated as a word separator in TestDox. (Issue #317)
+ * The command line is broken when monitoring changes. (Issue #319)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A test runner for Test Driven Development</property>
