@@ -80,7 +80,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_XMLStreamWriter
             ' ' .
             $attribute .
             '="' .
-            str_replace("\x0a", '&#10;', htmlspecialchars($this->normalizeNewLines($value), ENT_QUOTES, 'UTF-8')) .
+            str_replace("\x0a", '&#10;', htmlspecialchars(Stagehand_TestRunner_Util_String::normalizeNewlines($value), ENT_QUOTES, 'UTF-8')) .
             '"';
     }
 
@@ -104,16 +104,6 @@ class Stagehand_TestRunner_JUnitXMLWriter_XMLStreamWriter
         $buffer = $this->buffer;
         $this->buffer = '';
         return $buffer;
-    }
-
-    /**
-     * @param string $value
-     * @return string
-     * @since Method available since Release 2.16.0
-     */
-    protected function normalizeNewLines($value)
-    {
-        return preg_replace(array('/\x0d\x0a/', '/\x0d/', '/\x0a/'), "\x0a", $value);
     }
 }
 
