@@ -50,11 +50,6 @@ class Stagehand_TestRunner_Autotest
     protected $config;
 
     /**
-     * @var array
-     */
-    protected $monitoringDirectories;
-
-    /**
      * @var string
      */
     protected $runnerCommand;
@@ -75,7 +70,6 @@ class Stagehand_TestRunner_Autotest
     public function __construct(Stagehand_TestRunner_Config $config)
     {
         $this->config = $config;
-        $this->monitoringDirectories = $this->getMonitoringDirectories();
     }
 
     /**
@@ -258,7 +252,7 @@ class Stagehand_TestRunner_Autotest
      */
     protected function createAlterationMonitor()
     {
-        return new Stagehand_AlterationMonitor($this->monitoringDirectories, array($this, 'executeRunnerCommand'));
+        return new Stagehand_AlterationMonitor($this->getMonitoringDirectories(), array($this, 'executeRunnerCommand'));
     }
 
     /**
