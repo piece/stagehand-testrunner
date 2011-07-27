@@ -120,7 +120,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
                 ->will($this->returnValue(null));
         $this->autotest = $this->getMock(
             'Stagehand_TestRunner_Autotest',
-            array('createAlterationMonitor', 'getMonitoringDirectories'),
+            array('createAlterationMonitor', 'getMonitoringDirectories', 'executeRunnerCommand'),
             array($config)
         );
         $this->autotest->expects($this->any())
@@ -129,6 +129,9 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $this->autotest->expects($this->any())
                        ->method('getMonitoringDirectories')
                        ->will($this->returnValue(array()));
+        $this->autotest->expects($this->any())
+                       ->method('executeRunnerCommand')
+                       ->will($this->returnValue(null));
         return $this->autotest;
     }
 
