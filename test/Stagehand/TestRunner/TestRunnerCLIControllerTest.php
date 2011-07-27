@@ -92,7 +92,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
      * @link http://redmine.piece-framework.com/issues/196
      * @link http://redmine.piece-framework.com/issues/319
      */
-    public function buildsACommandStringCorrectlyWhenLaunchingByALauncherScriptWithAutotest($command, $options, $phpConfigDir, $builtCommand, $builtOptions)
+    public function buildsACommandLineStringWithAutotest($command, $options, $phpConfigDir, $builtCommand, $builtOptions)
     {
         $this->phpConfigDir = $phpConfigDir;
         if (!is_null($command)) {
