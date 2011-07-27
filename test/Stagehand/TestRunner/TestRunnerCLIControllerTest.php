@@ -51,6 +51,12 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     protected $autotest;
 
     /**
+     * @var string
+     * @since Property available since Release 2.18.1
+     */
+    protected $phpConfigDir = false;
+
+    /**
      * @test
      * @link http://redmine.piece-framework.com/issues/197
      */
@@ -77,12 +83,24 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
 
     /**
      * @test
+     * @dataProvider commandLines
+     * @param string $command
+     * @param array $options
+     * @param string $phpConfigDir
+     * @param string $builtCommand
+     * @param array $builtOptions
      * @link http://redmine.piece-framework.com/issues/196
+     * @link http://redmine.piece-framework.com/issues/319
      */
-    public function buildsACommandStringCorrectlyWhenLaunchingByALauncherScriptWithAutotest()
+    public function buildsACommandStringCorrectlyWhenLaunchingByALauncherScriptWithAutotest($command, $options, $phpConfigDir, $builtCommand, $builtOptions)
     {
-        $_SERVER['_'] = '/usr/bin/php';
-        $_SERVER['argv'] = $GLOBALS['argv'] = array('phpunitrunner', '-a', 'foo');
+        $this->phpConfigDir = $phpConfigDir;
+        if (!is_null($command)) {
+            $_SERVER['_'] = $command;
+        } else {
+            unset($_SERVER['_']);
+        }
+        $_SERVER['argv'] = $GLOBALS['argv'] = $options;
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $runner = $this->getMock(
                       'Stagehand_TestRunner_TestRunnerCLIController',
@@ -94,17 +112,28 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
                ->will($this->returnCallback(array($this, 'createAutotest')));
         $runner->run();
 
-        $this->assertEquals(
-            escapeshellarg($_SERVER['_']),
-            $this->readAttribute($this->autotest, 'runnerCommand')
-        );
-
+        $runnerCommand = $this->readAttribute($this->autotest, 'runnerCommand');
         $runnerOptions = $this->readAttribute($this->autotest, 'runnerOptions');
-        $this->assertEquals(5, count($runnerOptions));
-        $this->assertEquals('-c', $runnerOptions[0]);
-        $this->assertEquals(escapeshellarg('phpunitrunner'), $runnerOptions[2]);
-        $this->assertEquals('-R', $runnerOptions[3]);
-        $this->assertEquals(escapeshellarg('foo'), $runnerOptions[4]);
+        $this->assertEquals($builtCommand, $runnerCommand);
+        for ($i = 0; $i < count($builtOptions); ++$i) {
+            $this->assertEquals($builtOptions[$i], $runnerOptions[$i]);
+        }
+    }
+
+    /**
+     * @return array
+     * @since Method available since Release 2.18.1
+     */
+    public function commandLines()
+    {
+        return array(
+            array('/usr/bin/php', array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('phpunitrunner'), '-R', escapeshellarg('test'))),
+            array('/usr/bin/php', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('phpunitrunner'), '-R', escapeshellarg('test'))),
+            array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
+            array('phpunitrunner', array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
+            array('phpunitrunner', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
+            array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
+        );
     }
 
     /**
@@ -120,7 +149,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
                 ->will($this->returnValue(null));
         $this->autotest = $this->getMock(
             'Stagehand_TestRunner_Autotest',
-            array('createAlterationMonitor', 'getMonitoringDirectories', 'executeRunnerCommand'),
+            array('createAlterationMonitor', 'getMonitoringDirectories', 'executeRunnerCommand', 'getPHPConfigDir'),
             array($config)
         );
         $this->autotest->expects($this->any())
@@ -132,7 +161,18 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $this->autotest->expects($this->any())
                        ->method('executeRunnerCommand')
                        ->will($this->returnValue(null));
+        $this->autotest->expects($this->any())
+                       ->method('getPHPConfigDir')
+                       ->will($this->returnCallback(array($this, 'getPHPConfigDir')));
         return $this->autotest;
+    }
+
+    /**
+     * @since Method available since Release 2.18.1
+     */
+    public function getPHPConfigDir()
+    {
+        return $this->phpConfigDir;
     }
 
     /**

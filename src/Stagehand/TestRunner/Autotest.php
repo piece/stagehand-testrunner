@@ -76,8 +76,6 @@ class Stagehand_TestRunner_Autotest
     {
         $this->config = $config;
         $this->monitoringDirectories = $this->getMonitoringDirectories();
-        $this->runnerCommand = $this->buildRunnerCommand();
-        $this->runnerOptions = $this->buildRunnerOptions();
     }
 
     /**
@@ -87,6 +85,10 @@ class Stagehand_TestRunner_Autotest
      */
     public function monitorAlteration()
     {
+        if (is_null($this->runnerCommand)) {
+            $this->initializeRunnerCommandAndOptions();
+        }
+
         $this->createAlterationMonitor()->monitor();
     }
 
@@ -95,6 +97,10 @@ class Stagehand_TestRunner_Autotest
      */
     public function executeRunnerCommand()
     {
+        if (is_null($this->runnerCommand)) {
+            $this->initializeRunnerCommandAndOptions();
+        }
+
         $this->output = '';
         ob_start(array($this, 'filterOutput'), 2);
         passthru($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions), $exitStatus);
@@ -180,11 +186,11 @@ class Stagehand_TestRunner_Autotest
     {
         $options = array();
 
-        if (!preg_match('/(?:cake|ciunit|phpspec|phpt|phpunit|simpletest)runner$/', $this->runnerCommand)) {
-            $configFile = get_cfg_var('cfg_file_path');
+        if (!preg_match('!(?:cake|ciunit|phpspec|phpt|phpunit|simpletest)runner$!', trim($this->runnerCommand, '\'"'))) {
+            $configFile = $this->getPHPConfigDir();
             if ($configFile !== false) {
                 $options[] = '-c';
-                $options[] = escapeshellarg(dirname($configFile));
+                $options[] = escapeshellarg($configFile);
             }
 
             $options[] = escapeshellarg($_SERVER['argv'][0]);
@@ -253,6 +259,24 @@ class Stagehand_TestRunner_Autotest
     protected function createAlterationMonitor()
     {
         return new Stagehand_AlterationMonitor($this->monitoringDirectories, array($this, 'executeRunnerCommand'));
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 2.18.1
+     */
+    protected function getPHPConfigDir()
+    {
+        return get_cfg_var('cfg_file_path');
+    }
+
+    /**
+     * @since Method available since Release 2.18.1
+     */
+    protected function initializeRunnerCommandAndOptions()
+    {
+        $this->runnerCommand = $this->buildRunnerCommand();
+        $this->runnerOptions = $this->buildRunnerOptions();
     }
 }
 
