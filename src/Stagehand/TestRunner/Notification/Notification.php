@@ -57,7 +57,7 @@ class Stagehand_TestRunner_Notification_Notification
     public function __construct($result, $message)
     {
         $this->result = $result;
-        $this->message = strtr(Stagehand_TestRunner_Util_String::normalizeNewline($message), PHP_EOL, ' ');
+        $this->message = str_replace(PHP_EOL, ' ', Stagehand_TestRunner_Util_String::normalizeNewline($message));
     }
 
     /**
