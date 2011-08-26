@@ -109,7 +109,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
             $this->notification = new Stagehand_TestRunner_Notification_Notification($notificationResult, $matches[1]);
         }
 
-        if ($this->config->colors) {
+        if ($this->config->colors()) {
             print Console_Color::convert(preg_replace(array('/^(OK.+)/ms',
                                                             '/^(FAILURES!!!.+)/ms',
                                                             '/^(\d+\)\s)(.+at \[.+\]$\s+in .+)$/m',

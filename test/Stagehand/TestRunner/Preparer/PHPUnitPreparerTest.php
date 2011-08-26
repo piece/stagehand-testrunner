@@ -55,10 +55,10 @@ class Stagehand_TestRunner_Preparer_PHPUnitPreparerTest extends PHPUnit_Framewor
         $configDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . basename(__FILE__, '.php');
         $config = new Stagehand_TestRunner_Config();
         $config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . ($colors ? 'colors_true.xml' : 'colors_false.xml');
-        $config->colors = !$colors;
+        $config->setColors(!$colors);
         $preparer = new Stagehand_TestRunner_Preparer_PHPUnitPreparer($config);
         $preparer->prepare();
-        $this->assertEquals($colors, $config->colors);
+        $this->assertEquals($colors, $config->colors());
     }
 
     /**

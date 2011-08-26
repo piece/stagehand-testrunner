@@ -196,7 +196,7 @@ class Stagehand_TestRunner_Autotest
             $options[] = '-p ' . escapeshellarg($this->config->preloadFile);
         }
 
-        if ($this->config->colors) {
+        if ($this->config->colors()) {
             $options[] = '-c';
         }
 

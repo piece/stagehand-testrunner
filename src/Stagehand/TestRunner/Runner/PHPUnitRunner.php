@@ -57,7 +57,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
     {
         $testResult = new PHPUnit_Framework_TestResult();
         $printer = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
-                       null, true, $this->config->colors
+                       null, true, $this->config->colors()
                    );
 
         $arguments = array();
@@ -68,19 +68,19 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
             array(
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
                     fopen('testdox://' . spl_object_hash($testResult), 'w'),
-                    $this->config->colors,
+                    $this->config->colors(),
                     $this->prettifier()
                 )
             );
         if (!$this->config->printsDetailedProgressReport) {
             $arguments['listeners'][] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter(
-                    null, false, $this->config->colors
+                    null, false, $this->config->colors()
                 );
         } else {
             $arguments['listeners'][] =
                 new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter(
-                    null, false, $this->config->colors
+                    null, false, $this->config->colors()
                 );
         }
 

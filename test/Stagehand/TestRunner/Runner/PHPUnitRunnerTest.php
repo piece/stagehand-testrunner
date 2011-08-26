@@ -403,7 +403,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     {
         require_once 'Console/Color.php';
         $this->config->usesNotification = true;
-        $this->config->colors = true;
+        $this->config->setColors(true);
         $this->collector->collectTestCase($testClass);
         $this->runTests();
         $notification = $this->runner->getNotification();
@@ -432,7 +432,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     {
         require_once 'Console/Color.php';
         $this->config->usesNotification = true;
-        $this->config->colors = false;
+        $this->config->setColors(false);
         $this->collector->collectTestCase($testClass);
         $this->runTests();
         $notification = $this->runner->getNotification();

@@ -100,13 +100,7 @@ class Stagehand_TestRunner_Preparer_PHPUnitPreparer extends Stagehand_TestRunner
         }
 
         if (array_key_exists('colors', $phpunitConfiguration)) {
-            if ($phpunitConfiguration['colors']) {
-                if (@include_once 'Console/Color.php') {
-                    $this->config->colors = true;
-                }
-            } else {
-                $this->config->colors = false;
-            }
+            $this->config->setColors($phpunitConfiguration['colors']);
         }
 
         $browsers = PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getSeleniumBrowserConfiguration();

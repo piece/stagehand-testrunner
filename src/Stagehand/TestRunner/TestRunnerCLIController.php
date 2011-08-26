@@ -92,9 +92,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             $this->config->recursivelyScans = true;
             return true;
         case 'c':
-            if (@include_once 'Console/Color.php') {
-                $this->config->colors = true;
-            }
+            $this->config->setColors(true);
             return true;
         case 'p':
             $this->config->preloadFile = $value;

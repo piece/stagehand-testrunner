@@ -46,7 +46,7 @@ class Stagehand_TestRunner_Config
 {
     public $testingResources = array();
     public $recursivelyScans = false;
-    public $colors = false;
+    protected $colors = false;
     public $preloadFile;
     public $enablesAutotest = false;
     public $monitoringDirectories = array();
@@ -153,6 +153,39 @@ class Stagehand_TestRunner_Config
     public function isTestingClass($class)
     {
         return in_array(strtolower($class), $this->testingClasses);
+    }
+
+    /**
+     * @param boolean $colors
+     * @since Method available since Release 2.19.0
+     */
+    public function setColors($colors)
+    {
+        if ($colors) {
+            if ($this->canColor()) {
+                $this->colors = true;
+            }
+        } else {
+            $this->colors = false;
+        }
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 2.19.0
+     */
+    public function colors()
+    {
+        return $this->colors;
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 2.19.0
+     */
+    protected function canColor()
+    {
+        return @include_once 'Console/Color.php';
     }
 }
 

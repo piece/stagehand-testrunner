@@ -58,8 +58,8 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
         $result = new PHPSpec_Runner_Result();
         $reporter = new Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter(
                         $result,
-                        $this->config->colors
-                                                                           );
+                        $this->config->colors()
+                    );
         $result->setReporter($reporter);
 
         $result->setRuntimeStart(microtime(true));
