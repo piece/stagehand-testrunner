@@ -360,7 +360,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     /**
      * @test
      * @link http://redmine.piece-framework.com/issues/323
-     * @since Method available since Release 2.18.2
+     * @since Method available since Release 2.19.0
      */
     public function clearsThePrecedingOutputHandlers()
     {
@@ -374,7 +374,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
 
     /**
      * @link http://redmine.piece-framework.com/issues/323
-     * @since Method available since Release 2.18.2
+     * @since Method available since Release 2.19.0
      */
     public function passThrough($buffer)
     {
@@ -385,7 +385,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
      * @test
      * @expectedException Stagehand_TestRunner_CannotRemoveException
      * @link http://redmine.piece-framework.com/issues/323
-     * @since Method available since Release 2.18.2
+     * @since Method available since Release 2.19.0
      */
     public function raisesAnExceptionWhenAPrecedingOutputBufferCannotBeRemoved()
     {
