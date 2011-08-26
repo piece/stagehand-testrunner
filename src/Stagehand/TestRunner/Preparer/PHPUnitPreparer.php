@@ -97,6 +97,11 @@ class Stagehand_TestRunner_Preparer_PHPUnitPreparer extends Stagehand_TestRunner
             } else {
                 $this->handleBootstrap($phpunitConfiguration['bootstrap']);
             }
+            if (array_key_exists('colors', $phpunitConfiguration)) {
+                if ($phpunitConfiguration['colors'] && @include_once('Console/Color.php')) {
+                    $this->config->colors = true;
+                }
+            }
         }
 
         if (array_key_exists('colors', $phpunitConfiguration)) {
