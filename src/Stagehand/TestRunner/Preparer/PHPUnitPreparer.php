@@ -90,11 +90,22 @@ class Stagehand_TestRunner_Preparer_PHPUnitPreparer extends Stagehand_TestRunner
     {
         require_once 'PHPUnit/Util/Configuration.php';
         $phpunitConfiguration = PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getPHPUnitConfiguration();
+
         if (array_key_exists('bootstrap', $phpunitConfiguration)) {
             if (array_key_exists('syntaxCheck', $phpunitConfiguration)) {
                 $this->handleBootstrap($phpunitConfiguration['bootstrap'], $phpunitConfiguration['syntaxCheck']);
             } else {
                 $this->handleBootstrap($phpunitConfiguration['bootstrap']);
+            }
+        }
+
+        if (array_key_exists('colors', $phpunitConfiguration)) {
+            if ($phpunitConfiguration['colors']) {
+                if (@include_once 'Console/Color.php') {
+                    $this->config->colors = true;
+                }
+            } else {
+                $this->config->colors = false;
             }
         }
 
