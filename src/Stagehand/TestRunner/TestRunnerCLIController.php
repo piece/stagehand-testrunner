@@ -208,7 +208,7 @@ OPTIONS
      Recursively runs tests in the specified directory.
 
   -c
-     Colors test results.
+     Colors the output.
 
   -p FILE
      Preloads FILE before running tests.
