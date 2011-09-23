@@ -97,7 +97,7 @@ class Stagehand_TestRunner_Autotest
 
         $this->output = '';
         ob_start(array($this, 'filterOutput'), 2);
-        passthru($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions), $exitStatus);
+        $exitStatus = $this->executeRunnerCommand($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
         ob_end_flush();
         if ($exitStatus != 0 && $this->config->usesNotification) {
             $message = ltrim(Stagehand_TestRunner_Util_String::normalizeNewlines($this->output));
@@ -271,6 +271,17 @@ class Stagehand_TestRunner_Autotest
     {
         $this->runnerCommand = $this->buildRunnerCommand();
         $this->runnerOptions = $this->buildRunnerOptions();
+    }
+
+    /**
+     * @param string $runnerCommand
+     * @return integer
+     * @since Method available since Release 2.20.0
+     */
+    protected function executeRunnerCommand($runnerCommand)
+    {
+        passthru($runnerCommand, $exitStatus);
+        return $exitStatus;
     }
 }
 
