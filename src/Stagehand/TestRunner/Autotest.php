@@ -89,7 +89,7 @@ class Stagehand_TestRunner_Autotest
     /**
      * @since Method available since Release 2.18.0
      */
-    public function executeRunnerCommand()
+    public function runTests()
     {
         if (is_null($this->runnerCommand)) {
             $this->initializeRunnerCommandAndOptions();
@@ -252,7 +252,7 @@ class Stagehand_TestRunner_Autotest
      */
     protected function createAlterationMonitor()
     {
-        return new Stagehand_AlterationMonitor($this->getMonitoringDirectories(), array($this, 'executeRunnerCommand'));
+        return new Stagehand_AlterationMonitor($this->getMonitoringDirectories(), array($this, 'runTests'));
     }
 
     /**

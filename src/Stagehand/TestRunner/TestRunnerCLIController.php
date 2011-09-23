@@ -179,7 +179,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
             $this->runTests();
         } else {
             $autotest = $this->createAutotest($this->config);
-            $autotest->executeRunnerCommand();
+            $autotest->runTests();
             $autotest->monitorAlteration();
         }
     }
