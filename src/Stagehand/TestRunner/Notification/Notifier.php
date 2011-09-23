@@ -136,7 +136,7 @@ class Stagehand_TestRunner_Notification_Notifier
                 'notify-send --urgency=low --icon=%s %s %s',
                 escapeshellarg($icon),
                 escapeshellarg($title),
-                escapeshellarg($notification->getMessage())
+                escapeshellarg(str_replace('\\', '\\\\', $notification->getMessage()))
             );
         }
     }
