@@ -48,7 +48,7 @@ class Stagehand_TestRunner_Notification_NotifierTest extends PHPUnit_Framework_T
      * @test
      * @link http://redmine.piece-framework.com/issues/332
      */
-    public function addsABackslasheForEachBackslashInTheMessageOnLinuxToPreventLosingOriginalBackslashes()
+    public function addsABackslashForEachBackslashInTheMessageOnLinuxToPreventLosingOriginalBackslashes()
     {
         $notifier = $this->getMock(
                         'Stagehand_TestRunner_Notification_Notifier',

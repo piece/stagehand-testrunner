@@ -484,7 +484,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
      * @link http://redmine.piece-framework.com/issues/261
      * @since Method available since Release 2.16.0
      */
-    public function logsTheFileAndLineWhereAFailureOrErrorHasOccuredInRealtime($methodName, $className, $line, $message, $actualClassName, $requiresPHP53)
+    public function logsTheFileAndLineWhereAFailureOrErrorHasOccurredInRealtime($methodName, $className, $line, $message, $actualClassName, $requiresPHP53)
     {
         if ($requiresPHP53 && version_compare(PHP_VERSION, '5.3.0', '<')) {
             $this->markTestSkipped('Your PHP version is less than 5.3.0.');
