@@ -51,9 +51,20 @@ class Stagehand_TestRunner_Notification_Notification
     const RESULT_FAILED = 'RESULT_FAILED';
     const RESULT_STOPPED = 'RESULT_STOPPED';
 
+    /**
+     * @var string
+     */
     protected $result;
+
+    /**
+     * @var string
+     */
     protected $message;
 
+    /**
+     * @param string $result
+     * @param string $message
+     */
     public function __construct($result, $message)
     {
         $this->result = $result;

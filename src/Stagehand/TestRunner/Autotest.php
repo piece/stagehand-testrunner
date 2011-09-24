@@ -114,6 +114,7 @@ class Stagehand_TestRunner_Autotest
     }
 
     /**
+     * @param string $buffer
      * @return string
      */
     public function filterOutput($buffer)
