@@ -79,7 +79,7 @@ class Stagehand_TestRunner_TestRunner
         $this->result = $runner->run($this->createCollector()->collect());
 
         if ($this->config->usesNotification) {
-            $this->notifyResult($runner->getNotification());
+            $this->createNotifier()->notifyResult($runner->getNotification());
         }
     }
 
@@ -120,15 +120,6 @@ class Stagehand_TestRunner_TestRunner
     protected function createNotifier()
     {
         return new Stagehand_TestRunner_Notification_Notifier();
-    }
-
-    /**
-     * @param Stagehand_TestRunner_Notification_Notification $result
-     * @since Method available since Release 2.11.0
-     */
-    protected function notifyResult(Stagehand_TestRunner_Notification_Notification $result)
-    {
-        $this->createNotifier()->notifyResult($result);
     }
 }
 
