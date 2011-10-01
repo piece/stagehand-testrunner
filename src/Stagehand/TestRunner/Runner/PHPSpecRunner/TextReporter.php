@@ -144,7 +144,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
             error_reporting($oldErrorReportingLevel);
         }
 
-        print $output;
+        echo $output;
     }
 }
 
