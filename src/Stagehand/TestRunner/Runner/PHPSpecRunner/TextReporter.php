@@ -111,6 +111,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
             }
 
             $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
+            Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
             $output = preg_replace(array('/^(\d+ examples?.*)/m',
                                          '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
                                          '/^(  -)(.+)( \(FAIL\))/m',
@@ -139,6 +140,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
                                          ),
                                    Console_Color::escape($output)
                                    );
+            Stagehand_LegacyError_PHPError::disableConversion();
             error_reporting($oldErrorReportingLevel);
         }
 

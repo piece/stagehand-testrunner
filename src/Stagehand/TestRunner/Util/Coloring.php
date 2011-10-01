@@ -53,7 +53,9 @@ class Stagehand_TestRunner_Util_Coloring
     public static function green($text)
     {
         $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
+        Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
         $green = Console_Color::convert("%g$text%n");
+        Stagehand_LegacyError_PHPError::disableConversion();
         error_reporting($oldErrorReportingLevel);
         return $green;
     }
@@ -65,7 +67,9 @@ class Stagehand_TestRunner_Util_Coloring
     public static function red($text)
     {
         $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
+        Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
         $red = Console_Color::convert("%r$text%n");
+        Stagehand_LegacyError_PHPError::disableConversion();
         error_reporting($oldErrorReportingLevel);
         return $red;
     }
@@ -77,7 +81,9 @@ class Stagehand_TestRunner_Util_Coloring
     public static function magenta($text)
     {
         $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
+        Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
         $magenta = Console_Color::convert("%m$text%n");
+        Stagehand_LegacyError_PHPError::disableConversion();
         error_reporting($oldErrorReportingLevel);
         return $magenta;
     }
@@ -89,7 +95,9 @@ class Stagehand_TestRunner_Util_Coloring
     public static function yellow($text)
     {
         $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
+        Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
         $yellow = Console_Color::convert("%y$text%n");
+        Stagehand_LegacyError_PHPError::disableConversion();
         error_reporting($oldErrorReportingLevel);
         return $yellow;
     }
