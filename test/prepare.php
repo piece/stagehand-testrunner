@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -47,7 +47,7 @@ set_include_path(
     get_include_path()
 );
 
-@require_once 'PHPUnit/Framework.php'; // TODO Remove this if Stagehand_TestRunner will not support PHPUnit 3.4.
+require_once 'PHPUnit/Runner/Version.php';
 require_once 'Stagehand/Autoload.php';
 
 $legacyLoader = Stagehand_Autoload::legacyLoader();
@@ -57,6 +57,10 @@ if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
     $namespaceLoader = Stagehand_Autoload::namespaceLoader();
     $namespaceLoader->addNamespace('Stagehand\TestRunner');
     Stagehand_Autoload::register($namespaceLoader);
+}
+
+if (version_compare(PHPUnit_Runner_Version::id(), '3.6.0RC1', '<')) {
+    @require_once 'PHPUnit/Framework.php'; // TODO Remove this if Stagehand_TestRunner will not support PHPUnit 3.4.
 }
 
 Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
