@@ -57,6 +57,12 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     protected $phpConfigDir = false;
 
     /**
+     * @var integer
+     * @since Property available since Release 2.20.0
+     */
+    protected $nestingLevel = 1;
+
+    /**
      * @test
      * @link http://redmine.piece-framework.com/issues/197
      */
@@ -66,17 +72,10 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $oldWorkingDirectory = getcwd();
         chdir(dirname(__FILE__));
-        $runner = $this->getMock(
-                      'Stagehand_TestRunner_TestRunnerCLIController',
-                      array('runTests'),
-                      array(Stagehand_TestRunner_Framework::PHPUNIT)
-                  );
-        $runner->expects($this->any())
-               ->method('runTests')
-               ->will($this->returnValue(null));
+        $controller = $this->createTestRunnerCLIController();
         chdir($oldWorkingDirectory);
-        $runner->run();
-        $config = $this->readAttribute($runner, 'config');
+        $controller->run();
+        $config = $this->readAttribute($controller, 'config');
         $this->assertEquals(1, count($config->testingResources));
         $this->assertEquals(dirname(__FILE__), $config->testingResources[0]);
     }
@@ -103,15 +102,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
         }
         $_SERVER['argv'] = $GLOBALS['argv'] = $options;
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $runner = $this->getMock(
-                      'Stagehand_TestRunner_TestRunnerCLIController',
-                      array('createAutotest'),
-                      array(Stagehand_TestRunner_Framework::PHPUNIT)
-                  );
-        $runner->expects($this->any())
-               ->method('createAutotest')
-               ->will($this->returnCallback(array($this, 'createAutotest')));
-        $runner->run();
+        $this->createTestRunnerCLIController()->run();
 
         $runnerCommand = $this->readAttribute($this->autotest, 'runnerCommand');
         $runnerOptions = $this->readAttribute($this->autotest, 'runnerOptions');
@@ -184,26 +175,15 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     public function supportsPhpunitXmlConfigurationFile()
     {
         $phpunitConfigFile = 'phpunit.xml';
-        $_SERVER['argv'] = $GLOBALS['argv'] =
-            array(
-                'bin/phpunitrunner',
-                '-p', 'tests/prepare.php',
-                '--phpunit-config=' . $phpunitConfigFile
-            );
+        $_SERVER['argv'] = $GLOBALS['argv'] = array(
+            'bin/phpunitrunner',
+            '-p', 'tests/prepare.php',
+            '--phpunit-config=' . $phpunitConfigFile
+        );
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $oldWorkingDirectory = getcwd();
-        chdir(dirname(__FILE__));
-        $runner = $this->getMock(
-                      'Stagehand_TestRunner_TestRunnerCLIController',
-                      array('runTests'),
-                      array(Stagehand_TestRunner_Framework::PHPUNIT)
-                  );
-        $runner->expects($this->any())
-               ->method('runTests')
-               ->will($this->returnValue(null));
-        chdir($oldWorkingDirectory);
-        $runner->run();
-        $config = $this->readAttribute($runner, 'config');
+        $controller = $this->createTestRunnerCLIController();
+        $controller->run();
+        $config = $this->readAttribute($controller, 'config');
         $this->assertNotNull($config->phpunitConfigFile);
         $this->assertEquals($phpunitConfigFile, $config->phpunitConfigFile);
     }
@@ -216,23 +196,15 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     public function supportsTestFilesWithAnyPattern()
     {
         $testFilePattern = '^test_';
-        $_SERVER['argv'] = $GLOBALS['argv'] =
-            array(
-                'bin/phpunitrunner',
-                '-p', 'tests/prepare.php',
-                '--test-file-pattern=' . $testFilePattern
-            );
+        $_SERVER['argv'] = $GLOBALS['argv'] = array(
+            'bin/phpunitrunner',
+            '-p', 'tests/prepare.php',
+            '--test-file-pattern=' . $testFilePattern
+        );
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $runner = $this->getMock(
-                      'Stagehand_TestRunner_TestRunnerCLIController',
-                      array('runTests'),
-                      array(Stagehand_TestRunner_Framework::PHPUNIT)
-                  );
-        $runner->expects($this->any())
-               ->method('runTests')
-               ->will($this->returnValue(null));
-        $runner->run();
-        $this->assertEquals($testFilePattern, $this->readAttribute($runner, 'config')->testFilePattern);
+        $controller = $this->createTestRunnerCLIController();
+        $controller->run();
+        $this->assertEquals($testFilePattern, $this->readAttribute($controller, 'config')->testFilePattern);
     }
 
     /**
@@ -243,23 +215,15 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     public function supportsTestFilesWithAnySuffix()
     {
         $testFileSuffix = '_test_';
-        $_SERVER['argv'] = $GLOBALS['argv'] =
-            array(
-                'bin/phpunitrunner',
-                '-p', 'tests/prepare.php',
-                '--test-file-suffix=' . $testFileSuffix
-            );
+        $_SERVER['argv'] = $GLOBALS['argv'] = array(
+            'bin/phpunitrunner',
+            '-p', 'tests/prepare.php',
+            '--test-file-suffix=' . $testFileSuffix
+        );
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $runner = $this->getMock(
-                      'Stagehand_TestRunner_TestRunnerCLIController',
-                      array('runTests'),
-                      array(Stagehand_TestRunner_Framework::PHPUNIT)
-                  );
-        $runner->expects($this->any())
-               ->method('runTests')
-               ->will($this->returnValue(null));
-        $runner->run();
-        $this->assertEquals($testFileSuffix, $this->readAttribute($runner, 'config')->testFileSuffix);
+        $controller = $this->createTestRunnerCLIController();
+        $controller->run();
+        $this->assertEquals($testFileSuffix, $this->readAttribute($controller, 'config')->testFileSuffix);
     }
 
     /**
@@ -273,16 +237,9 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     {
         $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', $option);
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $runner = $this->getMock(
-                      'Stagehand_TestRunner_TestRunnerCLIController',
-                      array('runTests'),
-                      array(Stagehand_TestRunner_Framework::PHPUNIT)
-                  );
-        $runner->expects($this->any())
-               ->method('runTests')
-               ->will($this->returnValue(null));
-        $runner->run();
-        $this->assertTrue($this->readAttribute($runner, 'config')->usesNotification);
+        $controller = $this->createTestRunnerCLIController();
+        $controller->run();
+        $this->assertTrue($this->readAttribute($controller, 'config')->usesNotification);
     }
 
     /**
@@ -307,18 +264,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     {
         $_SERVER['argv'] = $GLOBALS['argv'] = array_merge(array('bin/phpunitrunner', '-a'), $option);
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $runner = $this->getMock(
-                      'Stagehand_TestRunner_TestRunnerCLIController',
-                      array('createAutotest', 'validateDirectory'),
-                      array(Stagehand_TestRunner_Framework::PHPUNIT)
-                  );
-        $runner->expects($this->any())
-               ->method('createAutotest')
-               ->will($this->returnCallback(array($this, 'createAutotest')));
-        $runner->expects($this->any())
-               ->method('validateDirectory')
-               ->will($this->returnValue(null));
-        $runner->run();
+        $this->createTestRunnerCLIController()->run();
 
         for ($i = 0; $i < count($normalizedOption); ++$i) {
             $preserved = in_array($normalizedOption[$i], $this->readAttribute($this->autotest, 'runnerOptions'));
@@ -366,20 +312,66 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     {
         $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-p', 'tests/prepare.php', '-R');
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $outputBuffering = new Stagehand_TestRunner_Util_OutputBuffering();
-        $outputBuffering->clearOutputHandlers();
-        ob_start(array($this, 'passThrough'), 0, true);
-        $controller = new Stagehand_TestRunner_TestRunnerCLIController(Stagehand_TestRunner_Framework::PHPUNIT);
-        $this->assertEquals(0, count(ob_get_status()));
+        $this->createTestRunnerCLIController()->run();
+        $this->assertEquals(-1, $this->nestingLevel);
     }
 
     /**
-     * @link http://redmine.piece-framework.com/issues/323
-     * @since Method available since Release 2.19.0
+     * @return integer
      */
-    public function passThrough($buffer)
+    public function getNestingLevel()
     {
-        return $buffer;
+        return $this->nestingLevel--;
+    }
+
+    /**
+     * @return Stagehand_TestRunner_Util_OutputBuffering
+     * @since Method available since Release 2.20.0
+     */
+    protected function createOutputBuffering()
+    {
+        $outputBuffering = $this->getMock(
+            'Stagehand_TestRunner_Util_OutputBuffering',
+            array('getNestingLevel', 'clearOutputHandler')
+        );
+        $outputBuffering->expects($this->exactly(2))
+            ->method('getNestingLevel')
+            ->will($this->returnCallback(array($this, 'getNestingLevel')));
+        $outputBuffering->expects($this->once())
+            ->method('clearOutputHandler')
+            ->will($this->returnValue(null));
+        return $outputBuffering;
+    }
+
+    /**
+     * @return Stagehand_TestRunner_TestRunnerCLIController
+     * @since Method available since Release 2.20.0
+     */
+    protected function createTestRunnerCLIController()
+    {
+        $controller = $this->getMock(
+            'Stagehand_TestRunner_TestRunnerCLIController',
+            array(
+                'createOutputBuffering',
+                'runTests',
+                'validateDirectory',
+                'createAutotest'
+            ),
+            array(Stagehand_TestRunner_Framework::PHPUNIT)
+        );
+        $controller->expects($this->once())
+            ->method('createOutputBuffering')
+            ->will($this->returnValue($this->createOutputBuffering()));
+        $controller->expects($this->any())
+            ->method('runTests')
+            ->will($this->returnValue(null));
+        $controller->expects($this->any())
+            ->method('validateDirectory')
+            ->will($this->returnValue(null));
+        $controller->expects($this->any())
+            ->method('createAutotest')
+            ->will($this->returnCallback(array($this, 'createAutotest')));
+        return $controller;
     }
 }
 

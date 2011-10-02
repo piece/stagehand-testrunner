@@ -71,7 +71,6 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
     {
         $this->config = new Stagehand_TestRunner_Config();
         $this->config->framework = $framework;
-        $this->configurePHPRuntimeConfiguration();
     }
 
     /**
@@ -171,6 +170,8 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
      */
     protected function doRun()
     {
+        $this->configurePHPRuntimeConfiguration();
+
         if (!count($this->config->testingResources)) {
             $this->config->testingResources[] = $this->config->workingDirectoryAtStartup;
         }
@@ -338,8 +339,16 @@ All rights reserved.
         ini_set('html_errors', false);
         ini_set('implicit_flush', true);
         ini_set('max_execution_time', 0);
-        $outputBuffering = new Stagehand_TestRunner_Util_OutputBuffering();
-        $outputBuffering->clearOutputHandlers();
+        $this->createOutputBuffering()->clearOutputHandlers();
+    }
+
+    /**
+     * @return Stagehand_TestRunner_Util_OutputBuffering
+     * @since Method available since Release 2.20.0
+     */
+    protected function createOutputBuffering()
+    {
+        return new Stagehand_TestRunner_Util_OutputBuffering();
     }
 
     /**
