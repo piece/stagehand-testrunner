@@ -366,7 +366,8 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     {
         $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-p', 'tests/prepare.php', '-R');
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        Stagehand_TestRunner_Util_OutputBuffering::clearOutputHandlers();
+        $outputBuffering = new Stagehand_TestRunner_Util_OutputBuffering();
+        $outputBuffering->clearOutputHandlers();
         ob_start(array($this, 'passThrough'), 0, true);
         $controller = new Stagehand_TestRunner_TestRunnerCLIController(Stagehand_TestRunner_Framework::PHPUNIT);
         $this->assertEquals(0, count(ob_get_status()));
@@ -379,21 +380,6 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
     public function passThrough($buffer)
     {
         return $buffer;
-    }
-
-    /**
-     * @test
-     * @expectedException Stagehand_TestRunner_CannotRemoveException
-     * @link http://redmine.piece-framework.com/issues/323
-     * @since Method available since Release 2.19.0
-     */
-    public function raisesAnExceptionWhenAPrecedingOutputBufferCannotBeRemoved()
-    {
-        $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-p', 'tests/prepare.php', '-R');
-        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        Stagehand_TestRunner_Util_OutputBuffering::clearOutputHandlers();
-        ob_start(array($this, 'passThrough'), 0, false);
-        new Stagehand_TestRunner_TestRunnerCLIController(Stagehand_TestRunner_Framework::PHPUNIT);
     }
 }
 

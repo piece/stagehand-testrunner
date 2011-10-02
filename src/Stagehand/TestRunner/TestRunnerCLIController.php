@@ -338,7 +338,8 @@ All rights reserved.
         ini_set('html_errors', false);
         ini_set('implicit_flush', true);
         ini_set('max_execution_time', 0);
-        Stagehand_TestRunner_Util_OutputBuffering::clearOutputHandlers();
+        $outputBuffering = new Stagehand_TestRunner_Util_OutputBuffering();
+        $outputBuffering->clearOutputHandlers();
     }
 
     /**

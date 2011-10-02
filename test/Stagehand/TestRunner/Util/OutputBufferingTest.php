@@ -32,7 +32,7 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.19.0
+ * @since      File available since Release 2.20.0
  */
 
 /**
@@ -40,42 +40,69 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.19.0
+ * @since      Class available since Release 2.20.0
  */
-class Stagehand_TestRunner_Util_OutputBuffering
+class Stagehand_TestRunner_Util_OutputBufferingTest extends PHPUnit_Framework_TestCase
 {
+    protected $nestingLevel = 0;
+
     /**
-     * @throws Stagehand_TestRunner_CannotRemoveException
+     * @test
+     * @link http://redmine.piece-framework.com/issues/323
      */
-    public function clearOutputHandlers()
+    public function clearsThePrecedingOutputHandlers()
     {
-        Stagehand_LegacyError_PHPError::enableConversion(E_NOTICE);
-        while ($this->getNestingLevel()) {
-            try {
-                $this->clearOutputHandler();
-            } catch (Stagehand_LegacyError_PHPError_Exception $e) {
-                Stagehand_LegacyError_PHPError::disableConversion();
-                throw new Stagehand_TestRunner_CannotRemoveException($e->getMessage());
-            }
-        }
-        Stagehand_LegacyError_PHPError::disableConversion();
+        $this->nestingLevel = 2;
+        $outputBuffering = $this->getMock(
+            'Stagehand_TestRunner_Util_OutputBuffering',
+            array('getNestingLevel', 'clearOutputHandler')
+        );
+        $outputBuffering->expects($this->exactly(3))
+            ->method('getNestingLevel')
+            ->will($this->returnCallback(array($this, 'getNestingLevel')));
+        $outputBuffering->expects($this->exactly(2))
+            ->method('clearOutputHandler')
+            ->will($this->returnValue(null));
+        $outputBuffering->clearOutputHandlers();
+        $this->assertEquals(-1, $this->nestingLevel);
+    }
+
+    /**
+     * @test
+     * @expectedException Stagehand_TestRunner_CannotRemoveException
+     * @link http://redmine.piece-framework.com/issues/323
+     */
+    public function raisesAnExceptionWhenAPrecedingOutputBufferCannotBeRemoved()
+    {
+        $this->nestingLevel = 1;
+        $outputBuffering = $this->getMock(
+            'Stagehand_TestRunner_Util_OutputBuffering',
+            array('getNestingLevel', 'clearOutputHandler')
+        );
+        $outputBuffering->expects($this->once())
+            ->method('getNestingLevel')
+            ->will($this->returnCallback(array($this, 'getNestingLevel')));
+        $outputBuffering->expects($this->once())
+            ->method('clearOutputHandler')
+            ->will($this->returnCallback(array($this, 'clearOutputHandler')));
+        $outputBuffering->clearOutputHandlers();
+        $this->assertEquals(0, $this->nestingLevel);
     }
 
     /**
      * @return integer
-     * @since Method available since Release 2.20.0
      */
-    protected function getNestingLevel()
+    public function getNestingLevel()
     {
-        return ob_get_level();
+        return $this->nestingLevel--;
     }
 
     /**
-     * @since Method available since Release 2.20.0
+     * @throws Stagehand_LegacyError_PHPError_Exception
      */
-    protected function clearOutputHandler()
+    public function clearOutputHandler()
     {
-        return ob_end_clean();
+        throw new Stagehand_LegacyError_PHPError_Exception();
     }
 }
 
