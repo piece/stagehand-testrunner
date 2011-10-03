@@ -44,7 +44,7 @@
  */
 class Stagehand_TestRunner_Config
 {
-    public $testingResources = array();
+    protected $testingResources = array();
     public $recursivelyScans = false;
     protected $colors = false;
     public $preloadFile;
@@ -61,7 +61,6 @@ class Stagehand_TestRunner_Config
     public $framework;
     public $runnerClass;
     public $stopsOnFailure = false;
-    public $workingDirectoryAtStartup;
     public $phpunitConfigFile;
     public $cakephpAppPath;
     public $cakephpCorePath;
@@ -91,13 +90,6 @@ class Stagehand_TestRunner_Config
 
     protected $testingMethods = array();
     protected $testingClasses = array();
-
-    /**
-     */
-    public function __construct()
-    {
-        $this->workingDirectoryAtStartup = getcwd();
-    }
 
     /**
      * @param string $testingMethod
@@ -177,6 +169,34 @@ class Stagehand_TestRunner_Config
     public function colors()
     {
         return $this->colors;
+    }
+
+    /**
+     * @return array
+     * @since Method available since Release 2.20.0
+     */
+    public function getTestingResources()
+    {
+        if (count($this->testingResources) == 0) return array($this->getWorkingDirectoryAtStartup());
+        return $this->testingResources;
+    }
+
+    /**
+     * @param string $testingResource
+     * @since Method available since Release 2.20.0
+     */
+    public function addTestingResource($testingResource)
+    {
+        $this->testingResources[] = $testingResource;
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 2.20.0
+     */
+    public function getWorkingDirectoryAtStartup()
+    {
+        return @$GLOBALS['STAGEHAND_TESTRUNNER_CONFIG_workingDirectoryAtStartup'];
     }
 
     /**

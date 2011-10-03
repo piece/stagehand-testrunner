@@ -162,7 +162,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
      */
     protected function configureByArg($arg)
     {
-        $this->config->testingResources[] = $arg;
+        $this->config->addTestingResource($arg);
         return true;
     }
 
@@ -171,10 +171,6 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
     protected function doRun()
     {
         $this->configurePHPRuntimeConfiguration();
-
-        if (!count($this->config->testingResources)) {
-            $this->config->testingResources[] = $this->config->workingDirectoryAtStartup;
-        }
 
         if (!$this->config->enablesAutotest) {
             $this->runTests();

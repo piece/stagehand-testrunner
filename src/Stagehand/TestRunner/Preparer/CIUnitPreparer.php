@@ -66,7 +66,7 @@ class Stagehand_TestRunner_Preparer_CIUnitPreparer extends Stagehand_TestRunner_
         parent::prepare();
 
         if (is_null($this->config->ciunitPath)) {
-            $ciunitPath = $this->config->workingDirectoryAtStartup;
+            $ciunitPath = $this->config->getWorkingDirectoryAtStartup();
         } else {
             $ciunitPath = $this->config->ciunitPath;
         }

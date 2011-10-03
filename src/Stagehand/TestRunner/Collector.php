@@ -70,7 +70,7 @@ abstract class Stagehand_TestRunner_Collector
      */
     public function collect()
     {
-        foreach ($this->config->testingResources as $testingResource) {
+        foreach ($this->config->getTestingResources() as $testingResource) {
             $absoluteTargetPath = realpath($testingResource);
             if ($absoluteTargetPath === false) {
                 throw new Stagehand_TestRunner_Exception(

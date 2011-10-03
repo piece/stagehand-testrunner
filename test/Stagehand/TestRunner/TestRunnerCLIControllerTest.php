@@ -64,24 +64,6 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
 
     /**
      * @test
-     * @link http://redmine.piece-framework.com/issues/197
-     */
-    public function treatsTheCurrentDirectoryAsTheTestDirectoryIfNoDirectoriesOrFilesAreSpecified()
-    {
-        $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-p', 'tests/prepare.php', '-R');
-        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $oldWorkingDirectory = getcwd();
-        chdir(dirname(__FILE__));
-        $controller = $this->createTestRunnerCLIController();
-        chdir($oldWorkingDirectory);
-        $controller->run();
-        $config = $this->readAttribute($controller, 'config');
-        $this->assertEquals(1, count($config->testingResources));
-        $this->assertEquals(dirname(__FILE__), $config->testingResources[0]);
-    }
-
-    /**
-     * @test
      * @dataProvider commandLines
      * @param string $command
      * @param array $options

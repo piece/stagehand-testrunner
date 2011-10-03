@@ -133,7 +133,7 @@ class Stagehand_TestRunner_Autotest
         foreach (
             array_merge(
                 $this->config->monitoringDirectories,
-                $this->config->testingResources
+                $this->config->getTestingResources()
             ) as $directory) {
             if (!is_dir($directory)) {
                 throw new Stagehand_TestRunner_Exception('A specified path [ ' . $directory . ' ] is not found or not a directory.');
@@ -240,7 +240,7 @@ class Stagehand_TestRunner_Autotest
             $options[] = '--test-file-suffix=' . escapeshellarg($this->config->testFileSuffix);
         }
 
-        foreach ($this->config->testingResources as $testingResource) {
+        foreach ($this->config->getTestingResources() as $testingResource) {
             $options[] = escapeshellarg($testingResource);
         }
 
