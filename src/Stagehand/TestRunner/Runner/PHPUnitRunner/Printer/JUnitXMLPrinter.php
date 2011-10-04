@@ -216,7 +216,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
         } else {
             list($file, $line) = $this->findFileAndLineOfFailureOrError($e, new ReflectionClass($test));
         }
-        $trace = PHPUnit_Util_Filter::getFilteredStacktrace($e, false);
+        if (version_compare(PHPUnit_Runner_Version::id(), '3.6.0RC1', '>=')) {
+            $trace = PHPUnit_Util_Filter::getFilteredStacktrace($e, true);
+        } else {
+            $trace = PHPUnit_Util_Filter::getFilteredStacktrace($e, false, true);
+        }
         $this->xmlWriter->{ 'write' . $failureOrError }(
             $message .
             $trace,
