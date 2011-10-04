@@ -55,7 +55,7 @@ class Stagehand_TestRunner_Config
     public $testsOnlySpecifiedMethods = false;
     public $testsOnlySpecifiedClasses = false;
     public $printsDetailedProgressReport = false;
-    public $junitXMLFile;
+    protected $junitXMLFile;
     public $logsResultsInJUnitXML = false;
     public $logsResultsInJUnitXMLInRealtime = false;
     public $framework;
@@ -197,6 +197,24 @@ class Stagehand_TestRunner_Config
     public function getWorkingDirectoryAtStartup()
     {
         return @$GLOBALS['STAGEHAND_TESTRUNNER_CONFIG_workingDirectoryAtStartup'];
+    }
+
+    /**
+     * @param string $junitXMLFile
+     * @since Method available since Release 2.20.0
+     */
+    public function setJUnitXMLFile($junitXMLFile)
+    {
+        $this->junitXMLFile = $junitXMLFile;
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 2.20.0
+     */
+    public function getJUnitXMLFile()
+    {
+        return $this->junitXMLFile;
     }
 
     /**

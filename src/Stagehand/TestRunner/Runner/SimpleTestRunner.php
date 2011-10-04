@@ -135,11 +135,11 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
     public function writeJUnitXMLToFile($buffer)
     {
         if (!is_resource($this->junitXMLFileHandle)) {
-            $result = fopen($this->config->junitXMLFile, 'w');
+            $result = fopen($this->config->getJUnitXMLFile(), 'w');
             if (!$result) {
                 throw new Stagehand_TestRunner_Exception(
                    'Failed to open the specified file [ ' .
-                   $this->config->junitXMLFile .
+                   $this->config->getJUnitXMLFile() .
                    ' ].'
                 );
             }
@@ -151,7 +151,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         if ($result === false) {
             throw new Stagehand_TestRunner_Exception(
                'Failed to write the test results into the specified file [ ' .
-               $this->config->junitXMLFile .
+               $this->config->getJUnitXMLFile() .
                ' ].'
             );
         }

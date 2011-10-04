@@ -100,13 +100,14 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         $this->config = new Stagehand_TestRunner_Config();
         $this->config->framework = $this->framework;
         $this->config->logsResultsInJUnitXML = true;
-        $this->config->junitXMLFile =
+        $this->config->setJUnitXMLFile(
             $this->tmpDirectory .
             '/' .
             get_class($this) .
             '.' .
             $this->getName(false) .
-            '.xml';
+            '.xml'
+        );
         $this->configure($this->config);
 
         $preparerFactory = new Stagehand_TestRunner_Preparer_PreparerFactory($this->config);
@@ -129,7 +130,7 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        unlink($this->config->junitXMLFile);
+        unlink($this->config->getJUnitXMLFile());
     }
 
     public function removeJUnitXMLFile($element)
@@ -242,7 +243,7 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
     protected function createXPath()
     {
         $junitXML = new DOMDocument();
-        $junitXML->load($this->config->junitXMLFile);
+        $junitXML->load($this->config->getJUnitXMLFile());
         return new DOMXPath($junitXML);
     }
 

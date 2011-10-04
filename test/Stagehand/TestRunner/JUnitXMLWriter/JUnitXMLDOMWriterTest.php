@@ -4,7 +4,7 @@
 /**
  * PHP version 5
  *
- * Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.14.0
@@ -37,7 +37,7 @@
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
@@ -55,7 +55,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriterTest extends Stagehan
         $testClass = 'Stagehand_TestRunner_PHPUnitSpecialCharactersInFailureMessageTest';
         $this->collector->collectTestCase($testClass);
         $this->runTests();
-        $this->assertFileExists($this->config->junitXMLFile);
+        $this->assertFileExists($this->config->getJUnitXMLFile());
         $this->assertRegExp(
             '/Stagehand_TestRunner_PHPUnitSpecialCharactersInFailureMessageTest::isFailure' . PHP_EOL .
             PHP_EOL .
@@ -63,7 +63,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriterTest extends Stagehan
             'Failed asserting that &lt;boolean:false&gt; is true\.' . PHP_EOL .
             PHP_EOL .
             '/m',
-            file_get_contents($this->config->junitXMLFile)
+            file_get_contents($this->config->getJUnitXMLFile())
         );
     }
 }

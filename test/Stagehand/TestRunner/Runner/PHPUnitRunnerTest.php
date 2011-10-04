@@ -594,7 +594,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $this->runTests();
 
         $junitXML = new DOMDocument();
-        $junitXML->load($this->config->junitXMLFile);
+        $junitXML->load($this->config->getJUnitXMLFile());
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $this->assertTestCaseCount(1);

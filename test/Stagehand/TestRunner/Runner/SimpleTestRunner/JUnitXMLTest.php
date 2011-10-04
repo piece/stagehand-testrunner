@@ -82,10 +82,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'SkipClassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'SkipMethodTest');
         $this->runTests();
-        $this->assertFileExists($this->config->junitXMLFile);
+        $this->assertFileExists($this->config->getJUnitXMLFile());
 
         $junitXML = new DOMDocument();
-        $junitXML->load($this->config->junitXMLFile);
+        $junitXML->load($this->config->getJUnitXMLFile());
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -263,10 +263,10 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
     {
         $this->loadClasses();
         $this->runTests();
-        $this->assertFileExists($this->config->junitXMLFile);
+        $this->assertFileExists($this->config->getJUnitXMLFile());
 
         $junitXML = new DOMDocument();
-        $junitXML->load($this->config->junitXMLFile);
+        $junitXML->load($this->config->getJUnitXMLFile());
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -290,7 +290,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'FailureTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'ErrorTest');
         $this->runTests();
-        $this->assertFileExists($this->config->junitXMLFile);
+        $this->assertFileExists($this->config->getJUnitXMLFile());
 
         $streamContents = $this->readAttribute($this->runner, 'streamContents');
         $this->assertEquals(22, count($streamContents));
@@ -308,7 +308,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals('</testsuites>', $streamContents[21]);
 
         $junitXML = new DOMDocument();
-        $junitXML->load($this->config->junitXMLFile);
+        $junitXML->load($this->config->getJUnitXMLFile());
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLStream.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -411,7 +411,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
         $this->runTests();
         $junitXML = new DOMDocument();
-        $junitXML->load($this->config->junitXMLFile);
+        $junitXML->load($this->config->getJUnitXMLFile());
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertEquals(1, $parentTestsuite->getAttribute('tests'));
@@ -433,7 +433,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses2Test');
         $this->runTests();
         $junitXML = new DOMDocument();
-        $junitXML->load($this->config->junitXMLFile);
+        $junitXML->load($this->config->getJUnitXMLFile());
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertEquals(2, $parentTestsuite->getAttribute('tests'));

@@ -252,7 +252,7 @@ PHP_EOL .
 
         $config = new Stagehand_TestRunner_Config();
         $config->logsResultsInJUnitXML = true;
-        $config->junitXMLFile = 'FILE';
+        $config->setJUnitXMLFile('FILE');
         $data[] = array($config, array('-R', '--log-junit=' . escapeshellarg('FILE')), array(true, false));
 
         $config = new Stagehand_TestRunner_Config();
