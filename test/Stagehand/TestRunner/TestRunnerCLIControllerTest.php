@@ -235,58 +235,6 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
 
     /**
      * @test
-     * @dataProvider preservedOptionsForAutotest
-     * @param array $option
-     * @param array $normalizedOption
-     * @param array $shouldPreserve
-     * @link http://redmine.piece-framework.com/issues/314
-     * @since Method available since Release 2.18.0
-     */
-    public function preservesSomeOptionsForAutotest(array $option, array $normalizedOption, array $shouldPreserve)
-    {
-        $_SERVER['argv'] = $GLOBALS['argv'] = array_merge(array('bin/phpunitrunner', '-a'), $option);
-        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $this->createTestRunnerCLIController()->run();
-
-        for ($i = 0; $i < count($normalizedOption); ++$i) {
-            $preserved = in_array($normalizedOption[$i], $this->readAttribute($this->autotest, 'runnerOptions'));
-            $this->assertEquals($shouldPreserve[$i], $preserved);
-        }
-    }
-
-    /**
-     * @return array
-     * @link http://redmine.piece-framework.com/issues/314
-     * @since Method available since Release 2.18.0
-     */
-    public function preservedOptionsForAutotest()
-    {
-        return array(
-            array(array('-R'), array('-R'), array(true)),
-            array(array('-c'), array('-R', '-c'), array(true, true)),
-            array(array('-p', 'test/prepare.php'), array('-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true)),
-            array(array('-a'), array('-R', '-a'), array(true, false)),
-            array(array('-w', 'src'), array('-R', '-w ' . escapeshellarg('src')), array(true, false)),
-            array(array('-n'), array('-R', '-n'), array(true, true)),
-            array(array('-g'), array('-R', '-n'), array(true, true)),
-            array(array('--growl-password=PASSWORD'), array('-R', '--growl-password=' . escapeshellarg('PASSWORD')), array(true, true)),
-            array(array('-m', 'METHOD1'), array('-R', '-m ' . escapeshellarg('METHOD1')), array(true, false)),
-            array(array('--classes=CLASS1'), array('-R', '--classes=' . escapeshellarg('CLASS1')), array(true, false)),
-            array(array('--log-junit=FILE'), array('-R', '--log-junit=' . escapeshellarg('FILE')), array(true, false)),
-            array(array('--log-junit-realtime'), array('-R', '--log-junit-realtime'), array(true, false)),
-            array(array('-v'), array('-R', '-v'), array(true, true)),
-            array(array('--stop-on-failure'), array('-R', '--stop-on-failure'), array(true, true)),
-            array(array('--phpunit-config=FILE'), array('-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true)),
-            array(array('--cakephp-app-path=DIRECTORY'), array('-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
-            array(array('--cakephp-core-path=DIRECTORY'), array('-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
-            array(array('--ciunit-path=DIRECTORY'), array('-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
-            array(array('--test-file-pattern=PATTERN'), array('-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true)),
-            array(array('--test-file-suffix=SUFFIX'), array('-R', '--test-file-suffix=' . escapeshellarg('SUFFIX')), array(true, true)),
-        );
-    }
-
-    /**
-     * @test
      * @link http://redmine.piece-framework.com/issues/323
      * @since Method available since Release 2.19.0
      */

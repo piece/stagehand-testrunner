@@ -55,6 +55,11 @@ class Stagehand_TestRunner_AutotestTest extends PHPUnit_Framework_TestCase
     protected $notification;
 
     /**
+     * @var string
+     */
+    protected $phpConfigDir = false;
+
+    /**
      * @test
      * @dataProvider messagesOfAFatalOrParseError
      * @param string $errorOutput
@@ -136,6 +141,157 @@ PHP_EOL .
     {
         echo $this->errorOutput;
         return 1;
+    }
+
+    /**
+     * @param Stagehand_TestRunner_Config $config
+     * @return Stagehand_TestRunner_Autotest
+     */
+    public function createAutotest(Stagehand_TestRunner_Config $config)
+    {
+        $monitor = $this->getMock('Stagehand_AlterationMonitor', array('monitor'), array(null, null));
+        $monitor->expects($this->any())
+                ->method('monitor')
+                ->will($this->returnValue(null));
+        $this->autotest = $this->getMock(
+            'Stagehand_TestRunner_Autotest',
+            array('createAlterationMonitor', 'getMonitoringDirectories', 'executeRunnerCommand', 'getPHPConfigDir'),
+            array($config)
+        );
+        $this->autotest->expects($this->any())
+                       ->method('createAlterationMonitor')
+                       ->will($this->returnValue($monitor));
+        $this->autotest->expects($this->any())
+                       ->method('getMonitoringDirectories')
+                       ->will($this->returnValue(array()));
+        $this->autotest->expects($this->any())
+                       ->method('executeRunnerCommand')
+                       ->will($this->returnValue(0));
+        $this->autotest->expects($this->any())
+                       ->method('getPHPConfigDir')
+                       ->will($this->returnCallback(array($this, 'getPHPConfigDir')));
+        return $this->autotest;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPHPConfigDir()
+    {
+        return $this->phpConfigDir;
+    }
+
+    /**
+     * @test
+     * @dataProvider preservedConfigurations
+     * @param Stagehand_TestRunner_Config $config
+     * @param array $normalizedOption
+     * @param array $shouldPreserve
+     * @link http://redmine.piece-framework.com/issues/314
+     */
+    public function preservesSomeConfigurationsForAutotest(
+        Stagehand_TestRunner_Config $config,
+        array $normalizedOption,
+        array $shouldPreserve)
+    {
+        $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-a');
+        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
+        $autotest = $this->createAutotest($config);
+        $autotest->monitorAlteration();
+
+        for ($i = 0; $i < count($normalizedOption); ++$i) {
+            $preserved = in_array($normalizedOption[$i], $this->readAttribute($autotest, 'runnerOptions'));
+            $this->assertEquals($shouldPreserve[$i], $preserved);
+        }
+    }
+
+    /**
+     * @return array
+     * @link http://redmine.piece-framework.com/issues/314
+     */
+    public function preservedConfigurations()
+    {
+        $data = array();
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->recursivelyScans = true;
+        $data[] = array($config, array('-R'), array(true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->setColors(true);
+        $data[] = array($config, array('-R', '-c'), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->preloadFile = 'test/prepare.php';
+        $data[] = array($config, array('-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->recursivelyScans = true;
+        $config->enablesAutotest = true;
+        $data[] = array($config, array('-R', '-a'), array(true, false));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->monitoringDirectories[] = 'src';
+        $data[] = array($config, array('-R', '-w ' . escapeshellarg('src')), array(true, false));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->usesNotification = true;
+        $data[] = array($config, array('-R', '-n'), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->growlPassword = 'PASSWORD';
+        $data[] = array($config, array('-R', '--growl-password=' . escapeshellarg('PASSWORD')), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->addTestingMethod('METHOD1');
+        $data[] = array($config, array('-R', '-m ' . escapeshellarg('METHOD1')), array(true, false));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->addTestingClass('CLASS1');
+        $data[] = array($config, array('-R', '--classes=' . escapeshellarg('CLASS1')), array(true, false));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->logsResultsInJUnitXML = true;
+        $config->junitXMLFile = 'FILE';
+        $data[] = array($config, array('-R', '--log-junit=' . escapeshellarg('FILE')), array(true, false));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->logsResultsInJUnitXMLInRealtime = true;
+        $data[] = array($config, array('-R', '--log-junit-realtime'), array(true, false));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->printsDetailedProgressReport = true;
+        $data[] = array($config, array('-R', '-v'), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->stopsOnFailure = true;
+        $data[] = array($config, array('-R', '--stop-on-failure'), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->phpunitConfigFile = 'FILE';
+        $data[] = array($config, array('-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->cakephpAppPath = 'DIRECTORY';
+        $data[] = array($config, array('-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->cakephpCorePath = 'DIRECTORY';
+        $data[] = array($config, array('-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->ciunitPath = 'DIRECTORY';
+        $data[] = array($config, array('-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->testFilePattern = 'PATTERN';
+        $data[] = array($config, array('-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true));
+
+        $config = new Stagehand_TestRunner_Config();
+        $config->testFileSuffix = 'SUFFIX';
+        $data[] = array($config, array('-R', '--test-file-suffix=' . escapeshellarg('SUFFIX')), array(true, true));
+
+        return $data;
     }
 }
 
