@@ -316,33 +316,6 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         $this->assertTestCaseFailureMessageEquals('/^The First Failure/', 'testIsFailure', $testClass);
     }
 
-    /**
-     * @test
-     * @link http://redmine.piece-framework.com/issues/222
-     * @since Method available since Release 2.14.0
-     */
-    public function supportsWebPageTesting()
-    {
-        $browser = $this->getMock('SimpleBrowser', array('getTransportError', 'getTitle'));
-        $browser->expects($this->any())
-                ->method('getTransportError')
-                ->will($this->returnValue(null));
-        $browser->expects($this->any())
-                ->method('getTitle')
-                ->will($this->returnValue('IANA &mdash; Example domains'));
-        $GLOBALS['STAGEHAND_TESTRUNNER_' . strtoupper($this->framework) . 'WEBPAGETEST_browser'] = $browser;
-        $testClass = 'Stagehand_TestRunner_' . $this->framework . 'WebPageTest';
-        $this->collector->collectTestCase($testClass);
-        $this->runTests();
-
-        $junitXML = new DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
-        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCasePassed('testIsPass', $testClass);
-    }
-
     protected function loadClasses()
     {
         class_exists('Stagehand_TestRunner_' . $this->framework . 'MultipleClassesTest');

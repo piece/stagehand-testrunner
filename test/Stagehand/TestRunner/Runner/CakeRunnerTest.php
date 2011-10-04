@@ -37,7 +37,6 @@
 
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/mock_objects.php';
-require_once 'simpletest/web_tester.php';
 
 /**
  * @package    Stagehand_TestRunner
@@ -115,7 +114,6 @@ class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Ru
         include_once 'Stagehand/TestRunner/cake_failure_and_pass.test.php';
         include_once 'Stagehand/TestRunner/cake_error_and_pass.test.php';
         include_once 'Stagehand/TestRunner/cake_multiple_failures.test.php';
-        include_once 'Stagehand/TestRunner/cake_web_page.test.php';
         include_once 'Stagehand/TestRunner/cake_always_called_methods.test.php';
 
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
