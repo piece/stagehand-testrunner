@@ -99,7 +99,6 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         $this->tmpDirectory = dirname(__FILE__) . '/../../../tmp';
         $this->config = new Stagehand_TestRunner_Config();
         $this->config->framework = $this->framework;
-        $this->config->logsResultsInJUnitXML = true;
         $this->config->setJUnitXMLFile(
             $this->tmpDirectory .
             '/' .

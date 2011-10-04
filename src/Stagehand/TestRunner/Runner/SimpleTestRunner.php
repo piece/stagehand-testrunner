@@ -68,7 +68,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         $reporter = new MultipleReporter();
         $reporter->attachReporter($this->decorateReporter($textReporter));
 
-        if ($this->config->logsResultsInJUnitXML) {
+        if ($this->config->logsResultsInJUnitXML()) {
             if (!$this->config->logsResultsInJUnitXMLInRealtime()) {
                 $xmlWriter =
                     new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter(
@@ -92,7 +92,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         $output = ob_get_contents();
         ob_end_clean();
 
-        if ($this->config->logsResultsInJUnitXML) {
+        if ($this->config->logsResultsInJUnitXML()) {
             if (is_resource($this->junitXMLFileHandle)) {
                 fclose($this->junitXMLFileHandle);
             }

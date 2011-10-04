@@ -251,7 +251,6 @@ PHP_EOL .
         $data[] = array($config, array('-R', '--classes=' . escapeshellarg('CLASS1')), array(true, false));
 
         $config = new Stagehand_TestRunner_Config();
-        $config->logsResultsInJUnitXML = true;
         $config->setJUnitXMLFile('FILE');
         $data[] = array($config, array('-R', '--log-junit=' . escapeshellarg('FILE')), array(true, false));
 
