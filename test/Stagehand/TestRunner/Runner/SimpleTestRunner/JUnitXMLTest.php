@@ -284,7 +284,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
     public function logsTestResultsInRealtimeIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
         $this->loadClasses();
-        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
         $this->config->runnerClass = 'Stagehand_TestRunner_Runner_' . $this->framework . 'Runner_JUnitXMLTest_Mock' . $this->framework . 'Runner';
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'PassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'FailureTest');
@@ -405,7 +405,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
     public function countsTheNumberOfTestsForMethodFiltersWithTheRealtimeOption()
     {
         $this->loadClasses();
-        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
         $this->config->addTestingMethod('testPass1');
         class_exists('Stagehand_TestRunner_' . $this->framework . 'MultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
@@ -426,7 +426,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
     public function countsTheNumberOfTestsForClassFiltersWithTheRealtimeOption()
     {
         $this->loadClasses();
-        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
         $this->config->addTestingClass('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
         class_exists('Stagehand_TestRunner_' . $this->framework . 'MultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
@@ -453,7 +453,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $methodName = 'testTestShouldPassCommon';
         $className = 'Stagehand_TestRunner_' . $this->framework . 'ExtendedTest';
         $parentClassName = 'Stagehand_TestRunner_' . $this->framework . 'CommonTest';
-        $this->config->logsResultsInJUnitXMLInRealtime = $logsResultsInJUnitXMLInRealtime;
+        $this->config->setLogsResultsInJUnitXMLInRealtime($logsResultsInJUnitXMLInRealtime);
         $this->collector->collectTestCase($className);
         $this->runTests();
 
@@ -495,7 +495,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         if (is_null($actualClassName)) {
             $actualClassName = $className;
         }
-        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
         $this->config->addTestingMethod($methodName);
         $this->collector->collectTestCase($className);
         $this->runTests();

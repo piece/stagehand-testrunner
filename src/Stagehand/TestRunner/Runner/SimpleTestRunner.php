@@ -69,7 +69,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner extends Stagehand_TestRunner_
         $reporter->attachReporter($this->decorateReporter($textReporter));
 
         if ($this->config->logsResultsInJUnitXML) {
-            if (!$this->config->logsResultsInJUnitXMLInRealtime) {
+            if (!$this->config->logsResultsInJUnitXMLInRealtime()) {
                 $xmlWriter =
                     new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter(
                         array($this, 'writeJUnitXMLToFile')

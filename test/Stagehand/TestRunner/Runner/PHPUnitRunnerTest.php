@@ -660,7 +660,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $reflectionClass = new ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
         $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile;
-        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
         $this->preparer->prepare();
         $this->collector->collectTestCase($testingClass);
         $this->runTests();

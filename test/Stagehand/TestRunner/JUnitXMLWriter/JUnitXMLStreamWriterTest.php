@@ -52,7 +52,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriterTest extends Stage
      */
     public function escapesSomeSpecialCharactersInTextNodes()
     {
-        $this->config->logsResultsInJUnitXMLInRealtime = true;
+        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
         $testClass = 'Stagehand_TestRunner_PHPUnitSpecialCharactersInFailureMessageTest';
         $this->collector->collectTestCase($testClass);
         $this->runTests();

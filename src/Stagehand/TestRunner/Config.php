@@ -57,7 +57,7 @@ class Stagehand_TestRunner_Config
     public $printsDetailedProgressReport = false;
     protected $junitXMLFile;
     public $logsResultsInJUnitXML = false;
-    public $logsResultsInJUnitXMLInRealtime = false;
+    protected $logsResultsInJUnitXMLInRealtime = false;
     public $framework;
     public $runnerClass;
     public $stopsOnFailure = false;
@@ -215,6 +215,24 @@ class Stagehand_TestRunner_Config
     public function getJUnitXMLFile()
     {
         return $this->junitXMLFile;
+    }
+
+    /**
+     * @param boolean $logsResultsInJUnitXMLInRealtime
+     * @since Method available since Release 2.20.0
+     */
+    public function setLogsResultsInJUnitXMLInRealtime($logsResultsInJUnitXMLInRealtime)
+    {
+        $this->logsResultsInJUnitXMLInRealtime = $logsResultsInJUnitXMLInRealtime;
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 2.20.0
+     */
+    public function logsResultsInJUnitXMLInRealtime()
+    {
+        return $this->logsResultsInJUnitXMLInRealtime;
     }
 
     /**
