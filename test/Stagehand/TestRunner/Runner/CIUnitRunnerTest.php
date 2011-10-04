@@ -57,7 +57,6 @@ class Stagehand_TestRunner_Runner_CIUnitRunnerTest extends Stagehand_TestRunner_
         include_once 'Stagehand/TestRunner/testCIUnitFailure.php';
         include_once 'Stagehand/TestRunner/testCIUnitError.php';
         include_once 'Stagehand/TestRunner/testCIUnitMultipleFailures.php';
-        include_once 'Stagehand/TestRunner/testCIUnitSelenium.php';
         include_once 'Stagehand/TestRunner/testCIUnitGroups.php';
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
             include_once 'Stagehand/TestRunner/testCIUnitMultipleClassesWithNamespace.php';
@@ -252,16 +251,6 @@ class Stagehand_TestRunner_Runner_CIUnitRunnerTest extends Stagehand_TestRunner_
     {
         return array(
             array('testStagehand_TestRunner_CIUnitMultipleFailures'),
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function seleniumTest()
-    {
-        return array(
-            array('testStagehand_TestRunner_CIUnitSelenium'),
         );
     }
 

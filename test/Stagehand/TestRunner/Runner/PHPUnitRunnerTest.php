@@ -617,37 +617,6 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
 
     /**
      * @param string $testingClass
-     * @test
-     * @dataProvider seleniumTest
-     * @link http://redmine.piece-framework.com/issues/237
-     * @since Method available since Release 2.16.0
-     */
-    public function supportsTheSeleniumElementInTheXmlConfigurationFile($testingClass)
-    {
-        $GLOBALS['STAGEHAND_TESTRUNNER_' . strtoupper($this->framework) . 'SELENIUMTEST_enables'] = true;
-        $reflectionClass = new ReflectionClass($this);
-        $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
-        $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . 'selenium.xml';
-        $this->preparer->prepare();
-        $this->collector->collectTestCase($testingClass);
-        $this->runTests();
-
-        $this->assertTestCasePassed(__FUNCTION__, $testingClass);
-    }
-
-    /**
-     * @return array
-     * @since Method available since Release 2.16.0
-     */
-    public function seleniumTest()
-    {
-        return array(
-            array('Stagehand_TestRunner_PHPUnitSeleniumTest'),
-        );
-    }
-
-    /**
-     * @param string $testingClass
      * @param array $testingMethods
      * @param string $xmlConfigurationFile
      * @test
