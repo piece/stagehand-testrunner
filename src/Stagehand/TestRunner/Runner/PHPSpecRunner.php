@@ -88,7 +88,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
 
             preg_match('/^(\d+ examples?, \d+ failures?.*)/m', $output, $matches);
             $this->notification = new Stagehand_TestRunner_Notification_Notification($notificationResult, $matches[1]);
-      }
+        }
     }
 }
 
