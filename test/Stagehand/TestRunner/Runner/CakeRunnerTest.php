@@ -36,6 +36,7 @@
  */
 
 require_once 'simpletest/unit_tester.php';
+require_once 'simpletest/web_tester.php';
 require_once 'simpletest/mock_objects.php';
 
 /**
