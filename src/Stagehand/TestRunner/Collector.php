@@ -136,7 +136,8 @@ abstract class Stagehand_TestRunner_Collector
         if (!$this->shouldTreatFileAsTest(basename($file))) return;
 
         foreach ($this->findNewClasses($file) as $newClass) {
-            if ($this->shouldTreatClassAsTest($newClass)) {
+            $collectingType = new Stagehand_TestRunner_Collector_CollectingType($newClass, $this->superTypes);
+            if ($collectingType->isTest()) {
                 $this->collectTestCase($newClass);
             }
         }
@@ -158,36 +159,6 @@ abstract class Stagehand_TestRunner_Collector
         }
 
         return (boolean)preg_match('/' . str_replace('/', '\/', $filePattern) . '/', $file);
-    }
-
-    /**
-     * @param string $class
-     * @return boolean
-     * @since Method available since Release 2.14.0
-     */
-    protected function shouldTreatClassAsTest($class)
-    {
-        return $this->validateSuperType($class);
-    }
-
-    /**
-     * @param string $class
-     * @return boolean
-     * @since Method available since Release 2.14.0
-     */
-    protected function validateSuperType($class)
-    {
-        foreach ($this->superTypes as $superType) {
-            if ($class == $superType) {
-                return false;
-            }
-
-            if (is_subclass_of($class, $superType)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
