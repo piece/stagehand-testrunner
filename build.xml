@@ -27,23 +27,26 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">2.19.0</property>
+  <property name="package.releaseversion">2.20.0</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">1.1.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
 
-Reflects the colors attribute in the PHPUnit XML configuration file to the configuration.
+Supports PHPUnit 3.6.
 
- (Issue #326)
+ (Issue #327)
 
- The value of the colors attribute in the PHPUnit XML configuration file is now reflected to the Stagehand_TestRunner's configuration.
+ PHPUnit 3.6 has been supported.
 
-A Defect Fix
+Four Defect Fix
 
- The following defect has been fixed:
+ The following defects have been fixed:
 
- * Nothing is displayed when specifying the -a option. (Issue #323)
+ * Missing backslashes in notice messages on Linux. (Issue #332)
+ * An error message does not appear in the notice message. (Issue #333)
+ * A possible crash by "Strict Standards" (Issue #334)
+ * Super-type is collected as test unexpectedly. (Issue #347)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A test runner for Test Driven Development</property>
