@@ -47,7 +47,7 @@ class Stagehand_TestRunner_Autotest
     /**
      * @since Constant available since Release 2.20.0
      */
-    const FATAL_ERROR_MESSAGE_PATTERN = "/^(?:Parse|Fatal) error: .+ in .+?(?:\(\d+\) : eval\(\)'d code)? on line \d+$/m";
+    const FATAL_ERROR_MESSAGE_PATTERN = "/^(?:Parse|Fatal) error: .+ in .+?(?:\(\d+\) : eval\(\)'d code)? on line \d+/m";
 
     /**
      * @var Stagehand_TestRunner_Config $config
@@ -300,8 +300,10 @@ class Stagehand_TestRunner_Autotest
      */
     protected function findFatalErrorMessage($output)
     {
-        $message = ltrim(Stagehand_TestRunner_Util_String::normalizeNewlines($output));
-        if (preg_match(self::FATAL_ERROR_MESSAGE_PATTERN, $output, $matches)) {
+        if (preg_match(
+            self::FATAL_ERROR_MESSAGE_PATTERN,
+            ltrim(Stagehand_TestRunner_Util_String::normalizeNewlines($output)),
+            $matches)) {
             return $matches[0];
         } else {
             return $output;

@@ -46,10 +46,7 @@ class Stagehand_TestRunner_Util_String
 {
     public static function normalizeNewlines($target)
     {
-        $target = str_replace("\x0d\x0a", PHP_EOL, $target);
-        $target = str_replace("\x0d", PHP_EOL, $target);
-        $target = str_replace("\x0a", PHP_EOL, $target);
-        return $target;
+        return preg_replace("/\x0d\x0a|\x0d|\x0a/", PHP_EOL, $target);
     }
 }
 

@@ -710,11 +710,11 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_JUnitXMLTest extends Stagehand_T
     public function provideFailurePatterns()
     {
         return array(
-            array('isFailure', 'Stagehand_TestRunner_PHPUnitFailureTest', 56, '/^This is an error message\.$/m', null, false),
-            array('isError', 'Stagehand_TestRunner_PHPUnitErrorTest', 56, '/Undefined property: Stagehand_TestRunner_PHPUnitErrorTest::\$foo$/m', null, false),
-            array('testTestShouldFailCommon', 'Stagehand_TestRunner_PHPUnitExtendedTest', 61, '/^Failed asserting that (?:false|<boolean:false>) is true\.$/m', 'Stagehand_TestRunner_PHPUnitCommonTest', false),
-            array('isFailure', 'Stagehand_TestRunner_PHPUnitFailureInAnonymousFunctionTest', 56, '/^This is an error message\.$/m', null, true),
-            array('isException', 'Stagehand_TestRunner_PHPUnitExceptionTest', 54, '/This is an error message\.$/m', null, false),
+            array('isFailure', 'Stagehand_TestRunner_PHPUnitFailureTest', 56, '/^This is an error message\./m', null, false),
+            array('isError', 'Stagehand_TestRunner_PHPUnitErrorTest', 56, '/Undefined property: Stagehand_TestRunner_PHPUnitErrorTest::\$foo/m', null, false),
+            array('testTestShouldFailCommon', 'Stagehand_TestRunner_PHPUnitExtendedTest', 61, '/^Failed asserting that (?:false|<boolean:false>) is true\./m', 'Stagehand_TestRunner_PHPUnitCommonTest', false),
+            array('isFailure', 'Stagehand_TestRunner_PHPUnitFailureInAnonymousFunctionTest', 56, '/^This is an error message\./m', null, true),
+            array('isException', 'Stagehand_TestRunner_PHPUnitExceptionTest', 54, '/This is an error message\./m', null, false),
         );
     }
 
