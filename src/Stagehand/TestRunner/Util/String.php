@@ -46,9 +46,13 @@ namespace Stagehand\TestRunner\Util;
  */
 class String
 {
-    public static function normalizeNewlines($target)
+    const NEWLINE_UNIX = "\x0a";
+    const NEWLINE_DOS = "\x0d\x0a";
+    const NEWLINE_MAC = "\x0d";
+
+    public static function normalizeNewlines($target, $newline = PHP_EOL)
     {
-        return preg_replace("/\x0d\x0a|\x0d|\x0a/", PHP_EOL, $target);
+        return preg_replace("/\x0d\x0a|\x0d|\x0a/", $newline, $target);
     }
 }
 
