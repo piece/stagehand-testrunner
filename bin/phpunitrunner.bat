@@ -1,5 +1,4 @@
 @ECHO OFF
-REM $Id$
 
 REM *************************************************************
 REM ** Stagehand_TestRunner CLI for Windows based systems (based on symfony.bat)
