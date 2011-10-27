@@ -54,14 +54,14 @@ class Stagehand_TestRunner_Collector_CollectingTypeTest extends PHPUnit_Framewor
      */
     public function checksATypeIsATest($type, $isSubTypeOfExpectedType, $isTest)
     {
-        $collectingType = $this->getMock(
+        $collectingType = Phake::partialMock(
             'Stagehand_TestRunner_Collector_CollectingType',
-            array('isSubTypeOfExpectedSuperType'),
-            array($type, array('PHPSpec\Specification\ExampleGroup', 'PHPSpec\Context'))
+            $type, array('PHPSpec\Specification\ExampleGroup', 'PHPSpec\Context')
         );
-        $collectingType->expects($this->any())
-            ->method('isSubTypeOfExpectedSuperType')
-            ->will($this->returnValue($isSubTypeOfExpectedType));
+
+        Phake::when($collectingType)->isSubTypeOfExpectedSuperType($this->anything(), $this->anything())
+            ->thenReturn($isSubTypeOfExpectedType);
+
         $this->assertEquals($isTest, $collectingType->isTest());
     }
 

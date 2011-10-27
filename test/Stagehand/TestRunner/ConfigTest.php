@@ -76,10 +76,10 @@ class Stagehand_TestRunner_ConfigTest extends PHPUnit_Framework_TestCase
     public function getsTheCurrentDirectoryAsTheTestDirectoryIfNoDirectoriesOrFilesAreSpecified()
     {
         $currentDirectory = '/path/to/currentDir';
-        $config = $this->getMock('Stagehand_TestRunner_Config', array('getWorkingDirectoryAtStartup'));
-        $config->expects($this->once())
-            ->method('getWorkingDirectoryAtStartup')
-            ->will($this->returnValue($currentDirectory));
+
+        $config = Phake::partialMock('Stagehand_TestRunner_Config');
+        Phake::when($config)->getWorkingDirectoryAtStartup()->thenReturn($currentDirectory);
+
         $testingResources = $config->getTestingResources();
         $this->assertEquals(1, count($testingResources));
         $this->assertEquals($currentDirectory, $testingResources[0]);

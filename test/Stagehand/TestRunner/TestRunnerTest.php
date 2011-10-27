@@ -51,6 +51,11 @@ class Stagehand_TestRunner_TestRunnerTest extends Stagehand_TestRunner_TestCase
     protected $result;
 
     /**
+     * @since Property available since Release 2.21.0
+     */
+    protected $phpOS;
+
+    /**
      * @test
      * @link http://redmine.piece-framework.com/issues/309
      * @dataProvider providePassAndFailure
@@ -62,9 +67,12 @@ class Stagehand_TestRunner_TestRunnerTest extends Stagehand_TestRunner_TestCase
     {
         $this->config->usesNotification = true;
         $this->collector->collectTestCase($testClass);
-        $this->notifier->expects($this->any())
-                    ->method('executeNotifyCommand')
-                    ->will($this->returnCallback(array($this, 'executeGrowlNotifyCommand')));
+
+        $this->notifier = Phake::mock('Stagehand_TestRunner_Notification_Notifier');
+        Phake::when($this->notifier)->executeNotifyCommand($this->anything())
+            ->thenGetReturnByLambda(array($this, 'executeGrowlNotifyCommand'));
+        Phake::when($this->notifier)->getPHPOS()->thenGetReturnByLambda(array($this, 'getPHPOS'));
+
         $this->phpOS = $phpOS;
         $this->result = $result;
         $this->runTests();
@@ -120,6 +128,14 @@ class Stagehand_TestRunner_TestRunnerTest extends Stagehand_TestRunner_TestCase
         }
 
         $this->assertRegExp($expected, $command);
+    }
+
+    /**
+     * @since Method available since Release 2.21.0
+     */
+    public function getPHPOS()
+    {
+        return $this->phpOS;
     }
 }
 

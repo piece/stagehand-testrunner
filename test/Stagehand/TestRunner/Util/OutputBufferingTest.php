@@ -44,27 +44,24 @@
  */
 class Stagehand_TestRunner_Util_OutputBufferingTest extends PHPUnit_Framework_TestCase
 {
-    protected $nestingLevel = 0;
-
     /**
      * @test
      * @link http://redmine.piece-framework.com/issues/323
      */
     public function clearsThePrecedingOutputHandlers()
     {
-        $this->nestingLevel = 2;
-        $outputBuffering = $this->getMock(
-            'Stagehand_TestRunner_Util_OutputBuffering',
-            array('getNestingLevel', 'clearOutputHandler')
-        );
-        $outputBuffering->expects($this->exactly(3))
-            ->method('getNestingLevel')
-            ->will($this->returnCallback(array($this, 'getNestingLevel')));
-        $outputBuffering->expects($this->exactly(2))
-            ->method('clearOutputHandler')
-            ->will($this->returnValue(null));
+        $outputBuffering = Phake::partialMock('Stagehand_TestRunner_Util_OutputBuffering');
+
+        Phake::when($outputBuffering)->getNestingLevel()
+          ->thenReturn(2)
+          ->thenReturn(1)
+          ->thenReturn(0);
+        Phake::when($outputBuffering)->clearOutputHandler()->thenReturn(null);
+
         $outputBuffering->clearOutputHandlers();
-        $this->assertEquals(-1, $this->nestingLevel);
+
+        Phake::verify($outputBuffering, Phake::times(3))->getNestingLevel();
+        Phake::verify($outputBuffering, Phake::times(2))->clearOutputHandler();
     }
 
     /**
@@ -74,35 +71,16 @@ class Stagehand_TestRunner_Util_OutputBufferingTest extends PHPUnit_Framework_Te
      */
     public function raisesAnExceptionWhenAPrecedingOutputBufferCannotBeRemoved()
     {
-        $this->nestingLevel = 1;
-        $outputBuffering = $this->getMock(
-            'Stagehand_TestRunner_Util_OutputBuffering',
-            array('getNestingLevel', 'clearOutputHandler')
-        );
-        $outputBuffering->expects($this->once())
-            ->method('getNestingLevel')
-            ->will($this->returnCallback(array($this, 'getNestingLevel')));
-        $outputBuffering->expects($this->once())
-            ->method('clearOutputHandler')
-            ->will($this->returnCallback(array($this, 'clearOutputHandler')));
+        $outputBuffering = Phake::partialMock('Stagehand_TestRunner_Util_OutputBuffering');
+
+        Phake::when($outputBuffering)->getNestingLevel()->thenReturn(1);
+        Phake::when($outputBuffering)->clearOutputHandler()
+          ->thenThrow(new Stagehand_LegacyError_PHPError_Exception());
+
         $outputBuffering->clearOutputHandlers();
-        $this->assertEquals(0, $this->nestingLevel);
-    }
 
-    /**
-     * @return integer
-     */
-    public function getNestingLevel()
-    {
-        return $this->nestingLevel--;
-    }
-
-    /**
-     * @throws Stagehand_LegacyError_PHPError_Exception
-     */
-    public function clearOutputHandler()
-    {
-        throw new Stagehand_LegacyError_PHPError_Exception();
+        Phake::verify($outputBuffering, Phake::times(1))->getNestingLevel();
+        Phake::verify($outputBuffering, Phake::times(1))->clearOutputHandler();
     }
 }
 

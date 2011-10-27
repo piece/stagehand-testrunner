@@ -74,7 +74,7 @@ class Stagehand_TestRunner_Preparer_PHPUnitPreparer extends Stagehand_TestRunner
     /**
      * @since Method available since Release 2.16.0
      */
-    protected function prepareFramework()
+    public function prepareFramework()
     {
         if (version_compare(PHPUnit_Runner_Version::id(), '3.5.0beta1', '>=')) {
             require_once 'PHPUnit/Autoload.php';

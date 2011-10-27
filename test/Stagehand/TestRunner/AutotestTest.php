@@ -50,12 +50,8 @@ class Stagehand_TestRunner_AutotestTest extends PHPUnit_Framework_TestCase
     protected $errorOutput;
 
     /**
-     * @var Stagehand_TestRunner_Notification_Notification
-     */
-    protected $notification;
-
-    /**
      * @var string
+     * @since Property available since Release 2.21.0
      */
     protected $phpConfigDir = false;
 
@@ -72,28 +68,20 @@ class Stagehand_TestRunner_AutotestTest extends PHPUnit_Framework_TestCase
         $config = new Stagehand_TestRunner_Config();
         $config->usesNotification = true;
 
-        $notifier = $this->getMock('Stagehand_TestRunner_Notification_Notifier', array('notifyResult'));
-        $notifier->expects($this->once())
-                 ->method('notifyResult')
-                 ->will($this->returnCallback(array($this, 'notifyResult')));
+        $notifier = Phake::mock('Stagehand_TestRunner_Notification_Notifier');
+        Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
 
-        $autotest = $this->getMock(
-            'Stagehand_TestRunner_Autotest',
-            array('executeRunnerCommand', 'createNotifier'),
-            array($config)
-        );
-        $autotest->expects($this->once())
-                 ->method('executeRunnerCommand')
-                 ->will($this->returnCallback(array($this, 'executeRunnerCommand')));
-        $autotest->expects($this->once())
-                 ->method('createNotifier')
-                 ->will($this->returnValue($notifier));
+        $autotest = Phake::partialMock('Stagehand_TestRunner_Autotest', $config);
+        Phake::when($autotest)->executeRunnerCommand($this->anything())
+            ->thenGetReturnByLambda(array($this, 'executeRunnerCommand'));
+        Phake::when($autotest)->createNotifier()->thenReturn($notifier);
 
         ob_start();
         $autotest->runTests();
         ob_end_clean();
 
-        $this->assertEquals($errorMessage, $this->notification->getMessage());
+        Phake::verify($notifier)->notifyResult(Phake::capture($notification));
+        $this->assertEquals($errorMessage, $notification->getMessage());
     }
 
     /**
@@ -126,14 +114,6 @@ PHP_EOL .
     }
 
     /**
-     * @param Stagehand_TestRunner_Notification_Notification $notification
-     */
-    public function notifyResult(Stagehand_TestRunner_Notification_Notification $notification)
-    {
-        $this->notification = $notification;
-    }
-
-    /**
      * @param string $runnerCommand
      * @return integer
      */
@@ -149,36 +129,16 @@ PHP_EOL .
      */
     public function createAutotest(Stagehand_TestRunner_Config $config)
     {
-        $monitor = $this->getMock('Stagehand_AlterationMonitor', array('monitor'), array(null, null));
-        $monitor->expects($this->any())
-                ->method('monitor')
-                ->will($this->returnValue(null));
-        $this->autotest = $this->getMock(
-            'Stagehand_TestRunner_Autotest',
-            array('createAlterationMonitor', 'getMonitoringDirectories', 'executeRunnerCommand', 'getPHPConfigDir'),
-            array($config)
-        );
-        $this->autotest->expects($this->any())
-                       ->method('createAlterationMonitor')
-                       ->will($this->returnValue($monitor));
-        $this->autotest->expects($this->any())
-                       ->method('getMonitoringDirectories')
-                       ->will($this->returnValue(array()));
-        $this->autotest->expects($this->any())
-                       ->method('executeRunnerCommand')
-                       ->will($this->returnValue(0));
-        $this->autotest->expects($this->any())
-                       ->method('getPHPConfigDir')
-                       ->will($this->returnCallback(array($this, 'getPHPConfigDir')));
-        return $this->autotest;
-    }
+        $monitor = Phake::mock('Stagehand_AlterationMonitor', null, null);
+        Phake::when($monitor)->monitor()->thenReturn(null);
 
-    /**
-     * @return string
-     */
-    public function getPHPConfigDir()
-    {
-        return $this->phpConfigDir;
+        $autotest = Phake::partialMock('Stagehand_TestRunner_Autotest', $config);
+        Phake::when($autotest)->createAlterationMonitor()->thenReturn($monitor);
+        Phake::when($autotest)->getMonitoringDirectories()->thenReturn(array());
+        Phake::when($autotest)->executeRunnerCommand($this->anything())->thenReturn(0);
+        Phake::when($autotest)->getPHPConfigDir()->thenGetReturnByLambda(array($this, 'getPHPConfigDir'));
+
+        return $autotest;
     }
 
     /**
@@ -197,10 +157,11 @@ PHP_EOL .
         $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-a');
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $autotest = $this->createAutotest($config);
+        Phake::when($autotest)->buildRunnerOptions()->captureReturnTo($runnerOptions);
         $autotest->monitorAlteration();
 
         for ($i = 0; $i < count($normalizedOption); ++$i) {
-            $preserved = in_array($normalizedOption[$i], $this->readAttribute($autotest, 'runnerOptions'));
+            $preserved = in_array($normalizedOption[$i], $runnerOptions);
             $this->assertEquals($shouldPreserve[$i], $preserved);
         }
     }
@@ -291,6 +252,68 @@ PHP_EOL .
         $data[] = array($config, array('-R', '--test-file-suffix=' . escapeshellarg('SUFFIX')), array(true, true));
 
         return $data;
+    }
+
+    /**
+     * @test
+     * @dataProvider commandLines
+     * @param string $command
+     * @param array $options
+     * @param string $phpConfigDir
+     * @param string $builtCommand
+     * @param array $builtOptions
+     * @link http://redmine.piece-framework.com/issues/196
+     * @link http://redmine.piece-framework.com/issues/319
+     * @since Method available since Release 2.21.0
+     */
+    public function buildsACommandLineString($command, $options, $phpConfigDir, $builtCommand, $builtOptions)
+    {
+        unset($_SERVER['PHP_COMMAND']);
+        $this->phpConfigDir = $phpConfigDir;
+        if (!is_null($command)) {
+            $_SERVER['_'] = $command;
+        } else {
+            unset($_SERVER['_']);
+        }
+        $_SERVER['argv'] = $GLOBALS['argv'] = $options;
+        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
+        $config = new Stagehand_TestRunner_Config();
+        $config->addTestingResource($options[ count($options) - 1 ]);
+        
+        $autotest = $this->createAutotest($config);
+        Phake::when($autotest)->buildRunnerCommand()->captureReturnTo($runnerCommand);
+        Phake::when($autotest)->buildRunnerOptions()->captureReturnTo($runnerOptions);
+
+        $autotest->monitorAlteration();
+
+        $this->assertEquals($builtCommand, $runnerCommand);
+        for ($i = 0; $i < count($builtOptions); ++$i) {
+            $this->assertEquals($builtOptions[$i], $runnerOptions[$i]);
+        }
+    }
+
+    /**
+     * @return array
+     * @since Method available since Release 2.21.0
+     */
+    public function commandLines()
+    {
+        return array(
+            array('/usr/bin/php', array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('phpunitrunner'), '-R', escapeshellarg('test'))),
+            array('/usr/bin/php', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('phpunitrunner'), '-R', escapeshellarg('test'))),
+            array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
+            array('phpunitrunner', array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
+            array('phpunitrunner', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
+            array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
+        );
+    }
+
+    /**
+     * @since Method available since Release 2.21.0
+     */
+    public function getPHPConfigDir()
+    {
+        return $this->phpConfigDir;
     }
 }
 

@@ -88,11 +88,6 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
             '_REQUEST'
         );
 
-    /**
-     * @since Property available since Release 2.18.0
-     */
-    protected $phpOS = 'Linux';
-
     protected function setUp()
     {
         Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
@@ -116,13 +111,9 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         $collectorFactory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
         $this->collector = $collectorFactory->create();
 
-        $this->notifier = $this->getMock('Stagehand_TestRunner_Notification_Notifier', array('executeNotifyCommand', 'getPHPOS'));
-        $this->notifier->expects($this->any())
-                    ->method('executeNotifyCommand')
-                    ->will($this->returnValue(null));
-        $this->notifier->expects($this->any())
-                    ->method('getPHPOS')
-                    ->will($this->returnCallback(array($this, 'getPHPOS')));
+        $this->notifier = Phake::mock('Stagehand_TestRunner_Notification_Notifier');
+        Phake::when($this->notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
+        Phake::when($this->notifier)->getPHPOS()->thenReturn('Linux');
 
         $this->loadClasses();
     }
@@ -135,14 +126,6 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
     public function removeJUnitXMLFile($element)
     {
         unlink($element);
-    }
-
-    /**
-     * @since Method available since Release 2.18.0
-     */
-    public function getPHPOS()
-    {
-        return $this->phpOS;
     }
 
     protected function assertTestCaseCount($count)
@@ -250,23 +233,12 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
     {
         $factory = new Stagehand_TestRunner_Runner_RunnerFactory($this->config);
         $this->runner = $factory->create();
-        $testRunner = $this->getMock(
-                          'Stagehand_TestRunner_TestRunner',
-                          array('createPreparer', 'createCollector', 'createRunner', 'createNotifier'),
-                          array($this->config)
-                      );
-        $testRunner->expects($this->any())
-                   ->method('createPreparer')
-                   ->will($this->returnValue($this->preparer));
-        $testRunner->expects($this->any())
-                   ->method('createCollector')
-                   ->will($this->returnValue($this->collector));
-        $testRunner->expects($this->any())
-                   ->method('createRunner')
-                   ->will($this->returnValue($this->runner));
-        $testRunner->expects($this->any())
-                   ->method('createNotifier')
-                   ->will($this->returnValue($this->notifier));
+
+        $testRunner = Phake::partialMock('Stagehand_TestRunner_TestRunner', $this->config);
+        Phake::when($testRunner)->createPreparer()->thenReturn($this->preparer);
+        Phake::when($testRunner)->createCollector()->thenReturn($this->collector);
+        Phake::when($testRunner)->createRunner()->thenReturn($this->runner);
+        Phake::when($testRunner)->createNotifier()->thenReturn($this->notifier);
 
         ob_start();
         $testRunner->run();

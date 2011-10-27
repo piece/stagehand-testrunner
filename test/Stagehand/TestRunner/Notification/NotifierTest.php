@@ -50,37 +50,23 @@ class Stagehand_TestRunner_Notification_NotifierTest extends PHPUnit_Framework_T
      */
     public function addsABackslashForEachBackslashInTheMessageOnLinuxToPreventLosingOriginalBackslashes()
     {
-        $notifier = $this->getMock(
-                        'Stagehand_TestRunner_Notification_Notifier',
-                        array('isWin', 'isDarwin', 'isLinux', 'executeNotifyCommand'),
-                        array()
-                    );
-        $notifier->expects($this->once())
-                 ->method('isWin')
-                 ->will($this->returnValue(false));
-        $notifier->expects($this->once())
-                 ->method('isDarwin')
-                 ->will($this->returnValue(false));
-        $notifier->expects($this->once())
-                 ->method('isLinux')
-                 ->will($this->returnValue(true));
-        $notifier->expects($this->once())
-                 ->method('executeNotifyCommand')
-                 ->will($this->returnCallback(array($this, 'executeNotifyCommand')));
+        $notifier = Phake::partialMock('Stagehand_TestRunner_Notification_Notifier');
+
+        Phake::when($notifier)->isWin()->thenReturn(false);
+        Phake::when($notifier)->isDarwin()->thenReturn(false);
+        Phake::when($notifier)->isLinux()->thenReturn(true);
+        Phake::when($notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
+
         $notifier->notifyResult(
             new Stagehand_TestRunner_Notification_Notification(
                 Stagehand_TestRunner_Notification_Notification::RESULT_STOPPED,
                 'Foo\Bar\Baz::qux()'
             )
         );
-    }
 
-    /**
-     * @param string $command
-     */
-    public function executeNotifyCommand($command)
-    {
-        $this->assertRegExp('/' . preg_quote('Foo\\\\Bar\\\\Baz::qux()') . '/', $command);
+        Phake::verify($notifier)->executeNotifyCommand(
+            $this->matchesRegularExpression('/' . preg_quote('Foo\\\\Bar\\\\Baz::qux()') . '/')
+        );
     }
 }
 
