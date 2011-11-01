@@ -44,6 +44,121 @@
  */
 class Stagehand_TestRunner_Notification_NotifierTest extends PHPUnit_Framework_TestCase
 {
+    const NOTIFICATION_MESSAGE = 'NOTIFICATION_MESSAGE';
+
+    /**
+     * @test
+     * @dataProvider decisionTable
+     * @param string $result
+     * @param string $os
+     * @param string $commandRegex
+     * @since Method available since Release 2.21.0
+     */
+    public function notifiesTheResultByTheAppropriateCommandForTheCurrentHost($result, $os, $commandRegex)
+    {
+        $notifier = Phake::partialMock('Stagehand_TestRunner_Notification_Notifier');
+
+        if ($os == 'win') {
+            Phake::when($notifier)->isWin()->thenReturn(true);
+            Phake::when($notifier)->isDarwin()->thenReturn(false);
+            Phake::when($notifier)->isLinux()->thenReturn(false);
+        } elseif ($os == 'darwin') {
+            Phake::when($notifier)->isWin()->thenReturn(false);
+            Phake::when($notifier)->isDarwin()->thenReturn(true);
+            Phake::when($notifier)->isLinux()->thenReturn(false);
+        } elseif ($os == 'linux') {
+            Phake::when($notifier)->isWin()->thenReturn(false);
+            Phake::when($notifier)->isDarwin()->thenReturn(false);
+            Phake::when($notifier)->isLinux()->thenReturn(true);
+        }
+
+        Phake::when($notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
+
+        $notifier->notifyResult(
+            new Stagehand_TestRunner_Notification_Notification(
+                $result,
+                self::NOTIFICATION_MESSAGE
+        ));
+
+        Phake::verify($notifier)->executeNotifyCommand(Phake::capture($command));
+        $this->assertThat($command, $this->matchesRegularExpression($commandRegex));
+    }
+
+    /**
+     * @return array
+     * @since Method available since Release 2.21.0
+     */
+    public function decisionTable()
+    {
+        $resultPassed = Stagehand_TestRunner_Notification_Notification::RESULT_PASSED;
+        $resultFailed = Stagehand_TestRunner_Notification_Notification::RESULT_FAILED;
+        $resultStopped = Stagehand_TestRunner_Notification_Notification::RESULT_STOPPED;
+        $titlePassed = Stagehand_TestRunner_Notification_Notifier::TITLE_PASSED;
+        $titleFailed = Stagehand_TestRunner_Notification_Notifier::TITLE_FAILED;
+        $titleStopped = Stagehand_TestRunner_Notification_Notifier::TITLE_STOPPED;
+        $iconPassed = Stagehand_TestRunner_Notification_Notifier::$ICON_PASSED;
+        $iconFailed = Stagehand_TestRunner_Notification_Notifier::$ICON_FAILED;
+        $iconStopped = Stagehand_TestRunner_Notification_Notifier::$ICON_STOPPED;
+
+        return array(
+            array($resultPassed, 'win', $this->buildCommandRegexForWin($titlePassed, $iconPassed)),
+            array($resultPassed, 'darwin', $this->buildCommandRegexForDarwin($titlePassed, $iconPassed)),
+            array($resultPassed, 'linux', $this->buildCommandRegexForLinux($titlePassed, $iconPassed)),
+            array($resultFailed, 'win', $this->buildCommandRegexForWin($titleFailed, $iconFailed)),
+            array($resultFailed, 'darwin', $this->buildCommandRegexForDarwin($titleFailed, $iconFailed)),
+            array($resultFailed, 'linux', $this->buildCommandRegexForLinux($titleFailed, $iconFailed)),
+            array($resultStopped, 'win', $this->buildCommandRegexForWin($titleStopped, $iconStopped)),
+            array($resultStopped, 'darwin', $this->buildCommandRegexForDarwin($titleStopped, $iconStopped)),
+            array($resultStopped, 'linux', $this->buildCommandRegexForLinux($titleStopped, $iconStopped)),
+        );
+    }
+
+    /**
+     * @param string $title
+     * @param string $icon
+     * @return string
+     * @since Method available since Release 2.21.0
+     */
+    protected function buildCommandRegexForWin($title, $icon)
+    {
+        return '!^growlnotify /t:' . escapeshellarg($title) .
+            ' /p:-2 /i:' . escapeshellarg(preg_quote($icon)) .
+            ' /a:Stagehand_TestRunner /r:' .
+            escapeshellarg(Stagehand_TestRunner_Notification_Notifier::TITLE_PASSED) . ',' .
+            escapeshellarg(Stagehand_TestRunner_Notification_Notifier::TITLE_FAILED) . ',' .
+            escapeshellarg(Stagehand_TestRunner_Notification_Notifier::TITLE_STOPPED) .
+            ' /n:' . escapeshellarg($title) .
+            ' /silent:true ' . escapeshellarg(self::NOTIFICATION_MESSAGE) . '$!';
+    }
+
+    /**
+     * @param string $title
+     * @param string $icon
+     * @return string
+     * @since Method available since Release 2.21.0
+     */
+    protected function buildCommandRegexForDarwin($title, $icon)
+    {
+        return '!^growlnotify --name ' . escapeshellarg($title) .
+            ' --priority -2 --image ' . escapeshellarg(preg_quote($icon)) .
+            ' --title ' . escapeshellarg($title) .
+            ' --message ' . escapeshellarg('.+') . '$!';
+    }
+
+    /**
+     * @param string $title
+     * @param string $icon
+     * @return string
+     * @since Method available since Release 2.21.0
+     */
+    protected function buildCommandRegexForLinux($title, $icon)
+    {
+        return'!^notify-send --urgency=low --icon=' .
+            escapeshellarg(preg_quote($icon)) .
+            ' ' . escapeshellarg($title) .
+            ' ' . escapeshellarg('.+') . '$!';
+    }
+
     /**
      * @test
      * @link http://redmine.piece-framework.com/issues/332
