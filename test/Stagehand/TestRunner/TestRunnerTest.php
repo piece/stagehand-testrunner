@@ -47,6 +47,70 @@
  */
 class Stagehand_TestRunner_TestRunnerTest extends PHPUnit_Framework_TestCase
 {
+    const NOTIFICATION_CONFIG_DEFAULT = 1;
+    const NOTIFICATION_CONFIG_TRUE = 2;
+    const NOTIFICATION_CONFIG_FALSE = 3;
+    const NOTIFICATION_USE = true;
+    const NOTIFICATION_NOTUSE = false;
+
+    /**
+     * @test
+     * @dataProvider decisionTable
+     * @param integer $notificationConfigParameter
+     * @param boolean $usesNotification
+     */
+    public function runsATest($notificationConfigParameter, $usesNotification)
+    {
+        $config = new Stagehand_TestRunner_Config();
+        if ($notificationConfigParameter == self::NOTIFICATION_CONFIG_FALSE) {
+            $config->usesNotification = false;
+        } elseif ($notificationConfigParameter == self::NOTIFICATION_CONFIG_TRUE) {
+            $config->usesNotification = true;
+        }
+        $testSuite = new stdClass();
+        $notification = new Stagehand_TestRunner_Notification_Notification(
+            Stagehand_TestRunner_Notification_Notification::RESULT_PASSED, 'MESSAGE'
+        );
+
+        $preparer = Phake::mock('Stagehand_TestRunner_Preparer');
+        Phake::when($preparer)->prepare()->thenReturn(null);
+
+        $collector = Phake::mock('Stagehand_TestRunner_Collector');
+        Phake::when($collector)->collect()->thenReturn($testSuite);
+
+        $runner = Phake::mock('Stagehand_TestRunner_Runner');
+        Phake::when($runner)->run($this->anything())->thenReturn(null);
+        Phake::when($runner)->getNotification()->thenReturn($notification);
+
+        $notifier = Phake::mock('Stagehand_TestRunner_Notification_Notifier');
+        Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
+
+        $testRunner = Phake::partialMock('Stagehand_TestRunner_TestRunner', $config);
+        Phake::when($testRunner)->createPreparer()->thenReturn($preparer);
+        Phake::when($testRunner)->createCollector()->thenReturn($collector);
+        Phake::when($testRunner)->createRunner()->thenReturn($runner);
+        Phake::when($testRunner)->createNotifier()->thenReturn($notifier);
+
+        $testRunner->run();
+
+        Phake::verify($preparer)->prepare();
+        Phake::verify($collector)->collect();
+        Phake::verify($runner)->run($this->equalTo($testSuite));
+        Phake::verify($notifier, Phake::times($usesNotification ? 1 : 0))->notifyResult($this->equalTo($notification));
+        Phake::verify($testRunner, Phake::times($usesNotification ? 1 : 0))->createNotifier();
+    }
+
+    /**
+     * @return array
+     */
+    public function decisionTable()
+    {
+        return array(
+            array(self::NOTIFICATION_CONFIG_DEFAULT, self::NOTIFICATION_NOTUSE),
+            array(self::NOTIFICATION_CONFIG_FALSE, self::NOTIFICATION_NOTUSE),
+            array(self::NOTIFICATION_CONFIG_TRUE, self::NOTIFICATION_USE),
+        );
+    }
 }
 
 /*
