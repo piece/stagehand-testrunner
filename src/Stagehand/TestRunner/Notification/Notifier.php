@@ -37,6 +37,10 @@
  * @since      File available since Release 2.18.0
  */
 
+Stagehand_TestRunner_Notification_Notifier::$ICON_PASSED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'passed.png';
+Stagehand_TestRunner_Notification_Notifier::$ICON_FAILED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'failed.png';
+Stagehand_TestRunner_Notification_Notifier::$ICON_STOPPED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'stopped.png';
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -54,14 +58,6 @@ class Stagehand_TestRunner_Notification_Notifier
     public static $ICON_PASSED;
     public static $ICON_FAILED;
     public static $ICON_STOPPED;
-
-    public function __construct()
-    {
-        $growlIconDir = dirname(__FILE__);
-        self::$ICON_PASSED = $growlIconDir . DIRECTORY_SEPARATOR . 'passed.png';
-        self::$ICON_FAILED = $growlIconDir . DIRECTORY_SEPARATOR . 'failed.png';
-        self::$ICON_STOPPED = $growlIconDir . DIRECTORY_SEPARATOR . 'stopped.png';
-    }
 
     /**
      * @param Stagehand_TestRunner_Notification_Notification $notification
