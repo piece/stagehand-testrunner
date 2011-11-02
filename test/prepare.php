@@ -47,7 +47,6 @@ set_include_path(
     get_include_path()
 );
 
-require_once 'PHPUnit/Runner/Version.php';
 require_once 'Stagehand/Autoload.php';
 
 $legacyLoader = Stagehand_Autoload::legacyLoader();
