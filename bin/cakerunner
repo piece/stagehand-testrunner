@@ -70,11 +70,12 @@ if (!$result) {
 ');
 $preload();
 
-require_once 'Stagehand/Autoload.php';
+require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
 
-$loader = Stagehand_Autoload::legacyLoader();
-$loader->addNamespace('Stagehand');
-Stagehand_Autoload::register($loader);
+$classLoader = new \Symfony\Component\ClassLoader\UniversalClassLoader();
+$classLoader->useIncludePath(true);
+$classLoader->registerPrefix('Stagehand_', array());
+$classLoader->register();
 
 $controller = new Stagehand_TestRunner_TestRunnerCLIController(Stagehand_TestRunner_Framework::CAKE);
 $result = $controller->run();

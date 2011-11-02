@@ -106,7 +106,6 @@ Four Defect Fix
       <dirroles key="Stagehand" value="php"/>
       <dependencies>
         <package type="required" name="Stagehand_AlterationMonitor" channel="${package.channel}" minimum_version="1.0.0"/>
-        <package type="required" name="Stagehand_Autoload" channel="${package.channel}" minimum_version="0.4.0"/>
         <package type="required" name="Stagehand_CLIController" channel="${package.channel}" minimum_version="1.0.1"/>
         <package type="required" name="Stagehand_DirectoryScanner" channel="${package.channel}" minimum_version="1.0.0"/>
         <package type="required" name="Stagehand_LegacyError" channel="${package.channel}" minimum_version="1.0.2"/>

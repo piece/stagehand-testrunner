@@ -41,22 +41,19 @@ if (defined('E_DEPRECATED')) {
 }
 
 set_include_path(
-    realpath(dirname(__FILE__)) . PATH_SEPARATOR .
-    realpath(dirname(__FILE__) . '/../examples') . PATH_SEPARATOR .
-    realpath(dirname(__FILE__) . '/../src') . PATH_SEPARATOR .
+    __DIR__ . PATH_SEPARATOR .
+    __DIR__ . '/../examples' . PATH_SEPARATOR .
+    __DIR__ . '/../src' . PATH_SEPARATOR .
+    __DIR__ . '/../vendor/symfony/src' . PATH_SEPARATOR .
     get_include_path()
 );
 
-require_once 'Stagehand/Autoload.php';
+require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
 
-$legacyLoader = Stagehand_Autoload::legacyLoader();
-$legacyLoader->addNamespace('Stagehand');
-Stagehand_Autoload::register($legacyLoader);
-if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-    $namespaceLoader = Stagehand_Autoload::namespaceLoader();
-    $namespaceLoader->addNamespace('Stagehand\TestRunner');
-    Stagehand_Autoload::register($namespaceLoader);
-}
+$classLoader = new \Symfony\Component\ClassLoader\UniversalClassLoader();
+$classLoader->useIncludePath(true);
+$classLoader->registerPrefix('Stagehand_', array());
+$classLoader->register();
 
 Stagehand_TestRunner_Preparer_PHPUnitPreparer::prepareFramework();
 
