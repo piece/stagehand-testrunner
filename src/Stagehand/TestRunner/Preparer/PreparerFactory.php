@@ -58,7 +58,7 @@ class Stagehand_TestRunner_Preparer_PreparerFactory
     }
 
     /**
-     * @return Stagehand_TestRunner_Collector
+     * @return Stagehand_TestRunner_Preparer
      */
     public function create()
     {
