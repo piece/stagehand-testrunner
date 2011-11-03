@@ -76,7 +76,11 @@ class Stagehand_TestRunner_Preparer_CIUnitPreparer extends Stagehand_TestRunner_
          * environment variables for debugging.
          */
         $this->backupVariables();
+        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_USER_NOTICE);
+        Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
         require_once $ciunitPath . '/CIUnit.php';
+        Stagehand_LegacyError_PHPError::disableConversion();
+        error_reporting($oldErrorReportingLevel);
         $this->restoreVariables();
     }
 
