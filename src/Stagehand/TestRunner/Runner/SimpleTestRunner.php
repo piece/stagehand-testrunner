@@ -46,7 +46,6 @@ use Stagehand\TestRunner\Exception;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter;
 use Stagehand\TestRunner\Notification\Notification;
-use Stagehand\TestRunner\Runner;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\ClassFilterReporter;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\MethodFilterReporter;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\StopOnFailureReporter;

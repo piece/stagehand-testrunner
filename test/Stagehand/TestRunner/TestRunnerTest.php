@@ -80,7 +80,7 @@ class TestRunnerTest extends \PHPUnit_Framework_TestCase
         $collector = \Phake::mock('\Stagehand\TestRunner\Collector\Collector');
         \Phake::when($collector)->collect()->thenReturn($testSuite);
 
-        $runner = \Phake::mock('\Stagehand\TestRunner\Runner');
+        $runner = \Phake::mock('\Stagehand\TestRunner\Runner\Runner');
         \Phake::when($runner)->run($this->anything())->thenReturn(null);
         \Phake::when($runner)->getNotification()->thenReturn($notification);
 

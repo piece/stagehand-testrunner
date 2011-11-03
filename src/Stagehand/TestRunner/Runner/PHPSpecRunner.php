@@ -39,7 +39,6 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Notification\Notification;
-use Stagehand\TestRunner\Runner;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\TextReporter;
 
 /**

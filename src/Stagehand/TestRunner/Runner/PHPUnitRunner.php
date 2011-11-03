@@ -41,7 +41,6 @@ namespace Stagehand\TestRunner\Runner;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter;
 use Stagehand\TestRunner\Notification\Notification;
-use Stagehand\TestRunner\Runner;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\DetailedProgressPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ProgressPrinter;

@@ -111,7 +111,7 @@ class TestRunner
     }
 
     /**
-     * @return \Stagehand\TestRunner\Runner
+     * @return \Stagehand\TestRunner\Runner\Runner
      * @since Method available since Release 2.11.0
      */
     protected function createRunner()

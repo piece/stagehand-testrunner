@@ -62,7 +62,7 @@ class RunnerFactory
     }
 
     /**
-     * @return \Stagehand\TestRunner\Runner
+     * @return \Stagehand\TestRunner\Runner\Runner
      */
     public function create()
     {
