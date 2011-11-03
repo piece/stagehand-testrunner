@@ -35,9 +35,10 @@
  * @since      File available since Release 2.1.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Collector;
 
-use Stagehand\TestRunner\Collector\CollectingType;
+use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Exception;
 
 /**
  * The base class for test collectors.

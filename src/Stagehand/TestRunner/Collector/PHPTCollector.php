@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Collector;
 
-use Stagehand\TestRunner\Collector;
-
 require_once 'PHPUnit/Extensions/PhptTestCase.php';
 
 /**

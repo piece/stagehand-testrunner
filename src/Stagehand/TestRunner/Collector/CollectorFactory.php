@@ -62,7 +62,7 @@ class CollectorFactory
     }
 
     /**
-     * @return \Stagehand\TestRunner\Collector
+     * @return \Stagehand\TestRunner\Collector\Collector
      */
     public function create()
     {

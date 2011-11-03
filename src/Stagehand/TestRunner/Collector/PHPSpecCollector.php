@@ -38,8 +38,6 @@
 
 namespace Stagehand\TestRunner\Collector;
 
-use Stagehand\TestRunner\Collector;
-
 /**
  * A test collector for PHPSpec.
  *

@@ -101,7 +101,7 @@ class TestRunner
     }
 
     /**
-     * @return \Stagehand\TestRunner\Collector
+     * @return \Stagehand\TestRunner\Collector\Collector
      * @since Method available since Release 2.11.0
      */
     protected function createCollector()

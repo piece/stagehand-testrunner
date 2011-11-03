@@ -38,7 +38,6 @@
 
 namespace Stagehand\TestRunner\Collector;
 
-use Stagehand\TestRunner\Collector;
 use Stagehand\TestRunner\TestSuite\PHPUnit34GroupFilterTestSuite;
 use Stagehand\TestRunner\TestSuite\PHPUnit34MethodFilterTestSuite;
 use Stagehand\TestRunner\TestSuite\PHPUnit35GroupFilterTestSuite;

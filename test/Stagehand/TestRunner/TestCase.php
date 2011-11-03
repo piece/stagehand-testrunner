@@ -66,7 +66,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected $preparer;
 
     /**
-     * @var \Stagehand\TestRunner\Collector
+     * @var \Stagehand\TestRunner\Collector\Collector
      */
     protected $collector;
 

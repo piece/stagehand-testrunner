@@ -77,7 +77,7 @@ class TestRunnerTest extends \PHPUnit_Framework_TestCase
         $preparer = \Phake::mock('\Stagehand\TestRunner\Preparer');
         \Phake::when($preparer)->prepare()->thenReturn(null);
 
-        $collector = \Phake::mock('\Stagehand\TestRunner\Collector');
+        $collector = \Phake::mock('\Stagehand\TestRunner\Collector\Collector');
         \Phake::when($collector)->collect()->thenReturn($testSuite);
 
         $runner = \Phake::mock('\Stagehand\TestRunner\Runner');
