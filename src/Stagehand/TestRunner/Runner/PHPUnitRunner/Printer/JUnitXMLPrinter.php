@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,11 @@
  * @since      File available since Release 2.10.0
  */
 
+namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
+
+use Stagehand\TestRunner\JUnitXMLWriter;
+use Stagehand\TestRunner\Runner\JUnitXMLWriterAdapter;
+
 require_once 'PHPUnit/Util/Class.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Printer.php';
@@ -51,7 +56,7 @@ require_once 'PHPUnit/Util/XML.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends PHPUnit_Util_Printer implements PHPUnit_Framework_TestListener, Stagehand_TestRunner_Runner_JUnitXMLWriterAdapter
+class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framework_TestListener, JUnitXMLWriterAdapter
 {
     protected $autoFlush = true;
     protected $xmlWriter;
@@ -65,31 +70,31 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
-     * @param Exception              $e
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
      * @param float                  $time
      */
-    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         $this->writeError($test, $e, $time);
     }
 
     /**
-     * @param PHPUnit_Framework_Test                 $test
-     * @param PHPUnit_Framework_AssertionFailedError $e
+     * @param \PHPUnit_Framework_Test                 $test
+     * @param \PHPUnit_Framework_AssertionFailedError $e
      * @param float                                  $time
      */
-    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
+    public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
     {
         $this->writeFailure($test, $e, $time);
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
-     * @param Exception              $e
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
      * @param float                  $time
      */
-    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         $this->writeError($test, $e, $time);
     }
@@ -97,19 +102,19 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
     /**
      * Skipped test.
      *
-     * @param  PHPUnit_Framework_Test $test
-     * @param  Exception              $e
+     * @param  \PHPUnit_Framework_Test $test
+     * @param  \Exception              $e
      * @param  float                  $time
      */
-    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         $this->writeError($test, $e, $time);
     }
 
     /**
-     * @param PHPUnit_Framework_TestSuite $suite
+     * @param \PHPUnit_Framework_TestSuite $suite
      */
-    public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if (!$this->testSuitesWrote) {
             $this->xmlWriter->startTestSuites();
@@ -127,29 +132,29 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
     }
 
     /**
-     * @param PHPUnit_Framework_TestSuite $suite
+     * @param \PHPUnit_Framework_TestSuite $suite
      */
-    public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         $this->xmlWriter->endTestSuite();
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
+     * @param \PHPUnit_Framework_Test $test
      */
-    public function startTest(PHPUnit_Framework_Test $test)
+    public function startTest(\PHPUnit_Framework_Test $test)
     {
         $this->xmlWriter->startTestCase($test->getName(), $test, $test->getName(false));
         $this->testStarted = true;
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
+     * @param \PHPUnit_Framework_Test $test
      * @param float                  $time
      */
-    public function endTest(PHPUnit_Framework_Test $test, $time)
+    public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
-        if ($test instanceof PHPUnit_Framework_TestCase) {
+        if ($test instanceof \PHPUnit_Framework_TestCase) {
             $this->xmlWriter->endTestCase($time, $test->getNumAssertions());
         } else {
             $this->xmlWriter->endTestCase($time);
@@ -158,42 +163,42 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
     }
 
     /**
-     * @param Stagehand_TestRunner_JUnitXMLWriter $xmlWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter $xmlWriter
      */
-    public function setXMLWriter(Stagehand_TestRunner_JUnitXMLWriter $xmlWriter)
+    public function setXMLWriter(JUnitXMLWriter $xmlWriter)
     {
         $this->xmlWriter = $xmlWriter;
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
-     * @param Exception $e
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception $e
      * @param float $time
      * @since Method available since Release 2.17.0
      */
-    protected function writeError(PHPUnit_Framework_Test $test, Exception $e, $time)
+    protected function writeError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         $this->writeFailureOrError($test, $e, $time, 'error');
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
-     * @param Exception $e
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception $e
      * @param float $time
      * @since Method available since Release 2.17.0
      */
-    protected function writeFailure(PHPUnit_Framework_Test $test, Exception $e, $time)
+    protected function writeFailure(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         $this->writeFailureOrError($test, $e, $time, 'failure');
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
-     * @param Exception $e
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception $e
      * @param float $time
      * @param string $failureOrError
      */
-    protected function writeFailureOrError(PHPUnit_Framework_Test $test, Exception $e, $time, $failureOrError)
+    protected function writeFailureOrError(\PHPUnit_Framework_Test $test, \Exception $e, $time, $failureOrError)
     {
         $testIsArtificial = false;
         if (!$this->testStarted) {
@@ -201,25 +206,25 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
             $testIsArtificial = true;
         }
 
-        if ($test instanceof PHPUnit_Framework_SelfDescribing) {
+        if ($test instanceof \PHPUnit_Framework_SelfDescribing) {
             $message = $test->toString() . "\n\n";
         } else {
             $message = '';
         }
 
-        $message .= PHPUnit_Framework_TestFailure::exceptionToString($e) . "\n";
+        $message .= \PHPUnit_Framework_TestFailure::exceptionToString($e) . "\n";
 
-        if ($test instanceof PHPUnit_Framework_Warning) {
-            $testClass = new ReflectionClass($this->currentTestClassName);
+        if ($test instanceof \PHPUnit_Framework_Warning) {
+            $testClass = new \ReflectionClass($this->currentTestClassName);
             $file = $testClass->getFileName();
             $line = 1;
         } else {
-            list($file, $line) = $this->findFileAndLineOfFailureOrError($e, new ReflectionClass($test));
+            list($file, $line) = $this->findFileAndLineOfFailureOrError($e, new \ReflectionClass($test));
         }
-        if (version_compare(PHPUnit_Runner_Version::id(), '3.6.0RC1', '>=')) {
-            $trace = PHPUnit_Util_Filter::getFilteredStacktrace($e, true);
+        if (version_compare(\PHPUnit_Runner_Version::id(), '3.6.0RC1', '>=')) {
+            $trace = \PHPUnit_Util_Filter::getFilteredStacktrace($e, true);
         } else {
-            $trace = PHPUnit_Util_Filter::getFilteredStacktrace($e, false, true);
+            $trace = \PHPUnit_Util_Filter::getFilteredStacktrace($e, false, true);
         }
         $this->xmlWriter->{ 'write' . $failureOrError }(
             $message .
@@ -237,12 +242,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter extends 
     }
 
     /**
-     * @param Exception $e
-     * @param ReflectionClass $class
+     * @param \Exception $e
+     * @param \ReflectionClass $class
      * @return array
      * @since Method available since Release 2.16.0
      */
-    protected function findFileAndLineOfFailureOrError(Exception $e, ReflectionClass $class)
+    protected function findFileAndLineOfFailureOrError(\Exception $e, \ReflectionClass $class)
     {
         if ($class->getName() == 'PHPUnit_Framework_TestCase') return;
         if ($e->getFile() == $class->getFileName()) {

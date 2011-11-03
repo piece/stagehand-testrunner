@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
- * Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,30 +29,32 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.14.0
  */
 
+namespace Stagehand\TestRunner\TestSuite;
+
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_TestSuite_CakeTestSuite extends Stagehand_TestRunner_TestSuite_SimpleTestTestSuite
+class CakeTestSuite extends SimpleTestTestSuite
 {
     /**
-     * @param SimpleTestCase $testCase
+     * @param \SimpleTestCase $testCase
      * @return integer
      */
-    protected function getTestsInTestCase(SimpleTestCase $testCase)
+    protected function getTestsInTestCase(\SimpleTestCase $testCase)
     {
         $tests = array();
         foreach (parent::getTestsInTestCase($testCase) as $test) {
-            if (!($testCase instanceof CakeTestCase)) continue;
+            if (!($testCase instanceof \CakeTestCase)) continue;
             if (!in_array(strtolower($test), $testCase->methods)) {
                 $tests[] = $test;
             }

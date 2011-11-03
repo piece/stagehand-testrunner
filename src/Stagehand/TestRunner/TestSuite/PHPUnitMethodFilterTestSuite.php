@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,10 @@
  * @since      File available since Release 2.7.0
  */
 
+namespace Stagehand\TestRunner\TestSuite;
+
+use Stagehand\TestRunner\Config;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,27 +48,27 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.7.0
  */
-class Stagehand_TestRunner_TestSuite_PHPUnitMethodFilterTestSuite extends PHPUnit_Framework_TestSuite
+class PHPUnitMethodFilterTestSuite extends \PHPUnit_Framework_TestSuite
 {
     protected $config;
 
     /**
-     * @param ReflectionClass             $theClass
-     * @param Stagehand_TestRunner_Config $config
+     * @param \ReflectionClass             $theClass
+     * @param \Stagehand\TestRunner\Config $config
      */
-    public function __construct(ReflectionClass $theClass, Stagehand_TestRunner_Config $config)
+    public function __construct(\ReflectionClass $theClass, Config $config)
     {
         $this->config = $config;
         parent::__construct($theClass);
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
+     * @param \PHPUnit_Framework_Test $test
      * @param array                  $groups
      */
-    public function addTest(PHPUnit_Framework_Test $test, $groups = array())
+    public function addTest(\PHPUnit_Framework_Test $test, $groups = array())
     {
-        if ($test instanceof PHPUnit_Framework_Warning
+        if ($test instanceof \PHPUnit_Framework_Warning
             && preg_match('/^No tests found in class/', $test->getMessage())
             ) {
             return;

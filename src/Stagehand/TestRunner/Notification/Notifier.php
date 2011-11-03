@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
@@ -37,9 +37,11 @@
  * @since      File available since Release 2.18.0
  */
 
-Stagehand_TestRunner_Notification_Notifier::$ICON_PASSED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'passed.png';
-Stagehand_TestRunner_Notification_Notifier::$ICON_FAILED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'failed.png';
-Stagehand_TestRunner_Notification_Notifier::$ICON_STOPPED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'stopped.png';
+namespace Stagehand\TestRunner\Notification;
+
+Notifier::$ICON_PASSED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'passed.png';
+Notifier::$ICON_FAILED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'failed.png';
+Notifier::$ICON_STOPPED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'stopped.png';
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,7 +51,7 @@ Stagehand_TestRunner_Notification_Notifier::$ICON_STOPPED = dirname(__FILE__) . 
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-class Stagehand_TestRunner_Notification_Notifier
+class Notifier
 {
     const TITLE_PASSED = 'Test Passed';
     const TITLE_FAILED = 'Test Failed';
@@ -60,9 +62,9 @@ class Stagehand_TestRunner_Notification_Notifier
     public static $ICON_STOPPED;
 
     /**
-     * @param Stagehand_TestRunner_Notification_Notification $notification
+     * @param \Stagehand\TestRunner\Notification\Notification $notification
      */
-    public function notifyResult(Stagehand_TestRunner_Notification_Notification $notification)
+    public function notifyResult(Notification $notification)
     {
         $this->executeNotifyCommand($this->buildNotifyCommand($notification));
     }
@@ -92,10 +94,10 @@ class Stagehand_TestRunner_Notification_Notifier
     }
 
     /**
-     * @param Stagehand_TestRunner_Notification_Notification $result
+     * @param \Stagehand\TestRunner\Notification\Notification $notification
      * @return string
      */
-    protected function buildNotifyCommand(Stagehand_TestRunner_Notification_Notification $notification)
+    protected function buildNotifyCommand(Notification $notification)
     {
         if ($notification->isPassed()) {
             $title = self::TITLE_PASSED;

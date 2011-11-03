@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,10 @@
  * @since      File available since Release 2.19.0
  */
 
+namespace Stagehand\TestRunner\Preparer;
+
+use Stagehand\TestRunner\Config;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,7 +46,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.19.0
  */
-class Stagehand_TestRunner_Preparer_PHPUnitPreparerTest extends PHPUnit_Framework_TestCase
+class PHPUnitPreparerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param boolean $colors
@@ -53,10 +57,10 @@ class Stagehand_TestRunner_Preparer_PHPUnitPreparerTest extends PHPUnit_Framewor
     public function reflectsTheColorsAttributeInTheXmlConfigurationFileToTheConfiguration($colors)
     {
         $configDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . basename(__FILE__, '.php');
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . ($colors ? 'colors_true.xml' : 'colors_false.xml');
         $config->setColors(!$colors);
-        $preparer = new Stagehand_TestRunner_Preparer_PHPUnitPreparer($config);
+        $preparer = new PHPUnitPreparer($config);
         $preparer->prepare();
         $this->assertEquals($colors, $config->colors());
     }

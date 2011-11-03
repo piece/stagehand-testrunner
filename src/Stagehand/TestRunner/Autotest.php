@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,11 @@
  * @since      File available since Release 2.18.0
  */
 
+namespace Stagehand\TestRunner;
+
+use Stagehand\TestRunner\Notification\Notification;
+use Stagehand\TestRunner\Util\String;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,7 +47,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-class Stagehand_TestRunner_Autotest
+class Autotest
 {
     /**
      * @since Constant available since Release 2.20.0
@@ -50,7 +55,7 @@ class Stagehand_TestRunner_Autotest
     const FATAL_ERROR_MESSAGE_PATTERN = "/^(?:Parse|Fatal) error: .+ in .+?(?:\(\d+\) : eval\(\)'d code)? on line \d+/m";
 
     /**
-     * @var Stagehand_TestRunner_Config $config
+     * @var \Stagehand\TestRunner\Config $config
      */
     protected $config;
 
@@ -70,9 +75,9 @@ class Stagehand_TestRunner_Autotest
     protected $output;
 
     /**
-     * @param Stagehand_TestRunner_Config $config
+     * @param \Stagehand\TestRunner\Config $config
      */
-    public function __construct(Stagehand_TestRunner_Config $config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
     }
@@ -106,9 +111,7 @@ class Stagehand_TestRunner_Autotest
         ob_end_flush();
         if ($exitStatus != 0 && $this->config->usesNotification) {
             $this->createNotifier()->notifyResult(
-                new Stagehand_TestRunner_Notification_Notification(
-                    Stagehand_TestRunner_Notification_Notification::RESULT_STOPPED,
-                    $this->findFatalErrorMessage($this->output)
+                new Notification(Notification::RESULT_STOPPED, $this->findFatalErrorMessage($this->output)
             ));
         }
     }
@@ -125,7 +128,7 @@ class Stagehand_TestRunner_Autotest
 
     /**
      * @return array
-     * @throws Stagehand_TestRunner_Exception
+     * @throws \Stagehand\TestRunner\Exception
      */
     protected function getMonitoringDirectories()
     {
@@ -136,12 +139,12 @@ class Stagehand_TestRunner_Autotest
                 $this->config->getTestingResources()
             ) as $directory) {
             if (!is_dir($directory)) {
-                throw new Stagehand_TestRunner_Exception('A specified path [ ' . $directory . ' ] is not found or not a directory.');
+                throw new Exception('A specified path [ ' . $directory . ' ] is not found or not a directory.');
             }
 
             $directory = realpath($directory);
             if ($directory === false) {
-                throw new Stagehand_TestRunner_Exception('Cannnot get the absolute path of a specified directory [ ' . $directory . ' ]. Make sure all elements of the absolute path have valid permissions.');
+                throw new Exception('Cannnot get the absolute path of a specified directory [ ' . $directory . ' ]. Make sure all elements of the absolute path have valid permissions.');
             }
 
             if (!in_array($directory, $monitoringDirectories)) {
@@ -154,7 +157,7 @@ class Stagehand_TestRunner_Autotest
 
     /**
      * @return array
-     * @throws Stagehand_TestRunner_Exception
+     * @throws \Stagehand\TestRunner\Exception
      */
     protected function buildRunnerCommand()
     {
@@ -248,11 +251,11 @@ class Stagehand_TestRunner_Autotest
     }
 
     /**
-     * @return Stagehand_AlterationMonitor
+     * @return \Stagehand_AlterationMonitor
      */
     protected function createAlterationMonitor()
     {
-        return new Stagehand_AlterationMonitor($this->getMonitoringDirectories(), array($this, 'runTests'));
+        return new \Stagehand_AlterationMonitor($this->getMonitoringDirectories(), array($this, 'runTests'));
     }
 
     /**
@@ -285,12 +288,12 @@ class Stagehand_TestRunner_Autotest
     }
 
     /**
-     * @return Stagehand_TestRunner_Notification_Notifier
+     * @return \Stagehand\TestRunner\Notification\Notifier
      * @since Method available since Release 2.20.0
      */
     protected function createNotifier()
     {
-        return new Stagehand_TestRunner_Notification_Notifier();
+        return new Notifier();
     }
 
     /**
@@ -300,10 +303,7 @@ class Stagehand_TestRunner_Autotest
      */
     protected function findFatalErrorMessage($output)
     {
-        if (preg_match(
-            self::FATAL_ERROR_MESSAGE_PATTERN,
-            ltrim(Stagehand_TestRunner_Util_String::normalizeNewlines($output)),
-            $matches)) {
+        if (preg_match(self::FATAL_ERROR_MESSAGE_PATTERN, ltrim(String::normalizeNewlines($output)),$matches)) {
             return $matches[0];
         } else {
             return $output;

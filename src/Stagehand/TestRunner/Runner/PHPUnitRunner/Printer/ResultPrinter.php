@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,10 @@
  * @since      File available since Release 1.2.0
  */
 
+namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
+
+use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox;
+
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
 
 /**
@@ -48,19 +52,14 @@ require_once 'PHPUnit/TextUI/ResultPrinter.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PHPUnit_TextUI_ResultPrinter
+class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
 {
     /**
-     * @param PHPUnit_Framework_TestResult $result
+     * @param \PHPUnit_Framework_TestResult $result
      */
-    public function printResult(PHPUnit_Framework_TestResult $result)
+    public function printResult(\PHPUnit_Framework_TestResult $result)
     {
-        $testDox =
-            trim(
-                Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox::get(
-                    spl_object_hash($result)
-                )
-            );
+        $testDox = trim(TestDox::get(spl_object_hash($result)));
         if (strlen($testDox)) {
             $this->write(PHP_EOL . PHP_EOL . $testDox);
         }
@@ -69,10 +68,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
     }
 
     /**
-     * @param PHPUnit_Framework_TestSuite $suite
+     * @param \PHPUnit_Framework_TestSuite $suite
      * @since Method available since Release 2.7.0
      */
-    public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         $oldVerbose = $this->verbose;
         $this->verbose = false;
@@ -81,10 +80,10 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
     }
 
     /**
-     * @param PHPUnit_Framework_TestSuite $suite
+     * @param \PHPUnit_Framework_TestSuite $suite
      * @since Method available since Release 2.7.0
      */
-    public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         $oldVerbose = $this->verbose;
         $this->verbose = false;
@@ -96,7 +95,9 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter extends PH
      * @param string $progress
      * @since Method available since Release 2.7.0
      */
-    protected function writeProgress($progress) {}
+    protected function writeProgress($progress)
+    {
+    }
 }
 
 /*

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,12 @@
  * @since      File available since Release 2.1.0
  */
 
+namespace Stagehand\TestRunner\Runner;
+
+use Stagehand\TestRunner\Notification\Notification;
+use Stagehand\TestRunner\Runner;
+use Stagehand\TestRunner\Runner\PHPSpecRunner\TextReporter;
+
 /**
  * A test runner for PHPSpec.
  *
@@ -46,26 +52,24 @@
  * @link       http://www.phpspec.org/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Runner
+class PHPSpecRunner extends Runner
 {
     /**
-     * Runs tests based on the given ArrayObject object.
+     * Runs tests based on the given \ArrayObject object.
      *
-     * @param ArrayObject $suite
+     * @param \ArrayObject $suite
      */
     public function run($suite)
     {
-        $result = new PHPSpec_Runner_Result();
-        $reporter = new Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter(
-                        $result,
-                        $this->config->colors()
+        $result = new \PHPSpec_Runner_Result();
+        $reporter = new \TextReporter($result,$this->config->colors()
                     );
         $result->setReporter($reporter);
 
         $result->setRuntimeStart(microtime(true));
         foreach ($suite as $contextClass) {
-            $collection = new PHPSpec_Runner_Collection(new $contextClass());
-            PHPSpec_Runner_Base::execute($collection, $result);
+            $collection = new \PHPSpec_Runner_Collection(new $contextClass());
+            \PHPSpec_Runner_Base::execute($collection, $result);
         }
         $result->setRuntimeEnd(microtime(true));
 
@@ -81,13 +85,13 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner extends Stagehand_TestRunner_Run
             $pendingsCount = $result->countPending();
 
             if ($failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount + $pendingsCount == 0) {
-                $notificationResult = Stagehand_TestRunner_Notification_Notification::RESULT_PASSED;
+                $notificationResult = Notification::RESULT_PASSED;
             } else {
-                $notificationResult = Stagehand_TestRunner_Notification_Notification::RESULT_FAILED;
+                $notificationResult = Notification::RESULT_FAILED;
             }
 
             preg_match('/^(\d+ examples?, \d+ failures?.*)/m', $output, $matches);
-            $this->notification = new Stagehand_TestRunner_Notification_Notification($notificationResult, $matches[1]);
+            $this->notification = new Notification($notificationResult, $matches[1]);
         }
     }
 }

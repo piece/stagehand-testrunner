@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,10 @@
  * @since      File available since Release 2.1.0
  */
 
+namespace Stagehand\TestRunner\Collector;
+
+use Stagehand\TestRunner\Collector;
+
 /**
  * A test collector for PHPSpec.
  *
@@ -46,7 +50,7 @@
  * @link       http://www.phpspec.org/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunner_Collector
+class PHPSpecCollector extends Collector
 {
     protected $superTypes = array('PHPSpec_Context');
     protected $filePattern = 'Spec\.php$';
@@ -64,11 +68,11 @@ class Stagehand_TestRunner_Collector_PHPSpecCollector extends Stagehand_TestRunn
      * Creates the test suite object.
      *
      * @param string $name
-     * @return ArrayObject
+     * @return \ArrayObject
      */
     protected function createTestSuite($name)
     {
-        return new ArrayObject();
+        return new \ArrayObject();
     }
 }
 

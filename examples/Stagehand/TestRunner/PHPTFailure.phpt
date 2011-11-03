@@ -7,9 +7,9 @@ if (!class_exists('PHPUnit_Framework_TestCase')) exit 0;
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
- * Copyright (c) 2009 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009, 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@ if (!class_exists('PHPUnit_Framework_TestCase')) exit 0;
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009, 2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.7.0

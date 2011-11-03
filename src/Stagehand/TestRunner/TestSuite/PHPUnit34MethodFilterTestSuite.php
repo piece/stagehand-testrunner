@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,29 +29,31 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.12.0
  */
 
+namespace Stagehand\TestRunner\TestSuite;
+
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.12.0
  */
-class Stagehand_TestRunner_TestSuite_PHPUnit34MethodFilterTestSuite extends Stagehand_TestRunner_TestSuite_PHPUnitMethodFilterTestSuite
+class PHPUnit34MethodFilterTestSuite extends PHPUnitMethodFilterTestSuite
 {
     /**
-     * @param ReflectionClass  $class
-     * @param ReflectionMethod $method
+     * @param \ReflectionClass  $class
+     * @param \ReflectionMethod $method
      * @param array            $names
      */
-    protected function addTestMethod(ReflectionClass $class, ReflectionMethod $method, array &$names)
+    protected function addTestMethod(\ReflectionClass $class, \ReflectionMethod $method, array &$names)
     {
         if ($this->config->isTestingMethod($class->getName(), $method->getName())) {
             parent::addTestMethod($class, $method, $names);

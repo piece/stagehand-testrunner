@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,10 @@
  * @since      File available since Release 2.0.0
  */
 
+namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
+
+use Stagehand\TestRunner\Util\Coloring;
+
 /**
  * A reporter for PHPSpec.
  *
@@ -46,15 +50,15 @@
  * @link       http://www.phpspec.org/
  * @since      Class available since Release 2.0.0
  */
-class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Runner_Reporter_Text
+class TextReporter extends \PHPSpec_Runner_Reporter_Text
 {
     protected $color;
 
     /**
-     * @param PHPSpec_Runner_Result $result
+     * @param \PHPSpec_Runner_Result $result
      * @param boolean               $color
      */
-    public function __construct(PHPSpec_Runner_Result $result, $color)
+    public function __construct(\PHPSpec_Runner_Result $result, $color)
     {
         parent::__construct($result);
         $this->color = $color;
@@ -68,16 +72,16 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
         if ($this->color) {
             switch ($symbol) {
             case '.':
-                $symbol = Stagehand_TestRunner_Util_Coloring::green($symbol);
+                $symbol = Coloring::green($symbol);
                 break;
             case 'F':
-                $symbol = Stagehand_TestRunner_Util_Coloring::red($symbol);
+                $symbol = Coloring::red($symbol);
                 break;
             case 'E':
-                $symbol = Stagehand_TestRunner_Util_Coloring::magenta($symbol);
+                $symbol = Coloring::magenta($symbol);
                 break;
             case 'P':
-                $symbol = Stagehand_TestRunner_Util_Coloring::yellow($symbol);
+                $symbol = Coloring::yellow($symbol);
                 break;
             }
         }
@@ -111,7 +115,7 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
             }
 
             $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
-            Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
+            \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
             $output = preg_replace(array('/^(\d+ examples?.*)/m',
                                          '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
                                          '/^(  -)(.+)( \(FAIL\))/m',
@@ -125,22 +129,22 @@ class Stagehand_TestRunner_Runner_PHPSpecRunner_TextReporter extends PHPSpec_Run
                                          '/^(Failures:)/m',
                                          '/^(Pending:)/m'
                                          ),
-                                   array(Stagehand_TestRunner_Util_Coloring::$colorLabel('$1'),
-                                         Stagehand_TestRunner_Util_Coloring::magenta('$1$2$3'),
-                                         Stagehand_TestRunner_Util_Coloring::red('$1$2$3'),
-                                         Stagehand_TestRunner_Util_Coloring::red('$1$2$3'),
-                                         Stagehand_TestRunner_Util_Coloring::yellow('$1$2$3'),
-                                         Stagehand_TestRunner_Util_Coloring::green('$1$2$3'),
-                                         '$1' . Stagehand_TestRunner_Util_Coloring::magenta('$2'),
-                                         '$1' . Stagehand_TestRunner_Util_Coloring::red('$2'),
-                                         '$1' . Stagehand_TestRunner_Util_Coloring::yellow('$2'),
-                                         Stagehand_TestRunner_Util_Coloring::magenta('$1'),
-                                         Stagehand_TestRunner_Util_Coloring::red('$1'),
-                                         Stagehand_TestRunner_Util_Coloring::yellow('$1')
+                                   array(Coloring::$colorLabel('$1'),
+                                         Coloring::magenta('$1$2$3'),
+                                         Coloring::red('$1$2$3'),
+                                         Coloring::red('$1$2$3'),
+                                         Coloring::yellow('$1$2$3'),
+                                         Coloring::green('$1$2$3'),
+                                         '$1' . Coloring::magenta('$2'),
+                                         '$1' . Coloring::red('$2'),
+                                         '$1' . Coloring::yellow('$2'),
+                                         Coloring::magenta('$1'),
+                                         Coloring::red('$1'),
+                                         Coloring::yellow('$1')
                                          ),
                                    Console_Color::escape($output)
                                    );
-            Stagehand_LegacyError_PHPError::disableConversion();
+            \Stagehand_LegacyError_PHPError::disableConversion();
             error_reporting($oldErrorReportingLevel);
         }
 

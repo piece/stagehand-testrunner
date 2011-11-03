@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,25 +29,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.7.0
  */
 
+namespace Stagehand\TestRunner\Runner;
+
 /**
  * A test runner for PHPT.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.7.0
  */
-class Stagehand_TestRunner_Runner_PHPTRunner extends Stagehand_TestRunner_Runner_PHPUnitRunner
+class PHPTRunner extends PHPUnitRunner
 {
     /**
-     * @return Stagehand_TestRunner_Runner_PHPTRunner
+     * @return \Stagehand\TestRunner\Runner\PHPTRunner
      */
     protected function prettifier()
     {

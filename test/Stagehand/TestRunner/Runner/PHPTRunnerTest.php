@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
- * Copyright (c) 2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,22 +29,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.11.0
  */
 
+namespace Stagehand\TestRunner\Runner;
+ 
+use Stagehand\TestRunner\TestCase;
+
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.11.0
  */
-class Stagehand_TestRunner_Runner_PHPTRunnerTest extends Stagehand_TestRunner_TestCase
+class PHPTRunnerTest extends TestCase
 {
-    protected $framework = Stagehand_TestRunner_Framework::PHPT;
+    protected $framework = \Stagehand_TestRunner_Framework::PHPT;
 
     /**
      * @test

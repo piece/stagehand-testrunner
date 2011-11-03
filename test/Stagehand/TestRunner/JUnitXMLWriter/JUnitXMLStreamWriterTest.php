@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,10 @@
  * @since      File available since Release 2.14.0
  */
 
+namespace Stagehand\TestRunner\JUnitXMLWriter;
+
+use Stagehand\TestRunner\TestCase;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,9 +46,9 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriterTest extends Stagehand_TestRunner_TestCase
+class JUnitXMLStreamWriterTest extends TestCase
 {
-    protected $framework = Stagehand_TestRunner_Framework::PHPUNIT;
+    protected $framework = \Stagehand_TestRunner_Framework::PHPUNIT;
 
     /**
      * @test

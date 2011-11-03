@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,8 @@
  * @since      File available since Release 2.20.0
  */
 
+namespace Stagehand\TestRunner\Util;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class Stagehand_TestRunner_Util_OutputBufferingTest extends PHPUnit_Framework_TestCase
+class OutputBufferingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -50,37 +52,37 @@ class Stagehand_TestRunner_Util_OutputBufferingTest extends PHPUnit_Framework_Te
      */
     public function clearsThePrecedingOutputHandlers()
     {
-        $outputBuffering = Phake::partialMock('Stagehand_TestRunner_Util_OutputBuffering');
+        $outputBuffering = \Phake::partialMock('\Stagehand\TestRunner\Util\OutputBuffering');
 
-        Phake::when($outputBuffering)->getNestingLevel()
+        \Phake::when($outputBuffering)->getNestingLevel()
           ->thenReturn(2)
           ->thenReturn(1)
           ->thenReturn(0);
-        Phake::when($outputBuffering)->clearOutputHandler()->thenReturn(null);
+        \Phake::when($outputBuffering)->clearOutputHandler()->thenReturn(null);
 
         $outputBuffering->clearOutputHandlers();
 
-        Phake::verify($outputBuffering, Phake::times(3))->getNestingLevel();
-        Phake::verify($outputBuffering, Phake::times(2))->clearOutputHandler();
+        \Phake::verify($outputBuffering, \Phake::times(3))->getNestingLevel();
+        \Phake::verify($outputBuffering, \Phake::times(2))->clearOutputHandler();
     }
 
     /**
      * @test
-     * @expectedException Stagehand_TestRunner_CannotRemoveException
+     * @expectedException \Stagehand\TestRunner\CannotRemoveException
      * @link http://redmine.piece-framework.com/issues/323
      */
     public function raisesAnExceptionWhenAPrecedingOutputBufferCannotBeRemoved()
     {
-        $outputBuffering = Phake::partialMock('Stagehand_TestRunner_Util_OutputBuffering');
+        $outputBuffering = \Phake::partialMock('\Stagehand\TestRunner\Util\OutputBuffering');
 
-        Phake::when($outputBuffering)->getNestingLevel()->thenReturn(1);
-        Phake::when($outputBuffering)->clearOutputHandler()
-          ->thenThrow(new Stagehand_LegacyError_PHPError_Exception());
+        \Phake::when($outputBuffering)->getNestingLevel()->thenReturn(1);
+        \Phake::when($outputBuffering)->clearOutputHandler()
+          ->thenThrow(new \Stagehand_LegacyError_PHPError_Exception());
 
         $outputBuffering->clearOutputHandlers();
 
-        Phake::verify($outputBuffering, Phake::times(1))->getNestingLevel();
-        Phake::verify($outputBuffering, Phake::times(1))->clearOutputHandler();
+        \Phake::verify($outputBuffering, \Phake::times(1))->getNestingLevel();
+        \Phake::verify($outputBuffering, \Phake::times(1))->clearOutputHandler();
     }
 }
 

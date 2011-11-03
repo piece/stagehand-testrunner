@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,8 @@
  * @since      File available since Release 2.16.0
  */
 
+namespace Stagehand\TestRunner\Collector;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,7 +46,7 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.16.0
  */
-class Stagehand_TestRunner_Collector_CIUnitCollector extends Stagehand_TestRunner_Collector_PHPUnitCollector
+class CIUnitCollector extends PHPUnitCollector
 {
     protected $superTypes = array('CIUnit_TestCase', 'CIUnit_TestCase_Selenium');
     protected $filePattern = '^test.+\.php$';

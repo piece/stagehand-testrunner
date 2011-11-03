@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
@@ -37,6 +37,13 @@
  * @since      File available since Release 2.14.0
  */
 
+namespace Stagehand\TestRunner;
+
+use Stagehand\TestRunner\Collector\CollectorFactory;
+use Stagehand\TestRunner\Notification\Notifier;
+use Stagehand\TestRunner\Preparer\PreparerFactory;
+use Stagehand\TestRunner\Runner\RunnerFactory;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -45,10 +52,10 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_TestRunner
+class TestRunner
 {
     /**
-     * @var Stagehand_TestRunner_Config
+     * @var \Stagehand\TestRunner\Config
      */
     protected $config;
 
@@ -59,9 +66,9 @@ class Stagehand_TestRunner_TestRunner
     protected $result;
 
     /**
-     * @param Stagehand_TestRunner_Config $config
+     * @param \Stagehand\TestRunner\Config $config
      */
-    public function __construct(Stagehand_TestRunner_Config $config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
     }
@@ -84,42 +91,42 @@ class Stagehand_TestRunner_TestRunner
     }
 
     /**
-     * @return Stagehand_TestRunner_Preparer
+     * @return \Stagehand\TestRunner\Preparer
      * @since Method available since Release 2.12.0
      */
     protected function createPreparer()
     {
-        $factory = new Stagehand_TestRunner_Preparer_PreparerFactory($this->config);
+        $factory = new PreparerFactory($this->config);
         return $factory->create();
     }
 
     /**
-     * @return Stagehand_TestRunner_Collector
+     * @return \Stagehand\TestRunner\Collector
      * @since Method available since Release 2.11.0
      */
     protected function createCollector()
     {
-        $factory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
+        $factory = new CollectorFactory($this->config);
         return $factory->create();
     }
 
     /**
-     * @return Stagehand_TestRunner_Runner
+     * @return \Stagehand\TestRunner\Runner
      * @since Method available since Release 2.11.0
      */
     protected function createRunner()
     {
-        $factory = new Stagehand_TestRunner_Runner_RunnerFactory($this->config);
+        $factory = new RunnerFactory($this->config);
         return $factory->create();
     }
 
     /**
-     * @return Stagehand_TestRunner_Notification_Notifier
+     * @return \Stagehand\TestRunner\Notification\Notifier
      * @since Method available since Release 2.18.0
      */
     protected function createNotifier()
     {
-        return new Stagehand_TestRunner_Notification_Notifier();
+        return new Notifier();
     }
 }
 

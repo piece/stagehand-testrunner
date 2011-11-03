@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2008-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,10 @@
  * @since      File available since Release 2.4.0
  */
 
+namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
+
+use Stagehand\TestRunner\Util\Coloring;
+
 require_once 'PHPUnit/Util/TestDox/ResultPrinter/Text.php';
 require_once 'PHPUnit/Runner/BaseTestRunner.php';
 
@@ -49,7 +53,7 @@ require_once 'PHPUnit/Runner/BaseTestRunner.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.4.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends PHPUnit_Util_TestDox_ResultPrinter_Text
+class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
 {
 
     protected $colors;
@@ -72,12 +76,12 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
-     * @param Exception              $e
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
      * @param float                  $time
      * @since Method available since Release 2.11.0
      */
-    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         parent::addIncompleteTest($test, $e, $time);
         $this->testStatusMessages[ $this->currentTestMethodPrettified ] = $test->getStatusMessage();
@@ -86,34 +90,34 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
     /**
      * Skipped test.
      *
-     * @param  PHPUnit_Framework_Test $test
-     * @param  Exception              $e
+     * @param  \PHPUnit_Framework_Test $test
+     * @param  \Exception              $e
      * @param  float                  $time
      * @since Method available since Release 2.11.0
      */
-    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         parent::addSkippedTest($test, $e, $time);
         $this->testStatusMessages[ $this->currentTestMethodPrettified ] = $test->getStatusMessage();
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
+     * @param \PHPUnit_Framework_Test $test
      * @since Method available since Release 2.7.0
      */
-    public function startTest(PHPUnit_Framework_Test $test)
+    public function startTest(\PHPUnit_Framework_Test $test)
     {
-        if (!$test instanceof PHPUnit_Framework_Warning) {
+        if (!$test instanceof \PHPUnit_Framework_Warning) {
             parent::startTest($test);
         }
     }
 
     /**
-     * @param PHPUnit_Framework_Test $test
+     * @param \PHPUnit_Framework_Test $test
      * @param float                  $time
      * @since Method available since Release 2.7.0
      */
-    public function endTest(PHPUnit_Framework_Test $test, $time)
+    public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
         $this->testStatuses[ $this->currentTestMethodPrettified ] = $this->testStatus;
         parent::endTest($test, $time);
@@ -131,8 +135,8 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
         }
 
         $testStatus = $this->testStatuses[$name];
-        if ($this->testStatuses[$name] == PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE
-            || $this->testStatuses[$name] == PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED) {
+        if ($this->testStatuses[$name] == \PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE
+            || $this->testStatuses[$name] == \PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED) {
             if (strlen($this->testStatusMessages[$name])) {
                 $name = $name .
                         ' (' .
@@ -147,18 +151,18 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter extends P
 
         if ($this->colors) {
             switch ($testStatus) {
-            case PHPUnit_Runner_BaseTestRunner::STATUS_PASSED:
-                $name = Stagehand_TestRunner_Util_Coloring::green($name);
+            case \PHPUnit_Runner_BaseTestRunner::STATUS_PASSED:
+                $name = Coloring::green($name);
                 break;
-            case PHPUnit_Runner_BaseTestRunner::STATUS_ERROR:
-                $name = Stagehand_TestRunner_Util_Coloring::magenta($name);
+            case \PHPUnit_Runner_BaseTestRunner::STATUS_ERROR:
+                $name = Coloring::magenta($name);
                 break;
-            case PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE:
-                $name = Stagehand_TestRunner_Util_Coloring::red($name);
+            case \PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE:
+                $name = Coloring::red($name);
                 break;
-            case PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE:
-            case PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED:
-                $name = Stagehand_TestRunner_Util_Coloring::yellow($name);
+            case \PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE:
+            case \PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED:
+                $name = Coloring::yellow($name);
                 break;
             }
         }

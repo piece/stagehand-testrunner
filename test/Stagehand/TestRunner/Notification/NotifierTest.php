@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,8 @@
  * @since      File available since Release 2.20.0
  */
 
+namespace Stagehand\TestRunner\Notification;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class Stagehand_TestRunner_Notification_NotifierTest extends PHPUnit_Framework_TestCase
+class NotifierTest extends \PHPUnit_Framework_TestCase
 {
     const NOTIFICATION_MESSAGE = 'NOTIFICATION_MESSAGE';
 
@@ -56,31 +58,27 @@ class Stagehand_TestRunner_Notification_NotifierTest extends PHPUnit_Framework_T
      */
     public function notifiesTheResultByTheAppropriateCommandForTheCurrentHost($result, $os, $commandRegex)
     {
-        $notifier = Phake::partialMock('Stagehand_TestRunner_Notification_Notifier');
+        $notifier = \Phake::partialMock('\Stagehand\TestRunner\Notification\Notifier');
 
         if ($os == 'win') {
-            Phake::when($notifier)->isWin()->thenReturn(true);
-            Phake::when($notifier)->isDarwin()->thenReturn(false);
-            Phake::when($notifier)->isLinux()->thenReturn(false);
+            \Phake::when($notifier)->isWin()->thenReturn(true);
+            \Phake::when($notifier)->isDarwin()->thenReturn(false);
+            \Phake::when($notifier)->isLinux()->thenReturn(false);
         } elseif ($os == 'darwin') {
-            Phake::when($notifier)->isWin()->thenReturn(false);
-            Phake::when($notifier)->isDarwin()->thenReturn(true);
-            Phake::when($notifier)->isLinux()->thenReturn(false);
+            \Phake::when($notifier)->isWin()->thenReturn(false);
+            \Phake::when($notifier)->isDarwin()->thenReturn(true);
+            \Phake::when($notifier)->isLinux()->thenReturn(false);
         } elseif ($os == 'linux') {
-            Phake::when($notifier)->isWin()->thenReturn(false);
-            Phake::when($notifier)->isDarwin()->thenReturn(false);
-            Phake::when($notifier)->isLinux()->thenReturn(true);
+            \Phake::when($notifier)->isWin()->thenReturn(false);
+            \Phake::when($notifier)->isDarwin()->thenReturn(false);
+            \Phake::when($notifier)->isLinux()->thenReturn(true);
         }
 
-        Phake::when($notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
+        \Phake::when($notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
 
-        $notifier->notifyResult(
-            new Stagehand_TestRunner_Notification_Notification(
-                $result,
-                self::NOTIFICATION_MESSAGE
-        ));
+        $notifier->notifyResult(new Notification($result, self::NOTIFICATION_MESSAGE));
 
-        Phake::verify($notifier)->executeNotifyCommand(Phake::capture($command));
+        \Phake::verify($notifier)->executeNotifyCommand(\Phake::capture($command));
         $this->assertThat($command, $this->matchesRegularExpression($commandRegex));
     }
 
@@ -90,15 +88,15 @@ class Stagehand_TestRunner_Notification_NotifierTest extends PHPUnit_Framework_T
      */
     public function decisionTable()
     {
-        $resultPassed = Stagehand_TestRunner_Notification_Notification::RESULT_PASSED;
-        $resultFailed = Stagehand_TestRunner_Notification_Notification::RESULT_FAILED;
-        $resultStopped = Stagehand_TestRunner_Notification_Notification::RESULT_STOPPED;
-        $titlePassed = Stagehand_TestRunner_Notification_Notifier::TITLE_PASSED;
-        $titleFailed = Stagehand_TestRunner_Notification_Notifier::TITLE_FAILED;
-        $titleStopped = Stagehand_TestRunner_Notification_Notifier::TITLE_STOPPED;
-        $iconPassed = Stagehand_TestRunner_Notification_Notifier::$ICON_PASSED;
-        $iconFailed = Stagehand_TestRunner_Notification_Notifier::$ICON_FAILED;
-        $iconStopped = Stagehand_TestRunner_Notification_Notifier::$ICON_STOPPED;
+        $resultPassed = Notification::RESULT_PASSED;
+        $resultFailed = Notification::RESULT_FAILED;
+        $resultStopped = Notification::RESULT_STOPPED;
+        $titlePassed = Notifier::TITLE_PASSED;
+        $titleFailed = Notifier::TITLE_FAILED;
+        $titleStopped = Notifier::TITLE_STOPPED;
+        $iconPassed = Notifier::$ICON_PASSED;
+        $iconFailed = Notifier::$ICON_FAILED;
+        $iconStopped = Notifier::$ICON_STOPPED;
 
         return array(
             array($resultPassed, 'win', $this->buildCommandRegexForWin($titlePassed, $iconPassed)),
@@ -124,9 +122,9 @@ class Stagehand_TestRunner_Notification_NotifierTest extends PHPUnit_Framework_T
         return '!^growlnotify /t:' . escapeshellarg($title) .
             ' /p:-2 /i:' . escapeshellarg(preg_quote($icon)) .
             ' /a:Stagehand_TestRunner /r:' .
-            escapeshellarg(Stagehand_TestRunner_Notification_Notifier::TITLE_PASSED) . ',' .
-            escapeshellarg(Stagehand_TestRunner_Notification_Notifier::TITLE_FAILED) . ',' .
-            escapeshellarg(Stagehand_TestRunner_Notification_Notifier::TITLE_STOPPED) .
+            escapeshellarg(Notifier::TITLE_PASSED) . ',' .
+            escapeshellarg(Notifier::TITLE_FAILED) . ',' .
+            escapeshellarg(Notifier::TITLE_STOPPED) .
             ' /n:' . escapeshellarg($title) .
             ' /silent:true ' . escapeshellarg(self::NOTIFICATION_MESSAGE) . '$!';
     }
@@ -165,21 +163,16 @@ class Stagehand_TestRunner_Notification_NotifierTest extends PHPUnit_Framework_T
      */
     public function addsABackslashForEachBackslashInTheMessageOnLinuxToPreventLosingOriginalBackslashes()
     {
-        $notifier = Phake::partialMock('Stagehand_TestRunner_Notification_Notifier');
+        $notifier = \Phake::partialMock('\Stagehand\TestRunner\Notification\Notifier');
 
-        Phake::when($notifier)->isWin()->thenReturn(false);
-        Phake::when($notifier)->isDarwin()->thenReturn(false);
-        Phake::when($notifier)->isLinux()->thenReturn(true);
-        Phake::when($notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
+        \Phake::when($notifier)->isWin()->thenReturn(false);
+        \Phake::when($notifier)->isDarwin()->thenReturn(false);
+        \Phake::when($notifier)->isLinux()->thenReturn(true);
+        \Phake::when($notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
 
-        $notifier->notifyResult(
-            new Stagehand_TestRunner_Notification_Notification(
-                Stagehand_TestRunner_Notification_Notification::RESULT_STOPPED,
-                'Foo\Bar\Baz::qux()'
-            )
-        );
+        $notifier->notifyResult(new Notification(Notification::RESULT_STOPPED, 'Foo\Bar\Baz::qux()'));
 
-        Phake::verify($notifier)->executeNotifyCommand(
+        \Phake::verify($notifier)->executeNotifyCommand(
             $this->matchesRegularExpression('/' . preg_quote('Foo\\\\Bar\\\\Baz::qux()') . '/')
         );
     }

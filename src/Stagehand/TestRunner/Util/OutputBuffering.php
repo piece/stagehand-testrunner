@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,10 @@
  * @since      File available since Release 2.19.0
  */
 
+namespace Stagehand\TestRunner\Util;
+
+use Stagehand\TestRunner\CannotRemoveException;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,23 +46,23 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.19.0
  */
-class Stagehand_TestRunner_Util_OutputBuffering
+class OutputBuffering
 {
     /**
      * @throws Stagehand_TestRunner_CannotRemoveException
      */
     public function clearOutputHandlers()
     {
-        Stagehand_LegacyError_PHPError::enableConversion(E_NOTICE);
+        \Stagehand_LegacyError_PHPError::enableConversion(E_NOTICE);
         while ($this->getNestingLevel()) {
             try {
                 $this->clearOutputHandler();
-            } catch (Stagehand_LegacyError_PHPError_Exception $e) {
-                Stagehand_LegacyError_PHPError::disableConversion();
-                throw new Stagehand_TestRunner_CannotRemoveException($e->getMessage());
+            } catch (\Stagehand_LegacyError_PHPError_Exception $e) {
+                \Stagehand_LegacyError_PHPError::disableConversion();
+                throw new CannotRemoveException($e->getMessage());
             }
         }
-        Stagehand_LegacyError_PHPError::disableConversion();
+        \Stagehand_LegacyError_PHPError::disableConversion();
     }
 
     /**

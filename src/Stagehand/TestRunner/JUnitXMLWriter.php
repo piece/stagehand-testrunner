@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,8 @@
  * @since      File available since Release 2.10.0
  */
 
+namespace Stagehand\TestRunner;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-interface Stagehand_TestRunner_JUnitXMLWriter
+interface JUnitXMLWriter
 {
     public function startTestSuites();
 

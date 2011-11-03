@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,10 @@
  * @since      File available since Release 2.12.0
  */
 
+namespace Stagehand\TestRunner\Preparer;
+
+use Stagehand\TestRunner\Preparer;
+
 require_once 'PHPUnit/Runner/Version.php';
 
 /**
@@ -44,7 +48,7 @@ require_once 'PHPUnit/Runner/Version.php';
  * @version    Release: @package_version@
  * @since      Class available since Release 2.12.0
  */
-class Stagehand_TestRunner_Preparer_PHPUnitPreparer extends Stagehand_TestRunner_Preparer
+class PHPUnitPreparer extends Preparer
 {
     public function prepare()
     {
@@ -59,15 +63,15 @@ class Stagehand_TestRunner_Preparer_PHPUnitPreparer extends Stagehand_TestRunner
      *
      * @param  string  $filename
      * @param  boolean $syntaxCheck
-     * @see PHPUnit_TextUI_Command::handleBootstrap()
+     * @see \PHPUnit_TextUI_Command::handleBootstrap()
      * @since Method available since Release 2.16.0
      */
     protected function handleBootstrap($filename, $syntaxCheck = false)
     {
         try {
-            PHPUnit_Util_Fileloader::checkAndLoad($filename, $syntaxCheck);
+            \PHPUnit_Util_Fileloader::checkAndLoad($filename, $syntaxCheck);
         } catch (RuntimeException $e) {
-            PHPUnit_TextUI_TestRunner::showError($e->getMessage());
+            \PHPUnit_TextUI_TestRunner::showError($e->getMessage());
         }
     }
 
@@ -76,7 +80,7 @@ class Stagehand_TestRunner_Preparer_PHPUnitPreparer extends Stagehand_TestRunner
      */
     public function prepareFramework()
     {
-        if (version_compare(PHPUnit_Runner_Version::id(), '3.5.0beta1', '>=')) {
+        if (version_compare(\PHPUnit_Runner_Version::id(), '3.5.0beta1', '>=')) {
             require_once 'PHPUnit/Autoload.php';
         } else {
             require_once 'PHPUnit/Framework.php';
@@ -89,7 +93,7 @@ class Stagehand_TestRunner_Preparer_PHPUnitPreparer extends Stagehand_TestRunner
     protected function earlyConfigure()
     {
         require_once 'PHPUnit/Util/Configuration.php';
-        $phpunitConfiguration = PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getPHPUnitConfiguration();
+        $phpunitConfiguration = \PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getPHPUnitConfiguration();
 
         if (array_key_exists('bootstrap', $phpunitConfiguration)) {
             if (array_key_exists('syntaxCheck', $phpunitConfiguration)) {
@@ -103,10 +107,10 @@ class Stagehand_TestRunner_Preparer_PHPUnitPreparer extends Stagehand_TestRunner
             $this->config->setColors($phpunitConfiguration['colors']);
         }
 
-        $browsers = PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getSeleniumBrowserConfiguration();
+        $browsers = \PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getSeleniumBrowserConfiguration();
         if (count($browsers)) {
             require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
-            PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
+            \PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
         }
     }
 }

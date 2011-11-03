@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,12 @@
  * @since      File available since Release 0.5.0
  */
 
+use Stagehand\TestRunner\Autotest;
+use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Exception;
+use Stagehand\TestRunner\TestRunner;
+use Stagehand\TestRunner\Util\OutputBuffering;
+
 /**
  * A testrunner script to run tests automatically.
  *
@@ -46,7 +52,7 @@
  */
 class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIController
 {
-    protected $exceptionClass = 'Stagehand_TestRunner_Exception';
+    protected $exceptionClass = '\Stagehand\TestRunner\Exception';
     protected $shortOptions = 'hVRcp:aw:gm:vn';
     protected $longOptions =
         array(
@@ -69,7 +75,7 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
      */
     public function __construct($framework)
     {
-        $this->config = new Stagehand_TestRunner_Config();
+        $this->config = new Config();
         $this->config->framework = $framework;
     }
 
@@ -305,13 +311,13 @@ All rights reserved.
     }
 
     /**
-     * @param Stagehand_TestRunner_Config $config
-     * @return Stagehand_TestRunner_Autotest
+     * @param \Stagehand\TestRunner\Config $config
+     * @return \Stagehand\TestRunner\Autotest
      * @since Method available since Release 2.18.0
      */
-    protected function createAutotest(Stagehand_TestRunner_Config $config)
+    protected function createAutotest(Config $config)
     {
-        return new Stagehand_TestRunner_Autotest($config);
+        return new Autotest($config);
     }
 
     /**
@@ -321,7 +327,7 @@ All rights reserved.
      */
     protected function runTests()
     {
-        $runner = new Stagehand_TestRunner_TestRunner($this->config);
+        $runner = new TestRunner($this->config);
         $runner->run();
     }
 
@@ -338,24 +344,24 @@ All rights reserved.
     }
 
     /**
-     * @return Stagehand_TestRunner_Util_OutputBuffering
+     * @return \Stagehand\TestRunner\Util\OutputBuffering
      * @since Method available since Release 2.20.0
      */
     protected function createOutputBuffering()
     {
-        return new Stagehand_TestRunner_Util_OutputBuffering();
+        return new OutputBuffering();
     }
 
     /**
      * @param string $directory
      * @param string $option
-     * @throws Stagehand_TestRunner_Exception
+     * @throws \Stagehand\TestRunner\Exception
      * @since Method available since Release 2.14.0
      */
     protected function validateDirectory($directory, $option)
     {
         if (!is_readable($directory)) {
-            throw new Stagehand_TestRunner_Exception(
+            throw new Exception(
                       'The specified path [ ' .
                       $directory .
                       ' ] by the ' .
@@ -365,7 +371,7 @@ All rights reserved.
         }
 
         if (!is_dir($directory)) {
-            throw new Stagehand_TestRunner_Exception(
+            throw new Exception(
                       'The specified path [ ' .
                       $directory .
                       ' ] by the ' .

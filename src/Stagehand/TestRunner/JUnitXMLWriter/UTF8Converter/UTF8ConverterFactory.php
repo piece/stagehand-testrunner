@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,30 +29,34 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
  */
 
+namespace Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter;
+
+use Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter;
+
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_UTF8ConverterFactory
+class UTF8ConverterFactory
 {
     /**
-     * @return Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter
+     * @return \Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter
      */
     public static function create()
     {
         if (extension_loaded('mbstring')) {
-            return new Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter();
+            return new UTF8Converter();
         } else {
-            return new Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_NullUTF8Converter();
+            return new NullUTF8Converter();
         }
     }
 }

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,10 @@
  * @since      File available since Release 2.10.0
  */
 
+namespace Stagehand\TestRunner\Runner;
+
+use Stagehand\TestRunner\TestCase;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,9 +46,9 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner_TestCase
+class PHPUnitRunnerTest extends TestCase
 {
-    protected $framework = Stagehand_TestRunner_Framework::PHPUNIT;
+    protected $framework = \Stagehand_TestRunner_Framework::PHPUNIT;
 
     /**
      * @since Method available since Release 2.16.0
@@ -466,7 +470,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
     {
         $marker = 'STAGEHAND_TESTRUNNER_RUNNER_' . strtoupper($this->framework) . 'RUNNERTEST_bootstrapLoaded';
         $GLOBALS[$marker] = false;
-        $reflectionClass = new ReflectionClass($this);
+        $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
         $oldWorkingDirectory = getcwd();
         chdir($configDirectory);
@@ -521,7 +525,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      */
     public function runsTheFilesWithTheSpecifiedPattern($testingFile, $testFilePattern, $testingClass)
     {
-        $reflectionClass = new ReflectionClass($this);
+        $reflectionClass = new \ReflectionClass($this);
         $this->collector->collectTestCases($testingFile);
 
         $this->runTests();
@@ -593,7 +597,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
         $this->collector->collectTestCase($testingClass);
         $this->runTests();
 
-        $junitXML = new DOMDocument();
+        $junitXML = new \DOMDocument();
         $junitXML->load($this->config->getJUnitXMLFile());
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
@@ -626,7 +630,7 @@ class Stagehand_TestRunner_Runner_PHPUnitRunnerTest extends Stagehand_TestRunner
      */
     public function notCountTheExcludedTestsByTheGroupsElementAsTheDivisorOfATestRun($testingClass, array $testingMethods, $xmlConfigurationFile)
     {
-        $reflectionClass = new ReflectionClass($this);
+        $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
         $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile;
         $this->config->setLogsResultsInJUnitXMLInRealtime(true);

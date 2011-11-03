@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,10 @@
  * @since      File available since Release 2.16.0
  */
 
+namespace Stagehand\TestRunner\Runner;
+
+use Stagehand\TestRunner\Config;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,9 +46,9 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.16.0
  */
-class Stagehand_TestRunner_Runner_CIUnitRunnerTest extends Stagehand_TestRunner_Runner_PHPUnitRunnerTest
+class CIUnitRunnerTest extends PHPUnitRunnerTest
 {
-    protected $framework = Stagehand_TestRunner_Framework::CIUNIT;
+    protected $framework = \Stagehand_TestRunner_Framework::CIUNIT;
 
     protected function loadClasses()
     {
@@ -64,16 +68,16 @@ class Stagehand_TestRunner_Runner_CIUnitRunnerTest extends Stagehand_TestRunner_
     }
 
     /**
-     * @param Stagehand_TestRunner_Config $config
+     * @param \Stagehand\TestRunner\Config $config
      */
-    protected function configure(Stagehand_TestRunner_Config $config)
+    protected function configure(Config $config)
     {
         $config->ciunitPath = dirname(__FILE__) . '/../../../../vendor/codeigniter/system/application/tests';
     }
 
     /**
      * @return array
-     * @see Stagehand_TestRunner_Runner_PHPUnitRunnerTest::provideMethods()
+     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideMethods()
      */
     public function provideMethods()
     {
@@ -87,7 +91,7 @@ class Stagehand_TestRunner_Runner_CIUnitRunnerTest extends Stagehand_TestRunner_
 
     /**
      * @return array
-     * @see Stagehand_TestRunner_Runner_PHPUnitRunnerTest::provideFullyQualifiedMethodNames()
+     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideFullyQualifiedMethodNames()
      */
     public function provideFullyQualifiedMethodNames()
     {
@@ -102,7 +106,7 @@ class Stagehand_TestRunner_Runner_CIUnitRunnerTest extends Stagehand_TestRunner_
 
     /**
      * @return array
-     * @see Stagehand_TestRunner_Runner_PHPUnitRunnerTest::provideFullyQualifiedMethodNamesWithNamespaces()
+     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideFullyQualifiedMethodNamesWithNamespaces()
      */
     public function provideFullyQualifiedMethodNamesWithNamespaces()
     {
@@ -118,7 +122,7 @@ class Stagehand_TestRunner_Runner_CIUnitRunnerTest extends Stagehand_TestRunner_
 
     /**
      * @return array
-     * @see Stagehand_TestRunner_Runner_PHPUnitRunnerTest::provideClasses()
+     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideClasses()
      */
     public function provideClasses()
     {
@@ -132,7 +136,7 @@ class Stagehand_TestRunner_Runner_CIUnitRunnerTest extends Stagehand_TestRunner_
 
     /**
      * @return array
-     * @see Stagehand_TestRunner_Runner_PHPUnitRunnerTest::provideClassesWithNamespaces()
+     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideClassesWithNamespaces()
      */
     public function provideClassesWithNamespaces()
     {
@@ -148,7 +152,7 @@ class Stagehand_TestRunner_Runner_CIUnitRunnerTest extends Stagehand_TestRunner_
 
     /**
      * @return array
-     * @see Stagehand_TestRunner_Runner_PHPUnitRunnerTest::provideFullyQualifiedMethodNamesForIncompleteAndSkippedTests()
+     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideFullyQualifiedMethodNamesForIncompleteAndSkippedTests()
      */
     public function provideFullyQualifiedMethodNamesForIncompleteAndSkippedTests()
     {

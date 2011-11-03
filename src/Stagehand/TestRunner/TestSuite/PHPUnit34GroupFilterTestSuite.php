@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,8 @@
  * @since      File available since Release 2.17.0
  */
 
+namespace Stagehand\TestRunner\TestSuite;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,14 +46,14 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.17.0
  */
-class Stagehand_TestRunner_TestSuite_PHPUnit34GroupFilterTestSuite extends Stagehand_TestRunner_TestSuite_PHPUnitGroupFilterTestSuite
+class PHPUnit34GroupFilterTestSuite extends PHPUnitGroupFilterTestSuite
 {
     /**
-     * @param ReflectionClass  $class
-     * @param ReflectionMethod $method
+     * @param \ReflectionClass  $class
+     * @param \ReflectionMethod $method
      * @param array            $names
      */
-    protected function addTestMethod(ReflectionClass $class, ReflectionMethod $method, array &$names)
+    protected function addTestMethod(\ReflectionClass $class, \ReflectionMethod $method, array &$names)
     {
         if ($this->shouldExclude($class, $method)) {
             $this->markAsExcluded();

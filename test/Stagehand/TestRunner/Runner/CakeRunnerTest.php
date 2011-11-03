@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,10 @@
  * @since      File available since Release 2.14.0
  */
 
+namespace Stagehand\TestRunner\Runner;
+
+use Stagehand\TestRunner\Config;
+
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/web_tester.php';
 require_once 'simpletest/mock_objects.php';
@@ -46,9 +50,9 @@ require_once 'simpletest/mock_objects.php';
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Runner_SimpleTestRunnerTest
+class CakeRunnerTest extends SimpleTestRunnerTest
 {
-    protected $framework = Stagehand_TestRunner_Framework::CAKE;
+    protected $framework = \Stagehand_TestRunner_Framework::CAKE;
 
     /**
      * @test
@@ -123,10 +127,10 @@ class Stagehand_TestRunner_Runner_CakeRunnerTest extends Stagehand_TestRunner_Ru
     }
 
     /**
-     * @param Stagehand_TestRunner_Config $config
+     * @param \Stagehand\TestRunner\Config $config
      * @since Method available since Release 2.14.1
      */
-    protected function configure(Stagehand_TestRunner_Config $config)
+    protected function configure(Config $config)
     {
         $config->cakephpAppPath = dirname(__FILE__) . '/../../../../vendor/cakephp/app';
     }

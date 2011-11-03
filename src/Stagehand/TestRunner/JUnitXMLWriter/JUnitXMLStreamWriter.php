@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,11 @@
  * @since      File available since Release 2.10.0
  */
 
+namespace Stagehand\TestRunner\JUnitXMLWriter;
+
+use Stagehand\TestRunner\JUnitXMLWriter;
+use Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter\UTF8ConverterFactory;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,17 +47,17 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stagehand_TestRunner_JUnitXMLWriter
+class JUnitXMLStreamWriter implements JUnitXMLWriter
 {
     /**
-     * @var Stagehand_TestRunner_JUnitXMLWriter_XMLStreamWriter
+     * @var \Stagehand\TestRunner\JUnitXMLWriter\XMLStreamWriter
      */
     protected $xmlWriter;
 
     protected $streamWriter;
 
     /**
-     * @var Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter
+     * @var \Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter
      */
     protected $utf8Converter;
 
@@ -62,8 +67,8 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
     public function __construct($streamWriter)
     {
         $this->streamWriter = $streamWriter;
-        $this->xmlWriter = new Stagehand_TestRunner_JUnitXMLWriter_XMLStreamWriter();
-        $this->utf8Converter = Stagehand_TestRunner_JUnitXMLWriter_UTF8Converter_UTF8ConverterFactory::create();
+        $this->xmlWriter = new XMLStreamWriter();
+        $this->utf8Converter = UTF8ConverterFactory::create();
     }
 
     public function startTestSuites()
@@ -94,9 +99,9 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
 
         if (strlen($className) && class_exists($className, false)) {
             try {
-                $class = new ReflectionClass($className);
+                $class = new \ReflectionClass($className);
                 $this->xmlWriter->writeAttribute('file', $this->utf8Converter->convert($class->getFileName()));
-            } catch (ReflectionException $e) {
+            } catch (\ReflectionException $e) {
             }
         }
 
@@ -114,7 +119,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter implements Stageh
         $this->xmlWriter->startElement('testcase');
         $this->xmlWriter->writeAttribute('name', $this->utf8Converter->convert($name));
 
-        $class = new ReflectionClass($test);
+        $class = new \ReflectionClass($test);
         if (is_null($methodName)) {
             $methodName = $name;
         }

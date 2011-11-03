@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,11 +29,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.7.0
  */
+
+namespace Stagehand\TestRunner\Collector;
+
+use Stagehand\TestRunner\Collector;
 
 require_once 'PHPUnit/Extensions/PhptTestCase.php';
 
@@ -41,12 +45,12 @@ require_once 'PHPUnit/Extensions/PhptTestCase.php';
  * A test collector for PHPT.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.7.0
  */
-class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_Collector
+class PHPTCollector extends Collector
 {
     /**
      * @param string $testCase
@@ -54,18 +58,18 @@ class Stagehand_TestRunner_Collector_PHPTCollector extends Stagehand_TestRunner_
      */
     public function collectTestCase($testCase)
     {
-        $this->suite->addTest(new PHPUnit_Extensions_PhptTestCase($testCase));
+        $this->suite->addTest(new \PHPUnit_Extensions_PhptTestCase($testCase));
     }
 
     /**
      * Creates the test suite object.
      *
      * @param string $name
-     * @return PHPUnit_Framework_TestSuite
+     * @return \PHPUnit_Framework_TestSuite
      */
     protected function createTestSuite($name)
     {
-        return new PHPUnit_Framework_TestSuite($name);
+        return new \PHPUnit_Framework_TestSuite($name);
     }
 
     /**

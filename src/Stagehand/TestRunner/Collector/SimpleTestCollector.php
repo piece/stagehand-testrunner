@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
  *               2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
@@ -38,6 +38,10 @@
  * @since      File available since Release 2.1.0
  */
 
+namespace Stagehand\TestRunner\Collector;
+
+use Stagehand\TestRunner\Collector;
+
 /**
  * A test collector for SimpleTest.
  *
@@ -49,11 +53,11 @@
  * @link       http://simpletest.org/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestRunner_Collector
+class SimpleTestCollector extends Collector
 {
     protected $superTypes = array('SimpleTestCase');
     protected $filePattern = 'Test(?:Case)?\.php$';
-    protected $suiteClass = 'Stagehand_TestRunner_TestSuite_SimpleTestTestSuite';
+    protected $suiteClass = '\Stagehand\TestRunner\TestSuite\SimpleTestTestSuite';
 
     /**
      * @param string $testCase
@@ -61,7 +65,7 @@ class Stagehand_TestRunner_Collector_SimpleTestCollector extends Stagehand_TestR
      */
     public function collectTestCase($testCase)
     {
-        $test = new ReflectionClass($testCase);
+        $test = new \ReflectionClass($testCase);
         if ($test->isAbstract()) {
             return;
         }

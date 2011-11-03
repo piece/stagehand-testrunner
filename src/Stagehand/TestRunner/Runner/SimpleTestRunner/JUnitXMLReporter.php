@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,13 @@
  * @since      File available since Release 2.10.0
  */
 
+namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
+
+use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\JUnitXMLWriter;
+use Stagehand\TestRunner\Runner\JUnitXMLWriterAdapter;
+use Stagehand\TestRunner\TestSuite\SimpleTestTestSuite;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,15 +51,15 @@
  * @link       http://simpletest.org/
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends SimpleReporter implements Stagehand_TestRunner_Runner_JUnitXMLWriterAdapter
+class JUnitXMLReporter extends \SimpleReporter implements JUnitXMLWriterAdapter
 {
     /**
-     * @var Stagehand_TestRunner_JUnitXMLWriter
+     * @var \Stagehand\TestRunner\JUnitXMLWriter
      */
     protected $xmlWriter;
 
     /**
-     * @var Stagehand_TestRunner_TestSuite_SimpleTestTestSuite
+     * @var \Stagehand\TestRunner\TestSuite\SimpleTestTestSuite
      */
     protected $suite;
     protected $methodStartTime;
@@ -60,7 +67,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     protected $reportedFailure;
 
     /**
-     * @var Stagehand_TestRunner_Config
+     * @var \Stagehand\TestRunner\Config
      */
     protected $config;
 
@@ -83,25 +90,25 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     protected $methodStarted = false;
 
     /**
-     * @param Stagehand_TestRunner_JUnitXMLWriter $xmlWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter $xmlWriter
      */
-    public function setXMLWriter(Stagehand_TestRunner_JUnitXMLWriter $xmlWriter)
+    public function setXMLWriter(JUnitXMLWriter $xmlWriter)
     {
         $this->xmlWriter = $xmlWriter;
     }
 
     /**
-     * @param Stagehand_TestRunner_TestSuite_SimpleTestTestSuite $suite
+     * @param \Stagehand\TestRunner\TestSuite\SimpleTestTestSuite $suite
      */
-    public function setTestSuite(Stagehand_TestRunner_TestSuite_SimpleTestTestSuite $suite)
+    public function setTestSuite(SimpleTestTestSuite $suite)
     {
         $this->suite = $suite;
     }
 
     /**
-     * @param Stagehand_TestRunner_Config $config
+     * @param \Stagehand\TestRunner\Config $config
      */
-    public function setConfig(Stagehand_TestRunner_Config $config)
+    public function setConfig(Config $config)
     {
         $this->config = $config;
     }
@@ -133,7 +140,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         parent::paintCaseStart($testName);
         $this->xmlWriter->startTestSuite(
             $testName,
-            $this->suite->countTestsInTestCase(SimpleTest::getContext()->getTest())
+            $this->suite->countTestsInTestCase(\SimpleTest::getContext()->getTest())
         );
         $this->caseStarted = true;
     }
@@ -155,14 +162,14 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     {
         $this->caseIsArtificial = false;
         if (!$this->caseStarted) {
-            $this->paintCaseStart(SimpleTest::getContext()->getTest()->getLabel());
+            $this->paintCaseStart(\SimpleTest::getContext()->getTest()->getLabel());
             $this->caseIsArtificial = true;
         }
 
         parent::paintMethodStart($testName);
         $this->xmlWriter->startTestCase(
             $testName,
-            SimpleTest::getContext()->getTest()
+            \SimpleTest::getContext()->getTest()
         );
         $this->methodStartTime = microtime(true);
         $this->assertionCount = 0;
@@ -181,7 +188,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
         $this->methodStarted = false;
 
         if ($this->caseIsArtificial) {
-            $this->paintCaseEnd(SimpleTest::getContext()->getTest()->getLabel());
+            $this->paintCaseEnd(\SimpleTest::getContext()->getTest()->getLabel());
         }
     }
 
@@ -242,9 +249,9 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     }
 
     /**
-     * @param Exception $e
+     * @param \Exception $e
      */
-    public function paintException(Exception $e)
+    public function paintException(\Exception $e)
     {
         parent::paintException($e);
         $failureTrace = $this->buildFailureTrace($e->getTrace());
@@ -333,7 +340,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLReporter extends Simp
     {
         $methodIsArtificial = false;
         if (!$this->methodStarted) {
-            if (SimpleTest::getContext()->getTest()->_should_skip) {
+            if (\SimpleTest::getContext()->getTest()->_should_skip) {
                 $testName = 'skip';
             } else {
                 $testName = 'ARTIFICIAL';

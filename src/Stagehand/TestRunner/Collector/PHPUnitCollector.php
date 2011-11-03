@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,14 @@
  * @since      File available since Release 2.1.0
  */
 
+namespace Stagehand\TestRunner\Collector;
+
+use Stagehand\TestRunner\Collector;
+use Stagehand\TestRunner\TestSuite\PHPUnit34GroupFilterTestSuite;
+use Stagehand\TestRunner\TestSuite\PHPUnit34MethodFilterTestSuite;
+use Stagehand\TestRunner\TestSuite\PHPUnit35GroupFilterTestSuite;
+use Stagehand\TestRunner\TestSuite\PHPUnit35MethodFilterTestSuite;
+
 require_once 'PHPUnit/Runner/BaseTestRunner.php';
 
 /**
@@ -48,7 +56,7 @@ require_once 'PHPUnit/Runner/BaseTestRunner.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunner_Collector
+class PHPUnitCollector extends Collector
 {
     protected $superTypes = array('PHPUnit_Framework_TestCase');
     protected $filePattern = 'Test(?:Case)?\.php$';
@@ -59,7 +67,7 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      */
     public function collectTestCase($testCase)
     {
-        $testClass = new ReflectionClass($testCase);
+        $testClass = new \ReflectionClass($testCase);
         if ($testClass->isAbstract()) {
             return;
         }
@@ -70,8 +78,8 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
         }
 
         $suiteMethod = false;
-        if ($testClass->hasMethod(PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME)) {
-            $method = $testClass->getMethod(PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME);
+        if ($testClass->hasMethod(\PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME)) {
+            $method = $testClass->getMethod(\PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME);
             if ($method->isStatic()) {
                 $this->suite->addTest($method->invoke(null, $testClass->getName()));
                 $suiteMethod = true;
@@ -80,9 +88,9 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
 
         if (!$suiteMethod) {
             $this->suite->addTest(
-                version_compare(PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
-                    ? new Stagehand_TestRunner_TestSuite_PHPUnit35GroupFilterTestSuite($testClass, $this->config)
-                    : new Stagehand_TestRunner_TestSuite_PHPUnit34GroupFilterTestSuite($testClass, $this->config)
+                version_compare(\PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
+                    ? new PHPUnit35GroupFilterTestSuite($testClass, $this->config)
+                    : new PHPUnit34GroupFilterTestSuite($testClass, $this->config)
             );
         }
     }
@@ -91,24 +99,24 @@ class Stagehand_TestRunner_Collector_PHPUnitCollector extends Stagehand_TestRunn
      * Creates the test suite object.
      *
      * @param string $name
-     * @return PHPUnit_Framework_TestSuite
+     * @return \PHPUnit_Framework_TestSuite
      */
     protected function createTestSuite($name)
     {
-        return new PHPUnit_Framework_TestSuite($name);
+        return new \PHPUnit_Framework_TestSuite($name);
     }
 
     /**
-     * @param ReflectionClass $testClass
+     * @param \ReflectionClass $testClass
      * @since Method available since Release 2.10.0
      */
-    protected function addTestCaseOnlySpecified(ReflectionClass $testClass)
+    protected function addTestCaseOnlySpecified(\ReflectionClass $testClass)
     {
         if ($this->config->testsOnlySpecifiedMethods) {
             $this->suite->addTestSuite(
-                version_compare(PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
-                    ? new Stagehand_TestRunner_TestSuite_PHPUnit35MethodFilterTestSuite($testClass, $this->config)
-                    : new Stagehand_TestRunner_TestSuite_PHPUnit34MethodFilterTestSuite($testClass, $this->config)
+                version_compare(\PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
+                    ? new PHPUnit35MethodFilterTestSuite($testClass, $this->config)
+                    : new PHPUnit34MethodFilterTestSuite($testClass, $this->config)
             );
         } elseif ($this->config->testsOnlySpecifiedClasses) {
             if ($this->config->isTestingClass($testClass->getName())) {

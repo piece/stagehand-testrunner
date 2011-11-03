@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,8 @@
  * @since      File available since Release 2.13.0
  */
 
+namespace Stagehand\TestRunner;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,10 +44,10 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.13.0
  */
-class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework_TestCase
+class TestRunnerCLIControllerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Stagehand_TestRunner_Util_OutputBuffering
+     * @var \Stagehand\TestRunner\Util\OutputBuffering
      */
     protected $outputBuffering;
 
@@ -145,7 +147,7 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
 
         $this->createTestRunnerCLIController()->run();
 
-        Phake::verify($this->outputBuffering)->clearOutputHandlers();
+        \Phake::verify($this->outputBuffering)->clearOutputHandlers();
     }
 
     /**
@@ -154,15 +156,15 @@ class Stagehand_TestRunner_TestRunnerCLIControllerTest extends PHPUnit_Framework
      */
     protected function createTestRunnerCLIController()
     {
-        $this->outputBuffering = Phake::mock('Stagehand_TestRunner_Util_OutputBuffering');
-        Phake::when($this->outputBuffering)->clearOutputHandlers()->thenReturn(null);
+        $this->outputBuffering = \Phake::mock('\Stagehand\TestRunner\Util\OutputBuffering');
+        \Phake::when($this->outputBuffering)->clearOutputHandlers()->thenReturn(null);
 
-        $controller = Phake::partialMock(
-            'Stagehand_TestRunner_TestRunnerCLIController', Stagehand_TestRunner_Framework::PHPUNIT
+        $controller = \Phake::partialMock(
+            '\Stagehand_TestRunner_TestRunnerCLIController', \Stagehand_TestRunner_Framework::PHPUNIT
         );
-        Phake::when($controller)->createOutputBuffering()->thenReturn($this->outputBuffering);
-        Phake::when($controller)->runTests()->thenReturn(null);
-        Phake::when($controller)->validateDirectory($this->anything(), $this->anything())->thenReturn(null);
+        \Phake::when($controller)->createOutputBuffering()->thenReturn($this->outputBuffering);
+        \Phake::when($controller)->runTests()->thenReturn(null);
+        \Phake::when($controller)->validateDirectory($this->anything(), $this->anything())->thenReturn(null);
         return $controller;
     }
 }

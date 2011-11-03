@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,10 @@
  * @since      File available since Release 2.10.0
  */
 
+namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
+
+use Stagehand\TestRunner\TestCase;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,9 +46,9 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehand_TestRunner_TestCase
+class JUnitXMLTest extends TestCase
 {
-    protected $framework = Stagehand_TestRunner_Framework::SIMPLETEST;
+    protected $framework = \Stagehand_TestRunner_Framework::SIMPLETEST;
     protected $oldErrorHandler;
 
     public function handleError()
@@ -84,7 +88,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->runTests();
         $this->assertFileExists($this->config->getJUnitXMLFile());
 
-        $junitXML = new DOMDocument();
+        $junitXML = new \DOMDocument();
         $junitXML->load($this->config->getJUnitXMLFile());
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
@@ -101,7 +105,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'PassTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'PassTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'PassTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(3, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(4, $childTestsuite->getAttribute('assertions'));
@@ -145,7 +149,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'FailureTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'FailureTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'FailureTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(1, $childTestsuite->getAttribute('assertions'));
@@ -170,7 +174,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'ErrorTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'ErrorTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'ErrorTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(0, $childTestsuite->getAttribute('assertions'));
@@ -196,7 +200,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'SkipClassTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'SkipClassTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'SkipClassTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(0, $childTestsuite->getAttribute('assertions'));
@@ -221,7 +225,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'SkipMethodTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'SkipMethodTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'SkipMethodTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(1, $childTestsuite->getAttribute('assertions'));
@@ -265,7 +269,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->runTests();
         $this->assertFileExists($this->config->getJUnitXMLFile());
 
-        $junitXML = new DOMDocument();
+        $junitXML = new \DOMDocument();
         $junitXML->load($this->config->getJUnitXMLFile());
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
@@ -285,7 +289,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
     {
         $this->loadClasses();
         $this->config->setLogsResultsInJUnitXMLInRealtime(true);
-        $this->config->runnerClass = 'Stagehand_TestRunner_Runner_' . $this->framework . 'Runner_JUnitXMLTest_Mock' . $this->framework . 'Runner';
+        $this->config->runnerClass = '\Stagehand\TestRunner\Runner\\' . $this->framework . 'Runner\JUnitXMLTest\Mock' . $this->framework . 'Runner';
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'PassTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'FailureTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'ErrorTest');
@@ -307,7 +311,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals('</testsuite>', $streamContents[20]);
         $this->assertEquals('</testsuites>', $streamContents[21]);
 
-        $junitXML = new DOMDocument();
+        $junitXML = new \DOMDocument();
         $junitXML->load($this->config->getJUnitXMLFile());
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLStream.rng'));
 
@@ -321,7 +325,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'PassTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'PassTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'PassTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(3, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(3, $childTestsuite->childNodes->length);
@@ -359,7 +363,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'FailureTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'FailureTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'FailureTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(1, $childTestsuite->childNodes->length);
@@ -380,7 +384,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertEquals('Stagehand_TestRunner_' . $this->framework . 'ErrorTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'ErrorTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->framework . 'ErrorTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(1, $childTestsuite->childNodes->length);
@@ -410,7 +414,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         class_exists('Stagehand_TestRunner_' . $this->framework . 'MultipleClassesTest');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
         $this->runTests();
-        $junitXML = new DOMDocument();
+        $junitXML = new \DOMDocument();
         $junitXML->load($this->config->getJUnitXMLFile());
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -432,7 +436,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
         $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses2Test');
         $this->runTests();
-        $junitXML = new DOMDocument();
+        $junitXML = new \DOMDocument();
         $junitXML->load($this->config->getJUnitXMLFile());
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -463,7 +467,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $testcase = $testcases->item(0);
         $this->assertTrue($testcase->hasAttribute('file'));
 
-        $parentClass = new ReflectionClass($parentClassName);
+        $parentClass = new \ReflectionClass($parentClassName);
         $this->assertEquals($parentClass->getFileName(), $testcase->getAttribute('file'));
     }
 
@@ -508,7 +512,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunner_JUnitXMLTest extends Stagehan
         $this->assertTrue($failure->hasAttribute('line'));
         $this->assertTrue($failure->hasAttribute('message'));
 
-        $actualClass = new ReflectionClass($actualClassName);
+        $actualClass = new \ReflectionClass($actualClassName);
         $this->assertEquals($actualClass->getFileName(), $failure->getAttribute('file'));
         $this->assertTrue($actualClass->hasMethod($methodName));
         $this->assertEquals($line, $failure->getAttribute('line'));

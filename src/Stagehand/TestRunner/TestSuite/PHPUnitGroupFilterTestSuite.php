@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,10 @@
  * @since      File available since Release 2.17.0
  */
 
+namespace Stagehand\TestRunner\TestSuite;
+
+use Stagehand\TestRunner\Config;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,25 +48,25 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.17.0
  */
-class Stagehand_TestRunner_TestSuite_PHPUnitGroupFilterTestSuite extends PHPUnit_Framework_TestSuite
+class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 {
     /**
-     * @var Stagehand_TestRunner_Config
+     * @var \Stagehand\TestRunner\Config
      */
     protected $config;
 
     protected $excluded = false;
 
     /**
-     * @param ReflectionClass $theClass
-     * @param Stagehand_TestRunner_Config $config
+     * @param \ReflectionClass $theClass
+     * @param \Stagehand\TestRunner\Config $config
      */
-    public function __construct(ReflectionClass $theClass, Stagehand_TestRunner_Config $config)
+    public function __construct(\ReflectionClass $theClass, Config $config)
     {
         $this->config = $config;
         parent::__construct($theClass);
         if (count($this->tests) == 1 && $this->tests[0]) {
-            if ($this->tests[0] instanceof PHPUnit_Framework_Warning
+            if ($this->tests[0] instanceof \PHPUnit_Framework_Warning
                 && preg_match('/^No tests found in class/', $this->tests[0]->getMessage())
             ) {
                 if ($this->excluded) {
@@ -73,17 +77,17 @@ class Stagehand_TestRunner_TestSuite_PHPUnitGroupFilterTestSuite extends PHPUnit
     }
 
     /**
-     * @param ReflectionClass $theClass
-     * @param Stagehand_TestRunner_Config $config
+     * @param \ReflectionClass $theClass
+     * @param \Stagehand\TestRunner\Config $config
      * @return boolean
      */
-    protected function shouldExclude(ReflectionClass $class, ReflectionMethod $method)
+    protected function shouldExclude(\ReflectionClass $class, \ReflectionMethod $method)
     {
         if (is_null($this->config->phpunitConfigFile)) return false;
 
-        $groups = PHPUnit_Util_Test::getGroups($class->getName(), $method->getName());
+        $groups = \PHPUnit_Util_Test::getGroups($class->getName(), $method->getName());
         $shouldExclude = false;
-        $groupConfiguration = PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getGroupConfiguration();
+        $groupConfiguration = \PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getGroupConfiguration();
         if (array_key_exists('include', $groupConfiguration) && count($groupConfiguration['include'])) {
             $shouldExclude = true;
             foreach ($groups as $group) {

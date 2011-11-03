@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2008-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,10 @@
  * @since      File available since Release 2.3.0
  */
 
+namespace Stagehand\TestRunner;
+
+use Stagehand\TestRunner\Config;
+
 /**
  * The base class for test runners.
  *
@@ -44,23 +48,23 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.3.0
  */
-abstract class Stagehand_TestRunner_Runner
+abstract class Runner
 {
     /**
-     * @var Stagehand_TestRunner_Notification_Notification
+     * @var \Stagehand\TestRunner\Notification\Notification
      */
     protected $notification;
 
     /**
-     * @var Stagehand_TestRunner_Config
+     * @var \Stagehand\TestRunner\Config
      */
     protected $config;
 
     /**
-     * @param Stagehand_TestRunner_Config $config
+     * @param \Stagehand\TestRunner\Config $config
      * @since Method available since Release 2.10.0
      */
-    public function __construct(Stagehand_TestRunner_Config $config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
     }
@@ -75,7 +79,7 @@ abstract class Stagehand_TestRunner_Runner
     /**
      * Gets a notification object for Growl.
      *
-     * @return Stagehand_TestRunner_Notification_Notification
+     * @return \Stagehand\TestRunner\Notification\Notification
      */
     public function getNotification()
     {

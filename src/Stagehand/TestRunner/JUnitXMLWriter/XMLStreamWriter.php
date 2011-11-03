@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,10 @@
  * @since      File available since Release 2.11.2
  */
 
+namespace Stagehand\TestRunner\JUnitXMLWriter;
+
+use Stagehand\TestRunner\Util\String;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,7 +46,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.11.2
  */
-class Stagehand_TestRunner_JUnitXMLWriter_XMLStreamWriter
+class XMLStreamWriter
 {
     protected $buffer;
     protected $elements = array();
@@ -80,7 +84,7 @@ class Stagehand_TestRunner_JUnitXMLWriter_XMLStreamWriter
             ' ' .
             $attribute .
             '="' .
-            str_replace("\x0a", '&#10;', htmlspecialchars(Stagehand_TestRunner_Util_String::normalizeNewlines($value), ENT_QUOTES, 'UTF-8')) .
+            str_replace("\x0a", '&#10;', htmlspecialchars(String::normalizeNewlines($value), ENT_QUOTES, 'UTF-8')) .
             '"';
     }
 

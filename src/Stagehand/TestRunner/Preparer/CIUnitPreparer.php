@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,8 @@
  * @since      File available since Release 2.16.0
  */
 
+namespace Stagehand\TestRunner\Preparer;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.16.0
  */
-class Stagehand_TestRunner_Preparer_CIUnitPreparer extends Stagehand_TestRunner_Preparer_PHPUnitPreparer
+class CIUnitPreparer extends PHPUnitPreparer
 {
     /**
      * @var array
@@ -77,9 +79,9 @@ class Stagehand_TestRunner_Preparer_CIUnitPreparer extends Stagehand_TestRunner_
          */
         $this->backupVariables();
         $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_USER_NOTICE);
-        Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
+        \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
         require_once $ciunitPath . '/CIUnit.php';
-        Stagehand_LegacyError_PHPError::disableConversion();
+        \Stagehand_LegacyError_PHPError::disableConversion();
         error_reporting($oldErrorReportingLevel);
         $this->restoreVariables();
     }

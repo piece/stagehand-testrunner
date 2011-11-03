@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,8 @@
  * @since      File available since Release 2.15.0
  */
 
+namespace Stagehand\TestRunner;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.15.0
  */
-class Stagehand_TestRunner_ConfigTest extends PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -52,7 +54,7 @@ class Stagehand_TestRunner_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $testingClass = 'フーTest';
         $testingMethod = 'バー';
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->addTestingMethod(urlencode($testingClass . '::' . $testingMethod));
         $this->assertTrue($config->isTestingMethod($testingClass, $testingMethod));
     }
@@ -64,7 +66,7 @@ class Stagehand_TestRunner_ConfigTest extends PHPUnit_Framework_TestCase
     public function decodesUrlEncodedTestingClasses()
     {
         $testingClass = 'フーTest';
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->addTestingClass(urlencode($testingClass));
         $this->assertTrue($config->isTestingClass($testingClass));
     }
@@ -77,8 +79,8 @@ class Stagehand_TestRunner_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $currentDirectory = '/path/to/currentDir';
 
-        $config = Phake::partialMock('Stagehand_TestRunner_Config');
-        Phake::when($config)->getWorkingDirectoryAtStartup()->thenReturn($currentDirectory);
+        $config = \Phake::partialMock('\Stagehand\TestRunner\Config');
+        \Phake::when($config)->getWorkingDirectoryAtStartup()->thenReturn($currentDirectory);
 
         $testingResources = $config->getTestingResources();
         $this->assertEquals(1, count($testingResources));

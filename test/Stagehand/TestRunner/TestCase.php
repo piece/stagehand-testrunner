@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
@@ -37,6 +37,13 @@
  * @since      File available since Release 2.10.0
  */
 
+namespace Stagehand\TestRunner;
+
+use Stagehand\TestRunner\Collector\CollectorFactory;
+use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Preparer\PreparerFactory;
+use Stagehand\TestRunner\Runner\RunnerFactory;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -45,31 +52,31 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Stagehand_TestRunner_Config
+     * @var \Stagehand\TestRunner\Config
      */
     protected $config;
     protected $tmpDirectory;
 
     /**
-     * @var Stagehand_TestRunner_Preparer
+     * @var \Stagehand\TestRunner\Preparer
      */
     protected $preparer;
 
     /**
-     * @var Stagehand_TestRunner_Collector
+     * @var \Stagehand\TestRunner\Collector
      */
     protected $collector;
 
     /**
-     * @var Stagehand_TestRunner_Runner
+     * @var \Stagehand\TestRunner\Runner
      */
     protected $runner;
 
     /**
-     * @var Stagehand_TestRunner_Notification_Notifier
+     * @var \Stagehand\TestRunner\Notification\Notifier
      * @since Property available since Release 2.18.0
      */
     protected $notifier;
@@ -90,9 +97,9 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
+        \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
         $this->tmpDirectory = dirname(__FILE__) . '/../../../tmp';
-        $this->config = new Stagehand_TestRunner_Config();
+        $this->config = new Config();
         $this->config->framework = $this->framework;
         $this->config->setJUnitXMLFile(
             $this->tmpDirectory .
@@ -104,16 +111,16 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
         );
         $this->configure($this->config);
 
-        $preparerFactory = new Stagehand_TestRunner_Preparer_PreparerFactory($this->config);
+        $preparerFactory = new PreparerFactory($this->config);
         $this->preparer = $preparerFactory->create();
         $this->preparer->prepare();
 
-        $collectorFactory = new Stagehand_TestRunner_Collector_CollectorFactory($this->config);
+        $collectorFactory = new CollectorFactory($this->config);
         $this->collector = $collectorFactory->create();
 
-        $this->notifier = Phake::mock('Stagehand_TestRunner_Notification_Notifier');
-        Phake::when($this->notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
-        Phake::when($this->notifier)->getPHPOS()->thenReturn('Linux');
+        $this->notifier = \Phake::mock('\Stagehand\TestRunner\Notification\Notifier');
+        \Phake::when($this->notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
+        \Phake::when($this->notifier)->getPHPOS()->thenReturn('Linux');
 
         $this->loadClasses();
     }
@@ -224,21 +231,21 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
 
     protected function createXPath()
     {
-        $junitXML = new DOMDocument();
+        $junitXML = new \DOMDocument();
         $junitXML->load($this->config->getJUnitXMLFile());
-        return new DOMXPath($junitXML);
+        return new \DOMXPath($junitXML);
     }
 
     protected function runTests()
     {
-        $factory = new Stagehand_TestRunner_Runner_RunnerFactory($this->config);
+        $factory = new RunnerFactory($this->config);
         $this->runner = $factory->create();
 
-        $testRunner = Phake::partialMock('Stagehand_TestRunner_TestRunner', $this->config);
-        Phake::when($testRunner)->createPreparer()->thenReturn($this->preparer);
-        Phake::when($testRunner)->createCollector()->thenReturn($this->collector);
-        Phake::when($testRunner)->createRunner()->thenReturn($this->runner);
-        Phake::when($testRunner)->createNotifier()->thenReturn($this->notifier);
+        $testRunner = \Phake::partialMock('\Stagehand\TestRunner\TestRunner', $this->config);
+        \Phake::when($testRunner)->createPreparer()->thenReturn($this->preparer);
+        \Phake::when($testRunner)->createCollector()->thenReturn($this->collector);
+        \Phake::when($testRunner)->createRunner()->thenReturn($this->runner);
+        \Phake::when($testRunner)->createNotifier()->thenReturn($this->notifier);
 
         ob_start();
         $testRunner->run();
@@ -247,10 +254,10 @@ abstract class Stagehand_TestRunner_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Stagehand_TestRunner_Config $config
+     * @param \Stagehand\TestRunner\Config $config
      * @since Method available since Release 2.14.1
      */
-    protected function configure(Stagehand_TestRunner_Config $config)
+    protected function configure(Config $config)
     {
     }
 

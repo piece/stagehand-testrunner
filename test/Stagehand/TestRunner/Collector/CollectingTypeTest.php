@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,8 @@
  * @since      File available since Release 2.20.0
  */
 
+namespace Stagehand\TestRunner\Collector;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class Stagehand_TestRunner_Collector_CollectingTypeTest extends PHPUnit_Framework_TestCase
+class CollectingTypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -54,12 +56,12 @@ class Stagehand_TestRunner_Collector_CollectingTypeTest extends PHPUnit_Framewor
      */
     public function checksATypeIsATest($type, $isSubTypeOfExpectedType, $isTest)
     {
-        $collectingType = Phake::partialMock(
-            'Stagehand_TestRunner_Collector_CollectingType',
+        $collectingType = \Phake::partialMock(
+            '\Stagehand\TestRunner\Collector\CollectingType',
             $type, array('PHPSpec\Specification\ExampleGroup', 'PHPSpec\Context')
         );
 
-        Phake::when($collectingType)->isSubTypeOfExpectedSuperType($this->anything(), $this->anything())
+        \Phake::when($collectingType)->isSubTypeOfExpectedSuperType($this->anything(), $this->anything())
             ->thenReturn($isSubTypeOfExpectedType);
 
         $this->assertEquals($isTest, $collectingType->isTest());

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2010 KUMAKURA Yousuke <kumatch@gmail.com>,
@@ -37,6 +37,10 @@
  * @since      File available since Release 2.10.0
  */
 
+namespace Stagehand\TestRunner\Runner;
+
+use Stagehand\TestRunner\TestCase;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -45,9 +49,9 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRunner_TestCase
+class SimpleTestRunnerTest extends TestCase
 {
-    protected $framework = Stagehand_TestRunner_Framework::SIMPLETEST;
+    protected $framework = \Stagehand_TestRunner_Framework::SIMPLETEST;
     protected $oldErrorHandler;
 
     /**
@@ -305,7 +309,7 @@ class Stagehand_TestRunner_Runner_SimpleTestRunnerTest extends Stagehand_TestRun
         $this->collector->collectTestCase($testClass);
         $this->runTests();
 
-        $junitXML = new DOMDocument();
+        $junitXML = new \DOMDocument();
         $junitXML->load($this->config->getJUnitXMLFile());
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 

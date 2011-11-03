@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
@@ -37,6 +37,10 @@
  * @since      File available since Release 2.18.0
  */
 
+namespace Stagehand\TestRunner\Notification;
+
+use Stagehand\TestRunner\Util\String;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -45,7 +49,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-class Stagehand_TestRunner_Notification_Notification
+class Notification
 {
     const RESULT_PASSED = 'RESULT_PASSED';
     const RESULT_FAILED = 'RESULT_FAILED';
@@ -68,7 +72,7 @@ class Stagehand_TestRunner_Notification_Notification
     public function __construct($result, $message)
     {
         $this->result = $result;
-        $this->message = str_replace(PHP_EOL, ' ', Stagehand_TestRunner_Util_String::normalizeNewlines($message));
+        $this->message = str_replace(PHP_EOL, ' ', String::normalizeNewlines($message));
     }
 
     /**

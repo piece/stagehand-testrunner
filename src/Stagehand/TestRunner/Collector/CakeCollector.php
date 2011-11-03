@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,8 @@
  * @since      File available since Release 2.14.0
  */
 
+namespace Stagehand\TestRunner\Collector;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,11 +44,11 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_Collector_CakeCollector extends Stagehand_TestRunner_Collector_SimpleTestCollector
+class CakeCollector extends SimpleTestCollector
 {
     protected $superTypes = array('CakeTestCase', 'CakeWebTestCase');
     protected $filePattern = '\.test\.php$';
-    protected $suiteClass = 'Stagehand_TestRunner_TestSuite_CakeTestSuite';
+    protected $suiteClass = '\Stagehand\TestRunner\TestSuite\CakeTestSuite';
 }
 
 /*

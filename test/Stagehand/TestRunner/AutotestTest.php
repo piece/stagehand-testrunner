@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -35,6 +35,8 @@
  * @since      File available since Release 2.20.0
  */
 
+namespace Stagehand\TestRunner;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,7 +44,7 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class Stagehand_TestRunner_AutotestTest extends PHPUnit_Framework_TestCase
+class AutotestTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -65,22 +67,22 @@ class Stagehand_TestRunner_AutotestTest extends PHPUnit_Framework_TestCase
     public function findsTheMessageOfAFatalOrParseError($errorOutput, $errorMessage)
     {
         $this->errorOutput = $errorOutput;
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->usesNotification = true;
 
-        $notifier = Phake::mock('Stagehand_TestRunner_Notification_Notifier');
-        Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
+        $notifier = \Phake::mock('\Stagehand\TestRunner\Notification\Notifier');
+        \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
 
-        $autotest = Phake::partialMock('Stagehand_TestRunner_Autotest', $config);
-        Phake::when($autotest)->executeRunnerCommand($this->anything())
+        $autotest = \Phake::partialMock('\Stagehand\TestRunner\Autotest', $config);
+        \Phake::when($autotest)->executeRunnerCommand($this->anything())
             ->thenGetReturnByLambda(array($this, 'executeRunnerCommand'));
-        Phake::when($autotest)->createNotifier()->thenReturn($notifier);
+        \Phake::when($autotest)->createNotifier()->thenReturn($notifier);
 
         ob_start();
         $autotest->runTests();
         ob_end_clean();
 
-        Phake::verify($notifier)->notifyResult(Phake::capture($notification));
+        \Phake::verify($notifier)->notifyResult(\Phake::capture($notification));
         $this->assertEquals($errorMessage, $notification->getMessage());
     }
 
@@ -124,19 +126,19 @@ PHP_EOL .
     }
 
     /**
-     * @param Stagehand_TestRunner_Config $config
-     * @return Stagehand_TestRunner_Autotest
+     * @param \Stagehand\TestRunner\Config $config
+     * @return \Stagehand\TestRunner\Autotest
      */
-    public function createAutotest(Stagehand_TestRunner_Config $config)
+    public function createAutotest(Config $config)
     {
-        $monitor = Phake::mock('Stagehand_AlterationMonitor', null, null);
-        Phake::when($monitor)->monitor()->thenReturn(null);
+        $monitor = \Phake::mock('\Stagehand_AlterationMonitor', null, null);
+        \Phake::when($monitor)->monitor()->thenReturn(null);
 
-        $autotest = Phake::partialMock('Stagehand_TestRunner_Autotest', $config);
-        Phake::when($autotest)->createAlterationMonitor()->thenReturn($monitor);
-        Phake::when($autotest)->getMonitoringDirectories()->thenReturn(array());
-        Phake::when($autotest)->executeRunnerCommand($this->anything())->thenReturn(0);
-        Phake::when($autotest)->getPHPConfigDir()->thenGetReturnByLambda(array($this, 'getPHPConfigDir'));
+        $autotest = \Phake::partialMock('\Stagehand\TestRunner\Autotest', $config);
+        \Phake::when($autotest)->createAlterationMonitor()->thenReturn($monitor);
+        \Phake::when($autotest)->getMonitoringDirectories()->thenReturn(array());
+        \Phake::when($autotest)->executeRunnerCommand($this->anything())->thenReturn(0);
+        \Phake::when($autotest)->getPHPConfigDir()->thenGetReturnByLambda(array($this, 'getPHPConfigDir'));
 
         return $autotest;
     }
@@ -144,20 +146,20 @@ PHP_EOL .
     /**
      * @test
      * @dataProvider preservedConfigurations
-     * @param Stagehand_TestRunner_Config $config
+     * @param \Stagehand\TestRunner\Config $config
      * @param array $normalizedOption
      * @param array $shouldPreserve
      * @link http://redmine.piece-framework.com/issues/314
      */
     public function preservesSomeConfigurationsForAutotest(
-        Stagehand_TestRunner_Config $config,
+        Config $config,
         array $normalizedOption,
         array $shouldPreserve)
     {
         $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-a');
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $autotest = $this->createAutotest($config);
-        Phake::when($autotest)->buildRunnerOptions()->captureReturnTo($runnerOptions);
+        \Phake::when($autotest)->buildRunnerOptions()->captureReturnTo($runnerOptions);
         $autotest->monitorAlteration();
 
         for ($i = 0; $i < count($normalizedOption); ++$i) {
@@ -174,80 +176,80 @@ PHP_EOL .
     {
         $data = array();
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->recursivelyScans = true;
         $data[] = array($config, array('-R'), array(true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->setColors(true);
         $data[] = array($config, array('-R', '-c'), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->preloadFile = 'test/prepare.php';
         $data[] = array($config, array('-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->recursivelyScans = true;
         $config->enablesAutotest = true;
         $data[] = array($config, array('-R', '-a'), array(true, false));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->monitoringDirectories[] = 'src';
         $data[] = array($config, array('-R', '-w ' . escapeshellarg('src')), array(true, false));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->usesNotification = true;
         $data[] = array($config, array('-R', '-n'), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->growlPassword = 'PASSWORD';
         $data[] = array($config, array('-R', '--growl-password=' . escapeshellarg('PASSWORD')), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->addTestingMethod('METHOD1');
         $data[] = array($config, array('-R', '-m ' . escapeshellarg('METHOD1')), array(true, false));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->addTestingClass('CLASS1');
         $data[] = array($config, array('-R', '--classes=' . escapeshellarg('CLASS1')), array(true, false));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->setJUnitXMLFile('FILE');
         $data[] = array($config, array('-R', '--log-junit=' . escapeshellarg('FILE')), array(true, false));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->setLogsResultsInJUnitXMLInRealtime(true);
         $data[] = array($config, array('-R', '--log-junit-realtime'), array(true, false));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->printsDetailedProgressReport = true;
         $data[] = array($config, array('-R', '-v'), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->stopsOnFailure = true;
         $data[] = array($config, array('-R', '--stop-on-failure'), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->phpunitConfigFile = 'FILE';
         $data[] = array($config, array('-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->cakephpAppPath = 'DIRECTORY';
         $data[] = array($config, array('-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->cakephpCorePath = 'DIRECTORY';
         $data[] = array($config, array('-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->ciunitPath = 'DIRECTORY';
         $data[] = array($config, array('-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->testFilePattern = 'PATTERN';
         $data[] = array($config, array('-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true));
 
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->testFileSuffix = 'SUFFIX';
         $data[] = array($config, array('-R', '--test-file-suffix=' . escapeshellarg('SUFFIX')), array(true, true));
 
@@ -277,12 +279,12 @@ PHP_EOL .
         }
         $_SERVER['argv'] = $GLOBALS['argv'] = $options;
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $config = new Stagehand_TestRunner_Config();
+        $config = new Config();
         $config->addTestingResource($options[ count($options) - 1 ]);
         
         $autotest = $this->createAutotest($config);
-        Phake::when($autotest)->buildRunnerCommand()->captureReturnTo($runnerCommand);
-        Phake::when($autotest)->buildRunnerOptions()->captureReturnTo($runnerOptions);
+        \Phake::when($autotest)->buildRunnerCommand()->captureReturnTo($runnerCommand);
+        \Phake::when($autotest)->buildRunnerOptions()->captureReturnTo($runnerOptions);
 
         $autotest->monitorAlteration();
 

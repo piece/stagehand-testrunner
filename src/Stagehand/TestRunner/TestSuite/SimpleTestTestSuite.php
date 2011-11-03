@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
- * Copyright (c) 2009-2010 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,25 +29,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://simpletest.org/
  * @since      File available since Release 2.10.0
  */
 
+namespace Stagehand\TestRunner\TestSuite;
+
+use Stagehand\TestRunner\Config;
+
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2010 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://simpletest.org/
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_TestSuite_SimpleTestTestSuite extends TestSuite
+class SimpleTestTestSuite extends \TestSuite
 {
     /**
-     * @var Stagehand_TestRunner_Config
+     * @var \Stagehand\TestRunner\Config
      */
     protected $config;
 
@@ -65,11 +69,11 @@ class Stagehand_TestRunner_TestSuite_SimpleTestTestSuite extends TestSuite
     }
 
     /**
-     * @param SimpleTestCase $testCase
+     * @param \SimpleTestCase $testCase
      * @return integer
      * @since Method available since Release 2.11.1
      */
-    public function countTestsInTestCase(SimpleTestCase $testCase)
+    public function countTestsInTestCase(\SimpleTestCase $testCase)
     {
         $tests = $this->getTestsInTestCase($testCase);
         $testCount = 0;
@@ -93,19 +97,19 @@ class Stagehand_TestRunner_TestSuite_SimpleTestTestSuite extends TestSuite
     }
 
     /**
-     * @param Stagehand_TestRunner_Config $config
+     * @param \Stagehand\TestRunner\Config $config
      */
-    public function setConfig(Stagehand_TestRunner_Config $config)
+    public function setConfig(Config $config)
     {
         $this->config = $config;
     }
 
     /**
-     * @param SimpleTestCase $testCase
+     * @param \SimpleTestCase $testCase
      * @return integer
      * @since Method available since Release 2.14.0
      */
-    protected function getTestsInTestCase(SimpleTestCase $testCase)
+    protected function getTestsInTestCase(\SimpleTestCase $testCase)
     {
         return $testCase->getTests();
     }

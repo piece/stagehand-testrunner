@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -36,6 +36,21 @@
  * @since      File available since Release 2.1.0
  */
 
+namespace Stagehand\TestRunner\Runner;
+
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter;
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter;
+use Stagehand\TestRunner\Notification\Notification;
+use Stagehand\TestRunner\Runner;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\DetailedProgressPrinter;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinter;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ProgressPrinter;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\TestDoxPrinter;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\NamePrettifier;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\Stream;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\TestRunner;
+
 /**
  * A test runner for PHPUnit.
  *
@@ -46,51 +61,40 @@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Runner
+class PHPUnitRunner extends Runner
 {
     /**
-     * Runs tests based on the given PHPUnit_Framework_TestSuite object.
+     * Runs tests based on the given \PHPUnit_Framework_TestSuite object.
      *
-     * @param PHPUnit_Framework_TestSuite $suite
+     * @param \PHPUnit_Framework_TestSuite $suite
      */
     public function run($suite)
     {
-        $testResult = new PHPUnit_Framework_TestResult();
-        $printer = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ResultPrinter(
-                       null, true, $this->config->colors()
-                   );
+        $testResult = new \PHPUnit_Framework_TestResult();
+        $printer = new ResultPrinter(null, true, $this->config->colors());
 
         $arguments = array();
         $arguments['printer'] = $printer;
 
-        Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_Stream::register();
+        Stream::register();
         $arguments['listeners'] =
             array(
-                new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_TestDoxPrinter(
+                new TestDoxPrinter(
                     fopen('testdox://' . spl_object_hash($testResult), 'w'),
                     $this->config->colors(),
                     $this->prettifier()
                 )
             );
         if (!$this->config->printsDetailedProgressReport) {
-            $arguments['listeners'][] =
-                new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_ProgressPrinter(
-                    null, false, $this->config->colors()
-                );
+            $arguments['listeners'][] = new ProgressPrinter(null, false, $this->config->colors());
         } else {
-            $arguments['listeners'][] =
-                new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_DetailedProgressPrinter(
-                    null, false, $this->config->colors()
-                );
+            $arguments['listeners'][] = new DetailedProgressPrinter(null, false, $this->config->colors());
         }
 
         if ($this->config->logsResultsInJUnitXML()) {
-            $junitXMLListener = new Stagehand_TestRunner_Runner_PHPUnitRunner_Printer_JUnitXMLPrinter($this->config->getJUnitXMLFile());
+            $junitXMLListener = new JUnitXMLPrinter($this->config->getJUnitXMLFile());
             if (!$this->config->logsResultsInJUnitXMLInRealtime()) {
-                $xmlWriter =
-                    new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLDOMWriter(
-                        array($junitXMLListener, 'write')
-                    );
+                $xmlWriter = new JUnitXMLDOMWriter(array($junitXMLListener, 'write'));
             } else {
                 $xmlWriter = $this->junitXMLStreamWriter(array($junitXMLListener, 'write'));
             }
@@ -107,15 +111,15 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
             $arguments['configuration'] = $this->config->phpunitConfigFile;
         }
 
-        $testRunner = new Stagehand_TestRunner_Runner_PHPUnitRunner_TestRunner();
+        $testRunner = new TestRunner();
         $testRunner->setTestResult($testResult);
         $testRunner->doRun($suite, $arguments);
 
         if ($this->config->usesNotification) {
             if ($testResult->failureCount() + $testResult->errorCount() + $testResult->skippedCount() + $testResult->notImplementedCount() == 0) {
-                $notificationResult = Stagehand_TestRunner_Notification_Notification::RESULT_PASSED;
+                $notificationResult = Notification::RESULT_PASSED;
             } else {
-                $notificationResult = Stagehand_TestRunner_Notification_Notification::RESULT_FAILED;
+                $notificationResult = Notification::RESULT_FAILED;
             }
 
             ob_start();
@@ -131,32 +135,32 @@ class Stagehand_TestRunner_Runner_PHPUnitRunner extends Stagehand_TestRunner_Run
                 $notificationMessage = $matches[1] . "\n" . $matches[2];
             }
 
-            $this->notification = new Stagehand_TestRunner_Notification_Notification($notificationResult, $notificationMessage);
+            $this->notification = new Notification($notificationResult, $notificationMessage);
         }
     }
 
     /**
-     * @return PHPUnit_Util_TestDox_NamePrettifier
+     * @return \PHPUnit_Util_TestDox_NamePrettifier
      * @since Method available since Release 2.7.0
      */
     protected function prettifier()
     {
-        if (version_compare(PHPUnit_Runner_Version::id(), '3.5.14', '>=')) {
+        if (version_compare(\PHPUnit_Runner_Version::id(), '3.5.14', '>=')) {
             require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
-            return new PHPUnit_Util_TestDox_NamePrettifier();
+            return new \PHPUnit_Util_TestDox_NamePrettifier();
         } else {
-            return new Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier();
+            return new NamePrettifier();
         }
     }
 
     /**
      * @param callback $streamWriter
-     * @return Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter
+     * @return \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter
      * @since Method available since Release 2.10.0
      */
     protected function junitXMLStreamWriter($streamWriter)
     {
-        return new Stagehand_TestRunner_JUnitXMLWriter_JUnitXMLStreamWriter($streamWriter);
+        return new JUnitXMLStreamWriter($streamWriter);
     }
 }
 

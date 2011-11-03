@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5
+ * PHP version 5.3
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -73,6 +73,8 @@
  * @since      File available since Release 2.6.2
  */
 
+namespace Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox;
+
 require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
 
 /**
@@ -85,7 +87,7 @@ require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.6.2
  */
-class Stagehand_TestRunner_Runner_PHPUnitRunner_TestDox_NamePrettifier extends PHPUnit_Util_TestDox_NamePrettifier
+class NamePrettifier extends \PHPUnit_Util_TestDox_NamePrettifier
 {
     /**
      * Prettifies the name of a test method.
