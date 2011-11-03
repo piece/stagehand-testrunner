@@ -37,7 +37,6 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
-use Stagehand\TestRunner\Preparer;
 use Stagehand\TestRunner\Preparer\CakePreparer\TestRunnerShellDispatcher;
 
 /**

@@ -74,7 +74,7 @@ class TestRunnerTest extends \PHPUnit_Framework_TestCase
         $testSuite = new \stdClass();
         $notification = new Notification(Notification::RESULT_PASSED, 'MESSAGE');
 
-        $preparer = \Phake::mock('\Stagehand\TestRunner\Preparer');
+        $preparer = \Phake::mock('\Stagehand\TestRunner\Preparer\Preparer');
         \Phake::when($preparer)->prepare()->thenReturn(null);
 
         $collector = \Phake::mock('\Stagehand\TestRunner\Collector\Collector');

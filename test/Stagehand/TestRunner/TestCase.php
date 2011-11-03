@@ -61,7 +61,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected $tmpDirectory;
 
     /**
-     * @var \Stagehand\TestRunner\Preparer
+     * @var \Stagehand\TestRunner\Preparer\Preparer
      */
     protected $preparer;
 

@@ -91,7 +91,7 @@ class TestRunner
     }
 
     /**
-     * @return \Stagehand\TestRunner\Preparer
+     * @return \Stagehand\TestRunner\Preparer\Preparer
      * @since Method available since Release 2.12.0
      */
     protected function createPreparer()

@@ -62,7 +62,7 @@ class PreparerFactory
     }
 
     /**
-     * @return \Stagehand\TestRunner\Collector
+     * @return \Stagehand\TestRunner\Preparer\Preparer
      */
     public function create()
     {

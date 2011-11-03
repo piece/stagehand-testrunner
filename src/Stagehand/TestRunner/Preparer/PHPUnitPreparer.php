@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
-use Stagehand\TestRunner\Preparer;
-
 require_once 'PHPUnit/Runner/Version.php';
 
 /**
