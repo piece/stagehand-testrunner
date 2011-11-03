@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
-use Stagehand\TestRunner\JUnitXMLWriter;
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 use Stagehand\TestRunner\Runner\JUnitXMLWriterAdapter;
 
 require_once 'PHPUnit/Util/Class.php';
@@ -163,7 +163,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     }
 
     /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter $xmlWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $xmlWriter
      */
     public function setXMLWriter(JUnitXMLWriter $xmlWriter)
     {

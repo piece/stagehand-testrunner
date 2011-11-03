@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\JUnitXMLWriter;
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,7 +49,7 @@ use Stagehand\TestRunner\JUnitXMLWriter;
 interface JUnitXMLWriterAdapter
 {
     /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter $xmlWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $xmlWriter
      */
     public function setXMLWriter(JUnitXMLWriter $xmlWriter);
 }

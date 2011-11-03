@@ -37,7 +37,6 @@
 
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
-use Stagehand\TestRunner\JUnitXMLWriter;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter\TestsuiteDOMElement;
 use Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter\UTF8ConverterFactory;
 
