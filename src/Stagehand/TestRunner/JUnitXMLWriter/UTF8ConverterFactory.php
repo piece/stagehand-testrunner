@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
-use Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter\NullUTF8Converter;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>

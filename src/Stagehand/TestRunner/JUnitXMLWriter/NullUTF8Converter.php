@@ -35,9 +35,7 @@
  * @since      File available since Release 2.10.0
  */
 
-namespace Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter;
-
-use Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter;
+namespace Stagehand\TestRunner\JUnitXMLWriter;
 
 /**
  * @package    Stagehand_TestRunner
