@@ -35,7 +35,7 @@
  * @since      File available since Release 2.13.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\CLI;
 
 use Stagehand\TestRunner\Core\TestingFramework;
 
@@ -153,7 +153,7 @@ class TestRunnerCLIControllerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Stagehand_TestRunner_TestRunnerCLIController
+     * @return Stagehand\TestRunner\CLI\TestRunnerCLIController
      * @since Method available since Release 2.20.0
      */
     protected function createTestRunnerCLIController()
@@ -162,7 +162,7 @@ class TestRunnerCLIControllerTest extends \PHPUnit_Framework_TestCase
         \Phake::when($this->outputBuffering)->clearOutputHandlers()->thenReturn(null);
 
         $controller = \Phake::partialMock(
-            '\Stagehand_TestRunner_TestRunnerCLIController', TestingFramework::PHPUNIT
+            '\Stagehand\TestRunner\CLI\TestRunnerCLIController', TestingFramework::PHPUNIT
         );
         \Phake::when($controller)->createOutputBuffering()->thenReturn($this->outputBuffering);
         \Phake::when($controller)->runTests()->thenReturn(null);

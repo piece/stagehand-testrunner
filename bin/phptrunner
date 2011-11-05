@@ -77,7 +77,7 @@ $classLoader->useIncludePath(true);
 $classLoader->registerPrefix('Stagehand_', array());
 $classLoader->register();
 
-$controller = new Stagehand_TestRunner_TestRunnerCLIController(\Stagehand\TestRunner\Core\TestingFramework::PHPT);
+$controller = new \Stagehand\TestRunner\CLI\TestRunnerCLIController(\Stagehand\TestRunner\Core\TestingFramework::PHPT);
 $result = $controller->run();
 
 exit($result);
