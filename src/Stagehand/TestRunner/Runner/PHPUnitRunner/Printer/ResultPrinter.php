@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
-use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\TestDox;
 
 require_once 'PHPUnit/TextUI/ResultPrinter.php';
 

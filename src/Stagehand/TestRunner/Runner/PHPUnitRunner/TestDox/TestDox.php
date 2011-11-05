@@ -35,7 +35,7 @@
  * @since      File available since Release 2.4.0
  */
 
-namespace Stagehand\TestRunner\Runner\PHPUnitRunner;
+namespace Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox;
 
 /**
  * A class which has only one static property to keep TestDox documentation.

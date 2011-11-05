@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox;
 
-use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\TestDox;
 
 /**
  * A stream wrapper to print TestDox documentation.
