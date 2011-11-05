@@ -42,6 +42,7 @@ namespace Stagehand\TestRunner;
 use Stagehand\TestRunner\Collector\CollectorFactory;
 use Stagehand\TestRunner\Config;
 use Stagehand\TestRunner\Preparer\PreparerFactory;
+use Stagehand\TestRunner\Process\TestRunner;
 use Stagehand\TestRunner\Runner\RunnerFactory;
 
 /**
@@ -241,7 +242,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $factory = new RunnerFactory($this->config);
         $this->runner = $factory->create();
 
-        $testRunner = \Phake::partialMock('\Stagehand\TestRunner\TestRunner', $this->config);
+        $testRunner = \Phake::partialMock('\Stagehand\TestRunner\Process\TestRunner', $this->config);
         \Phake::when($testRunner)->createPreparer()->thenReturn($this->preparer);
         \Phake::when($testRunner)->createCollector()->thenReturn($this->collector);
         \Phake::when($testRunner)->createRunner()->thenReturn($this->runner);

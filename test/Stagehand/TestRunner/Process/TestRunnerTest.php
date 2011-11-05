@@ -37,8 +37,9 @@
  * @since      File available since Release 2.18.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Process;
 
+use Stagehand\TestRunner\Config;
 use Stagehand\TestRunner\Notification\Notification;
 
 /**
@@ -87,7 +88,7 @@ class TestRunnerTest extends \PHPUnit_Framework_TestCase
         $notifier = \Phake::mock('\Stagehand\TestRunner\Notification\Notifier');
         \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
 
-        $testRunner = \Phake::partialMock('\Stagehand\TestRunner\TestRunner', $config);
+        $testRunner = \Phake::partialMock('\Stagehand\TestRunner\Process\TestRunner', $config);
         \Phake::when($testRunner)->createPreparer()->thenReturn($preparer);
         \Phake::when($testRunner)->createCollector()->thenReturn($collector);
         \Phake::when($testRunner)->createRunner()->thenReturn($runner);

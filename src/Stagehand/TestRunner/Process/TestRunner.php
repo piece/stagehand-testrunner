@@ -37,9 +37,10 @@
  * @since      File available since Release 2.14.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Process;
 
 use Stagehand\TestRunner\Collector\CollectorFactory;
+use Stagehand\TestRunner\Config;
 use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Preparer\PreparerFactory;
 use Stagehand\TestRunner\Runner\RunnerFactory;

@@ -38,7 +38,7 @@
 use Stagehand\TestRunner\Autotest;
 use Stagehand\TestRunner\Config;
 use Stagehand\TestRunner\Exception;
-use Stagehand\TestRunner\TestRunner;
+use Stagehand\TestRunner\Process\TestRunner;
 use Stagehand\TestRunner\Util\OutputBuffering;
 
 /**
