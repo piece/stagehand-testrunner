@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
+use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Core\Config;
 
 /**
@@ -48,7 +49,7 @@ use Stagehand\TestRunner\Core\Config;
  */
 class CIUnitRunnerTest extends PHPUnitRunnerTest
 {
-    protected $framework = \Stagehand_TestRunner_Framework::CIUNIT;
+    protected $framework = TestingFramework::CIUNIT;
 
     protected function loadClasses()
     {

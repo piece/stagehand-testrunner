@@ -32,45 +32,26 @@
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 2.11.0
  */
 
-namespace Stagehand\TestRunner\JUnitXMLWriter;
-
-use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\TestCase;
+namespace Stagehand\TestRunner\Core;
 
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 2.11.0
  */
-class JUnitXMLDOMWriterTest extends TestCase
+class TestingFramework
 {
-    protected $framework = TestingFramework::PHPUNIT;
-
-    /**
-     * @test
-     * @link http://redmine.piece-framework.com/issues/215
-     */
-    public function escapesSomeSpecialCharactersInTextNodes()
-    {
-        $testClass = '\Stagehand_TestRunner_PHPUnitSpecialCharactersInFailureMessageTest';
-        $this->collector->collectTestCase($testClass);
-        $this->runTests();
-        $this->assertFileExists($this->config->getJUnitXMLFile());
-        $this->assertRegExp(
-            '/Stagehand_TestRunner_PHPUnitSpecialCharactersInFailureMessageTest::isFailure' . PHP_EOL .
-            PHP_EOL .
-            '&amp;"\'&lt;&gt;' . PHP_EOL .
-            'Failed asserting that (?:false|&lt;boolean:false&gt;) is true\.' . PHP_EOL .
-            PHP_EOL .
-            '/m',
-            file_get_contents($this->config->getJUnitXMLFile())
-        );
-    }
+    const PHPUNIT = 'PHPUnit';
+    const SIMPLETEST = 'SimpleTest';
+    const PHPT = 'PHPT';
+    const PHPSPEC = 'PHPSpec';
+    const CAKE = 'Cake';
+    const CIUNIT = 'CIUnit';
 }
 
 /*

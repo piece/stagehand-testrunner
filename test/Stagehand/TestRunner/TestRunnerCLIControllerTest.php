@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner;
 
+use Stagehand\TestRunner\Core\TestingFramework;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -160,7 +162,7 @@ class TestRunnerCLIControllerTest extends \PHPUnit_Framework_TestCase
         \Phake::when($this->outputBuffering)->clearOutputHandlers()->thenReturn(null);
 
         $controller = \Phake::partialMock(
-            '\Stagehand_TestRunner_TestRunnerCLIController', \Stagehand_TestRunner_Framework::PHPUNIT
+            '\Stagehand_TestRunner_TestRunnerCLIController', TestingFramework::PHPUNIT
         );
         \Phake::when($controller)->createOutputBuffering()->thenReturn($this->outputBuffering);
         \Phake::when($controller)->runTests()->thenReturn(null);

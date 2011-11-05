@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
+use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\TestCase;
 
 /**
@@ -48,7 +49,7 @@ use Stagehand\TestRunner\TestCase;
  */
 class JUnitXMLTest extends TestCase
 {
-    protected $framework = \Stagehand_TestRunner_Framework::SIMPLETEST;
+    protected $framework = TestingFramework::SIMPLETEST;
     protected $oldErrorHandler;
 
     public function handleError()

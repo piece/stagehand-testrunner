@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
+use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Core\Config;
 
 require_once 'simpletest/unit_tester.php';
@@ -52,7 +53,7 @@ require_once 'simpletest/mock_objects.php';
  */
 class CakeRunnerTest extends SimpleTestRunnerTest
 {
-    protected $framework = \Stagehand_TestRunner_Framework::CAKE;
+    protected $framework = TestingFramework::CAKE;
 
     /**
      * @test

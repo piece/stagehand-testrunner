@@ -39,6 +39,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
+use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\TestCase;
 
 /**
@@ -51,7 +52,7 @@ use Stagehand\TestRunner\TestCase;
  */
 class SimpleTestRunnerTest extends TestCase
 {
-    protected $framework = \Stagehand_TestRunner_Framework::SIMPLETEST;
+    protected $framework = TestingFramework::SIMPLETEST;
     protected $oldErrorHandler;
 
     /**

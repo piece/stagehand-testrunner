@@ -35,6 +35,8 @@
  * @since      File available since Release 2.11.0
  */
 
+use Stagehand\TestRunner\Core\TestingFramework;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,12 +46,12 @@
  */
 class Stagehand_TestRunner_Framework
 {
-    const PHPUNIT = 'PHPUnit';
-    const SIMPLETEST = 'SimpleTest';
-    const PHPT = 'PHPT';
-    const PHPSPEC = 'PHPSpec';
-    const CAKE = 'Cake';
-    const CIUNIT = 'CIUnit';
+    const PHPUNIT = TestingFramework::PHPUNIT;
+    const SIMPLETEST = TestingFramework::SIMPLETEST;
+    const PHPT = TestingFramework::PHPT;
+    const PHPSPEC = TestingFramework::PHPSPEC;
+    const CAKE = TestingFramework::CAKE;
+    const CIUNIT = TestingFramework::CIUNIT;
 }
 
 /*

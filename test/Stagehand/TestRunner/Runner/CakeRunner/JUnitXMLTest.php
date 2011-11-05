@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner\CakeRunner;
 
+use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Core\Config;
 
 require_once 'simpletest/unit_tester.php';
@@ -52,7 +53,7 @@ require_once 'simpletest/mock_objects.php';
  */
 class JUnitXMLTest extends \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLTest
 {
-    protected $framework = \Stagehand_TestRunner_Framework::CAKE;
+    protected $framework = TestingFramework::CAKE;
 
     protected function loadClasses()
     {

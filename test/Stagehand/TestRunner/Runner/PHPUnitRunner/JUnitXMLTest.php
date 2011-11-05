@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner;
 
+use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\TestCase;
 
 /**
@@ -48,7 +49,7 @@ use Stagehand\TestRunner\TestCase;
  */
 class JUnitXMLTest extends TestCase
 {
-    protected $framework = \Stagehand_TestRunner_Framework::PHPUNIT;
+    protected $framework = TestingFramework::PHPUNIT;
 
     /**
      * @test

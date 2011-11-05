@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner;
  
+use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\TestCase;
 
 /**
@@ -48,7 +49,7 @@ use Stagehand\TestRunner\TestCase;
  */
 class PHPTRunnerTest extends TestCase
 {
-    protected $framework = \Stagehand_TestRunner_Framework::PHPT;
+    protected $framework = TestingFramework::PHPT;
 
     /**
      * @test
