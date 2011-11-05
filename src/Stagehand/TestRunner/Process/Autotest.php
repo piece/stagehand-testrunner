@@ -35,8 +35,10 @@
  * @since      File available since Release 2.18.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Process;
 
+use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Exception;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Util\String;
 

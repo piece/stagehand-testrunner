@@ -35,7 +35,9 @@
  * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Process;
+
+use Stagehand\TestRunner\Config;
 
 /**
  * @package    Stagehand_TestRunner
@@ -73,7 +75,7 @@ class AutotestTest extends \PHPUnit_Framework_TestCase
         $notifier = \Phake::mock('\Stagehand\TestRunner\Notification\Notifier');
         \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
 
-        $autotest = \Phake::partialMock('\Stagehand\TestRunner\Autotest', $config);
+        $autotest = \Phake::partialMock('\Stagehand\TestRunner\Process\Autotest', $config);
         \Phake::when($autotest)->executeRunnerCommand($this->anything())
             ->thenGetReturnByLambda(array($this, 'executeRunnerCommand'));
         \Phake::when($autotest)->createNotifier()->thenReturn($notifier);
@@ -127,14 +129,14 @@ PHP_EOL .
 
     /**
      * @param \Stagehand\TestRunner\Config $config
-     * @return \Stagehand\TestRunner\Autotest
+     * @return \Stagehand\TestRunner\Process\Autotest
      */
     public function createAutotest(Config $config)
     {
         $monitor = \Phake::mock('\Stagehand_AlterationMonitor', null, null);
         \Phake::when($monitor)->monitor()->thenReturn(null);
 
-        $autotest = \Phake::partialMock('\Stagehand\TestRunner\Autotest', $config);
+        $autotest = \Phake::partialMock('\Stagehand\TestRunner\Process\Autotest', $config);
         \Phake::when($autotest)->createAlterationMonitor()->thenReturn($monitor);
         \Phake::when($autotest)->getMonitoringDirectories()->thenReturn(array());
         \Phake::when($autotest)->executeRunnerCommand($this->anything())->thenReturn(0);

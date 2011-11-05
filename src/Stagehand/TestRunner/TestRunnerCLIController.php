@@ -35,7 +35,7 @@
  * @since      File available since Release 0.5.0
  */
 
-use Stagehand\TestRunner\Autotest;
+use Stagehand\TestRunner\Process\Autotest;
 use Stagehand\TestRunner\Config;
 use Stagehand\TestRunner\Exception;
 use Stagehand\TestRunner\Process\TestRunner;
@@ -312,7 +312,7 @@ All rights reserved.
 
     /**
      * @param \Stagehand\TestRunner\Config $config
-     * @return \Stagehand\TestRunner\Autotest
+     * @return \Stagehand\TestRunner\Process\Autotest
      * @since Method available since Release 2.18.0
      */
     protected function createAutotest(Config $config)
