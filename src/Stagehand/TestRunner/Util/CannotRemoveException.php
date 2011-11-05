@@ -35,7 +35,9 @@
  * @since      File available since Release 2.19.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Util;
+
+use Stagehand\TestRunner\Exception;
 
 /**
  * @package    Stagehand_TestRunner

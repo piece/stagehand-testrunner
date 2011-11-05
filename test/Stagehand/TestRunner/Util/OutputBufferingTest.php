@@ -68,7 +68,7 @@ class OutputBufferingTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \Stagehand\TestRunner\CannotRemoveException
+     * @expectedException \Stagehand\TestRunner\Util\CannotRemoveException
      * @link http://redmine.piece-framework.com/issues/323
      */
     public function raisesAnExceptionWhenAPrecedingOutputBufferCannotBeRemoved()

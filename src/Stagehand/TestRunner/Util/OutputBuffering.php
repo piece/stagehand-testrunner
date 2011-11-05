@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Util;
 
-use Stagehand\TestRunner\CannotRemoveException;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -49,7 +47,7 @@ use Stagehand\TestRunner\CannotRemoveException;
 class OutputBuffering
 {
     /**
-     * @throws Stagehand_TestRunner_CannotRemoveException
+     * @throws \Stagehand\TestRunner\Util\CannotRemoveException
      */
     public function clearOutputHandlers()
     {
