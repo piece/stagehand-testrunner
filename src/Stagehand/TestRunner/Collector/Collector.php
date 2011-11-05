@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Collector;
 
 use Stagehand\TestRunner\Core\Config;
-use Stagehand\TestRunner\Exception;
+use Stagehand\TestRunner\Core\Exception;
 
 /**
  * The base class for test collectors.
@@ -71,7 +71,7 @@ abstract class Collector
      * Collects tests.
      *
      * @return mixed
-     * @throws \Stagehand\TestRunner\Exception
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
     public function collect()
     {

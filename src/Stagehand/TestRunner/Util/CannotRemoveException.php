@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Util;
 
-use Stagehand\TestRunner\Exception;
+use Stagehand\TestRunner\Core\Exception;
 
 /**
  * @package    Stagehand_TestRunner

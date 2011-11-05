@@ -37,7 +37,7 @@
 
 use Stagehand\TestRunner\Process\Autotest;
 use Stagehand\TestRunner\Core\Config;
-use Stagehand\TestRunner\Exception;
+use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Process\TestRunner;
 use Stagehand\TestRunner\Util\OutputBuffering;
 
@@ -52,7 +52,7 @@ use Stagehand\TestRunner\Util\OutputBuffering;
  */
 class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIController
 {
-    protected $exceptionClass = '\Stagehand\TestRunner\Exception';
+    protected $exceptionClass = '\Stagehand\TestRunner\Core\Exception';
     protected $shortOptions = 'hVRcp:aw:gm:vn';
     protected $longOptions =
         array(
@@ -355,7 +355,7 @@ All rights reserved.
     /**
      * @param string $directory
      * @param string $option
-     * @throws \Stagehand\TestRunner\Exception
+     * @throws \Stagehand\TestRunner\Core\Exception
      * @since Method available since Release 2.14.0
      */
     protected function validateDirectory($directory, $option)

@@ -42,7 +42,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Exception;
+use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter;
 use Stagehand\TestRunner\Notification\Notification;
@@ -134,7 +134,7 @@ class SimpleTestRunner extends Runner
 
     /**
      * @param string $buffer
-     * @throws \Stagehand\TestRunner\Exception
+     * @throws \Stagehand\TestRunner\Core\Exception
      * @since Method available since Release 2.10.0
      */
     public function writeJUnitXMLToFile($buffer)

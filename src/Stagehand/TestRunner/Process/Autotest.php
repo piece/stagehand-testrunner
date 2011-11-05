@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Process;
 
 use Stagehand\TestRunner\Core\Config;
-use Stagehand\TestRunner\Exception;
+use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Util\String;
 
@@ -130,7 +130,7 @@ class Autotest
 
     /**
      * @return array
-     * @throws \Stagehand\TestRunner\Exception
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
     protected function getMonitoringDirectories()
     {
@@ -159,7 +159,7 @@ class Autotest
 
     /**
      * @return array
-     * @throws \Stagehand\TestRunner\Exception
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
     protected function buildRunnerCommand()
     {

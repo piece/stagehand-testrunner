@@ -35,7 +35,7 @@
  * @since      File available since Release 2.1.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Core;
 
 /**
  * An exception class for the Stagehand_TestRunner package.
