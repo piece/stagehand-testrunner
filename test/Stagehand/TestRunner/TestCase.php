@@ -40,7 +40,7 @@
 namespace Stagehand\TestRunner;
 
 use Stagehand\TestRunner\Collector\CollectorFactory;
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 use Stagehand\TestRunner\Preparer\PreparerFactory;
 use Stagehand\TestRunner\Process\TestRunner;
 use Stagehand\TestRunner\Runner\RunnerFactory;
@@ -56,7 +56,7 @@ use Stagehand\TestRunner\Runner\RunnerFactory;
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Stagehand\TestRunner\Config
+     * @var \Stagehand\TestRunner\Core\Config
      */
     protected $config;
     protected $tmpDirectory;
@@ -255,7 +255,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      * @since Method available since Release 2.14.1
      */
     protected function configure(Config $config)

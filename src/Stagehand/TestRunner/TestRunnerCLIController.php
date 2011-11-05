@@ -36,7 +36,7 @@
  */
 
 use Stagehand\TestRunner\Process\Autotest;
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 use Stagehand\TestRunner\Exception;
 use Stagehand\TestRunner\Process\TestRunner;
 use Stagehand\TestRunner\Util\OutputBuffering;
@@ -311,7 +311,7 @@ All rights reserved.
     }
 
     /**
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      * @return \Stagehand\TestRunner\Process\Autotest
      * @since Method available since Release 2.18.0
      */

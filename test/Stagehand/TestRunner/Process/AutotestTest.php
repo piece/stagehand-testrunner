@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 
 /**
  * @package    Stagehand_TestRunner
@@ -128,7 +128,7 @@ PHP_EOL .
     }
 
     /**
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      * @return \Stagehand\TestRunner\Process\Autotest
      */
     public function createAutotest(Config $config)
@@ -148,7 +148,7 @@ PHP_EOL .
     /**
      * @test
      * @dataProvider preservedConfigurations
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      * @param array $normalizedOption
      * @param array $shouldPreserve
      * @link http://redmine.piece-framework.com/issues/314

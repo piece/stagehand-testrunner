@@ -39,7 +39,7 @@
 
 namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 use Stagehand\TestRunner\Notification\Notification;
 
 /**

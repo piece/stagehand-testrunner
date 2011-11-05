@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\TestSuite;
 
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 
 /**
  * @package    Stagehand_TestRunner
@@ -54,7 +54,7 @@ class PHPUnitMethodFilterTestSuite extends \PHPUnit_Framework_TestSuite
 
     /**
      * @param \ReflectionClass             $theClass
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      */
     public function __construct(\ReflectionClass $theClass, Config $config)
     {

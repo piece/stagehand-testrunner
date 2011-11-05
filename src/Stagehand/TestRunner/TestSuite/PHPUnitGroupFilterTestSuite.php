@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\TestSuite;
 
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 
 /**
  * @package    Stagehand_TestRunner
@@ -51,7 +51,7 @@ use Stagehand\TestRunner\Config;
 class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 {
     /**
-     * @var \Stagehand\TestRunner\Config
+     * @var \Stagehand\TestRunner\Core\Config
      */
     protected $config;
 
@@ -59,7 +59,7 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 
     /**
      * @param \ReflectionClass $theClass
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      */
     public function __construct(\ReflectionClass $theClass, Config $config)
     {
@@ -78,7 +78,7 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 
     /**
      * @param \ReflectionClass $theClass
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      * @return boolean
      */
     protected function shouldExclude(\ReflectionClass $class, \ReflectionMethod $method)

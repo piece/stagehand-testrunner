@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 
 /**
  * The base class for test runners.
@@ -56,12 +56,12 @@ abstract class Runner
     protected $notification;
 
     /**
-     * @var \Stagehand\TestRunner\Config
+     * @var \Stagehand\TestRunner\Core\Config
      */
     protected $config;
 
     /**
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      * @since Method available since Release 2.10.0
      */
     public function __construct(Config $config)

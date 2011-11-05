@@ -40,7 +40,7 @@
 namespace Stagehand\TestRunner\Process;
 
 use Stagehand\TestRunner\Collector\CollectorFactory;
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Preparer\PreparerFactory;
 use Stagehand\TestRunner\Runner\RunnerFactory;
@@ -56,7 +56,7 @@ use Stagehand\TestRunner\Runner\RunnerFactory;
 class TestRunner
 {
     /**
-     * @var \Stagehand\TestRunner\Config
+     * @var \Stagehand\TestRunner\Core\Config
      */
     protected $config;
 
@@ -67,7 +67,7 @@ class TestRunner
     protected $result;
 
     /**
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      */
     public function __construct(Config $config)
     {

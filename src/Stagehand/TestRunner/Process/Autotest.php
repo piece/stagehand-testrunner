@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 use Stagehand\TestRunner\Exception;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Util\String;
@@ -57,7 +57,7 @@ class Autotest
     const FATAL_ERROR_MESSAGE_PATTERN = "/^(?:Parse|Fatal) error: .+ in .+?(?:\(\d+\) : eval\(\)'d code)? on line \d+/m";
 
     /**
-     * @var \Stagehand\TestRunner\Config $config
+     * @var \Stagehand\TestRunner\Core\Config $config
      */
     protected $config;
 
@@ -77,7 +77,7 @@ class Autotest
     protected $output;
 
     /**
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      */
     public function __construct(Config $config)
     {

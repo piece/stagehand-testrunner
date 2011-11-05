@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Collector;
 
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 use Stagehand\TestRunner\Exception;
 
 /**
@@ -59,7 +59,7 @@ abstract class Collector
     /**
      * Initializes some properties of an instance.
      *
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      */
     public function __construct(Config $config)
     {

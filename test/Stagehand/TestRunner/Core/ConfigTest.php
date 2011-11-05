@@ -35,7 +35,7 @@
  * @since      File available since Release 2.15.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Core;
 
 /**
  * @package    Stagehand_TestRunner
@@ -79,7 +79,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $currentDirectory = '/path/to/currentDir';
 
-        $config = \Phake::partialMock('\Stagehand\TestRunner\Config');
+        $config = \Phake::partialMock('\Stagehand\TestRunner\Core\Config');
         \Phake::when($config)->getWorkingDirectoryAtStartup()->thenReturn($currentDirectory);
 
         $testingResources = $config->getTestingResources();

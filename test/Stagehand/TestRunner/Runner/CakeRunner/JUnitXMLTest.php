@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner\CakeRunner;
 
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/web_tester.php';
@@ -72,7 +72,7 @@ class JUnitXMLTest extends \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXM
     }
 
     /**
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      * @since Method available since Release 2.14.1
      */
     protected function configure(Config $config)

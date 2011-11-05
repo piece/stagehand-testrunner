@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 
 /**
  * @package    Stagehand_TestRunner

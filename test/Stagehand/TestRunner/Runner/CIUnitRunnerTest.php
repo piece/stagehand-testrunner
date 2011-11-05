@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Config;
+use Stagehand\TestRunner\Core\Config;
 
 /**
  * @package    Stagehand_TestRunner
@@ -68,7 +68,7 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
     }
 
     /**
-     * @param \Stagehand\TestRunner\Config $config
+     * @param \Stagehand\TestRunner\Core\Config $config
      */
     protected function configure(Config $config)
     {
