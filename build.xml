@@ -125,8 +125,6 @@ Four Defect Fix
         <install name="bin/ciunitrunner.bat" as="ciunitrunner.bat"/>
         <install name="bin/phpspecrunner" as="phpspecrunner"/>
         <install name="bin/phpspecrunner.bat" as="phpspecrunner.bat"/>
-        <install name="bin/phptrunner" as="phptrunner"/>
-        <install name="bin/phptrunner.bat" as="phptrunner.bat"/>
         <install name="bin/phpunitrunner" as="phpunitrunner"/>
         <install name="bin/phpunitrunner.bat" as="phpunitrunner.bat"/>
         <install name="bin/simpletestrunner" as="simpletestrunner"/>

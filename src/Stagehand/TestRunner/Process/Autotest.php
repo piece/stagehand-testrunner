@@ -185,7 +185,7 @@ class Autotest
     {
         $options = array();
 
-        if (!preg_match('!(?:cake|ciunit|phpspec|phpt|phpunit|simpletest)runner$!', trim($this->runnerCommand, '\'"'))) {
+        if (!preg_match('!(?:cake|ciunit|phpspec|phpunit|simpletest)runner$!', trim($this->runnerCommand, '\'"'))) {
             $configFile = $this->getPHPConfigDir();
             if ($configFile !== false) {
                 $options[] = '-c';

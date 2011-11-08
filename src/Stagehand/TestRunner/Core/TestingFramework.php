@@ -48,7 +48,6 @@ class TestingFramework
 {
     const PHPUNIT = 'PHPUnit';
     const SIMPLETEST = 'SimpleTest';
-    const PHPT = 'PHPT';
     const PHPSPEC = 'PHPSpec';
     const CAKE = 'Cake';
     const CIUNIT = 'CIUnit';

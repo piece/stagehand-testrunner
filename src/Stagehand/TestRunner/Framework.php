@@ -48,7 +48,6 @@ class Stagehand_TestRunner_Framework
 {
     const PHPUNIT = TestingFramework::PHPUNIT;
     const SIMPLETEST = TestingFramework::SIMPLETEST;
-    const PHPT = TestingFramework::PHPT;
     const PHPSPEC = TestingFramework::PHPSPEC;
     const CAKE = TestingFramework::CAKE;
     const CIUNIT = TestingFramework::CIUNIT;

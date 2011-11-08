@@ -242,19 +242,19 @@ OPTIONS
 
   --log-junit=FILE
      Logs test results into the specified file in the JUnit XML format.
-     (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPT)
+     (PHPUnit, CIUnit, SimpleTest, and CakePHP)
 
   --log-junit-realtime
      Logs test results in real-time into the specified file in the JUnit XML format.
-     (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPT)
+     (PHPUnit, CIUnit, SimpleTest, and CakePHP)
 
   -v
      Prints detailed progress report.
-     (PHPUnit, CIUnit, and PHPT)
+     (PHPUnit and CIUnit)
 
   --stop-on-failure
      Stops the test run when the first failure or error is raised.
-     (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPT)
+     (PHPUnit, CIUnit, SimpleTest, and CakePHP)
 
   --phpunit-config=FILE
      Configures the PHPUnit runtime environment by the specified XML configuration
@@ -284,7 +284,6 @@ OPTIONS
        CIUnit:  ^test.+\.php$
        SimpleTest: Test(?:Case)?\.php$
        CakePHP: \.test\.php$
-       PHPT: -
        PHPSpec: Spec\.php$
      (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPSpec)
 
