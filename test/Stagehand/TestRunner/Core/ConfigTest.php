@@ -48,31 +48,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @link http://redmine.piece-framework.com/issues/247
-     */
-    public function decodesUrlEncodedTestingMethods()
-    {
-        $testingClass = 'フーTest';
-        $testingMethod = 'バー';
-        $config = new Config();
-        $config->addTestingMethod(urlencode($testingClass . '::' . $testingMethod));
-        $this->assertTrue($config->isTestingMethod($testingClass, $testingMethod));
-    }
-
-    /**
-     * @test
-     * @link http://redmine.piece-framework.com/issues/247
-     */
-    public function decodesUrlEncodedTestingClasses()
-    {
-        $testingClass = 'フーTest';
-        $config = new Config();
-        $config->addTestingClass(urlencode($testingClass));
-        $this->assertTrue($config->isTestingClass($testingClass));
-    }
-
-    /**
-     * @test
      * @since Method available since Release 2.20.0
      */
     public function getsTheCurrentDirectoryAsTheTestDirectoryIfNoDirectoriesOrFilesAreSpecified()

@@ -38,7 +38,9 @@
 namespace Stagehand\TestRunner\CLI;
 
 use Stagehand\TestRunner\Process\Autotest;
+use Stagehand\TestRunner\Core\ComponentFactory;
 use Stagehand\TestRunner\Core\Config;
+use Stagehand\TestRunner\Core\ConfigurationTransformer;
 use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Process\TestRunner;
 use Stagehand\TestRunner\Util\OutputBuffering;
@@ -69,15 +71,32 @@ class TestRunnerCLIController extends \Stagehand_CLIController
             'test-file-pattern=',
             'ciunit-path=',
         );
+
+    /**
+     * @var \Stagehand\TestRunner\Core\Config
+     */
     protected $config;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\ConfigurationTransformer
+     * @since Property available since Release 3.0.0
+     */
+    protected $configurationTransformer;
+
+    /**
+     * @var string
+     * @since Property available since Release 3.0.0
+     */
+    protected $testingFramework;
 
     /**
      * @param string $framework
      */
     public function __construct($framework)
     {
-        $this->config = new Config();
-        $this->config->framework = $framework;
+        $this->configurationTransformer = new ConfigurationTransformer();
+        $this->configurationTransformer->setConfigurationPart(array('testing_framework' => $framework));
+        $this->testingFramework = $framework;
     }
 
     /**
@@ -95,66 +114,62 @@ class TestRunnerCLIController extends \Stagehand_CLIController
             $this->printVersion();
             return false;
         case 'R':
-            $this->config->recursivelyScans = true;
+            $this->configurationTransformer->setConfigurationPart(array('recursively_scans' => true));
             return true;
         case 'c':
-            $this->config->setColors(true);
+            $this->configurationTransformer->setConfigurationPart(array('colors' => true));
             return true;
         case 'p':
-            $this->config->preloadFile = $value;
+            $this->configurationTransformer->setConfigurationPart(array('preload_file' => $value));
             return true;
         case 'a':
-            $this->config->enablesAutotest = true;
+            $this->configurationTransformer->setConfigurationPart(array('enables_autotest' => true));
             return true;
         case 'w':
-            $this->config->monitoringDirectories = explode(',', $value);
+            $this->configurationTransformer->setConfigurationPart(array('monitoring_directories' => explode(',', $value)));
             return true;
         case 'n':
         case 'g':
-            $this->config->usesNotification = true;
+            $this->configurationTransformer->setConfigurationPart(array('uses_notification' => true));
             return true;
         case '--growl-password':
-            $this->config->growlPassword = $value;
+            $this->configurationTransformer->setConfigurationPart(array('growl_password' => $value));
             return true;
         case 'm':
-            foreach (explode(',', $value) as $testingMethod) {
-                $this->config->addTestingMethod($testingMethod);
-            }
+            $this->configurationTransformer->setConfigurationPart(array('test_methods' => explode(',', $value)));
             return true;
         case '--classes':
-            foreach (explode(',', $value) as $testingClass) {
-                $this->config->addTestingClass($testingClass);
-            }
+            $this->configurationTransformer->setConfigurationPart(array('test_classes' => explode(',', $value)));
             return true;
         case '--log-junit':
-            $this->config->setJUnitXMLFile($value);
+            $this->configurationTransformer->setConfigurationPart(array('junit_xml_file' => $value));
             return true;
         case '--log-junit-realtime':
-            $this->config->setLogsResultsInJUnitXMLInRealtime(true);
+            $this->configurationTransformer->setConfigurationPart(array('logs_results_in_junit_xml_in_realtime' => true));
             return true;
         case '--stop-on-failure':
-            $this->config->stopsOnFailure = true;
+            $this->configurationTransformer->setConfigurationPart(array('stops_on_failure' => true));
             return true;
         case '--phpunit-config':
-            $this->config->phpunitConfigFile = $value;
+            $this->configurationTransformer->setConfigurationPart(array('phpunit_config_file' => $value));
             return true;
         case '--cakephp-app-path':
             $this->validateDirectory($value, $option);
-            $this->config->cakephpAppPath = $value;
+            $this->configurationTransformer->setConfigurationPart(array('cakephp_app_path' => $value));
             return true;
         case '--cakephp-core-path':
             $this->validateDirectory($value, $option);
-            $this->config->cakephpCorePath = $value;
+            $this->configurationTransformer->setConfigurationPart(array('cakephp_core_path' => $value));
             return true;
         case '--ciunit-path':
             $this->validateDirectory($value, $option);
-            $this->config->ciunitPath = $value;
+            $this->configurationTransformer->setConfigurationPart(array('ciunit_path' => $value));
             return true;
         case '--test-file-pattern':
-            $this->config->testFilePattern = $value;
+            $this->configurationTransformer->setConfigurationPart(array('test_file_pattern' => $value));
             return true;
         case 'v':
-            $this->config->printsDetailedProgressReport = true;
+            $this->configurationTransformer->setConfigurationPart(array('prints_detailed_progress_report' => $value));
             return true;
         }
     }
@@ -165,7 +180,7 @@ class TestRunnerCLIController extends \Stagehand_CLIController
      */
     protected function configureByArg($arg)
     {
-        $this->config->addTestingResource($arg);
+        $this->configurationTransformer->setConfigurationPart(array('test_resources' => array($arg)));
         return true;
     }
 
@@ -290,7 +305,7 @@ OPTIONS
      */
     protected function printVersion()
     {
-        echo "Stagehand_TestRunner @package_version@ ({$this->config->framework})
+        echo "Stagehand_TestRunner @package_version@ ({$this->testingFramework})
 
 Copyright (c) 2005-2011 KUBO Atsuhiro <kubo@iteman.jp>,
               2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
@@ -369,6 +384,22 @@ All rights reserved.
                       $option .
                       ' option is not a directory.'
                   );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @since Method available since Release 3.0.0
+     */
+    protected function configure(array $options, array $args)
+    {
+        $continues = parent::configure($options, $args);
+        if ($continues) {
+            ComponentFactory::getInstance()->setContainer($this->configurationTransformer->transformToContainer());
+            $this->config = ComponentFactory::getInstance()->create('config');
+            return true;
+        } else {
+            return false;
         }
     }
 }

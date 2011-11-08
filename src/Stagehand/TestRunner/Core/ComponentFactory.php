@@ -32,45 +32,70 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.18.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Util;
+namespace Stagehand\TestRunner\Core;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.18.0
+ * @since      Class available since Release 3.0.0
  */
-class String
+class ComponentFactory
 {
-    public static function normalizeNewlines($target)
+    /**
+     * @var \Stagehand\TestRunner\Core\ComponentFactory
+     */
+    protected static $soleInstance;
+
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    protected $container;
+
+    private function __construct()
     {
-        return preg_replace("/\x0d\x0a|\x0d|\x0a/", PHP_EOL, $target);
     }
 
     /**
-     * @param array|string $target
-     * @param Closure $filter
-     * @return array|string
-     * @since Method available since Release 3.0.0
+     * @return \Stagehand\TestRunner\Core\ComponentFactory
      */
-    public static function applyFilter($target, $filter)
+    public static function getInstance()
     {
-        if (is_array($target)) {
-            $escapedSubjects = array();
-            foreach ($target as $key => $value) {
-                $escapedSubjects[ $filter($key) ] = self::applyFilter($value, $filter);
-            }
-
-            return $escapedSubjects;
-        } elseif (is_string($target)) {
-            return $filter($target);
-        } else {
-            return $target;
+        if (is_null(self::$soleInstance)) {
+            self::$soleInstance = new self();
         }
+        return self::$soleInstance;
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface $container
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @param string $componentID
+     * @return mixed
+     */
+    public function create($componentID)
+    {
+        return $this->container->get(Package::PACKAGE_ID . '.' . $componentID);
     }
 }
 

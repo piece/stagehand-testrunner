@@ -1,0 +1,79 @@
+# Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+#     * Redistributions of source code must retain the above copyright notice,
+#       this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+parameters:
+  stagehand_testrunner.testing_framework: ~
+  stagehand_testrunner.recursively_scans: false
+  stagehand_testrunner.colors: false
+  stagehand_testrunner.preload_file: null
+  stagehand_testrunner.enables_autotest: false
+  stagehand_testrunner.monitoring_directories: []
+  stagehand_testrunner.uses_notification: false
+  stagehand_testrunner.growl_password: null
+  stagehand_testrunner.test_methods: []
+  stagehand_testrunner.test_classes: []
+  stagehand_testrunner.junit_xml_file: null
+  stagehand_testrunner.logs_results_in_junit_xml_in_realtime: false
+  stagehand_testrunner.stops_on_failure: false
+  stagehand_testrunner.phpunit_config_file: null
+  stagehand_testrunner.cakephp_app_path: null
+  stagehand_testrunner.cakephp_core_path: null
+  stagehand_testrunner.ciunit_path: null
+  stagehand_testrunner.test_file_pattern: null
+  stagehand_testrunner.prints_detailed_progress_report: false
+  stagehand_testrunner.test_resources: []
+
+services:
+  stagehand_testrunner.config:
+    class: \Stagehand\TestRunner\Core\Config
+    calls:
+      - [ setTestingFramework, [ "%stagehand_testrunner.testing_framework%" ] ]
+      - [ setRecursivelyScans, [ "%stagehand_testrunner.recursively_scans%" ] ]
+      - [ setColors, [ "%stagehand_testrunner.colors%" ] ]
+      - [ setPreloadFile, [ "%stagehand_testrunner.preload_file%" ] ]
+      - [ setEnablesAutotest, [ "%stagehand_testrunner.enables_autotest%" ] ]
+      - [ setMonitoringDirectories, [ "%stagehand_testrunner.monitoring_directories%" ] ]
+      - [ setUsesNotification, [ "%stagehand_testrunner.uses_notification%" ] ]
+      - [ setGrowlPassword, [ "%stagehand_testrunner.growl_password%" ] ]
+      - [ setTestMethods, [ "%stagehand_testrunner.test_methods%" ] ]
+      - [ setTestClasses, [ "%stagehand_testrunner.test_classes%" ] ]
+      - [ setJUnitXMLFile, [ "%stagehand_testrunner.junit_xml_file%" ] ]
+      - [ setLogsResultsInJUnitXMLInRealtime, [ "%stagehand_testrunner.logs_results_in_junit_xml_in_realtime%" ] ]
+      - [ setStopsOnFailure, [ "%stagehand_testrunner.stops_on_failure%" ] ]
+      - [ setPHPUnitConfigFile, [ "%stagehand_testrunner.phpunit_config_file%" ] ]
+      - [ setCakePHPAppPath, [ "%stagehand_testrunner.cakephp_app_path%" ] ]
+      - [ setCakePHPCorePath, [ "%stagehand_testrunner.cakephp_core_path%" ] ]
+      - [ setCIUnitPath, [ "%stagehand_testrunner.ciunit_path%" ] ]
+      - [ setTestFilePattern, [ "%stagehand_testrunner.test_file_pattern%" ] ]
+      - [ setPrintsDetailedProgressReport, [ "%stagehand_testrunner.prints_detailed_progress_report%" ] ]
+      - [ setTestResources, [ "%stagehand_testrunner.test_resources%" ] ]
+
+# Local Variables:
+# mode: conf
+# coding: iso-8859-1
+# tab-width: 2
+# c-basic-offset: 2
+# c-hanging-comment-ender-p: nil
+# indent-tabs-mode: nil
+# End:

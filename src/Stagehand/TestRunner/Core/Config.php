@@ -94,7 +94,7 @@ class Config
     public function addTestingMethod($testingMethod)
     {
         $this->testsOnlySpecifiedMethods = true;
-        $this->testingMethods[] = strtolower(ltrim(urldecode($testingMethod), '\\'));
+        $this->testingMethods[] = strtolower(ltrim($testingMethod, '\\'));
     }
 
     /**
@@ -104,7 +104,7 @@ class Config
     public function addTestingClass($testingClass)
     {
         $this->testsOnlySpecifiedClasses = true;
-        $this->testingClasses[] = strtolower(ltrim(urldecode($testingClass), '\\'));
+        $this->testingClasses[] = strtolower(ltrim($testingClass, '\\'));
     }
 
     /**
@@ -239,6 +239,163 @@ class Config
     public function logsResultsInJUnitXMLInRealtime()
     {
         return $this->logsResultsInJUnitXMLInRealtime;
+    }
+
+    /**
+     * @param string $testingFramework
+     * @since Method available since Release 3.0.0
+     */
+    public function setTestingFramework($testingFramework)
+    {
+        $this->framework = $testingFramework;
+    }
+
+    /**
+     * @param boolean $recursivelyScans
+     * @since Method available since Release 3.0.0
+     */
+    public function setRecursivelyScans($recursivelyScans)
+    {
+        $this->recursivelyScans = $recursivelyScans;
+    }
+
+    /**
+     * @param string $preloadFile
+     * @since Method available since Release 3.0.0
+     */
+    public function setPreloadFile($preloadFile)
+    {
+        $this->preloadFile = $preloadFile;
+    }
+
+    /**
+     * @param boolean $enablesAutotest
+     * @since Method available since Release 3.0.0
+     */
+    public function setEnablesAutotest($enablesAutotest)
+    {
+        $this->enablesAutotest = $enablesAutotest;
+    }
+
+    /**
+     * @param array $monitoringDirectories
+     * @since Method available since Release 3.0.0
+     */
+    public function setMonitoringDirectories(array $monitoringDirectories)
+    {
+        $this->monitoringDirectories = $monitoringDirectories;
+    }
+
+    /**
+     * @param boolean $usesNotification
+     * @since Method available since Release 3.0.0
+     */
+    public function setUsesNotification($usesNotification)
+    {
+        $this->usesNotification = $usesNotification;
+    }
+
+    /**
+     * @param string $growlPassword
+     * @since Method available since Release 3.0.0
+     */
+    public function setGrowlPassword($growlPassword)
+    {
+        $this->growlPassword = $growlPassword;
+    }
+
+    /**
+     * @param array $testMethods
+     * @since Method available since Release 3.0.0
+     */
+    public function setTestMethods(array $testMethods)
+    {
+        foreach ($testMethods as $testMethod) {
+            $this->addTestingMethod($testMethod);
+        }
+    }
+
+    /**
+     * @param array $testClasses
+     * @since Method available since Release 3.0.0
+     */
+    public function setTestClasses(array $testClasses)
+    {
+        foreach ($testClasses as $testClass) {
+            $this->addTestingClass($testClass);
+        }
+    }
+
+    /**
+     * @param boolean $stopsOnFailure
+     * @since Method available since Release 3.0.0
+     */
+    public function setStopsOnFailure($stopsOnFailure)
+    {
+        $this->stopsOnFailure = $stopsOnFailure;
+    }
+
+    /**
+     * @param string $phpunitConfigFile
+     * @since Method available since Release 3.0.0
+     */
+    public function setPHPUnitConfigFile($phpunitConfigFile)
+    {
+        $this->phpunitConfigFile = $phpunitConfigFile;
+    }
+
+    /**
+     * @param string $cakephpAppPath
+     * @since Method available since Release 3.0.0
+     */
+    public function setCakePHPAppPath($cakephpAppPath)
+    {
+        $this->cakephpAppPath = $cakephpAppPath;
+    }
+
+    /**
+     * @param string $cakephpCorePath
+     * @since Method available since Release 3.0.0
+     */
+    public function setCakePHPCorePath($cakephpCorePath)
+    {
+        $this->cakephpCorePath = $cakephpCorePath;
+    }
+
+    /**
+     * @param string $ciunitPath
+     * @since Method available since Release 3.0.0
+     */
+    public function setCIUnitPath($ciunitPath)
+    {
+        $this->ciunitPath = $ciunitPath;
+    }
+
+    /**
+     * @param string $testFilePattern
+     * @since Method available since Release 3.0.0
+     */
+    public function setTestFilePattern($testFilePattern)
+    {
+        $this->testFilePattern = $testFilePattern;
+    }
+
+    /**
+     * @param boolean $printsDetailedProgressReport
+     * @since Method available since Release 3.0.0
+     */
+    public function setPrintsDetailedProgressReport($printsDetailedProgressReport)
+    {
+        $this->printsDetailedProgressReport = $printsDetailedProgressReport;
+    }
+
+    /**
+     * @param array $testResources
+     * @since Method available since Release 3.0.0
+     */
+    public function setTestResources(array $testResources)
+    {
+        $this->testingResources = $testResources;
     }
 
     /**
