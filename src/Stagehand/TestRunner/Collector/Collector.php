@@ -153,8 +153,6 @@ abstract class Collector
     {
         if (!is_null($this->config->testFilePattern)) {
             $filePattern = $this->config->testFilePattern;
-        } elseif (!is_null($this->config->testFileSuffix)) {
-            $filePattern = $this->config->testFileSuffix . '\.php$';
         } else {
             $filePattern = $this->filePattern;
         }

@@ -279,28 +279,6 @@ class SimpleTestRunnerTest extends TestCase
 
     /**
      * @test
-     * @link http://redmine.piece-framework.com/issues/211
-     * @since Method available since Release 2.14.0
-     */
-    public function runsTheFilesWithTheSpecifiedSuffix()
-    {
-        $file = dirname(__FILE__) .
-            '/../../../../examples/Stagehand/TestRunner/SimpleTestWithAnySuffix_test_.php';
-        $this->collector->collectTestCases($file);
-
-        $this->runTests();
-        $this->assertTestCaseCount(0);
-
-        $this->config->testFileSuffix = '_test_';
-        $this->collector->collectTestCases($file);
-
-        $this->runTests();
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('testPass', 'Stagehand_TestRunner_SimpleTestWithAnySuffixTest');
-    }
-
-    /**
-     * @test
      * @link http://redmine.piece-framework.com/issues/219
      * @since Method available since Release 2.14.0
      */

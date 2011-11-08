@@ -95,25 +95,6 @@ class TestRunnerCLIControllerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @link http://redmine.piece-framework.com/issues/211
-     * @since Method available since Release 2.14.0
-     */
-    public function supportsTestFilesWithAnySuffix()
-    {
-        $testFileSuffix = '_test_';
-        $_SERVER['argv'] = $GLOBALS['argv'] = array(
-            'bin/phpunitrunner',
-            '-p', 'tests/prepare.php',
-            '--test-file-suffix=' . $testFileSuffix
-        );
-        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $controller = $this->createTestRunnerCLIController();
-        $controller->run();
-        $this->assertEquals($testFileSuffix, $this->readAttribute($controller, 'config')->testFileSuffix);
-    }
-
-    /**
-     * @test
      * @dataProvider notificationOptions
      * @param string $option
      * @link http://redmine.piece-framework.com/issues/311

@@ -241,10 +241,6 @@ class Autotest
             $options[] = '--test-file-pattern=' . escapeshellarg($this->config->testFilePattern);
         }
 
-        if (!is_null($this->config->testFileSuffix)) {
-            $options[] = '--test-file-suffix=' . escapeshellarg($this->config->testFileSuffix);
-        }
-
         foreach ($this->config->getTestingResources() as $testingResource) {
             $options[] = escapeshellarg($testingResource);
         }

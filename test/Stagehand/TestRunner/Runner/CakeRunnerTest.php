@@ -91,28 +91,6 @@ class CakeRunnerTest extends SimpleTestRunnerTest
         $this->assertTestCaseExists('testPass', 'Stagehand_TestRunner_CakeWithAnyPatternTest');
     }
 
-    /**
-     * @test
-     * @link http://redmine.piece-framework.com/issues/211
-     * @since Method available since Release 2.14.0
-     */
-    public function runsTheFilesWithTheSpecifiedSuffix()
-    {
-        $file = dirname(__FILE__) .
-            '/../../../../examples/Stagehand/TestRunner/cake_with_any_suffix_test_.php';
-        $this->collector->collectTestCases($file);
-
-        $this->runTests();
-        $this->assertTestCaseCount(0);
-
-        $this->config->testFileSuffix = '_test_';
-        $this->collector->collectTestCases($file);
-
-        $this->runTests();
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('testPass', 'Stagehand_TestRunner_CakeWithAnySuffixTest');
-    }
-
     protected function loadClasses()
     {
         include_once 'Stagehand/TestRunner/cake_pass.test.php';

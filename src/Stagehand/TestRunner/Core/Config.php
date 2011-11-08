@@ -84,12 +84,6 @@ class Config
      */
     public $testFilePattern;
 
-    /**
-     * @var string
-     * @deprecated Property deprecated in Release 2.16.0
-     */
-    public $testFileSuffix;
-
     protected $testingMethods = array();
     protected $testingClasses = array();
 

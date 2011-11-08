@@ -251,10 +251,6 @@ PHP_EOL .
         $config->testFilePattern = 'PATTERN';
         $data[] = array($config, array('-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true));
 
-        $config = new Config();
-        $config->testFileSuffix = 'SUFFIX';
-        $data[] = array($config, array('-R', '--test-file-suffix=' . escapeshellarg('SUFFIX')), array(true, true));
-
         return $data;
     }
 

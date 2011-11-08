@@ -242,16 +242,6 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
     /**
      * @return array
      */
-    public function provideDataForRunsTheFilesWithTheSpecifiedSuffix()
-    {
-        return array(
-            array(dirname(__FILE__) . '/../../../../examples/Stagehand/TestRunner/CIUnitWithAnySuffix_test_.php', '_test_', 'testStagehand_TestRunner_CIUnitWithAnySuffix'),
-        );
-    }
-
-    /**
-     * @return array
-     */
     public function provideDataForReportsOnlyTheFirstFailureInASingleTestToJunitXml()
     {
         return array(

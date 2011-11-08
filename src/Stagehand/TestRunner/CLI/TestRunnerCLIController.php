@@ -67,7 +67,6 @@ class TestRunnerCLIController extends \Stagehand_CLIController
             'cakephp-app-path=',
             'cakephp-core-path=',
             'test-file-pattern=',
-            'test-file-suffix=',
             'ciunit-path=',
         );
     protected $config;
@@ -153,9 +152,6 @@ class TestRunnerCLIController extends \Stagehand_CLIController
             return true;
         case '--test-file-pattern':
             $this->config->testFilePattern = $value;
-            return true;
-        case '--test-file-suffix':
-            $this->config->testFileSuffix = $value;
             return true;
         case 'v':
             $this->config->printsDetailedProgressReport = true;
@@ -285,12 +281,6 @@ OPTIONS
        SimpleTest: Test(?:Case)?\.php$
        CakePHP: \.test\.php$
        PHPSpec: Spec\.php$
-     (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPSpec)
-
-  --test-file-suffix=SUFFIX
-     (deprecated in Stagehand_TestRunner 2.16.0)
-     Specifies the suffix of your test files by a regular expression literal.
-     The regular expression literal must not contain *.php*.
      (PHPUnit, CIUnit, SimpleTest, CakePHP, and PHPSpec)
 ";
     }

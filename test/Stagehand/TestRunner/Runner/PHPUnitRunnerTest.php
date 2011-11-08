@@ -552,41 +552,6 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingFile
-     * @param string $testFileSuffix
-     * @param string $testingClass
-     * @test
-     * @dataProvider provideDataForRunsTheFilesWithTheSpecifiedSuffix
-     * @link http://redmine.piece-framework.com/issues/211
-     * @since Method available since Release 2.14.0
-     */
-    public function runsTheFilesWithTheSpecifiedSuffix($testingFile, $testFileSuffix, $testingClass)
-    {
-        $this->collector->collectTestCases($testingFile);
-
-        $this->runTests();
-        $this->assertTestCaseCount(0);
-
-        $this->config->testFileSuffix = $testFileSuffix;
-        $this->collector->collectTestCases($testingFile);
-
-        $this->runTests();
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('pass', $testingClass);
-    }
-
-    /**
-     * @return array
-     * @since Method available since Release 2.16.0
-     */
-    public function provideDataForRunsTheFilesWithTheSpecifiedSuffix()
-    {
-        return array(
-            array(dirname(__FILE__) . '/../../../../examples/Stagehand/TestRunner/PHPUnitWithAnySuffix_test_.php', '_test_', 'Stagehand_TestRunner_PHPUnitWithAnySuffixTest'),
-        );
-    }
-
-    /**
      * @param string $testingClass
      * @test
      * @dataProvider provideDataForReportsOnlyTheFirstFailureInASingleTestToJunitXml
