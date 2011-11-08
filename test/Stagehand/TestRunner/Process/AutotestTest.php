@@ -283,7 +283,7 @@ PHP_EOL .
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $config = new Config();
         $config->addTestingResource($options[ count($options) - 1 ]);
-        
+
         $autotest = $this->createAutotest($config);
         \Phake::when($autotest)->buildRunnerCommand()->captureReturnTo($runnerCommand);
         \Phake::when($autotest)->buildRunnerOptions()->captureReturnTo($runnerOptions);
