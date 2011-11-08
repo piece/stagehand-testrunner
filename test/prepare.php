@@ -45,12 +45,10 @@ set_include_path(
     get_include_path()
 );
 
-require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
+require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
 
-$classLoader = new \Symfony\Component\ClassLoader\UniversalClassLoader();
-$classLoader->useIncludePath(true);
-$classLoader->registerPrefix('Stagehand_', array());
-$classLoader->register();
+$bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
+$bootstrap->boot();
 
 \Stagehand\TestRunner\Preparer\PHPUnitPreparer::prepareFramework();
 
