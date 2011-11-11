@@ -102,6 +102,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $this->tmpDirectory = dirname(__FILE__) . '/../../../tmp';
         $this->config = new Config();
         $this->config->framework = $this->framework;
+        $this->config->setLogsResultsInJUnitXML(true);
         $this->config->setJUnitXMLFile(
             $this->tmpDirectory .
             '/' .

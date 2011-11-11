@@ -201,7 +201,6 @@ class Config
      */
     public function setJUnitXMLFile($junitXMLFile)
     {
-        $this->logsResultsInJUnitXML = true;
         $this->junitXMLFile = $junitXMLFile;
     }
 
@@ -396,6 +395,15 @@ class Config
     public function setTestResources(array $testResources)
     {
         $this->testingResources = $testResources;
+    }
+
+    /**
+     * @param boolean $logsResultsInJUnitXML
+     * @since Method available since Release 3.0.0
+     */
+    public function setLogsResultsInJUnitXML($logsResultsInJUnitXML)
+    {
+        $this->logsResultsInJUnitXML = $logsResultsInJUnitXML;
     }
 
     /**

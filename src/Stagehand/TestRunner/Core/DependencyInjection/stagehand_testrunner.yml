@@ -33,8 +33,9 @@ parameters:
   stagehand_testrunner.growl_password: null
   stagehand_testrunner.test_methods: []
   stagehand_testrunner.test_classes: []
-  stagehand_testrunner.junit_xml_file: null
+  stagehand_testrunner.logs_results_in_junit_xml: false
   stagehand_testrunner.logs_results_in_junit_xml_in_realtime: false
+  stagehand_testrunner.junit_xml_file: null
   stagehand_testrunner.stops_on_failure: false
   stagehand_testrunner.phpunit_config_file: null
   stagehand_testrunner.cakephp_app_path: null
@@ -58,8 +59,9 @@ services:
       - [ setGrowlPassword, [ "%stagehand_testrunner.growl_password%" ] ]
       - [ setTestMethods, [ "%stagehand_testrunner.test_methods%" ] ]
       - [ setTestClasses, [ "%stagehand_testrunner.test_classes%" ] ]
-      - [ setJUnitXMLFile, [ "%stagehand_testrunner.junit_xml_file%" ] ]
+      - [ setLogsResultsInJUnitXML, [ "%stagehand_testrunner.logs_results_in_junit_xml%" ] ]
       - [ setLogsResultsInJUnitXMLInRealtime, [ "%stagehand_testrunner.logs_results_in_junit_xml_in_realtime%" ] ]
+      - [ setJUnitXMLFile, [ "%stagehand_testrunner.junit_xml_file%" ] ]
       - [ setStopsOnFailure, [ "%stagehand_testrunner.stops_on_failure%" ] ]
       - [ setPHPUnitConfigFile, [ "%stagehand_testrunner.phpunit_config_file%" ] ]
       - [ setCakePHPAppPath, [ "%stagehand_testrunner.cakephp_app_path%" ] ]

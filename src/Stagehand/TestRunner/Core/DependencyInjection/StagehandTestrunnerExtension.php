@@ -109,8 +109,13 @@ class StagehandTestrunnerExtension implements ExtensionInterface
         $container->setParameter(Package::PACKAGE_ID . '.' . 'growl_password', $config['growl_password']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'test_methods', $config['test_methods']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'test_classes', $config['test_classes']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'junit_xml_file', $config['junit_xml_file']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'logs_results_in_junit_xml_in_realtime', $config['logs_results_in_junit_xml_in_realtime']);
+
+        if (array_key_exists('junit_xml', $config)) {
+            $container->setParameter(Package::PACKAGE_ID . '.' . 'logs_results_in_junit_xml', $config['junit_xml']['enabled']);
+            $container->setParameter(Package::PACKAGE_ID . '.' . 'logs_results_in_junit_xml_in_realtime', $config['junit_xml']['realtime']);
+            $container->setParameter(Package::PACKAGE_ID . '.' . 'junit_xml_file', $config['junit_xml']['file']);
+        }
+
         $container->setParameter(Package::PACKAGE_ID . '.' . 'stops_on_failure', $config['stops_on_failure']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'phpunit_config_file', $config['phpunit_config_file']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'cakephp_app_path', $config['cakephp_app_path']);

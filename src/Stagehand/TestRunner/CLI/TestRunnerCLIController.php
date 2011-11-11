@@ -142,10 +142,10 @@ class TestRunnerCLIController extends \Stagehand_CLIController
             $this->configurationTransformer->setConfigurationPart(array('test_classes' => explode(',', $value)));
             return true;
         case '--log-junit':
-            $this->configurationTransformer->setConfigurationPart(array('junit_xml_file' => $value));
+            $this->configurationTransformer->setConfigurationPart(array('junit_xml' => array('file' => $value)));
             return true;
         case '--log-junit-realtime':
-            $this->configurationTransformer->setConfigurationPart(array('logs_results_in_junit_xml_in_realtime' => true));
+            $this->configurationTransformer->setConfigurationPart(array('junit_xml' => array('realtime' => true)));
             return true;
         case '--stop-on-failure':
             $this->configurationTransformer->setConfigurationPart(array('stops_on_failure' => true));
