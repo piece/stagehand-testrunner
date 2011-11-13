@@ -113,12 +113,6 @@ abstract class Collector
      */
     abstract public function collectTestCase($testCase);
 
-    /**#@-*/
-
-    /**#@+
-     * @access protected
-     */
-
     /**
      * Creates the test suite object.
      *
