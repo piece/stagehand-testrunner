@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,56 +29,34 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      File available since Release 2.7.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\TestSuite;
-
-use Stagehand\TestRunner\Core\TestTargets;
+namespace Stagehand\TestRunner\JUnitXMLWriter;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      Class available since Release 2.7.0
+ * @since      Class available since Release 3.0.0
  */
-class PHPUnitMethodFilterTestSuite extends \PHPUnit_Framework_TestSuite
+class XMLStreamWriterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Stagehand\TestRunner\Core\TestTargets
-     * @since Property available since Release 3.0.0
+     * @test
+     * @link http://redmine.piece-framework.com/issues/215
      */
-    protected $testTargets;
-
-    /**
-     * @param \ReflectionClass             $theClass
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
-     */
-    public function __construct(\ReflectionClass $theClass, TestTargets $testTargets)
+    public function escapesSomeSpecialCharactersInTextNodes()
     {
-        $this->testTargets = $testTargets;
-        parent::__construct($theClass);
-    }
-
-    /**
-     * @param \PHPUnit_Framework_Test $test
-     * @param array                  $groups
-     */
-    public function addTest(\PHPUnit_Framework_Test $test, $groups = array())
-    {
-        if ($test instanceof \PHPUnit_Framework_Warning
-            && preg_match('/^No tests found in class/', $test->getMessage())
-            ) {
-            return;
-        }
-
-        parent::addTest($test, $groups);
+        $xmlStreamWriter = new XMLStreamWriter();
+        $xmlStreamWriter->startElement('foo');
+        $xmlStreamWriter->text('&"\'<>');
+        $xmlStreamWriter->endElement();
+        $this->assertRegExp('!<foo>&amp;&quot;&#039;&lt;&gt;</foo>!', $xmlStreamWriter->flush());
     }
 }
 

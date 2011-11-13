@@ -37,13 +37,11 @@
 
 namespace Stagehand\TestRunner\CLI;
 
-use Stagehand\TestRunner\Process\Autotest;
-use Stagehand\TestRunner\Core\ComponentFactory;
-use Stagehand\TestRunner\Core\Config;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\ConfigurationTransformer;
 use Stagehand\TestRunner\Core\Exception;
-use Stagehand\TestRunner\Process\TestRunner;
-use Stagehand\TestRunner\Util\OutputBuffering;
 
 /**
  * A testrunner script to run tests automatically.
@@ -60,7 +58,6 @@ class TestRunnerCLIController extends \Stagehand_CLIController
     protected $shortOptions = 'hVRcp:aw:gm:vn';
     protected $longOptions =
         array(
-            'growl-password=',
             'log-junit=',
             'log-junit-realtime',
             'classes=',
@@ -71,11 +68,6 @@ class TestRunnerCLIController extends \Stagehand_CLIController
             'test-file-pattern=',
             'ciunit-path=',
         );
-
-    /**
-     * @var \Stagehand\TestRunner\Core\Config
-     */
-    protected $config;
 
     /**
      * @var \Stagehand\TestRunner\Core\ConfigurationTransformer
@@ -90,13 +82,32 @@ class TestRunnerCLIController extends \Stagehand_CLIController
     protected $testingFramework;
 
     /**
-     * @param string $framework
+     * @param string $testingFramework
      */
-    public function __construct($framework)
+    public function __construct($testingFramework)
     {
-        $this->configurationTransformer = new ConfigurationTransformer();
-        $this->configurationTransformer->setConfigurationPart(array('testing_framework' => $framework));
-        $this->testingFramework = $framework;
+        $this->testingFramework = $testingFramework;
+        ApplicationContext::getInstance()
+            ->getEnvironment()
+            ->setWorkingDirectoryAtStartup($GLOBALS['STAGEHAND_TESTRUNNER_CONFIG_workingDirectoryAtStartup']);
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\ConfigurationTransformer $configurationTransformer
+     */
+    public function setConfigurationTransformer(ConfigurationTransformer $configurationTransformer)
+    {
+        $this->configurationTransformer = $configurationTransformer;
+    }
+
+    /**
+     * @since Method available since Release 3.0.0
+     */
+    public function run()
+    {
+        $this->configurationTransformer = new ConfigurationTransformer($this->createContainer());
+        $this->configurationTransformer->setConfigurationPart(array('testing_framework' => $this->testingFramework));
+        return parent::run();
     }
 
     /**
@@ -131,9 +142,6 @@ class TestRunnerCLIController extends \Stagehand_CLIController
         case 'n':
         case 'g':
             $this->configurationTransformer->setConfigurationPart(array('uses_notification' => true));
-            return true;
-        case '--growl-password':
-            $this->configurationTransformer->setConfigurationPart(array('growl_password' => $value));
             return true;
         case 'm':
             $this->configurationTransformer->setConfigurationPart(array('test_methods' => explode(',', $value)));
@@ -188,15 +196,7 @@ class TestRunnerCLIController extends \Stagehand_CLIController
      */
     protected function doRun()
     {
-        $this->configurePHPRuntimeConfiguration();
-
-        if (!$this->config->enablesAutotest) {
-            $this->runTests();
-        } else {
-            $autotest = $this->createAutotest($this->config);
-            $autotest->runTests();
-            $autotest->monitorAlteration();
-        }
+        $this->createTestRunner()->run();
     }
 
     /**
@@ -239,9 +239,6 @@ OPTIONS
   -g
      Notifies test results by using the growlnotify command in Mac OS X and Windows
      or the notify-send command in Linux.
-
-  --growl-password=PASSWORD
-     Specifies PASSWORD for Growl.
 
   -m METHOD1,METHOD2,...
      Runs only the specified tests in the specified file.
@@ -317,48 +314,6 @@ All rights reserved.
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     * @return \Stagehand\TestRunner\Process\Autotest
-     * @since Method available since Release 2.18.0
-     */
-    protected function createAutotest(Config $config)
-    {
-        return new Autotest($config);
-    }
-
-    /**
-     * Runs tests.
-     *
-     * @since Method available since Release 2.1.0
-     */
-    protected function runTests()
-    {
-        $runner = new TestRunner($this->config);
-        $runner->run();
-    }
-
-    /**
-     * @since Method available since Release 2.14.0
-     */
-    protected function configurePHPRuntimeConfiguration()
-    {
-        ini_set('display_errors', true);
-        ini_set('html_errors', false);
-        ini_set('implicit_flush', true);
-        ini_set('max_execution_time', 0);
-        $this->createOutputBuffering()->clearOutputHandlers();
-    }
-
-    /**
-     * @return \Stagehand\TestRunner\Util\OutputBuffering
-     * @since Method available since Release 2.20.0
-     */
-    protected function createOutputBuffering()
-    {
-        return new OutputBuffering();
-    }
-
-    /**
      * @param string $directory
      * @param string $option
      * @throws \Stagehand\TestRunner\Core\Exception
@@ -395,12 +350,31 @@ All rights reserved.
     {
         $continues = parent::configure($options, $args);
         if ($continues) {
-            ComponentFactory::getInstance()->setContainer($this->configurationTransformer->transformToContainer());
-            $this->config = ComponentFactory::getInstance()->create('config');
+            ApplicationContext::getInstance()
+                ->getComponentFactory()
+                ->setContainer($this->configurationTransformer->transformToContainer());
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\CLI\TestRunner
+     * @since Method available since Release 3.0.0
+     */
+    protected function createTestRunner()
+    {
+        return ApplicationContext::getInstance()->createComponent('test_runner');
+    }
+
+    /**
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @since Method available since Release 3.0.0
+     */
+    protected function createContainer()
+    {
+        return new ContainerBuilder();
     }
 }
 

@@ -37,7 +37,9 @@
 
 namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Core\Config;
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,19 +48,8 @@ use Stagehand\TestRunner\Core\Config;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class AutotestTest extends \PHPUnit_Framework_TestCase
+class AutotestTest extends PHPUnitFactoryAwareTestCase
 {
-    /**
-     * @var string
-     */
-    protected $errorOutput;
-
-    /**
-     * @var string
-     * @since Property available since Release 2.21.0
-     */
-    protected $phpConfigDir = false;
-
     /**
      * @test
      * @dataProvider messagesOfAFatalOrParseError
@@ -68,20 +59,24 @@ class AutotestTest extends \PHPUnit_Framework_TestCase
      */
     public function findsTheMessageOfAFatalOrParseError($errorOutput, $errorMessage)
     {
-        $this->errorOutput = $errorOutput;
-        $config = new Config();
-        $config->usesNotification = true;
-
         $notifier = \Phake::mock('\Stagehand\TestRunner\Notification\Notifier');
         \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
+        $this->applicationContext->setComponent('notifier', $notifier);
 
-        $autotest = \Phake::partialMock('\Stagehand\TestRunner\Process\Autotest', $config);
-        \Phake::when($autotest)->executeRunnerCommand($this->anything())
-            ->thenGetReturnByLambda(array($this, 'executeRunnerCommand'));
-        \Phake::when($autotest)->createNotifier()->thenReturn($notifier);
+        $runner = \Phake::mock('\Stagehand\TestRunner\Runner\PHPUnitRunner');
+        \Phake::when($runner)->usesNotification()->thenReturn(true);
+        $this->applicationContext->setComponent('phpunit.runner', $runner);
+
+        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        \Phake::when($legacyProxy)->passthru($this->anything())
+            ->thenGetReturnByLambda(function ($command) use ($errorOutput) {
+            echo $errorOutput;
+            return 1;
+        });
+        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
 
         ob_start();
-        $autotest->runTests();
+        $this->applicationContext->createComponent('autotest')->runTests();
         ob_end_clean();
 
         \Phake::verify($notifier)->notifyResult(\Phake::capture($notification));
@@ -118,143 +113,6 @@ PHP_EOL .
     }
 
     /**
-     * @param string $runnerCommand
-     * @return integer
-     */
-    public function executeRunnerCommand($runnerCommand)
-    {
-        echo $this->errorOutput;
-        return 1;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     * @return \Stagehand\TestRunner\Process\Autotest
-     */
-    public function createAutotest(Config $config)
-    {
-        $monitor = \Phake::mock('\Stagehand_AlterationMonitor', null, null);
-        \Phake::when($monitor)->monitor()->thenReturn(null);
-
-        $autotest = \Phake::partialMock('\Stagehand\TestRunner\Process\Autotest', $config);
-        \Phake::when($autotest)->createAlterationMonitor()->thenReturn($monitor);
-        \Phake::when($autotest)->getMonitoringDirectories()->thenReturn(array());
-        \Phake::when($autotest)->executeRunnerCommand($this->anything())->thenReturn(0);
-        \Phake::when($autotest)->getPHPConfigDir()->thenGetReturnByLambda(array($this, 'getPHPConfigDir'));
-
-        return $autotest;
-    }
-
-    /**
-     * @test
-     * @dataProvider preservedConfigurations
-     * @param \Stagehand\TestRunner\Core\Config $config
-     * @param array $normalizedOption
-     * @param array $shouldPreserve
-     * @link http://redmine.piece-framework.com/issues/314
-     */
-    public function preservesSomeConfigurationsForAutotest(
-        Config $config,
-        array $normalizedOption,
-        array $shouldPreserve)
-    {
-        $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-a');
-        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $autotest = $this->createAutotest($config);
-        \Phake::when($autotest)->buildRunnerOptions()->captureReturnTo($runnerOptions);
-        $autotest->monitorAlteration();
-
-        for ($i = 0; $i < count($normalizedOption); ++$i) {
-            $preserved = in_array($normalizedOption[$i], $runnerOptions);
-            $this->assertEquals($shouldPreserve[$i], $preserved);
-        }
-    }
-
-    /**
-     * @return array
-     * @link http://redmine.piece-framework.com/issues/314
-     */
-    public function preservedConfigurations()
-    {
-        $data = array();
-
-        $config = new Config();
-        $config->recursivelyScans = true;
-        $data[] = array($config, array('-R'), array(true));
-
-        $config = new Config();
-        $config->setColors(true);
-        $data[] = array($config, array('-R', '-c'), array(true, true));
-
-        $config = new Config();
-        $config->preloadFile = 'test/prepare.php';
-        $data[] = array($config, array('-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true));
-
-        $config = new Config();
-        $config->recursivelyScans = true;
-        $config->enablesAutotest = true;
-        $data[] = array($config, array('-R', '-a'), array(true, false));
-
-        $config = new Config();
-        $config->monitoringDirectories[] = 'src';
-        $data[] = array($config, array('-R', '-w ' . escapeshellarg('src')), array(true, false));
-
-        $config = new Config();
-        $config->usesNotification = true;
-        $data[] = array($config, array('-R', '-n'), array(true, true));
-
-        $config = new Config();
-        $config->growlPassword = 'PASSWORD';
-        $data[] = array($config, array('-R', '--growl-password=' . escapeshellarg('PASSWORD')), array(true, true));
-
-        $config = new Config();
-        $config->addTestingMethod('METHOD1');
-        $data[] = array($config, array('-R', '-m ' . escapeshellarg('METHOD1')), array(true, false));
-
-        $config = new Config();
-        $config->addTestingClass('CLASS1');
-        $data[] = array($config, array('-R', '--classes=' . escapeshellarg('CLASS1')), array(true, false));
-
-        $config = new Config();
-        $config->setJUnitXMLFile('FILE');
-        $data[] = array($config, array('-R', '--log-junit=' . escapeshellarg('FILE')), array(true, false));
-
-        $config = new Config();
-        $config->setLogsResultsInJUnitXMLInRealtime(true);
-        $data[] = array($config, array('-R', '--log-junit-realtime'), array(true, false));
-
-        $config = new Config();
-        $config->printsDetailedProgressReport = true;
-        $data[] = array($config, array('-R', '-v'), array(true, true));
-
-        $config = new Config();
-        $config->stopsOnFailure = true;
-        $data[] = array($config, array('-R', '--stop-on-failure'), array(true, true));
-
-        $config = new Config();
-        $config->phpunitConfigFile = 'FILE';
-        $data[] = array($config, array('-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true));
-
-        $config = new Config();
-        $config->cakephpAppPath = 'DIRECTORY';
-        $data[] = array($config, array('-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true));
-
-        $config = new Config();
-        $config->cakephpCorePath = 'DIRECTORY';
-        $data[] = array($config, array('-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true));
-
-        $config = new Config();
-        $config->ciunitPath = 'DIRECTORY';
-        $data[] = array($config, array('-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true));
-
-        $config = new Config();
-        $config->testFilePattern = 'PATTERN';
-        $data[] = array($config, array('-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true));
-
-        return $data;
-    }
-
-    /**
      * @test
      * @dataProvider commandLines
      * @param string $command
@@ -269,7 +127,6 @@ PHP_EOL .
     public function buildsACommandLineString($command, $options, $phpConfigDir, $builtCommand, $builtOptions)
     {
         unset($_SERVER['PHP_COMMAND']);
-        $this->phpConfigDir = $phpConfigDir;
         if (!is_null($command)) {
             $_SERVER['_'] = $command;
         } else {
@@ -277,15 +134,25 @@ PHP_EOL .
         }
         $_SERVER['argv'] = $GLOBALS['argv'] = $options;
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $config = new Config();
-        $config->addTestingResource($options[ count($options) - 1 ]);
 
-        $autotest = $this->createAutotest($config);
-        \Phake::when($autotest)->buildRunnerCommand()->captureReturnTo($runnerCommand);
-        \Phake::when($autotest)->buildRunnerOptions()->captureReturnTo($runnerOptions);
+        $testTargets = $this->applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+        $testTargets->setResources(array($options[ count($options) - 1 ]));
 
+        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        \Phake::when($legacyProxy)->get_cfg_var($this->anything())->thenReturn($phpConfigDir);
+        \Phake::when($legacyProxy)->is_dir($this->anything())->thenReturn(true);
+        \Phake::when($legacyProxy)->realpath($this->anything())->thenReturn(true);
+        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
+
+        $alterationMonitoring = \Phake::mock('\Stagehand\TestRunner\Process\AlterationMonitoring');
+        \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
+        $this->applicationContext->setComponent('alteration_monitoring', $alterationMonitoring);
+
+        $autotest = $this->applicationContext->createComponent('autotest');
         $autotest->monitorAlteration();
 
+        $runnerCommand = $this->readAttribute($autotest, 'runnerCommand');
+        $runnerOptions = $this->readAttribute($autotest, 'runnerOptions');
         $this->assertEquals($builtCommand, $runnerCommand);
         for ($i = 0; $i < count($builtOptions); ++$i) {
             $this->assertEquals($builtOptions[$i], $runnerOptions[$i]);
@@ -298,22 +165,179 @@ PHP_EOL .
      */
     public function commandLines()
     {
+        $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
         return array(
-            array('/usr/bin/php', array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('phpunitrunner'), '-R', escapeshellarg('test'))),
-            array('/usr/bin/php', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('phpunitrunner'), '-R', escapeshellarg('test'))),
-            array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
-            array('phpunitrunner', array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
-            array('phpunitrunner', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
-            array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', escapeshellarg('test'))),
+            array('/usr/bin/php', array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('phpunitrunner'), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('/usr/bin/php', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('phpunitrunner'), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('phpunitrunner', array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('phpunitrunner', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('phpunitrunner'), array('-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
         );
+    }
+}
+
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 3.0.0
+ */
+class AutotestConfigurationPreservationTest extends PHPUnitFactoryAwareTestCase
+{
+    public static $configurators = array();
+
+    public static function setUpBeforeClass()
+    {
+        self::$configurators[] = function () { // 0
+            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+            $testTargets->setRecursivelyScans(true);
+        };
+        self::$configurators[] = function () { // 1
+            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+            $testTargets->setRecursivelyScans(false);
+        };
+        self::$configurators[] = function () { // 2
+            $terminal = ApplicationContext::getInstance()->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
+            $terminal->setColors(true);
+        };
+        self::$configurators[] = function () { // 3
+            $autotest = ApplicationContext::getInstance()->createComponent('autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
+            $autotest->setPreloadFile('test/prepare.php');
+        };
+        self::$configurators[] = function () { // 4
+            $autotest = ApplicationContext::getInstance()->createComponent('autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
+            $autotest->setMonitoringDirectories(array('src'));
+        };
+        self::$configurators[] = function () { // 5
+            $runner = ApplicationContext::getInstance()->createComponent('phpunit.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+            $runner->setUsesNotification(true);
+        };
+        self::$configurators[] = function () { // 6
+            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+            $testTargets->setMethods(array('METHOD1'));
+        };
+        self::$configurators[] = function () { // 7
+            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+            $testTargets->setClasses(array('CLASS1'));
+        };
+        self::$configurators[] = function () { // 8
+            $runner = ApplicationContext::getInstance()->createComponent('phpunit.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+            $runner->setJUnitXMLFile('FILE');
+        };
+        self::$configurators[] = function () { // 9
+            $runner = ApplicationContext::getInstance()->createComponent('phpunit.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+            $runner->setLogsResultsInJUnitXMLInRealtime(true);
+        };
+        self::$configurators[] = function () { // 10
+            $runner = ApplicationContext::getInstance()->createComponent('phpunit.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+            $runner->setPrintsDetailedProgressReport(true);
+        };
+        self::$configurators[] = function () { // 11
+            $runner = ApplicationContext::getInstance()->createComponent('phpunit.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+            $runner->setStopsOnFailure(true);
+        };
+        self::$configurators[] = function () { // 12
+            $phpunitXMLConfiguration = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfiguration'); /* @var $phpunitXMLConfiguration \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration */
+            \Phake::when($phpunitXMLConfiguration)->getFileName()->thenReturn('FILE');
+            $autotest = ApplicationContext::getInstance()->createComponent('autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
+            $autotest->setPHPUnitXMLConfiguration($phpunitXMLConfiguration);
+        };
+        self::$configurators[] = function () { // 13
+            $testingFramework = \Phake::mock('\Stagehand\TestRunner\Core\TestingFramework'); /* @var $testingFramework \Stagehand\TestRunner\Core\TestingFramework */
+            \Phake::when($testingFramework)->getSelected()->thenReturn(TestingFramework::CAKE);
+            ApplicationContext::getInstance()->setComponent('testing_framework', $testingFramework);
+            $preparer = ApplicationContext::getInstance()->createComponent('cake.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+            $preparer->setCakePHPAppPath('DIRECTORY');
+        };
+        self::$configurators[] = function () { // 14
+            $testingFramework = \Phake::mock('\Stagehand\TestRunner\Core\TestingFramework'); /* @var $testingFramework \Stagehand\TestRunner\Core\TestingFramework */
+            \Phake::when($testingFramework)->getSelected()->thenReturn(TestingFramework::CAKE);
+            ApplicationContext::getInstance()->setComponent('testing_framework', $testingFramework);
+            $preparer = ApplicationContext::getInstance()->createComponent('cake.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+            $preparer->setCakePHPCorePath('DIRECTORY');
+        };
+        self::$configurators[] = function () { // 15
+            $testingFramework = \Phake::mock('\Stagehand\TestRunner\Core\TestingFramework'); /* @var $testingFramework \Stagehand\TestRunner\Core\TestingFramework */
+            \Phake::when($testingFramework)->getSelected()->thenReturn(TestingFramework::CIUNIT);
+            ApplicationContext::getInstance()->setComponent('testing_framework', $testingFramework);
+            $preparer = ApplicationContext::getInstance()->createComponent('ciunit.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CIUnitPreparer */
+            $preparer->setCIUnitPath('DIRECTORY');
+        };
+        self::$configurators[] = function () { // 16
+            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+            $testTargets->setFilePattern('PATTERN');
+        };
     }
 
     /**
-     * @since Method available since Release 2.21.0
+     * @test
+     * @dataProvider preservedConfigurations
+     * @param integer $configuratorIndex
+     * @param array $normalizedOption
+     * @param array $shouldPreserve
+     * @link http://redmine.piece-framework.com/issues/314
      */
-    public function getPHPConfigDir()
+    public function preservesSomeConfigurations(
+        $configuratorIndex,
+        array $normalizedOption,
+        array $shouldPreserve)
     {
-        return $this->phpConfigDir;
+        $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-a');
+        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
+
+        $notifier = \Phake::mock('\Stagehand\TestRunner\Notification\Notifier');
+        \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
+        $this->applicationContext->setComponent('notifier', $notifier);
+
+        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        \Phake::when($legacyProxy)->passthru($this->anything())->thenReturn(null);
+        \Phake::when($legacyProxy)->is_dir($this->anything())->thenReturn(true);
+        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
+
+        $alterationMonitoring = \Phake::mock('\Stagehand\TestRunner\Process\AlterationMonitoring');
+        \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
+        $this->applicationContext->setComponent('alteration_monitoring', $alterationMonitoring);
+
+        call_user_func(self::$configurators[$configuratorIndex]);
+
+        $autotest = $this->applicationContext->createComponent('autotest');
+        $autotest->monitorAlteration();
+
+        $runnerOptions = $this->readAttribute($autotest, 'runnerOptions');
+
+        for ($i = 0; $i < count($normalizedOption); ++$i) {
+            $preserved = in_array($normalizedOption[$i], $runnerOptions);
+            $this->assertEquals($shouldPreserve[$i], $preserved);
+        }
+    }
+
+    /**
+     * @return array
+     * @link http://redmine.piece-framework.com/issues/314
+     */
+    public function preservedConfigurations()
+    {
+        return array(
+            array(0, array('-R'), array(true)),
+            array(1, array('-R'), array(true)),
+            array(2, array('-R', '-c'), array(true, true)),
+            array(3, array('-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true)),
+            array(4, array('-R', '-w ' . escapeshellarg('src')), array(true, false)),
+            array(5, array('-R', '-n'), array(true, true)),
+            array(6, array('-R', '-m ' . escapeshellarg('METHOD1')), array(true, false)),
+            array(7, array('-R', '--classes=' . escapeshellarg('CLASS1')), array(true, false)),
+            array(8, array('-R', '--log-junit=' . escapeshellarg('FILE')), array(true, false)),
+            array(9, array('-R', '--log-junit-realtime'), array(true, false)),
+            array(10, array('-R', '-v'), array(true, true)),
+            array(11, array('-R', '--stop-on-failure'), array(true, true)),
+            array(12, array('-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true)),
+            array(13, array('-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
+            array(14, array('-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
+            array(15, array('-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
+            array(16, array('-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true)),
+        );
     }
 }
 

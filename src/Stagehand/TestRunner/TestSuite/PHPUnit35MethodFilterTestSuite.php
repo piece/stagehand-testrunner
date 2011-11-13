@@ -54,7 +54,7 @@ class PHPUnit35MethodFilterTestSuite extends PHPUnitMethodFilterTestSuite
      */
     protected function addTestMethod(\ReflectionClass $class, \ReflectionMethod $method)
     {
-        if ($this->config->isTestingMethod($class->getName(), $method->getName())) {
+        if ($this->testTargets->shouldTreatElementAsTest($class->getName(), $method->getName())) {
             parent::addTestMethod($class, $method);
         }
     }

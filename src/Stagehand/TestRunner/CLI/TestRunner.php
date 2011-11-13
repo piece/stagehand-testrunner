@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,44 +29,72 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.15.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core;
+namespace Stagehand\TestRunner\CLI;
+
+use Stagehand\TestRunner\Core\ApplicationContext;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.15.0
+ * @since      Class available since Release 3.0.0
  */
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class TestRunner
 {
     /**
-     * @test
-     * @since Method available since Release 2.20.0
+     * @var boolean
      */
-    public function getsTheCurrentDirectoryAsTheTestDirectoryIfNoDirectoriesOrFilesAreSpecified()
+    protected $enablesAutotest;
+
+    /**
+     */
+    public function run()
     {
-        $currentDirectory = '/path/to/currentDir';
+        if (!$this->enablesAutotest) {
+            $this->createTestRun()->run();
+        } else {
+            $autotest = $this->createAutotest();
+            $autotest->runTests();
+            $autotest->monitorAlteration();
+        }
+    }
 
-        $config = \Phake::partialMock('\Stagehand\TestRunner\Core\Config');
-        \Phake::when($config)->getWorkingDirectoryAtStartup()->thenReturn($currentDirectory);
+    /**
+     * @param boolean $enablesAutotest
+     */
+    public function setEnablesAutotest($enablesAutotest)
+    {
+        $this->enablesAutotest = $enablesAutotest;
+    }
 
-        $testingResources = $config->getTestingResources();
-        $this->assertEquals(1, count($testingResources));
-        $this->assertEquals($currentDirectory, $testingResources[0]);
+    /**
+     * @return \Stagehand\TestRunner\Process\TestRun
+     */
+    protected function createTestRun()
+    {
+        return ApplicationContext::getInstance()->createComponent('test_run');
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Process\Autotest
+     */
+    protected function createAutotest()
+    {
+        return ApplicationContext::getInstance()->createComponent('autotest');
     }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: utf-8
+ * coding: iso-8859-1
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

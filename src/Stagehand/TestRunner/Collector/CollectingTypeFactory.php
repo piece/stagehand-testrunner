@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,56 +29,38 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      File available since Release 2.7.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\TestSuite;
+namespace Stagehand\TestRunner\Collector;
 
-use Stagehand\TestRunner\Core\TestTargets;
+use Stagehand\TestRunner\Core\ApplicationContext;
 
 /**
+ * The base class for test collectors.
+ *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      Class available since Release 2.7.0
+ * @since      Class available since Release 2.1.0
  */
-class PHPUnitMethodFilterTestSuite extends \PHPUnit_Framework_TestSuite
+class CollectingTypeFactory
 {
     /**
-     * @var \Stagehand\TestRunner\Core\TestTargets
-     * @since Property available since Release 3.0.0
+     * @param string $type
+     * @param array $expectedSuperTypes
+     * @return \Stagehand\TestRunner\Collector\CollectingType
      */
-    protected $testTargets;
-
-    /**
-     * @param \ReflectionClass             $theClass
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
-     */
-    public function __construct(\ReflectionClass $theClass, TestTargets $testTargets)
+    public static function create($type, array $expectedSuperTypes)
     {
-        $this->testTargets = $testTargets;
-        parent::__construct($theClass);
-    }
-
-    /**
-     * @param \PHPUnit_Framework_Test $test
-     * @param array                  $groups
-     */
-    public function addTest(\PHPUnit_Framework_Test $test, $groups = array())
-    {
-        if ($test instanceof \PHPUnit_Framework_Warning
-            && preg_match('/^No tests found in class/', $test->getMessage())
-            ) {
-            return;
-        }
-
-        parent::addTest($test, $groups);
+        $collectingType = ApplicationContext::getInstance()->createComponent('collecting_type');
+        $collectingType->setType($type);
+        $collectingType->setExpectedSuperTypes($expectedSuperTypes);
+        return $collectingType;
     }
 }
 

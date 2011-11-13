@@ -61,8 +61,7 @@ class PHPSpecRunner extends Runner
     public function run($suite)
     {
         $result = new \PHPSpec_Runner_Result();
-        $reporter = new \TextReporter($result,$this->config->colors()
-                    );
+        $reporter = new TextReporter($result, $this->terminal->colors());
         $result->setReporter($reporter);
 
         $result->setRuntimeStart(microtime(true));
@@ -74,7 +73,7 @@ class PHPSpecRunner extends Runner
 
         $reporter->output(true);
 
-        if ($this->config->usesNotification) {
+        if ($this->usesNotification()) {
             $output = $reporter->toString(true);
 
             $failuresCount = $result->countFailures();

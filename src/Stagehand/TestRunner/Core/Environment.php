@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,45 +29,55 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Preparer;
-
-use Stagehand\TestRunner\Core\Config;
+namespace Stagehand\TestRunner\Core;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 3.0.0
  */
-class PreparerFactory
+class Environment
 {
     /**
-     * @var \Stagehand\TestRunner\Core\Config
+     * @var string
      */
-    protected $config;
+    protected $workingDirectoryAtStartup;
 
-    /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     */
-    public function __construct(Config $config)
+    public function __construct()
     {
-        $this->config = $config;
+        $this->initialize();
     }
 
     /**
-     * @return \Stagehand\TestRunner\Preparer\Preparer
+     * @param string $workingDirectoryAtStartup
      */
-    public function create()
+    public function setWorkingDirectoryAtStartup($workingDirectoryAtStartup)
     {
-        $class = __NAMESPACE__ . '\\' . $this->config->framework . 'Preparer';
-        return new $class($this->config);
+        $this->workingDirectoryAtStartup = $workingDirectoryAtStartup;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorkingDirectoryAtStartup()
+    {
+        return $this->workingDirectoryAtStartup;
+    }
+
+    protected function initialize()
+    {
+        ini_set('display_errors', true);
+        ini_set('html_errors', false);
+        ini_set('implicit_flush', true);
+        ini_set('max_execution_time', 0);
     }
 }
 

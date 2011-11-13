@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
-use Stagehand\TestRunner\Core\Config;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -48,19 +46,6 @@ use Stagehand\TestRunner\Core\Config;
  */
 abstract class Preparer
 {
-    /**
-     * @var \Stagehand\TestRunner\Core\Config
-     */
-    protected $config;
-
-    /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     */
-    public function __construct(Config $config)
-    {
-        $this->config = $config;
-    }
-
     abstract public function prepare();
 }
 

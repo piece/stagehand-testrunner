@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\Core\Config;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,10 +48,12 @@ use Stagehand\TestRunner\Core\Config;
  */
 class CIUnitRunnerTest extends PHPUnitRunnerTest
 {
-    protected $framework = TestingFramework::CIUNIT;
-
-    protected function loadClasses()
+    protected function configure()
     {
+        $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\CIUnitPreparer */
+        $preparer->setCIUnitPath(__DIR__ . '/../../../../vendor/codeigniter/system/application/tests');
+        $preparer->prepare();
+
         include_once 'Stagehand/TestRunner/testCIUnitMultipleClasses.php';
         include_once 'Stagehand/TestRunner/testCIUnitIncomplete.php';
         include_once 'Stagehand/TestRunner/testCIUnitSkipped.php';
@@ -69,11 +70,12 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\Config $config
+     * @return string
+     * @since Method available since Release 3.0.0
      */
-    protected function configure(Config $config)
+    protected function getTestingFramework()
     {
-        $config->ciunitPath = dirname(__FILE__) . '/../../../../vendor/codeigniter/system/application/tests';
+        return TestingFramework::CIUNIT;
     }
 
     /**

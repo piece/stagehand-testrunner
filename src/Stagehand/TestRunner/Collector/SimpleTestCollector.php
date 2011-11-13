@@ -54,7 +54,6 @@ namespace Stagehand\TestRunner\Collector;
 class SimpleTestCollector extends Collector
 {
     protected $superTypes = array('SimpleTestCase');
-    protected $filePattern = 'Test(?:Case)?\.php$';
     protected $suiteClass = '\Stagehand\TestRunner\TestSuite\SimpleTestTestSuite';
 
     /**
@@ -80,7 +79,7 @@ class SimpleTestCollector extends Collector
     protected function createTestSuite($name)
     {
         $suite = new $this->suiteClass($name);
-        $suite->setConfig($this->config);
+        $suite->setTestTargets($this->testTargets);
         return $suite;
     }
 }

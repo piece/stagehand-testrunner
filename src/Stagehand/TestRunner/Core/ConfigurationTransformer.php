@@ -57,6 +57,19 @@ class ConfigurationTransformer
     protected $configuration = array();
 
     /**
+     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
+     */
+    protected $container;
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    public function __construct(ContainerBuilder $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * @param array $configurationPart
      * @return \Stagehand\TestRunner\Core\ConfigurationTransformer
      */
@@ -71,20 +84,19 @@ class ConfigurationTransformer
      */
     public function transformToContainer()
     {
-        $container = new ContainerBuilder();
-        $container->registerExtension(new StagehandTestrunnerExtension());
+        $this->container->registerExtension(new StagehandTestrunnerExtension());
 
         // TODO YAML-based Configuration (Issue #178)
 //         $loader = new YamlFileLoader($container, new FileLocator('/path/to/yamlDir'));
 //         $loader->load('example.yml');
 
-        $container->loadFromExtension(
+        $this->container->loadFromExtension(
             Package::PACKAGE_ID,
             String::applyFilter($this->configuration, function ($v) { return urldecode($v); })
         );
-        $container->compile();
+        $this->container->compile();
 
-        return $container;
+        return $this->container;
     }
 }
 

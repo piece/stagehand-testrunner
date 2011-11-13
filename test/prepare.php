@@ -45,18 +45,17 @@ set_include_path(
     get_include_path()
 );
 
+require_once 'PHPUnit/Autoload.php';
+require_once 'Phake.php';
 require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
 
 $bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
 $bootstrap->boot();
 
-\Stagehand\TestRunner\Preparer\PHPUnitPreparer::prepareFramework();
-
-require_once 'Phake.php';
-
-\Phake::setClient(\Phake::CLIENT_PHPUNIT);
-
+\Phake::setClient(Phake::CLIENT_PHPUNIT);
 \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
+
+\Stagehand\TestRunner\Test\TestEnvironment::earlyInitialize();
 
 /*
  * Local Variables:

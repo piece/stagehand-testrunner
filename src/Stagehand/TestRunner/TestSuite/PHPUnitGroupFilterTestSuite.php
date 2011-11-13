@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\TestSuite;
 
-use Stagehand\TestRunner\Core\Config;
+use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
@@ -50,20 +50,21 @@ use Stagehand\TestRunner\Core\Config;
  */
 class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 {
-    /**
-     * @var \Stagehand\TestRunner\Core\Config
-     */
-    protected $config;
-
     protected $excluded = false;
 
     /**
-     * @param \ReflectionClass $theClass
-     * @param \Stagehand\TestRunner\Core\Config $config
+     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+     * @since Property available since Release 3.0.0
      */
-    public function __construct(\ReflectionClass $theClass, Config $config)
+    protected $phpunitXMLConfiguration;
+
+    /**
+     * @param \ReflectionClass $theClass
+     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     */
+    public function __construct(\ReflectionClass $theClass, PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
     {
-        $this->config = $config;
+        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
         parent::__construct($theClass);
         if (count($this->tests) == 1 && $this->tests[0]) {
             if ($this->tests[0] instanceof \PHPUnit_Framework_Warning
@@ -78,29 +79,29 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 
     /**
      * @param \ReflectionClass $theClass
-     * @param \Stagehand\TestRunner\Core\Config $config
      * @return boolean
      */
     protected function shouldExclude(\ReflectionClass $class, \ReflectionMethod $method)
     {
-        if (is_null($this->config->phpunitConfigFile)) return false;
+        if (is_null($this->phpunitXMLConfiguration)) return false;
 
         $groups = \PHPUnit_Util_Test::getGroups($class->getName(), $method->getName());
         $shouldExclude = false;
-        $groupConfiguration = \PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getGroupConfiguration();
-        if (array_key_exists('include', $groupConfiguration) && count($groupConfiguration['include'])) {
+        if ($this->phpunitXMLConfiguration->hasGroupConfiguration('include')) {
+            $groupConfiguration = $this->phpunitXMLConfiguration->getGroupConfiguration('include');
             $shouldExclude = true;
             foreach ($groups as $group) {
-                if (in_array($group, $groupConfiguration['include'])) {
+                if (in_array($group, $groupConfiguration)) {
                     $shouldExclude = false;
                     break;
                 }
             }
         }
 
-        if (array_key_exists('exclude', $groupConfiguration) && count($groupConfiguration['exclude'])) {
+        if ($this->phpunitXMLConfiguration->hasGroupConfiguration('exclude')) {
+            $groupConfiguration = $this->phpunitXMLConfiguration->getGroupConfiguration('exclude');
             foreach ($groups as $group) {
-                if (in_array($group, $groupConfiguration['exclude'])) {
+                if (in_array($group, $groupConfiguration)) {
                     $shouldExclude = true;
                     break;
                 }

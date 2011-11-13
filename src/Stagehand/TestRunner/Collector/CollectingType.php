@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Collector;
 
+use Stagehand\TestRunner\Core\LegacyProxy;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -50,14 +52,10 @@ class CollectingType
     protected $expectedSuperTypes = array();
 
     /**
-     * @param string $type
-     * @param array $expectedSuperTypes
+     * @var \Stagehand\TestRunner\Core\LegacyProxy
+     * @since Property available since Release 3.0.0
      */
-    public function __construct($type, array $expectedSuperTypes)
-    {
-        $this->type = $type;
-        $this->expectedSuperTypes = $expectedSuperTypes;
-    }
+    protected $legacyProxy;
 
     /**
      * @return boolean
@@ -77,12 +75,39 @@ class CollectingType
     }
 
     /**
+     * @param \Stagehand\TestRunner\Core\LegacyProxy $legacyProxy
+     * @since Method available since Release 3.0.0
+     */
+    public function setLegacyProxy(LegacyProxy $legacyProxy)
+    {
+        $this->legacyProxy = $legacyProxy;
+    }
+
+    /**
+     * @param string $type
+     * @since Method available since Release 3.0.0
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @param array $expectedSuperTypes
+     * @since Method available since Release 3.0.0
+     */
+    public function setExpectedSuperTypes(array $expectedSuperTypes)
+    {
+        $this->expectedSuperTypes = $expectedSuperTypes;
+    }
+
+    /**
      * @param string $type
      * @param string $expectedSuperType
      */
     protected function isSubTypeOfExpectedSuperType($type, $expectedSuperType)
     {
-        return is_subclass_of($type, $expectedSuperType);
+        return $this->legacyProxy->is_subclass_of($type, $expectedSuperType);
     }
 }
 

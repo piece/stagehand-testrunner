@@ -50,10 +50,24 @@ class Bootstrap
 {
     public function boot()
     {
+        $this->prepareClassLoader();
+        $this->prepareApplicationContext();
+    }
+
+    protected function prepareClassLoader()
+    {
         $classLoader = new \Symfony\Component\ClassLoader\UniversalClassLoader();
         $classLoader->useIncludePath(true);
         $classLoader->registerPrefix('Stagehand_', array());
         $classLoader->register();
+    }
+
+    protected function prepareApplicationContext()
+    {
+        $applicationContext = new ApplicationContext();
+        $applicationContext->setComponentFactory(new ComponentFactory());
+        $applicationContext->setEnvironment(new Environment());
+        ApplicationContext::setInstance($applicationContext);
     }
 }
 

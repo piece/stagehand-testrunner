@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,52 +29,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.11.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Runner;
+namespace Stagehand\TestRunner\Test;
 
-use Stagehand\TestRunner\Core\Config;
+use Stagehand\TestRunner\Core\ApplicationContext;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.11.0
+ * @since      Class available since Release 3.0.0
  */
-class RunnerFactory
+class TestApplicationContext extends ApplicationContext
 {
     /**
-     * @var \Stagehand\TestRunner\Core\Config
+     * @param string $componentID
+     * @param mixed $component
      */
-    protected $config;
-
-    /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     */
-    public function __construct(Config $config)
+    public function setComponent($componentID, $component)
     {
-        $this->config = $config;
+        $this->componentFactory->set($componentID, $component);
     }
 
     /**
-     * @return \Stagehand\TestRunner\Runner\Runner
+     * @param string $componentID
+     * @param string $componentClass
      */
-    public function create()
+    public function setComponentClass($componentID, $componentClass)
     {
-        if (is_null($this->config->runnerClass)) {
-            $class = '\Stagehand\TestRunner\Runner\\' .
-                     $this->config->framework .
-                     'Runner';
-        } else {
-            $class = $this->config->runnerClass;
-        }
-
-        return new $class($this->config);
+        $this->componentFactory->setClass($componentID, $componentClass);
     }
 }
 

@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,45 +29,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Collector;
-
-use Stagehand\TestRunner\Core\Config;
+namespace Stagehand\TestRunner\Test;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 3.0.0
  */
-class CollectorFactory
+abstract class FactoryAwareTestCase extends TestCase
 {
-    /**
-     * @var \Stagehand\TestRunner\Core\Config
-     */
-    protected $config;
-
-    /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     */
-    public function __construct(Config $config)
+    protected function setUp()
     {
-        $this->config = $config;
+        parent::setUp();
+        $this->applicationContext->getComponentFactory()->backupDefinitions();
+    }
+
+    protected function tearDown()
+    {
+        $this->applicationContext->getComponentFactory()->restoreDefinitions();
+        parent::tearDown();
     }
 
     /**
-     * @return \Stagehand\TestRunner\Collector\Collector
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
      */
-    public function create()
+    protected function createContainer()
     {
-        $class = __NAMESPACE__ . '\\' . $this->config->framework . 'Collector';
-        return new $class($this->config);
+        return TestEnvironment::getContainer();
     }
 }
 

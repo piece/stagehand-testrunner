@@ -47,7 +47,6 @@ namespace Stagehand\TestRunner\Collector;
 class CakeCollector extends SimpleTestCollector
 {
     protected $superTypes = array('CakeTestCase', 'CakeWebTestCase');
-    protected $filePattern = '\.test\.php$';
     protected $suiteClass = '\Stagehand\TestRunner\TestSuite\CakeTestSuite';
 }
 

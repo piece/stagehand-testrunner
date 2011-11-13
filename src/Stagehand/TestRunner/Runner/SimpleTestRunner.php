@@ -78,17 +78,16 @@ class SimpleTestRunner extends Runner
         $reporter = new \MultipleReporter();
         $reporter->attachReporter($this->decorateReporter($textReporter));
 
-        if ($this->config->logsResultsInJUnitXML()) {
-            if (!$this->config->logsResultsInJUnitXMLInRealtime()) {
+        if ($this->logsResultsInJUnitXML) {
+            if (!$this->logsResultsInJUnitXMLInRealtime) {
                 $xmlWriter = new JUnitXMLDOMWriter(array($this, 'writeJUnitXMLToFile'));
             } else {
                 $xmlWriter = $this->junitXMLStreamWriter(array($this, 'writeJUnitXMLToFile'));
             }
 
-            $junitXMLReporter = new $this->junitXMLReporterClass($this->config);
+            $junitXMLReporter = new $this->junitXMLReporterClass();
             $junitXMLReporter->setXMLWriter($xmlWriter);
             $junitXMLReporter->setTestSuite($suite);
-            $junitXMLReporter->setConfig($this->config);
             $reporter->attachReporter($this->decorateReporter($junitXMLReporter));
         }
 
@@ -97,13 +96,13 @@ class SimpleTestRunner extends Runner
         $output = ob_get_contents();
         ob_end_clean();
 
-        if ($this->config->logsResultsInJUnitXML()) {
+        if ($this->logsResultsInJUnitXML) {
             if (is_resource($this->junitXMLFileHandle)) {
                 fclose($this->junitXMLFileHandle);
             }
         }
 
-        if ($this->config->usesNotification) {
+        if ($this->usesNotification()) {
             if ($textReporter->getFailCount() + $textReporter->getExceptionCount() == 0) {
                 $notificationResult = Notification::RESULT_PASSED;
             } else {
@@ -114,7 +113,7 @@ class SimpleTestRunner extends Runner
             $this->notification = new Notification($notificationResult, $matches[1]);
         }
 
-        if ($this->config->colors()) {
+        if ($this->terminal->colors()) {
             echo \Console_Color::convert(preg_replace(array('/^(OK.+)/ms',
                                                             '/^(FAILURES!!!.+)/ms',
                                                             '/^(\d+\)\s)(.+at \[.+\]$\s+in .+)$/m',
@@ -140,11 +139,11 @@ class SimpleTestRunner extends Runner
     public function writeJUnitXMLToFile($buffer)
     {
         if (!is_resource($this->junitXMLFileHandle)) {
-            $result = fopen($this->config->getJUnitXMLFile(), 'w');
+            $result = fopen($this->junitXMLFile, 'w');
             if (!$result) {
                 throw new Exception(
                     'Failed to open the specified file [ ' .
-                    $this->config->getJUnitXMLFile() .
+                    $this->junitXMLFile .
                     ' ].'
                 );
             }
@@ -156,7 +155,7 @@ class SimpleTestRunner extends Runner
         if ($result === false) {
             throw new Exception(
                'Failed to write the test results into the specified file [ ' .
-               $this->config->getJUnitXMLFile() .
+               $this->junitXMLFile .
                ' ].'
             );
         }
@@ -181,17 +180,17 @@ class SimpleTestRunner extends Runner
     {
         $reporters[] = $reporter;
 
-        if ($this->config->testsOnlySpecifiedMethods) {
+        if ($this->testTargets->testsOnlySpecifiedMethods()) {
             $reporters[] = $this->createMethodFilterReporter($reporters[ count($reporters) - 1 ]);
-            $reporters[ count($reporters) - 1 ]->setConfig($this->config);
+            $reporters[ count($reporters) - 1 ]->setTestTargets($this->testTargets);
         }
 
-        if ($this->config->testsOnlySpecifiedClasses) {
+        if ($this->testTargets->testsOnlySpecifiedClasses()) {
             $reporters[] = new ClassFilterReporter($reporters[ count($reporters) - 1 ]);
-            $reporters[ count($reporters) - 1 ]->setConfig($this->config);
+            $reporters[ count($reporters) - 1 ]->setTestTargets($this->testTargets);
         }
 
-        if ($this->config->stopsOnFailure) {
+        if ($this->stopsOnFailure) {
             $reporters[] = new StopOnFailureReporter($reporters[ count($reporters) - 1 ]);
         }
 

@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Collector;
 
+use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,7 +46,7 @@ namespace Stagehand\TestRunner\Collector;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class CollectingTypeTest extends \PHPUnit_Framework_TestCase
+class CollectingTypeTest extends PHPUnitFactoryAwareTestCase
 {
     /**
      * @test
@@ -56,13 +58,13 @@ class CollectingTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function checksATypeIsATest($type, $isSubTypeOfExpectedType, $isTest)
     {
-        $collectingType = \Phake::partialMock(
-            '\Stagehand\TestRunner\Collector\CollectingType',
+        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        \Phake::when($legacyProxy)->is_subclass_of($this->anything(), $this->anything())
+            ->thenReturn($isSubTypeOfExpectedType);
+        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
+        $collectingType = CollectingTypeFactory::create(
             $type, array('PHPSpec\Specification\ExampleGroup', 'PHPSpec\Context')
         );
-
-        \Phake::when($collectingType)->isSubTypeOfExpectedSuperType($this->anything(), $this->anything())
-            ->thenReturn($isSubTypeOfExpectedType);
 
         $this->assertEquals($isTest, $collectingType->isTest());
     }

@@ -39,6 +39,8 @@
 
 namespace Stagehand\TestRunner\Notification;
 
+use Stagehand\TestRunner\Core\LegacyProxy;
+
 Notifier::$ICON_PASSED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'passed.png';
 Notifier::$ICON_FAILED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'failed.png';
 Notifier::$ICON_STOPPED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'stopped.png';
@@ -60,6 +62,12 @@ class Notifier
     public static $ICON_PASSED;
     public static $ICON_FAILED;
     public static $ICON_STOPPED;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\LegacyProxy
+     * @since Property available since Release 3.0.0
+     */
+    protected $legacyProxy;
 
     /**
      * @param \Stagehand\TestRunner\Notification\Notification $notification
@@ -91,6 +99,15 @@ class Notifier
     public function isLinux()
     {
         return strtolower(substr($this->getPHPOS(), 0, strlen('linux'))) == 'linux';
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\LegacyProxy $legacyProxy
+     * @since Method available since Release 3.0.0
+     */
+    public function setLegacyProxy(LegacyProxy $legacyProxy)
+    {
+        $this->legacyProxy = $legacyProxy;
     }
 
     /**
@@ -145,7 +162,8 @@ class Notifier
     protected function executeNotifyCommand($command)
     {
         if (strlen($command) > 0) {
-            system($command);
+            $exitStatus = null;
+            $this->legacyProxy->system($command, $exitStatus);
         }
     }
 
@@ -154,7 +172,7 @@ class Notifier
      */
     protected function getPHPOS()
     {
-        return PHP_OS;
+        return $this->legacyProxy->PHP_OS();
     }
 }
 

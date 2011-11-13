@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Core;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,44 +49,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ComponentFactory
 {
     /**
-     * @var \Stagehand\TestRunner\Core\ComponentFactory
-     */
-    protected static $soleInstance;
-
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
      */
     protected $container;
 
-    private function __construct()
-    {
-    }
-
     /**
-     * @return \Stagehand\TestRunner\Core\ComponentFactory
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    public static function getInstance()
-    {
-        if (is_null(self::$soleInstance)) {
-            self::$soleInstance = new self();
-        }
-        return self::$soleInstance;
-    }
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(ContainerBuilder $container)
     {
         $this->container = $container;
-    }
-
-    /**
-     * @return \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function getContainer()
-    {
-        return $this->container;
     }
 
     /**
@@ -95,7 +67,16 @@ class ComponentFactory
      */
     public function create($componentID)
     {
-        return $this->container->get(Package::PACKAGE_ID . '.' . $componentID);
+        return $this->container->get($this->resolveServiceID($componentID));
+    }
+
+    /**
+     * @param string $componentID
+     * @return string
+     */
+    protected function resolveServiceID($componentID)
+    {
+        return Package::PACKAGE_ID . '.' . $componentID;
     }
 }
 

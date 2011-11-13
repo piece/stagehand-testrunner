@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Runner\CakeRunner;
 
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\Core\Config;
 
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/web_tester.php';
@@ -53,10 +52,24 @@ require_once 'simpletest/mock_objects.php';
  */
 class JUnitXMLTest extends \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLTest
 {
-    protected $framework = TestingFramework::CAKE;
-
-    protected function loadClasses()
+    /**
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    protected function getTestingFramework()
     {
+        return TestingFramework::CAKE;
+    }
+
+    /**
+     * @since Method available since Release 2.14.1
+     */
+    protected function configure()
+    {
+        $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+        $preparer->setCakePHPAppPath(__DIR__ . '/../../../../../vendor/cakephp/app');
+        $preparer->prepare();
+
         include_once 'Stagehand/TestRunner/cake_pass.test.php';
         include_once 'Stagehand/TestRunner/cake_failure.test.php';
         include_once 'Stagehand/TestRunner/cake_error.test.php';
@@ -70,15 +83,6 @@ class JUnitXMLTest extends \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXM
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
             include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
         }
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     * @since Method available since Release 2.14.1
-     */
-    protected function configure(Config $config)
-    {
-        $config->cakephpAppPath = dirname(__FILE__) . '/../../../../../vendor/cakephp/app';
     }
 
     /**

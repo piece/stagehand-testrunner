@@ -51,6 +51,30 @@ class TestingFramework
     const PHPSPEC = 'PHPSpec';
     const CAKE = 'Cake';
     const CIUNIT = 'CIUnit';
+
+    /**
+     * @var string
+     * @since Property available since Release 3.0.0
+     */
+    protected $testingFramework;
+
+    /**
+     * @param string $testingFramework
+     * @since Method available since Release 3.0.0
+     */
+    public function __construct($testingFramework)
+    {
+        $this->testingFramework = $testingFramework;
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    public function getSelected()
+    {
+        return $this->testingFramework;
+    }
 }
 
 /*

@@ -142,7 +142,7 @@ class TextReporter extends \PHPSpec_Runner_Reporter_Text
                                          Coloring::red('$1'),
                                          Coloring::yellow('$1')
                                          ),
-                                   Console_Color::escape($output)
+                                   \Console_Color::escape($output)
                                    );
             \Stagehand_LegacyError_PHPError::disableConversion();
             error_reporting($oldErrorReportingLevel);

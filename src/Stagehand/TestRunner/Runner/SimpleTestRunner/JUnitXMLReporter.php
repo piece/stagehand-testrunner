@@ -38,7 +38,6 @@
 
 namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
-use Stagehand\TestRunner\Core\Config;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 use Stagehand\TestRunner\Runner\JUnitXMLWriterAdapter;
 use Stagehand\TestRunner\TestSuite\SimpleTestTestSuite;
@@ -65,11 +64,6 @@ class JUnitXMLReporter extends \SimpleReporter implements JUnitXMLWriterAdapter
     protected $methodStartTime;
     protected $assertionCount;
     protected $reportedFailure;
-
-    /**
-     * @var \Stagehand\TestRunner\Core\Config
-     */
-    protected $config;
 
     /**
      * @var boolean
@@ -103,14 +97,6 @@ class JUnitXMLReporter extends \SimpleReporter implements JUnitXMLWriterAdapter
     public function setTestSuite(SimpleTestTestSuite $suite)
     {
         $this->suite = $suite;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
     }
 
     /**

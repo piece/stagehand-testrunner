@@ -37,9 +37,18 @@
 
 namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Core\Config;
+use Stagehand\TestRunner\Core\ApplicationContext;
+
+use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\Exception;
+use Stagehand\TestRunner\Core\LegacyProxy;
+use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
+use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
+use Stagehand\TestRunner\Notification\Notifier;
+use Stagehand\TestRunner\Preparer\CakePreparer;
+use Stagehand\TestRunner\Preparer\CIUnitPreparer;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -57,11 +66,6 @@ class Autotest
     const FATAL_ERROR_MESSAGE_PATTERN = "/^(?:Parse|Fatal) error: .+ in .+?(?:\(\d+\) : eval\(\)'d code)? on line \d+/m";
 
     /**
-     * @var \Stagehand\TestRunner\Core\Config $config
-     */
-    protected $config;
-
-    /**
      * @var string
      */
     protected $runnerCommand;
@@ -73,15 +77,70 @@ class Autotest
 
     /**
      * @var string
+     * @since Property available since Release 3.0.0
      */
-    protected $output;
+    protected $preloadFile;
 
     /**
-     * @param \Stagehand\TestRunner\Core\Config $config
+     * @var \Stagehand\TestRunner\CLI\Terminal
+     * @since Property available since Release 3.0.0
      */
-    public function __construct(Config $config)
+    protected $terminal;
+
+    /**
+     * @var \Stagehand\TestRunner\Notification\Notifier
+     * @since Property available since Release 3.0.0
+     */
+    protected $notifier;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+     * @since Property available since Release 3.0.0
+     */
+    protected $phpunitXMLConfiguration;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @since Property available since Release 3.0.0
+     */
+    protected $testTargets;
+
+    /**
+     * @var array
+     * @since Property available since Release 3.0.0
+     */
+    protected $monitoringDirectories;
+
+    /**
+     * @var \Stagehand\TestRunner\Runner\Runner
+     * @since Property available since Release 3.0.0
+     */
+    protected $runner;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\LegacyProxy
+     * @since Property available since Release 3.0.0
+     */
+    protected $legacyProxy;
+
+    /**
+     * @var \Stagehand\TestRunner\Process\AlterationMonitoring
+     */
+    protected $alterationMonitoring;
+
+    /**
+     * @var \Stagehand\TestRunner\Preparer\Preparer
+     * @since Property available since Release 3.0.0
+     */
+    protected $preparer;
+
+    /**
+     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
+     */
+    public function __construct(TestingFramework $testingFramework)
     {
-        $this->config = $config;
+        $this->preparer = $this->createPreparer($testingFramework);
+        $this->runner = $this->createRunner($testingFramework);
     }
 
     /**
@@ -95,7 +154,7 @@ class Autotest
             $this->initializeRunnerCommandAndOptions();
         }
 
-        $this->createAlterationMonitor()->monitor();
+        $this->alterationMonitoring->monitor($this->getMonitoringDirectories(), array($this, 'runTests'));
     }
 
     /**
@@ -107,25 +166,90 @@ class Autotest
             $this->initializeRunnerCommandAndOptions();
         }
 
-        $this->output = '';
-        ob_start(array($this, 'filterOutput'), 2);
+        $output = '';
+        ob_start(function ($buffer) use (&$output) {
+            $output .= $buffer;
+            return $buffer;
+        }, 2);
         $exitStatus = $this->executeRunnerCommand($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
         ob_end_flush();
-        if ($exitStatus != 0 && $this->config->usesNotification) {
+        if ($exitStatus != 0 && $this->runner->usesNotification()) {
             $this->createNotifier()->notifyResult(
-                new Notification(Notification::RESULT_STOPPED, $this->findFatalErrorMessage($this->output)
+                new Notification(Notification::RESULT_STOPPED, $this->findFatalErrorMessage($output)
             ));
         }
     }
 
     /**
-     * @param string $buffer
-     * @return string
+     * @param string $preloadFile
+     * @since Method available since Release 3.0.0
      */
-    public function filterOutput($buffer)
+    public function setPreloadFile($preloadFile)
     {
-        $this->output .= $buffer;
-        return $buffer;
+        $this->preloadFile = $preloadFile;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\CLI\Terminal $terminal
+     * @since Method available since Release 3.0.0
+     */
+    public function setTerminal(Terminal $terminal)
+    {
+        $this->terminal = $terminal;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Notification\Notifier $notifier
+     * @since Method available since Release 3.0.0
+     */
+    public function setNotifier(Notifier $notifier)
+    {
+        $this->notifier = $notifier;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     * @since Method available since Release 3.0.0
+     */
+    public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
+    {
+        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @since Property available since Release 3.0.0
+     */
+    public function setTestTargets(TestTargets $testTargets)
+    {
+        $this->testTargets = $testTargets;
+    }
+
+    /**
+     * @param array $monitoringDirectories
+     * @since Method available since Release 3.0.0
+     */
+    public function setMonitoringDirectories(array $monitoringDirectories)
+    {
+        $this->monitoringDirectories = $monitoringDirectories;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\LegacyProxy $legacyProxy
+     * @since Method available since Release 3.0.0
+     */
+    public function setLegacyProxy(LegacyProxy $legacyProxy)
+    {
+        $this->legacyProxy = $legacyProxy;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Process\AlterationMonitoring $alterationMonitoring
+     * @since Method available since Release 3.0.0
+     */
+    public function setAlterationMonitoring(AlterationMonitoring $alterationMonitoring)
+    {
+        $this->alterationMonitoring = $alterationMonitoring;
     }
 
     /**
@@ -137,14 +261,14 @@ class Autotest
         $monitoringDirectories = array();
         foreach (
             array_merge(
-                $this->config->monitoringDirectories,
-                $this->config->getTestingResources()
+                $this->monitoringDirectories,
+                $this->testTargets->getResources()
             ) as $directory) {
-            if (!is_dir($directory)) {
+            if (!$this->legacyProxy->is_dir($directory)) {
                 throw new Exception('A specified path [ ' . $directory . ' ] is not found or not a directory.');
             }
 
-            $directory = realpath($directory);
+            $directory = $this->legacyProxy->realpath($directory);
             if ($directory === false) {
                 throw new Exception('Cannnot get the absolute path of a specified directory [ ' . $directory . ' ]. Make sure all elements of the absolute path have valid permissions.');
             }
@@ -197,63 +321,50 @@ class Autotest
 
         $options[] = '-R';
 
-        if (!is_null($this->config->preloadFile)) {
-            $options[] = '-p ' . escapeshellarg($this->config->preloadFile);
+        if (!is_null($this->preloadFile)) {
+            $options[] = '-p ' . escapeshellarg($this->preloadFile);
         }
 
-        if ($this->config->colors()) {
+        if ($this->terminal->colors()) {
             $options[] = '-c';
         }
 
-        if ($this->config->usesNotification) {
+        if ($this->runner->usesNotification()) {
             $options[] = '-n';
         }
 
-        if (!is_null($this->config->growlPassword)) {
-            $options[] = '--growl-password=' . escapeshellarg($this->config->growlPassword);
-        }
-
-        if ($this->config->printsDetailedProgressReport) {
+        if (method_exists($this->runner, 'printsDetailedProgressReport')
+            && $this->runner->printsDetailedProgressReport()) {
             $options[] = '-v';
         }
 
-        if ($this->config->stopsOnFailure) {
+        if ($this->runner->stopsOnFailure()) {
             $options[] = '--stop-on-failure';
         }
 
-        if (!is_null($this->config->phpunitConfigFile)) {
-            $options[] = '--phpunit-config=' . escapeshellarg($this->config->phpunitConfigFile);
+        if (!is_null($this->phpunitXMLConfiguration)) {
+            $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitXMLConfiguration->getFileName());
         }
 
-        if (!is_null($this->config->cakephpAppPath)) {
-            $options[] = '--cakephp-app-path=' . escapeshellarg($this->config->cakephpAppPath);
+        if (($this->preparer instanceof CakePreparer) && !is_null($this->preparer->getCakePHPAppPath())) {
+            $options[] = '--cakephp-app-path=' . escapeshellarg($this->preparer->getCakePHPAppPath());
         }
 
-        if (!is_null($this->config->cakephpCorePath)) {
-            $options[] = '--cakephp-core-path=' . escapeshellarg($this->config->cakephpCorePath);
+        if (($this->preparer instanceof CakePreparer) && !is_null($this->preparer->getCakePHPCorePath())) {
+            $options[] = '--cakephp-core-path=' . escapeshellarg($this->preparer->getCakePHPCorePath());
         }
 
-        if (!is_null($this->config->ciunitPath)) {
-            $options[] = '--ciunit-path=' . escapeshellarg($this->config->ciunitPath);
+        if (($this->preparer instanceof CIUnitPreparer) && !is_null($this->preparer->getCIUnitPath())) {
+            $options[] = '--ciunit-path=' . escapeshellarg($this->preparer->getCIUnitPath());
         }
 
-        if (!is_null($this->config->testFilePattern)) {
-            $options[] = '--test-file-pattern=' . escapeshellarg($this->config->testFilePattern);
-        }
+        $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargets->getFilePattern());
 
-        foreach ($this->config->getTestingResources() as $testingResource) {
-            $options[] = escapeshellarg($testingResource);
-        }
+        $this->testTargets->walkOnResources(function ($resource, $index, TestTargets $testTargets) use (&$options) {
+            $options[] = escapeshellarg($resource);
+        });
 
         return $options;
-    }
-
-    /**
-     * @return \Stagehand_AlterationMonitor
-     */
-    protected function createAlterationMonitor()
-    {
-        return new \Stagehand_AlterationMonitor($this->getMonitoringDirectories(), array($this, 'runTests'));
     }
 
     /**
@@ -262,7 +373,7 @@ class Autotest
      */
     protected function getPHPConfigDir()
     {
-        return get_cfg_var('cfg_file_path');
+        return $this->legacyProxy->get_cfg_var('cfg_file_path');
     }
 
     /**
@@ -281,17 +392,7 @@ class Autotest
      */
     protected function executeRunnerCommand($runnerCommand)
     {
-        passthru($runnerCommand, $exitStatus);
-        return $exitStatus;
-    }
-
-    /**
-     * @return \Stagehand\TestRunner\Notification\Notifier
-     * @since Method available since Release 2.20.0
-     */
-    protected function createNotifier()
-    {
-        return new Notifier();
+        return $this->legacyProxy->passthru($runnerCommand);
     }
 
     /**
@@ -306,6 +407,39 @@ class Autotest
         } else {
             return $output;
         }
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
+     * @return \Stagehand\TestRunner\Preparer\Preparer
+     * @since Method available since Release 3.0.0
+     */
+    protected function createPreparer(TestingFramework $testingFramework)
+    {
+        return ApplicationContext::getInstance()->createComponent(
+            $testingFramework->getSelected() . '.' . 'preparer'
+        );
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
+     * @return \Stagehand\TestRunner\Runner\Runner
+     * @since Method available since Release 3.0.0
+     */
+    protected function createRunner(TestingFramework $testingFramework)
+    {
+        return ApplicationContext::getInstance()->createComponent(
+            $testingFramework->getSelected() . '.' . 'runner'
+        );
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Notification\Notifier
+     * @since Method available since Release 2.20.0
+     */
+    protected function createNotifier()
+    {
+        return ApplicationContext::getInstance()->createComponent('notifier');
     }
 }
 

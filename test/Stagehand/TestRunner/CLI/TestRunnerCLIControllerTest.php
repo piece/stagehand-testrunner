@@ -38,6 +38,8 @@
 namespace Stagehand\TestRunner\CLI;
 
 use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Test\TestCase;
+use Stagehand\TestRunner\Test\TestContainerBuilder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,12 +48,42 @@ use Stagehand\TestRunner\Core\TestingFramework;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.13.0
  */
-class TestRunnerCLIControllerTest extends \PHPUnit_Framework_TestCase
+class TestRunnerCLIControllerTest extends TestCase
 {
     /**
      * @var \Stagehand\TestRunner\Util\OutputBuffering
      */
     protected $outputBuffering;
+
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @since Property available since Release 3.0.0
+     */
+    protected $container;
+
+    protected function setUp()
+    {
+        $this->container = new TestContainerBuilder();
+        parent::setUp();
+    }
+
+    /**
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @since Method available since Release 3.0.0
+     */
+    protected function createContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    protected function getTestingFramework()
+    {
+        return TestingFramework::PHPUNIT;
+    }
 
     /**
      * @test
@@ -67,11 +99,15 @@ class TestRunnerCLIControllerTest extends \PHPUnit_Framework_TestCase
             '--phpunit-config=' . $phpunitConfigFile
         );
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $controller = $this->createTestRunnerCLIController();
-        $controller->run();
-        $config = $this->readAttribute($controller, 'config');
-        $this->assertNotNull($config->phpunitConfigFile);
-        $this->assertEquals($phpunitConfigFile, $config->phpunitConfigFile);
+
+        $phpunitXMLConfigurationFactory = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory');
+        \Phake::when($phpunitXMLConfigurationFactory)->maybeCreate($this->anything())->thenReturn(null);
+        $this->applicationContext->setComponent('phpunit.phpunit_xml_configuration_factory', $phpunitXMLConfigurationFactory);
+
+        $this->createTestRunnerCLIController()->run();
+        $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+
+        \Phake::verify($phpunitXMLConfigurationFactory)->maybeCreate($this->equalTo($phpunitConfigFile));
     }
 
     /**
@@ -88,9 +124,10 @@ class TestRunnerCLIControllerTest extends \PHPUnit_Framework_TestCase
             '--test-file-pattern=' . $testFilePattern
         );
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $controller = $this->createTestRunnerCLIController();
-        $controller->run();
-        $this->assertEquals($testFilePattern, $this->readAttribute($controller, 'config')->testFilePattern);
+
+        $this->createTestRunnerCLIController()->run();
+
+        $this->assertEquals($testFilePattern, $this->applicationContext->createComponent('test_targets')->getFilePattern());
     }
 
     /**
@@ -104,9 +141,11 @@ class TestRunnerCLIControllerTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', $option);
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-        $controller = $this->createTestRunnerCLIController();
-        $controller->run();
-        $this->assertTrue($this->readAttribute($controller, 'config')->usesNotification);
+        $testRunner = \Phake::mock('\Stagehand\TestRunner\CLI\TestRunner');
+
+        $this->createTestRunnerCLIController()->run();
+
+        $this->assertTrue($this->applicationContext->createComponent($this->getTestingFramework() . '.runner')->usesNotification());
     }
 
     /**
@@ -119,35 +158,21 @@ class TestRunnerCLIControllerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
-     * @nnlink http://redmine.piece-framework.com/issues/323
-     * @since Method available since Release 2.19.0
-     */
-    public function clearsThePrecedingOutputHandlers()
-    {
-        $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-p', 'tests/prepare.php', '-R');
-        $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
-
-        $this->createTestRunnerCLIController()->run();
-
-        \Phake::verify($this->outputBuffering)->clearOutputHandlers();
-    }
-
-    /**
      * @return Stagehand\TestRunner\CLI\TestRunnerCLIController
      * @since Method available since Release 2.20.0
      */
     protected function createTestRunnerCLIController()
     {
-        $this->outputBuffering = \Phake::mock('\Stagehand\TestRunner\Util\OutputBuffering');
-        \Phake::when($this->outputBuffering)->clearOutputHandlers()->thenReturn(null);
+        $testRunner = \Phake::mock('\Stagehand\TestRunner\CLI\TestRunner');
+        \Phake::when($testRunner)->run()->thenReturn(null);
+        $this->applicationContext->setComponent('test_runner', $testRunner);
 
         $controller = \Phake::partialMock(
-            '\Stagehand\TestRunner\CLI\TestRunnerCLIController', TestingFramework::PHPUNIT
+            '\Stagehand\TestRunner\CLI\TestRunnerCLIController',
+            $this->getTestingFramework()
         );
-        \Phake::when($controller)->createOutputBuffering()->thenReturn($this->outputBuffering);
-        \Phake::when($controller)->runTests()->thenReturn(null);
-        \Phake::when($controller)->validateDirectory($this->anything(), $this->anything())->thenReturn(null);
+        \Phake::when($controller)->createContainer()->thenReturn($this->createContainer());
+
         return $controller;
     }
 }

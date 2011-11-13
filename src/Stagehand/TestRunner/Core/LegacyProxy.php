@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,56 +29,102 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      File available since Release 2.7.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\TestSuite;
-
-use Stagehand\TestRunner\Core\TestTargets;
+namespace Stagehand\TestRunner\Core;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpunit.de/
- * @since      Class available since Release 2.7.0
+ * @since      Class available since Release 3.0.0
  */
-class PHPUnitMethodFilterTestSuite extends \PHPUnit_Framework_TestSuite
+class LegacyProxy
 {
     /**
-     * @var \Stagehand\TestRunner\Core\TestTargets
-     * @since Property available since Release 3.0.0
+     * @param string $command
+     * @return integer
      */
-    protected $testTargets;
-
-    /**
-     * @param \ReflectionClass             $theClass
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
-     */
-    public function __construct(\ReflectionClass $theClass, TestTargets $testTargets)
+    public function passthru($command)
     {
-        $this->testTargets = $testTargets;
-        parent::__construct($theClass);
+        passthru($command, $exitStatus);
+        return $exitStatus;
     }
 
     /**
-     * @param \PHPUnit_Framework_Test $test
-     * @param array                  $groups
+     * @param string $option
+     * @return string
      */
-    public function addTest(\PHPUnit_Framework_Test $test, $groups = array())
+    public function get_cfg_var($option)
     {
-        if ($test instanceof \PHPUnit_Framework_Warning
-            && preg_match('/^No tests found in class/', $test->getMessage())
-            ) {
-            return;
-        }
+        return get_cfg_var('cfg_file_path');
+    }
 
-        parent::addTest($test, $groups);
+    /**
+     * @param string $filename
+     * @return boolean
+     */
+    public function is_dir($filename)
+    {
+        return is_dir($filename);
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    public function realpath($path)
+    {
+        return realpath($path);
+    }
+
+    /**
+     * @param mixed $object
+     * @param string $class_name
+     * @return boolean
+     */
+    public function is_subclass_of($object, $class_name)
+    {
+        return is_subclass_of($object, $class_name);
+    }
+
+    /**
+     * @return string
+     */
+    public function PHP_OS()
+    {
+        return PHP_OS;
+    }
+
+    /**
+     * @param string $command
+     * @param string $return_var
+     * @return string
+     */
+    public function system($command, &$return_var)
+    {
+        return system($command, $return_var);
+    }
+
+    /**
+     * @return integer
+     */
+    public function ob_get_level()
+    {
+        return ob_get_level();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function ob_end_clean()
+    {
+        return ob_end_clean();
     }
 }
 

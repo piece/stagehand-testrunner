@@ -42,6 +42,7 @@ use Symfony\Component\Config\Definition\BooleanNode;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Package;
 
 /**
@@ -85,10 +86,6 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                     ->booleanNode('uses_notification')
-                        ->defaultFalse()
-                    ->end()
-                    ->scalarNode('growl_password')
-                        ->defaultNull()
                     ->end()
                     ->arrayNode('test_methods')
                         ->addDefaultsIfNotSet()
@@ -103,11 +100,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                    ->arrayNode('junit_xml')
-                       ->canBeUnset()
                        ->children()
-                           ->booleanNode('enabled')
-                               ->defaultTrue()
-                           ->end()
                            ->scalarNode('file')
                                ->isRequired()
                                ->cannotBeEmpty()
@@ -121,7 +114,6 @@ class Configuration implements ConfigurationInterface
                         ->defaultFalse()
                     ->end()
                     ->scalarNode('phpunit_config_file')
-                        ->defaultNull()
                     ->end()
                     ->scalarNode('cakephp_app_path')
                         ->defaultNull()
@@ -133,14 +125,13 @@ class Configuration implements ConfigurationInterface
                         ->defaultNull()
                     ->end()
                     ->scalarNode('test_file_pattern')
-                        ->defaultNull()
                     ->end()
                     ->booleanNode('prints_detailed_progress_report')
                         ->defaultFalse()
                     ->end()
                     ->arrayNode('test_resources')
                         ->addDefaultsIfNotSet()
-                        ->defaultValue(array())
+                        ->defaultValue(array(ApplicationContext::getInstance()->getEnvironment()->getWorkingDirectoryAtStartup()))
                         ->prototype('scalar')
                         ->end()
                     ->end()

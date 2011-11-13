@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\TestCase;
+use Stagehand\TestRunner\Runner\TestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,7 +49,14 @@ use Stagehand\TestRunner\TestCase;
  */
 class DetailedProgressPrinterTest extends TestCase
 {
-    protected $framework = TestingFramework::PHPUNIT;
+    /**
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    protected function getTestingFramework()
+    {
+        return TestingFramework::PHPUNIT;
+    }
 
     /**
      * @test
@@ -57,9 +64,13 @@ class DetailedProgressPrinterTest extends TestCase
      */
     public function printsSkippedTestsWithADataProvider($testClass, $testMethod)
     {
-        $this->config->printsDetailedProgressReport = true;
-        $this->collector->collectTestCase($testClass);
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+        $runner = $this->createRunner();
+        $runner->setPrintsDetailedProgressReport(true);
+
         $this->runTests();
+
         $expected = PHP_EOL .
 $testClass . PHP_EOL .
 '  pass1 ... passed' . PHP_EOL .

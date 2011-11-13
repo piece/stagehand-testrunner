@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
-use Stagehand\TestRunner\Core\Config;
+use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Core\Config;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.19.0
  */
-class PHPUnitPreparerTest extends \PHPUnit_Framework_TestCase
+class PHPUnitPreparerTest extends PHPUnitFactoryAwareTestCase
 {
     /**
      * @param boolean $colors
@@ -56,13 +56,15 @@ class PHPUnitPreparerTest extends \PHPUnit_Framework_TestCase
      */
     public function reflectsTheColorsAttributeInTheXmlConfigurationFileToTheConfiguration($colors)
     {
-        $configDirectory = dirname(__FILE__) . DIRECTORY_SEPARATOR . basename(__FILE__, '.php');
-        $config = new Config();
-        $config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . ($colors ? 'colors_true.xml' : 'colors_false.xml');
-        $config->setColors(!$colors);
-        $preparer = new PHPUnitPreparer($config);
+        $phpunitXMLConfiguration = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfiguration');
+        \Phake::when($phpunitXMLConfiguration)->hasPHPUnitConfiguration('colors')->thenReturn(true);
+        \Phake::when($phpunitXMLConfiguration)->getPHPUnitConfiguration('colors')->thenReturn($colors);
+        $this->applicationContext->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);
+        $preparer = $this->applicationContext->createComponent('phpunit.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\PHPUnitPreparer */
         $preparer->prepare();
-        $this->assertEquals($colors, $config->colors());
+
+        $terminal = $this->applicationContext->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
+        $this->assertEquals($colors, $terminal->colors());
     }
 
     /**

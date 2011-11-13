@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\TestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,12 +48,10 @@ use Stagehand\TestRunner\TestCase;
  */
 class PHPUnitRunnerTest extends TestCase
 {
-    protected $framework = TestingFramework::PHPUNIT;
-
     /**
      * @since Method available since Release 2.16.0
      */
-    protected function loadClasses()
+    protected function configure()
     {
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
@@ -63,21 +60,34 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingMethod
-     * @param string $class1
-     * @param string $class2
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    protected function getTestingFramework()
+    {
+        return TestingFramework::PHPUNIT;
+    }
+
+    /**
+     * @param string $testMethod
+     * @param string $testClass1
+     * @param string $testClass2
      * @test
      * @dataProvider provideMethods
      */
-    public function runsOnlyTheSpecifiedMethods($testingMethod, $class1, $class2)
+    public function runsOnlyTheSpecifiedMethods($testMethod, $testClass1, $testClass2)
     {
-        $this->config->addTestingMethod($testingMethod);
-        $this->collector->collectTestCase($class1);
-        $this->collector->collectTestCase($class2);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array($testMethod));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass1);
+        $collector->collectTestCase($testClass2);
+
         $this->runTests();
+
         $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists('pass1', $class1);
-        $this->assertTestCaseExists('pass1', $class2);
+        $this->assertTestCaseExists('pass1', $testClass1);
+        $this->assertTestCaseExists('pass1', $testClass2);
     }
 
     public function provideMethods()
@@ -91,20 +101,24 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingMethod
-     * @param string $class1
-     * @param string $class2
+     * @param string $testMethod
+     * @param string $testClass1
+     * @param string $testClass2
      * @test
      * @dataProvider provideFullyQualifiedMethodNames
      */
-    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($testingMethod, $class1, $class2)
+    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($testMethod, $testClass1, $testClass2)
     {
-        $this->config->addTestingMethod($testingMethod);
-        $this->collector->collectTestCase($class1);
-        $this->collector->collectTestCase($class2);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array($testMethod));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass1);
+        $collector->collectTestCase($testClass2);
+
         $this->runTests();
+
         $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('pass1', $class1);
+        $this->assertTestCaseExists('pass1', $testClass1);
     }
 
     public function provideFullyQualifiedMethodNames()
@@ -119,26 +133,30 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingMethod
-     * @param string $class1
-     * @param string $class2
+     * @param string $testMethod
+     * @param string $testClass1
+     * @param string $testClass2
      * @test
      * @dataProvider provideFullyQualifiedMethodNamesWithNamespaces
      * @since Method available since Release 2.15.0
      * @link http://redmine.piece-framework.com/issues/245
      */
-    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodNameWithNamespaces($testingMethod, $class1, $class2)
+    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodNameWithNamespaces($testMethod, $testClass1, $testClass2)
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             $this->markTestSkipped('Your PHP version is less than 5.3.0.');
         }
 
-        $this->config->addTestingMethod($testingMethod);
-        $this->collector->collectTestCase($class1);
-        $this->collector->collectTestCase($class2);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array($testMethod));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass1);
+        $collector->collectTestCase($testClass2);
+
         $this->runTests();
+
         $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('pass1', $class1);
+        $this->assertTestCaseExists('pass1', $testClass1);
     }
 
     /**
@@ -158,21 +176,25 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingClass
-     * @param string $class1
-     * @param string $class2
+     * @param string $testClass
+     * @param string $testClass1
+     * @param string $testClass2
      * @test
      * @dataProvider provideClasses
      */
-    public function runsOnlyTheSpecifiedClasses($testingClass, $class1, $class2)
+    public function runsOnlyTheSpecifiedClasses($testClass, $testClass1, $testClass2)
     {
-        $this->config->addTestingClass($testingClass);
-        $this->collector->collectTestCase($class1);
-        $this->collector->collectTestCase($class2);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setClasses(array($testClass));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass1);
+        $collector->collectTestCase($testClass2);
+
         $this->runTests();
+
         $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists('pass1', $class1);
-        $this->assertTestCaseExists('pass2', $class1);
+        $this->assertTestCaseExists('pass1', $testClass1);
+        $this->assertTestCaseExists('pass2', $testClass1);
     }
 
     public function provideClasses()
@@ -186,27 +208,31 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingClass
-     * @param string $class1
-     * @param string $class2
+     * @param string $testClass
+     * @param string $testClass1
+     * @param string $testClass2
      * @test
      * @dataProvider provideClassesWithNamespaces
      * @since Method available since Release 2.15.0
      * @link http://redmine.piece-framework.com/issues/245
      */
-    public function runsOnlyTheSpecifiedClassesWithNamespaces($testingClass, $class1, $class2)
+    public function runsOnlyTheSpecifiedClassesWithNamespaces($testClass, $testClass1, $testClass2)
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             $this->markTestSkipped('Your PHP version is less than 5.3.0.');
         }
 
-        $this->config->addTestingClass($testingClass);
-        $this->collector->collectTestCase($class1);
-        $this->collector->collectTestCase($class2);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setClasses(array($testClass));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass1);
+        $collector->collectTestCase($testClass2);
+
         $this->runTests();
+
         $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists('pass1', $class1);
-        $this->assertTestCaseExists('pass2', $class1);
+        $this->assertTestCaseExists('pass1', $testClass1);
+        $this->assertTestCaseExists('pass2', $testClass1);
     }
 
     /**
@@ -226,23 +252,26 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingMethod
+     * @param string $testMethod
      * @test
      * @dataProvider provideFullyQualifiedMethodNamesForIncompleteAndSkippedTests
      * @since Method available since Release 2.11.0
      */
-    public function printsTheSpecifiedMessageForIncompleteAndSkippedTests($testingMethod)
+    public function printsTheSpecifiedMessageForIncompleteAndSkippedTests($testMethod)
     {
-        $this->config->printsDetailedProgressReport = true;
-        $this->config->addTestingMethod($testingMethod);
-        preg_match('/^(.*?)::(.*)/', $testingMethod, $matches);
-        $testingClass = $matches[1];
-        $testingMethod = $matches[2];
-        $this->collector->collectTestCase($testingClass);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array($testMethod));
+        preg_match('/^(.*?)::(.*)/', $testMethod, $matches);
+        $testClass = $matches[1];
+        $testMethod = $matches[2];
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+        $runner = $this->createRunner(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+        $runner->setPrintsDetailedProgressReport(true);
+
         $this->runTests();
-        $this->assertRegExp(
-            '/^  ' . $testingMethod . ' ... .+\s\(.+\)/m', $this->output
-        );
+
+        $this->assertRegExp('/^  ' . $testMethod . ' ... .+\s\(.+\)/m', $this->output);
         $this->assertRegExp('/^ \[ \] .+\s\(.+\)$/m', $this->output);
     }
 
@@ -258,21 +287,26 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $method
+     * @param string $testMethod
      * @test
      * @dataProvider provideFullyQualifiedMethodNamesForIncompleteAndSkippedTestsWithoutMessage
      * @since Method available since Release 2.11.0
      */
-    public function printsNormalOutputForIncompleteAndSkippedTestsIfTheMessageIsNotSpecified($method)
+    public function printsNormalOutputForIncompleteAndSkippedTestsIfTheMessageIsNotSpecified($testMethod)
     {
-        $this->config->printsDetailedProgressReport = true;
-        $this->config->addTestingMethod($method);
-        preg_match('/^(.*?)::(.*)/', $method, $matches);
-        $class = $matches[1];
-        $method = $matches[2];
-        $this->collector->collectTestCase($class);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array($testMethod));
+        preg_match('/^(.*?)::(.*)/', $testMethod, $matches);
+        $testClass = $matches[1];
+        $testMethod = $matches[2];
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+        $runner = $this->createRunner(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+        $runner->setPrintsDetailedProgressReport(true);
+
         $this->runTests();
-        $this->assertRegExp('/^  ' . $method . ' ... [^()]+$/m', $this->output);
+
+        $this->assertRegExp('/^  ' . $testMethod . ' ... [^()]+$/m', $this->output);
         $this->assertRegExp('/^ \[ \] [^()]+$/m', $this->output);
     }
 
@@ -289,21 +323,27 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingClass1
-     * @param string $testingClass2
+     * @param string $testClass1
+     * @param string $testClass2
      * @param string $failingMethod
      * @test
      * @dataProvider provideDataForStopsTheTestRunWhenTheFirstFailureIsRaised
      * @since Method available since Release 2.11.0
      */
-    public function stopsTheTestRunWhenTheFirstFailureIsRaised($testingClass1, $testingClass2, $failingMethod)
+    public function stopsTheTestRunWhenTheFirstFailureIsRaised($testClass1, $testClass2, $failingMethod)
     {
-        $this->config->stopsOnFailure = true;
-        $this->collector->collectTestCase($testingClass1);
-        $this->collector->collectTestCase($testingClass2);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setClasses(array($testClass1, $testClass2));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass1);
+        $collector->collectTestCase($testClass2);
+        $runner = $this->createRunner();
+        $runner->setStopsOnFailure(true);
+
         $this->runTests();
+
         $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists($failingMethod, $testingClass1);
+        $this->assertTestCaseExists($failingMethod, $testClass1);
     }
 
     /**
@@ -319,18 +359,22 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingClass1
-     * @param string $testingClass2
+     * @param string $testClass1
+     * @param string $testClass2
      * @test
      * @dataProvider provideDataForNotStopTheTestRunWhenATestCaseIsSkipped
      * @since Method available since Release 2.11.0
      */
-    public function notStopTheTestRunWhenATestCaseIsSkipped($testingClass1, $testingClass2)
+    public function notStopTheTestRunWhenATestCaseIsSkipped($testClass1, $testClass2)
     {
-        $this->config->stopsOnFailure = true;
-        $this->collector->collectTestCase($testingClass1);
-        $this->collector->collectTestCase($testingClass2);
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass1);
+        $collector->collectTestCase($testClass2);
+        $runner = $this->createRunner();
+        $runner->setStopsOnFailure(true);
+
         $this->runTests();
+
         $this->assertTestCaseCount(5);
     }
 
@@ -346,18 +390,22 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingClass1
-     * @param string $testingClass2
+     * @param string $testClass1
+     * @param string $testClass2
      * @test
      * @dataProvider provideDataForNotStopTheTestRunWhenATestCaseIsIncomplete
      * @since Method available since Release 2.11.0
      */
-    public function notStopTheTestRunWhenATestCaseIsIncomplete($testingClass1, $testingClass2)
+    public function notStopTheTestRunWhenATestCaseIsIncomplete($testClass1, $testClass2)
     {
-        $this->config->stopsOnFailure = true;
-        $this->collector->collectTestCase($testingClass1);
-        $this->collector->collectTestCase($testingClass2);
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass1);
+        $collector->collectTestCase($testClass2);
+        $runner = $this->createRunner();
+        $runner->setStopsOnFailure(true);
+
         $this->runTests();
+
         $this->assertTestCaseCount(5);
     }
 
@@ -373,17 +421,21 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param $testingClass
+     * @param $testClass
      * @param $testDoxClass
      * @test
      * @dataProvider provideDataForNotBreakTestDoxOutputIfTheSameTestMethodNamesExceptTrailingNumbers
      * @since Method available since Release 2.11.2
      */
-    public function notBreakTestDoxOutputIfTheSameTestMethodNamesExceptTrailingNumbers($testingClass, $testDoxClass)
+    public function notBreakTestDoxOutputIfTheSameTestMethodNamesExceptTrailingNumbers($testClass, $testDoxClass)
     {
-        $this->config->addTestingClass($testingClass);
-        $this->collector->collectTestCase($testingClass);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setClasses(array($testClass));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+
         $this->runTests();
+
         $this->assertRegExp('/^' . $testDoxClass . '\n \[x\] Pass 1\n \[x\] Pass 2$/m', $this->output, $this->output);
     }
 
@@ -406,12 +458,16 @@ class PHPUnitRunnerTest extends TestCase
      */
     public function createsANotificationForGrowlWithColors($testClass, $result, $description)
     {
-        require_once 'Console/Color.php';
-        $this->config->usesNotification = true;
-        $this->config->setColors(true);
-        $this->collector->collectTestCase($testClass);
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+        $runner = $this->createRunner();
+        $runner->setUsesNotification(true);
+        $terminal = $this->createTerminal();
+        $terminal->setColors(true);
+
         $this->runTests();
-        $notification = $this->runner->getNotification();
+
+        $notification = $runner->getNotification();
         if ($result) {
             $this->assertTrue($notification->isPassed());
             $this->assertFalse($notification->isFailed());
@@ -435,12 +491,16 @@ class PHPUnitRunnerTest extends TestCase
      */
     public function createsANotificationForGrowlWithoutColors($testClass, $result, $description)
     {
-        require_once 'Console/Color.php';
-        $this->config->usesNotification = true;
-        $this->config->setColors(false);
-        $this->collector->collectTestCase($testClass);
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+        $runner = $this->createRunner();
+        $runner->setUsesNotification(true);
+        $terminal = $this->createTerminal();
+        $terminal->setColors(true);
+
         $this->runTests();
-        $notification = $this->runner->getNotification();
+
+        $notification = $runner->getNotification();
         if ($result) {
             $this->assertTrue($notification->isPassed());
         } else {
@@ -461,15 +521,15 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingClass
+     * @param string $testClass
      * @test
      * @dataProvider provideDataForConfiguresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile
      * @link http://redmine.piece-framework.com/issues/202
      * @since Method available since Release 2.14.0
      */
-    public function configuresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile($testingClass)
+    public function configuresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile($testClass)
     {
-        $marker = 'STAGEHAND_TESTRUNNER_RUNNER_' . strtoupper($this->framework) . 'RUNNERTEST_bootstrapLoaded';
+        $marker = 'STAGEHAND_TESTRUNNER_RUNNER_' . strtoupper($this->getTestingFramework()) . 'RUNNERTEST_bootstrapLoaded';
         $GLOBALS[$marker] = false;
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
@@ -477,19 +537,31 @@ class PHPUnitRunnerTest extends TestCase
         chdir($configDirectory);
         $logFile = $configDirectory . DIRECTORY_SEPARATOR . 'logfile.tap';
         $oldIncludePath = set_include_path($configDirectory . PATH_SEPARATOR . get_include_path());
-        $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml';
+
+        $phpunitXMLConfigurationFactory = $this->createPHPUnitXMLConfigurationFactory();
+        $phpunitXMLConfiguration = $phpunitXMLConfigurationFactory->maybeCreate($configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml');
+        $this->applicationContext->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);
+
+        $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\PHPUnitPreparer */
+        $preparer->setPHPUnitXMLConfiguration($phpunitXMLConfiguration);
+
+        $runner = $this->createRunner(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+        $runner->setPHPUnitXMLConfiguration($phpunitXMLConfiguration);
 
         $e = null;
         try {
-            $this->collector->collectTestCase($testingClass);
+            $collector = $this->createCollector();
+            $collector->collectTestCase($testClass);
+
             $this->runTests();
+
             $this->assertTrue($GLOBALS[$marker]);
             $this->assertFileExists($logFile);
 
             $expectedLog = 'TAP version 13' . PHP_EOL .
-'ok 1 - ' . $testingClass . '::passWithAnAssertion' . PHP_EOL .
-'ok 2 - ' . $testingClass . '::passWithMultipleAssertions' . PHP_EOL .
-'ok 3 - ' . $testingClass . '::日本語を使用できる' . PHP_EOL .
+'ok 1 - ' . $testClass . '::passWithAnAssertion' . PHP_EOL .
+'ok 2 - ' . $testClass . '::passWithMultipleAssertions' . PHP_EOL .
+'ok 3 - ' . $testClass . '::日本語を使用できる' . PHP_EOL .
 '1..3' . PHP_EOL;
             $actualLog = file_get_contents($logFile);
             $this->assertEquals($expectedLog, $actualLog, $actualLog);
@@ -518,26 +590,30 @@ class PHPUnitRunnerTest extends TestCase
     /**
      * @param string $testingFile
      * @param string $testFilePattern
-     * @param string $testingClass
+     * @param string $testClass
      * @test
      * @dataProvider provideDataForRunsTheFilesWithTheSpecifiedPattern
      * @link http://redmine.piece-framework.com/issues/230
      * @since Method available since Release 2.16.0
      */
-    public function runsTheFilesWithTheSpecifiedPattern($testingFile, $testFilePattern, $testingClass)
+    public function runsTheFilesWithTheSpecifiedPattern($testingFile, $testFilePattern, $testClass)
     {
         $reflectionClass = new \ReflectionClass($this);
-        $this->collector->collectTestCases($testingFile);
+        $collector = $this->createCollector();
+        $collector->collectTestCasesFromFile($testingFile);
 
         $this->runTests();
+
         $this->assertTestCaseCount(0);
 
-        $this->config->testFilePattern = $testFilePattern;
-        $this->collector->collectTestCases($testingFile);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setFilePattern($testFilePattern);
+        $collector->collectTestCasesFromFile($testingFile);
 
         $this->runTests();
+
         $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('pass', $testingClass);
+        $this->assertTestCaseExists('pass', $testClass);
     }
 
     /**
@@ -552,26 +628,28 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingClass
+     * @param string $testClass
      * @test
      * @dataProvider provideDataForReportsOnlyTheFirstFailureInASingleTestToJunitXml
      * @link http://redmine.piece-framework.com/issues/219
      * @since Method available since Release 2.14.0
      */
-    public function reportsOnlyTheFirstFailureInASingleTestToJunitXml($testingClass)
+    public function reportsOnlyTheFirstFailureInASingleTestToJunitXml($testClass)
     {
-        $this->collector->collectTestCase($testingClass);
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+
         $this->runTests();
 
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('isFailure', $testingClass);
-        $this->assertTestCaseAssertionCount(1, 'isFailure', $testingClass);
-        $this->assertTestCaseFailed('isFailure', $testingClass);
-        $this->assertTestCaseFailureMessageEquals('/The First Failure/', 'isFailure', $testingClass);
+        $this->assertTestCaseExists('isFailure', $testClass);
+        $this->assertTestCaseAssertionCount(1, 'isFailure', $testClass);
+        $this->assertTestCaseFailed('isFailure', $testClass);
+        $this->assertTestCaseFailureMessageEquals('/The First Failure/', 'isFailure', $testClass);
     }
 
     /**
@@ -586,29 +664,33 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingClass
-     * @param array $testingMethods
+     * @param string $testClass
+     * @param array $testMethods
      * @param string $xmlConfigurationFile
      * @test
      * @dataProvider provideDataForGroupsTest
      * @link http://redmine.piece-framework.com/issues/288
      * @since Method available since Release 2.17.0
      */
-    public function notCountTheExcludedTestsByTheGroupsElementAsTheDivisorOfATestRun($testingClass, array $testingMethods, $xmlConfigurationFile)
+    public function notCountTheExcludedTestsByTheGroupsElementAsTheDivisorOfATestRun($testClass, array $testMethods, $xmlConfigurationFile)
     {
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
-        $this->config->phpunitConfigFile = $configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile;
-        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
-        $this->preparer->prepare();
-        $this->collector->collectTestCase($testingClass);
+        $phpunitXMLConfigurationFactory = $this->createPHPUnitXMLConfigurationFactory();
+        $phpunitXMLConfiguration = $phpunitXMLConfigurationFactory->maybeCreate($configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
+        $this->applicationContext->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);
+        $runner = $this->createRunner();
+        $runner->setLogsResultsInJUnitXMLInRealtime(true);
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+
         $this->runTests();
 
-        $this->assertTestCaseCount(count($testingMethods));
-        foreach ($testingMethods as $testingMethod) {
-            $this->assertTestCaseExists($testingMethod, $testingClass);
+        $this->assertTestCaseCount(count($testMethods));
+        foreach ($testMethods as $testMethod) {
+            $this->assertTestCaseExists($testMethod, $testClass);
         }
-        $this->assertCollectedTestCaseCount(count($testingMethods));
+        $this->assertCollectedTestCaseCount(count($testMethods));
     }
 
     /**
@@ -631,6 +713,15 @@ class PHPUnitRunnerTest extends TestCase
     protected function groupsTest()
     {
         return 'Stagehand_TestRunner_PHPUnitGroupsTest';
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory
+     * @since Method available since Release 3.0.0
+     */
+    protected function createPHPUnitXMLConfigurationFactory()
+    {
+        return $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration_factory');
     }
 }
 

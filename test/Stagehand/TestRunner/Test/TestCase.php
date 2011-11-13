@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,48 +29,66 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\JUnitXMLWriter;
+namespace Stagehand\TestRunner\Test;
 
-use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\TestCase;
+use Stagehand\TestRunner\Core\ApplicationContext;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 3.0.0
  */
-class JUnitXMLDOMWriterTest extends TestCase
+abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
-    protected $framework = TestingFramework::PHPUNIT;
+    /**
+     * @var \Stagehand\TestRunner\Core\ApplicationContext
+     */
+    protected $oldApplicationContext;
 
     /**
-     * @test
-     * @link http://redmine.piece-framework.com/issues/215
+     * @var \Stagehand\TestRunner\Test\TestApplicationContext
      */
-    public function escapesSomeSpecialCharactersInTextNodes()
+    protected $applicationContext;
+
+    protected function setUp()
     {
-        $testClass = '\Stagehand_TestRunner_PHPUnitSpecialCharactersInFailureMessageTest';
-        $this->collector->collectTestCase($testClass);
-        $this->runTests();
-        $this->assertFileExists($this->config->getJUnitXMLFile());
-        $this->assertRegExp(
-            '/Stagehand_TestRunner_PHPUnitSpecialCharactersInFailureMessageTest::isFailure' . PHP_EOL .
-            PHP_EOL .
-            '&amp;"\'&lt;&gt;' . PHP_EOL .
-            'Failed asserting that (?:false|&lt;boolean:false&gt;) is true\.' . PHP_EOL .
-            PHP_EOL .
-            '/m',
-            file_get_contents($this->config->getJUnitXMLFile())
-        );
+        $this->oldApplicationContext = ApplicationContext::getInstance();
+
+        $container = $this->createContainer();
+        $componentFactory = new TestComponentFactory();
+        $componentFactory->setContainer($container);
+        $this->applicationContext = new TestApplicationContext();
+        $this->applicationContext->setComponentFactory($componentFactory);
+        $this->applicationContext->setEnvironment(new TestEnvironment());
+        ApplicationContext::setInstance($this->applicationContext);
+
+        $testingFramework = \Phake::mock('Stagehand\TestRunner\Core\TestingFramework');
+        \Phake::when($testingFramework)->getSelected()->thenReturn($this->getTestingFramework());
+        $this->applicationContext->setComponent('testing_framework', $testingFramework);
     }
+
+    protected function tearDown()
+    {
+        ApplicationContext::setInstance($this->oldApplicationContext);
+    }
+
+    /**
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     */
+    abstract protected function createContainer();
+
+    /**
+     * @return string
+     */
+    abstract protected function getTestingFramework();
 }
 
 /*

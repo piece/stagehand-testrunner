@@ -38,6 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
+use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter;
 use Stagehand\TestRunner\Notification\Notification;
@@ -63,6 +64,18 @@ use Stagehand\TestRunner\Runner\PHPUnitRunner\TestRunner;
 class PHPUnitRunner extends Runner
 {
     /**
+     * @var boolean
+     * @since Property available since Release 3.0.0
+     */
+    protected $printsDetailedProgressReport;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+     * @since Property available since Release 3.0.0
+     */
+    protected $phpunitXMLConfiguration;
+
+    /**
      * Runs tests based on the given \PHPUnit_Framework_TestSuite object.
      *
      * @param \PHPUnit_Framework_TestSuite $suite
@@ -70,7 +83,7 @@ class PHPUnitRunner extends Runner
     public function run($suite)
     {
         $testResult = new \PHPUnit_Framework_TestResult();
-        $printer = new ResultPrinter(null, true, $this->config->colors());
+        $printer = new ResultPrinter(null, true, $this->terminal->colors());
 
         $arguments = array();
         $arguments['printer'] = $printer;
@@ -80,19 +93,19 @@ class PHPUnitRunner extends Runner
             array(
                 new TestDoxPrinter(
                     fopen('testdox://' . spl_object_hash($testResult), 'w'),
-                    $this->config->colors(),
+                    $this->terminal->colors(),
                     $this->prettifier()
                 )
             );
-        if (!$this->config->printsDetailedProgressReport) {
-            $arguments['listeners'][] = new ProgressPrinter(null, false, $this->config->colors());
+        if (!$this->printsDetailedProgressReport()) {
+            $arguments['listeners'][] = new ProgressPrinter(null, false, $this->terminal->colors());
         } else {
-            $arguments['listeners'][] = new DetailedProgressPrinter(null, false, $this->config->colors());
+            $arguments['listeners'][] = new DetailedProgressPrinter(null, false, $this->terminal->colors());
         }
 
-        if ($this->config->logsResultsInJUnitXML()) {
-            $junitXMLListener = new JUnitXMLPrinter($this->config->getJUnitXMLFile());
-            if (!$this->config->logsResultsInJUnitXMLInRealtime()) {
+        if ($this->logsResultsInJUnitXML) {
+            $junitXMLListener = new JUnitXMLPrinter($this->junitXMLFile);
+            if (!$this->logsResultsInJUnitXMLInRealtime) {
                 $xmlWriter = new JUnitXMLDOMWriter(array($junitXMLListener, 'write'));
             } else {
                 $xmlWriter = $this->junitXMLStreamWriter(array($junitXMLListener, 'write'));
@@ -101,20 +114,20 @@ class PHPUnitRunner extends Runner
             $arguments['listeners'][] = $junitXMLListener;
         }
 
-        if ($this->config->stopsOnFailure) {
+        if ($this->stopsOnFailure) {
             $arguments['stopOnFailure'] = true;
             $arguments['stopOnError'] = true;
         }
 
-        if (!is_null($this->config->phpunitConfigFile)) {
-            $arguments['configuration'] = $this->config->phpunitConfigFile;
+        if (!is_null($this->phpunitXMLConfiguration)) {
+            $arguments['configuration'] = $this->phpunitXMLConfiguration->getFileName();
         }
 
         $testRunner = new TestRunner();
         $testRunner->setTestResult($testResult);
         $testRunner->doRun($suite, $arguments);
 
-        if ($this->config->usesNotification) {
+        if ($this->usesNotification()) {
             if ($testResult->failureCount() + $testResult->errorCount() + $testResult->skippedCount() + $testResult->notImplementedCount() == 0) {
                 $notificationResult = Notification::RESULT_PASSED;
             } else {
@@ -136,6 +149,33 @@ class PHPUnitRunner extends Runner
 
             $this->notification = new Notification($notificationResult, $notificationMessage);
         }
+    }
+
+    /**
+     * @param boolean $printsDetailedProgressReport
+     * @since Method available since Release 3.0.0
+     */
+    public function setPrintsDetailedProgressReport($printsDetailedProgressReport)
+    {
+        $this->printsDetailedProgressReport = $printsDetailedProgressReport;
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 3.0.0
+     */
+    public function printsDetailedProgressReport()
+    {
+        return $this->printsDetailedProgressReport;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     * @since Method available since Release 3.0.0
+     */
+    public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
+    {
+        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
     }
 
     /**

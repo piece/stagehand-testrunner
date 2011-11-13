@@ -38,6 +38,7 @@
 
 namespace Stagehand\TestRunner\Collector;
 
+use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 use Stagehand\TestRunner\TestSuite\PHPUnit34GroupFilterTestSuite;
 use Stagehand\TestRunner\TestSuite\PHPUnit34MethodFilterTestSuite;
 use Stagehand\TestRunner\TestSuite\PHPUnit35GroupFilterTestSuite;
@@ -58,7 +59,12 @@ require_once 'PHPUnit/Runner/BaseTestRunner.php';
 class PHPUnitCollector extends Collector
 {
     protected $superTypes = array('PHPUnit_Framework_TestCase');
-    protected $filePattern = 'Test(?:Case)?\.php$';
+
+    /**
+     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+     * @since Property available since Release 3.0.0
+     */
+    protected $phpunitXMLConfiguration;
 
     /**
      * @param string $testCase
@@ -71,7 +77,7 @@ class PHPUnitCollector extends Collector
             return;
         }
 
-        if ($this->config->testsOnlySpecified()) {
+        if ($this->testTargets->testsOnlySpecifiedElements()) {
             $this->addTestCaseOnlySpecified($testClass);
             return;
         }
@@ -88,10 +94,19 @@ class PHPUnitCollector extends Collector
         if (!$suiteMethod) {
             $this->suite->addTest(
                 version_compare(\PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
-                    ? new PHPUnit35GroupFilterTestSuite($testClass, $this->config)
-                    : new PHPUnit34GroupFilterTestSuite($testClass, $this->config)
+                    ? new PHPUnit35GroupFilterTestSuite($testClass, $this->phpunitXMLConfiguration)
+                    : new PHPUnit34GroupFilterTestSuite($testClass, $this->phpunitXMLConfiguration)
             );
         }
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     * @since Method available since Release 3.0.0
+     */
+    public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
+    {
+        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
     }
 
     /**
@@ -111,14 +126,14 @@ class PHPUnitCollector extends Collector
      */
     protected function addTestCaseOnlySpecified(\ReflectionClass $testClass)
     {
-        if ($this->config->testsOnlySpecifiedMethods) {
+        if ($this->testTargets->testsOnlySpecifiedMethods()) {
             $this->suite->addTestSuite(
                 version_compare(\PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
-                    ? new PHPUnit35MethodFilterTestSuite($testClass, $this->config)
-                    : new PHPUnit34MethodFilterTestSuite($testClass, $this->config)
+                    ? new PHPUnit35MethodFilterTestSuite($testClass, $this->testTargets)
+                    : new PHPUnit34MethodFilterTestSuite($testClass, $this->testTargets)
             );
-        } elseif ($this->config->testsOnlySpecifiedClasses) {
-            if ($this->config->isTestingClass($testClass->getName())) {
+        } elseif ($this->testTargets->testsOnlySpecifiedClasses()) {
+            if ($this->testTargets->shouldTreatElementAsTest($testClass->getName())) {
                 $this->suite->addTestSuite($testClass);
             }
         }

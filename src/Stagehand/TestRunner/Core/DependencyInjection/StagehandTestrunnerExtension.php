@@ -59,9 +59,8 @@ class StagehandTestrunnerExtension implements ExtensionInterface
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
         $processor = new Processor();
-        $config = $processor->processConfiguration($configuration, $configs);
+        $config = $processor->processConfiguration(new Configuration(), $configs);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
         $loader->load(Package::PACKAGE_ID . '.yml');
@@ -105,24 +104,57 @@ class StagehandTestrunnerExtension implements ExtensionInterface
         $container->setParameter(Package::PACKAGE_ID . '.' . 'preload_file', $config['preload_file']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'enables_autotest', $config['enables_autotest']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'monitoring_directories', $config['monitoring_directories']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'uses_notification', $config['uses_notification']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'growl_password', $config['growl_password']);
+
+        if (array_key_exists('uses_notification', $config)) {
+            $container->setParameter(Package::PACKAGE_ID . '.' . 'uses_notification', $config['uses_notification']);
+        }
+
         $container->setParameter(Package::PACKAGE_ID . '.' . 'test_methods', $config['test_methods']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'test_classes', $config['test_classes']);
 
         if (array_key_exists('junit_xml', $config)) {
-            $container->setParameter(Package::PACKAGE_ID . '.' . 'logs_results_in_junit_xml', $config['junit_xml']['enabled']);
-            $container->setParameter(Package::PACKAGE_ID . '.' . 'logs_results_in_junit_xml_in_realtime', $config['junit_xml']['realtime']);
             $container->setParameter(Package::PACKAGE_ID . '.' . 'junit_xml_file', $config['junit_xml']['file']);
+            $container->setParameter(Package::PACKAGE_ID . '.' . 'logs_results_in_junit_xml_in_realtime', $config['junit_xml']['realtime']);
         }
 
         $container->setParameter(Package::PACKAGE_ID . '.' . 'stops_on_failure', $config['stops_on_failure']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'phpunit_config_file', $config['phpunit_config_file']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'cakephp_app_path', $config['cakephp_app_path']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'cakephp_core_path', $config['cakephp_core_path']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'ciunit_path', $config['ciunit_path']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern', $config['test_file_pattern']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'prints_detailed_progress_report', $config['prints_detailed_progress_report']);
+
+        if (array_key_exists('test_file_pattern', $config)) {
+            $container->setParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern', $config['test_file_pattern']);
+        } else {
+            $container->setParameter(
+                Package::PACKAGE_ID . '.' . 'test_file_pattern',
+                $container->getParameter(
+                    Package::PACKAGE_ID . '.' . strtolower($config['testing_framework']) . '.' . 'test_file_pattern'
+                )
+            );
+        }
+
+        $container->setParameter(
+            Package::PACKAGE_ID . '.' . 'phpunit' . '.' . 'prints_detailed_progress_report',
+            $config['prints_detailed_progress_report']
+        );
+        if (array_key_exists('phpunit_config_file', $config)) {
+            $container->setParameter(
+                Package::PACKAGE_ID . '.' . 'phpunit' . '.' . 'phpunit_config_file',
+                $config['phpunit_config_file']
+            );
+        }
+
+        $container->setParameter(
+            Package::PACKAGE_ID . '.' . 'ciunit' . '.' . 'ciunit_path',
+            $config['ciunit_path']
+        );
+
+        $container->setParameter(
+            Package::PACKAGE_ID . '.' . 'cake' . '.' . 'cakephp_app_path',
+            $config['cakephp_app_path']
+        );
+        $container->setParameter(
+            Package::PACKAGE_ID . '.' . 'cake' . '.' . 'cakephp_core_path',
+            $config['cakephp_core_path']
+        );
+
         $container->setParameter(Package::PACKAGE_ID . '.' . 'test_resources', $config['test_resources']);
     }
 }

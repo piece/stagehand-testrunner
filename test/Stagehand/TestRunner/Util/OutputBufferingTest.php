@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Util;
 
+use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,7 +46,7 @@ namespace Stagehand\TestRunner\Util;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class OutputBufferingTest extends \PHPUnit_Framework_TestCase
+class OutputBufferingTest extends PHPUnitFactoryAwareTestCase
 {
     /**
      * @test
@@ -52,18 +54,18 @@ class OutputBufferingTest extends \PHPUnit_Framework_TestCase
      */
     public function clearsThePrecedingOutputHandlers()
     {
-        $outputBuffering = \Phake::partialMock('\Stagehand\TestRunner\Util\OutputBuffering');
-
-        \Phake::when($outputBuffering)->getNestingLevel()
+        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        \Phake::when($legacyProxy)->ob_get_level()
           ->thenReturn(2)
           ->thenReturn(1)
           ->thenReturn(0);
-        \Phake::when($outputBuffering)->clearOutputHandler()->thenReturn(null);
+        \Phake::when($legacyProxy)->ob_end_clean()->thenReturn(true);
+        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
 
-        $outputBuffering->clearOutputHandlers();
+        $this->applicationContext->createComponent('output_buffering')->clearOutputHandlers();
 
-        \Phake::verify($outputBuffering, \Phake::times(3))->getNestingLevel();
-        \Phake::verify($outputBuffering, \Phake::times(2))->clearOutputHandler();
+        \Phake::verify($legacyProxy, \Phake::times(3))->ob_get_level();
+        \Phake::verify($legacyProxy, \Phake::times(2))->ob_end_clean();
     }
 
     /**
@@ -73,16 +75,12 @@ class OutputBufferingTest extends \PHPUnit_Framework_TestCase
      */
     public function raisesAnExceptionWhenAPrecedingOutputBufferCannotBeRemoved()
     {
-        $outputBuffering = \Phake::partialMock('\Stagehand\TestRunner\Util\OutputBuffering');
+        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        \Phake::when($legacyProxy)->ob_get_level()->thenReturn(1);
+        \Phake::when($legacyProxy)->ob_end_clean()->thenThrow(new \Stagehand_LegacyError_PHPError_Exception());
+        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
 
-        \Phake::when($outputBuffering)->getNestingLevel()->thenReturn(1);
-        \Phake::when($outputBuffering)->clearOutputHandler()
-          ->thenThrow(new \Stagehand_LegacyError_PHPError_Exception());
-
-        $outputBuffering->clearOutputHandlers();
-
-        \Phake::verify($outputBuffering, \Phake::times(1))->getNestingLevel();
-        \Phake::verify($outputBuffering, \Phake::times(1))->clearOutputHandler();
+        $this->applicationContext->createComponent('output_buffering')->clearOutputHandlers();
     }
 }
 

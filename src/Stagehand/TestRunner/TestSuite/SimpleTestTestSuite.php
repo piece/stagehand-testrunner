@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\TestSuite;
 
-use Stagehand\TestRunner\Core\Config;
+use Stagehand\TestRunner\Core\TestTargets;
 
 /**
  * @package    Stagehand_TestRunner
@@ -51,9 +51,10 @@ use Stagehand\TestRunner\Core\Config;
 class SimpleTestTestSuite extends \TestSuite
 {
     /**
-     * @var \Stagehand\TestRunner\Core\Config
+     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @since Property available since Release 3.0.0
      */
-    protected $config;
+    protected $testTargets;
 
     /**
      * @return integer
@@ -77,15 +78,15 @@ class SimpleTestTestSuite extends \TestSuite
     {
         $tests = $this->getTestsInTestCase($testCase);
         $testCount = 0;
-        if ($this->config->testsOnlySpecified()) {
-            if ($this->config->testsOnlySpecifiedMethods) {
+        if ($this->testTargets->testsOnlySpecifiedElements()) {
+            if ($this->testTargets->testsOnlySpecifiedMethods()) {
                 foreach ($tests as $method) {
-                    if ($this->config->isTestingMethod(get_class($testCase), $method)) {
+                    if ($this->testTargets->shouldTreatElementAsTest(get_class($testCase), $method)) {
                         ++$testCount;
                     }
                 }
-            } elseif ($this->config->testsOnlySpecifiedClasses) {
-                if ($this->config->isTestingClass(get_class($testCase))) {
+            } elseif ($this->testTargets->testsOnlySpecifiedClasses()) {
+                if ($this->testTargets->shouldTreatElementAsTest(get_class($testCase))) {
                     $testCount = count($tests);
                 }
             }
@@ -97,11 +98,12 @@ class SimpleTestTestSuite extends \TestSuite
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\Config $config
+     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @since Property available since Release 3.0.0
      */
-    public function setConfig(Config $config)
+    public function setTestTargets(TestTargets $testTargets)
     {
-        $this->config = $config;
+        $this->testTargets = $testTargets;
     }
 
     /**

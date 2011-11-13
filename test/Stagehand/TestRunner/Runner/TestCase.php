@@ -37,13 +37,9 @@
  * @since      File available since Release 2.10.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Collector\CollectorFactory;
-use Stagehand\TestRunner\Core\Config;
-use Stagehand\TestRunner\Preparer\PreparerFactory;
-use Stagehand\TestRunner\Process\TestRunner;
-use Stagehand\TestRunner\Runner\RunnerFactory;
+use Stagehand\TestRunner\Test\FactoryAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -53,36 +49,9 @@ use Stagehand\TestRunner\Runner\RunnerFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends FactoryAwareTestCase
 {
-    /**
-     * @var \Stagehand\TestRunner\Core\Config
-     */
-    protected $config;
     protected $tmpDirectory;
-
-    /**
-     * @var \Stagehand\TestRunner\Preparer\Preparer
-     */
-    protected $preparer;
-
-    /**
-     * @var \Stagehand\TestRunner\Collector\Collector
-     */
-    protected $collector;
-
-    /**
-     * @var \Stagehand\TestRunner\Runner\Runner
-     */
-    protected $runner;
-
-    /**
-     * @var \Stagehand\TestRunner\Notification\Notifier
-     * @since Property available since Release 2.18.0
-     */
-    protected $notifier;
-
-    protected $framework;
     protected $output;
     protected $backupGlobalsBlacklist =
         array(
@@ -96,45 +65,38 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             '_REQUEST'
         );
 
+    /**
+     * @var string
+     * @since Property available since Release 3.0.0
+     */
+    protected $junitXMLFile;
+
     protected function setUp()
     {
-        \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
-        $this->tmpDirectory = dirname(__FILE__) . '/../../../tmp';
-        $this->config = new Config();
-        $this->config->framework = $this->framework;
-        $this->config->setLogsResultsInJUnitXML(true);
-        $this->config->setJUnitXMLFile(
-            $this->tmpDirectory .
-            '/' .
-            get_class($this) .
-            '.' .
-            $this->getName(false) .
-            '.xml'
+        parent::setUp();
+
+        $this->tmpDirectory = dirname(__FILE__) . '/../../../../tmp';
+        $this->junitXMLFile = $this->tmpDirectory . '/' . get_class($this) . '.' . $this->getName(false) . '.xml';
+
+        $legacyProxy = \Phake::partialMock('\Stagehand\TestRunner\Core\LegacyProxy');
+        \Phake::when($legacyProxy)->ob_get_level()->thenReturn(0);
+        \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
+        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
+
+        $testTargets = $this->createTestTargets();
+        $testTargets->setFilePattern(
+            $this->applicationContext->getComponentFactory()->getParameter(
+                strtolower($this->getTestingFramework()) . '.' . 'test_file_pattern'
+            )
         );
-        $this->configure($this->config);
 
-        $preparerFactory = new PreparerFactory($this->config);
-        $this->preparer = $preparerFactory->create();
-        $this->preparer->prepare();
-
-        $collectorFactory = new CollectorFactory($this->config);
-        $this->collector = $collectorFactory->create();
-
-        $this->notifier = \Phake::mock('\Stagehand\TestRunner\Notification\Notifier');
-        \Phake::when($this->notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
-        \Phake::when($this->notifier)->getPHPOS()->thenReturn('Linux');
-
-        $this->loadClasses();
+        $this->configure();
     }
 
     protected function tearDown()
     {
-        unlink($this->config->getJUnitXMLFile());
-    }
-
-    public function removeJUnitXMLFile($element)
-    {
-        unlink($element);
+        parent::tearDown();
+        unlink($this->junitXMLFile);
     }
 
     protected function assertTestCaseCount($count)
@@ -234,40 +196,71 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected function createXPath()
     {
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
         return new \DOMXPath($junitXML);
     }
 
     protected function runTests()
     {
-        $factory = new RunnerFactory($this->config);
-        $this->runner = $factory->create();
-
-        $testRunner = \Phake::partialMock('\Stagehand\TestRunner\Process\TestRunner', $this->config);
-        \Phake::when($testRunner)->createPreparer()->thenReturn($this->preparer);
-        \Phake::when($testRunner)->createCollector()->thenReturn($this->collector);
-        \Phake::when($testRunner)->createRunner()->thenReturn($this->runner);
-        \Phake::when($testRunner)->createNotifier()->thenReturn($this->notifier);
+        $runner = $this->createRunner();
+        $runner->setJUnitXMLFile($this->junitXMLFile);
 
         ob_start();
-        $testRunner->run();
+        $this->applicationContext->createComponent('test_run')->run();
         $this->output = ob_get_contents();
         ob_end_clean();
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\Config $config
      * @since Method available since Release 2.14.1
      */
-    protected function configure(Config $config)
+    protected function configure()
     {
     }
 
     /**
-     * @since Method available since Release 2.16.0
+     * @return \Stagehand\TestRunner\Core\TestTargets
+     * @since Method available since Release 3.0.0
      */
-    protected function loadClasses()
+    protected function createTestTargets()
     {
+        return $this->applicationContext->createComponent('test_targets');
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Preparer\Preparer
+     * @since Method available since Release 3.0.0
+     */
+    protected function createPreparer()
+    {
+        return $this->applicationContext->createComponent($this->getTestingFramework() . '.' . 'preparer');
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Collector\Collector
+     * @since Method available since Release 3.0.0
+     */
+    protected function createCollector()
+    {
+        return $this->applicationContext->createComponent($this->getTestingFramework() . '.' . 'collector');
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Runner\Runner
+     * @since Method available since Release 3.0.0
+     */
+    protected function createRunner()
+    {
+        return $this->applicationContext->createComponent($this->getTestingFramework() . '.' . 'runner');
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\CLI\Terminal
+     * @since Method available since Release 3.0.0
+     */
+    protected function createTerminal()
+    {
+        return $this->applicationContext->createComponent('terminal');
     }
 }
 

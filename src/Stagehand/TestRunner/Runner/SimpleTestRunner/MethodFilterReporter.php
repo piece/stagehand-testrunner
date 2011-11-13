@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
-use Stagehand\TestRunner\Core\Config;
+use Stagehand\TestRunner\Core\TestTargets;
 
 /**
  * @package    Stagehand_TestRunner
@@ -51,17 +51,10 @@ use Stagehand\TestRunner\Core\Config;
 class MethodFilterReporter extends \SimpleReporterDecorator
 {
     /**
-     * @var \Stagehand\TestRunner\Core\Config
+     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @since Property available since Release 3.0.0
      */
-    protected $config;
-
-    /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     */
-    public function setConfig(Config $config)
-    {
-        $this->config = $config;
-    }
+    protected $testTargets;
 
     /**
      * @param string $testCase
@@ -70,7 +63,16 @@ class MethodFilterReporter extends \SimpleReporterDecorator
      */
     public function shouldInvoke($testCase, $method)
     {
-        return $this->config->isTestingMethod($testCase, $method);
+        return $this->testTargets->shouldTreatElementAsTest($testCase, $method);
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @since Property available since Release 3.0.0
+     */
+    public function setTestTargets(TestTargets $testTargets)
+    {
+        $this->testTargets = $testTargets;
     }
 }
 

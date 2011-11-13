@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
+use Stagehand\TestRunner\Core\ApplicationContext;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -63,14 +65,20 @@ class CIUnitPreparer extends PHPUnitPreparer
         'QUERY_STRING' => null,
     );
 
+    /**
+     * @var string
+     * @since Property available since Release 3.0.0
+     */
+    protected $ciunitPath;
+
     public function prepare()
     {
         parent::prepare();
 
-        if (is_null($this->config->ciunitPath)) {
-            $ciunitPath = $this->config->getWorkingDirectoryAtStartup();
+        if (is_null($this->getCIUnitPath())) {
+            $ciunitPath = ApplicationContext::getInstance()->getEnvironment()->getWorkingDirectoryAtStartup();
         } else {
-            $ciunitPath = $this->config->ciunitPath;
+            $ciunitPath = $this->getCIUnitPath();
         }
 
         /* Removes some superglobals and environment variables to avoid getting invalid
@@ -84,6 +92,24 @@ class CIUnitPreparer extends PHPUnitPreparer
         \Stagehand_LegacyError_PHPError::disableConversion();
         error_reporting($oldErrorReportingLevel);
         $this->restoreVariables();
+    }
+
+    /**
+     * @param string $ciunitPath
+     * @since Method available since Release 3.0.0
+     */
+    public function setCIUnitPath($ciunitPath)
+    {
+        $this->ciunitPath = $ciunitPath;
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    public function getCIUnitPath()
+    {
+        return $this->ciunitPath;
     }
 
     protected function backupVariables()

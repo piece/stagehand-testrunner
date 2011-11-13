@@ -37,6 +37,9 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
+use Stagehand\TestRunner\CLI\Terminal;
+use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
+
 require_once 'PHPUnit/Runner/Version.php';
 
 /**
@@ -48,12 +51,42 @@ require_once 'PHPUnit/Runner/Version.php';
  */
 class PHPUnitPreparer extends Preparer
 {
+    /**
+     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+     * @since Property available since Release 3.0.0
+     */
+    protected $phpunitXMLConfiguration;
+
+    /**
+     * @var \Stagehand\TestRunner\CLI\Terminal
+     * @since Property available since Release 3.0.0
+     */
+    protected $terminal;
+
     public function prepare()
     {
         $this->prepareFramework();
-        if (!is_null($this->config->phpunitConfigFile)) {
+        if (!is_null($this->phpunitXMLConfiguration)) {
             $this->earlyConfigure();
         }
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     * @since Method available since Release 3.0.0
+     */
+    public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
+    {
+        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\CLI\Terminal $terminal
+     * @since Method available since Release 3.0.0
+     */
+    public function setTerminal(Terminal $terminal)
+    {
+        $this->terminal = $terminal;
     }
 
     /**
@@ -90,25 +123,25 @@ class PHPUnitPreparer extends Preparer
      */
     protected function earlyConfigure()
     {
-        require_once 'PHPUnit/Util/Configuration.php';
-        $phpunitConfiguration = \PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getPHPUnitConfiguration();
-
-        if (array_key_exists('bootstrap', $phpunitConfiguration)) {
-            if (array_key_exists('syntaxCheck', $phpunitConfiguration)) {
-                $this->handleBootstrap($phpunitConfiguration['bootstrap'], $phpunitConfiguration['syntaxCheck']);
+        if ($this->phpunitXMLConfiguration->hasPHPUnitConfiguration('bootstrap')) {
+            if ($this->phpunitXMLConfiguration->hasPHPUnitConfiguration('syntaxCheck')) {
+                $this->handleBootstrap(
+                    $this->phpunitXMLConfiguration->getPHPUnitConfiguration('bootstrap'),
+                    $this->phpunitXMLConfiguration->getPHPUnitConfiguration('syntaxCheck')
+                );
             } else {
-                $this->handleBootstrap($phpunitConfiguration['bootstrap']);
+                $this->handleBootstrap($this->phpunitXMLConfiguration->getPHPUnitConfiguration('bootstrap'));
             }
         }
 
-        if (array_key_exists('colors', $phpunitConfiguration)) {
-            $this->config->setColors($phpunitConfiguration['colors']);
+        if ($this->phpunitXMLConfiguration->hasPHPUnitConfiguration('colors')) {
+            $this->terminal->setColors($this->phpunitXMLConfiguration->getPHPUnitConfiguration('colors'));
         }
 
-        $browsers = \PHPUnit_Util_Configuration::getInstance($this->config->phpunitConfigFile)->getSeleniumBrowserConfiguration();
-        if (count($browsers)) {
+        if ($this->phpunitXMLConfiguration->hasSeleniumBrowserConfiguration()) {
             require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
-            \PHPUnit_Extensions_SeleniumTestCase::$browsers = $browsers;
+            \PHPUnit_Extensions_SeleniumTestCase::$browsers =
+                $this->phpunitXMLConfiguration->getSeleniumBrowserConfiguration();
         }
     }
 }

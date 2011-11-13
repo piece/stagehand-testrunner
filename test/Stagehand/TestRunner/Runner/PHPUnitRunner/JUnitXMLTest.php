@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner;
 
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\TestCase;
+use Stagehand\TestRunner\Runner\TestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,21 +49,31 @@ use Stagehand\TestRunner\TestCase;
  */
 class JUnitXMLTest extends TestCase
 {
-    protected $framework = TestingFramework::PHPUNIT;
+    /**
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    protected function getTestingFramework()
+    {
+        return TestingFramework::PHPUNIT;
+    }
 
     /**
      * @test
      */
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitFailureTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitErrorTest');
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitFailureTest');
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitErrorTest');
+
         $this->runTests();
-        $this->assertFileExists($this->config->getJUnitXMLFile());
+
+        $this->assertFileExists($this->junitXMLFile);
 
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -179,10 +189,11 @@ class JUnitXMLTest extends TestCase
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormatIfNoTestsAreFound()
     {
         $this->runTests();
-        $this->assertFileExists($this->config->getJUnitXMLFile());
+
+        $this->assertFileExists($this->junitXMLFile);
 
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -200,12 +211,15 @@ class JUnitXMLTest extends TestCase
      */
     public function treatsDataProvider()
     {
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitDataProviderTest');
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitDataProviderTest');
+
         $this->runTests();
-        $this->assertFileExists($this->config->getJUnitXMLFile());
+
+        $this->assertFileExists($this->junitXMLFile);
 
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -292,15 +306,22 @@ class JUnitXMLTest extends TestCase
      */
     public function logsTestResultsInRealtimeIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
-        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
-        $this->config->runnerClass = '\Stagehand\TestRunner\Runner\PHPUnitRunner\JUnitXMLTest\MockPHPUnitRunner';
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitFailureTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitErrorTest');
-        $this->runTests();
-        $this->assertFileExists($this->config->getJUnitXMLFile());
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitPassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitFailureTest');
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitErrorTest');
+        $this->applicationContext->setComponentClass(
+            'phpunit.runner',
+            '\Stagehand\TestRunner\Runner\PHPUnitRunner\JUnitXMLTest\MockPHPUnitRunner'
+        );
+        $runner = $this->createRunner();
+        $runner->setLogsResultsInJUnitXMLInRealtime(true);
 
-        $streamContents = $this->readAttribute($this->runner, 'streamContents');
+        $this->runTests();
+
+        $this->assertFileExists($this->junitXMLFile);
+
+        $streamContents = $this->readAttribute($runner, 'streamContents');
         $this->assertEquals(22, count($streamContents));
         $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL . '<testsuites>', $streamContents[0]);
         $this->assertEquals('<testsuite name="The test suite generated by Stagehand_TestRunner" tests="5">', $streamContents[1]);
@@ -315,7 +336,7 @@ class JUnitXMLTest extends TestCase
         $this->assertEquals('</testsuites>', $streamContents[21]);
 
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLStream.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -413,13 +434,17 @@ class JUnitXMLTest extends TestCase
      */
     public function treatsDataProviderInRealtime()
     {
-        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitDataProviderTest');
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitDataProviderTest');
+        $runner = $this->createRunner();
+        $runner->setLogsResultsInJUnitXMLInRealtime(true);
+
         $this->runTests();
-        $this->assertFileExists($this->config->getJUnitXMLFile());
+
+        $this->assertFileExists($this->junitXMLFile);
 
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLStream.rng'));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
@@ -491,11 +516,14 @@ class JUnitXMLTest extends TestCase
      */
     public function includesTheSpecifiedMessageAtTheValueOfTheErrorElementForIncompleteAndSkippedTests()
     {
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitIncompleteTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitSkippedTest');
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitIncompleteTest');
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitSkippedTest');
+
         $this->runTests();
+
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $childTestsuite = $parentTestsuite->childNodes->item(0);
         $this->assertEquals(
@@ -537,13 +565,18 @@ class JUnitXMLTest extends TestCase
      */
     public function countsTheNumberOfTestsForMethodFiltersWithTheRealtimeOption()
     {
-        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
-        $this->config->addTestingMethod('pass1');
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array('pass1'));
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $runner = $this->createRunner();
+        $runner->setLogsResultsInJUnitXMLInRealtime(true);
+
         $this->runTests();
+
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertEquals(1, $parentTestsuite->getAttribute('tests'));
@@ -557,14 +590,19 @@ class JUnitXMLTest extends TestCase
      */
     public function countsTheNumberOfTestsForClassFiltersWithTheRealtimeOption()
     {
-        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
-        $this->config->addTestingClass('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
-        $this->collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
+        $testTargets = $this->createTestTargets();
+        $testTargets->setClasses(array('Stagehand_TestRunner_PHPUnitMultipleClasses1Test'));
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses1Test');
+        $collector->collectTestCase('Stagehand_TestRunner_PHPUnitMultipleClasses2Test');
+        $runner = $this->createRunner();
+        $runner->setLogsResultsInJUnitXMLInRealtime(true);
+
         $this->runTests();
+
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertEquals(2, $parentTestsuite->getAttribute('tests'));
@@ -576,29 +614,29 @@ class JUnitXMLTest extends TestCase
      * @test
      * @dataProvider provideWritingModes
      * @param boolean $logsResultsInJUnitXMLInRealtime
+     * @param string $relaxNGSchema
      * @link http://redmine.piece-framework.com/issues/216
      * @since Method available since Release 2.14.0
      */
-    public function generatesAValidXmlIfAnyTestCasesAreSkippedByDependsAnnotations($logsResultsInJUnitXMLInRealtime)
+    public function generatesAValidXmlIfAnyTestCasesAreSkippedByDependsAnnotations($logsResultsInJUnitXMLInRealtime, $relaxNGSchema)
     {
-        $this->config->setLogsResultsInJUnitXMLInRealtime($logsResultsInJUnitXMLInRealtime);
-        if ($this->config->logsResultsInJUnitXMLInRealtime()) {
-            $relaxNGSchema = dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLStream.rng';
-        } else {
-            $relaxNGSchema = dirname(__FILE__) . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng';
-        }
         $testClass = 'Stagehand_TestRunner_PHPUnitDependsTest';
         class_exists($testClass);
-        $this->collector->collectTestCase($testClass);
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+        $runner = $this->createRunner();
+        $runner->setLogsResultsInJUnitXMLInRealtime($logsResultsInJUnitXMLInRealtime);
+
         $this->runTests();
+
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate($relaxNGSchema));
 
         $parentTestsuite = $junitXML->childNodes->item(0)->childNodes->item(0);
         $this->assertTrue($parentTestsuite->hasChildNodes());
         $this->assertEquals(2, $parentTestsuite->getAttribute('tests'));
-        if (!$this->config->logsResultsInJUnitXMLInRealtime()) {
+        if (!$logsResultsInJUnitXMLInRealtime) {
             $this->assertEquals(1, $parentTestsuite->getAttribute('assertions'));
             $this->assertEquals(1, $parentTestsuite->getAttribute('failures'));
             $this->assertEquals(1, $parentTestsuite->getAttribute('errors'));
@@ -612,7 +650,7 @@ class JUnitXMLTest extends TestCase
         $class = new \ReflectionClass($testClass);
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
-        if (!$this->config->logsResultsInJUnitXMLInRealtime()) {
+        if (!$logsResultsInJUnitXMLInRealtime) {
             $this->assertEquals(1, $childTestsuite->getAttribute('assertions'));
             $this->assertEquals(1, $childTestsuite->getAttribute('failures'));
             $this->assertEquals(1, $childTestsuite->getAttribute('errors'));
@@ -621,14 +659,14 @@ class JUnitXMLTest extends TestCase
 
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertEquals('pass', $testcase->getAttribute('name'));
-        if (!$this->config->logsResultsInJUnitXMLInRealtime()) {
+        if (!$logsResultsInJUnitXMLInRealtime) {
             $this->assertEquals(1, $testcase->getAttribute('assertions'));
         }
 
         $testcase = $childTestsuite->childNodes->item(1);
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertEquals('skip', $testcase->getAttribute('name'));
-        if (!$this->config->logsResultsInJUnitXMLInRealtime()) {
+        if (!$logsResultsInJUnitXMLInRealtime) {
             $this->assertEquals(0, $testcase->getAttribute('assertions'));
         }
         $error = $testcase->childNodes->item(0);
@@ -638,7 +676,10 @@ class JUnitXMLTest extends TestCase
 
     public function provideWritingModes()
     {
-        return array(array(false), array(true));
+        return array(
+            array(false, __DIR__ . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'),
+            array(true, __DIR__ . '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLStream.rng'),
+        );
     }
 
     /**
@@ -653,8 +694,11 @@ class JUnitXMLTest extends TestCase
         $methodName = 'testTestShouldPassCommon';
         $className = 'Stagehand_TestRunner_PHPUnitExtendedTest';
         $parentClassName = 'Stagehand_TestRunner_PHPUnitCommonTest';
-        $this->config->setLogsResultsInJUnitXMLInRealtime($logsResultsInJUnitXMLInRealtime);
-        $this->collector->collectTestCase($className);
+        $collector = $this->createCollector();
+        $collector->collectTestCase($className);
+        $runner = $this->createRunner();
+        $runner->setLogsResultsInJUnitXMLInRealtime($logsResultsInJUnitXMLInRealtime);
+
         $this->runTests();
 
         $testcases = $this->createXPath()
@@ -688,9 +732,14 @@ class JUnitXMLTest extends TestCase
         if (is_null($actualClassName)) {
             $actualClassName = $className;
         }
-        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
-        $this->config->addTestingMethod($methodName);
-        $this->collector->collectTestCase($className);
+
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array($methodName));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($className);
+        $runner = $this->createRunner();
+        $runner->setLogsResultsInJUnitXMLInRealtime(true);
+
         $this->runTests();
 
         $failures = $this->createXPath()
@@ -731,8 +780,11 @@ class JUnitXMLTest extends TestCase
     public function logsTheFileAndLineWhereAFailureOrErrorHasOccurredInRealtimeForWarning()
     {
         $className = 'Stagehand_TestRunner_PHPUnitNoTestsTest';
-        $this->config->setLogsResultsInJUnitXMLInRealtime(true);
-        $this->collector->collectTestCase($className);
+        $collector = $this->createCollector();
+        $collector->collectTestCase($className);
+        $runner = $this->createRunner();
+        $runner->setLogsResultsInJUnitXMLInRealtime(true);
+
         $this->runTests();
 
         $failures = $this->createXPath()

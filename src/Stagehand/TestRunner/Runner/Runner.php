@@ -37,7 +37,8 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Core\Config;
+use Stagehand\TestRunner\CLI\Terminal;
+use Stagehand\TestRunner\Core\TestTargets;
 
 /**
  * The base class for test runners.
@@ -56,18 +57,46 @@ abstract class Runner
     protected $notification;
 
     /**
-     * @var \Stagehand\TestRunner\Core\Config
+     * @var \Stagehand\TestRunner\CLI\Terminal
+     * @since Property available since Release 3.0.0
      */
-    protected $config;
+    protected $terminal;
 
     /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     * @since Method available since Release 2.10.0
+     * @var string
+     * @since Property available since Release 3.0.0
      */
-    public function __construct(Config $config)
-    {
-        $this->config = $config;
-    }
+    protected $junitXMLFile;
+
+    /**
+     * @var boolean
+     * @since Property available since Release 3.0.0
+     */
+    protected $logsResultsInJUnitXML;
+
+    /**
+     * @var boolean
+     * @since Property available since Release 3.0.0
+     */
+    protected $logsResultsInJUnitXMLInRealtime;
+
+    /**
+     * @var boolean
+     * @since Property available since Release 3.0.0
+     */
+    protected $stopsOnFailure;
+
+    /**
+     * @var boolean
+     * @since Property available since Release 3.0.0
+     */
+    protected $usesNotification;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @since Property available since Release 3.0.0
+     */
+    protected $testTargets;
 
     /**
      * Runs tests.
@@ -84,6 +113,83 @@ abstract class Runner
     public function getNotification()
     {
         return $this->notification;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\CLI\Terminal $terminal
+     * @since Method available since Release 3.0.0
+     */
+    public function setTerminal(Terminal $terminal)
+    {
+        $this->terminal = $terminal;
+    }
+
+    /**
+     * @param string $junitXMLFile
+     * @since Method available since Release 3.0.0
+     */
+    public function setJUnitXMLFile($junitXMLFile)
+    {
+        if (is_null($junitXMLFile)) {
+            $this->logsResultsInJUnitXML = false;
+        } else {
+            $this->junitXMLFile = $junitXMLFile;
+            $this->logsResultsInJUnitXML = true;
+        }
+    }
+
+    /**
+     * @param boolean $logsResultsInJUnitXMLInRealtime
+     * @since Method available since Release 3.0.0
+     */
+    public function setLogsResultsInJUnitXMLInRealtime($logsResultsInJUnitXMLInRealtime)
+    {
+        $this->logsResultsInJUnitXMLInRealtime = $logsResultsInJUnitXMLInRealtime;
+    }
+
+    /**
+     * @param boolean $stopsOnFailure
+     * @since Method available since Release 3.0.0
+     */
+    public function setStopsOnFailure($stopsOnFailure)
+    {
+        $this->stopsOnFailure = $stopsOnFailure;
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 3.0.0
+     */
+    public function stopsOnFailure()
+    {
+        return $this->stopsOnFailure;
+    }
+
+    /**
+     * @param boolean $usesNotification
+     * @since Method available since Release 3.0.0
+     */
+    public function setUsesNotification($usesNotification)
+    {
+        $this->usesNotification = $usesNotification;
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 3.0.0
+     */
+    public function usesNotification()
+    {
+        return $this->usesNotification;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @since Property available since Release 3.0.0
+     */
+    public function setTestTargets(TestTargets $testTargets)
+    {
+        $this->testTargets = $testTargets;
     }
 }
 

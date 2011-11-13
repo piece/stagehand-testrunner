@@ -49,7 +49,6 @@ namespace Stagehand\TestRunner\Collector;
 class CIUnitCollector extends PHPUnitCollector
 {
     protected $superTypes = array('CIUnit_TestCase', 'CIUnit_TestCase_Selenium');
-    protected $filePattern = '^test.+\.php$';
 }
 
 /*

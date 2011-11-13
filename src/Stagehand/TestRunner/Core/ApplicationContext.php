@@ -32,69 +32,93 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.19.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Util;
-
-use Stagehand\TestRunner\Core\LegacyProxy;
+namespace Stagehand\TestRunner\Core;
 
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.19.0
+ * @since      Class available since Release 3.0.0
  */
-class OutputBuffering
+class ApplicationContext
 {
     /**
-     * @var \Stagehand\TestRunner\Core\LegacyProxy
-     * @since Property available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Core\ApplicationContext
      */
-    protected $legacyProxy;
+    private static $soleInstance;
 
     /**
-     * @Throws \Stagehand\TestRunner\Util\CannotRemoveException
+     * @var \Stagehand\TestRunner\Core\ComponentFactory
      */
-    public function clearOutputHandlers()
+    protected $componentFactory;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\Environment
+     */
+    protected $environment;
+
+    /**
+     * @return \Stagehand\TestRunner\Core\ApplicationContext
+     */
+    public static function getInstance()
     {
-        \Stagehand_LegacyError_PHPError::enableConversion(E_NOTICE);
-        while ($this->getNestingLevel()) {
-            try {
-                $this->clearOutputHandler();
-            } catch (\Stagehand_LegacyError_PHPError_Exception $e) {
-                \Stagehand_LegacyError_PHPError::disableConversion();
-                throw new CannotRemoveException($e->getMessage());
-            }
+        if (is_null(self::$soleInstance)) {
+            self::$soleInstance = new self();
         }
-        \Stagehand_LegacyError_PHPError::disableConversion();
+        return self::$soleInstance;
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\LegacyProxy $legacyProxy
-     * @since Method available since Release 3.0.0
+     * @param \Stagehand\TestRunner\Core\ApplicationContext $applicationContext
      */
-    public function setLegacyProxy(LegacyProxy $legacyProxy)
+    public static function setInstance(ApplicationContext $applicationContext)
     {
-        $this->legacyProxy = $legacyProxy;
+        self::$soleInstance = $applicationContext;
     }
 
     /**
-     * @return integer
-     * @since Method available since Release 2.20.0
+     * @param \Stagehand\TestRunner\Core\ComponentFactory $componentFactory
      */
-    protected function getNestingLevel()
+    public function setComponentFactory(ComponentFactory $componentFactory)
     {
-        return $this->legacyProxy->ob_get_level();
+        $this->componentFactory = $componentFactory;
     }
 
     /**
-     * @since Method available since Release 2.20.0
+     * @return \Stagehand\TestRunner\Core\ComponentFactory
      */
-    protected function clearOutputHandler()
+    public function getComponentFactory()
     {
-        return $this->legacyProxy->ob_end_clean();
+        return $this->componentFactory;
+    }
+
+    /**
+     * @param string $componentID
+     * @return mixed
+     */
+    public function createComponent($componentID)
+    {
+        return $this->componentFactory->create($componentID);
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\Environment $environment
+     */
+    public function setEnvironment(Environment $environment)
+    {
+        $this->environment = $environment;
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Core\Environment
+     */
+    public function getEnvironment()
+    {
+        return $this->environment;
     }
 }
 

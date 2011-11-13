@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Notification;
 
+use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,7 +46,7 @@ namespace Stagehand\TestRunner\Notification;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class NotifierTest extends \PHPUnit_Framework_TestCase
+class NotifierTest extends PHPUnitFactoryAwareTestCase
 {
     const NOTIFICATION_MESSAGE = 'NOTIFICATION_MESSAGE';
 
@@ -58,28 +60,15 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
      */
     public function notifiesTheResultByTheAppropriateCommandForTheCurrentHost($result, $os, $commandRegex)
     {
-        $notifier = \Phake::partialMock('\Stagehand\TestRunner\Notification\Notifier');
+        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        \Phake::when($legacyProxy)->PHP_OS()->thenReturn($os);
+        \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
+        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
 
-        if ($os == 'win') {
-            \Phake::when($notifier)->isWin()->thenReturn(true);
-            \Phake::when($notifier)->isDarwin()->thenReturn(false);
-            \Phake::when($notifier)->isLinux()->thenReturn(false);
-        } elseif ($os == 'darwin') {
-            \Phake::when($notifier)->isWin()->thenReturn(false);
-            \Phake::when($notifier)->isDarwin()->thenReturn(true);
-            \Phake::when($notifier)->isLinux()->thenReturn(false);
-        } elseif ($os == 'linux') {
-            \Phake::when($notifier)->isWin()->thenReturn(false);
-            \Phake::when($notifier)->isDarwin()->thenReturn(false);
-            \Phake::when($notifier)->isLinux()->thenReturn(true);
-        }
-
-        \Phake::when($notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
-
+        $notifier = $this->applicationContext->createComponent('notifier');
         $notifier->notifyResult(new Notification($result, self::NOTIFICATION_MESSAGE));
 
-        \Phake::verify($notifier)->executeNotifyCommand(\Phake::capture($command));
-        $this->assertThat($command, $this->matchesRegularExpression($commandRegex));
+        \Phake::verify($legacyProxy)->system($this->matchesRegularExpression($commandRegex), $this->anything());
     }
 
     /**
@@ -163,17 +152,17 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
      */
     public function addsABackslashForEachBackslashInTheMessageOnLinuxToPreventLosingOriginalBackslashes()
     {
-        $notifier = \Phake::partialMock('\Stagehand\TestRunner\Notification\Notifier');
+        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        \Phake::when($legacyProxy)->PHP_OS()->thenReturn('linux');
+        \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
+        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
 
-        \Phake::when($notifier)->isWin()->thenReturn(false);
-        \Phake::when($notifier)->isDarwin()->thenReturn(false);
-        \Phake::when($notifier)->isLinux()->thenReturn(true);
-        \Phake::when($notifier)->executeNotifyCommand($this->anything())->thenReturn(null);
-
+        $notifier = $this->applicationContext->createComponent('notifier');
         $notifier->notifyResult(new Notification(Notification::RESULT_STOPPED, 'Foo\Bar\Baz::qux()'));
 
-        \Phake::verify($notifier)->executeNotifyCommand(
-            $this->matchesRegularExpression('/' . preg_quote('Foo\\\\Bar\\\\Baz::qux()') . '/')
+        \Phake::verify($legacyProxy)->system(
+            $this->matchesRegularExpression('/' . preg_quote('Foo\\\\Bar\\\\Baz::qux()') . '/'),
+            $this->anything()
         );
     }
 }

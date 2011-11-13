@@ -40,7 +40,6 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\TestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -52,29 +51,69 @@ use Stagehand\TestRunner\TestCase;
  */
 class SimpleTestRunnerTest extends TestCase
 {
-    protected $framework = TestingFramework::SIMPLETEST;
     protected $oldErrorHandler;
 
+    public function handleError()
+    {
+    }
+
+    protected function configure()
+    {
+        $preparer = $this->createPreparer();
+        $preparer->prepare();
+
+        class_exists('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClassesTest');
+        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+            class_exists('\Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespaceTest');
+        }
+    }
+
     /**
-     * @param string $method
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    protected function getTestingFramework()
+    {
+        return TestingFramework::SIMPLETEST;
+    }
+
+    protected function setUp()
+    {
+        $this->oldErrorHandler = set_error_handler(array($this, 'handleError'));
+        parent::setUp();
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        if (!is_null($this->oldErrorHandler)) {
+            set_error_handler($this->oldErrorHandler);
+        }
+    }
+
+    /**
+     * @param string $testMethod
      * @test
      * @dataProvider provideMethods
      */
-    public function runsOnlyTheSpecifiedMethods($method)
+    public function runsOnlyTheSpecifiedMethods($testMethod)
     {
-        $this->config->addTestingMethod($method);
-        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
-        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses2Test');
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array($testMethod));
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses2Test');
+
         $this->runTests();
 
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test'
+            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'
         );
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand_TestRunner_' . $this->framework . 'MultipleClasses2Test'
+            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses2Test'
         );
     }
 
@@ -84,54 +123,60 @@ class SimpleTestRunnerTest extends TestCase
     }
 
     /**
-     * @param string $method
+     * @param string $testMethod
      * @test
      * @dataProvider provideFullyQualifiedMethodNames
      */
-    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($method)
+    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($testMethod)
     {
-        $this->config->addTestingMethod($method);
-        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
-        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses2Test');
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array($testMethod));
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses2Test');
+
         $this->runTests();
 
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test'
+            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'
         );
     }
 
     public function provideFullyQualifiedMethodNames()
     {
         return array(
-                   array('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test::testPass1'),
-                   array('stagehand_testrunner_' . strtolower($this->framework) . 'multipleclasses1test::testpass1')
+                   array('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test::testPass1'),
+                   array('stagehand_testrunner_' . strtolower($this->getTestingFramework()) . 'multipleclasses1test::testpass1')
                );
     }
 
     /**
-     * @param string $method
+     * @param string $testMethod
      * @test
      * @dataProvider provideFullyQualifiedMethodNamesWithNamespaces
      * @since Method available since Release 2.15.0
      * @link http://redmine.piece-framework.com/issues/245
      */
-    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodNameWithNamespaces($method)
+    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodNameWithNamespaces($testMethod)
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             $this->markTestSkipped('Your PHP version is less than 5.3.0.');
         }
 
-        $this->config->addTestingMethod($method);
-        $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test');
-        $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace2Test');
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array($testMethod));
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test');
+        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace2Test');
+
         $this->runTests();
 
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test'
+            'Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test'
         );
     }
 
@@ -142,69 +187,75 @@ class SimpleTestRunnerTest extends TestCase
     public function provideFullyQualifiedMethodNamesWithNamespaces()
     {
         return array(
-                   array('\Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test::testPass1'),
-                   array('\stagehand\testrunner\\' . strtolower($this->framework) . 'multipleclasseswithnamespace1test::testpass1'),
-                   array('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test::testPass1')
+                   array('\Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test::testPass1'),
+                   array('\stagehand\testrunner\\' . strtolower($this->getTestingFramework()) . 'multipleclasseswithnamespace1test::testpass1'),
+                   array('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test::testPass1')
                );
     }
 
     /**
-     * @param $string $class
+     * @param $string $testClass
      * @test
      * @dataProvider provideClasses
      */
-    public function runsOnlyTheSpecifiedClasses($class)
+    public function runsOnlyTheSpecifiedClasses($testClass)
     {
-        $this->config->addTestingClass($class);
-        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test');
-        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses2Test');
+        $testTargets = $this->createTestTargets();
+        $testTargets->setClasses(array($testClass));
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses2Test');
+
         $this->runTests();
 
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test'
+            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'
         );
         $this->assertTestCaseExists(
             'testPass2',
-            'Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test'
+            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'
         );
     }
 
     public function provideClasses()
     {
         return array(
-                   array('Stagehand_TestRunner_' . $this->framework . 'MultipleClasses1Test'),
-                   array('stagehand_testrunner_' . $this->framework . 'multipleclasses1test')
+                   array('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'),
+                   array('stagehand_testrunner_' . $this->getTestingFramework() . 'multipleclasses1test')
                );
     }
 
     /**
-     * @param $string $class
+     * @param $string $testClass
      * @test
      * @dataProvider provideClassesWithNamespaces
      * @since Method available since Release 2.15.0
      * @link http://redmine.piece-framework.com/issues/245
      */
-    public function runsOnlyTheSpecifiedClassesWithNamespaces($class)
+    public function runsOnlyTheSpecifiedClassesWithNamespaces($testClass)
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             $this->markTestSkipped('Your PHP version is less than 5.3.0.');
         }
 
-        $this->config->addTestingClass($class);
-        $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test');
-        $this->collector->collectTestCase('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace2Test');
+        $testTargets = $this->createTestTargets();
+        $testTargets->setClasses(array($testClass));
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test');
+        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace2Test');
+
         $this->runTests();
 
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test'
+            'Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test'
         );
         $this->assertTestCaseExists(
             'testPass2',
-            'Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test'
+            'Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test'
         );
     }
 
@@ -215,9 +266,9 @@ class SimpleTestRunnerTest extends TestCase
     public function provideClassesWithNamespaces()
     {
         return array(
-                   array('\Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test'),
-                   array('\stagehand\testrunner\\' . $this->framework . 'multipleclassesWithNamespace1test'),
-                   array('Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespace1Test')
+                   array('\Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test'),
+                   array('\stagehand\testrunner\\' . $this->getTestingFramework() . 'multipleclassesWithNamespace1test'),
+                   array('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test')
                );
     }
 
@@ -227,14 +278,18 @@ class SimpleTestRunnerTest extends TestCase
      */
     public function stopsTheTestRunWhenTheFirstFailureIsRaised()
     {
-        $this->config->stopsOnFailure = true;
-        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'FailureAndPassTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'PassTest');
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureAndPassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest');
+        $runner = $this->createRunner();
+        $runner->setStopsOnFailure(true);
+
         $this->runTests();
+
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testIsFailure',
-            'Stagehand_TestRunner_' . $this->framework . 'FailureAndPassTest'
+            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureAndPassTest'
         );
     }
 
@@ -244,14 +299,18 @@ class SimpleTestRunnerTest extends TestCase
      */
     public function stopsTheTestRunWhenTheFirstErrorIsRaised()
     {
-        $this->config->stopsOnFailure = true;
-        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'ErrorAndPassTest');
-        $this->collector->collectTestCase('Stagehand_TestRunner_' . $this->framework . 'PassTest');
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorAndPassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest');
+        $runner = $this->createRunner();
+        $runner->setStopsOnFailure(true);
+
         $this->runTests();
+
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testIsError',
-            'Stagehand_TestRunner_' . $this->framework . 'ErrorAndPassTest'
+            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorAndPassTest'
         );
     }
 
@@ -264,15 +323,19 @@ class SimpleTestRunnerTest extends TestCase
     {
         $file = dirname(__FILE__) .
             '/../../../../examples/Stagehand/TestRunner/test_SimpleTestWithAnyPattern.php';
-        $this->collector->collectTestCases($file);
+        $collector = $this->createCollector();
+        $collector->collectTestCasesFromFile($file);
 
         $this->runTests();
+
         $this->assertTestCaseCount(0);
 
-        $this->config->testFilePattern = '^test_.+\.php$';
-        $this->collector->collectTestCases($file);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setFilePattern('^test_.+\.php$');
+        $collector->collectTestCasesFromFile($file);
 
         $this->runTests();
+
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists('testPass', 'Stagehand_TestRunner_SimpleTestWithAnyPatternTest');
     }
@@ -284,12 +347,14 @@ class SimpleTestRunnerTest extends TestCase
      */
     public function reportsOnlyTheFirstFailureInASingleTestToJunitXml()
     {
-        $testClass = 'Stagehand_TestRunner_' . $this->framework . 'MultipleFailuresTest';
-        $this->collector->collectTestCase($testClass);
+        $testClass = 'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleFailuresTest';
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+
         $this->runTests();
 
         $junitXML = new \DOMDocument();
-        $junitXML->load($this->config->getJUnitXMLFile());
+        $junitXML->load($this->junitXMLFile);
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $this->assertTestCaseCount(1);
@@ -297,14 +362,6 @@ class SimpleTestRunnerTest extends TestCase
         $this->assertTestCaseAssertionCount(1, 'testIsFailure', $testClass);
         $this->assertTestCaseFailed('testIsFailure', $testClass);
         $this->assertTestCaseFailureMessageEquals('/^The First Failure/', 'testIsFailure', $testClass);
-    }
-
-    protected function loadClasses()
-    {
-        class_exists('Stagehand_TestRunner_' . $this->framework . 'MultipleClassesTest');
-        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            class_exists('\Stagehand\TestRunner\\' . $this->framework . 'MultipleClassesWithNamespaceTest');
-        }
     }
 }
 

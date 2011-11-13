@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\Core\Config;
 
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/web_tester.php';
@@ -53,14 +52,44 @@ require_once 'simpletest/mock_objects.php';
  */
 class CakeRunnerTest extends SimpleTestRunnerTest
 {
-    protected $framework = TestingFramework::CAKE;
+    /**
+     * @since Method available since Release 2.14.1
+     */
+    protected function configure()
+    {
+        $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+        $preparer->setCakePHPAppPath(__DIR__ . '/../../../../vendor/cakephp/app');
+        $preparer->prepare();
+
+        include_once 'Stagehand/TestRunner/cake_pass.test.php';
+        include_once 'Stagehand/TestRunner/cake_multiple_classes.test.php';
+        include_once 'Stagehand/TestRunner/cake_failure_and_pass.test.php';
+        include_once 'Stagehand/TestRunner/cake_error_and_pass.test.php';
+        include_once 'Stagehand/TestRunner/cake_multiple_failures.test.php';
+        include_once 'Stagehand/TestRunner/cake_always_called_methods.test.php';
+
+        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+            include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
+        }
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    protected function getTestingFramework()
+    {
+        return TestingFramework::CAKE;
+    }
 
     /**
      * @test
      */
     public function runsTests()
     {
-        $this->collector->collectTestCase('Stagehand_TestRunner_CakePassTest');
+        $collector = $this->createCollector();
+        $collector->collectTestCase('Stagehand_TestRunner_CakePassTest');
+
         $this->runTests();
 
         $this->assertTestCaseCount(3);
@@ -78,40 +107,21 @@ class CakeRunnerTest extends SimpleTestRunnerTest
     {
         $file = dirname(__FILE__) .
             '/../../../../examples/Stagehand/TestRunner/test_cake_with_any_pattern.php';
-        $this->collector->collectTestCases($file);
+        $collector = $this->createCollector();
+        $collector->collectTestCasesFromFile($file);
 
         $this->runTests();
+
         $this->assertTestCaseCount(0);
 
-        $this->config->testFilePattern = '^test_.+\.php$';
-        $this->collector->collectTestCases($file);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setFilePattern('^test_.+\.php$');
+        $collector->collectTestCasesFromFile($file);
 
         $this->runTests();
+
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists('testPass', 'Stagehand_TestRunner_CakeWithAnyPatternTest');
-    }
-
-    protected function loadClasses()
-    {
-        include_once 'Stagehand/TestRunner/cake_pass.test.php';
-        include_once 'Stagehand/TestRunner/cake_multiple_classes.test.php';
-        include_once 'Stagehand/TestRunner/cake_failure_and_pass.test.php';
-        include_once 'Stagehand/TestRunner/cake_error_and_pass.test.php';
-        include_once 'Stagehand/TestRunner/cake_multiple_failures.test.php';
-        include_once 'Stagehand/TestRunner/cake_always_called_methods.test.php';
-
-        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
-        }
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\Config $config
-     * @since Method available since Release 2.14.1
-     */
-    protected function configure(Config $config)
-    {
-        $config->cakephpAppPath = dirname(__FILE__) . '/../../../../vendor/cakephp/app';
     }
 
     /**
@@ -127,8 +137,11 @@ class CakeRunnerTest extends SimpleTestRunnerTest
         foreach ($specialMethods as $specialMethod) {
             $GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_CAKERUNNERTEST_calledMethods'][$specialMethod] = 0;
         }
-        $this->config->addTestingMethod('testPass');
-        $this->collector->collectTestCase($testClass);
+        $testTargets = $this->createTestTargets();
+        $testTargets->setMethods(array('testPass'));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+
         $this->runTests();
 
         $this->assertTestCaseCount(1);

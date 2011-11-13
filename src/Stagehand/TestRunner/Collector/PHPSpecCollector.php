@@ -51,7 +51,6 @@ namespace Stagehand\TestRunner\Collector;
 class PHPSpecCollector extends Collector
 {
     protected $superTypes = array('PHPSpec_Context');
-    protected $filePattern = 'Spec\.php$';
 
     /**
      * @param string $testCase

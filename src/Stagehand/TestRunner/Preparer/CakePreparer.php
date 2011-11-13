@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Preparer\CakePreparer\TestRunnerShellDispatcher;
 
 /**
@@ -48,6 +49,18 @@ use Stagehand\TestRunner\Preparer\CakePreparer\TestRunnerShellDispatcher;
  */
 class CakePreparer extends Preparer
 {
+    /**
+     * @var string
+     * @since Property available since Release 3.0.0
+     */
+    protected $cakephpAppPath;
+
+    /**
+     * @var string
+     * @since Property available since Release 3.0.0
+     */
+    protected $cakephpCorePath;
+
     public function prepare()
     {
         if (defined('STAGEHAND_TESTRUNNER_PREPARER_CAKEPREPARER_PREPARECALLEDMARKER')) {
@@ -60,18 +73,18 @@ class CakePreparer extends Preparer
             define('DISABLE_AUTO_DISPATCH', true);
         }
 
-        if (is_null($this->config->cakephpAppPath)) {
-            $cakephpAppPath = $this->config->getWorkingDirectoryAtStartup();
+        if (is_null($this->getCakePHPAppPath())) {
+            $cakephpAppPath = ApplicationContext::getInstance()->getEnvironment()->getWorkingDirectoryAtStartup();
         } else {
-            $cakephpAppPath = $this->config->cakephpAppPath;
+            $cakephpAppPath = $this->getCakePHPAppPath();
         }
 
         $rootPath = realpath($cakephpAppPath . '/..');
         $appPath = basename(realpath($cakephpAppPath));
-        if (is_null($this->config->cakephpCorePath)) {
+        if (is_null($this->getCakePHPCorePath())) {
             $corePath = $rootPath . DIRECTORY_SEPARATOR . 'cake';
         } else {
-            $corePath = realpath($this->config->cakephpCorePath);
+            $corePath = realpath($this->getCakePHPCorePath());
         }
 
         if (!defined('TEST_CAKE_CORE_INCLUDE_PATH')) {
@@ -84,6 +97,42 @@ class CakePreparer extends Preparer
         new TestRunnerShellDispatcher(array('-root', $rootPath, '-app', $appPath));
         require_once $corePath . '/tests/lib/test_manager.php';
         new \TestManager();
+    }
+
+    /**
+     * @param string $cakephpAppPath
+     * @since Method available since Release 3.0.0
+     */
+    public function setCakePHPAppPath($cakephpAppPath)
+    {
+        $this->cakephpAppPath = $cakephpAppPath;
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    public function getCakePHPAppPath()
+    {
+        return $this->cakephpAppPath;
+    }
+
+    /**
+     * @param string $cakephpCorePath
+     * @since Method available since Release 3.0.0
+     */
+    public function setCakePHPCorePath($cakephpCorePath)
+    {
+        $this->cakephpCorePath = $cakephpCorePath;
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 3.0.0
+     */
+    public function getCakePHPCorePath()
+    {
+        return $this->cakephpCorePath;
     }
 }
 

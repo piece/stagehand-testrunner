@@ -39,11 +39,10 @@
 
 namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Collector\CollectorFactory;
-use Stagehand\TestRunner\Core\Config;
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Notification\Notifier;
-use Stagehand\TestRunner\Preparer\PreparerFactory;
-use Stagehand\TestRunner\Runner\RunnerFactory;
+use Stagehand\TestRunner\Util\OutputBuffering;
 
 /**
  * @package    Stagehand_TestRunner
@@ -53,13 +52,8 @@ use Stagehand\TestRunner\Runner\RunnerFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class TestRunner
+class TestRun
 {
-    /**
-     * @var \Stagehand\TestRunner\Core\Config
-     */
-    protected $config;
-
     /**
      * @var boolean $result
      * @since Property available since Release 2.18.0
@@ -67,12 +61,16 @@ class TestRunner
     protected $result;
 
     /**
-     * @param \Stagehand\TestRunner\Core\Config $config
+     * @var \Stagehand\TestRunner\Core\TestingFramework
+     * @since Property available since Release 3.0.0
      */
-    public function __construct(Config $config)
-    {
-        $this->config = $config;
-    }
+    protected $testingFramework;
+
+    /**
+     * @var \Stagehand\TestRunner\Util\OutputBuffering
+     * @since Property available since Release 3.0.0
+     */
+    protected $outputBuffering;
 
     /**
      * Runs tests.
@@ -81,14 +79,33 @@ class TestRunner
      */
     public function run()
     {
+        $this->outputBuffering->clearOutputHandlers();
         $this->createPreparer()->prepare();
 
         $runner = $this->createRunner();
         $this->result = $runner->run($this->createCollector()->collect());
 
-        if ($this->config->usesNotification) {
+        if ($runner->usesNotification()) {
             $this->createNotifier()->notifyResult($runner->getNotification());
         }
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
+     * @since Method available since Release 3.0.0
+     */
+    public function setTestingFramework(TestingFramework $testingFramework)
+    {
+        $this->testingFramework = $testingFramework;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Util\OutputBuffering $outputBuffering
+     * @since Method available since Release 3.0.0
+     */
+    public function setOutputBuffering(OutputBuffering $outputBuffering)
+    {
+        $this->outputBuffering = $outputBuffering;
     }
 
     /**
@@ -97,8 +114,7 @@ class TestRunner
      */
     protected function createPreparer()
     {
-        $factory = new PreparerFactory($this->config);
-        return $factory->create();
+        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'preparer');
     }
 
     /**
@@ -107,8 +123,7 @@ class TestRunner
      */
     protected function createCollector()
     {
-        $factory = new CollectorFactory($this->config);
-        return $factory->create();
+        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'collector');
     }
 
     /**
@@ -117,8 +132,7 @@ class TestRunner
      */
     protected function createRunner()
     {
-        $factory = new RunnerFactory($this->config);
-        return $factory->create();
+        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'runner');
     }
 
     /**
@@ -127,7 +141,7 @@ class TestRunner
      */
     protected function createNotifier()
     {
-        return new Notifier();
+        return ApplicationContext::getInstance()->createComponent('notifier');
     }
 }
 

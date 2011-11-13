@@ -32,69 +32,98 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.19.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Util;
+namespace Stagehand\TestRunner\Core;
 
-use Stagehand\TestRunner\Core\LegacyProxy;
+require_once 'PHPUnit/Util/Configuration.php';
 
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.19.0
+ * @since      Class available since Release 3.0.0
  */
-class OutputBuffering
+class PHPUnitXMLConfiguration
 {
     /**
-     * @var \Stagehand\TestRunner\Core\LegacyProxy
-     * @since Property available since Release 3.0.0
+     * @var \PHPUnit_Util_Configuration
      */
-    protected $legacyProxy;
+    protected $configuration;
 
     /**
-     * @Throws \Stagehand\TestRunner\Util\CannotRemoveException
+     * @param \PHPUnit_Util_Configuration $configuration
+     * @throws \PHPUnit_Framework_Exception
      */
-    public function clearOutputHandlers()
+    public function __construct(\PHPUnit_Util_Configuration $configuration)
     {
-        \Stagehand_LegacyError_PHPError::enableConversion(E_NOTICE);
-        while ($this->getNestingLevel()) {
-            try {
-                $this->clearOutputHandler();
-            } catch (\Stagehand_LegacyError_PHPError_Exception $e) {
-                \Stagehand_LegacyError_PHPError::disableConversion();
-                throw new CannotRemoveException($e->getMessage());
-            }
-        }
-        \Stagehand_LegacyError_PHPError::disableConversion();
+        $this->configuration = $configuration;
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\LegacyProxy $legacyProxy
-     * @since Method available since Release 3.0.0
+     * @return string
      */
-    public function setLegacyProxy(LegacyProxy $legacyProxy)
+    public function getFileName()
     {
-        $this->legacyProxy = $legacyProxy;
+        return $this->configuration->getFilename();
     }
 
     /**
-     * @return integer
-     * @since Method available since Release 2.20.0
+     * @param string $name
+     * @return boolean
      */
-    protected function getNestingLevel()
+    public function hasPHPUnitConfiguration($name)
     {
-        return $this->legacyProxy->ob_get_level();
+        $phpunitConfiguration = $this->configuration->getPHPUnitConfiguration();
+        return array_key_exists($name, $phpunitConfiguration);
     }
 
     /**
-     * @since Method available since Release 2.20.0
+     * @param string $name
+     * @return mixed
      */
-    protected function clearOutputHandler()
+    public function getPHPUnitConfiguration($name)
     {
-        return $this->legacyProxy->ob_end_clean();
+        $phpunitConfiguration = $this->configuration->getPHPUnitConfiguration();
+        return $phpunitConfiguration[$name];
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasSeleniumBrowserConfiguration()
+    {
+        return count($this->configuration->getSeleniumBrowserConfiguration());
+    }
+
+    /**
+     * @return array
+     */
+    public function getSeleniumBrowserConfiguration()
+    {
+        return $this->configuration->getSeleniumBrowserConfiguration();
+    }
+
+    /**
+     * @param string $name
+     * @return boolean
+     */
+    public function hasGroupConfiguration($name)
+    {
+        $groupConfiguration = $this->configuration->getGroupConfiguration();
+        return array_key_exists($name, $groupConfiguration) && count($groupConfiguration[$name]);
+    }
+
+    /**
+     * @param string $name
+     * @return array
+     */
+    public function getGroupConfiguration($name)
+    {
+        $groupConfiguration = $this->configuration->getGroupConfiguration();
+        return $groupConfiguration[$name];
     }
 }
 
