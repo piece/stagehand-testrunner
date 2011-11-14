@@ -53,11 +53,11 @@ class String
 
     /**
      * @param array|string $target
-     * @param Closure $filter
+     * @param \Closure $filter
      * @return array|string
      * @since Method available since Release 3.0.0
      */
-    public static function applyFilter($target, $filter)
+    public static function applyFilter($target, \Closure $filter)
     {
         if (is_array($target)) {
             $escapedSubjects = array();
