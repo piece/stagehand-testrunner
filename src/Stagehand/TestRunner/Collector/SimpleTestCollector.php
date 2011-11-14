@@ -75,7 +75,7 @@ class SimpleTestCollector extends Collector
      * Creates the test suite object.
      *
      * @param string $name
-     * @return TestSuite
+     * @return \TestSuite
      */
     protected function createTestSuite($name)
     {
