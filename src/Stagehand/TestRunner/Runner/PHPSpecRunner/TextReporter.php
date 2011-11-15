@@ -52,16 +52,16 @@ use Stagehand\TestRunner\Util\Coloring;
  */
 class TextReporter extends \PHPSpec_Runner_Reporter_Text
 {
-    protected $color;
+    protected $colors;
 
     /**
      * @param \PHPSpec_Runner_Result $result
-     * @param boolean               $color
+     * @param boolean $colors
      */
-    public function __construct(\PHPSpec_Runner_Result $result, $color)
+    public function __construct(\PHPSpec_Runner_Result $result, $colors)
     {
         parent::__construct($result);
-        $this->color = $color;
+        $this->colors = $colors;
     }
 
     /**
@@ -69,7 +69,7 @@ class TextReporter extends \PHPSpec_Runner_Reporter_Text
      */
     public function outputStatus($symbol)
     {
-        if ($this->color) {
+        if ($this->colors) {
             switch ($symbol) {
             case '.':
                 $symbol = Coloring::green($symbol);
@@ -99,7 +99,7 @@ class TextReporter extends \PHPSpec_Runner_Reporter_Text
                                $this->toString($specs)
                                );
 
-        if ($this->color) {
+        if ($this->colors) {
             $failuresCount = $this->_result->countFailures();
             $deliberateFailuresCount = $this->_result->countDeliberateFailures();
             $errorsCount = $this->_result->countErrors();
