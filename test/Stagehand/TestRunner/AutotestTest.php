@@ -200,10 +200,6 @@ PHP_EOL .
         $data[] = array($config, array('-R', '-n'), array(true, true));
 
         $config = new Stagehand_TestRunner_Config();
-        $config->growlPassword = 'PASSWORD';
-        $data[] = array($config, array('-R', '--growl-password=' . escapeshellarg('PASSWORD')), array(true, true));
-
-        $config = new Stagehand_TestRunner_Config();
         $config->addTestingMethod('METHOD1');
         $data[] = array($config, array('-R', '-m ' . escapeshellarg('METHOD1')), array(true, false));
 
@@ -279,7 +275,7 @@ PHP_EOL .
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $config = new Stagehand_TestRunner_Config();
         $config->addTestingResource($options[ count($options) - 1 ]);
-        
+
         $autotest = $this->createAutotest($config);
         Phake::when($autotest)->buildRunnerCommand()->captureReturnTo($runnerCommand);
         Phake::when($autotest)->buildRunnerOptions()->captureReturnTo($runnerOptions);

@@ -51,7 +51,6 @@ class Stagehand_TestRunner_Config
     public $enablesAutotest = false;
     public $monitoringDirectories = array();
     public $usesNotification = false;
-    public $growlPassword;
     public $testsOnlySpecifiedMethods = false;
     public $testsOnlySpecifiedClasses = false;
     public $printsDetailedProgressReport = false;

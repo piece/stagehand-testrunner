@@ -204,10 +204,6 @@ class Stagehand_TestRunner_Autotest
             $options[] = '-n';
         }
 
-        if (!is_null($this->config->growlPassword)) {
-            $options[] = '--growl-password=' . escapeshellarg($this->config->growlPassword);
-        }
-
         if ($this->config->printsDetailedProgressReport) {
             $options[] = '-v';
         }

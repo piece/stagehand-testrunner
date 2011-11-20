@@ -50,7 +50,6 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
     protected $shortOptions = 'hVRcp:aw:gm:vn';
     protected $longOptions =
         array(
-            'growl-password=',
             'log-junit=',
             'log-junit-realtime',
             'classes=',
@@ -105,9 +104,6 @@ class Stagehand_TestRunner_TestRunnerCLIController extends Stagehand_CLIControll
         case 'n':
         case 'g':
             $this->config->usesNotification = true;
-            return true;
-        case '--growl-password':
-            $this->config->growlPassword = $value;
             return true;
         case 'm':
             foreach (explode(',', $value) as $testingMethod) {
@@ -220,9 +216,6 @@ OPTIONS
   -g
      Notifies test results by using the growlnotify command in Mac OS X and Windows
      or the notify-send command in Linux.
-
-  --growl-password=PASSWORD
-     Specifies PASSWORD for Growl.
 
   -m METHOD1,METHOD2,...
      Runs only the specified tests in the specified file.
