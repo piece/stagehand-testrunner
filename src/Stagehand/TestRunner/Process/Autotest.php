@@ -60,11 +60,6 @@ use Stagehand\TestRunner\Util\String;
 class Autotest
 {
     /**
-     * @since Constant available since Release 2.20.0
-     */
-    const FATAL_ERROR_MESSAGE_PATTERN = "/^(?:Parse|Fatal) error: .+ in .+?(?:\(\d+\) : eval\(\)'d code)? on line \d+/m";
-
-    /**
      * @var string
      */
     protected $runnerCommand;
@@ -165,17 +160,24 @@ class Autotest
             $this->initializeRunnerCommandAndOptions();
         }
 
-        $output = '';
-        ob_start(function ($buffer) use (&$output) {
-            $output .= $buffer;
-            return $buffer;
-        }, 2);
-        $exitStatus = $this->executeRunnerCommand($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
-        ob_end_flush();
+        $streamOutput = '';
+        $process = new Process($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
+        $process->addOutputStreamListener(function ($buffer) {
+            echo $buffer;
+        });
+        $process->addOutputStreamListener(function ($buffer) use (&$streamOutput) {
+            $streamOutput .= $buffer;
+        });
+        $process->addErrorStreamListener(function ($buffer) {
+            echo $buffer;
+        });
+        $exitStatus = $process->run();
+
         if ($exitStatus != 0 && $this->runner->usesNotification()) {
+            $fatalError = new FatalError($streamOutput);
             $this->createNotifier()->notifyResult(
-                new Notification(Notification::RESULT_STOPPED, $this->findFatalErrorMessage($output)
-            ));
+                new Notification(Notification::RESULT_STOPPED, $fatalError->getFullMessage())
+            );
         }
     }
 
@@ -392,20 +394,6 @@ class Autotest
     protected function executeRunnerCommand($runnerCommand)
     {
         return $this->legacyProxy->passthru($runnerCommand);
-    }
-
-    /**
-     * @param string $output
-     * @return string
-     * @since Method available since Release 2.20.0
-     */
-    protected function findFatalErrorMessage($output)
-    {
-        if (preg_match(self::FATAL_ERROR_MESSAGE_PATTERN, ltrim(String::normalizeNewlines($output)),$matches)) {
-            return $matches[0];
-        } else {
-            return $output;
-        }
     }
 
     /**

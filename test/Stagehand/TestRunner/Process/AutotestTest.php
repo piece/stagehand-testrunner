@@ -52,68 +52,6 @@ class AutotestTest extends PHPUnitFactoryAwareTestCase
 {
     /**
      * @test
-     * @dataProvider messagesOfAFatalOrParseError
-     * @param string $errorOutput
-     * @param string $errorMessage
-     * @link http://redmine.piece-framework.com/issues/333
-     */
-    public function findsTheMessageOfAFatalOrParseError($errorOutput, $errorMessage)
-    {
-        $notifier = \Phake::mock('\Stagehand\TestRunner\Notification\Notifier');
-        \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
-        $this->applicationContext->setComponent('notifier', $notifier);
-
-        $runner = \Phake::mock('\Stagehand\TestRunner\Runner\PHPUnitRunner');
-        \Phake::when($runner)->usesNotification()->thenReturn(true);
-        $this->applicationContext->setComponent('phpunit.runner', $runner);
-
-        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
-        \Phake::when($legacyProxy)->passthru($this->anything())
-            ->thenGetReturnByLambda(function ($command) use ($errorOutput) {
-            echo $errorOutput;
-            return 1;
-        });
-        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
-
-        ob_start();
-        $this->applicationContext->createComponent('autotest')->runTests();
-        ob_end_clean();
-
-        \Phake::verify($notifier)->notifyResult(\Phake::capture($notification));
-        $this->assertEquals($errorMessage, $notification->getMessage());
-    }
-
-    /**
-     * @return array
-     */
-    public function messagesOfAFatalOrParseError()
-    {
-        $fatalErrorMessage = "Fatal error: Class 'Stagehand\\FSM\\Events' not found in /home/iteman/GITREPOS/stagehand-fsm/test/Stagehand/FSM/EventTest.php on line 52";
-        $fatalErrorOutput =
-'PHPUnit 3.5.14 by Sebastian Bergmann.' . PHP_EOL .
-PHP_EOL .
-PHP_EOL .
-$fatalErrorMessage . PHP_EOL;
-        $parseErrorMessage = "Parse error: syntax error, unexpected T_CONST, expecting '{' in /home/iteman/GITREPOS/stagehand-fsm/src/Stagehand/FSM/Event.php on line 53";
-        $parseErrorOutput =
-'PHPUnit 3.5.14 by Sebastian Bergmann.' . PHP_EOL .
-PHP_EOL .
-PHP_EOL .
-$parseErrorMessage . PHP_EOL;
-        $unknownFatalErrorOutput =
-'PHPUnit 3.5.14 by Sebastian Bergmann.' . PHP_EOL .
-PHP_EOL .
-'..';
-        $unknownFatalErrorMessage = str_replace(PHP_EOL, ' ', $unknownFatalErrorOutput);
-        return array(
-            array($fatalErrorOutput, $fatalErrorMessage),
-            array($parseErrorOutput, $parseErrorMessage),
-            array($unknownFatalErrorOutput, $unknownFatalErrorMessage),
-        );
-    }
-
-    /**
-     * @test
      * @dataProvider commandLines
      * @param string $command
      * @param array $options
