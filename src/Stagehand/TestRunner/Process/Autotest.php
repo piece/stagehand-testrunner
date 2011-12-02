@@ -37,9 +37,8 @@
 
 namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
-
 use Stagehand\TestRunner\CLI\Terminal;
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Core\LegacyProxy;
 use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
