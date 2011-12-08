@@ -43,6 +43,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
+use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Core\Package;
 
 /**

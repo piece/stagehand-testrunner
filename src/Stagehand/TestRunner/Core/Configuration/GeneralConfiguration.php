@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection;
+namespace Stagehand\TestRunner\Core\Configuration;
 
 use Symfony\Component\Config\Definition\BooleanNode;
 
