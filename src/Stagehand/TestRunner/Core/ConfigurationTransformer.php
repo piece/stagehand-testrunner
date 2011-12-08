@@ -39,7 +39,7 @@ namespace Stagehand\TestRunner\Core;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-use Stagehand\TestRunner\Core\DependencyInjection\StagehandTestrunnerExtension;
+use Stagehand\TestRunner\Core\DependencyInjection\GeneralExtension;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -84,14 +84,14 @@ class ConfigurationTransformer
      */
     public function transformToContainer()
     {
-        $this->container->registerExtension(new StagehandTestrunnerExtension());
+        $this->container->registerExtension(new GeneralExtension());
 
         // TODO YAML-based Configuration (Issue #178)
 //         $loader = new YamlFileLoader($container, new FileLocator('/path/to/yamlDir'));
 //         $loader->load('example.yml');
 
         $this->container->loadFromExtension(
-            Package::PACKAGE_ID,
+            'general',
             String::applyFilter($this->configuration, function ($v) { return urldecode($v); })
         );
         $this->container->compile();
