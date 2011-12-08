@@ -39,7 +39,9 @@ namespace Stagehand\TestRunner\Core;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+use Stagehand\TestRunner\Core\DependencyInjection\Compiler\TestFilePatternPass;
 use Stagehand\TestRunner\Core\DependencyInjection\GeneralExtension;
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -70,12 +72,17 @@ class ConfigurationTransformer
     }
 
     /**
+     * @param string $configurationID
      * @param array $configurationPart
      * @return \Stagehand\TestRunner\Core\ConfigurationTransformer
      */
-    public function setConfigurationPart(array $configurationPart)
+    public function setConfigurationPart($configurationID, array $configurationPart)
     {
-        $this->configuration = array_merge_recursive($this->configuration, $configurationPart);
+        if (array_key_exists($configurationID, $this->configuration)) {
+            $this->configuration[$configurationID] = array_merge_recursive($this->configuration[$configurationID], $configurationPart);
+        } else {
+            $this->configuration[$configurationID] = $configurationPart;
+        }
         return $this;
     }
 
@@ -84,19 +91,47 @@ class ConfigurationTransformer
      */
     public function transformToContainer()
     {
-        $this->container->registerExtension(new GeneralExtension());
+        $this->container->addCompilerPass(new TestFilePatternPass());
+
+        foreach ($this->getExtensions() as $extension) {
+            $this->container->registerExtension($extension);
+        }
 
         // TODO YAML-based Configuration (Issue #178)
 //         $loader = new YamlFileLoader($container, new FileLocator('/path/to/yamlDir'));
 //         $loader->load('example.yml');
 
-        $this->container->loadFromExtension(
-            'general',
-            String::applyFilter($this->configuration, function ($v) { return urldecode($v); })
-        );
+        $normalizedConfiguration = String::applyFilter($this->configuration, function ($v) {
+            return urldecode($v);
+        });
+        foreach ($this->container->getExtensions() as $extension) { /* @var $extension \Symfony\Component\DependencyInjection\Extension\ExtensionInterface */
+            $this->container->loadFromExtension(
+                $extension->getAlias(),
+                array_key_exists($extension->getAlias(), $normalizedConfiguration) ?
+                    $normalizedConfiguration[ $extension->getAlias() ] :
+                    array()
+            );
+        }
+
         $this->container->compile();
 
         return $this->container;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getExtensions()
+    {
+        $extensions = array(new GeneralExtension());
+        foreach (PluginFinder::findAll() as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\Plugin */
+            $extensionClass = __NAMESPACE__ .
+                '\\DependencyInjection\\' .
+                $plugin->getPluginID() . 'Extension';
+            $extensions[] = new $extensionClass();
+        }
+
+        return $extensions;
     }
 }
 

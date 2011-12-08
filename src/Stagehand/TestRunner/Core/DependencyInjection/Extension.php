@@ -35,9 +35,13 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Test;
+namespace Stagehand\TestRunner\Core\DependencyInjection;
 
-use Stagehand\TestRunner\Core\ComponentFactory;
+use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,71 +50,48 @@ use Stagehand\TestRunner\Core\ComponentFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestComponentFactory extends ComponentFactory
+abstract class Extension implements ExtensionInterface
 {
     /**
-     * @var array
+     * {@inheritDoc}
      */
-    protected $oldDefinitions = array();
-
-    /**
-     * @var array
-     */
-    protected $oldAliases = array();
-
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
+    public function load(array $configs, ContainerBuilder $container)
     {
-        $this->container->set($this->resolveServiceID($componentID), $component);
+        $processor = new Processor();
+        $config = $processor->processConfiguration($this->createConfiguration(), $configs);
+
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
+        $loader->load($this->getAlias() . '.yml');
+
+        $this->transformConfiguration($container, $config);
     }
 
     /**
-     * @param string $componentID
-     * @param string $componentClass
+     * {@inheritDoc}
      */
-    public function setClass($componentID, $componentClass)
+    public function getNamespace()
     {
-        $this->container->getDefinition($this->resolveServiceID($componentID))->setClass($componentClass);
-    }
-
-    public function backupDefinitions()
-    {
-        foreach ($this->container->getDefinitions() as $serviceID => $definition) {
-            $this->oldDefinitions[$serviceID] = clone($definition);
-        }
-        foreach ($this->container->getAliases() as $alias => $serviceID) {
-            $this->oldAliases[$alias] = $serviceID;
-        }
-    }
-
-    public function restoreDefinitions()
-    {
-        $this->container->setDefinitions($this->oldDefinitions);
-        $this->container->setAliases($this->oldAliases);
-        $this->oldDefinitions = array();
-        $this->oldAliases = array();
-        $this->container->clearServices();
+        return false;
     }
 
     /**
-     * @param string $parameterName
-     * @return mixed
+     * {@inheritDoc}
      */
-    public function getParameter($parameterName)
+    public function getXsdValidationBasePath()
     {
-        return $this->container->getParameter($this->resolveServiceID($parameterName));
+        return false;
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @param ContainerBuilder $container
+     * @param array $config
      */
-    public function getContainer()
-    {
-        return $this->container;
-    }
+    abstract protected function transformConfiguration(ContainerBuilder $container, array $config);
+
+    /**
+     * @return \Stagehand\TestRunner\Core\Configuration\Configuration
+     */
+    abstract protected function createConfiguration();
 }
 
 /*

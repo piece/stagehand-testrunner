@@ -56,27 +56,6 @@ class TestRunnerCLIControllerTest extends TestCase
     protected $outputBuffering;
 
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
-     * @since Property available since Release 3.0.0
-     */
-    protected $container;
-
-    protected function setUp()
-    {
-        $this->container = new TestContainerBuilder();
-        parent::setUp();
-    }
-
-    /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
-     * @since Method available since Release 3.0.0
-     */
-    protected function createContainer()
-    {
-        return $this->container;
-    }
-
-    /**
      * @return string
      * @since Method available since Release 3.0.0
      */
@@ -171,7 +150,7 @@ class TestRunnerCLIControllerTest extends TestCase
             '\Stagehand\TestRunner\CLI\TestRunnerCLIController',
             $this->getTestingFramework()
         );
-        \Phake::when($controller)->createContainer()->thenReturn($this->createContainer());
+        \Phake::when($controller)->createContainer()->thenReturn($this->applicationContext->getComponentFactory()->getContainer());
 
         return $controller;
     }

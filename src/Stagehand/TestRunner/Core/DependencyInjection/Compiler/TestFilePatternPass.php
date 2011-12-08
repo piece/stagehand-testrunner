@@ -35,9 +35,12 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Test;
+namespace Stagehand\TestRunner\Core\DependencyInjection\Compiler;
 
-use Stagehand\TestRunner\Core\ComponentFactory;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+
+use Stagehand\TestRunner\Core\Package;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,70 +49,23 @@ use Stagehand\TestRunner\Core\ComponentFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestComponentFactory extends ComponentFactory
+class TestFilePatternPass implements CompilerPassInterface
 {
     /**
-     * @var array
+     * {@inheritDoc}
      */
-    protected $oldDefinitions = array();
-
-    /**
-     * @var array
-     */
-    protected $oldAliases = array();
-
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
+    public function process(ContainerBuilder $container)
     {
-        $this->container->set($this->resolveServiceID($componentID), $component);
-    }
-
-    /**
-     * @param string $componentID
-     * @param string $componentClass
-     */
-    public function setClass($componentID, $componentClass)
-    {
-        $this->container->getDefinition($this->resolveServiceID($componentID))->setClass($componentClass);
-    }
-
-    public function backupDefinitions()
-    {
-        foreach ($this->container->getDefinitions() as $serviceID => $definition) {
-            $this->oldDefinitions[$serviceID] = clone($definition);
+        if (is_null($container->getParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern'))) {
+            $container->setParameter(
+                Package::PACKAGE_ID . '.' . 'test_file_pattern',
+                $container->getParameter(
+                    Package::PACKAGE_ID . '.' .
+                    $container->getParameter(Package::PACKAGE_ID . '.' . 'testing_framework') . '.' .
+                    'test_file_pattern'
+                )
+            );
         }
-        foreach ($this->container->getAliases() as $alias => $serviceID) {
-            $this->oldAliases[$alias] = $serviceID;
-        }
-    }
-
-    public function restoreDefinitions()
-    {
-        $this->container->setDefinitions($this->oldDefinitions);
-        $this->container->setAliases($this->oldAliases);
-        $this->oldDefinitions = array();
-        $this->oldAliases = array();
-        $this->container->clearServices();
-    }
-
-    /**
-     * @param string $parameterName
-     * @return mixed
-     */
-    public function getParameter($parameterName)
-    {
-        return $this->container->getParameter($this->resolveServiceID($parameterName));
-    }
-
-    /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    public function getContainer()
-    {
-        return $this->container;
     }
 }
 

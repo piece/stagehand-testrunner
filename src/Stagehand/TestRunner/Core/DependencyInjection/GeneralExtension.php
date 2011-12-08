@@ -37,11 +37,7 @@
 
 namespace Stagehand\TestRunner\Core\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Processor;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Core\Package;
@@ -53,38 +49,8 @@ use Stagehand\TestRunner\Core\Package;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class GeneralExtension implements ExtensionInterface
+class GeneralExtension extends Extension
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function load(array $configs, ContainerBuilder $container)
-    {
-        $processor = new Processor();
-        $config = $processor->processConfiguration(new GeneralConfiguration(), $configs);
-
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
-        $loader->load('general.yml');
-
-        $this->transformConfiguration($container, $config);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getNamespace()
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getXsdValidationBasePath()
-    {
-        return false;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -122,41 +88,17 @@ class GeneralExtension implements ExtensionInterface
 
         if (array_key_exists('test_file_pattern', $config)) {
             $container->setParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern', $config['test_file_pattern']);
-        } else {
-            $container->setParameter(
-                Package::PACKAGE_ID . '.' . 'test_file_pattern',
-                $container->getParameter(
-                    Package::PACKAGE_ID . '.' . strtolower($config['testing_framework']) . '.' . 'test_file_pattern'
-                )
-            );
         }
-
-        $container->setParameter(
-            Package::PACKAGE_ID . '.' . 'phpunit' . '.' . 'prints_detailed_progress_report',
-            $config['prints_detailed_progress_report']
-        );
-        if (array_key_exists('phpunit_config_file', $config)) {
-            $container->setParameter(
-                Package::PACKAGE_ID . '.' . 'phpunit' . '.' . 'phpunit_config_file',
-                $config['phpunit_config_file']
-            );
-        }
-
-        $container->setParameter(
-            Package::PACKAGE_ID . '.' . 'ciunit' . '.' . 'ciunit_path',
-            $config['ciunit_path']
-        );
-
-        $container->setParameter(
-            Package::PACKAGE_ID . '.' . 'cake' . '.' . 'cakephp_app_path',
-            $config['cakephp_app_path']
-        );
-        $container->setParameter(
-            Package::PACKAGE_ID . '.' . 'cake' . '.' . 'cakephp_core_path',
-            $config['cakephp_core_path']
-        );
 
         $container->setParameter(Package::PACKAGE_ID . '.' . 'test_resources', $config['test_resources']);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function createConfiguration()
+    {
+        return new GeneralConfiguration();
     }
 }
 

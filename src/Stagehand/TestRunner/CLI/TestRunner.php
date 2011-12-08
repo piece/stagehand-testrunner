@@ -38,6 +38,7 @@
 namespace Stagehand\TestRunner\CLI;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\TestingFramework;
 
 /**
  * @package    Stagehand_TestRunner
@@ -52,6 +53,11 @@ class TestRunner
      * @var boolean
      */
     protected $enablesAutotest;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\TestingFramework
+     */
+    protected $testingFramework;
 
     /**
      */
@@ -75,6 +81,14 @@ class TestRunner
     }
 
     /**
+     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
+     */
+    public function setTestingFramework(TestingFramework $testingFramework)
+    {
+        $this->testingFramework = $testingFramework;
+    }
+
+    /**
      * @return \Stagehand\TestRunner\Process\TestRun
      */
     protected function createTestRun()
@@ -87,7 +101,7 @@ class TestRunner
      */
     protected function createAutotest()
     {
-        return ApplicationContext::getInstance()->createComponent('autotest');
+        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'autotest');
     }
 }
 

@@ -59,11 +59,11 @@ abstract class FactoryAwareTestCase extends TestCase
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @return \Stagehand\TestRunner\Core\ApplicationContext
      */
-    protected function createContainer()
+    protected function createApplicationContext()
     {
-        return TestEnvironment::getContainer();
+        return TestEnvironment::getApplicationContext();
     }
 }
 

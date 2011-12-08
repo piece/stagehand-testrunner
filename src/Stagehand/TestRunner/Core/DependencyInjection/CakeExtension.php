@@ -35,9 +35,13 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Test;
+namespace Stagehand\TestRunner\Core\DependencyInjection;
 
-use Stagehand\TestRunner\Core\ComponentFactory;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+use Stagehand\TestRunner\Core\Configuration\CakePHPConfiguration;
+use Stagehand\TestRunner\Core\Package;
+use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,70 +50,43 @@ use Stagehand\TestRunner\Core\ComponentFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestComponentFactory extends ComponentFactory
+class CakeExtension extends PluginExtension
 {
     /**
-     * @var array
+     * {@inheritDoc}
      */
-    protected $oldDefinitions = array();
-
-    /**
-     * @var array
-     */
-    protected $oldAliases = array();
-
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
+    public function getAlias()
     {
-        $this->container->set($this->resolveServiceID($componentID), $component);
+        return strtolower(CakePHPPlugin::getPluginID());
     }
 
     /**
-     * @param string $componentID
-     * @param string $componentClass
+     * @param ContainerBuilder $container
+     * @param array $config
      */
-    public function setClass($componentID, $componentClass)
+    protected function transformConfiguration(ContainerBuilder $container, array $config)
     {
-        $this->container->getDefinition($this->resolveServiceID($componentID))->setClass($componentClass);
-    }
-
-    public function backupDefinitions()
-    {
-        foreach ($this->container->getDefinitions() as $serviceID => $definition) {
-            $this->oldDefinitions[$serviceID] = clone($definition);
+        if (array_key_exists('cakephp_app_path', $config)) {
+            $container->setParameter(
+                Package::PACKAGE_ID . '.' . 'cake' . '.' . 'cakephp_app_path',
+                $config['cakephp_app_path']
+            );
         }
-        foreach ($this->container->getAliases() as $alias => $serviceID) {
-            $this->oldAliases[$alias] = $serviceID;
+
+        if (array_key_exists('cakephp_core_path', $config)) {
+            $container->setParameter(
+                Package::PACKAGE_ID . '.' . 'cake' . '.' . 'cakephp_core_path',
+                $config['cakephp_core_path']
+            );
         }
     }
 
-    public function restoreDefinitions()
-    {
-        $this->container->setDefinitions($this->oldDefinitions);
-        $this->container->setAliases($this->oldAliases);
-        $this->oldDefinitions = array();
-        $this->oldAliases = array();
-        $this->container->clearServices();
-    }
-
     /**
-     * @param string $parameterName
-     * @return mixed
+     * {@inheritDoc}
      */
-    public function getParameter($parameterName)
+    protected function createConfiguration()
     {
-        return $this->container->getParameter($this->resolveServiceID($parameterName));
-    }
-
-    /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    public function getContainer()
-    {
-        return $this->container;
+        return new CakePHPConfiguration();
     }
 }
 

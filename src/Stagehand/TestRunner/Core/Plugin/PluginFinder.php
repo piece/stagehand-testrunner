@@ -35,9 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Test;
+namespace Stagehand\TestRunner\Core\Plugin;
 
-use Stagehand\TestRunner\Core\ComponentFactory;
+use Symfony\Component\Finder\Finder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,70 +46,49 @@ use Stagehand\TestRunner\Core\ComponentFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestComponentFactory extends ComponentFactory
+class PluginFinder
 {
     /**
      * @var array
      */
-    protected $oldDefinitions = array();
+    private static $plugins;
 
     /**
-     * @var array
+     * @return array
      */
-    protected $oldAliases = array();
-
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
+    public static function findAll()
     {
-        $this->container->set($this->resolveServiceID($componentID), $component);
-    }
-
-    /**
-     * @param string $componentID
-     * @param string $componentClass
-     */
-    public function setClass($componentID, $componentClass)
-    {
-        $this->container->getDefinition($this->resolveServiceID($componentID))->setClass($componentClass);
-    }
-
-    public function backupDefinitions()
-    {
-        foreach ($this->container->getDefinitions() as $serviceID => $definition) {
-            $this->oldDefinitions[$serviceID] = clone($definition);
+        if (is_null(self::$plugins)) {
+            self::loadAllPlugins();
         }
-        foreach ($this->container->getAliases() as $alias => $serviceID) {
-            $this->oldAliases[$alias] = $serviceID;
+
+        return self::$plugins;
+    }
+
+    /**
+     * @param string $pluginID
+     * @return \Stagehand\TestRunner\Core\Plugin\Plugin
+     */
+    public static function findByPluginID($pluginID)
+    {
+        if (is_null(self::$plugins)) {
+            self::loadAllPlugins();
+        }
+
+        foreach (self::$plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\Plugin */
+            if (strtolower($plugin->getPluginID()) == strtolower($pluginID)) {
+                return $plugin;
+            }
         }
     }
 
-    public function restoreDefinitions()
+    private static function loadAllPlugins()
     {
-        $this->container->setDefinitions($this->oldDefinitions);
-        $this->container->setAliases($this->oldAliases);
-        $this->oldDefinitions = array();
-        $this->oldAliases = array();
-        $this->container->clearServices();
-    }
-
-    /**
-     * @param string $parameterName
-     * @return mixed
-     */
-    public function getParameter($parameterName)
-    {
-        return $this->container->getParameter($this->resolveServiceID($parameterName));
-    }
-
-    /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    public function getContainer()
-    {
-        return $this->container;
+        foreach (Finder::create()->name('/^.+Plugin\.php$/')->files()->in(__DIR__) as $file) {
+            /* @var $file \SplFileInfo */
+            $pluginClass = __NAMESPACE__ . '\\' . $file->getBasename('.php');
+            self::$plugins[] = new $pluginClass();
+        }
     }
 }
 

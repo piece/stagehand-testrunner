@@ -35,9 +35,11 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Test;
+namespace Stagehand\TestRunner\Core\Configuration;
 
-use Stagehand\TestRunner\Core\ComponentFactory;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,72 +48,29 @@ use Stagehand\TestRunner\Core\ComponentFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestComponentFactory extends ComponentFactory
+class PHPUnitConfiguration extends Configuration
 {
     /**
-     * @var array
+     * {@inheritDoc}
      */
-    protected $oldDefinitions = array();
-
-    /**
-     * @var array
-     */
-    protected $oldAliases = array();
-
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
+    public static function getConfigurationID()
     {
-        $this->container->set($this->resolveServiceID($componentID), $component);
+        return strtolower(PHPUnitPlugin::getPluginID());
     }
 
     /**
-     * @param string $componentID
-     * @param string $componentClass
+     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder
      */
-    public function setClass($componentID, $componentClass)
+    protected function defineGrammar(NodeBuilder $nodeBuilder)
     {
-        $this->container->getDefinition($this->resolveServiceID($componentID))->setClass($componentClass);
-    }
-
-    public function backupDefinitions()
-    {
-        foreach ($this->container->getDefinitions() as $serviceID => $definition) {
-            $this->oldDefinitions[$serviceID] = clone($definition);
-        }
-        foreach ($this->container->getAliases() as $alias => $serviceID) {
-            $this->oldAliases[$alias] = $serviceID;
-        }
-    }
-
-    public function restoreDefinitions()
-    {
-        $this->container->setDefinitions($this->oldDefinitions);
-        $this->container->setAliases($this->oldAliases);
-        $this->oldDefinitions = array();
-        $this->oldAliases = array();
-        $this->container->clearServices();
-    }
-
-    /**
-     * @param string $parameterName
-     * @return mixed
-     */
-    public function getParameter($parameterName)
-    {
-        return $this->container->getParameter($this->resolveServiceID($parameterName));
-    }
-
-    /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    public function getContainer()
-    {
-        return $this->container;
+        $nodeBuilder
+            ->scalarNode('phpunit_config_file')
+            ->end()
+            ->booleanNode('prints_detailed_progress_report')
+            ->end();
     }
 }
+
 
 /*
  * Local Variables:

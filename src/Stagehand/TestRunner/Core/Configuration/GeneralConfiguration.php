@@ -37,11 +37,9 @@
 
 namespace Stagehand\TestRunner\Core\Configuration;
 
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\Package;
 
 /**
  * @package    Stagehand_TestRunner
@@ -50,92 +48,85 @@ use Stagehand\TestRunner\Core\Package;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class GeneralConfiguration implements ConfigurationInterface
+class GeneralConfiguration extends Configuration
 {
+    /**
+     * @var string
+     */
+    private static $CONFIGURATION_ID = 'general';
+
     /**
      * {@inheritDoc}
      */
-    public function getConfigTreeBuilder()
+    public static function getConfigurationID()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder
-            ->root(Package::PACKAGE_ID)
+        return self::$CONFIGURATION_ID;
+    }
+
+    /**
+     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder
+     */
+    protected function defineGrammar(NodeBuilder $nodeBuilder)
+    {
+        $nodeBuilder
+            ->scalarNode('testing_framework')
+                ->isRequired()
+                ->cannotBeEmpty()
+            ->end()
+            ->booleanNode('recursively_scans')
+                ->defaultFalse()
+            ->end()
+            ->booleanNode('colors')
+                ->defaultFalse()
+            ->end()
+            ->scalarNode('preload_file')
+                ->defaultNull()
+            ->end()
+            ->booleanNode('enables_autotest')
+                ->defaultFalse()
+            ->end()
+            ->arrayNode('monitoring_directories')
+                ->addDefaultsIfNotSet()
+                ->defaultValue(array())
+                ->prototype('scalar')
+                ->end()
+            ->end()
+            ->booleanNode('uses_notification')
+            ->end()
+            ->arrayNode('test_methods')
+                ->addDefaultsIfNotSet()
+                ->defaultValue(array())
+                ->prototype('scalar')
+                ->end()
+            ->end()
+            ->arrayNode('test_classes')
+               ->addDefaultsIfNotSet()
+               ->defaultValue(array())
+               ->prototype('scalar')
+               ->end()
+            ->end()
+            ->arrayNode('junit_xml')
                 ->children()
-                    ->scalarNode('testing_framework')
+                    ->scalarNode('file')
                         ->isRequired()
                         ->cannotBeEmpty()
                     ->end()
-                    ->booleanNode('recursively_scans')
+                    ->booleanNode('realtime')
                         ->defaultFalse()
-                    ->end()
-                    ->booleanNode('colors')
-                        ->defaultFalse()
-                    ->end()
-                    ->scalarNode('preload_file')
-                        ->defaultNull()
-                    ->end()
-                    ->booleanNode('enables_autotest')
-                        ->defaultFalse()
-                    ->end()
-                    ->arrayNode('monitoring_directories')
-                        ->addDefaultsIfNotSet()
-                        ->defaultValue(array())
-                        ->prototype('scalar')
-                        ->end()
-                    ->end()
-                    ->booleanNode('uses_notification')
-                    ->end()
-                    ->arrayNode('test_methods')
-                        ->addDefaultsIfNotSet()
-                        ->defaultValue(array())
-                        ->prototype('scalar')
-                        ->end()
-                    ->end()
-                    ->arrayNode('test_classes')
-                        ->addDefaultsIfNotSet()
-                        ->defaultValue(array())
-                        ->prototype('scalar')
-                        ->end()
-                    ->end()
-                   ->arrayNode('junit_xml')
-                       ->children()
-                           ->scalarNode('file')
-                               ->isRequired()
-                               ->cannotBeEmpty()
-                           ->end()
-                           ->booleanNode('realtime')
-                               ->defaultFalse()
-                           ->end()
-                       ->end()
-                    ->end()
-                    ->booleanNode('stops_on_failure')
-                        ->defaultFalse()
-                    ->end()
-                    ->scalarNode('phpunit_config_file')
-                    ->end()
-                    ->scalarNode('cakephp_app_path')
-                        ->defaultNull()
-                    ->end()
-                    ->scalarNode('cakephp_core_path')
-                        ->defaultNull()
-                    ->end()
-                    ->scalarNode('ciunit_path')
-                        ->defaultNull()
-                    ->end()
-                    ->scalarNode('test_file_pattern')
-                    ->end()
-                    ->booleanNode('prints_detailed_progress_report')
-                        ->defaultFalse()
-                    ->end()
-                    ->arrayNode('test_resources')
-                        ->addDefaultsIfNotSet()
-                        ->defaultValue(array(ApplicationContext::getInstance()->getEnvironment()->getWorkingDirectoryAtStartup()))
-                        ->prototype('scalar')
-                        ->end()
                     ->end()
                 ->end()
+            ->end()
+            ->booleanNode('stops_on_failure')
+                ->defaultFalse()
+            ->end()
+            ->scalarNode('test_file_pattern')
+            ->end()
+            ->arrayNode('test_resources')
+                ->addDefaultsIfNotSet()
+                ->defaultValue(array(ApplicationContext::getInstance()->getEnvironment()->getWorkingDirectoryAtStartup()))
+                ->prototype('scalar')
+                ->end()
             ->end();
-        return $treeBuilder;
     }
 }
 

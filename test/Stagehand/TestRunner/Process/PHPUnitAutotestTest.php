@@ -32,12 +32,14 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 3.0.0
+ * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner\Test;
+namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Core\ComponentFactory;
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Test\FactoryAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,70 +48,42 @@ use Stagehand\TestRunner\Core\ComponentFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestComponentFactory extends ComponentFactory
+class PHPUnitAutotestTest extends AutotestTest
 {
-    /**
-     * @var array
-     */
-    protected $oldDefinitions = array();
-
-    /**
-     * @var array
-     */
-    protected $oldAliases = array();
-
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
+    public static function setUpBeforeClass()
     {
-        $this->container->set($this->resolveServiceID($componentID), $component);
+        AutotestTest::initializeConfigurators();
+        static::$configurators[] = function ($testingFramework) {
+            $runner = ApplicationContext::getInstance()->createComponent($testingFramework . '.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+            $runner->setPrintsDetailedProgressReport(true);
+        };
+        static::$configurators[] = function ($testingFramework) {
+            $phpunitXMLConfiguration = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfiguration'); /* @var $phpunitXMLConfiguration \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration */
+            \Phake::when($phpunitXMLConfiguration)->getFileName()->thenReturn('FILE');
+            $autotest = ApplicationContext::getInstance()->createComponent($testingFramework . '.autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
+            $autotest->setPHPUnitXMLConfiguration($phpunitXMLConfiguration);
+        };
     }
 
     /**
-     * @param string $componentID
-     * @param string $componentClass
+     * @return string
      */
-    public function setClass($componentID, $componentClass)
+    protected function getTestingFramework()
     {
-        $this->container->getDefinition($this->resolveServiceID($componentID))->setClass($componentClass);
-    }
-
-    public function backupDefinitions()
-    {
-        foreach ($this->container->getDefinitions() as $serviceID => $definition) {
-            $this->oldDefinitions[$serviceID] = clone($definition);
-        }
-        foreach ($this->container->getAliases() as $alias => $serviceID) {
-            $this->oldAliases[$alias] = $serviceID;
-        }
-    }
-
-    public function restoreDefinitions()
-    {
-        $this->container->setDefinitions($this->oldDefinitions);
-        $this->container->setAliases($this->oldAliases);
-        $this->oldDefinitions = array();
-        $this->oldAliases = array();
-        $this->container->clearServices();
+        return TestingFramework::PHPUNIT;
     }
 
     /**
-     * @param string $parameterName
-     * @return mixed
+     * @return array
      */
-    public function getParameter($parameterName)
+    public function preservedConfigurations()
     {
-        return $this->container->getParameter($this->resolveServiceID($parameterName));
-    }
-
-    /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    public function getContainer()
-    {
-        return $this->container;
+        $preservedConfigurations = parent::preservedConfigurations();
+        $index = count($preservedConfigurations);
+        return array_merge($preservedConfigurations, array(
+            array($index++, array('-R', '-v'), array(true, true)),
+            array($index++, array('-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true)),
+        ));
     }
 }
 

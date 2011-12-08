@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Test;
 
+use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
+
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\ConfigurationTransformer;
 use Stagehand\TestRunner\Core\Environment;
@@ -52,26 +54,43 @@ use Stagehand\TestRunner\Core\TestingFramework;
 class TestEnvironment extends Environment
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @var \Stagehand\TestRunner\Core\ApplicationContext
      */
-    private static $container;
+    private static $applicationContext;
 
     public static function earlyInitialize()
     {
-        self::$container = new TestContainerBuilder();
-        $configurationTransformer = new ConfigurationTransformer(self::$container);
-        $configurationTransformer->setConfigurationPart(array('testing_framework' => TestingFramework::PHPUNIT));
+        $oldApplicationContext = ApplicationContext::getInstance();
+
+        $container = new TestContainerBuilder();
+        $componentFactory = new TestComponentFactory();
+        self::$applicationContext = new TestApplicationContext();
+        self::$applicationContext->setComponentFactory($componentFactory);
+        self::$applicationContext->setEnvironment(new TestEnvironment());
+        ApplicationContext::setInstance(self::$applicationContext);
+        $configurationTransformer = new ConfigurationTransformer($container);
+        $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => TestingFramework::PHPUNIT));
         ApplicationContext::getInstance()
             ->getComponentFactory()
             ->setContainer($configurationTransformer->transformToContainer());
+
+        ApplicationContext::setInstance($oldApplicationContext);
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @return \Stagehand\TestRunner\Core\ApplicationContext
      */
-    public static function getContainer()
+    public static function getApplicationContext()
     {
-        return self::$container;
+        return self::$applicationContext;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isProduction()
+    {
+        return false;
     }
 
     protected function initialize()

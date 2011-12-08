@@ -39,7 +39,7 @@ namespace Stagehand\TestRunner\Process;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
+use Stagehand\TestRunner\Test\FactoryAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -48,8 +48,70 @@ use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class AutotestTest extends PHPUnitFactoryAwareTestCase
+abstract class AutotestTest extends FactoryAwareTestCase
 {
+    /**
+     * @var array
+     * @since Property available since Release 3.0.0
+     */
+    protected static $configurators;
+
+    /**
+     * @since Method available since Release 3.0.0
+     */
+    protected static function initializeConfigurators()
+    {
+        self::$configurators = array();
+        self::$configurators[] = function ($testingFramework) {
+            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+            $testTargets->setRecursivelyScans(true);
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+            $testTargets->setRecursivelyScans(false);
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $terminal = ApplicationContext::getInstance()->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
+            $terminal->setColors(true);
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $autotest = ApplicationContext::getInstance()->createComponent($testingFramework . '.autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
+            $autotest->setPreloadFile('test/prepare.php');
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $autotest = ApplicationContext::getInstance()->createComponent($testingFramework . '.autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
+            $autotest->setMonitoringDirectories(array('src'));
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $runner = ApplicationContext::getInstance()->createComponent($testingFramework . '.runner'); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+            $runner->setUsesNotification(true);
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+            $testTargets->setMethods(array('METHOD1'));
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+            $testTargets->setClasses(array('CLASS1'));
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $runner = ApplicationContext::getInstance()->createComponent($testingFramework . '.runner'); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+            $runner->setJUnitXMLFile('FILE');
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $runner = ApplicationContext::getInstance()->createComponent($testingFramework . '.runner'); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+            $runner->setLogsResultsInJUnitXMLInRealtime(true);
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $runner = ApplicationContext::getInstance()->createComponent($testingFramework . '.runner'); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+            $runner->setStopsOnFailure(true);
+        };
+        self::$configurators[] = function ($testingFramework) {
+            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+            $testTargets->setFilePattern('PATTERN');
+        };
+    }
+
     /**
      * @test
      * @dataProvider commandLines
@@ -86,7 +148,7 @@ class AutotestTest extends PHPUnitFactoryAwareTestCase
         \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('alteration_monitoring', $alterationMonitoring);
 
-        $autotest = $this->applicationContext->createComponent('autotest');
+        $autotest = $this->applicationContext->createComponent($this->getTestingFramework() . '.autotest');
         $autotest->monitorAlteration();
 
         $runnerCommand = $this->readAttribute($autotest, 'runnerCommand');
@@ -112,101 +174,6 @@ class AutotestTest extends PHPUnitFactoryAwareTestCase
             array('phpunitrunner', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('phpunitrunner'), array('-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
             array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
         );
-    }
-}
-
-/**
- * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    Release: @package_version@
- * @since      Class available since Release 3.0.0
- */
-class AutotestConfigurationPreservationTest extends PHPUnitFactoryAwareTestCase
-{
-    public static $configurators = array();
-
-    public static function setUpBeforeClass()
-    {
-        self::$configurators[] = function () { // 0
-            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-            $testTargets->setRecursivelyScans(true);
-        };
-        self::$configurators[] = function () { // 1
-            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-            $testTargets->setRecursivelyScans(false);
-        };
-        self::$configurators[] = function () { // 2
-            $terminal = ApplicationContext::getInstance()->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
-            $terminal->setColors(true);
-        };
-        self::$configurators[] = function () { // 3
-            $autotest = ApplicationContext::getInstance()->createComponent('autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
-            $autotest->setPreloadFile('test/prepare.php');
-        };
-        self::$configurators[] = function () { // 4
-            $autotest = ApplicationContext::getInstance()->createComponent('autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
-            $autotest->setMonitoringDirectories(array('src'));
-        };
-        self::$configurators[] = function () { // 5
-            $runner = ApplicationContext::getInstance()->createComponent('phpunit.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-            $runner->setUsesNotification(true);
-        };
-        self::$configurators[] = function () { // 6
-            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-            $testTargets->setMethods(array('METHOD1'));
-        };
-        self::$configurators[] = function () { // 7
-            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-            $testTargets->setClasses(array('CLASS1'));
-        };
-        self::$configurators[] = function () { // 8
-            $runner = ApplicationContext::getInstance()->createComponent('phpunit.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-            $runner->setJUnitXMLFile('FILE');
-        };
-        self::$configurators[] = function () { // 9
-            $runner = ApplicationContext::getInstance()->createComponent('phpunit.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-            $runner->setLogsResultsInJUnitXMLInRealtime(true);
-        };
-        self::$configurators[] = function () { // 10
-            $runner = ApplicationContext::getInstance()->createComponent('phpunit.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-            $runner->setPrintsDetailedProgressReport(true);
-        };
-        self::$configurators[] = function () { // 11
-            $runner = ApplicationContext::getInstance()->createComponent('phpunit.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-            $runner->setStopsOnFailure(true);
-        };
-        self::$configurators[] = function () { // 12
-            $phpunitXMLConfiguration = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfiguration'); /* @var $phpunitXMLConfiguration \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration */
-            \Phake::when($phpunitXMLConfiguration)->getFileName()->thenReturn('FILE');
-            $autotest = ApplicationContext::getInstance()->createComponent('autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
-            $autotest->setPHPUnitXMLConfiguration($phpunitXMLConfiguration);
-        };
-        self::$configurators[] = function () { // 13
-            $testingFramework = \Phake::mock('\Stagehand\TestRunner\Core\TestingFramework'); /* @var $testingFramework \Stagehand\TestRunner\Core\TestingFramework */
-            \Phake::when($testingFramework)->getSelected()->thenReturn(TestingFramework::CAKE);
-            ApplicationContext::getInstance()->setComponent('testing_framework', $testingFramework);
-            $preparer = ApplicationContext::getInstance()->createComponent('cake.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
-            $preparer->setCakePHPAppPath('DIRECTORY');
-        };
-        self::$configurators[] = function () { // 14
-            $testingFramework = \Phake::mock('\Stagehand\TestRunner\Core\TestingFramework'); /* @var $testingFramework \Stagehand\TestRunner\Core\TestingFramework */
-            \Phake::when($testingFramework)->getSelected()->thenReturn(TestingFramework::CAKE);
-            ApplicationContext::getInstance()->setComponent('testing_framework', $testingFramework);
-            $preparer = ApplicationContext::getInstance()->createComponent('cake.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
-            $preparer->setCakePHPCorePath('DIRECTORY');
-        };
-        self::$configurators[] = function () { // 15
-            $testingFramework = \Phake::mock('\Stagehand\TestRunner\Core\TestingFramework'); /* @var $testingFramework \Stagehand\TestRunner\Core\TestingFramework */
-            \Phake::when($testingFramework)->getSelected()->thenReturn(TestingFramework::CIUNIT);
-            ApplicationContext::getInstance()->setComponent('testing_framework', $testingFramework);
-            $preparer = ApplicationContext::getInstance()->createComponent('ciunit.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CIUnitPreparer */
-            $preparer->setCIUnitPath('DIRECTORY');
-        };
-        self::$configurators[] = function () { // 16
-            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-            $testTargets->setFilePattern('PATTERN');
-        };
     }
 
     /**
@@ -238,9 +205,9 @@ class AutotestConfigurationPreservationTest extends PHPUnitFactoryAwareTestCase
         \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('alteration_monitoring', $alterationMonitoring);
 
-        call_user_func(self::$configurators[$configuratorIndex]);
+        call_user_func(self::$configurators[$configuratorIndex], $this->getTestingFramework());
 
-        $autotest = $this->applicationContext->createComponent('autotest');
+        $autotest = $this->applicationContext->createComponent($this->getTestingFramework() . '.autotest');
         $autotest->monitorAlteration();
 
         $runnerOptions = $this->readAttribute($autotest, 'runnerOptions');
@@ -257,25 +224,26 @@ class AutotestConfigurationPreservationTest extends PHPUnitFactoryAwareTestCase
      */
     public function preservedConfigurations()
     {
-        return array(
-            array(0, array('-R'), array(true)),
-            array(1, array('-R'), array(true)),
-            array(2, array('-R', '-c'), array(true, true)),
-            array(3, array('-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true)),
-            array(4, array('-R', '-w ' . escapeshellarg('src')), array(true, false)),
-            array(5, array('-R', '-n'), array(true, true)),
-            array(6, array('-R', '-m ' . escapeshellarg('METHOD1')), array(true, false)),
-            array(7, array('-R', '--classes=' . escapeshellarg('CLASS1')), array(true, false)),
-            array(8, array('-R', '--log-junit=' . escapeshellarg('FILE')), array(true, false)),
-            array(9, array('-R', '--log-junit-realtime'), array(true, false)),
-            array(10, array('-R', '-v'), array(true, true)),
-            array(11, array('-R', '--stop-on-failure'), array(true, true)),
-            array(12, array('-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true)),
-            array(13, array('-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
-            array(14, array('-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
-            array(15, array('-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
-            array(16, array('-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true)),
+        $preservedConfigurations = array(
+            array(array('-R'), array(true)),
+            array(array('-R'), array(true)),
+            array(array('-R', '-c'), array(true, true)),
+            array(array('-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true)),
+            array(array('-R', '-w ' . escapeshellarg('src')), array(true, false)),
+            array(array('-R', '-n'), array(true, true)),
+            array(array('-R', '-m ' . escapeshellarg('METHOD1')), array(true, false)),
+            array(array('-R', '--classes=' . escapeshellarg('CLASS1')), array(true, false)),
+            array(array('-R', '--log-junit=' . escapeshellarg('FILE')), array(true, false)),
+            array(array('-R', '--log-junit-realtime'), array(true, false)),
+            array(array('-R', '--stop-on-failure'), array(true, true)),
+            array(array('-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true)),
         );
+
+        return array_map(function (array $preservedConfiguration) {
+            static $index = 0;
+            array_unshift($preservedConfiguration, $index++);
+            return $preservedConfiguration;
+        }, $preservedConfigurations);
     }
 }
 

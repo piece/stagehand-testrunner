@@ -41,13 +41,10 @@ use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Core\LegacyProxy;
-use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Notification\Notifier;
-use Stagehand\TestRunner\Preparer\CakePreparer;
-use Stagehand\TestRunner\Preparer\CIUnitPreparer;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -57,7 +54,7 @@ use Stagehand\TestRunner\Util\String;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-class Autotest
+abstract class Autotest
 {
     /**
      * @var string
@@ -86,12 +83,6 @@ class Autotest
      * @since Property available since Release 3.0.0
      */
     protected $notifier;
-
-    /**
-     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
-     * @since Property available since Release 3.0.0
-     */
-    protected $phpunitXMLConfiguration;
 
     /**
      * @var \Stagehand\TestRunner\Core\TestTargets
@@ -206,15 +197,6 @@ class Autotest
     public function setNotifier(Notifier $notifier)
     {
         $this->notifier = $notifier;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
-     * @since Method available since Release 3.0.0
-     */
-    public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
-    {
-        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
     }
 
     /**
@@ -334,32 +316,13 @@ class Autotest
             $options[] = '-n';
         }
 
-        if (method_exists($this->runner, 'printsDetailedProgressReport')
-            && $this->runner->printsDetailedProgressReport()) {
-            $options[] = '-v';
-        }
-
         if ($this->runner->stopsOnFailure()) {
             $options[] = '--stop-on-failure';
         }
 
-        if (!is_null($this->phpunitXMLConfiguration)) {
-            $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitXMLConfiguration->getFileName());
-        }
-
-        if (($this->preparer instanceof CakePreparer) && !is_null($this->preparer->getCakePHPAppPath())) {
-            $options[] = '--cakephp-app-path=' . escapeshellarg($this->preparer->getCakePHPAppPath());
-        }
-
-        if (($this->preparer instanceof CakePreparer) && !is_null($this->preparer->getCakePHPCorePath())) {
-            $options[] = '--cakephp-core-path=' . escapeshellarg($this->preparer->getCakePHPCorePath());
-        }
-
-        if (($this->preparer instanceof CIUnitPreparer) && !is_null($this->preparer->getCIUnitPath())) {
-            $options[] = '--ciunit-path=' . escapeshellarg($this->preparer->getCIUnitPath());
-        }
-
         $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargets->getFilePattern());
+
+        $options = array_merge($options, $this->doBuildRunnerOptions());
 
         $this->testTargets->walkOnResources(function ($resource, $index, TestTargets $testTargets) use (&$options) {
             $options[] = escapeshellarg($resource);
@@ -428,6 +391,12 @@ class Autotest
     {
         return ApplicationContext::getInstance()->createComponent('notifier');
     }
+
+    /**
+     * @return array
+     * @since Method available since Release 3.0.0
+     */
+    abstract protected function doBuildRunnerOptions();
 }
 
 /*

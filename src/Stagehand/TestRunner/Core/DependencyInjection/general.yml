@@ -38,21 +38,6 @@ parameters:
   stagehand_testrunner.test_file_pattern: ~
   stagehand_testrunner.test_resources: []
 
-  stagehand_testrunner.phpunit.test_file_pattern: Test(?:Case)?\.php$
-  stagehand_testrunner.phpunit.prints_detailed_progress_report: false
-  stagehand_testrunner.phpunit.phpunit_config_file: null
-
-  stagehand_testrunner.ciunit.test_file_pattern: ^test.+\.php$
-  stagehand_testrunner.ciunit.ciunit_path: null
-
-  stagehand_testrunner.simpletest.test_file_pattern: Test(?:Case)?\.php$
-
-  stagehand_testrunner.cake.test_file_pattern: \.test\.php$
-  stagehand_testrunner.cake.cakephp_app_path: null
-  stagehand_testrunner.cake.cakephp_core_path: null
-
-  stagehand_testrunner.phpspec.test_file_pattern: Spec\.php$
-
 services:
   stagehand_testrunner.testing_framework:
     class: Stagehand\TestRunner\Core\TestingFramework
@@ -67,18 +52,18 @@ services:
     class: Stagehand\TestRunner\CLI\TestRunner
     calls:
       - [ setEnablesAutotest, [ "%stagehand_testrunner.enables_autotest%" ] ]
+      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
   stagehand_testrunner.test_run:
     class: Stagehand\TestRunner\Process\TestRun
     calls:
       - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
       - [ setOutputBuffering, [ "@stagehand_testrunner.output_buffering" ] ]
   stagehand_testrunner.autotest:
-    class: Stagehand\TestRunner\Process\Autotest
+    abstract: true
     arguments: [ "@stagehand_testrunner.testing_framework" ]
     calls:
       - [ setPreloadFile, [ "%stagehand_testrunner.preload_file%" ] ]
       - [ setTerminal, [ "@stagehand_testrunner.terminal" ] ]
-      - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
       - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
       - [ setMonitoringDirectories, [ "%stagehand_testrunner.monitoring_directories%" ] ]
       - [ setLegacyProxy, [ "@stagehand_testrunner.legacy_proxy" ] ]
@@ -119,68 +104,6 @@ services:
     class: Stagehand\TestRunner\Notification\Notifier
     calls:
       - [ setLegacyProxy, [ "@stagehand_testrunner.legacy_proxy" ] ]
-  stagehand_testrunner.phpunit.preparer:
-    class: Stagehand\TestRunner\Preparer\PHPUnitPreparer
-    calls:
-      - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
-      - [ setTerminal, [ "@stagehand_testrunner.terminal" ] ]
-  stagehand_testrunner.phpunit.collector:
-    parent: stagehand_testrunner.collector
-    class: Stagehand\TestRunner\Collector\PHPUnitCollector
-    calls:
-      - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
-  stagehand_testrunner.phpunit.runner:
-    parent: stagehand_testrunner.runner
-    class: Stagehand\TestRunner\Runner\PHPUnitRunner
-    calls:
-      - [ setPrintsDetailedProgressReport, [ "%stagehand_testrunner.phpunit.prints_detailed_progress_report%" ] ]
-      - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
-  stagehand_testrunner.phpunit.phpunit_xml_configuration_factory:
-    class: Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory
-  stagehand_testrunner.phpunit.phpunit_xml_configuration:
-    class: Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
-    factory_service: stagehand_testrunner.phpunit.phpunit_xml_configuration_factory
-    factory_method: maybeCreate
-    arguments: [ "%stagehand_testrunner.phpunit.phpunit_config_file%" ]
-  stagehand_testrunner.ciunit.preparer:
-    parent: stagehand_testrunner.phpunit.preparer
-    class: Stagehand\TestRunner\Preparer\CIUnitPreparer
-    calls:
-      - [ setCIUnitPath, [ "%stagehand_testrunner.ciunit.ciunit_path%" ] ]
-  stagehand_testrunner.ciunit.collector:
-    parent: stagehand_testrunner.phpunit.collector
-    class: Stagehand\TestRunner\Collector\CIUnitCollector
-  stagehand_testrunner.ciunit.runner:
-    parent: stagehand_testrunner.phpunit.runner
-    class: Stagehand\TestRunner\Runner\CIUnitRunner
-  stagehand_testrunner.simpletest.preparer:
-    class: Stagehand\TestRunner\Preparer\SimpleTestPreparer
-  stagehand_testrunner.simpletest.collector:
-    parent: stagehand_testrunner.collector
-    class: Stagehand\TestRunner\Collector\SimpleTestCollector
-  stagehand_testrunner.simpletest.runner:
-    parent: stagehand_testrunner.runner
-    class: Stagehand\TestRunner\Runner\SimpleTestRunner
-  stagehand_testrunner.cake.preparer:
-    parent: stagehand_testrunner.simpletest.preparer
-    class: Stagehand\TestRunner\Preparer\CakePreparer
-    calls:
-      - [ setCakePHPAppPath, [ "%stagehand_testrunner.cake.cakephp_app_path%" ] ]
-      - [ setCakePHPCorePath, [ "%stagehand_testrunner.cake.cakephp_core_path%" ] ]
-  stagehand_testrunner.cake.collector:
-    parent: stagehand_testrunner.simpletest.collector
-    class: Stagehand\TestRunner\Collector\CakeCollector
-  stagehand_testrunner.cake.runner:
-    parent: stagehand_testrunner.simpletest.runner
-    class: Stagehand\TestRunner\Runner\CakeRunner
-  stagehand_testrunner.phpspec.preparer:
-    class: Stagehand\TestRunner\Preparer\PHPSpecPreparer
-  stagehand_testrunner.phpspec.collector:
-    parent: stagehand_testrunner.collector
-    class: Stagehand\TestRunner\Collector\PHPSpecCollector
-  stagehand_testrunner.phpspec.runner:
-    parent: stagehand_testrunner.runner
-    class: Stagehand\TestRunner\Runner\PHPSpecRunner
 
 # Local Variables:
 # mode: conf

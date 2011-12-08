@@ -32,12 +32,13 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 3.0.0
+ * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner\Test;
+namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Core\ComponentFactory;
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\TestingFramework;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,70 +47,40 @@ use Stagehand\TestRunner\Core\ComponentFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestComponentFactory extends ComponentFactory
+class CakePHPAutotestTest extends SimpleTestAutotestTest
 {
-    /**
-     * @var array
-     */
-    protected $oldDefinitions = array();
-
-    /**
-     * @var array
-     */
-    protected $oldAliases = array();
-
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
+    public static function setUpBeforeClass()
     {
-        $this->container->set($this->resolveServiceID($componentID), $component);
+        SimpleTestAutotestTest::setUpBeforeClass();
+        static::$configurators[] = function ($testingFramework) {
+            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+            $preparer->setCakePHPAppPath('DIRECTORY');
+        };
+        static::$configurators[] = function ($testingFramework) {
+            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+            $preparer->setCakePHPCorePath('DIRECTORY');
+        };
     }
 
     /**
-     * @param string $componentID
-     * @param string $componentClass
+     * @return string
      */
-    public function setClass($componentID, $componentClass)
+    protected function getTestingFramework()
     {
-        $this->container->getDefinition($this->resolveServiceID($componentID))->setClass($componentClass);
-    }
-
-    public function backupDefinitions()
-    {
-        foreach ($this->container->getDefinitions() as $serviceID => $definition) {
-            $this->oldDefinitions[$serviceID] = clone($definition);
-        }
-        foreach ($this->container->getAliases() as $alias => $serviceID) {
-            $this->oldAliases[$alias] = $serviceID;
-        }
-    }
-
-    public function restoreDefinitions()
-    {
-        $this->container->setDefinitions($this->oldDefinitions);
-        $this->container->setAliases($this->oldAliases);
-        $this->oldDefinitions = array();
-        $this->oldAliases = array();
-        $this->container->clearServices();
+        return TestingFramework::CAKE;
     }
 
     /**
-     * @param string $parameterName
-     * @return mixed
+     * @return array
      */
-    public function getParameter($parameterName)
+    public function preservedConfigurations()
     {
-        return $this->container->getParameter($this->resolveServiceID($parameterName));
-    }
-
-    /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    public function getContainer()
-    {
-        return $this->container;
+        $preservedConfigurations = parent::preservedConfigurations();
+        $index = count($preservedConfigurations);
+        return array_merge($preservedConfigurations, array(
+            array($index++, array('-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
+            array($index++, array('-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
+        ));
     }
 }
 

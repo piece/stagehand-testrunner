@@ -62,12 +62,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     {
         $this->oldApplicationContext = ApplicationContext::getInstance();
 
-        $container = $this->createContainer();
-        $componentFactory = new TestComponentFactory();
-        $componentFactory->setContainer($container);
-        $this->applicationContext = new TestApplicationContext();
-        $this->applicationContext->setComponentFactory($componentFactory);
-        $this->applicationContext->setEnvironment(new TestEnvironment());
+        $this->applicationContext = $this->createApplicationContext();
         ApplicationContext::setInstance($this->applicationContext);
 
         $testingFramework = \Phake::mock('Stagehand\TestRunner\Core\TestingFramework');
@@ -81,14 +76,23 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    abstract protected function createContainer();
-
-    /**
      * @return string
      */
     abstract protected function getTestingFramework();
+
+    /**
+     * @return \Stagehand\TestRunner\Core\ApplicationContext
+     */
+    protected function createApplicationContext()
+    {
+        $container = new TestContainerBuilder();
+        $componentFactory = new TestComponentFactory();
+        $componentFactory->setContainer($container);
+        $applicationContext = new TestApplicationContext();
+        $applicationContext->setComponentFactory($componentFactory);
+        $applicationContext->setEnvironment(new TestEnvironment());
+        return $applicationContext;
+    }
 }
 
 /*

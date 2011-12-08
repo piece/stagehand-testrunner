@@ -72,6 +72,14 @@ class Environment
         return $this->workingDirectoryAtStartup;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isProduction()
+    {
+        return true;
+    }
+
     protected function initialize()
     {
         ini_set('display_errors', true);
