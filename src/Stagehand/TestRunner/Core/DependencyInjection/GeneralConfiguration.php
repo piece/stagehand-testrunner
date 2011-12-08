@@ -52,7 +52,7 @@ use Stagehand\TestRunner\Core\Package;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class Configuration implements ConfigurationInterface
+class GeneralConfiguration implements ConfigurationInterface
 {
     /**
      * {@inheritDoc}

@@ -60,7 +60,7 @@ class StagehandTestrunnerExtension implements ExtensionInterface
     public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
-        $config = $processor->processConfiguration(new Configuration(), $configs);
+        $config = $processor->processConfiguration(new GeneralConfiguration(), $configs);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
         $loader->load(Package::PACKAGE_ID . '.yml');
