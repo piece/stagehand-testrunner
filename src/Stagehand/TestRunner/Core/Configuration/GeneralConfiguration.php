@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Core\Configuration;
 
-use Symfony\Component\Config\Definition\BooleanNode;
-
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
