@@ -33,7 +33,7 @@ parameters:
 services:
   stagehand_testrunner.cake.autotest:
     parent: stagehand_testrunner.simpletest.autotest
-    class: Stagehand\TestRunner\Process\CakePHPAutotest
+    class: Stagehand\TestRunner\Process\Autotest\CakePHPAutotest
   stagehand_testrunner.cake.preparer:
     parent: stagehand_testrunner.simpletest.preparer
     class: Stagehand\TestRunner\Preparer\CakePreparer

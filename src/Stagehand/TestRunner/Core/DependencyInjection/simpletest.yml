@@ -28,7 +28,7 @@ parameters:
 services:
   stagehand_testrunner.simpletest.autotest:
     parent: stagehand_testrunner.autotest
-    class: Stagehand\TestRunner\Process\SimpleTestAutotest
+    class: Stagehand\TestRunner\Process\Autotest\SimpleTestAutotest
   stagehand_testrunner.simpletest.preparer:
     class: Stagehand\TestRunner\Preparer\SimpleTestPreparer
   stagehand_testrunner.simpletest.collector:

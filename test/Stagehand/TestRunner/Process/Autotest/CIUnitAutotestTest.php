@@ -35,7 +35,7 @@
  * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner\Process;
+namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;
@@ -47,18 +47,14 @@ use Stagehand\TestRunner\Core\TestingFramework;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPAutotestTest extends SimpleTestAutotestTest
+class CIUnitAutotestTest extends PHPUnitAutotestTest
 {
     public static function setUpBeforeClass()
     {
-        SimpleTestAutotestTest::setUpBeforeClass();
+        PHPUnitAutotestTest::setUpBeforeClass();
         static::$configurators[] = function ($testingFramework) {
-            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
-            $preparer->setCakePHPAppPath('DIRECTORY');
-        };
-        static::$configurators[] = function ($testingFramework) {
-            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
-            $preparer->setCakePHPCorePath('DIRECTORY');
+            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CIUnitPreparer */
+            $preparer->setCIUnitPath('DIRECTORY');
         };
     }
 
@@ -67,7 +63,7 @@ class CakePHPAutotestTest extends SimpleTestAutotestTest
      */
     protected function getTestingFramework()
     {
-        return TestingFramework::CAKE;
+        return TestingFramework::CIUNIT;
     }
 
     /**
@@ -78,8 +74,7 @@ class CakePHPAutotestTest extends SimpleTestAutotestTest
         $preservedConfigurations = parent::preservedConfigurations();
         $index = count($preservedConfigurations);
         return array_merge($preservedConfigurations, array(
-            array($index++, array('-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
-            array($index++, array('-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
+            array($index++, array('-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
         ));
     }
 }

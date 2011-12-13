@@ -32,12 +32,12 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 3.0.0
+ * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner\Process;
+namespace Stagehand\TestRunner\Process\Autotest;
 
-use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
+use Stagehand\TestRunner\Core\TestingFramework;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,37 +46,19 @@ use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitAutotest extends Autotest
+class PHPSpecAutotestTest extends AutotestTest
 {
-    /**
-     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
-     */
-    protected $phpunitXMLConfiguration;
-
-    /**
-     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
-     */
-    public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
+    public static function setUpBeforeClass()
     {
-        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
+        AutotestTest::initializeConfigurators();
     }
 
     /**
-     * @return array
+     * @return string
      */
-    protected function doBuildRunnerOptions()
+    protected function getTestingFramework()
     {
-        $options = array();
-
-        if ($this->runner->printsDetailedProgressReport()) {
-            $options[] = '-v';
-        }
-
-        if (!is_null($this->phpunitXMLConfiguration)) {
-            $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitXMLConfiguration->getFileName());
-        }
-
-        return $options;
+        return TestingFramework::PHPSPEC;
     }
 }
 

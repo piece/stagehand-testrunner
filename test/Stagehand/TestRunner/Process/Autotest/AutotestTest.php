@@ -35,7 +35,7 @@
  * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner\Process;
+namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;

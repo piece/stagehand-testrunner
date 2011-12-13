@@ -35,7 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Process;
+namespace Stagehand\TestRunner\Process\Autotest;
+
+use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,21 +46,34 @@ namespace Stagehand\TestRunner\Process;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPAutotest extends SimpleTestAutotest
+class PHPUnitAutotest extends Autotest
 {
+    /**
+     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+     */
+    protected $phpunitXMLConfiguration;
+
+    /**
+     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     */
+    public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
+    {
+        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
+    }
+
     /**
      * @return array
      */
     protected function doBuildRunnerOptions()
     {
-        $options = parent::doBuildRunnerOptions();
+        $options = array();
 
-        if (!is_null($this->preparer->getCakePHPAppPath())) {
-            $options[] = '--cakephp-app-path=' . escapeshellarg($this->preparer->getCakePHPAppPath());
+        if ($this->runner->printsDetailedProgressReport()) {
+            $options[] = '-v';
         }
 
-        if (!is_null($this->preparer->getCakePHPCorePath())) {
-            $options[] = '--cakephp-core-path=' . escapeshellarg($this->preparer->getCakePHPCorePath());
+        if (!is_null($this->phpunitXMLConfiguration)) {
+            $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitXMLConfiguration->getFileName());
         }
 
         return $options;

@@ -32,7 +32,7 @@ parameters:
 services:
   stagehand_testrunner.ciunit.autotest:
     parent: stagehand_testrunner.phpunit.autotest
-    class: Stagehand\TestRunner\Process\CIUnitAutotest
+    class: Stagehand\TestRunner\Process\Autotest\CIUnitAutotest
   stagehand_testrunner.ciunit.preparer:
     parent: stagehand_testrunner.phpunit.preparer
     class: Stagehand\TestRunner\Preparer\CIUnitPreparer

@@ -32,12 +32,10 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.20.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Process;
-
-use Stagehand\TestRunner\Core\TestingFramework;
+namespace Stagehand\TestRunner\Process\Autotest;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,19 +44,24 @@ use Stagehand\TestRunner\Core\TestingFramework;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class SimpleTestAutotestTest extends AutotestTest
+class CakePHPAutotest extends SimpleTestAutotest
 {
-    public static function setUpBeforeClass()
-    {
-        AutotestTest::initializeConfigurators();
-    }
-
     /**
-     * @return string
+     * @return array
      */
-    protected function getTestingFramework()
+    protected function doBuildRunnerOptions()
     {
-        return TestingFramework::SIMPLETEST;
+        $options = parent::doBuildRunnerOptions();
+
+        if (!is_null($this->preparer->getCakePHPAppPath())) {
+            $options[] = '--cakephp-app-path=' . escapeshellarg($this->preparer->getCakePHPAppPath());
+        }
+
+        if (!is_null($this->preparer->getCakePHPCorePath())) {
+            $options[] = '--cakephp-core-path=' . escapeshellarg($this->preparer->getCakePHPCorePath());
+        }
+
+        return $options;
     }
 }
 

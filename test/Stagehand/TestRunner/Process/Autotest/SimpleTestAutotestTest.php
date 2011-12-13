@@ -35,9 +35,8 @@
  * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner\Process;
+namespace Stagehand\TestRunner\Process\Autotest;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;
 
 /**
@@ -47,15 +46,11 @@ use Stagehand\TestRunner\Core\TestingFramework;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CIUnitAutotestTest extends PHPUnitAutotestTest
+class SimpleTestAutotestTest extends AutotestTest
 {
     public static function setUpBeforeClass()
     {
-        PHPUnitAutotestTest::setUpBeforeClass();
-        static::$configurators[] = function ($testingFramework) {
-            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CIUnitPreparer */
-            $preparer->setCIUnitPath('DIRECTORY');
-        };
+        AutotestTest::initializeConfigurators();
     }
 
     /**
@@ -63,19 +58,7 @@ class CIUnitAutotestTest extends PHPUnitAutotestTest
      */
     protected function getTestingFramework()
     {
-        return TestingFramework::CIUNIT;
-    }
-
-    /**
-     * @return array
-     */
-    public function preservedConfigurations()
-    {
-        $preservedConfigurations = parent::preservedConfigurations();
-        $index = count($preservedConfigurations);
-        return array_merge($preservedConfigurations, array(
-            array($index++, array('-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
-        ));
+        return TestingFramework::SIMPLETEST;
     }
 }
 

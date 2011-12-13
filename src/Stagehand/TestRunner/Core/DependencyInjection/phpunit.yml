@@ -30,7 +30,7 @@ parameters:
 services:
   stagehand_testrunner.phpunit.autotest:
     parent: stagehand_testrunner.autotest
-    class: Stagehand\TestRunner\Process\PHPUnitAutotest
+    class: Stagehand\TestRunner\Process\Autotest\PHPUnitAutotest
     calls:
       - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
   stagehand_testrunner.phpunit.preparer:

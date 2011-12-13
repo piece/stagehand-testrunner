@@ -28,7 +28,7 @@ parameters:
 services:
   stagehand_testrunner.phpspec.autotest:
     parent: stagehand_testrunner.autotest
-    class: Stagehand\TestRunner\Process\PHPSpecAutotest
+    class: Stagehand\TestRunner\Process\Autotest\PHPSpecAutotest
   stagehand_testrunner.phpspec.preparer:
     class: Stagehand\TestRunner\Preparer\PHPSpecPreparer
   stagehand_testrunner.phpspec.collector:

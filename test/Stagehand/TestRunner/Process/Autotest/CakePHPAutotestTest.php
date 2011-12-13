@@ -32,10 +32,13 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 3.0.0
+ * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner\Process;
+namespace Stagehand\TestRunner\Process\Autotest;
+
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\TestingFramework;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,14 +47,40 @@ namespace Stagehand\TestRunner\Process;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPSpecAutotest extends Autotest
+class CakePHPAutotestTest extends SimpleTestAutotestTest
 {
+    public static function setUpBeforeClass()
+    {
+        SimpleTestAutotestTest::setUpBeforeClass();
+        static::$configurators[] = function ($testingFramework) {
+            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+            $preparer->setCakePHPAppPath('DIRECTORY');
+        };
+        static::$configurators[] = function ($testingFramework) {
+            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+            $preparer->setCakePHPCorePath('DIRECTORY');
+        };
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTestingFramework()
+    {
+        return TestingFramework::CAKE;
+    }
+
     /**
      * @return array
      */
-    protected function doBuildRunnerOptions()
+    public function preservedConfigurations()
     {
-        return array();
+        $preservedConfigurations = parent::preservedConfigurations();
+        $index = count($preservedConfigurations);
+        return array_merge($preservedConfigurations, array(
+            array($index++, array('-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
+            array($index++, array('-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
+        ));
     }
 }
 
