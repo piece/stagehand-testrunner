@@ -48,11 +48,11 @@ use Stagehand\TestRunner\Test\FactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitAutotestTest extends AutotestTest
+class PHPUnitAutotestTest extends TestCase
 {
     public static function setUpBeforeClass()
     {
-        AutotestTest::initializeConfigurators();
+        TestCase::initializeConfigurators();
         static::$configurators[] = function ($testingFramework) {
             $runner = ApplicationContext::getInstance()->createComponent($testingFramework . '.runner'); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
             $runner->setPrintsDetailedProgressReport(true);

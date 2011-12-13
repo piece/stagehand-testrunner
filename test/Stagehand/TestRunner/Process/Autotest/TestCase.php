@@ -48,7 +48,7 @@ use Stagehand\TestRunner\Test\FactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-abstract class AutotestTest extends FactoryAwareTestCase
+abstract class TestCase extends FactoryAwareTestCase
 {
     /**
      * @var array

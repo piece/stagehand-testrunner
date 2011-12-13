@@ -46,11 +46,11 @@ use Stagehand\TestRunner\Core\TestingFramework;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class SimpleTestAutotestTest extends AutotestTest
+class SimpleTestAutotestTest extends TestCase
 {
     public static function setUpBeforeClass()
     {
-        AutotestTest::initializeConfigurators();
+        TestCase::initializeConfigurators();
     }
 
     /**
