@@ -35,9 +35,7 @@
  * @since      File available since Release 2.14.0
  */
 
-namespace Stagehand\TestRunner\Runner;
-
-use Stagehand\TestRunner\Runner\CakeRunner\MethodFilterReporter;
+namespace Stagehand\TestRunner\Runner\CakePHPRunner;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,18 +44,36 @@ use Stagehand\TestRunner\Runner\CakeRunner\MethodFilterReporter;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class CakeRunner extends SimpleTestRunner
+class JUnitXMLReporter extends \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporter
 {
-    protected $junitXMLReporterClass = '\Stagehand\TestRunner\Runner\CakeRunner\JUnitXMLReporter';
+    /**
+     * @param string $testName
+     */
+    public function paintMethodStart($testName)
+    {
+        if ($this->shouldPaintMethod($testName)) {
+            parent::paintMethodStart($testName);
+        }
+    }
 
     /**
-     * @param mixed $reporter
-     * @return \SimpleReporterDecorator
-     * @since Method available since Release 2.14.2
+     * @param string $testName
      */
-    protected function createMethodFilterReporter($reporter)
+    public function paintMethodEnd($testName)
     {
-        return new MethodFilterReporter($reporter);
+        if ($this->shouldPaintMethod($testName)) {
+            parent::paintMethodEnd($testName);
+        }
+    }
+
+    /**
+     * @param string $testName
+     */
+    protected function shouldPaintMethod($testName)
+    {
+        $testCase = \SimpleTest::getContext()->getTest();
+        if (!($testCase instanceof \CakeTestCase)) return true;
+        return !in_array(strtolower($testName), $testCase->methods);
     }
 }
 

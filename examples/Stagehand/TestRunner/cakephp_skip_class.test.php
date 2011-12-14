@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,25 +29,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 2.17.0
  */
-
-namespace Stagehand\TestRunner\Collector;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 2.17.0
  */
-class CakeCollector extends SimpleTestCollector
+class Stagehand_TestRunner_CakePHPSkipClassTest extends CakeTestCase
 {
-    protected $superTypes = array('CakeTestCase', 'CakeWebTestCase');
-    protected $suiteClass = '\Stagehand\TestRunner\TestSuite\CakeTestSuite';
+    public function testPass()
+    {
+        $this->assertTrue(true);
+    }
+
+    public function skip()
+    {
+        $this->skipIf(true, 'This is a skip message.');
+    }
 }
 
 /*

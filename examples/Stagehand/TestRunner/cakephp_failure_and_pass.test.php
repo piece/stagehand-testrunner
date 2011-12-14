@@ -42,11 +42,16 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_CakeErrorTest extends CakeTestCase
+class Stagehand_TestRunner_CakePHPFailureAndPassTest extends CakeTestCase
 {
-    public function testIsError()
+    public function testIsFailure()
     {
-        throw new Exception('This is an exception message.');
+        $this->assertTrue(false, 'This is an error message.');
+    }
+
+    public function testPass()
+    {
+        $this->assertTrue(true);
     }
 }
 

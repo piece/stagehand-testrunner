@@ -26,26 +26,26 @@ imports:
   - { resource: simpletest.yml }
 
 parameters:
-  stagehand_testrunner.cake.test_file_pattern: \.test\.php$
-  stagehand_testrunner.cake.cakephp_app_path: null
-  stagehand_testrunner.cake.cakephp_core_path: null
+  stagehand_testrunner.cakephp.test_file_pattern: \.test\.php$
+  stagehand_testrunner.cakephp.cakephp_app_path: null
+  stagehand_testrunner.cakephp.cakephp_core_path: null
 
 services:
-  stagehand_testrunner.cake.autotest:
+  stagehand_testrunner.cakephp.autotest:
     parent: stagehand_testrunner.simpletest.autotest
     class: Stagehand\TestRunner\Process\Autotest\CakePHPAutotest
-  stagehand_testrunner.cake.preparer:
+  stagehand_testrunner.cakephp.preparer:
     parent: stagehand_testrunner.simpletest.preparer
-    class: Stagehand\TestRunner\Preparer\CakePreparer
+    class: Stagehand\TestRunner\Preparer\CakePHPPreparer
     calls:
-      - [ setCakePHPAppPath, [ "%stagehand_testrunner.cake.cakephp_app_path%" ] ]
-      - [ setCakePHPCorePath, [ "%stagehand_testrunner.cake.cakephp_core_path%" ] ]
-  stagehand_testrunner.cake.collector:
+      - [ setCakePHPAppPath, [ "%stagehand_testrunner.cakephp.cakephp_app_path%" ] ]
+      - [ setCakePHPCorePath, [ "%stagehand_testrunner.cakephp.cakephp_core_path%" ] ]
+  stagehand_testrunner.cakephp.collector:
     parent: stagehand_testrunner.simpletest.collector
-    class: Stagehand\TestRunner\Collector\CakeCollector
-  stagehand_testrunner.cake.runner:
+    class: Stagehand\TestRunner\Collector\CakePHPCollector
+  stagehand_testrunner.cakephp.runner:
     parent: stagehand_testrunner.simpletest.runner
-    class: Stagehand\TestRunner\Runner\CakeRunner
+    class: Stagehand\TestRunner\Runner\CakePHPRunner
 
 # Local Variables:
 # mode: conf

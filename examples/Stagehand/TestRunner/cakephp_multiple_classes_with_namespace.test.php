@@ -32,26 +32,55 @@
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 2.15.0
  */
 
+namespace Stagehand\TestRunner;
+
 /**
- * TestCase for the SimpleTest runner.
- *
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 2.15.0
  */
-class Stagehand_TestRunner_CakeFailureAndPassTest extends CakeTestCase
+class CakePHPMultipleClassesWithNamespaceTest {}
+
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 2.15.0
+ */
+class CakePHPMultipleClassesWithNamespace1Test extends \CakeTestCase
 {
-    public function testIsFailure()
+    public function testPass1()
     {
-        $this->assertTrue(false, 'This is an error message.');
+        $this->assertTrue(true);
     }
 
-    public function testPass()
+    public function testPass2()
+    {
+        $this->assertTrue(true);
+    }
+}
+
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 2.15.0
+ */
+class CakePHPMultipleClassesWithNamespace2Test extends \CakeTestCase
+{
+    public function testPass1()
+    {
+        $this->assertTrue(true);
+    }
+
+    public function testPass2()
     {
         $this->assertTrue(true);
     }

@@ -35,6 +35,8 @@
  * @since      File available since Release 2.14.0
  */
 
+namespace Stagehand\TestRunner\Preparer\CakePHPPreparer;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,11 +44,19 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_CakeFailureTest extends CakeTestCase
+class TestRunnerShellDispatcher extends \ShellDispatcher
 {
-    public function testIsFailure()
+    public function _initEnvironment()
     {
-        $this->assertTrue(false, 'This is an error message.');
+        $this->__bootstrap();
+    }
+
+    public function dispatch()
+    {
+    }
+
+    function _stop($status = 0)
+    {
     }
 }
 

@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,56 +29,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 2.16.0
  */
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 2.16.0
  */
-class Stagehand_TestRunner_CakeMultipleClassesTest {}
-
-/**
- * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
- */
-class Stagehand_TestRunner_CakeMultipleClasses1Test extends CakeTestCase
+class Stagehand_TestRunner_CakePHPExtendedTest extends Stagehand_TestRunner_CakePHPCommonTest
 {
-    public function testPass1()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function testPass2()
-    {
-        $this->assertTrue(true);
-    }
-}
-
-/**
- * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
- */
-class Stagehand_TestRunner_CakeMultipleClasses2Test extends CakeTestCase
-{
-    public function testPass1()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function testPass2()
+    public function testTestShouldPassExtended()
     {
         $this->assertTrue(true);
     }
@@ -87,7 +53,7 @@ class Stagehand_TestRunner_CakeMultipleClasses2Test extends CakeTestCase
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

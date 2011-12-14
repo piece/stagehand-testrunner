@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,36 +29,45 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.16.0
+ * @link       http://simpletest.org/
+ * @since      File available since Release 2.14.2
  */
+
+namespace Stagehand\TestRunner\Runner\CakePHPRunner;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.16.0
+ * @link       http://simpletest.org/
+ * @since      Class available since Release 2.14.2
  */
-abstract class Stagehand_TestRunner_CakeCommonTest extends CakeTestCase
+class MethodFilterReporter extends \Stagehand\TestRunner\Runner\SimpleTestRunner\MethodFilterReporter
 {
-    public function testTestShouldPassCommon()
+    /**
+     * @param string $testCase
+     * @param string $method
+     * @return boolean
+     */
+    public function shouldInvoke($testCase, $method)
     {
-        $this->assertTrue(true);
-    }
+        $test = \SimpleTest::getContext()->getTest();
+        if (($test instanceof \CakeTestCase) && in_array(strtolower($method), $test->methods)) {
+            return true;
+        }
 
-    public function testTestShouldFailCommon()
-    {
-        $this->assertTrue(false);
+        return parent::shouldInvoke($testCase, $method);
     }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: utf-8
+ * coding: iso-8859-1
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

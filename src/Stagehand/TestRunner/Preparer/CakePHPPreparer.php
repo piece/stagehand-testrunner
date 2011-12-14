@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Preparer;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Preparer\CakePreparer\TestRunnerShellDispatcher;
+use Stagehand\TestRunner\Preparer\CakePHPPreparer\TestRunnerShellDispatcher;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,7 +47,7 @@ use Stagehand\TestRunner\Preparer\CakePreparer\TestRunnerShellDispatcher;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class CakePreparer extends Preparer
+class CakePHPPreparer extends Preparer
 {
     /**
      * @var string

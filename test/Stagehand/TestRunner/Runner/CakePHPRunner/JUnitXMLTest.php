@@ -35,7 +35,7 @@
  * @since      File available since Release 2.14.0
  */
 
-namespace Stagehand\TestRunner\Runner\CakeRunner;
+namespace Stagehand\TestRunner\Runner\CakePHPRunner;
 
 use Stagehand\TestRunner\Core\TestingFramework;
 
@@ -66,22 +66,22 @@ class JUnitXMLTest extends \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXM
      */
     protected function configure()
     {
-        $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+        $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePHPPreparer */
         $preparer->setCakePHPAppPath(__DIR__ . '/../../../../../vendor/cakephp/app');
         $preparer->prepare();
 
-        include_once 'Stagehand/TestRunner/cake_pass.test.php';
-        include_once 'Stagehand/TestRunner/cake_failure.test.php';
-        include_once 'Stagehand/TestRunner/cake_error.test.php';
-        include_once 'Stagehand/TestRunner/cake_multiple_classes.test.php';
-        include_once 'Stagehand/TestRunner/cake_common.test.php';
-        include_once 'Stagehand/TestRunner/cake_extended.test.php';
-        include_once 'Stagehand/TestRunner/cake_failure_in_anonymous_function.test.php';
-        include_once 'Stagehand/TestRunner/cake_skip_class.test.php';
-        include_once 'Stagehand/TestRunner/cake_skip_method.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_pass.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_failure.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_error.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_multiple_classes.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_common.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_extended.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_failure_in_anonymous_function.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_skip_class.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_skip_method.test.php';
 
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
+            include_once 'Stagehand/TestRunner/cakephp_multiple_classes_with_namespace.test.php';
         }
     }
 
@@ -92,10 +92,10 @@ class JUnitXMLTest extends \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXM
     public function provideFailurePatterns()
     {
         return array(
-            array('testIsFailure', 'Stagehand_TestRunner_CakeFailureTest', 49, 'This is an error message.', null, false),
-            array('testIsError', 'Stagehand_TestRunner_CakeErrorTest', 49, 'This is an exception message.', null, false),
-            array('testTestShouldFailCommon', 'Stagehand_TestRunner_CakeExtendedTest', 54, '', 'Stagehand_TestRunner_CakeCommonTest', false),
-            array('testIsFailure', 'Stagehand_TestRunner_CakeFailureInAnonymousFunctionTest', 49, 'This is an error message.', null, true),
+            array('testIsFailure', 'Stagehand_TestRunner_CakePHPFailureTest', 49, 'This is an error message.', null, false),
+            array('testIsError', 'Stagehand_TestRunner_CakePHPErrorTest', 49, 'This is an exception message.', null, false),
+            array('testTestShouldFailCommon', 'Stagehand_TestRunner_CakePHPExtendedTest', 54, '', 'Stagehand_TestRunner_CakePHPCommonTest', false),
+            array('testIsFailure', 'Stagehand_TestRunner_CakePHPFailureInAnonymousFunctionTest', 49, 'This is an error message.', null, true),
         );
     }
 }

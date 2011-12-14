@@ -53,11 +53,11 @@ class CakePHPAutotestTest extends SimpleTestAutotestTest
     {
         SimpleTestAutotestTest::setUpBeforeClass();
         static::$configurators[] = function ($testingFramework) {
-            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePHPPreparer */
             $preparer->setCakePHPAppPath('DIRECTORY');
         };
         static::$configurators[] = function ($testingFramework) {
-            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+            $preparer = ApplicationContext::getInstance()->createComponent($testingFramework . '.preparer'); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePHPPreparer */
             $preparer->setCakePHPCorePath('DIRECTORY');
         };
     }

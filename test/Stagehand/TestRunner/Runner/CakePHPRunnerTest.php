@@ -50,26 +50,26 @@ require_once 'simpletest/mock_objects.php';
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class CakeRunnerTest extends SimpleTestRunnerTest
+class CakePHPRunnerTest extends SimpleTestRunnerTest
 {
     /**
      * @since Method available since Release 2.14.1
      */
     protected function configure()
     {
-        $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePreparer */
+        $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePHPPreparer */
         $preparer->setCakePHPAppPath(__DIR__ . '/../../../../vendor/cakephp/app');
         $preparer->prepare();
 
-        include_once 'Stagehand/TestRunner/cake_pass.test.php';
-        include_once 'Stagehand/TestRunner/cake_multiple_classes.test.php';
-        include_once 'Stagehand/TestRunner/cake_failure_and_pass.test.php';
-        include_once 'Stagehand/TestRunner/cake_error_and_pass.test.php';
-        include_once 'Stagehand/TestRunner/cake_multiple_failures.test.php';
-        include_once 'Stagehand/TestRunner/cake_always_called_methods.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_pass.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_multiple_classes.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_failure_and_pass.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_error_and_pass.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_multiple_failures.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_always_called_methods.test.php';
 
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            include_once 'Stagehand/TestRunner/cake_multiple_classes_with_namespace.test.php';
+            include_once 'Stagehand/TestRunner/cakephp_multiple_classes_with_namespace.test.php';
         }
     }
 
@@ -88,14 +88,14 @@ class CakeRunnerTest extends SimpleTestRunnerTest
     public function runsTests()
     {
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_CakePassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_CakePHPPassTest');
 
         $this->runTests();
 
         $this->assertTestCaseCount(3);
-        $this->assertTestCaseExists('testPassWithAnAssertion', 'Stagehand_TestRunner_CakePassTest');
-        $this->assertTestCaseExists('testPassWithMultipleAssertions', 'Stagehand_TestRunner_CakePassTest');
-        $this->assertTestCaseExists('test日本語を使用できる', 'Stagehand_TestRunner_CakePassTest');
+        $this->assertTestCaseExists('testPassWithAnAssertion', 'Stagehand_TestRunner_CakePHPPassTest');
+        $this->assertTestCaseExists('testPassWithMultipleAssertions', 'Stagehand_TestRunner_CakePHPPassTest');
+        $this->assertTestCaseExists('test日本語を使用できる', 'Stagehand_TestRunner_CakePHPPassTest');
     }
 
     /**
@@ -106,7 +106,7 @@ class CakeRunnerTest extends SimpleTestRunnerTest
     public function runsTheFilesWithTheSpecifiedPattern()
     {
         $file = dirname(__FILE__) .
-            '/../../../../examples/Stagehand/TestRunner/test_cake_with_any_pattern.php';
+            '/../../../../examples/Stagehand/TestRunner/test_cakephp_with_any_pattern.php';
         $collector = $this->createCollector();
         $collector->collectTestCasesFromFile($file);
 
@@ -121,7 +121,7 @@ class CakeRunnerTest extends SimpleTestRunnerTest
         $this->runTests();
 
         $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('testPass', 'Stagehand_TestRunner_CakeWithAnyPatternTest');
+        $this->assertTestCaseExists('testPass', 'Stagehand_TestRunner_CakePHPWithAnyPatternTest');
     }
 
     /**
@@ -131,7 +131,7 @@ class CakeRunnerTest extends SimpleTestRunnerTest
      */
     public function executesTheSpecialMethodsWhenRunningOnlyTheSpecifiedMethods()
     {
-        $testClass = 'Stagehand_TestRunner_CakeAlwaysCalledMethodsTest';
+        $testClass = 'Stagehand_TestRunner_CakePHPAlwaysCalledMethodsTest';
         $specialMethods = array('start', 'end', 'startcase', 'endcase', 'starttest', 'endtest');
         $GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_CAKERUNNERTEST_calledMethods'] = array();
         foreach ($specialMethods as $specialMethod) {

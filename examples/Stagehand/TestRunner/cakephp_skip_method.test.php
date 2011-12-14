@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,72 +29,36 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.2
+ * @since      File available since Release 2.17.0
  */
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.2
+ * @since      Class available since Release 2.17.0
  */
-class Stagehand_TestRunner_CakeAlwaysCalledMethodsTest extends CakeTestCase
+class Stagehand_TestRunner_CakePHPSkipMethodTest extends CakeTestCase
 {
     public function testPass()
     {
         $this->assertTrue(true);
     }
 
-    public function start()
+    public function testIsSkipped()
     {
-        parent::start();
-        $this->logMethodCall(__FUNCTION__);
-    }
-
-    public function end()
-    {
-        parent::end();
-        $this->logMethodCall(__FUNCTION__);
-    }
-
-    public function startCase()
-    {
-        parent::startCase();
-        $this->logMethodCall(__FUNCTION__);
-    }
-
-    public function endCase()
-    {
-        parent::endCase();
-        $this->logMethodCall(__FUNCTION__);
-    }
-
-    public function startTest($method)
-    {
-        parent::startTest($method);
-        $this->logMethodCall(__FUNCTION__);
-    }
-
-    public function endTest($method)
-    {
-        parent::endTest($method);
-        $this->logMethodCall(__FUNCTION__);
-    }
-
-    protected function logMethodCall($method)
-    {
-        ++$GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_CAKERUNNERTEST_calledMethods'][ strtolower($method) ];
+        $this->skipIf(true, 'This is a skip message.');
     }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: utf-8
+ * coding: iso-8859-1
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

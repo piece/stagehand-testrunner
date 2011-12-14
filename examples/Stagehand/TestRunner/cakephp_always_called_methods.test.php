@@ -32,64 +32,69 @@
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.15.0
+ * @since      File available since Release 2.14.2
  */
-
-namespace Stagehand\TestRunner;
 
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.15.0
+ * @since      Class available since Release 2.14.2
  */
-class CakeMultipleClassesWithNamespaceTest {}
-
-/**
- * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    Release: @package_version@
- * @since      Class available since Release 2.15.0
- */
-class CakeMultipleClassesWithNamespace1Test extends \CakeTestCase
+class Stagehand_TestRunner_CakePHPAlwaysCalledMethodsTest extends CakeTestCase
 {
-    public function testPass1()
+    public function testPass()
     {
         $this->assertTrue(true);
     }
 
-    public function testPass2()
+    public function start()
     {
-        $this->assertTrue(true);
-    }
-}
-
-/**
- * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
- * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    Release: @package_version@
- * @since      Class available since Release 2.15.0
- */
-class CakeMultipleClassesWithNamespace2Test extends \CakeTestCase
-{
-    public function testPass1()
-    {
-        $this->assertTrue(true);
+        parent::start();
+        $this->logMethodCall(__FUNCTION__);
     }
 
-    public function testPass2()
+    public function end()
     {
-        $this->assertTrue(true);
+        parent::end();
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    public function startCase()
+    {
+        parent::startCase();
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    public function endCase()
+    {
+        parent::endCase();
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    public function startTest($method)
+    {
+        parent::startTest($method);
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    public function endTest($method)
+    {
+        parent::endTest($method);
+        $this->logMethodCall(__FUNCTION__);
+    }
+
+    protected function logMethodCall($method)
+    {
+        ++$GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_CAKERUNNERTEST_calledMethods'][ strtolower($method) ];
     }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

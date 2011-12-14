@@ -35,10 +35,6 @@
  * @since      File available since Release 2.14.0
  */
 
-namespace Stagehand\TestRunner\Runner\CakeRunner\JUnitXMLTest;
-
-use Stagehand\TestRunner\Runner\CakeRunner;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,21 +42,11 @@ use Stagehand\TestRunner\Runner\CakeRunner;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class MockCakeRunner extends CakeRunner
+class Stagehand_TestRunner_CakePHPFailureTest extends CakeTestCase
 {
-    protected $streamWriter;
-    protected $streamContents = array();
-
-    public function watchStream($buffer)
+    public function testIsFailure()
     {
-        $this->streamContents[] = $buffer;
-        call_user_func($this->streamWriter, $buffer);
-    }
-
-    protected function junitXMLStreamWriter($streamWriter)
-    {
-        $this->streamWriter = $streamWriter;
-        return parent::junitXMLStreamWriter(array($this, 'watchStream'));
+        $this->assertTrue(false, 'This is an error message.');
     }
 }
 

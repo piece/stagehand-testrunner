@@ -42,20 +42,14 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_CakePassTest extends CakeTestCase
+class Stagehand_TestRunner_CakePHPErrorAndPassTest extends CakeTestCase
 {
-    public function testPassWithAnAssertion()
+    public function testIsError()
     {
-        $this->assertTrue(true);
+        throw new Exception('This is an exception message.');
     }
 
-    public function testPassWithMultipleAssertions()
-    {
-        $this->assertTrue(true);
-        $this->assertTrue(true);
-    }
-
-    public function test日本語を使用できる()
+    public function testPass()
     {
         $this->assertTrue(true);
     }
@@ -64,7 +58,7 @@ class Stagehand_TestRunner_CakePassTest extends CakeTestCase
 /*
  * Local Variables:
  * mode: php
- * coding: utf-8
+ * coding: iso-8859-1
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

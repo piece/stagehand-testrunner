@@ -35,6 +35,10 @@
  * @since      File available since Release 2.14.0
  */
 
+namespace Stagehand\TestRunner\Runner\CakePHPRunner\JUnitXMLTest;
+
+use Stagehand\TestRunner\Runner\CakePHPRunner;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -42,16 +46,21 @@
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class Stagehand_TestRunner_CakeErrorAndPassTest extends CakeTestCase
+class MockCakePHPRunner extends CakePHPRunner
 {
-    public function testIsError()
+    protected $streamWriter;
+    protected $streamContents = array();
+
+    public function watchStream($buffer)
     {
-        throw new Exception('This is an exception message.');
+        $this->streamContents[] = $buffer;
+        call_user_func($this->streamWriter, $buffer);
     }
 
-    public function testPass()
+    protected function junitXMLStreamWriter($streamWriter)
     {
-        $this->assertTrue(true);
+        $this->streamWriter = $streamWriter;
+        return parent::junitXMLStreamWriter(array($this, 'watchStream'));
     }
 }
 

@@ -35,8 +35,6 @@
  * @since      File available since Release 2.14.0
  */
 
-namespace Stagehand\TestRunner\TestSuite;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,30 +42,19 @@ namespace Stagehand\TestRunner\TestSuite;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class CakeTestSuite extends SimpleTestTestSuite
+class Stagehand_TestRunner_CakePHPMultipleFailuresTest extends CakeTestCase
 {
-    /**
-     * @param \SimpleTestCase $testCase
-     * @return integer
-     */
-    protected function getTestsInTestCase(\SimpleTestCase $testCase)
+    public function testIsFailure()
     {
-        $tests = array();
-        foreach (parent::getTestsInTestCase($testCase) as $test) {
-            if (!($testCase instanceof \CakeTestCase)) continue;
-            if (!in_array(strtolower($test), $testCase->methods)) {
-                $tests[] = $test;
-            }
-        }
-
-        return $tests;
+        $this->assertTrue(false, 'The First Failure');
+        $this->assertTrue(false, 'The Second Failure');
     }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil

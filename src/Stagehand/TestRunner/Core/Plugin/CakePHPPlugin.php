@@ -46,7 +46,7 @@ namespace Stagehand\TestRunner\Core\Plugin;
  */
 class CakePHPPlugin extends SimpleTestPlugin
 {
-    private static $PLUGIN_ID = 'Cake';
+    private static $PLUGIN_ID = 'CakePHP';
 
     /**
      * {@inheritDoc}

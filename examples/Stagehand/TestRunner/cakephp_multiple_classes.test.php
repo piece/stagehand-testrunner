@@ -32,35 +32,55 @@
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://simpletest.org/
- * @since      File available since Release 2.14.2
+ * @since      File available since Release 2.14.0
  */
-
-namespace Stagehand\TestRunner\Runner\CakeRunner;
 
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://simpletest.org/
- * @since      Class available since Release 2.14.2
+ * @since      Class available since Release 2.14.0
  */
-class MethodFilterReporter extends \Stagehand\TestRunner\Runner\SimpleTestRunner\MethodFilterReporter
-{
-    /**
-     * @param string $testCase
-     * @param string $method
-     * @return boolean
-     */
-    public function shouldInvoke($testCase, $method)
-    {
-        $test = \SimpleTest::getContext()->getTest();
-        if (($test instanceof \CakeTestCase) && in_array(strtolower($method), $test->methods)) {
-            return true;
-        }
+class Stagehand_TestRunner_CakePHPMultipleClassesTest {}
 
-        return parent::shouldInvoke($testCase, $method);
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 2.14.0
+ */
+class Stagehand_TestRunner_CakePHPMultipleClasses1Test extends CakeTestCase
+{
+    public function testPass1()
+    {
+        $this->assertTrue(true);
+    }
+
+    public function testPass2()
+    {
+        $this->assertTrue(true);
+    }
+}
+
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 2.14.0
+ */
+class Stagehand_TestRunner_CakePHPMultipleClasses2Test extends CakeTestCase
+{
+    public function testPass1()
+    {
+        $this->assertTrue(true);
+    }
+
+    public function testPass2()
+    {
+        $this->assertTrue(true);
     }
 }
 

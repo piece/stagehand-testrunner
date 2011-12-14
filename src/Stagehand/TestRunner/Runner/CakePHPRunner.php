@@ -35,7 +35,9 @@
  * @since      File available since Release 2.14.0
  */
 
-namespace Stagehand\TestRunner\Preparer\CakePreparer;
+namespace Stagehand\TestRunner\Runner;
+
+use Stagehand\TestRunner\Runner\CakePHPRunner\MethodFilterReporter;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,19 +46,18 @@ namespace Stagehand\TestRunner\Preparer\CakePreparer;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class TestRunnerShellDispatcher extends \ShellDispatcher
+class CakePHPRunner extends SimpleTestRunner
 {
-    public function _initEnvironment()
-    {
-        $this->__bootstrap();
-    }
+    protected $junitXMLReporterClass = '\Stagehand\TestRunner\Runner\CakePHPRunner\JUnitXMLReporter';
 
-    public function dispatch()
+    /**
+     * @param mixed $reporter
+     * @return \SimpleReporterDecorator
+     * @since Method available since Release 2.14.2
+     */
+    protected function createMethodFilterReporter($reporter)
     {
-    }
-
-    function _stop($status = 0)
-    {
+        return new MethodFilterReporter($reporter);
     }
 }
 

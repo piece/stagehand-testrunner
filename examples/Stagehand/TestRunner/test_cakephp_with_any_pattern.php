@@ -32,7 +32,7 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.17.0
+ * @since      File available since Release 2.16.0
  */
 
 /**
@@ -40,18 +40,13 @@
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.17.0
+ * @since      Class available since Release 2.16.0
  */
-class Stagehand_TestRunner_CakeSkipClassTest extends CakeTestCase
+class Stagehand_TestRunner_CakePHPWithAnyPatternTest extends CakeTestCase
 {
     public function testPass()
     {
         $this->assertTrue(true);
-    }
-
-    public function skip()
-    {
-        $this->skipIf(true, 'This is a skip message.');
     }
 }
 
