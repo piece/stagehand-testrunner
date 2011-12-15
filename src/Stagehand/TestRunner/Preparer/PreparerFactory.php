@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,53 +29,47 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.20.0
+ * @since      File available since Release 2.14.0
  */
 
-namespace Stagehand\TestRunner\Process\Autotest;
+namespace Stagehand\TestRunner\Preparer;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 3.0.0
+ * @since      Class available since Release 2.14.0
  */
-class CIUnitAutotestTest extends PHPUnitAutotestTest
+class PreparerFactory
 {
-    public static function setUpBeforeClass()
+    /**
+     * @var \Stagehand\TestRunner\Core\TestingFramework
+     * @since Property available since Release 3.0.0
+     */
+    protected $testingFramework;
+
+    /**
+     * @return \Stagehand\TestRunner\Preparer\Preparer
+     */
+    public function create()
     {
-        PHPUnitAutotestTest::setUpBeforeClass();
-        static::$configurators[] = function ($testingFramework) {
-            $preparer = ApplicationContext::getInstance()->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\CIUnitPreparer */
-            $preparer->setCIUnitPath('DIRECTORY');
-        };
+        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'preparer');
     }
 
     /**
-     * @return string
+     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
+     * @since Method available since Release 3.0.0
      */
-    protected function getTestingFramework()
+    public function setTestingFramework(TestingFramework $testingFramework)
     {
-        return TestingFramework::CIUNIT;
-    }
-
-    /**
-     * @return array
-     */
-    public function preservedConfigurations()
-    {
-        $preservedConfigurations = parent::preservedConfigurations();
-        $index = count($preservedConfigurations);
-        return array_merge($preservedConfigurations, array(
-            array($index++, array('-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
-        ));
+        $this->testingFramework = $testingFramework;
     }
 }
 

@@ -53,12 +53,12 @@ class CakePHPAutotest extends SimpleTestAutotest
     {
         $options = parent::doBuildRunnerOptions();
 
-        if (!is_null($this->preparer->getCakePHPAppPath())) {
-            $options[] = '--cakephp-app-path=' . escapeshellarg($this->preparer->getCakePHPAppPath());
+        if (!is_null($this->preparerFactory->create()->getCakePHPAppPath())) {
+            $options[] = '--cakephp-app-path=' . escapeshellarg($this->preparerFactory->create()->getCakePHPAppPath());
         }
 
-        if (!is_null($this->preparer->getCakePHPCorePath())) {
-            $options[] = '--cakephp-core-path=' . escapeshellarg($this->preparer->getCakePHPCorePath());
+        if (!is_null($this->preparerFactory->create()->getCakePHPCorePath())) {
+            $options[] = '--cakephp-core-path=' . escapeshellarg($this->preparerFactory->create()->getCakePHPCorePath());
         }
 
         return $options;

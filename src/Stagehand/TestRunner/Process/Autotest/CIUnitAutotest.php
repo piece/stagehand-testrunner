@@ -53,8 +53,8 @@ class CIUnitAutotest extends PHPUnitAutotest
     {
         $options = parent::doBuildRunnerOptions();
 
-        if (!is_null($this->preparer->getCIUnitPath())) {
-            $options[] = '--ciunit-path=' . escapeshellarg($this->preparer->getCIUnitPath());
+        if (!is_null($this->preparerFactory->create()->getCIUnitPath())) {
+            $options[] = '--ciunit-path=' . escapeshellarg($this->preparerFactory->create()->getCIUnitPath());
         }
 
         return $options;

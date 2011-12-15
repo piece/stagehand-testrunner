@@ -43,6 +43,7 @@ use Stagehand\TestRunner\Collector\CollectorFactory;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Notification\Notifier;
+use Stagehand\TestRunner\Preparer\PreparerFactory;
 use Stagehand\TestRunner\Runner\RunnerFactory;
 use Stagehand\TestRunner\Util\OutputBuffering;
 
@@ -75,6 +76,12 @@ class TestRun
     protected $outputBuffering;
 
     /**
+     * @param \Stagehand\TestRunner\Preparer\PreparerFactory
+     * @since Property available since Release 3.0.0
+     */
+    protected $preparerFactory;
+
+    /**
      * @var \Stagehand\TestRunner\Collector\CollectorFactory
      * @since Property available since Release 3.0.0
      */
@@ -94,7 +101,7 @@ class TestRun
     public function run()
     {
         $this->outputBuffering->clearOutputHandlers();
-        $this->createPreparer()->prepare();
+        $this->preparerFactory->create()->prepare();
 
         $runner = $this->runnerFactory->create();
         $this->result = $runner->run($this->collectorFactory->create()->collect());
@@ -123,6 +130,15 @@ class TestRun
     }
 
     /**
+     * @param \Stagehand\TestRunner\Preparer\PreparerFactory $preparerFactory
+     * @since Method available since Release 3.0.0
+     */
+    public function setPreparerFactory(PreparerFactory $preparerFactory)
+    {
+        $this->preparerFactory = $preparerFactory;
+    }
+
+    /**
      * @param \Stagehand\TestRunner\Collector\CollectorFactory $collectorFactory
      * @since Method available since Release 3.0.0
      */
@@ -138,15 +154,6 @@ class TestRun
     public function setRunnerFactory(RunnerFactory $runnerFactory)
     {
         $this->runnerFactory = $runnerFactory;
-    }
-
-    /**
-     * @return \Stagehand\TestRunner\Preparer\Preparer
-     * @since Method available since Release 2.12.0
-     */
-    protected function createPreparer()
-    {
-        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'preparer');
     }
 
     /**

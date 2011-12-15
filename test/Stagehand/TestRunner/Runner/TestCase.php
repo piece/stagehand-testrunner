@@ -233,7 +233,7 @@ abstract class TestCase extends FactoryAwareTestCase
      */
     protected function createPreparer()
     {
-        return $this->applicationContext->createComponent($this->getTestingFramework() . '.' . 'preparer');
+        return $this->applicationContext->createComponent('preparer_factory')->create();
     }
 
     /**

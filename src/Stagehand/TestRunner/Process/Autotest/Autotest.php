@@ -45,6 +45,7 @@ use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Notification\Notifier;
+use Stagehand\TestRunner\Preparer\PreparerFactory;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
 use Stagehand\TestRunner\Process\Process;
@@ -101,6 +102,12 @@ abstract class Autotest
     protected $monitoringDirectories;
 
     /**
+     * @param \Stagehand\TestRunner\Preparer\PreparerFactory
+     * @since Property available since Release 3.0.0
+     */
+    protected $preparerFactory;
+
+    /**
      * @var \Stagehand\TestRunner\Runner\RunnerFactory
      * @since Property available since Release 3.0.0
      */
@@ -116,20 +123,6 @@ abstract class Autotest
      * @var \Stagehand\TestRunner\Process\AlterationMonitoring
      */
     protected $alterationMonitoring;
-
-    /**
-     * @var \Stagehand\TestRunner\Preparer\Preparer
-     * @since Property available since Release 3.0.0
-     */
-    protected $preparer;
-
-    /**
-     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
-     */
-    public function __construct(TestingFramework $testingFramework)
-    {
-        $this->preparer = $this->createPreparer($testingFramework);
-    }
 
     /**
      * Monitors for changes in one or more target directories and runs tests in
@@ -236,6 +229,15 @@ abstract class Autotest
     public function setAlterationMonitoring(AlterationMonitoring $alterationMonitoring)
     {
         $this->alterationMonitoring = $alterationMonitoring;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Preparer\PreparerFactory $preparerFactory
+     * @since Method available since Release 3.0.0
+     */
+    public function setPreparerFactory(PreparerFactory $preparerFactory)
+    {
+        $this->preparerFactory = $preparerFactory;
     }
 
     /**
@@ -369,18 +371,6 @@ abstract class Autotest
     protected function executeRunnerCommand($runnerCommand)
     {
         return $this->legacyProxy->passthru($runnerCommand);
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
-     * @return \Stagehand\TestRunner\Preparer\Preparer
-     * @since Method available since Release 3.0.0
-     */
-    protected function createPreparer(TestingFramework $testingFramework)
-    {
-        return ApplicationContext::getInstance()->createComponent(
-            $testingFramework->getSelected() . '.' . 'preparer'
-        );
     }
 
     /**

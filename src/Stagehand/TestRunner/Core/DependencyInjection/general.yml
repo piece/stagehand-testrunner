@@ -59,10 +59,10 @@ services:
       - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
       - [ setOutputBuffering, [ "@stagehand_testrunner.output_buffering" ] ]
       - [ setCollectorFactory, [ "@stagehand_testrunner.collector_factory" ] ]
+      - [ setPreparerFactory, [ "@stagehand_testrunner.preparer_factory" ] ]
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
   stagehand_testrunner.autotest:
     abstract: true
-    arguments: [ "@stagehand_testrunner.testing_framework" ]
     calls:
       - [ setPreloadFile, [ "%stagehand_testrunner.preload_file%" ] ]
       - [ setTerminal, [ "@stagehand_testrunner.terminal" ] ]
@@ -70,6 +70,7 @@ services:
       - [ setMonitoringDirectories, [ "%stagehand_testrunner.monitoring_directories%" ] ]
       - [ setLegacyProxy, [ "@stagehand_testrunner.legacy_proxy" ] ]
       - [ setAlterationMonitoring, [ "@stagehand_testrunner.alteration_monitoring" ] ]
+      - [ setPreparerFactory, [ "@stagehand_testrunner.preparer_factory" ] ]
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
   stagehand_testrunner.alteration_monitoring:
     class: Stagehand\TestRunner\Process\AlterationMonitoring
@@ -85,6 +86,10 @@ services:
       - [ setClasses, [ "%stagehand_testrunner.test_classes%" ] ]
       - [ setFilePattern, [ "%stagehand_testrunner.test_file_pattern%" ] ]
       - [ setRecursivelyScans, [ "%stagehand_testrunner.recursively_scans%" ] ]
+  stagehand_testrunner.preparer_factory:
+    class: Stagehand\TestRunner\Preparer\PreparerFactory
+    calls:
+      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
   stagehand_testrunner.collector:
     abstract: true
     arguments: [ "@stagehand_testrunner.test_targets" ]
