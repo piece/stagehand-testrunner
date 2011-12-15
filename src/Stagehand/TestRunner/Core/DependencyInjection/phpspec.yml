@@ -30,6 +30,7 @@ services:
     parent: stagehand_testrunner.autotest
     class: Stagehand\TestRunner\Process\Autotest\PHPSpecAutotest
   stagehand_testrunner.phpspec.preparer:
+    parent: stagehand_testrunner.preparer
     class: Stagehand\TestRunner\Preparer\PHPSpecPreparer
   stagehand_testrunner.phpspec.collector:
     parent: stagehand_testrunner.collector

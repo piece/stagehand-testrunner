@@ -86,6 +86,8 @@ services:
       - [ setClasses, [ "%stagehand_testrunner.test_classes%" ] ]
       - [ setFilePattern, [ "%stagehand_testrunner.test_file_pattern%" ] ]
       - [ setRecursivelyScans, [ "%stagehand_testrunner.recursively_scans%" ] ]
+  stagehand_testrunner.preparer:
+    abstract: true
   stagehand_testrunner.preparer_factory:
     class: Stagehand\TestRunner\Preparer\PreparerFactory
     calls:

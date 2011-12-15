@@ -34,6 +34,7 @@ services:
     calls:
       - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
   stagehand_testrunner.phpunit.preparer:
+    parent: stagehand_testrunner.preparer
     class: Stagehand\TestRunner\Preparer\PHPUnitPreparer
     calls:
       - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]

@@ -30,6 +30,7 @@ services:
     parent: stagehand_testrunner.autotest
     class: Stagehand\TestRunner\Process\Autotest\SimpleTestAutotest
   stagehand_testrunner.simpletest.preparer:
+    parent: stagehand_testrunner.preparer
     class: Stagehand\TestRunner\Preparer\SimpleTestPreparer
   stagehand_testrunner.simpletest.collector:
     parent: stagehand_testrunner.collector
