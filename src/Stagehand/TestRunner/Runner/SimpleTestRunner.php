@@ -71,7 +71,7 @@ class SimpleTestRunner extends Runner
     /**
      * Runs tests based on the given TestSuite object.
      *
-     * @param TestSuite $suite
+     * @param \Stagehand\TestRunner\TestSuite\SimpleTestTestSuite $suite
      */
     public function run($suite)
     {
