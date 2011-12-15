@@ -39,6 +39,7 @@
 
 namespace Stagehand\TestRunner\Process;
 
+use Stagehand\TestRunner\Collector\CollectorFactory;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Notification\Notifier;
@@ -74,6 +75,12 @@ class TestRun
     protected $outputBuffering;
 
     /**
+     * @var \Stagehand\TestRunner\Collector\CollectorFactory
+     * @since Property available since Release 3.0.0
+     */
+    protected $collectorFactory;
+
+    /**
      * @var \Stagehand\TestRunner\Runner\RunnerFactory
      * @since Property available since Release 3.0.0
      */
@@ -90,7 +97,7 @@ class TestRun
         $this->createPreparer()->prepare();
 
         $runner = $this->runnerFactory->create();
-        $this->result = $runner->run($this->createCollector()->collect());
+        $this->result = $runner->run($this->collectorFactory->create()->collect());
 
         if ($runner->usesNotification()) {
             $this->createNotifier()->notifyResult($runner->getNotification());
@@ -116,6 +123,15 @@ class TestRun
     }
 
     /**
+     * @param \Stagehand\TestRunner\Collector\CollectorFactory $collectorFactory
+     * @since Method available since Release 3.0.0
+     */
+    public function setCollectorFactory(CollectorFactory $collectorFactory)
+    {
+        $this->collectorFactory = $collectorFactory;
+    }
+
+    /**
      * @param \Stagehand\TestRunner\Runner\RunnerFactory $runnerFactory
      * @since Method available since Release 3.0.0
      */
@@ -131,15 +147,6 @@ class TestRun
     protected function createPreparer()
     {
         return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'preparer');
-    }
-
-    /**
-     * @return \Stagehand\TestRunner\Collector\Collector
-     * @since Method available since Release 2.11.0
-     */
-    protected function createCollector()
-    {
-        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'collector');
     }
 
     /**

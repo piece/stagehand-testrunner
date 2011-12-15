@@ -58,6 +58,7 @@ services:
     calls:
       - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
       - [ setOutputBuffering, [ "@stagehand_testrunner.output_buffering" ] ]
+      - [ setCollectorFactory, [ "@stagehand_testrunner.collector_factory" ] ]
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
   stagehand_testrunner.autotest:
     abstract: true
@@ -89,6 +90,10 @@ services:
     arguments: [ "@stagehand_testrunner.test_targets" ]
     calls:
       - [ setCollectingTypeFactory, [ "@stagehand_testrunner.collecting_type_factory" ] ]
+  stagehand_testrunner.collector_factory:
+    class: Stagehand\TestRunner\Collector\CollectorFactory
+    calls:
+      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
   stagehand_testrunner.collecting_type:
     scope: prototype
     class: Stagehand\TestRunner\Collector\CollectingType

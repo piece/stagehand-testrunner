@@ -242,7 +242,7 @@ abstract class TestCase extends FactoryAwareTestCase
      */
     protected function createCollector()
     {
-        return $this->applicationContext->createComponent($this->getTestingFramework() . '.' . 'collector');
+        return $this->applicationContext->createComponent('collector_factory')->create();
     }
 
     /**
