@@ -75,7 +75,7 @@ class PHPUnitRunner extends Runner
 
     /**
      * @var \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory
-     * @since Method available since Release 3.0.0
+     * @since Property available since Release 3.0.0
      */
     protected $junitXMLPrinterFactory;
 

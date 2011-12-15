@@ -197,7 +197,7 @@ abstract class Autotest
 
     /**
      * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
-     * @since Property available since Release 3.0.0
+     * @since Method available since Release 3.0.0
      */
     public function setTestTargets(TestTargets $testTargets)
     {

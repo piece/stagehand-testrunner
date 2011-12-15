@@ -171,7 +171,7 @@ abstract class Runner
 
     /**
      * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
-     * @since Property available since Release 3.0.0
+     * @since Method available since Release 3.0.0
      */
     public function setTestTargets(TestTargets $testTargets)
     {
@@ -181,7 +181,7 @@ abstract class Runner
     /**
      * @param string $file
      * @return \Stagehand\TestRunner\Util\StreamWriter
-     * @since Property available since Release 3.0.0
+     * @since Method available since Release 3.0.0
      */
     protected function createStreamWriter($file)
     {
