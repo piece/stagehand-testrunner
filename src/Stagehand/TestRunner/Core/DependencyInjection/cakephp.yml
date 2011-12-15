@@ -46,6 +46,9 @@ services:
   stagehand_testrunner.cakephp.runner:
     parent: stagehand_testrunner.simpletest.runner
     class: Stagehand\TestRunner\Runner\CakePHPRunner
+  stagehand_testrunner.cakephp.junit_xml_reporter:
+    parent: stagehand_testrunner.simpletest.junit_xml_reporter
+    class: Stagehand\TestRunner\Runner\CakePHPRunner\JUnitXMLReporter
 
 # Local Variables:
 # mode: conf

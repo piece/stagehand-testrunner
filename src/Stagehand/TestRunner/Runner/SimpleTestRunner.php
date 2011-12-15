@@ -43,10 +43,9 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\Exception;
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter;
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\ClassFilterReporter;
+use Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporterFactory;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\MethodFilterReporter;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\StopOnFailureReporter;
 
@@ -64,8 +63,10 @@ use Stagehand\TestRunner\Runner\SimpleTestRunner\StopOnFailureReporter;
  */
 class SimpleTestRunner extends Runner
 {
-    protected $junitXMLFileHandle;
-    protected $junitXMLReporterClass = '\Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporter';
+    /**
+     * @var \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporterFactory
+     */
+    protected $junitXMLReporterFactory;
 
     /**
      * Runs tests based on the given TestSuite object.
@@ -79,28 +80,16 @@ class SimpleTestRunner extends Runner
         $reporter->attachReporter($this->decorateReporter($textReporter));
 
         if ($this->logsResultsInJUnitXML) {
-            if (!$this->logsResultsInJUnitXMLInRealtime) {
-                $xmlWriter = new JUnitXMLDOMWriter(array($this, 'writeJUnitXMLToFile'));
-            } else {
-                $xmlWriter = $this->junitXMLStreamWriter(array($this, 'writeJUnitXMLToFile'));
-            }
-
-            $junitXMLReporter = new $this->junitXMLReporterClass();
-            $junitXMLReporter->setXMLWriter($xmlWriter);
-            $junitXMLReporter->setTestSuite($suite);
-            $reporter->attachReporter($this->decorateReporter($junitXMLReporter));
+            $reporter->attachReporter($this->decorateReporter($this->junitXMLReporterFactory->create(
+                $this->createStreamWriter($this->junitXMLFile),
+                $suite
+            )));
         }
 
         ob_start();
         $suite->run($reporter);
         $output = ob_get_contents();
         ob_end_clean();
-
-        if ($this->logsResultsInJUnitXML) {
-            if (is_resource($this->junitXMLFileHandle)) {
-                fclose($this->junitXMLFileHandle);
-            }
-        }
 
         if ($this->usesNotification()) {
             if ($textReporter->getFailCount() + $textReporter->getExceptionCount() == 0) {
@@ -132,43 +121,11 @@ class SimpleTestRunner extends Runner
     }
 
     /**
-     * @param string $buffer
-     * @throws \Stagehand\TestRunner\Core\Exception
-     * @since Method available since Release 2.10.0
+     * @param \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporterFactory $junitXMLReporterFactory
      */
-    public function writeJUnitXMLToFile($buffer)
+    public function setJUnitXMLReporterFactory(JUnitXMLReporterFactory $junitXMLReporterFactory)
     {
-        if (!is_resource($this->junitXMLFileHandle)) {
-            $result = fopen($this->junitXMLFile, 'w');
-            if (!$result) {
-                throw new Exception(
-                    'Failed to open the specified file [ ' .
-                    $this->junitXMLFile .
-                    ' ].'
-                );
-            }
-
-            $this->junitXMLFileHandle = $result;
-        }
-
-        $result = fwrite($this->junitXMLFileHandle, $buffer, strlen($buffer));
-        if ($result === false) {
-            throw new Exception(
-               'Failed to write the test results into the specified file [ ' .
-               $this->junitXMLFile .
-               ' ].'
-            );
-        }
-    }
-
-    /**
-     * @param callback $streamWriter
-     * @return \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter
-     * @since Method available since Release 2.10.0
-     */
-    protected function junitXMLStreamWriter($streamWriter)
-    {
-        return new JUnitXMLStreamWriter($streamWriter);
+        $this->junitXMLReporterFactory = $junitXMLReporterFactory;
     }
 
     /**

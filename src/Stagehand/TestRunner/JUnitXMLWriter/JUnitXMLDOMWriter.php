@@ -38,6 +38,7 @@
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter\TestsuiteDOMElement;
+use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,7 +50,12 @@ use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter\TestsuiteDOMElement;
 class JUnitXMLDOMWriter implements JUnitXMLWriter
 {
     protected $xmlWriter;
+
+    /**
+     * @param \Stagehand\TestRunner\Util\StreamWriter
+     */
     protected $streamWriter;
+
     protected $elementStack = array();
 
     /**
@@ -58,13 +64,20 @@ class JUnitXMLDOMWriter implements JUnitXMLWriter
     protected $utf8Converter;
 
     /**
-     * @param callback $streamWriter
      */
-    public function __construct($streamWriter)
+    public function __construct()
     {
-        $this->streamWriter = $streamWriter;
         $this->xmlWriter = new \DOMDocument('1.0', 'UTF-8');
         $this->utf8Converter = UTF8ConverterFactory::create();
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
+     * @since Method available since Release 3.0.0
+     */
+    public function setStreamWriter(StreamWriter $streamWriter)
+    {
+        $this->streamWriter = $streamWriter;
     }
 
     /**
@@ -217,7 +230,7 @@ class JUnitXMLDOMWriter implements JUnitXMLWriter
 
     protected function flush()
     {
-        call_user_func($this->streamWriter, $this->xmlWriter->saveXML());
+        $this->streamWriter->write($this->xmlWriter->saveXML());
     }
 
     /**

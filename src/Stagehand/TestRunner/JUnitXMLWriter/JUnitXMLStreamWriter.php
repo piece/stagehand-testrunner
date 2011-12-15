@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
+use Stagehand\TestRunner\Util\StreamWriter;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -51,6 +53,9 @@ class JUnitXMLStreamWriter implements JUnitXMLWriter
      */
     protected $xmlWriter;
 
+    /**
+     * @param \Stagehand\TestRunner\Util\StreamWriter
+     */
     protected $streamWriter;
 
     /**
@@ -59,13 +64,20 @@ class JUnitXMLStreamWriter implements JUnitXMLWriter
     protected $utf8Converter;
 
     /**
-     * @param callback $streamWriter
      */
-    public function __construct($streamWriter)
+    public function __construct()
     {
-        $this->streamWriter = $streamWriter;
         $this->xmlWriter = new XMLStreamWriter();
         $this->utf8Converter = UTF8ConverterFactory::create();
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
+     * @since Method available since Release 3.0.0
+     */
+    public function setStreamWriter(StreamWriter $streamWriter)
+    {
+        $this->streamWriter = $streamWriter;
     }
 
     public function startTestSuites()
@@ -212,7 +224,7 @@ class JUnitXMLStreamWriter implements JUnitXMLWriter
 
     protected function flush()
     {
-        call_user_func($this->streamWriter, $this->xmlWriter->flush());
+        $this->streamWriter->write($this->xmlWriter->flush());
     }
 }
 

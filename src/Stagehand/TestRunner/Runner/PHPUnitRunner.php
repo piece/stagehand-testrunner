@@ -39,11 +39,9 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter;
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\DetailedProgressPrinter;
-use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinter;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ProgressPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\TestDoxPrinter;
@@ -76,6 +74,12 @@ class PHPUnitRunner extends Runner
     protected $phpunitXMLConfiguration;
 
     /**
+     * @var \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory
+     * @since Method available since Release 3.0.0
+     */
+    protected $junitXMLPrinterFactory;
+
+    /**
      * Runs tests based on the given \PHPUnit_Framework_TestSuite object.
      *
      * @param \PHPUnit_Framework_TestSuite $suite
@@ -104,14 +108,9 @@ class PHPUnitRunner extends Runner
         }
 
         if ($this->logsResultsInJUnitXML) {
-            $junitXMLListener = new JUnitXMLPrinter($this->junitXMLFile);
-            if (!$this->logsResultsInJUnitXMLInRealtime) {
-                $xmlWriter = new JUnitXMLDOMWriter(array($junitXMLListener, 'write'));
-            } else {
-                $xmlWriter = $this->junitXMLStreamWriter(array($junitXMLListener, 'write'));
-            }
-            $junitXMLListener->setXMLWriter($xmlWriter);
-            $arguments['listeners'][] = $junitXMLListener;
+            $arguments['listeners'][] = $this->junitXMLPrinterFactory->create(
+                $this->createStreamWriter($this->junitXMLFile)
+            );
         }
 
         if ($this->stopsOnFailure) {
@@ -179,6 +178,15 @@ class PHPUnitRunner extends Runner
     }
 
     /**
+     * @param \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory $junitXMLPrinterFactory
+     * @since Method available since Release 3.0.0
+     */
+    public function setJUnitXMLPrinterFactory(JUnitXMLPrinterFactory $junitXMLPrinterFactory)
+    {
+        $this->junitXMLPrinterFactory = $junitXMLPrinterFactory;
+    }
+
+    /**
      * @return \PHPUnit_Util_TestDox_NamePrettifier
      * @since Method available since Release 2.7.0
      */
@@ -190,16 +198,6 @@ class PHPUnitRunner extends Runner
         } else {
             return new NamePrettifier();
         }
-    }
-
-    /**
-     * @param callback $streamWriter
-     * @return \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter
-     * @since Method available since Release 2.10.0
-     */
-    protected function junitXMLStreamWriter($streamWriter)
-    {
-        return new JUnitXMLStreamWriter($streamWriter);
     }
 }
 

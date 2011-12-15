@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,73 +29,69 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.10.0
+ * @link       http://simpletest.org/
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\JUnitXMLWriter;
+namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
-use Stagehand\TestRunner\Util\StreamWriter;
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
+use Stagehand\TestRunner\TestSuite\SimpleTestTestSuite;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.10.0
+ * @link       http://simpletest.org/
+ * @since      Class available since Release 3.0.0
  */
-interface JUnitXMLWriter
+class JUnitXMLReporterFactory
 {
     /**
-     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
-     * @since Method available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Core\TestingFramework
      */
-    public function setStreamWriter(StreamWriter $streamWriter);
-
-    public function startTestSuites();
+    protected $testingFramework;
 
     /**
-     * @param string  $name
-     * @param integer $testCount
+     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
      */
-    public function startTestSuite($name, $testCount = null);
+    protected $junitXMLWriterFactory;
 
     /**
-     * @param string $name
-     * @param mixed  $test
-     * @param string $methodName
+     * @param callback $streamWriter
+     * @param \Stagehand\TestRunner\TestSuite\SimpleTestTestSuite $suite
+     * @return \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporter
      */
-    public function startTestCase($name, $test, $methodName = null);
+    public function create($streamWriter, SimpleTestTestSuite $suite)
+    {
+        $junitXMLReporter = ApplicationContext::getInstance()
+            ->createComponent($this->testingFramework->getSelected() . '.' . 'junit_xml_reporter');
+        $junitXMLReporter->setXMLWriter($this->junitXMLWriterFactory->create($streamWriter));
+        $junitXMLReporter->setTestSuite($suite);
+        return $junitXMLReporter;
+    }
 
     /**
-     * @param string $text
-     * @param string $type
-     * @param string $file
-     * @param string $line
-     * @param string $message
+     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
      */
-    public function writeError($text, $type = null, $file = null, $line = null, $message = null);
+    public function setTestingFramework(TestingFramework $testingFramework)
+    {
+        $this->testingFramework = $testingFramework;
+    }
 
     /**
-     * @param string $text
-     * @param string $type
-     * @param string $file
-     * @param string $line
-     * @param string $message
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory $junitXMLWriterFactory
      */
-    public function writeFailure($text, $type = null, $file = null, $line = null, $message = null);
-
-    /**
-     * @param float   $time
-     * @param integer $assertionCount
-     */
-    public function endTestCase($time, $assertionCount = null);
-
-    public function endTestSuite();
-
-    public function endTestSuites();
+    public function setJUnitXMLWriterFactory(JUnitXMLWriterFactory $junitXMLWriterFactory)
+    {
+        $this->junitXMLWriterFactory = $junitXMLWriterFactory;
+    }
 }
 
 /*

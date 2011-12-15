@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,73 +29,51 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.10.0
+ * @link       http://www.phpunit.de/
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\JUnitXMLWriter;
+namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
 use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.10.0
+ * @link       http://www.phpunit.de/
+ * @since      Class available since Release 3.0.0
  */
-interface JUnitXMLWriter
+class JUnitXMLPrinterFactory
 {
     /**
+     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
+     */
+    protected $junitXMLWriterFactory;
+
+    /**
      * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
-     * @since Method available since Release 3.0.0
+     * @return \PHPUnit_Util_Printer
      */
-    public function setStreamWriter(StreamWriter $streamWriter);
-
-    public function startTestSuites();
+    public function create(StreamWriter $streamWriter)
+    {
+        $junitXMLPrinter = new JUnitXMLPrinter();
+        $junitXMLPrinter->setXMLWriter($this->junitXMLWriterFactory->create($streamWriter));
+        return $junitXMLPrinter;
+    }
 
     /**
-     * @param string  $name
-     * @param integer $testCount
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory $junitXMLWriterFactory
      */
-    public function startTestSuite($name, $testCount = null);
-
-    /**
-     * @param string $name
-     * @param mixed  $test
-     * @param string $methodName
-     */
-    public function startTestCase($name, $test, $methodName = null);
-
-    /**
-     * @param string $text
-     * @param string $type
-     * @param string $file
-     * @param string $line
-     * @param string $message
-     */
-    public function writeError($text, $type = null, $file = null, $line = null, $message = null);
-
-    /**
-     * @param string $text
-     * @param string $type
-     * @param string $file
-     * @param string $line
-     * @param string $message
-     */
-    public function writeFailure($text, $type = null, $file = null, $line = null, $message = null);
-
-    /**
-     * @param float   $time
-     * @param integer $assertionCount
-     */
-    public function endTestCase($time, $assertionCount = null);
-
-    public function endTestSuite();
-
-    public function endTestSuites();
+    public function setJUnitXMLWriterFactory(JUnitXMLWriterFactory $junitXMLWriterFactory)
+    {
+        $this->junitXMLWriterFactory = $junitXMLWriterFactory;
+    }
 }
 
 /*

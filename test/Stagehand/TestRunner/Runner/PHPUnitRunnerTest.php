@@ -679,8 +679,8 @@ class PHPUnitRunnerTest extends TestCase
         $phpunitXMLConfigurationFactory = $this->createPHPUnitXMLConfigurationFactory();
         $phpunitXMLConfiguration = $phpunitXMLConfigurationFactory->maybeCreate($configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
         $this->applicationContext->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);
-        $runner = $this->createRunner();
-        $runner->setLogsResultsInJUnitXMLInRealtime(true);
+        $junitXMLWriterFactory = $this->applicationContext->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */
+        $junitXMLWriterFactory->setLogsResultsInRealtime(true);
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
 

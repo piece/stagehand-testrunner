@@ -39,6 +39,7 @@ namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\TestTargets;
+use Stagehand\TestRunner\Util\FileStreamWriter;
 
 /**
  * The base class for test runners.
@@ -73,12 +74,6 @@ abstract class Runner
      * @since Property available since Release 3.0.0
      */
     protected $logsResultsInJUnitXML;
-
-    /**
-     * @var boolean
-     * @since Property available since Release 3.0.0
-     */
-    protected $logsResultsInJUnitXMLInRealtime;
 
     /**
      * @var boolean
@@ -139,15 +134,6 @@ abstract class Runner
     }
 
     /**
-     * @param boolean $logsResultsInJUnitXMLInRealtime
-     * @since Method available since Release 3.0.0
-     */
-    public function setLogsResultsInJUnitXMLInRealtime($logsResultsInJUnitXMLInRealtime)
-    {
-        $this->logsResultsInJUnitXMLInRealtime = $logsResultsInJUnitXMLInRealtime;
-    }
-
-    /**
      * @param boolean $stopsOnFailure
      * @since Method available since Release 3.0.0
      */
@@ -190,6 +176,16 @@ abstract class Runner
     public function setTestTargets(TestTargets $testTargets)
     {
         $this->testTargets = $testTargets;
+    }
+
+    /**
+     * @param string $file
+     * @return \Stagehand\TestRunner\Util\StreamWriter
+     * @since Property available since Release 3.0.0
+     */
+    protected function createStreamWriter($file)
+    {
+        return new FileStreamWriter($file);
     }
 }
 

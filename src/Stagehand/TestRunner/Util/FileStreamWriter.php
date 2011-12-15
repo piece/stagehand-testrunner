@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,73 +29,68 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.10.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\JUnitXMLWriter;
+namespace Stagehand\TestRunner\Util;
 
-use Stagehand\TestRunner\Util\StreamWriter;
+use Stagehand\TestRunner\Core\Exception;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.10.0
+ * @since      Class available since Release 3.0.0
  */
-interface JUnitXMLWriter
+class FileStreamWriter implements StreamWriter
 {
     /**
-     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
-     * @since Method available since Release 3.0.0
+     * @var string
      */
-    public function setStreamWriter(StreamWriter $streamWriter);
-
-    public function startTestSuites();
+    protected $file;
 
     /**
-     * @param string  $name
-     * @param integer $testCount
+     * @var resource
      */
-    public function startTestSuite($name, $testCount = null);
+    protected $fileHandle;
 
     /**
-     * @param string $name
-     * @param mixed  $test
-     * @param string $methodName
-     */
-    public function startTestCase($name, $test, $methodName = null);
-
-    /**
-     * @param string $text
-     * @param string $type
      * @param string $file
-     * @param string $line
-     * @param string $message
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
-    public function writeError($text, $type = null, $file = null, $line = null, $message = null);
+    public function __construct($file)
+    {
+        $fileHandle = fopen($file, 'w');
+        if ($fileHandle === false) {
+             throw new Exception('Failed to open the file [ ' . $file . ' ].');
+        }
+
+        $this->file = $file;
+        $this->fileHandle = $fileHandle;
+    }
+
+    public function __destruct()
+    {
+        if (is_resource($this->fileHandle)) {
+            fclose($this->fileHandle);
+        }
+    }
 
     /**
-     * @param string $text
-     * @param string $type
-     * @param string $file
-     * @param string $line
-     * @param string $message
+     * @param string $buffer
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
-    public function writeFailure($text, $type = null, $file = null, $line = null, $message = null);
-
-    /**
-     * @param float   $time
-     * @param integer $assertionCount
-     */
-    public function endTestCase($time, $assertionCount = null);
-
-    public function endTestSuite();
-
-    public function endTestSuites();
+    public function write($buffer)
+    {
+        $result = fwrite($this->fileHandle, $buffer, strlen($buffer));
+        if ($result === false) {
+            throw new Exception('Failed to write buffer into the file [ ' . $this->file . ' ].');
+        }
+    }
 }
 
 /*

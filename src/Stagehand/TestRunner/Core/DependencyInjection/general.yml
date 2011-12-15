@@ -95,7 +95,6 @@ services:
     calls:
       - [ setTerminal, [ "@stagehand_testrunner.terminal" ] ]
       - [ setJUnitXMLFile, [ "%stagehand_testrunner.junit_xml_file%" ] ]
-      - [ setLogsResultsInJUnitXMLInRealtime, [ "%stagehand_testrunner.logs_results_in_junit_xml_in_realtime%" ] ]
       - [ setStopsOnFailure, [ "%stagehand_testrunner.stops_on_failure%" ] ]
       - [ setUsesNotification, [ "%stagehand_testrunner.uses_notification%" ] ]
       - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
@@ -104,6 +103,16 @@ services:
     class: Stagehand\TestRunner\Notification\Notifier
     calls:
       - [ setLegacyProxy, [ "@stagehand_testrunner.legacy_proxy" ] ]
+  stagehand_testrunner.junit_xml_dom_writer:
+    scope: prototype
+    class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter
+  stagehand_testrunner.junit_xml_stream_writer:
+    scope: prototype
+    class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter
+  stagehand_testrunner.junit_xml_writer_factory:
+    class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
+    calls:
+      - [ setLogsResultsInRealtime, [ "%stagehand_testrunner.logs_results_in_junit_xml_in_realtime%" ] ]
 
 # Local Variables:
 # mode: conf

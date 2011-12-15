@@ -48,8 +48,6 @@ use Stagehand\TestRunner\Runner\CakePHPRunner\MethodFilterReporter;
  */
 class CakePHPRunner extends SimpleTestRunner
 {
-    protected $junitXMLReporterClass = '\Stagehand\TestRunner\Runner\CakePHPRunner\JUnitXMLReporter';
-
     /**
      * @param mixed $reporter
      * @return \SimpleReporterDecorator

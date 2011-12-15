@@ -38,6 +38,8 @@
 namespace Stagehand\TestRunner\Runner\CakePHPRunner\JUnitXMLTest;
 
 use Stagehand\TestRunner\Runner\CakePHPRunner;
+use Stagehand\TestRunner\Runner\JUnitXMLStreamRecorder;
+use Stagehand\TestRunner\Runner\JUnitXMLStreamTester;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,21 +48,32 @@ use Stagehand\TestRunner\Runner\CakePHPRunner;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class MockCakePHPRunner extends CakePHPRunner
+class MockCakePHPRunner extends CakePHPRunner implements JUnitXMLStreamTester
 {
-    protected $streamWriter;
-    protected $streamContents = array();
+    /**
+     * @var \Stagehand\TestRunner\Runner\JUnitXMLStreamRecorder
+     * @since Property available since Release 3.0.0
+     */
+    protected $junitXMLStreamRecorder;
 
-    public function watchStream($buffer)
+    /**
+     * @return \Stagehand\TestRunner\Runner\JUnitXMLStreamRecorder
+     * @since Method available since Release 3.0.0
+     */
+    public function getJUnitXMLStreamRecorder()
     {
-        $this->streamContents[] = $buffer;
-        call_user_func($this->streamWriter, $buffer);
+        return $this->junitXMLStreamRecorder;
     }
 
-    protected function junitXMLStreamWriter($streamWriter)
+    /**
+     * @param string $file
+     * @return \Stagehand\TestRunner\Util\StreamWriter
+     * @since Method available since Release 3.0.0
+     */
+    protected function createStreamWriter($file)
     {
-        $this->streamWriter = $streamWriter;
-        return parent::junitXMLStreamWriter(array($this, 'watchStream'));
+        $this->junitXMLStreamRecorder = new JUnitXMLStreamRecorder($file);
+        return $this->junitXMLStreamRecorder;
     }
 }
 
