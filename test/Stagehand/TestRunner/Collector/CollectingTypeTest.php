@@ -62,7 +62,7 @@ class CollectingTypeTest extends PHPUnitFactoryAwareTestCase
         \Phake::when($legacyProxy)->is_subclass_of($this->anything(), $this->anything())
             ->thenReturn($isSubTypeOfExpectedType);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
-        $collectingType = CollectingTypeFactory::create(
+        $collectingType = $this->applicationContext->createComponent('collecting_type_factory')->create(
             $type, array('PHPSpec\Specification\ExampleGroup', 'PHPSpec\Context')
         );
 

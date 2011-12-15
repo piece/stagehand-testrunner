@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\Collector;
 
+use Stagehand\TestRunner\Collector\CollectingTypeFactory;
 use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Core\TestTargets;
 
@@ -59,6 +60,12 @@ abstract class Collector
      * @since Property available since Release 3.0.0
      */
     protected $testTargets;
+
+    /**
+     * @var \Stagehand\TestRunner\Collector\CollectingTypeFactory
+     * @since Property available since Release 3.0.0
+     */
+    protected $collectingTypeFactory;
 
     /**
      * Initializes some properties of an instance.
@@ -109,6 +116,15 @@ abstract class Collector
     abstract public function collectTestCase($testCase);
 
     /**
+     * @param \Stagehand\TestRunner\Collector\CollectingTypeFactory $collectingTypeFactory
+     * @since Method available since Release 3.0.0
+     */
+    public function setCollectingTypeFactory(CollectingTypeFactory $collectingTypeFactory)
+    {
+        $this->collectingTypeFactory = $collectingTypeFactory;
+    }
+
+    /**
      * Creates the test suite object.
      *
      * @param string $name
@@ -126,7 +142,7 @@ abstract class Collector
         if (!$this->testTargets->shouldTreatFileAsTest(basename($file))) return;
 
         foreach ($this->findNewClasses($file) as $newClass) {
-            $collectingType = CollectingTypeFactory::create($newClass, $this->superTypes);
+            $collectingType = $this->collectingTypeFactory->create($newClass, $this->superTypes);
             if ($collectingType->isTest()) {
                 $this->collectTestCase($newClass);
             }

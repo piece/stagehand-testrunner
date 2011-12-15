@@ -55,7 +55,7 @@ class CollectingTypeFactory
      * @param array $expectedSuperTypes
      * @return \Stagehand\TestRunner\Collector\CollectingType
      */
-    public static function create($type, array $expectedSuperTypes)
+    public function create($type, array $expectedSuperTypes)
     {
         $collectingType = ApplicationContext::getInstance()->createComponent('collecting_type');
         $collectingType->setType($type);
