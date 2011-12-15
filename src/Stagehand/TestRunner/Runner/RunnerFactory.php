@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,61 +29,47 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.20.0
+ * @since      File available since Release 2.11.0
  */
 
-namespace Stagehand\TestRunner\Process\Autotest;
+namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\Test\FactoryAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 3.0.0
+ * @since      Class available since Release 2.11.0
  */
-class PHPUnitAutotestTest extends TestCase
+class RunnerFactory
 {
-    public static function setUpBeforeClass()
+    /**
+     * @var \Stagehand\TestRunner\Core\TestingFramework
+     * @since Property available since Release 3.0.0
+     */
+    protected $testingFramework;
+
+    /**
+     * @return \Stagehand\TestRunner\Runner\Runner
+     */
+    public function create()
     {
-        TestCase::initializeConfigurators();
-        static::$configurators[] = function ($testingFramework) {
-            $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-            $runner->setPrintsDetailedProgressReport(true);
-        };
-        static::$configurators[] = function ($testingFramework) {
-            $phpunitXMLConfiguration = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfiguration'); /* @var $phpunitXMLConfiguration \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration */
-            \Phake::when($phpunitXMLConfiguration)->getFileName()->thenReturn('FILE');
-            $autotest = ApplicationContext::getInstance()->createComponent($testingFramework . '.autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
-            $autotest->setPHPUnitXMLConfiguration($phpunitXMLConfiguration);
-        };
+        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'runner');
     }
 
     /**
-     * @return string
+     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
+     * @since Method available since Release 3.0.0
      */
-    protected function getTestingFramework()
+    public function setTestingFramework(TestingFramework $testingFramework)
     {
-        return TestingFramework::PHPUNIT;
-    }
-
-    /**
-     * @return array
-     */
-    public function preservedConfigurations()
-    {
-        $preservedConfigurations = parent::preservedConfigurations();
-        $index = count($preservedConfigurations);
-        return array_merge($preservedConfigurations, array(
-            array($index++, array('-R', '-v'), array(true, true)),
-            array($index++, array('-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true)),
-        ));
+        $this->testingFramework = $testingFramework;
     }
 }
 

@@ -124,7 +124,7 @@ class TestRunnerCLIControllerTest extends TestCase
 
         $this->createTestRunnerCLIController()->run();
 
-        $this->assertTrue($this->applicationContext->createComponent($this->getTestingFramework() . '.runner')->usesNotification());
+        $this->assertTrue($this->applicationContext->createComponent('runner_factory')->create()->usesNotification());
     }
 
     /**

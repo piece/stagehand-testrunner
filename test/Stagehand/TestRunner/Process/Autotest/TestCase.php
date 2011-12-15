@@ -83,7 +83,7 @@ abstract class TestCase extends FactoryAwareTestCase
             $autotest->setMonitoringDirectories(array('src'));
         };
         self::$configurators[] = function ($testingFramework) {
-            $runner = ApplicationContext::getInstance()->createComponent($testingFramework . '.runner'); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+            $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
             $runner->setUsesNotification(true);
         };
         self::$configurators[] = function ($testingFramework) {
@@ -95,7 +95,7 @@ abstract class TestCase extends FactoryAwareTestCase
             $testTargets->setClasses(array('CLASS1'));
         };
         self::$configurators[] = function ($testingFramework) {
-            $runner = ApplicationContext::getInstance()->createComponent($testingFramework . '.runner'); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+            $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
             $runner->setJUnitXMLFile('FILE');
         };
         self::$configurators[] = function ($testingFramework) {
@@ -103,7 +103,7 @@ abstract class TestCase extends FactoryAwareTestCase
             $junitXMLWriterFactory->setLogsResultsInRealtime(true);
         };
         self::$configurators[] = function ($testingFramework) {
-            $runner = ApplicationContext::getInstance()->createComponent($testingFramework . '.runner'); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+            $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
             $runner->setStopsOnFailure(true);
         };
         self::$configurators[] = function ($testingFramework) {

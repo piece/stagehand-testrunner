@@ -251,7 +251,7 @@ abstract class TestCase extends FactoryAwareTestCase
      */
     protected function createRunner()
     {
-        return $this->applicationContext->createComponent($this->getTestingFramework() . '.' . 'runner');
+        return $this->applicationContext->createComponent('runner_factory')->create();
     }
 
     /**

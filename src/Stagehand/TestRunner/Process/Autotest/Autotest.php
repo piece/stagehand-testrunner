@@ -48,6 +48,7 @@ use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
 use Stagehand\TestRunner\Process\Process;
+use Stagehand\TestRunner\Runner\RunnerFactory;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -100,10 +101,10 @@ abstract class Autotest
     protected $monitoringDirectories;
 
     /**
-     * @var \Stagehand\TestRunner\Runner\Runner
+     * @var \Stagehand\TestRunner\Runner\RunnerFactory
      * @since Property available since Release 3.0.0
      */
-    protected $runner;
+    protected $runnerFactory;
 
     /**
      * @var \Stagehand\TestRunner\Core\LegacyProxy
@@ -128,7 +129,6 @@ abstract class Autotest
     public function __construct(TestingFramework $testingFramework)
     {
         $this->preparer = $this->createPreparer($testingFramework);
-        $this->runner = $this->createRunner($testingFramework);
     }
 
     /**
@@ -167,7 +167,7 @@ abstract class Autotest
         });
         $exitStatus = $process->run();
 
-        if ($exitStatus != 0 && $this->runner->usesNotification()) {
+        if ($exitStatus != 0 && $this->runnerFactory->create()->usesNotification()) {
             $fatalError = new FatalError($streamOutput);
             $this->createNotifier()->notifyResult(
                 new Notification(Notification::RESULT_STOPPED, $fatalError->getFullMessage())
@@ -236,6 +236,15 @@ abstract class Autotest
     public function setAlterationMonitoring(AlterationMonitoring $alterationMonitoring)
     {
         $this->alterationMonitoring = $alterationMonitoring;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Runner\RunnerFactory $runnerFactory
+     * @since Method available since Release 3.0.0
+     */
+    public function setRunnerFactory(RunnerFactory $runnerFactory)
+    {
+        $this->runnerFactory = $runnerFactory;
     }
 
     /**
@@ -315,11 +324,11 @@ abstract class Autotest
             $options[] = '-c';
         }
 
-        if ($this->runner->usesNotification()) {
+        if ($this->runnerFactory->create()->usesNotification()) {
             $options[] = '-n';
         }
 
-        if ($this->runner->stopsOnFailure()) {
+        if ($this->runnerFactory->create()->stopsOnFailure()) {
             $options[] = '--stop-on-failure';
         }
 
@@ -371,18 +380,6 @@ abstract class Autotest
     {
         return ApplicationContext::getInstance()->createComponent(
             $testingFramework->getSelected() . '.' . 'preparer'
-        );
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
-     * @return \Stagehand\TestRunner\Runner\Runner
-     * @since Method available since Release 3.0.0
-     */
-    protected function createRunner(TestingFramework $testingFramework)
-    {
-        return ApplicationContext::getInstance()->createComponent(
-            $testingFramework->getSelected() . '.' . 'runner'
         );
     }
 

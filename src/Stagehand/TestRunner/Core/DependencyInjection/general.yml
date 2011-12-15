@@ -58,6 +58,7 @@ services:
     calls:
       - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
       - [ setOutputBuffering, [ "@stagehand_testrunner.output_buffering" ] ]
+      - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
   stagehand_testrunner.autotest:
     abstract: true
     arguments: [ "@stagehand_testrunner.testing_framework" ]
@@ -68,6 +69,7 @@ services:
       - [ setMonitoringDirectories, [ "%stagehand_testrunner.monitoring_directories%" ] ]
       - [ setLegacyProxy, [ "@stagehand_testrunner.legacy_proxy" ] ]
       - [ setAlterationMonitoring, [ "@stagehand_testrunner.alteration_monitoring" ] ]
+      - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
   stagehand_testrunner.alteration_monitoring:
     class: Stagehand\TestRunner\Process\AlterationMonitoring
   stagehand_testrunner.terminal:
@@ -102,6 +104,10 @@ services:
       - [ setStopsOnFailure, [ "%stagehand_testrunner.stops_on_failure%" ] ]
       - [ setUsesNotification, [ "%stagehand_testrunner.uses_notification%" ] ]
       - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
+  stagehand_testrunner.runner_factory:
+    class: Stagehand\TestRunner\Runner\RunnerFactory
+    calls:
+      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
   stagehand_testrunner.notifier:
     scope: prototype
     class: Stagehand\TestRunner\Notification\Notifier

@@ -68,7 +68,7 @@ class PHPUnitAutotest extends Autotest
     {
         $options = array();
 
-        if ($this->runner->printsDetailedProgressReport()) {
+        if ($this->runnerFactory->create()->printsDetailedProgressReport()) {
             $options[] = '-v';
         }
 
