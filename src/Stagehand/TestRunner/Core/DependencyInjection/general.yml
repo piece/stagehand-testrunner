@@ -61,6 +61,7 @@ services:
       - [ setCollectorFactory, [ "@stagehand_testrunner.collector_factory" ] ]
       - [ setPreparerFactory, [ "@stagehand_testrunner.preparer_factory" ] ]
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
+      - [ setNotifierFactory, [ "@stagehand_testrunner.notifier_factory" ] ]
   stagehand_testrunner.autotest:
     abstract: true
     calls:
@@ -72,6 +73,7 @@ services:
       - [ setAlterationMonitoring, [ "@stagehand_testrunner.alteration_monitoring" ] ]
       - [ setPreparerFactory, [ "@stagehand_testrunner.preparer_factory" ] ]
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
+      - [ setNotifierFactory, [ "@stagehand_testrunner.notifier_factory" ] ]
   stagehand_testrunner.alteration_monitoring:
     class: Stagehand\TestRunner\Process\AlterationMonitoring
   stagehand_testrunner.terminal:
@@ -125,6 +127,8 @@ services:
     class: Stagehand\TestRunner\Notification\Notifier
     calls:
       - [ setLegacyProxy, [ "@stagehand_testrunner.legacy_proxy" ] ]
+  stagehand_testrunner.notifier_factory:
+    class: Stagehand\TestRunner\Notification\NotifierFactory
   stagehand_testrunner.junit_xml_dom_writer:
     scope: prototype
     class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter

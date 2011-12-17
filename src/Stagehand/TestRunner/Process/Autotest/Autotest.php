@@ -38,13 +38,13 @@
 namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\TestRunner\CLI\Terminal;
-use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Core\LegacyProxy;
 use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Notification\Notifier;
+use Stagehand\TestRunner\Notification\NotifierFactory;
 use Stagehand\TestRunner\Preparer\PreparerFactory;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
@@ -114,6 +114,12 @@ abstract class Autotest
     protected $runnerFactory;
 
     /**
+     * @var \Stagehand\TestRunner\Notification\NotifierFactory
+     * @since Method available since Release 3.0.0
+     */
+    protected $notifierFactory;
+
+    /**
      * @var \Stagehand\TestRunner\Core\LegacyProxy
      * @since Property available since Release 3.0.0
      */
@@ -162,7 +168,7 @@ abstract class Autotest
 
         if ($exitStatus != 0 && $this->runnerFactory->create()->usesNotification()) {
             $fatalError = new FatalError($streamOutput);
-            $this->createNotifier()->notifyResult(
+            $this->notifierFactory->craete()->notifyResult(
                 new Notification(Notification::RESULT_STOPPED, $fatalError->getFullMessage())
             );
         }
@@ -247,6 +253,15 @@ abstract class Autotest
     public function setRunnerFactory(RunnerFactory $runnerFactory)
     {
         $this->runnerFactory = $runnerFactory;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Notification\NotifierFactory $notifierFactory
+     * @since Method available since Release 3.0.0
+     */
+    public function setNotifierFactory(NotifierFactory $notifierFactory)
+    {
+        $this->notifierFactory = $notifierFactory;
     }
 
     /**
@@ -371,15 +386,6 @@ abstract class Autotest
     protected function executeRunnerCommand($runnerCommand)
     {
         return $this->legacyProxy->passthru($runnerCommand);
-    }
-
-    /**
-     * @return \Stagehand\TestRunner\Notification\Notifier
-     * @since Method available since Release 2.20.0
-     */
-    protected function createNotifier()
-    {
-        return ApplicationContext::getInstance()->createComponent('notifier');
     }
 
     /**

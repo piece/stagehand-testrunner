@@ -43,6 +43,7 @@ use Stagehand\TestRunner\Collector\CollectorFactory;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Notification\Notifier;
+use Stagehand\TestRunner\Notification\NotifierFactory;
 use Stagehand\TestRunner\Preparer\PreparerFactory;
 use Stagehand\TestRunner\Runner\RunnerFactory;
 use Stagehand\TestRunner\Util\OutputBuffering;
@@ -94,6 +95,12 @@ class TestRun
     protected $runnerFactory;
 
     /**
+     * @var \Stagehand\TestRunner\Notification\NotifierFactory
+     * @since Method available since Release 3.0.0
+     */
+    protected $notifierFactory;
+
+    /**
      * Runs tests.
      *
      * @since Method available since Release 2.1.0
@@ -107,7 +114,7 @@ class TestRun
         $this->result = $runner->run($this->collectorFactory->create()->collect());
 
         if ($runner->usesNotification()) {
-            $this->createNotifier()->notifyResult($runner->getNotification());
+            $this->notifierFactory->create()->notifyResult($runner->getNotification());
         }
     }
 
@@ -157,12 +164,12 @@ class TestRun
     }
 
     /**
-     * @return \Stagehand\TestRunner\Notification\Notifier
-     * @since Method available since Release 2.18.0
+     * @param \Stagehand\TestRunner\Notification\NotifierFactory $notifierFactory
+     * @since Method available since Release 3.0.0
      */
-    protected function createNotifier()
+    public function setNotifierFactory(NotifierFactory $notifierFactory)
     {
-        return ApplicationContext::getInstance()->createComponent('notifier');
+        $this->notifierFactory = $notifierFactory;
     }
 }
 
