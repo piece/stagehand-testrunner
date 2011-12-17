@@ -42,8 +42,10 @@ services:
       - [ setJUnitXMLReporterFactory, [ "@stagehand_testrunner.simpletest.junit_xml_reporter_factory" ] ]
   stagehand_testrunner.simpletest.junit_xml_reporter_factory:
     class: Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporterFactory
+    factory_service: stagehand_testrunner.plugin_aware_factory_factory
+    factory_method: create
+    arguments: [ "junit_xml_reporter", "\\Stagehand\\TestRunner\\Runner\\SimpleTestRunner\\JUnitXMLReporterFactory" ]
     calls:
-      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
       - [ setJUnitXMLWriterFactory, [ "@stagehand_testrunner.junit_xml_writer_factory" ] ]
   stagehand_testrunner.simpletest.junit_xml_reporter:
     class: Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporter

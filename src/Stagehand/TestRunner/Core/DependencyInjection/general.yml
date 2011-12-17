@@ -39,6 +39,16 @@ parameters:
   stagehand_testrunner.test_resources: []
 
 services:
+  stagehand_testrunner.component_aware_factory_factory:
+    class: Stagehand\TestRunner\Core\ComponentAwareFactoryFactory
+  stagehand_testrunner.plugin:
+    class: Stagehand\TestRunner\Core\Plugin\Plugin
+    factory_class: Stagehand\TestRunner\Core\Plugin\PluginFinder
+    factory_method: findByPluginID
+    arguments: [ "%stagehand_testrunner.testing_framework%" ]
+  stagehand_testrunner.plugin_aware_factory_factory:
+    class: Stagehand\TestRunner\Core\Plugin\PluginAwareFactoryFactory
+    arguments: [ "@stagehand_testrunner.plugin" ]
   stagehand_testrunner.testing_framework:
     class: Stagehand\TestRunner\Core\TestingFramework
     arguments: [ "%stagehand_testrunner.testing_framework%" ]
@@ -62,7 +72,10 @@ services:
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
       - [ setNotifierFactory, [ "@stagehand_testrunner.notifier_factory" ] ]
   stagehand_testrunner.test_run_factory:
-    class: Stagehand\TestRunner\Process\TestRunFactory
+    class: Stagehand\TestRunner\Process\TestRun
+    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_method: create
+    arguments: [ "test_run" ]
   stagehand_testrunner.autotest:
     abstract: true
     calls:
@@ -76,9 +89,10 @@ services:
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
       - [ setNotifierFactory, [ "@stagehand_testrunner.notifier_factory" ] ]
   stagehand_testrunner.autotest_factory:
-    class: Stagehand\TestRunner\Process\Autotest\AutotestFactory
-    calls:
-      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
+    class: Stagehand\TestRunner\Process\Autotest\Autotest
+    factory_service: stagehand_testrunner.plugin_aware_factory_factory
+    factory_method: create
+    arguments: [ "autotest" ]
   stagehand_testrunner.alteration_monitoring:
     class: Stagehand\TestRunner\Process\AlterationMonitoring
   stagehand_testrunner.terminal:
@@ -96,25 +110,30 @@ services:
   stagehand_testrunner.preparer:
     abstract: true
   stagehand_testrunner.preparer_factory:
-    class: Stagehand\TestRunner\Preparer\PreparerFactory
-    calls:
-      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
+    class: Stagehand\TestRunner\Preparer\Preparer
+    factory_service: stagehand_testrunner.plugin_aware_factory_factory
+    factory_method: create
+    arguments: [ "preparer" ]
   stagehand_testrunner.collector:
     abstract: true
     arguments: [ "@stagehand_testrunner.test_targets" ]
     calls:
       - [ setCollectingTypeFactory, [ "@stagehand_testrunner.collecting_type_factory" ] ]
   stagehand_testrunner.collector_factory:
-    class: Stagehand\TestRunner\Collector\CollectorFactory
-    calls:
-      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
+    class: Stagehand\TestRunner\Collector\Collector
+    factory_service: stagehand_testrunner.plugin_aware_factory_factory
+    factory_method: create
+    arguments: [ "collector" ]
   stagehand_testrunner.collecting_type:
     scope: prototype
     class: Stagehand\TestRunner\Collector\CollectingType
     calls:
       - [ setLegacyProxy, [ "@stagehand_testrunner.legacy_proxy" ] ]
   stagehand_testrunner.collecting_type_factory:
-    class: Stagehand\TestRunner\Collector\CollectingTypeFactory
+    class: Stagehand\TestRunner\Collector\CollectingType
+    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_method: create
+    arguments: [ "collecting_type", "\\Stagehand\\TestRunner\\Collector\\CollectingTypeFactory" ]
   stagehand_testrunner.runner:
     abstract: true
     calls:
@@ -124,25 +143,41 @@ services:
       - [ setUsesNotification, [ "%stagehand_testrunner.uses_notification%" ] ]
       - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
   stagehand_testrunner.runner_factory:
-    class: Stagehand\TestRunner\Runner\RunnerFactory
-    calls:
-      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
+    class: Stagehand\TestRunner\Runner\Runner
+    factory_service: stagehand_testrunner.plugin_aware_factory_factory
+    factory_method: create
+    arguments: [ "runner" ]
   stagehand_testrunner.notifier:
     class: Stagehand\TestRunner\Notification\Notifier
     calls:
       - [ setLegacyProxy, [ "@stagehand_testrunner.legacy_proxy" ] ]
   stagehand_testrunner.notifier_factory:
-    class: Stagehand\TestRunner\Notification\NotifierFactory
+    class: Stagehand\TestRunner\Notification\Notifier
+    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_method: create
+    arguments: [ "notifier" ]
   stagehand_testrunner.junit_xml_dom_writer:
     scope: prototype
     class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter
+  stagehand_testrunner.junit_xml_dom_writer_factory:
+    class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter
+    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_method: create
+    arguments: [ "junit_xml_dom_writer" ]
   stagehand_testrunner.junit_xml_stream_writer:
     scope: prototype
     class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter
+  stagehand_testrunner.junit_xml_stream_writer_factory:
+    class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter
+    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_method: create
+    arguments: [ "junit_xml_stream_writer" ]
   stagehand_testrunner.junit_xml_writer_factory:
     class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
     calls:
       - [ setLogsResultsInRealtime, [ "%stagehand_testrunner.logs_results_in_junit_xml_in_realtime%" ] ]
+      - [ setJUnitXMLDOMWriterFactory, [ "@stagehand_testrunner.junit_xml_dom_writer_factory" ] ]
+      - [ setJUnitXMLStreamWriterFactory, [ "@stagehand_testrunner.junit_xml_stream_writer_factory" ] ]
 
 # Local Variables:
 # mode: conf

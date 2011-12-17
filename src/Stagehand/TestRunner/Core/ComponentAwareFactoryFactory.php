@@ -35,9 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Process;
-
-use Stagehand\TestRunner\Core\ApplicationContext;
+namespace Stagehand\TestRunner\Core;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,14 +44,22 @@ use Stagehand\TestRunner\Core\ApplicationContext;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestRunFactory
+class ComponentAwareFactoryFactory
 {
-    /**
-     * @return \Stagehand\TestRunner\Process\TestRun
-     */
-    public function create()
+    public function __construct()
     {
-        return ApplicationContext::getInstance()->createComponent('test_run');
+    }
+
+    /**
+     * @param string $componentID
+     * @param string $factoryClass
+     * @return \Stagehand\TestRunner\Core\ComponentAwareFactory
+     */
+    public function create($componentID, $factoryClass = '\Stagehand\TestRunner\Core\ComponentAwareFactory')
+    {
+        $factory = new $factoryClass(); /*var $factory \Stagehand\TestRunner\Core\ComponentAwareFactory */
+        $factory->setComponentID($componentID);
+        return $factory;
     }
 }
 

@@ -38,8 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\PluginAwareFactory;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
 use Stagehand\TestRunner\TestSuite\SimpleTestTestSuite;
 
@@ -51,13 +50,8 @@ use Stagehand\TestRunner\TestSuite\SimpleTestTestSuite;
  * @link       http://simpletest.org/
  * @since      Class available since Release 3.0.0
  */
-class JUnitXMLReporterFactory
+class JUnitXMLReporterFactory extends PluginAwareFactory
 {
-    /**
-     * @var \Stagehand\TestRunner\Core\TestingFramework
-     */
-    protected $testingFramework;
-
     /**
      * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
      */
@@ -70,19 +64,10 @@ class JUnitXMLReporterFactory
      */
     public function create($streamWriter, SimpleTestTestSuite $suite)
     {
-        $junitXMLReporter = ApplicationContext::getInstance()
-            ->createComponent($this->testingFramework->getSelected() . '.' . 'junit_xml_reporter');
+        $junitXMLReporter = parent::create();
         $junitXMLReporter->setXMLWriter($this->junitXMLWriterFactory->create($streamWriter));
         $junitXMLReporter->setTestSuite($suite);
         return $junitXMLReporter;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
-     */
-    public function setTestingFramework(TestingFramework $testingFramework)
-    {
-        $this->testingFramework = $testingFramework;
     }
 
     /**

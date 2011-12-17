@@ -35,10 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Process\Autotest;
-
-use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestingFramework;
+namespace Stagehand\TestRunner\Core;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,27 +44,36 @@ use Stagehand\TestRunner\Core\TestingFramework;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class AutotestFactory
+class ComponentAwareFactory
 {
     /**
-     * @var \Stagehand\TestRunner\Core\TestingFramework
+     * @var string
      */
-    protected $testingFramework;
+    protected $componentID;
 
     /**
-     * @return \Stagehand\TestRunner\Process\Autotest\Autotest
+     * @param string $componentID
      */
-    public function create()
+    public function setComponentID($componentID)
     {
-        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'autotest');
+        $this->componentID = $componentID;
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
+     * @return mixed
      */
-    public function setTestingFramework(TestingFramework $testingFramework)
+    public function create()
     {
-        $this->testingFramework = $testingFramework;
+        return ApplicationContext::getInstance()->createComponent($this->resolveComponentID($this->componentID));
+    }
+
+    /**
+     * @param string $componentID
+     * @return string
+     */
+    public function resolveComponentID($componentID)
+    {
+        return $this->componentID;
     }
 }
 

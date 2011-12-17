@@ -38,6 +38,7 @@
 namespace Stagehand\TestRunner\Test;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -68,6 +69,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $testingFramework = \Phake::mock('Stagehand\TestRunner\Core\TestingFramework');
         \Phake::when($testingFramework)->getSelected()->thenReturn($this->getTestingFramework());
         $this->applicationContext->setComponent('testing_framework', $testingFramework);
+        $this->applicationContext->setComponent(
+            'plugin',
+            PluginFinder::findByPluginID($this->getTestingFramework())
+        );
     }
 
     protected function tearDown()

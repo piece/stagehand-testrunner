@@ -37,8 +37,7 @@
 
 namespace Stagehand\TestRunner\CLI;
 
-use Stagehand\TestRunner\Process\Autotest\AutotestFactory;
-use Stagehand\TestRunner\Process\TestRunFactory;
+use Stagehand\TestRunner\Core\ComponentAwareFactory;
 
 /**
  * @package    Stagehand_TestRunner
@@ -55,12 +54,12 @@ class TestRunner
     protected $enablesAutotest;
 
     /**
-     * @var \Stagehand\TestRunner\Process\TestRunFactory
+     * @var \Stagehand\TestRunner\Core\ComponentAwareFactory
      */
     protected $testRunFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Process\Autotest\AutotestFactory
+     * @var \Stagehand\TestRunner\Core\ComponentAwareFactory
      */
     protected $autotestFactory;
 
@@ -86,17 +85,17 @@ class TestRunner
     }
 
     /**
-     * @param \Stagehand\TestRunner\Process\TestRunFactory $testRunFactory
+     * @param \Stagehand\TestRunner\Core\ComponentAwareFactory $testRunFactory
      */
-    public function setTestRunFactory(TestRunFactory $testRunFactory)
+    public function setTestRunFactory(ComponentAwareFactory $testRunFactory)
     {
         $this->testRunFactory = $testRunFactory;
     }
 
     /**
-     * @param \Stagehand\TestRunner\Process\Autotest\AutotestFactory $autotestFactory
+     * @param \Stagehand\TestRunner\Core\ComponentAwareFactory $autotestFactory
      */
-    public function setAutotestFactory(AutotestFactory $autotestFactory)
+    public function setAutotestFactory(ComponentAwareFactory $autotestFactory)
     {
         $this->autotestFactory = $autotestFactory;
     }

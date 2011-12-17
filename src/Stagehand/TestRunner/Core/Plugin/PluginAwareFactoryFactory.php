@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,47 +29,49 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Collector;
+namespace Stagehand\TestRunner\Core\Plugin;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\ComponentAwareFactoryFactory;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 3.0.0
  */
-class CollectorFactory
+class PluginAwareFactoryFactory extends ComponentAwareFactoryFactory
 {
     /**
-     * @var \Stagehand\TestRunner\Core\TestingFramework
-     * @since Property available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Core\Plugin\Plugin
      */
-    protected $testingFramework;
+    protected $plugin;
 
     /**
-     * @return \Stagehand\TestRunner\Collector\Collector
+     * @param \Stagehand\TestRunner\Core\Plugin\Plugin $plugin
      */
-    public function create()
+    public function __construct(Plugin $plugin)
     {
-        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'collector');
+        parent::__construct();
+        $this->plugin = $plugin;
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
-     * @since Method available since Release 3.0.0
+     * @param string $componentID
+     * @param string $factoryClass
+     * @return \Stagehand\TestRunner\Core\Plugin\ComponentAwareFactory
      */
-    public function setTestingFramework(TestingFramework $testingFramework)
+    public function create($componentID, $factoryClass = '\Stagehand\TestRunner\Core\Plugin\PluginAwareFactory')
     {
-        $this->testingFramework = $testingFramework;
+        $factory = parent::create($componentID, $factoryClass);
+        $factory->setPlugin($this->plugin);
+        return $factory;
     }
 }
 

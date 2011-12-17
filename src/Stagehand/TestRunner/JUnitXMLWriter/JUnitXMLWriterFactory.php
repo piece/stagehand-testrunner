@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\ComponentAwareFactory;
 use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
@@ -57,15 +57,26 @@ class JUnitXMLWriterFactory
     protected $logsResultsInRealtime;
 
     /**
+     * @var \Stagehand\TestRunner\Core\ComponentAwareFactory
+     */
+    protected $junitXMLDOMWriterFactory;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\ComponentAwareFactory
+     */
+    protected $junitXMLStreamWriterFactory;
+
+    /**
      * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
      * @return \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter
      */
     public function create(StreamWriter $streamWriter)
     {
-        $junitXMLWriter = ApplicationContext::getInstance()->createComponent( /* @var $junitXMLWriter \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter */
-            $this->logsResultsInRealtime ? 'junit_xml_stream_writer'
-                                         : 'junit_xml_dom_writer'
-        );
+        if ($this->logsResultsInRealtime) {
+            $junitXMLWriter = $this->junitXMLStreamWriterFactory->create(); /* @var $junitXMLWriter \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter */
+        } else {
+            $junitXMLWriter = $this->junitXMLDOMWriterFactory->create(); /* @var $junitXMLWriter \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter */
+        }
         $junitXMLWriter->setStreamWriter($streamWriter);
         return $junitXMLWriter;
     }
@@ -76,6 +87,22 @@ class JUnitXMLWriterFactory
     public function setLogsResultsInRealtime($logsResultsInRealtime)
     {
         $this->logsResultsInRealtime = $logsResultsInRealtime;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\ComponentAwareFactory $junitXMLDOMWriterFactory
+     */
+    public function setJUnitXMLDOMWriterFactory(ComponentAwareFactory $junitXMLDOMWriterFactory)
+    {
+        $this->junitXMLDOMWriterFactory = $junitXMLDOMWriterFactory;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\ComponentAwareFactory $junitXMLStreamWriterFactory
+     */
+    public function setJUnitXMLStreamWriterFactory(ComponentAwareFactory $junitXMLStreamWriterFactory)
+    {
+        $this->junitXMLStreamWriterFactory = $junitXMLStreamWriterFactory;
     }
 }
 

@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,47 +29,45 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.11.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Runner;
+namespace Stagehand\TestRunner\Core\Plugin;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\ComponentAwareFactory;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.11.0
+ * @since      Class available since Release 3.0.0
  */
-class RunnerFactory
+class PluginAwareFactory extends ComponentAwareFactory
 {
     /**
-     * @var \Stagehand\TestRunner\Core\TestingFramework
-     * @since Property available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Core\Plugin\Plugin
      */
-    protected $testingFramework;
+    protected $plugin;
 
     /**
-     * @return \Stagehand\TestRunner\Runner\Runner
+     * @param string $componentID
+     * @return string
      */
-    public function create()
+    public function resolveComponentID($componentID)
     {
-        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'runner');
+        return $this->plugin->getPluginID() . '.' . $componentID;
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
-     * @since Method available since Release 3.0.0
+     * @param \Stagehand\TestRunner\Core\Plugin\Plugin $plugin
      */
-    public function setTestingFramework(TestingFramework $testingFramework)
+    public function setPlugin(Plugin $plugin)
     {
-        $this->testingFramework = $testingFramework;
+        $this->plugin = $plugin;
     }
 }
 

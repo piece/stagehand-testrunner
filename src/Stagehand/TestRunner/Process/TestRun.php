@@ -39,10 +39,7 @@
 
 namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Collector\CollectorFactory;
-use Stagehand\TestRunner\Notification\NotifierFactory;
-use Stagehand\TestRunner\Preparer\PreparerFactory;
-use Stagehand\TestRunner\Runner\RunnerFactory;
+use Stagehand\TestRunner\Core\ComponentAwareFactory;
 use Stagehand\TestRunner\Util\OutputBuffering;
 
 /**
@@ -68,25 +65,25 @@ class TestRun
     protected $outputBuffering;
 
     /**
-     * @param \Stagehand\TestRunner\Preparer\PreparerFactory
+     * @var \Stagehand\TestRunner\Core\ComponentAwareFactory
      * @since Property available since Release 3.0.0
      */
     protected $preparerFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Collector\CollectorFactory
+     * @var \Stagehand\TestRunner\Core\ComponentAwareFactory
      * @since Property available since Release 3.0.0
      */
     protected $collectorFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Runner\RunnerFactory
+     * @var \Stagehand\TestRunner\Core\ComponentAwareFactory
      * @since Property available since Release 3.0.0
      */
     protected $runnerFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Notification\NotifierFactory
+     * @var \Stagehand\TestRunner\Core\ComponentAwareFactory
      * @since Method available since Release 3.0.0
      */
     protected $notifierFactory;
@@ -119,37 +116,37 @@ class TestRun
     }
 
     /**
-     * @param \Stagehand\TestRunner\Preparer\PreparerFactory $preparerFactory
+     * @param \Stagehand\TestRunner\Core\ComponentAwareFactory $preparerFactory
      * @since Method available since Release 3.0.0
      */
-    public function setPreparerFactory(PreparerFactory $preparerFactory)
+    public function setPreparerFactory(ComponentAwareFactory $preparerFactory)
     {
         $this->preparerFactory = $preparerFactory;
     }
 
     /**
-     * @param \Stagehand\TestRunner\Collector\CollectorFactory $collectorFactory
+     * @param \Stagehand\TestRunner\Core\ComponentAwareFactory $collectorFactory
      * @since Method available since Release 3.0.0
      */
-    public function setCollectorFactory(CollectorFactory $collectorFactory)
+    public function setCollectorFactory(ComponentAwareFactory $collectorFactory)
     {
         $this->collectorFactory = $collectorFactory;
     }
 
     /**
-     * @param \Stagehand\TestRunner\Runner\RunnerFactory $runnerFactory
+     * @param \Stagehand\TestRunner\Core\ComponentAwareFactory $runnerFactory
      * @since Method available since Release 3.0.0
      */
-    public function setRunnerFactory(RunnerFactory $runnerFactory)
+    public function setRunnerFactory(ComponentAwareFactory $runnerFactory)
     {
         $this->runnerFactory = $runnerFactory;
     }
 
     /**
-     * @param \Stagehand\TestRunner\Notification\NotifierFactory $notifierFactory
+     * @param \Stagehand\TestRunner\Core\ComponentAwareFactory $notifierFactory
      * @since Method available since Release 3.0.0
      */
-    public function setNotifierFactory(NotifierFactory $notifierFactory)
+    public function setNotifierFactory(ComponentAwareFactory $notifierFactory)
     {
         $this->notifierFactory = $notifierFactory;
     }

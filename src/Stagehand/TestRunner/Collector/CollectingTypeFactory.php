@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Collector;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\ComponentAwareFactory;
 
 /**
  * The base class for test collectors.
@@ -48,7 +48,7 @@ use Stagehand\TestRunner\Core\ApplicationContext;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CollectingTypeFactory
+class CollectingTypeFactory extends ComponentAwareFactory
 {
     /**
      * @param string $type
@@ -57,7 +57,7 @@ class CollectingTypeFactory
      */
     public function create($type, array $expectedSuperTypes)
     {
-        $collectingType = ApplicationContext::getInstance()->createComponent('collecting_type');
+        $collectingType = parent::create();
         $collectingType->setType($type);
         $collectingType->setExpectedSuperTypes($expectedSuperTypes);
         return $collectingType;
