@@ -40,8 +40,6 @@
 namespace Stagehand\TestRunner\Process;
 
 use Stagehand\TestRunner\Collector\CollectorFactory;
-use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Notification\NotifierFactory;
 use Stagehand\TestRunner\Preparer\PreparerFactory;
 use Stagehand\TestRunner\Runner\RunnerFactory;
@@ -62,12 +60,6 @@ class TestRun
      * @since Property available since Release 2.18.0
      */
     protected $result;
-
-    /**
-     * @var \Stagehand\TestRunner\Core\TestingFramework
-     * @since Property available since Release 3.0.0
-     */
-    protected $testingFramework;
 
     /**
      * @var \Stagehand\TestRunner\Util\OutputBuffering
@@ -115,15 +107,6 @@ class TestRun
         if ($runner->usesNotification()) {
             $this->notifierFactory->create()->notifyResult($runner->getNotification());
         }
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
-     * @since Method available since Release 3.0.0
-     */
-    public function setTestingFramework(TestingFramework $testingFramework)
-    {
-        $this->testingFramework = $testingFramework;
     }
 
     /**

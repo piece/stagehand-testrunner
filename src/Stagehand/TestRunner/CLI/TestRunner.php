@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\CLI;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Process\Autotest\AutotestFactory;
 use Stagehand\TestRunner\Process\TestRunFactory;
 
@@ -55,11 +53,6 @@ class TestRunner
      * @var boolean
      */
     protected $enablesAutotest;
-
-    /**
-     * @var \Stagehand\TestRunner\Core\TestingFramework
-     */
-    protected $testingFramework;
 
     /**
      * @var \Stagehand\TestRunner\Process\TestRunFactory
@@ -90,14 +83,6 @@ class TestRunner
     public function setEnablesAutotest($enablesAutotest)
     {
         $this->enablesAutotest = $enablesAutotest;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\TestingFramework $testingFramework
-     */
-    public function setTestingFramework(TestingFramework $testingFramework)
-    {
-        $this->testingFramework = $testingFramework;
     }
 
     /**

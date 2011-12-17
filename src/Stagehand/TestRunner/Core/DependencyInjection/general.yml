@@ -52,12 +52,10 @@ services:
     class: Stagehand\TestRunner\CLI\TestRunner
     calls:
       - [ setEnablesAutotest, [ "%stagehand_testrunner.enables_autotest%" ] ]
-      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
       - [ setTestRunFactory, [ "@stagehand_testrunner.test_run_factory" ] ]
   stagehand_testrunner.test_run:
     class: Stagehand\TestRunner\Process\TestRun
     calls:
-      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
       - [ setOutputBuffering, [ "@stagehand_testrunner.output_buffering" ] ]
       - [ setCollectorFactory, [ "@stagehand_testrunner.collector_factory" ] ]
       - [ setPreparerFactory, [ "@stagehand_testrunner.preparer_factory" ] ]
