@@ -71,7 +71,7 @@ abstract class PluginExtension extends Extension
         if (ApplicationContext::getInstance()->getEnvironment()->isProduction()) {
             $selectedPlugin = PluginFinder::findByPluginID($container->getParameter(Package::PACKAGE_ID . '.' . 'testing_framework'));
             $currentPlugin = PluginFinder::findByPluginID($this->getAlias());
-            return $selectedPlugin instanceof $currentPlugin ? true : false;
+            return $selectedPlugin instanceof $currentPlugin;
         } else {
             return true;
         }
