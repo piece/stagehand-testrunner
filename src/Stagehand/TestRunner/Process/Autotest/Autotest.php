@@ -43,7 +43,6 @@ use Stagehand\TestRunner\Core\LegacyProxy;
 use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
-use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Notification\NotifierFactory;
 use Stagehand\TestRunner\Preparer\PreparerFactory;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
@@ -82,12 +81,6 @@ abstract class Autotest
      * @since Property available since Release 3.0.0
      */
     protected $terminal;
-
-    /**
-     * @var \Stagehand\TestRunner\Notification\Notifier
-     * @since Property available since Release 3.0.0
-     */
-    protected $notifier;
 
     /**
      * @var \Stagehand\TestRunner\Core\TestTargets
@@ -190,15 +183,6 @@ abstract class Autotest
     public function setTerminal(Terminal $terminal)
     {
         $this->terminal = $terminal;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Notification\Notifier $notifier
-     * @since Method available since Release 3.0.0
-     */
-    public function setNotifier(Notifier $notifier)
-    {
-        $this->notifier = $notifier;
     }
 
     /**
