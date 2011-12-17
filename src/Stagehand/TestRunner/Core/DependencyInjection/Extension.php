@@ -52,9 +52,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 abstract class Extension implements ExtensionInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
