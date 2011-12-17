@@ -77,6 +77,10 @@ services:
       - [ setPreparerFactory, [ "@stagehand_testrunner.preparer_factory" ] ]
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
       - [ setNotifierFactory, [ "@stagehand_testrunner.notifier_factory" ] ]
+  stagehand_testrunner.autotest_factory:
+    class: Stagehand\TestRunner\Process\Autotest\AutotestFactory
+    calls:
+      - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
   stagehand_testrunner.alteration_monitoring:
     class: Stagehand\TestRunner\Process\AlterationMonitoring
   stagehand_testrunner.terminal:

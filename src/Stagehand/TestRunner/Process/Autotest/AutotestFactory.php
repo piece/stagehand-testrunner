@@ -35,12 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI;
+namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\Process\Autotest\AutotestFactory;
-use Stagehand\TestRunner\Process\TestRunFactory;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,47 +47,19 @@ use Stagehand\TestRunner\Process\TestRunFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestRunner
+class AutotestFactory
 {
-    /**
-     * @var boolean
-     */
-    protected $enablesAutotest;
-
     /**
      * @var \Stagehand\TestRunner\Core\TestingFramework
      */
     protected $testingFramework;
 
     /**
-     * @var \Stagehand\TestRunner\Process\TestRunFactory
+     * @return \Stagehand\TestRunner\Process\Autotest\Autotest
      */
-    protected $testRunFactory;
-
-    /**
-     * @var \Stagehand\TestRunner\Process\Autotest\AutotestFactory
-     */
-    protected $autotestFactory;
-
-    /**
-     */
-    public function run()
+    public function create()
     {
-        if (!$this->enablesAutotest) {
-            $this->testRunFactory->create()->run();
-        } else {
-            $autotest = $this->autotestFactory->create();
-            $autotest->runTests();
-            $autotest->monitorAlteration();
-        }
-    }
-
-    /**
-     * @param boolean $enablesAutotest
-     */
-    public function setEnablesAutotest($enablesAutotest)
-    {
-        $this->enablesAutotest = $enablesAutotest;
+        return ApplicationContext::getInstance()->createComponent($this->testingFramework->getSelected() . '.' . 'autotest');
     }
 
     /**
@@ -98,22 +68,6 @@ class TestRunner
     public function setTestingFramework(TestingFramework $testingFramework)
     {
         $this->testingFramework = $testingFramework;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Process\TestRunFactory $testRunFactory
-     */
-    public function setTestRunFactory(TestRunFactory $testRunFactory)
-    {
-        $this->testRunFactory = $testRunFactory;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Process\Autotest\AutotestFactory $autotestFactory
-     */
-    public function setAutotestFactory(AutotestFactory $autotestFactory)
-    {
-        $this->autotestFactory = $autotestFactory;
     }
 }
 
