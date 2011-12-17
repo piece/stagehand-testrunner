@@ -53,6 +53,7 @@ services:
     calls:
       - [ setEnablesAutotest, [ "%stagehand_testrunner.enables_autotest%" ] ]
       - [ setTestingFramework, [ "@stagehand_testrunner.testing_framework" ] ]
+      - [ setTestRunFactory, [ "@stagehand_testrunner.test_run_factory" ] ]
   stagehand_testrunner.test_run:
     class: Stagehand\TestRunner\Process\TestRun
     calls:
@@ -62,6 +63,8 @@ services:
       - [ setPreparerFactory, [ "@stagehand_testrunner.preparer_factory" ] ]
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
       - [ setNotifierFactory, [ "@stagehand_testrunner.notifier_factory" ] ]
+  stagehand_testrunner.test_run_factory:
+    class: Stagehand\TestRunner\Process\TestRunFactory
   stagehand_testrunner.autotest:
     abstract: true
     calls:
