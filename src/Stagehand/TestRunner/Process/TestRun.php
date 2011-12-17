@@ -42,7 +42,6 @@ namespace Stagehand\TestRunner\Process;
 use Stagehand\TestRunner\Collector\CollectorFactory;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestingFramework;
-use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Notification\NotifierFactory;
 use Stagehand\TestRunner\Preparer\PreparerFactory;
 use Stagehand\TestRunner\Runner\RunnerFactory;
