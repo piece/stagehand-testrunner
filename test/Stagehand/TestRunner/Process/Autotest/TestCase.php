@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestingFramework;
 use Stagehand\TestRunner\Test\FactoryAwareTestCase;
 
 /**
@@ -75,11 +74,11 @@ abstract class TestCase extends FactoryAwareTestCase
             $terminal->setColors(true);
         };
         self::$configurators[] = function ($testingFramework) {
-            $autotest = ApplicationContext::getInstance()->createComponent($testingFramework . '.autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
+            $autotest = ApplicationContext::getInstance()->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
             $autotest->setPreloadFile('test/prepare.php');
         };
         self::$configurators[] = function ($testingFramework) {
-            $autotest = ApplicationContext::getInstance()->createComponent($testingFramework . '.autotest'); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
+            $autotest = ApplicationContext::getInstance()->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
             $autotest->setMonitoringDirectories(array('src'));
         };
         self::$configurators[] = function ($testingFramework) {
@@ -148,7 +147,7 @@ abstract class TestCase extends FactoryAwareTestCase
         \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('alteration_monitoring', $alterationMonitoring);
 
-        $autotest = $this->applicationContext->createComponent($this->getTestingFramework() . '.autotest');
+        $autotest = $this->applicationContext->createComponent('autotest_factory')->create();
         $autotest->monitorAlteration();
 
         $runnerCommand = $this->readAttribute($autotest, 'runnerCommand');
@@ -207,7 +206,7 @@ abstract class TestCase extends FactoryAwareTestCase
 
         call_user_func(self::$configurators[$configuratorIndex], $this->getTestingFramework());
 
-        $autotest = $this->applicationContext->createComponent($this->getTestingFramework() . '.autotest');
+        $autotest = $this->applicationContext->createComponent('autotest_factory')->create();
         $autotest->monitorAlteration();
 
         $runnerOptions = $this->readAttribute($autotest, 'runnerOptions');

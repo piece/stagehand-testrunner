@@ -206,7 +206,7 @@ abstract class TestCase extends FactoryAwareTestCase
         $runner->setJUnitXMLFile($this->junitXMLFile);
 
         ob_start();
-        $this->applicationContext->createComponent('test_run')->run();
+        $this->applicationContext->createComponent('test_run_factory')->create()->run();
         $this->output = ob_get_contents();
         ob_end_clean();
     }

@@ -90,7 +90,7 @@ class TestRunTest extends PHPUnitFactoryAwareTestCase
         }
         $this->applicationContext->setComponent('notifier', $notifier);
 
-        $this->applicationContext->createComponent('test_run')->run();
+        $this->applicationContext->createComponent('test_run_factory')->create()->run();
 
         \Phake::verify($preparer)->prepare();
         \Phake::verify($collector)->collect();

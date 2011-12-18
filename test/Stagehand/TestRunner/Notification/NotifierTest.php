@@ -65,7 +65,7 @@ class NotifierTest extends PHPUnitFactoryAwareTestCase
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
 
-        $notifier = $this->applicationContext->createComponent('notifier');
+        $notifier = $this->applicationContext->createComponent('notifier_factory')->create();
         $notifier->notifyResult(new Notification($result, self::NOTIFICATION_MESSAGE));
 
         \Phake::verify($legacyProxy)->system($this->matchesRegularExpression($commandRegex), $this->anything());
@@ -157,7 +157,7 @@ class NotifierTest extends PHPUnitFactoryAwareTestCase
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
 
-        $notifier = $this->applicationContext->createComponent('notifier');
+        $notifier = $this->applicationContext->createComponent('notifier_factory')->create();
         $notifier->notifyResult(new Notification(Notification::RESULT_STOPPED, 'Foo\Bar\Baz::qux()'));
 
         \Phake::verify($legacyProxy)->system(
