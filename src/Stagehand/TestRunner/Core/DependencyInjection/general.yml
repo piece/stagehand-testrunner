@@ -63,6 +63,7 @@ services:
     calls:
       - [ setEnablesAutotest, [ "%stagehand_testrunner.enables_autotest%" ] ]
       - [ setTestRunFactory, [ "@stagehand_testrunner.test_run_factory" ] ]
+      - [ setAutotestFactory, [ "@stagehand_testrunner.autotest_factory" ] ]
   stagehand_testrunner.test_run:
     class: Stagehand\TestRunner\Process\TestRun
     calls:
