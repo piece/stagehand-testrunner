@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner;
 
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Runner\TestCase;
 
 /**
@@ -53,9 +53,9 @@ class JUnitXMLTest extends TestCase
      * @return string
      * @since Method available since Release 3.0.0
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::PHPUNIT;
+        return PHPUnitPlugin::getPluginID();
     }
 
     /**

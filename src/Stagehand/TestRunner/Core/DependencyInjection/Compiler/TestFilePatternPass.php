@@ -61,7 +61,7 @@ class TestFilePatternPass implements CompilerPassInterface
                 Package::PACKAGE_ID . '.' . 'test_file_pattern',
                 $container->getParameter(
                     Package::PACKAGE_ID . '.' .
-                    $container->getParameter(Package::PACKAGE_ID . '.' . 'testing_framework') . '.' .
+                    $container->getParameter(Package::PACKAGE_ID . '.' . 'plugin_id') . '.' .
                     'test_file_pattern'
                 )
             );

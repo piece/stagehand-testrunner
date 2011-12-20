@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Test;
 
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -51,9 +51,9 @@ abstract class PHPUnitFactoryAwareTestCase extends FactoryAwareTestCase
     /**
      * @return string
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::PHPUNIT;
+        return PHPUnitPlugin::getPluginID();
     }
 }
 

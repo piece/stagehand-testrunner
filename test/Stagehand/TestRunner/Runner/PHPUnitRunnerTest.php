@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -63,9 +63,9 @@ class PHPUnitRunnerTest extends TestCase
      * @return string
      * @since Method available since Release 3.0.0
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::PHPUNIT;
+        return PHPUnitPlugin::getPluginID();
     }
 
     /**
@@ -529,7 +529,7 @@ class PHPUnitRunnerTest extends TestCase
      */
     public function configuresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile($testClass)
     {
-        $marker = 'STAGEHAND_TESTRUNNER_RUNNER_' . strtoupper($this->getTestingFramework()) . 'RUNNERTEST_bootstrapLoaded';
+        $marker = 'STAGEHAND_TESTRUNNER_RUNNER_' . strtoupper($this->getPluginID()) . 'RUNNERTEST_bootstrapLoaded';
         $GLOBALS[$marker] = false;
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');

@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\CLI;
 
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Test\TestCase;
 use Stagehand\TestRunner\Test\TestContainerBuilder;
 
@@ -59,9 +59,9 @@ class TestRunnerCLIControllerTest extends TestCase
      * @return string
      * @since Method available since Release 3.0.0
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::PHPUNIT;
+        return PHPUnitPlugin::getPluginID();
     }
 
     /**
@@ -148,7 +148,7 @@ class TestRunnerCLIControllerTest extends TestCase
 
         $controller = \Phake::partialMock(
             '\Stagehand\TestRunner\CLI\TestRunnerCLIController',
-            $this->getTestingFramework()
+            $this->getPluginID()
         );
         \Phake::when($controller)->createContainer()->thenReturn($this->applicationContext->getComponentFactory()->getContainer());
 

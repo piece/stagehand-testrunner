@@ -66,12 +66,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $this->applicationContext = $this->createApplicationContext();
         ApplicationContext::setInstance($this->applicationContext);
 
-        $testingFramework = \Phake::mock('Stagehand\TestRunner\Core\TestingFramework');
-        \Phake::when($testingFramework)->getSelected()->thenReturn($this->getTestingFramework());
-        $this->applicationContext->setComponent('testing_framework', $testingFramework);
         $this->applicationContext->setComponent(
             'plugin',
-            PluginFinder::findByPluginID($this->getTestingFramework())
+            PluginFinder::findByPluginID($this->getPluginID())
         );
     }
 
@@ -83,7 +80,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return string
      */
-    abstract protected function getTestingFramework();
+    abstract protected function getPluginID();
 
     /**
      * @return \Stagehand\TestRunner\Core\ApplicationContext

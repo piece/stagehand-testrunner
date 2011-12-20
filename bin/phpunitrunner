@@ -75,7 +75,7 @@ require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
 $bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
 $bootstrap->boot();
 
-$controller = new \Stagehand\TestRunner\CLI\TestRunnerCLIController(\Stagehand\TestRunner\Core\TestingFramework::PHPUNIT);
+$controller = new \Stagehand\TestRunner\CLI\TestRunnerCLIController(\Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin::getPluginID());
 $result = $controller->run();
 
 exit($result);

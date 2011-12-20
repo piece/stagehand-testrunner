@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -65,9 +65,9 @@ class CakePHPAutotestTest extends SimpleTestAutotestTest
     /**
      * @return string
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::CAKE;
+        return CakePHPPlugin::getPluginID();
     }
 
     /**

@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Process\Autotest;
 
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -56,9 +56,9 @@ class SimpleTestAutotestTest extends TestCase
     /**
      * @return string
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::SIMPLETEST;
+        return SimpleTestPlugin::getPluginID();
     }
 }
 

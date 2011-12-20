@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
 
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/web_tester.php';
@@ -77,9 +77,9 @@ class CakePHPRunnerTest extends SimpleTestRunnerTest
      * @return string
      * @since Method available since Release 3.0.0
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::CAKE;
+        return CakePHPPlugin::getPluginID();
     }
 
     /**

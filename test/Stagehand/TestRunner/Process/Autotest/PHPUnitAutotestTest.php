@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Test\FactoryAwareTestCase;
 
 /**
@@ -68,9 +68,9 @@ class PHPUnitAutotestTest extends TestCase
     /**
      * @return string
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::PHPUNIT;
+        return PHPUnitPlugin::getPluginID();
     }
 
     /**

@@ -39,7 +39,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -62,9 +62,9 @@ class SimpleTestRunnerTest extends TestCase
         $preparer = $this->createPreparer();
         $preparer->prepare();
 
-        class_exists('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClassesTest');
+        class_exists('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClassesTest');
         if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            class_exists('\Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespaceTest');
+            class_exists('\Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespaceTest');
         }
     }
 
@@ -72,9 +72,9 @@ class SimpleTestRunnerTest extends TestCase
      * @return string
      * @since Method available since Release 3.0.0
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::SIMPLETEST;
+        return SimpleTestPlugin::getPluginID();
     }
 
     protected function setUp()
@@ -101,19 +101,19 @@ class SimpleTestRunnerTest extends TestCase
         $testTargets = $this->createTestTargets();
         $testTargets->setMethods(array($testMethod));
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses2Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test');
 
         $this->runTests();
 
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'
+            'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'
         );
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses2Test'
+            'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test'
         );
     }
 
@@ -132,23 +132,23 @@ class SimpleTestRunnerTest extends TestCase
         $testTargets = $this->createTestTargets();
         $testTargets->setMethods(array($testMethod));
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses2Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test');
 
         $this->runTests();
 
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'
+            'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'
         );
     }
 
     public function provideFullyQualifiedMethodNames()
     {
         return array(
-                   array('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test::testPass1'),
-                   array('stagehand_testrunner_' . strtolower($this->getTestingFramework()) . 'multipleclasses1test::testpass1')
+                   array('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test::testPass1'),
+                   array('stagehand_testrunner_' . strtolower($this->getPluginID()) . 'multipleclasses1test::testpass1')
                );
     }
 
@@ -168,15 +168,15 @@ class SimpleTestRunnerTest extends TestCase
         $testTargets = $this->createTestTargets();
         $testTargets->setMethods(array($testMethod));
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test');
-        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace2Test');
+        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test');
+        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace2Test');
 
         $this->runTests();
 
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test'
+            'Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test'
         );
     }
 
@@ -187,9 +187,9 @@ class SimpleTestRunnerTest extends TestCase
     public function provideFullyQualifiedMethodNamesWithNamespaces()
     {
         return array(
-                   array('\Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test::testPass1'),
-                   array('\stagehand\testrunner\\' . strtolower($this->getTestingFramework()) . 'multipleclasseswithnamespace1test::testpass1'),
-                   array('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test::testPass1')
+                   array('\Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test::testPass1'),
+                   array('\stagehand\testrunner\\' . strtolower($this->getPluginID()) . 'multipleclasseswithnamespace1test::testpass1'),
+                   array('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test::testPass1')
                );
     }
 
@@ -203,27 +203,27 @@ class SimpleTestRunnerTest extends TestCase
         $testTargets = $this->createTestTargets();
         $testTargets->setClasses(array($testClass));
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses2Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test');
 
         $this->runTests();
 
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'
+            'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'
         );
         $this->assertTestCaseExists(
             'testPass2',
-            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'
+            'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'
         );
     }
 
     public function provideClasses()
     {
         return array(
-                   array('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'),
-                   array('stagehand_testrunner_' . $this->getTestingFramework() . 'multipleclasses1test')
+                   array('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'),
+                   array('stagehand_testrunner_' . $this->getPluginID() . 'multipleclasses1test')
                );
     }
 
@@ -243,19 +243,19 @@ class SimpleTestRunnerTest extends TestCase
         $testTargets = $this->createTestTargets();
         $testTargets->setClasses(array($testClass));
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test');
-        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace2Test');
+        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test');
+        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace2Test');
 
         $this->runTests();
 
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists(
             'testPass1',
-            'Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test'
+            'Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test'
         );
         $this->assertTestCaseExists(
             'testPass2',
-            'Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test'
+            'Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test'
         );
     }
 
@@ -266,9 +266,9 @@ class SimpleTestRunnerTest extends TestCase
     public function provideClassesWithNamespaces()
     {
         return array(
-                   array('\Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test'),
-                   array('\stagehand\testrunner\\' . $this->getTestingFramework() . 'multipleclassesWithNamespace1test'),
-                   array('Stagehand\TestRunner\\' . $this->getTestingFramework() . 'MultipleClassesWithNamespace1Test')
+                   array('\Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test'),
+                   array('\stagehand\testrunner\\' . $this->getPluginID() . 'multipleclassesWithNamespace1test'),
+                   array('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test')
                );
     }
 
@@ -279,8 +279,8 @@ class SimpleTestRunnerTest extends TestCase
     public function stopsTheTestRunWhenTheFirstFailureIsRaised()
     {
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureAndPassTest');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'FailureAndPassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest');
         $runner = $this->createRunner();
         $runner->setStopsOnFailure(true);
 
@@ -289,7 +289,7 @@ class SimpleTestRunnerTest extends TestCase
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testIsFailure',
-            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureAndPassTest'
+            'Stagehand_TestRunner_' . $this->getPluginID() . 'FailureAndPassTest'
         );
     }
 
@@ -300,8 +300,8 @@ class SimpleTestRunnerTest extends TestCase
     public function stopsTheTestRunWhenTheFirstErrorIsRaised()
     {
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorAndPassTest');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorAndPassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest');
         $runner = $this->createRunner();
         $runner->setStopsOnFailure(true);
 
@@ -310,7 +310,7 @@ class SimpleTestRunnerTest extends TestCase
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists(
             'testIsError',
-            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorAndPassTest'
+            'Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorAndPassTest'
         );
     }
 
@@ -347,7 +347,7 @@ class SimpleTestRunnerTest extends TestCase
      */
     public function reportsOnlyTheFirstFailureInASingleTestToJunitXml()
     {
-        $testClass = 'Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleFailuresTest';
+        $testClass = 'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleFailuresTest';
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
 

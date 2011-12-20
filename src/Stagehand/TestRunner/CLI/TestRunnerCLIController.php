@@ -83,14 +83,14 @@ class TestRunnerCLIController extends \Stagehand_CLIController
      * @var string
      * @since Property available since Release 3.0.0
      */
-    protected $testingFramework;
+    protected $pluginID;
 
     /**
-     * @param string $testingFramework
+     * @param string $pluginID
      */
-    public function __construct($testingFramework)
+    public function __construct($pluginID)
     {
-        $this->testingFramework = $testingFramework;
+        $this->pluginID = $pluginID;
         ApplicationContext::getInstance()
             ->getEnvironment()
             ->setWorkingDirectoryAtStartup($GLOBALS['STAGEHAND_TESTRUNNER_CONFIG_workingDirectoryAtStartup']);
@@ -110,7 +110,7 @@ class TestRunnerCLIController extends \Stagehand_CLIController
     public function run()
     {
         $this->configurationTransformer = new ConfigurationTransformer($this->createContainer());
-        $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => $this->testingFramework));
+        $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => $this->pluginID));
         return parent::run();
     }
 
@@ -306,7 +306,7 @@ OPTIONS
      */
     protected function printVersion()
     {
-        echo "Stagehand_TestRunner @package_version@ ({$this->testingFramework})
+        echo "Stagehand_TestRunner @package_version@ ({$this->pluginID})
 
 Copyright (c) 2005-2011 KUBO Atsuhiro <kubo@iteman.jp>,
               2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,

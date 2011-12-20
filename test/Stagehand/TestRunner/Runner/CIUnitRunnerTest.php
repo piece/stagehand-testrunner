@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -73,9 +73,9 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
      * @return string
      * @since Method available since Release 3.0.0
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::CIUNIT;
+        return CIUnitPlugin::getPluginID();
     }
 
     /**

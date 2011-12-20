@@ -23,7 +23,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
-  stagehand_testrunner.testing_framework: ~
+  stagehand_testrunner.plugin_id: ~
   stagehand_testrunner.recursively_scans: false
   stagehand_testrunner.colors: false
   stagehand_testrunner.preload_file: null
@@ -45,13 +45,10 @@ services:
     class: Stagehand\TestRunner\Core\Plugin\Plugin
     factory_class: Stagehand\TestRunner\Core\Plugin\PluginFinder
     factory_method: findByPluginID
-    arguments: [ "%stagehand_testrunner.testing_framework%" ]
+    arguments: [ "%stagehand_testrunner.plugin_id%" ]
   stagehand_testrunner.plugin_aware_factory_factory:
     class: Stagehand\TestRunner\Core\Plugin\PluginAwareFactoryFactory
     arguments: [ "@stagehand_testrunner.plugin" ]
-  stagehand_testrunner.testing_framework:
-    class: Stagehand\TestRunner\Core\TestingFramework
-    arguments: [ "%stagehand_testrunner.testing_framework%" ]
   stagehand_testrunner.legacy_proxy:
     class: Stagehand\TestRunner\Core\LegacyProxy
   stagehand_testrunner.output_buffering:

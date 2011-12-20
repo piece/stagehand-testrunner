@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -61,9 +61,9 @@ class CIUnitAutotestTest extends PHPUnitAutotestTest
     /**
      * @return string
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::CIUNIT;
+        return CIUnitPlugin::getPluginID();
     }
 
     /**

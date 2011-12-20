@@ -204,7 +204,7 @@ abstract class TestCase extends FactoryAwareTestCase
         \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('alteration_monitoring', $alterationMonitoring);
 
-        call_user_func(self::$configurators[$configuratorIndex], $this->getTestingFramework());
+        call_user_func(self::$configurators[$configuratorIndex], $this->getPluginID());
 
         $autotest = $this->applicationContext->createComponent('autotest_factory')->create();
         $autotest->monitorAlteration();

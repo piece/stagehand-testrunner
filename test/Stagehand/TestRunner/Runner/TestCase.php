@@ -86,7 +86,7 @@ abstract class TestCase extends FactoryAwareTestCase
         $testTargets = $this->createTestTargets();
         $testTargets->setFilePattern(
             $this->applicationContext->getComponentFactory()->getParameter(
-                strtolower($this->getTestingFramework()) . '.' . 'test_file_pattern'
+                strtolower($this->getPluginID()) . '.' . 'test_file_pattern'
             )
         );
 

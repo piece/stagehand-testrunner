@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
-use Stagehand\TestRunner\Core\TestingFramework;
+use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 use Stagehand\TestRunner\Runner\TestCase;
 
 /**
@@ -60,16 +60,16 @@ class JUnitXMLTest extends TestCase
         $preparer = $this->createPreparer();
         $preparer->prepare();
 
-        class_exists('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClassesTest');
+        class_exists('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClassesTest');
     }
 
     /**
      * @return string
      * @since Method available since Release 3.0.0
      */
-    protected function getTestingFramework()
+    protected function getPluginID()
     {
-        return TestingFramework::SIMPLETEST;
+        return SimpleTestPlugin::getPluginID();
     }
 
     protected function setUp()
@@ -92,11 +92,11 @@ class JUnitXMLTest extends TestCase
     public function logsTestResultsIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureTest');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorTest');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'SkipClassTest');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'SkipMethodTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'FailureTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'SkipClassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'SkipMethodTest');
 
         $this->runTests();
 
@@ -116,10 +116,10 @@ class JUnitXMLTest extends TestCase
 
         $childTestsuite = $parentTestsuite->childNodes->item(0);
         $this->assertTrue($childTestsuite->hasChildNodes());
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(3, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(4, $childTestsuite->getAttribute('assertions'));
@@ -130,7 +130,7 @@ class JUnitXMLTest extends TestCase
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertEquals('testPassWithAnAssertion', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testPassWithAnAssertion');
@@ -141,7 +141,7 @@ class JUnitXMLTest extends TestCase
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertEquals('testPassWithMultipleAssertions',
                             $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testPassWithMultipleAssertions');
@@ -151,7 +151,7 @@ class JUnitXMLTest extends TestCase
         $testcase = $childTestsuite->childNodes->item(2);
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertEquals('test日本語を使用できる', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('test日本語を使用できる');
@@ -160,10 +160,10 @@ class JUnitXMLTest extends TestCase
 
         $childTestsuite = $parentTestsuite->childNodes->item(1);
         $this->assertTrue($childTestsuite->hasChildNodes());
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'FailureTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getPluginID() . 'FailureTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(1, $childTestsuite->getAttribute('assertions'));
@@ -174,7 +174,7 @@ class JUnitXMLTest extends TestCase
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertEquals('testIsFailure', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'FailureTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testIsFailure');
@@ -185,10 +185,10 @@ class JUnitXMLTest extends TestCase
 
         $childTestsuite = $parentTestsuite->childNodes->item(2);
         $this->assertTrue($childTestsuite->hasChildNodes());
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(0, $childTestsuite->getAttribute('assertions'));
@@ -199,7 +199,7 @@ class JUnitXMLTest extends TestCase
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertEquals('testIsError', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testIsError');
@@ -211,10 +211,10 @@ class JUnitXMLTest extends TestCase
 
         $childTestsuite = $parentTestsuite->childNodes->item(3);
         $this->assertTrue($childTestsuite->hasChildNodes());
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'SkipClassTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'SkipClassTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getTestingFramework() . 'SkipClassTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getPluginID() . 'SkipClassTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(0, $childTestsuite->getAttribute('assertions'));
@@ -225,7 +225,7 @@ class JUnitXMLTest extends TestCase
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertEquals('skip', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'SkipClassTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'SkipClassTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('skip');
@@ -236,10 +236,10 @@ class JUnitXMLTest extends TestCase
 
         $childTestsuite = $parentTestsuite->childNodes->item(4);
         $this->assertTrue($childTestsuite->hasChildNodes());
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'SkipMethodTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'SkipMethodTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getTestingFramework() . 'SkipMethodTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getPluginID() . 'SkipMethodTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(2, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(1, $childTestsuite->getAttribute('assertions'));
@@ -251,7 +251,7 @@ class JUnitXMLTest extends TestCase
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertEquals('testPass', $testcase->getAttribute('name'));
         $this->assertEquals(
-            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'SkipMethodTest',
+            'Stagehand_TestRunner_' . $this->getPluginID() . 'SkipMethodTest',
             $testcase->getAttribute('class')
         );
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
@@ -263,7 +263,7 @@ class JUnitXMLTest extends TestCase
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertEquals('testIsSkipped', $testcase->getAttribute('name'));
         $this->assertEquals(
-            'Stagehand_TestRunner_' . $this->getTestingFramework() . 'SkipMethodTest',
+            'Stagehand_TestRunner_' . $this->getPluginID() . 'SkipMethodTest',
             $testcase->getAttribute('class')
         );
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
@@ -302,12 +302,12 @@ class JUnitXMLTest extends TestCase
     public function logsTestResultsInRealtimeIntoTheSpecifiedFileInTheJunitXmlFormat()
     {
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureTest');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'FailureTest');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorTest');
         $this->applicationContext->setComponentClass(
-            $this->getTestingFramework() . '.runner',
-            '\Stagehand\TestRunner\Runner\\' . $this->getTestingFramework() . 'Runner\JUnitXMLTest\Mock' . $this->getTestingFramework() . 'Runner'
+            $this->getPluginID() . '.runner',
+            '\Stagehand\TestRunner\Runner\\' . $this->getPluginID() . 'Runner\JUnitXMLTest\Mock' . $this->getPluginID() . 'Runner'
         );
         $junitXMLWriterFactory = $this->applicationContext->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */
         $junitXMLWriterFactory->setLogsResultsInRealtime(true);
@@ -320,12 +320,12 @@ class JUnitXMLTest extends TestCase
         $this->assertEquals(22, count($streamContents));
         $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL . '<testsuites>', $streamContents[0]);
         $this->assertEquals('<testsuite name="The test suite generated by Stagehand_TestRunner" tests="5">', $streamContents[1]);
-        $this->assertRegExp('!^<testsuite name="Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest" tests="3" file=".+">$!', $streamContents[2]);
-        $this->assertRegExp('!^<testcase name="testPassWithAnAssertion" class="Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest" file=".+" line="\d+">$!', $streamContents[3]);
+        $this->assertRegExp('!^<testsuite name="Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest" tests="3" file=".+">$!', $streamContents[2]);
+        $this->assertRegExp('!^<testcase name="testPassWithAnAssertion" class="Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest" file=".+" line="\d+">$!', $streamContents[3]);
         $this->assertEquals('</testcase>', $streamContents[4]);
-        $this->assertRegExp('!^<testcase name="testPassWithMultipleAssertions" class="Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest" file=".+" line="\d+">$!', $streamContents[5]);
+        $this->assertRegExp('!^<testcase name="testPassWithMultipleAssertions" class="Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest" file=".+" line="\d+">$!', $streamContents[5]);
         $this->assertEquals('</testcase>', $streamContents[6]);
-        $this->assertRegExp('!^<testcase name="test日本語を使用できる" class="Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest" file=".+" line="\d+">$!', $streamContents[7]);
+        $this->assertRegExp('!^<testcase name="test日本語を使用できる" class="Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest" file=".+" line="\d+">$!', $streamContents[7]);
         $this->assertEquals('</testcase>', $streamContents[8]);
         $this->assertEquals('</testsuite>', $streamContents[9]);
         $this->assertEquals('</testsuite>', $streamContents[20]);
@@ -342,10 +342,10 @@ class JUnitXMLTest extends TestCase
 
         $childTestsuite = $parentTestsuite->childNodes->item(0);
         $this->assertTrue($childTestsuite->hasChildNodes());
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(3, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(3, $childTestsuite->childNodes->length);
@@ -353,7 +353,7 @@ class JUnitXMLTest extends TestCase
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertEquals('testPassWithAnAssertion', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testPassWithAnAssertion');
@@ -363,7 +363,7 @@ class JUnitXMLTest extends TestCase
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertEquals('testPassWithMultipleAssertions',
                             $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testPassWithMultipleAssertions');
@@ -372,7 +372,7 @@ class JUnitXMLTest extends TestCase
         $testcase = $childTestsuite->childNodes->item(2);
         $this->assertFalse($testcase->hasChildNodes());
         $this->assertEquals('test日本語を使用できる', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'PassTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('test日本語を使用できる');
@@ -380,10 +380,10 @@ class JUnitXMLTest extends TestCase
 
         $childTestsuite = $parentTestsuite->childNodes->item(1);
         $this->assertTrue($childTestsuite->hasChildNodes());
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'FailureTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getPluginID() . 'FailureTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(1, $childTestsuite->childNodes->length);
@@ -391,7 +391,7 @@ class JUnitXMLTest extends TestCase
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertEquals('testIsFailure', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'FailureTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'FailureTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testIsFailure');
@@ -401,10 +401,10 @@ class JUnitXMLTest extends TestCase
 
         $childTestsuite = $parentTestsuite->childNodes->item(2);
         $this->assertTrue($childTestsuite->hasChildNodes());
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorTest',
                             $childTestsuite->getAttribute('name'));
         $this->assertTrue($childTestsuite->hasAttribute('file'));
-        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorTest');
+        $class = new \ReflectionClass('Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorTest');
         $this->assertEquals($class->getFileName(), $childTestsuite->getAttribute('file'));
         $this->assertEquals(1, $childTestsuite->getAttribute('tests'));
         $this->assertEquals(1, $childTestsuite->childNodes->length);
@@ -412,7 +412,7 @@ class JUnitXMLTest extends TestCase
         $testcase = $childTestsuite->childNodes->item(0);
         $this->assertTrue($testcase->hasChildNodes());
         $this->assertEquals('testIsError', $testcase->getAttribute('name'));
-        $this->assertEquals('Stagehand_TestRunner_' . $this->getTestingFramework() . 'ErrorTest',
+        $this->assertEquals('Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorTest',
                             $testcase->getAttribute('class'));
         $this->assertEquals($class->getFileName(), $testcase->getAttribute('file'));
         $method = $class->getMethod('testIsError');
@@ -431,7 +431,7 @@ class JUnitXMLTest extends TestCase
         $testTargets = $this->createTestTargets();
         $testTargets->setMethods(array('testPass1'));
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test');
         $junitXMLWriterFactory = $this->applicationContext->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */
         $junitXMLWriterFactory->setLogsResultsInRealtime(true);
 
@@ -453,10 +453,10 @@ class JUnitXMLTest extends TestCase
     public function countsTheNumberOfTestsForClassFiltersWithTheRealtimeOption()
     {
         $testTargets = $this->createTestTargets();
-        $testTargets->setClasses(array('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test'));
+        $testTargets->setClasses(array('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'));
         $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses1Test');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getTestingFramework() . 'MultipleClasses2Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test');
+        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test');
         $junitXMLWriterFactory = $this->applicationContext->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */
         $junitXMLWriterFactory->setLogsResultsInRealtime(true);
 
@@ -481,8 +481,8 @@ class JUnitXMLTest extends TestCase
     public function logsTheClassAndFileWhereATestCaseHasBeenDefined($logsResultsInJUnitXMLInRealtime)
     {
         $methodName = 'testTestShouldPassCommon';
-        $className = 'Stagehand_TestRunner_' . $this->getTestingFramework() . 'ExtendedTest';
-        $parentClassName = 'Stagehand_TestRunner_' . $this->getTestingFramework() . 'CommonTest';
+        $className = 'Stagehand_TestRunner_' . $this->getPluginID() . 'ExtendedTest';
+        $parentClassName = 'Stagehand_TestRunner_' . $this->getPluginID() . 'CommonTest';
         $collector = $this->createCollector();
         $collector->collectTestCase($className);
         $junitXMLWriterFactory = $this->applicationContext->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */

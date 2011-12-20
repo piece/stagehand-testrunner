@@ -65,7 +65,7 @@ class GeneralExtension extends Extension
      */
     protected function transformConfiguration(ContainerBuilder $container, array $config)
     {
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'testing_framework', $config['testing_framework']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'plugin_id', $config['testing_framework']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'recursively_scans', $config['recursively_scans']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'colors', $config['colors']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'preload_file', $config['preload_file']);

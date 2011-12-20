@@ -69,7 +69,7 @@ abstract class PluginExtension extends Extension
     protected function shouldLoad(ContainerBuilder $container)
     {
         if (ApplicationContext::getInstance()->getEnvironment()->isProduction()) {
-            $selectedPlugin = PluginFinder::findByPluginID($container->getParameter(Package::PACKAGE_ID . '.' . 'testing_framework'));
+            $selectedPlugin = PluginFinder::findByPluginID($container->getParameter(Package::PACKAGE_ID . '.' . 'plugin_id'));
             $currentPlugin = PluginFinder::findByPluginID($this->getAlias());
             return $selectedPlugin instanceof $currentPlugin;
         } else {
