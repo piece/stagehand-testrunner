@@ -88,6 +88,7 @@ class ConfigurationTransformer
 
     /**
      * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
     public function transformToContainer()
     {
@@ -120,11 +121,17 @@ class ConfigurationTransformer
 
     /**
      * @return array
+     * @throws \Stagehand\TestRunner\Core\FrameworkUnavailableException
      */
     protected function getExtensions()
     {
+        $plugins = PluginFinder::findAll();
+        if (count($plugins) == 0) {
+            throw new FrameworkUnavailableException('Stagehand_TestRunner is unavailable since no plugins are found in this installation.');
+        }
+
         $extensions = array(new GeneralExtension());
-        foreach (PluginFinder::findAll() as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\Plugin */
+        foreach ($plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\Plugin */
             $extensionClass = __NAMESPACE__ .
                 '\\DependencyInjection\\' .
                 $plugin->getPluginID() . 'Extension';
