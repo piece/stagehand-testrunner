@@ -65,14 +65,14 @@ class CakePHPExtension extends PluginExtension
     {
         if (array_key_exists('cakephp_app_path', $config)) {
             $container->setParameter(
-                Package::PACKAGE_ID . '.' . 'cakephp' . '.' . 'cakephp_app_path',
+                Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'cakephp_app_path',
                 $config['cakephp_app_path']
             );
         }
 
         if (array_key_exists('cakephp_core_path', $config)) {
             $container->setParameter(
-                Package::PACKAGE_ID . '.' . 'cakephp' . '.' . 'cakephp_core_path',
+                Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'cakephp_core_path',
                 $config['cakephp_core_path']
             );
         }

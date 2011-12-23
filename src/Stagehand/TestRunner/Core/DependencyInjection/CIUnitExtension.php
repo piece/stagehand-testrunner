@@ -65,7 +65,7 @@ class CIUnitExtension extends PluginExtension
     {
         if (array_key_exists('ciunit_path', $config)) {
             $container->setParameter(
-                Package::PACKAGE_ID . '.' . 'ciunit' . '.' . 'ciunit_path',
+                Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'ciunit_path',
                 $config['ciunit_path']
             );
         }

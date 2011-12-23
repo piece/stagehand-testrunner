@@ -65,14 +65,14 @@ class PHPUnitExtension extends PluginExtension
     {
         if (array_key_exists('prints_detailed_progress_report', $config)) {
             $container->setParameter(
-                Package::PACKAGE_ID . '.' . 'phpunit' . '.' . 'prints_detailed_progress_report',
+                Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'prints_detailed_progress_report',
                 $config['prints_detailed_progress_report']
             );
         }
 
         if (array_key_exists('phpunit_config_file', $config)) {
             $container->setParameter(
-                Package::PACKAGE_ID . '.' . 'phpunit' . '.' . 'phpunit_config_file',
+                Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'phpunit_config_file',
                 $config['phpunit_config_file']
             );
         }
