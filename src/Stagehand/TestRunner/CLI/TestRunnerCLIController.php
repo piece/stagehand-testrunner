@@ -93,7 +93,7 @@ class TestRunnerCLIController extends \Stagehand_CLIController
         $this->pluginID = $pluginID;
         ApplicationContext::getInstance()
             ->getEnvironment()
-            ->setWorkingDirectoryAtStartup($GLOBALS['STAGEHAND_TESTRUNNER_CONFIG_workingDirectoryAtStartup']);
+            ->setWorkingDirectoryAtStartup($GLOBALS['STAGEHAND_TESTRUNNER_workingDirectoryAtStartup']);
     }
 
     /**

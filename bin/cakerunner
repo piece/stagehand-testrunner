@@ -37,7 +37,7 @@
  */
 
 // Gets the current directory at startup.
-$GLOBALS['STAGEHAND_TESTRUNNER_CONFIG_workingDirectoryAtStartup'] = getcwd();
+$GLOBALS['STAGEHAND_TESTRUNNER_workingDirectoryAtStartup'] = getcwd();
 
 // Finds the preload option and preloads a file as a PHP script if it is specified.
 $preload = create_function('', '
