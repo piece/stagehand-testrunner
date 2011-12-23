@@ -64,6 +64,7 @@ class TestRunner
     protected $autotestFactory;
 
     /**
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
     public function run()
     {

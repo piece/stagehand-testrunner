@@ -124,6 +124,8 @@ abstract class Autotest
      * Monitors for changes in one or more target directories and runs tests in
      * the test directory recursively when changes are detected. And also the test
      * directory is always added to the directories to be monitored.
+     *
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
     public function monitorAlteration()
     {
@@ -135,6 +137,7 @@ abstract class Autotest
     }
 
     /**
+     * @throws \Stagehand\TestRunner\Core\Exception
      * @since Method available since Release 2.18.0
      */
     public function runTests()

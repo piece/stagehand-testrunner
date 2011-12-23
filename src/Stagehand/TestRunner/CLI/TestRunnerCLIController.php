@@ -118,6 +118,7 @@ class TestRunnerCLIController extends \Stagehand_CLIController
      * @param string $option
      * @param string $value
      * @return boolean
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
     protected function configureByOption($option, $value)
     {
@@ -197,6 +198,7 @@ class TestRunnerCLIController extends \Stagehand_CLIController
     }
 
     /**
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
     protected function doRun()
     {
