@@ -44,7 +44,7 @@ namespace Stagehand\TestRunner\Process;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class Process
+class StreamableProcess
 {
     /**
      * @var string

@@ -45,7 +45,7 @@ use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
-use Stagehand\TestRunner\Process\Process;
+use Stagehand\TestRunner\Process\StreamableProcess;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -147,7 +147,7 @@ abstract class Autotest
         }
 
         $streamOutput = '';
-        $process = new Process($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
+        $process = new StreamableProcess($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
         $process->addOutputStreamListener(function ($buffer) {
             echo $buffer;
         });
