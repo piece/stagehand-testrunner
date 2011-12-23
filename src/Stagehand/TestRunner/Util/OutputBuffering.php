@@ -55,7 +55,7 @@ class OutputBuffering
     protected $legacyProxy;
 
     /**
-     * @Throws \Stagehand\TestRunner\Util\CannotRemoveException
+     * @throws \Stagehand\TestRunner\Util\CannotRemoveException
      */
     public function clearOutputHandlers()
     {
