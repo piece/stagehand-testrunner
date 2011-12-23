@@ -52,11 +52,11 @@ class CakePHPAutotestTest extends SimpleTestAutotestTest
     public static function setUpBeforeClass()
     {
         SimpleTestAutotestTest::setUpBeforeClass();
-        static::$configurators[] = function ($testingFramework) {
+        static::$configurators[] = function () {
             $preparer = ApplicationContext::getInstance()->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePHPPreparer */
             $preparer->setCakePHPAppPath('DIRECTORY');
         };
-        static::$configurators[] = function ($testingFramework) {
+        static::$configurators[] = function () {
             $preparer = ApplicationContext::getInstance()->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePHPPreparer */
             $preparer->setCakePHPCorePath('DIRECTORY');
         };

@@ -61,51 +61,51 @@ abstract class TestCase extends FactoryAwareTestCase
     protected static function initializeConfigurators()
     {
         self::$configurators = array();
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setRecursivelyScans(true);
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setRecursivelyScans(false);
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $terminal = ApplicationContext::getInstance()->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
             $terminal->setColors(true);
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $autotest = ApplicationContext::getInstance()->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
             $autotest->setPreloadFile('test/prepare.php');
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $autotest = ApplicationContext::getInstance()->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
             $autotest->setMonitoringDirectories(array('src'));
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
             $runner->setUsesNotification(true);
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setMethods(array('METHOD1'));
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setClasses(array('CLASS1'));
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
             $runner->setJUnitXMLFile('FILE');
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $junitXMLWriterFactory = ApplicationContext::getInstance()->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */
             $junitXMLWriterFactory->setLogsResultsInRealtime(true);
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
             $runner->setStopsOnFailure(true);
         };
-        self::$configurators[] = function ($testingFramework) {
+        self::$configurators[] = function () {
             $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setFilePattern('PATTERN');
         };

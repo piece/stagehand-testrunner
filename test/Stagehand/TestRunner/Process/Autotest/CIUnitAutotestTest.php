@@ -52,7 +52,7 @@ class CIUnitAutotestTest extends PHPUnitAutotestTest
     public static function setUpBeforeClass()
     {
         PHPUnitAutotestTest::setUpBeforeClass();
-        static::$configurators[] = function ($testingFramework) {
+        static::$configurators[] = function () {
             $preparer = ApplicationContext::getInstance()->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\CIUnitPreparer */
             $preparer->setCIUnitPath('DIRECTORY');
         };
