@@ -55,9 +55,6 @@ class GeneralConfiguration extends Configuration
      */
     private static $CONFIGURATION_ID = 'general';
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getConfigurationID()
     {
         return self::$CONFIGURATION_ID;

@@ -50,9 +50,6 @@ use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
  */
 class CakePHPConfiguration extends SimpleTestConfiguration
 {
-    /**
-     * {@inheritDoc}
-     */
     public static function getConfigurationID()
     {
         return strtolower(CakePHPPlugin::getPluginID());

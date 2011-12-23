@@ -49,9 +49,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
  */
 class TestContainerBuilder extends ContainerBuilder
 {
-    /**
-     * {@inheritDoc}
-     */
     public function compile()
     {
         parent::compile();

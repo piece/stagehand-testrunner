@@ -48,9 +48,6 @@ class SimpleTestPlugin implements Plugin
 {
     private static $PLUGIN_ID = 'SimpleTest';
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getPluginID()
     {
         return self::$PLUGIN_ID;

@@ -51,9 +51,6 @@ use Stagehand\TestRunner\Core\Package;
  */
 class TestFilePatternPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (is_null($container->getParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern'))) {

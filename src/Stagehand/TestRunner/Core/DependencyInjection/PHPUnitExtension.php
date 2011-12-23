@@ -52,9 +52,6 @@ use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
  */
 class PHPUnitExtension extends PluginExtension
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getAlias()
     {
         return strtolower(PHPUnitPlugin::getPluginID());
@@ -81,9 +78,6 @@ class PHPUnitExtension extends PluginExtension
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function createConfiguration()
     {
         return new PHPUnitConfiguration();

@@ -51,9 +51,6 @@ use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
  */
 class PHPSpecExtension extends PluginExtension
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getAlias()
     {
         return strtolower(PHPSpecPlugin::getPluginID());
@@ -67,9 +64,6 @@ class PHPSpecExtension extends PluginExtension
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function createConfiguration()
     {
         return new PHPSpecConfiguration();

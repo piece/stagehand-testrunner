@@ -51,9 +51,6 @@ use Stagehand\TestRunner\Core\Package;
  */
 class GeneralExtension extends Extension
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getAlias()
     {
         return 'general';
@@ -93,9 +90,6 @@ class GeneralExtension extends Extension
         $container->setParameter(Package::PACKAGE_ID . '.' . 'test_resources', $config['test_resources']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function createConfiguration()
     {
         return new GeneralConfiguration();

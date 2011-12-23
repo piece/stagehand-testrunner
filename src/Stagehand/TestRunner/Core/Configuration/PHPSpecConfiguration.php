@@ -50,9 +50,6 @@ use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
  */
 class PHPSpecConfiguration extends Configuration
 {
-    /**
-     * {@inheritDoc}
-     */
     public static function getConfigurationID()
     {
         return strtolower(PHPSpecPlugin::getPluginID());

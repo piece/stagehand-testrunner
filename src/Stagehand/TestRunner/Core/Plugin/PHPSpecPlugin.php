@@ -48,9 +48,6 @@ class PHPSpecPlugin implements Plugin
 {
     private static $PLUGIN_ID = 'PHPSpec';
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getPluginID()
     {
         return self::$PLUGIN_ID;

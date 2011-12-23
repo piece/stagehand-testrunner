@@ -51,9 +51,6 @@ use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
  */
 class SimpleTestExtension extends PluginExtension
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getAlias()
     {
         return strtolower(SimpleTestPlugin::getPluginID());
@@ -67,9 +64,6 @@ class SimpleTestExtension extends PluginExtension
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function createConfiguration()
     {
         return new SimpleTestConfiguration();

@@ -347,7 +347,6 @@ All rights reserved.
     }
 
     /**
-     * {@inheritDoc}
      * @since Method available since Release 3.0.0
      */
     protected function configure(array $options, array $args)

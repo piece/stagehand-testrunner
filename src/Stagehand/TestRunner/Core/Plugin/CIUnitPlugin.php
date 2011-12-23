@@ -48,9 +48,6 @@ class CIUnitPlugin extends PHPUnitPlugin
 {
     private static $PLUGIN_ID = 'CIUnit';
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getPluginID()
     {
         return self::$PLUGIN_ID;

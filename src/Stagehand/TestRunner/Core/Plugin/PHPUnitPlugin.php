@@ -48,9 +48,6 @@ class PHPUnitPlugin implements Plugin
 {
     private static $PLUGIN_ID = 'PHPUnit';
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getPluginID()
     {
         return self::$PLUGIN_ID;

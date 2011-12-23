@@ -63,17 +63,11 @@ abstract class Extension implements ExtensionInterface
         $this->transformConfiguration($container, $config);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getNamespace()
     {
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getXsdValidationBasePath()
     {
         return false;

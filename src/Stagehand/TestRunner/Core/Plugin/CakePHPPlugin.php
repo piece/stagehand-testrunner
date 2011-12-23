@@ -48,9 +48,6 @@ class CakePHPPlugin extends SimpleTestPlugin
 {
     private static $PLUGIN_ID = 'CakePHP';
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getPluginID()
     {
         return self::$PLUGIN_ID;

@@ -52,9 +52,6 @@ use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
  */
 class CIUnitExtension extends PluginExtension
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getAlias()
     {
         return strtolower(CIUnitPlugin::getPluginID());
@@ -74,9 +71,6 @@ class CIUnitExtension extends PluginExtension
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function createConfiguration()
     {
         return new CIUnitConfiguration();

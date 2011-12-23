@@ -50,9 +50,6 @@ use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
  */
 class SimpleTestConfiguration extends Configuration
 {
-    /**
-     * {@inheritDoc}
-     */
     public static function getConfigurationID()
     {
         return strtolower(SimpleTestPlugin::getPluginID());

@@ -50,9 +50,6 @@ use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
  */
 class PHPUnitConfiguration extends Configuration
 {
-    /**
-     * {@inheritDoc}
-     */
     public static function getConfigurationID()
     {
         return strtolower(PHPUnitPlugin::getPluginID());

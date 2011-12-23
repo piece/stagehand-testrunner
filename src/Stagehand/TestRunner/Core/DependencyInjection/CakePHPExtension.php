@@ -52,9 +52,6 @@ use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
  */
 class CakePHPExtension extends PluginExtension
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getAlias()
     {
         return strtolower(CakePHPPlugin::getPluginID());
@@ -81,9 +78,6 @@ class CakePHPExtension extends PluginExtension
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function createConfiguration()
     {
         return new CakePHPConfiguration();

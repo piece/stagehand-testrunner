@@ -49,9 +49,6 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
  */
 abstract class Configuration implements IConfiguration
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
