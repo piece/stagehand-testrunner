@@ -55,9 +55,6 @@ use Stagehand\TestRunner\Core\Plugin\PluginFinder;
  */
 class CakePHPCommand extends SimpleTestCommand
 {
-    /**
-     * @return \Stagehand\TestRunner\Core\Plugin\Plugin
-     */
     protected function getPlugin()
     {
         return PluginFinder::findByPluginID(CakePHPPlugin::getPluginID());

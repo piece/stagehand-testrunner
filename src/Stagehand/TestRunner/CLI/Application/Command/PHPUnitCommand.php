@@ -55,9 +55,6 @@ use Stagehand\TestRunner\Core\Plugin\PluginFinder;
  */
 class PHPUnitCommand extends PluginCommand
 {
-    /**
-     * @return \Stagehand\TestRunner\Core\Plugin\Plugin
-     */
     protected function getPlugin()
     {
         return PluginFinder::findByPluginID(PHPUnitPlugin::getPluginID());

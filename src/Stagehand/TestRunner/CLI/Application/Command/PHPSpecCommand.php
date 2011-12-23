@@ -53,9 +53,6 @@ use Stagehand\TestRunner\Core\Plugin\PluginFinder;
  */
 class PHPSpecCommand extends PluginCommand
 {
-    /**
-     * @return \Stagehand\TestRunner\Core\Plugin\Plugin
-     */
     protected function getPlugin()
     {
         return PluginFinder::findByPluginID(PHPSpecPlugin::getPluginID());

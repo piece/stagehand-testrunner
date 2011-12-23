@@ -53,9 +53,6 @@ use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
  */
 class SimpleTestCommand extends PluginCommand
 {
-    /**
-     * @return \Stagehand\TestRunner\Core\Plugin\Plugin
-     */
     protected function getPlugin()
     {
         return PluginFinder::findByPluginID(SimpleTestPlugin::getPluginID());
