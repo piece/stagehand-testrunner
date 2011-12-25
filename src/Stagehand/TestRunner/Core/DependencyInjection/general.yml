@@ -86,6 +86,7 @@ services:
       - [ setPreparerFactory, [ "@stagehand_testrunner.preparer_factory" ] ]
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
       - [ setNotifierFactory, [ "@stagehand_testrunner.notifier_factory" ] ]
+      - [ setPlugin, [ "@stagehand_testrunner.plugin" ] ]
   stagehand_testrunner.autotest_factory:
     class: Stagehand\TestRunner\Process\Autotest\Autotest
     factory_service: stagehand_testrunner.plugin_aware_factory_factory

@@ -73,8 +73,9 @@ class TestRunnerCLIControllerTest extends TestCase
     {
         $phpunitConfigFile = 'phpunit.xml';
         $_SERVER['argv'] = $GLOBALS['argv'] = array(
-            'bin/phpunitrunner',
+            'bin/testrunner',
             '-p', 'tests/prepare.php',
+            '--testing-framework=' . strtolower(PHPUnitPlugin::getPluginID()),
             '--phpunit-config=' . $phpunitConfigFile
         );
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
@@ -98,8 +99,9 @@ class TestRunnerCLIControllerTest extends TestCase
     {
         $testFilePattern = '^test_';
         $_SERVER['argv'] = $GLOBALS['argv'] = array(
-            'bin/phpunitrunner',
+            'bin/testrunner',
             '-p', 'tests/prepare.php',
+            '--testing-framework=' . strtolower(PHPUnitPlugin::getPluginID()),
             '--test-file-pattern=' . $testFilePattern
         );
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
@@ -118,7 +120,11 @@ class TestRunnerCLIControllerTest extends TestCase
      */
     public function supportsNotifications($option)
     {
-        $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', $option);
+        $_SERVER['argv'] = $GLOBALS['argv'] = array(
+            'bin/testrunner',
+            $option,
+            '--testing-framework=' . strtolower(PHPUnitPlugin::getPluginID()),
+        );
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
         $testRunner = \Phake::mock('\Stagehand\TestRunner\CLI\TestRunner');
 

@@ -19,10 +19,10 @@ GOTO INIT
 
 IF "%PHP_COMMAND%" == "" GOTO NO_PHPCOMMAND
 
-IF EXIST ".\phpspecrunner" (
-  %PHP_COMMAND% -d html_errors=off -d open_basedir= -q ".\phpspecrunner" %1 %2 %3 %4 %5 %6 %7 %8 %9
+IF EXIST ".\testrunner" (
+  %PHP_COMMAND% -d html_errors=off -d open_basedir= -q ".\testrunner" %1 %2 %3 %4 %5 %6 %7 %8 %9
 ) ELSE (
-  %PHP_COMMAND% -d html_errors=off -d open_basedir= -q "%SCRIPT_DIR%phpspecrunner" %1 %2 %3 %4 %5 %6 %7 %8 %9
+  %PHP_COMMAND% -d html_errors=off -d open_basedir= -q "%SCRIPT_DIR%testrunner" %1 %2 %3 %4 %5 %6 %7 %8 %9
 )
 GOTO CLEANUP
 
@@ -39,7 +39,7 @@ IF "%OS%"=="Windows_NT" @ENDLOCAL
 REM PAUSE
 
 REM Local Variables:
-REM mode: bat-generic
+REM mode: conf
 REM coding: iso-8859-1
 REM indent-tabs-mode: nil
 REM End:

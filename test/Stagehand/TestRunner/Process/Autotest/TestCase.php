@@ -166,12 +166,12 @@ abstract class TestCase extends FactoryAwareTestCase
     {
         $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
         return array(
-            array('/usr/bin/php', array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('phpunitrunner'), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
-            array('/usr/bin/php', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('phpunitrunner'), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
-            array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
-            array('phpunitrunner', array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
-            array('phpunitrunner', array('phpunitrunner', '-a', 'test'), false, escapeshellarg('phpunitrunner'), array('-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
-            array(null, array('phpunitrunner', '-a', 'test'), '/etc/php5/cli', escapeshellarg('phpunitrunner'), array('-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('/usr/bin/php', array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('testrunner'), '--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('/usr/bin/php', array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('testrunner'), '--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array(null, array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( '--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('testrunner', array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( '--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('testrunner', array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('testrunner'), array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array(null, array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
         );
     }
 
@@ -188,7 +188,7 @@ abstract class TestCase extends FactoryAwareTestCase
         array $normalizedOption,
         array $shouldPreserve)
     {
-        $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/phpunitrunner', '-a');
+        $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/testrunner', '-a');
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
 
         $notifier = \Phake::mock('\Stagehand\TestRunner\Notification\Notifier');
@@ -224,18 +224,18 @@ abstract class TestCase extends FactoryAwareTestCase
     public function preservedConfigurations()
     {
         $preservedConfigurations = array(
-            array(array('-R'), array(true)),
-            array(array('-R'), array(true)),
-            array(array('-R', '-c'), array(true, true)),
-            array(array('-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true)),
-            array(array('-R', '-w ' . escapeshellarg('src')), array(true, false)),
-            array(array('-R', '-n'), array(true, true)),
-            array(array('-R', '-m ' . escapeshellarg('METHOD1')), array(true, false)),
-            array(array('-R', '--classes=' . escapeshellarg('CLASS1')), array(true, false)),
-            array(array('-R', '--log-junit=' . escapeshellarg('FILE')), array(true, false)),
-            array(array('-R', '--log-junit-realtime'), array(true, false)),
-            array(array('-R', '--stop-on-failure'), array(true, true)),
-            array(array('-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '-c'), array(true, true, true)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true, true)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '-w ' . escapeshellarg('src')), array(true, true, false)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '-n'), array(true, true, true)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '-m ' . escapeshellarg('METHOD1')), array(true, true, false)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--classes=' . escapeshellarg('CLASS1')), array(true, true, false)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--log-junit=' . escapeshellarg('FILE')), array(true, true, false)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--log-junit-realtime'), array(true, true, false)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--stop-on-failure'), array(true, true, true)),
+            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true, true)),
         );
 
         return array_map(function (array $preservedConfiguration) {

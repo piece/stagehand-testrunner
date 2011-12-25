@@ -78,8 +78,8 @@ class CakePHPAutotestTest extends SimpleTestAutotestTest
         $preservedConfigurations = parent::preservedConfigurations();
         $index = count($preservedConfigurations);
         return array_merge($preservedConfigurations, array(
-            array($index++, array('-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
-            array($index++, array('-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true)),
+            array($index++, array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--cakephp-app-path=' . escapeshellarg('DIRECTORY')), array(true, true, true)),
+            array($index++, array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--cakephp-core-path=' . escapeshellarg('DIRECTORY')), array(true, true, true)),
         ));
     }
 }

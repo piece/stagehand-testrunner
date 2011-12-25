@@ -46,6 +46,8 @@ use Stagehand\TestRunner\Core\Configuration\CIUnitConfiguration;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Core\Configuration\PHPUnitConfiguration;
 use Stagehand\TestRunner\Core\Exception;
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Plugin\PluginNotFoundException;
 
 /**
  * A testrunner script to run tests automatically.
@@ -62,6 +64,7 @@ class TestRunnerCLIController extends \Stagehand_CLIController
     protected $shortOptions = 'hVRcp:aw:gm:vn';
     protected $longOptions =
         array(
+            'testing-framework=',
             'log-junit=',
             'log-junit-realtime',
             'classes=',
@@ -80,17 +83,25 @@ class TestRunnerCLIController extends \Stagehand_CLIController
     protected $configurationTransformer;
 
     /**
-     * @var string
+     * @var \Stagehand\TestRunner\Core\Plugin\Plugin
      * @since Property available since Release 3.0.0
      */
-    protected $pluginID;
+    protected $plugin;
 
     /**
-     * @param string $pluginID
+     * @var boolean
+     * @since Property available since Release 3.0.0
      */
-    public function __construct($pluginID)
+    protected $printsUsage = false;
+
+    /**
+     * @var boolean
+     * @since Property available since Release 3.0.0
+     */
+    protected $printsVersion = false;
+
+    public function __construct()
     {
-        $this->pluginID = $pluginID;
         ApplicationContext::getInstance()
             ->getEnvironment()
             ->setWorkingDirectoryAtStartup($GLOBALS['STAGEHAND_TESTRUNNER_workingDirectoryAtStartup']);
@@ -102,7 +113,6 @@ class TestRunnerCLIController extends \Stagehand_CLIController
     public function run()
     {
         $this->configurationTransformer = new ConfigurationTransformer($this->createContainer());
-        $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => $this->pluginID));
         return parent::run();
     }
 
@@ -111,16 +121,26 @@ class TestRunnerCLIController extends \Stagehand_CLIController
      * @param string $value
      * @return boolean
      * @throws \Stagehand\TestRunner\Core\Exception
+     * @throws \Stagehand\TestRunner\Core\Plugin\PluginNotFoundException
      */
     protected function configureByOption($option, $value)
     {
         switch ($option) {
         case 'h':
-            $this->printUsage();
-            return false;
+            $this->printsUsage = true;
+            return true;
         case 'V':
-            $this->printVersion();
-            return false;
+            $this->printsVersion = true;
+            return true;
+        case '--testing-framework':
+            $plugin = PluginFinder::findByPluginID($value);
+            if (is_null($plugin)) {
+                throw new PluginNotFoundException('The plugin for the given testing framework [ ' . $value . ' ] is not found.');
+            }
+
+            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => $plugin->getPluginID()));
+            $this->plugin = $plugin;
+            return true;
         case 'R':
             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('recursively_scans' => true));
             return true;
@@ -300,15 +320,15 @@ OPTIONS
      */
     protected function printVersion()
     {
-        echo "Stagehand_TestRunner @package_version@ ({$this->pluginID})
-
-Copyright (c) 2005-2011 KUBO Atsuhiro <kubo@iteman.jp>,
-              2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
-              2010 KUMAKURA Yousuke <kumatch@gmail.com>,
-              2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
-              2011 KUBO Noriko <noricott@gmail.com>,
-All rights reserved.
-";
+        echo
+'Stagehand_TestRunner @package_version@' .  (is_null($this->plugin) ? '' : ' (' . $this->plugin->getPluginID() . ')') . PHP_EOL .
+PHP_EOL .
+'Copyright (c) 2005-2011 KUBO Atsuhiro <kubo@iteman.jp>,' . PHP_EOL .
+'              2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,' . PHP_EOL .
+'              2010 KUMAKURA Yousuke <kumatch@gmail.com>,' . PHP_EOL .
+'              2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,' . PHP_EOL .
+'              2011 KUBO Noriko <noricott@gmail.com>,' . PHP_EOL .
+'All rights reserved.' . PHP_EOL;
     }
 
     /**
@@ -347,6 +367,17 @@ All rights reserved.
     protected function configure(array $options, array $args)
     {
         $continues = parent::configure($options, $args);
+
+        if ($this->printsUsage) {
+            $this->printUsage();
+            return false;
+        }
+
+        if ($this->printsVersion) {
+            $this->printVersion();
+            return false;
+        }
+
         if ($continues) {
             ApplicationContext::getInstance()
                 ->getComponentFactory()
