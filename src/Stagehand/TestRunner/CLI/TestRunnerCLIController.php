@@ -97,14 +97,6 @@ class TestRunnerCLIController extends \Stagehand_CLIController
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\ConfigurationTransformer $configurationTransformer
-     */
-    public function setConfigurationTransformer(ConfigurationTransformer $configurationTransformer)
-    {
-        $this->configurationTransformer = $configurationTransformer;
-    }
-
-    /**
      * @since Method available since Release 3.0.0
      */
     public function run()
