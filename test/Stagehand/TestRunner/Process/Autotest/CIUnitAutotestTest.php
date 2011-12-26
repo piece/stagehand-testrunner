@@ -74,7 +74,7 @@ class CIUnitAutotestTest extends PHPUnitAutotestTest
         $preservedConfigurations = parent::preservedConfigurations();
         $index = count($preservedConfigurations);
         return array_merge($preservedConfigurations, array(
-            array($index++, array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true, true)),
+            array($index++, array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true, true)),
         ));
     }
 }

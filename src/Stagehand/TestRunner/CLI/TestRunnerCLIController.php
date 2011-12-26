@@ -132,70 +132,70 @@ class TestRunnerCLIController extends \Stagehand_CLIController
         case 'V':
             $this->printsVersion = true;
             return true;
-        case '--testing-framework':
-            $plugin = PluginFinder::findByPluginID($value);
-            if (is_null($plugin)) {
-                throw new PluginNotFoundException('The plugin for the given testing framework [ ' . $value . ' ] is not found.');
-            }
+//         case '--testing-framework':
+//             $plugin = PluginFinder::findByPluginID($value);
+//             if (is_null($plugin)) {
+//                 throw new PluginNotFoundException('The plugin for the given testing framework [ ' . $value . ' ] is not found.');
+//             }
 
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => $plugin->getPluginID()));
-            $this->plugin = $plugin;
-            return true;
-        case 'R':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('recursively_scans' => true));
-            return true;
-        case 'c':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('colors' => true));
-            return true;
-        case 'p':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('preload_file' => $value));
-            return true;
+//             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => $plugin->getPluginID()));
+//             $this->plugin = $plugin;
+//             return true;
+//         case 'R':
+//             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('recursively_scans' => true));
+//             return true;
+//         case 'c':
+//             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('colors' => true));
+//             return true;
+//         case 'p':
+//             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('preload_file' => $value));
+//             return true;
         case 'a':
             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('enables_autotest' => true));
             return true;
-        case 'w':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('monitoring_directories' => explode(',', $value)));
-            return true;
-        case 'n':
-        case 'g':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('uses_notification' => true));
-            return true;
-        case 'm':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_methods' => explode(',', $value)));
-            return true;
-        case '--classes':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_classes' => explode(',', $value)));
-            return true;
-        case '--log-junit':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('junit_xml' => array('file' => $value)));
-            return true;
-        case '--log-junit-realtime':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('junit_xml' => array('realtime' => true)));
-            return true;
-        case '--stop-on-failure':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('stops_on_failure' => true));
-            return true;
-        case '--phpunit-config':
-            $this->configurationTransformer->setConfigurationPart(PHPUnitConfiguration::getConfigurationID(), array('phpunit_config_file' => $value));
-            return true;
-        case '--cakephp-app-path':
-            $this->validateDirectory($value, $option);
-            $this->configurationTransformer->setConfigurationPart(CakePHPConfiguration::getConfigurationID(), array('cakephp_app_path' => $value));
-            return true;
-        case '--cakephp-core-path':
-            $this->validateDirectory($value, $option);
-            $this->configurationTransformer->setConfigurationPart(CakePHPConfiguration::getConfigurationID(), array('cakephp_core_path' => $value));
-            return true;
-        case '--ciunit-path':
-            $this->validateDirectory($value, $option);
-            $this->configurationTransformer->setConfigurationPart(CIUnitConfiguration::getConfigurationID(), array('ciunit_path' => $value));
-            return true;
-        case '--test-file-pattern':
-            $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_file_pattern' => $value));
-            return true;
-        case 'v':
-            $this->configurationTransformer->setConfigurationPart(PHPUnitConfiguration::getConfigurationID(), array('prints_detailed_progress_report' => $value));
-            return true;
+//         case 'w':
+//             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('monitoring_directories' => explode(',', $value)));
+//             return true;
+//         case 'n':
+//         case 'g':
+//             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('uses_notification' => true));
+//             return true;
+        /* case 'm': */
+        /*     $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_methods' => explode(',', $value))); */
+        /*     return true; */
+        /* case '--classes': */
+        /*     $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_classes' => explode(',', $value))); */
+        /*     return true; */
+//         case '--log-junit':
+//             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('junit_xml' => array('file' => $value)));
+//             return true;
+//         case '--log-junit-realtime':
+//             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('junit_xml' => array('realtime' => true)));
+//             return true;
+//         case '--stop-on-failure':
+//             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('stops_on_failure' => true));
+//             return true;
+//         case '--phpunit-config':
+//             $this->configurationTransformer->setConfigurationPart(PHPUnitConfiguration::getConfigurationID(), array('phpunit_config_file' => $value));
+//             return true;
+        /* case '--cakephp-app-path': */
+        /*     $this->validateDirectory($value, $option); */
+        /*     $this->configurationTransformer->setConfigurationPart(CakePHPConfiguration::getConfigurationID(), array('cakephp_app_path' => $value)); */
+        /*     return true; */
+        /* case '--cakephp-core-path': */
+        /*     $this->validateDirectory($value, $option); */
+        /*     $this->configurationTransformer->setConfigurationPart(CakePHPConfiguration::getConfigurationID(), array('cakephp_core_path' => $value)); */
+        /*     return true; */
+        /* case '--ciunit-path': */
+        /*     $this->validateDirectory($value, $option); */
+        /*     $this->configurationTransformer->setConfigurationPart(CIUnitConfiguration::getConfigurationID(), array('ciunit_path' => $value)); */
+        /*     return true; */
+//         case '--test-file-pattern':
+//             $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_file_pattern' => $value));
+//             return true;
+//         case 'v':
+//             $this->configurationTransformer->setConfigurationPart(PHPUnitConfiguration::getConfigurationID(), array('prints_detailed_progress_report' => $value));
+//             return true;
         }
     }
 
@@ -205,7 +205,7 @@ class TestRunnerCLIController extends \Stagehand_CLIController
      */
     protected function configureByArg($arg)
     {
-        $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_resources' => array($arg)));
+//         $this->configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_resources' => array($arg)));
         return true;
     }
 

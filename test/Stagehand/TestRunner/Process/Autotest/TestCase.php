@@ -166,12 +166,12 @@ abstract class TestCase extends FactoryAwareTestCase
     {
         $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
         return array(
-            array('/usr/bin/php', array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('testrunner'), '--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
-            array('/usr/bin/php', array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('testrunner'), '--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
-            array(null, array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( '--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
-            array('testrunner', array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( '--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
-            array('testrunner', array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('testrunner'), array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
-            array(null, array('testrunner', '--testing-framework=' . strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('/usr/bin/php', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('testrunner'), escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('/usr/bin/php', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('testrunner'), escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array(null, array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
+            array(null, array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($testTargets->getFilePattern()), escapeshellarg('test'))),
         );
     }
 
@@ -224,18 +224,18 @@ abstract class TestCase extends FactoryAwareTestCase
     public function preservedConfigurations()
     {
         $preservedConfigurations = array(
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '-c'), array(true, true, true)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true, true)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '-w ' . escapeshellarg('src')), array(true, true, false)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '-n'), array(true, true, true)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '-m ' . escapeshellarg('METHOD1')), array(true, true, false)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--classes=' . escapeshellarg('CLASS1')), array(true, true, false)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--log-junit=' . escapeshellarg('FILE')), array(true, true, false)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--log-junit-realtime'), array(true, true, false)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--stop-on-failure'), array(true, true, true)),
-            array(array('--testing-framework=' . escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true, true)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true)),
+            array(array('--ansi', escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true, true)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true, true)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '-w ' . escapeshellarg('src')), array(true, true, false)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '-n'), array(true, true, true)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-method=' . escapeshellarg('METHOD1')), array(true, true, false)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-class=' . escapeshellarg('CLASS1')), array(true, true, false)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--log-junit=' . escapeshellarg('FILE')), array(true, true, false)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--log-junit-realtime'), array(true, true, false)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--stop-on-failure'), array(true, true, true)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true, true)),
         );
 
         return array_map(function (array $preservedConfiguration) {

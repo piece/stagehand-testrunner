@@ -44,13 +44,26 @@ namespace Stagehand\TestRunner\Core\Plugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitPlugin implements Plugin
+class PHPUnitPlugin extends Plugin
 {
     private static $PLUGIN_ID = 'PHPUnit';
 
     public static function getPluginID()
     {
         return self::$PLUGIN_ID;
+    }
+
+    protected function defineFeatures()
+    {
+        $this->addFeature('colors');
+        $this->addFeature('enables_autotest');
+        $this->addFeature('uses_notification');
+        $this->addFeature('test_methods');
+        $this->addFeature('test_classes');
+        $this->addFeature('junit_xml');
+        $this->addFeature('stops_on_failure');
+        $this->addFeature('phpunit_config_file');
+        $this->addFeature('prints_detailed_progress_report');
     }
 }
 

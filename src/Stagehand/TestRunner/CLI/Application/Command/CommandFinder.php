@@ -35,7 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Plugin;
+namespace Stagehand\TestRunner\CLI\Application\Command;
+
+use Symfony\Component\Finder\Finder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,20 +46,22 @@ namespace Stagehand\TestRunner\Core\Plugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPPlugin extends SimpleTestPlugin
+class CommandFinder
 {
-    private static $PLUGIN_ID = 'CakePHP';
-
-    public static function getPluginID()
+    /**
+     * @return array
+     */
+    public static function findAll()
     {
-        return self::$PLUGIN_ID;
-    }
+        $commands = array();
+        foreach (Finder::create()->name('/^.+Command\.php$/')->files()->in(__DIR__) as $file) { /* @var $file \SplFileInfo */
+            $commandClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $file->getBasename('.php'));
+            if (!$commandClass->isAbstract()) {
+                $commands[] = $commandClass->newInstance();
+            }
+        }
 
-    protected function defineFeatures()
-    {
-        parent::defineFeatures();
-        $this->addFeature('cakephp_app_path');
-        $this->addFeature('cakephp_core_path');
+        return $commands;
     }
 }
 

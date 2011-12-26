@@ -63,6 +63,7 @@ class CIUnitConfiguration extends PHPUnitConfiguration
         parent::defineGrammar($nodeBuilder);
         $nodeBuilder
             ->scalarNode('ciunit_path')
+                ->cannotBeEmpty()
             ->end();
     }
 }

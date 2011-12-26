@@ -63,8 +63,10 @@ class CakePHPConfiguration extends SimpleTestConfiguration
         parent::defineGrammar($nodeBuilder);
         $nodeBuilder
             ->scalarNode('cakephp_app_path')
+                ->cannotBeEmpty()
             ->end()
             ->scalarNode('cakephp_core_path')
+                ->cannotBeEmpty()
             ->end();
     }
 }

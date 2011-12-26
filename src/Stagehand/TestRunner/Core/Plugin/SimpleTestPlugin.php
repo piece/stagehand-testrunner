@@ -44,13 +44,24 @@ namespace Stagehand\TestRunner\Core\Plugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class SimpleTestPlugin implements Plugin
+class SimpleTestPlugin extends Plugin
 {
     private static $PLUGIN_ID = 'SimpleTest';
 
     public static function getPluginID()
     {
         return self::$PLUGIN_ID;
+    }
+
+    protected function defineFeatures()
+    {
+        $this->addFeature('colors');
+        $this->addFeature('enables_autotest');
+        $this->addFeature('uses_notification');
+        $this->addFeature('test_methods');
+        $this->addFeature('test_classes');
+        $this->addFeature('junit_xml');
+        $this->addFeature('stops_on_failure');
     }
 }
 

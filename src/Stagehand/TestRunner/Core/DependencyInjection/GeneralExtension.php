@@ -65,7 +65,11 @@ class GeneralExtension extends Extension
         $container->setParameter(Package::PACKAGE_ID . '.' . 'plugin_id', $config['testing_framework']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'recursively_scans', $config['recursively_scans']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'colors', $config['colors']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'preload_file', $config['preload_file']);
+
+        if (array_key_exists('preload_file', $config)) {
+            $container->setParameter(Package::PACKAGE_ID . '.' . 'preload_file', $config['preload_file']);
+        }
+
         $container->setParameter(Package::PACKAGE_ID . '.' . 'enables_autotest', $config['enables_autotest']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'monitoring_directories', $config['monitoring_directories']);
 

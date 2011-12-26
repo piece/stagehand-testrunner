@@ -35,7 +35,11 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Plugin;
+namespace Stagehand\TestRunner\CLI\Application\Command;
+
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,20 +48,42 @@ namespace Stagehand\TestRunner\Core\Plugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPPlugin extends SimpleTestPlugin
+class HelpCommand extends Command
 {
-    private static $PLUGIN_ID = 'CakePHP';
+    /**
+     * @var \Symfony\Component\Console\Command\Command
+     */
+    protected $command;
 
-    public static function getPluginID()
+    protected function configure()
     {
-        return self::$PLUGIN_ID;
+        parent::configure();
+
+        $this->setName('help');
+        $this->addArgument('command_name', InputArgument::OPTIONAL, 'The command name', 'help');
+        $this->setDescription('Prints the help for a command.');
+        $this->setHelp(
+'The <info>help</info> command prints the help for a given command:' . PHP_EOL .
+PHP_EOL .
+'  <info>testrunner help list</info>'
+        );
     }
 
-    protected function defineFeatures()
+    /**
+     * @param \Symfony\Component\Console\Command\Command $command
+     */
+    public function setCommand(\Symfony\Component\Console\Command\Command $command)
     {
-        parent::defineFeatures();
-        $this->addFeature('cakephp_app_path');
-        $this->addFeature('cakephp_core_path');
+        $this->command = $command;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        if (is_null($this->command)) {
+            $this->command = $this->getApplication()->get($input->getArgument('command_name'));
+        }
+
+        $output->writeln($this->command->asText());
     }
 }
 

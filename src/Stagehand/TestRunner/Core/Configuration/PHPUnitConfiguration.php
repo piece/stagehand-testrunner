@@ -62,8 +62,10 @@ class PHPUnitConfiguration extends Configuration
     {
         $nodeBuilder
             ->scalarNode('phpunit_config_file')
+                ->cannotBeEmpty()
             ->end()
             ->booleanNode('prints_detailed_progress_report')
+                ->defaultFalse()
             ->end();
     }
 }

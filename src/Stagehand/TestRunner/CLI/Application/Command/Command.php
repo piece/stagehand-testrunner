@@ -35,7 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Plugin;
+namespace Stagehand\TestRunner\CLI\Application\Command;
+
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,20 +46,13 @@ namespace Stagehand\TestRunner\Core\Plugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPPlugin extends SimpleTestPlugin
+abstract class Command extends \Symfony\Component\Console\Command\Command
 {
-    private static $PLUGIN_ID = 'CakePHP';
-
-    public static function getPluginID()
+    protected function configure()
     {
-        return self::$PLUGIN_ID;
-    }
+        parent::configure();
 
-    protected function defineFeatures()
-    {
-        parent::defineFeatures();
-        $this->addFeature('cakephp_app_path');
-        $this->addFeature('cakephp_core_path');
+        $this->addOption('preload-script', 'p', InputOption::VALUE_REQUIRED, 'The PHP script to be loaded before running a command');
     }
 }
 

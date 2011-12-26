@@ -44,12 +44,40 @@ namespace Stagehand\TestRunner\Core\Plugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-interface Plugin
+abstract class Plugin
 {
+    /**
+     * @var array
+     */
+    protected $features = array();
+
+    public function __construct()
+    {
+        $this->defineFeatures();
+    }
+
     /**
      * @return string
      */
-    public static function getPluginID();
+    abstract public static function getPluginID();
+
+    /**
+     * @return boolean
+     */
+    public function hasFeature($featureID)
+    {
+        return in_array($featureID, $this->features);
+    }
+
+    abstract protected function defineFeatures();
+
+    /**
+     * @param string $featureID
+     */
+    protected function addFeature($featureID)
+    {
+        $this->features[] = $featureID;
+    }
 }
 
 /*

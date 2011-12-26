@@ -38,36 +38,48 @@
 
 // Gets the current directory at startup.
 $GLOBALS['STAGEHAND_TESTRUNNER_workingDirectoryAtStartup'] = getcwd();
+$GLOBALS['STAGEHAND_TESTRUNNER_preloadScript'] = null;
 
 // Finds the preload option and preloads a file as a PHP script if it is specified.
-$preload = create_function('', '
-$preloadFile = null;
-do {
-    for ($i = 1, $count = count($_SERVER[\'argv\']); $i < $count; ++$i) {
-        $arg = $_SERVER[\'argv\'][$i];
-        if (strlen($arg) <= 1) continue;
-        if (substr($arg, 0, 1) != \'-\') continue;
-        if (substr($arg, 1, 1) == \'-\') continue;
-        if (!preg_match(\'/^-[^p]*?p(.*)$/\', $arg, $matches)) continue;
-        if (strlen($matches[1]) == 0) {
-            if (array_key_exists($i + 1, $_SERVER[\'argv\'])) {
-                $preloadFile = $_SERVER[\'argv\'][ $i + 1 ];
-                break 2;
+$preload = function () {
+    $preloadScript = null;
+    do {
+        for ($i = 1, $count = count($_SERVER['argv']); $i < $count; ++$i) {
+            $arg = $_SERVER['argv'][$i];
+            if (strlen($arg) <= 1) continue;
+
+            if (preg_match('/^--preload-script(?:=(.*))?$/', $arg, $matches)) {
+                if (count($matches) == 1) {
+                    if (array_key_exists($i + 1, $_SERVER['argv'])) {
+                        $preloadScript = $_SERVER['argv'][ $i + 1 ];
+                        break 2;
+                    }
+                } elseif (count($matches) == 2) {
+                    $preloadScript = $matches[1];
+                    break 2;
+                }
+            } elseif (preg_match('/^-[a-oq-zA-OQ-Z]*p(.*)$/', $arg, $matches)) {
+                if (strlen($matches[1]) == 0) {
+                    if (array_key_exists($i + 1, $_SERVER['argv'])) {
+                        $preloadScript = $_SERVER['argv'][ $i + 1 ];
+                        break 2;
+                    }
+                } else {
+                    $preloadScript = $matches[1];
+                    break 2;
+                }
             }
-        } else {
-            $preloadFile = $matches[1];
-            break 2;
         }
+        return;
+    } while (false);
+    if (is_null($preloadScript)) return;
+    $result = include_once $preloadScript;
+    if (!$result) {
+        echo "ERROR: Cannot load [ $preloadScript ]. Make sure the file path and permission are correct.\n";
+        exit(1);
     }
-    return;
-} while (false);
-if (is_null($preloadFile)) return;
-$result = include_once $preloadFile;
-if (!$result) {
-    echo "ERROR: Cannot load [ $preloadFile ]. Make sure the file path and permission are correct.\n";
-    exit(1);
-}
-');
+    $GLOBALS['STAGEHAND_TESTRUNNER_preloadScript'] = $preloadScript;
+};
 $preload();
 
 require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
@@ -75,8 +87,8 @@ require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
 $bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
 $bootstrap->boot();
 
-$controller = new \Stagehand\TestRunner\CLI\TestRunnerCLIController();
-$result = $controller->run();
+$application = new \Stagehand\TestRunner\CLI\Application\TestRunnerApplication();
+$result = $application->run();
 
 exit($result);
 

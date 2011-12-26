@@ -331,16 +331,17 @@ abstract class Autotest
             $options[] = escapeshellarg($_SERVER['argv'][0]);
         }
 
-        $options[] = '--testing-framework=' . escapeshellarg(strtolower($this->plugin->getPluginID()));
-        $options[] = '-R';
+        if ($this->terminal->colors()) {
+            $options[] = '--ansi';
+        }
+
+        $options[] = escapeshellarg(strtolower($this->plugin->getPluginID()));
 
         if (!is_null($this->preloadFile)) {
             $options[] = '-p ' . escapeshellarg($this->preloadFile);
         }
 
-        if ($this->terminal->colors()) {
-            $options[] = '-c';
-        }
+        $options[] = '-R';
 
         if ($this->runnerFactory->create()->usesNotification()) {
             $options[] = '-n';

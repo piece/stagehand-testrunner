@@ -52,6 +52,12 @@ class CIUnitPlugin extends PHPUnitPlugin
     {
         return self::$PLUGIN_ID;
     }
+
+    protected function defineFeatures()
+    {
+        parent::defineFeatures();
+        $this->addFeature('ciunit_path');
+    }
 }
 
 /*

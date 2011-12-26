@@ -35,7 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Plugin;
+namespace Stagehand\TestRunner\CLI\Application\Command;
+
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,20 +47,32 @@ namespace Stagehand\TestRunner\Core\Plugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPPlugin extends SimpleTestPlugin
+class PHPUnitCommandTest extends TestCase
 {
-    private static $PLUGIN_ID = 'CakePHP';
-
-    public static function getPluginID()
+    /**
+     * @return string
+     */
+    protected function getPluginID()
     {
-        return self::$PLUGIN_ID;
+        return PHPUnitPlugin::getPluginID();
     }
 
-    protected function defineFeatures()
+    public function pluginOptions()
     {
-        parent::defineFeatures();
-        $this->addFeature('cakephp_app_path');
-        $this->addFeature('cakephp_core_path');
+        return array(
+            array(
+                array('--phpunit-config=phpunit.xml'),
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext) {
+                    $phpunitXMLConfigurationFactory = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory');
+                    \Phake::when($phpunitXMLConfigurationFactory)->maybeCreate($test->anything())->thenReturn(null);
+                    $applicationContext->setComponent('phpunit.phpunit_xml_configuration_factory', $phpunitXMLConfigurationFactory);
+                },
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext) {
+                    $applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+                    \Phake::verify($applicationContext->createComponent('phpunit.phpunit_xml_configuration_factory'))->maybeCreate('phpunit.xml');
+                }
+            ),
+        );
     }
 }
 

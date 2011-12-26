@@ -35,7 +35,16 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Plugin;
+namespace Stagehand\TestRunner\CLI\Application\Command;
+
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+use Stagehand\TestRunner\Core\ConfigurationTransformer;
+use Stagehand\TestRunner\Core\Configuration\PHPUnitConfiguration;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,20 +53,43 @@ namespace Stagehand\TestRunner\Core\Plugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPPlugin extends SimpleTestPlugin
+class PHPUnitCommand extends PluginCommand
 {
-    private static $PLUGIN_ID = 'CakePHP';
-
-    public static function getPluginID()
+    /**
+     * @return \Stagehand\TestRunner\Core\Plugin\Plugin
+     */
+    protected function getPlugin()
     {
-        return self::$PLUGIN_ID;
+        return PluginFinder::findByPluginID(PHPUnitPlugin::getPluginID());
     }
 
-    protected function defineFeatures()
+    protected function doConfigure()
     {
-        parent::defineFeatures();
-        $this->addFeature('cakephp_app_path');
-        $this->addFeature('cakephp_core_path');
+        if ($this->getPlugin()->hasFeature('phpunit_config_file')) {
+            $this->addOption('phpunit-config', null, InputOption::VALUE_REQUIRED, 'The PHPUnit XML configuration file');
+        }
+
+        if ($this->getPlugin()->hasFeature('prints_detailed_progress_report')) {
+            $this->addOption('print-detailed-progress', null, InputOption::VALUE_NONE, 'Prints detailed progress report.');
+        }
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Stagehand\TestRunner\Core\ConfigurationTransformer $configurationTransformer
+     */
+    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, ConfigurationTransformer $configurationTransformer)
+    {
+        if ($this->getPlugin()->hasFeature('phpunit_config_file')) {
+            if (!is_null($input->getOption('phpunit-config'))) {
+                $configurationTransformer->setConfigurationPart(PHPUnitConfiguration::getConfigurationID(), array('phpunit_config_file' => $input->getOption('phpunit-config')));
+            }
+        }
+
+        if ($this->getPlugin()->hasFeature('prints_detailed_progress_report')) {
+            $configurationTransformer->setConfigurationPart(PHPUnitConfiguration::getConfigurationID(), array('prints_detailed_progress_report' => $input->getOption('print-detailed-progress')));
+        }
     }
 }
 
