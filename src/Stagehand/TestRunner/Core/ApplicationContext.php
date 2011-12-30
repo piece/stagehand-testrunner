@@ -66,9 +66,6 @@ class ApplicationContext
      */
     public static function getInstance()
     {
-        if (is_null(self::$soleInstance)) {
-            self::$soleInstance = new self();
-        }
         return self::$soleInstance;
     }
 
