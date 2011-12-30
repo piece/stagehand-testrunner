@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ Copyright (c) 2010-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -107,7 +107,6 @@ Four Defect Fix
       <dependencies>
         <package type="required" name="Stagehand_AlterationMonitor" channel="${package.channel}" minimum_version="1.0.0"/>
         <package type="required" name="Stagehand_DirectoryScanner" channel="${package.channel}" minimum_version="1.0.0"/>
-        <package type="required" name="Stagehand_LegacyError" channel="${package.channel}" minimum_version="1.0.2"/>
         <package type="optional" name="PHPUnit" channel="pear.phpunit.de" minimum_version="3.4.1"/>
         <extension type="required" name="pcre"/>
         <extension type="required" name="SPL"/>
