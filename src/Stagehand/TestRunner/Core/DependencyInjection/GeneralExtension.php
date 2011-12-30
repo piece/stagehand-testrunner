@@ -62,12 +62,12 @@ class GeneralExtension extends Extension
      */
     protected function transformConfiguration(ContainerBuilder $container, array $config)
     {
+        if (!is_null($GLOBALS['STAGEHAND_TESTRUNNER_preloadScript'])) {
+            $container->setParameter(Package::PACKAGE_ID . '.' . 'preload_file', $GLOBALS['STAGEHAND_TESTRUNNER_preloadScript']);
+        }
+
         $container->setParameter(Package::PACKAGE_ID . '.' . 'plugin_id', $config['testing_framework']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'recursively_scans', $config['recursively_scans']);
-
-        if (array_key_exists('preload_file', $config)) {
-            $container->setParameter(Package::PACKAGE_ID . '.' . 'preload_file', $config['preload_file']);
-        }
 
         $container->setParameter(Package::PACKAGE_ID . '.' . 'enables_autotest', $config['enables_autotest']);
         $container->setParameter(Package::PACKAGE_ID . '.' . 'monitoring_directories', $config['monitoring_directories']);

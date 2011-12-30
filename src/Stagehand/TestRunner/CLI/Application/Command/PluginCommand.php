@@ -132,9 +132,6 @@ PHP_EOL .
         $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => $this->getPlugin()->getPluginID()));
         $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_resources' => $input->getArgument('test_directory_or_file')));
         $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('recursively_scans' => $input->getOption('recursive')));
-        if (!is_null($input->getOption('preload-script'))) {
-            $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('preload_file' => $input->getOption('preload-script')));
-        }
         if (!is_null($input->getOption('test-file-pattern'))) {
             $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_file_pattern' => $input->getOption('test-file-pattern')));
         }
