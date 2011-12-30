@@ -72,7 +72,7 @@ abstract class Autotest
      * @var string
      * @since Property available since Release 3.0.0
      */
-    protected $preloadFile;
+    protected $preloadScript;
 
     /**
      * @var \Stagehand\TestRunner\CLI\Terminal
@@ -175,12 +175,12 @@ abstract class Autotest
     }
 
     /**
-     * @param string $preloadFile
+     * @param string $preloadScript
      * @since Method available since Release 3.0.0
      */
-    public function setPreloadFile($preloadFile)
+    public function setPreloadScript($preloadScript)
     {
-        $this->preloadFile = $preloadFile;
+        $this->preloadScript = $preloadScript;
     }
 
     /**
@@ -337,8 +337,8 @@ abstract class Autotest
 
         $options[] = escapeshellarg(strtolower($this->plugin->getPluginID()));
 
-        if (!is_null($this->preloadFile)) {
-            $options[] = '-p ' . escapeshellarg($this->preloadFile);
+        if (!is_null($this->preloadScript)) {
+            $options[] = '-p ' . escapeshellarg($this->preloadScript);
         }
 
         $options[] = '-R';

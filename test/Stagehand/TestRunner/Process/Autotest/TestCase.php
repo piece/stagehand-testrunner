@@ -75,7 +75,7 @@ abstract class TestCase extends FactoryAwareTestCase
         };
         self::$configurators[] = function () {
             $autotest = ApplicationContext::getInstance()->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
-            $autotest->setPreloadFile('test/prepare.php');
+            $autotest->setPreloadScript('test/prepare.php');
         };
         self::$configurators[] = function () {
             $autotest = ApplicationContext::getInstance()->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */

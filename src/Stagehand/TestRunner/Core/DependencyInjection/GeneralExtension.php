@@ -63,7 +63,7 @@ class GeneralExtension extends Extension
     protected function transformConfiguration(ContainerBuilder $container, array $config)
     {
         if (!is_null($GLOBALS['STAGEHAND_TESTRUNNER_preloadScript'])) {
-            $container->setParameter(Package::PACKAGE_ID . '.' . 'preload_file', $GLOBALS['STAGEHAND_TESTRUNNER_preloadScript']);
+            $container->setParameter(Package::PACKAGE_ID . '.' . 'preload_script', $GLOBALS['STAGEHAND_TESTRUNNER_preloadScript']);
         }
 
         $container->setParameter(Package::PACKAGE_ID . '.' . 'plugin_id', $config['testing_framework']);
