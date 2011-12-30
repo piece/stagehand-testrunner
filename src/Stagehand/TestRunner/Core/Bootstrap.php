@@ -54,7 +54,7 @@ class Bootstrap
         $this->prepareApplicationContext();
     }
 
-    protected function prepareClassLoader()
+    public function prepareClassLoader()
     {
         $classLoader = new \Symfony\Component\ClassLoader\UniversalClassLoader();
         $classLoader->useIncludePath(true);

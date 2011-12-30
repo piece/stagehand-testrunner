@@ -50,7 +50,7 @@ require_once 'Phake.php';
 require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
 
 $bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
-$bootstrap->boot();
+$bootstrap->prepareClassLoader();
 
 \Phake::setClient(Phake::CLIENT_PHPUNIT);
 \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
