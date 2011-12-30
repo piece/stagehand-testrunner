@@ -25,7 +25,6 @@
 parameters:
   stagehand_testrunner.plugin_id: ~
   stagehand_testrunner.recursively_scans: false
-  stagehand_testrunner.colors: false
   stagehand_testrunner.preload_file: null
   stagehand_testrunner.enables_autotest: false
   stagehand_testrunner.monitoring_directories: []
@@ -94,10 +93,15 @@ services:
     arguments: [ "autotest" ]
   stagehand_testrunner.alteration_monitoring:
     class: Stagehand\TestRunner\Process\AlterationMonitoring
+  stagehand_testrunner.input:
+    synthetic: true
+  stagehand_testrunner.output:
+    synthetic: true
   stagehand_testrunner.terminal:
     class: Stagehand\TestRunner\CLI\Terminal
     calls:
-      - [ setColors, [ "%stagehand_testrunner.colors%" ] ]
+      - [ setInput, [ "@stagehand_testrunner.input" ] ]
+      - [ setOutput, [ "@stagehand_testrunner.output" ] ]
   stagehand_testrunner.test_targets:
     class: Stagehand\TestRunner\Core\TestTargets
     calls:

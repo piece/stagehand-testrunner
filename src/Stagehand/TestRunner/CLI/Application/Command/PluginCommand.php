@@ -106,11 +106,13 @@ PHP_EOL .
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configurationTransformer = new ConfigurationTransformer($this->createContainer());
+        $container = $this->createContainer();
+        ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
+        ApplicationContext::getInstance()->setComponent('input', $input);
+        ApplicationContext::getInstance()->setComponent('output', $output);
+        $configurationTransformer = new ConfigurationTransformer($container);
         $this->transformToConfiguration($input, $output, $configurationTransformer);
-        ApplicationContext::getInstance()
-            ->getComponentFactory()
-            ->setContainer($configurationTransformer->transformToContainer());
+        $configurationTransformer->transformToContainer();
         $this->createTestRunner()->run();
         return 0;
     }
@@ -135,10 +137,6 @@ PHP_EOL .
         }
         if (!is_null($input->getOption('test-file-pattern'))) {
             $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_file_pattern' => $input->getOption('test-file-pattern')));
-        }
-
-        if ($this->getPlugin()->hasFeature('colors')) {
-            $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('colors' => $output->isDecorated()));
         }
 
         if ($this->getPlugin()->hasFeature('enables_autotest')) {

@@ -37,6 +37,9 @@
 
 namespace Stagehand\TestRunner\CLI;
 
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -47,22 +50,21 @@ namespace Stagehand\TestRunner\CLI;
 class Terminal
 {
     /**
-     * @var boolean
+     * @var \Symfony\Component\Console\Input\InputInterface
      */
-    protected $colors;
+    protected $input;
+
+    /**
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
+    protected $output;
 
     /**
      * @param boolean $colors
      */
     public function setColors($colors)
     {
-        if ($colors) {
-            if ($this->canColor()) {
-                $this->colors = true;
-            }
-        } else {
-            $this->colors = false;
-        }
+        $this->output->setDecorated($colors);
     }
 
     /**
@@ -70,15 +72,23 @@ class Terminal
      */
     public function colors()
     {
-        return $this->colors;
+        return $this->output->isDecorated();
     }
 
     /**
-     * @return boolean
+     * @param \Symfony\Component\Console\Input\InputInterface $input
      */
-    protected function canColor()
+    public function setInput(InputInterface $input)
     {
-        return @include_once 'Console/Color.php';
+        $this->input = $input;
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     */
+    public function setOutput(OutputInterface $output)
+    {
+        $this->output = $output;
     }
 }
 

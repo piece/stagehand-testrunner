@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Util;
 
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+
 /**
  * A utility for coloring.
  *
@@ -49,17 +51,18 @@ namespace Stagehand\TestRunner\Util;
 class Coloring
 {
     /**
+     * @var array
+     * @since Property available since Release 3.0.0
+     */
+    private static $outputFormatterStyles = array();
+
+    /**
      * @param string $text
      * @return text
      */
     public static function green($text)
     {
-        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
-        \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
-        $green = \Console_Color::convert("%g$text%n");
-        \Stagehand_LegacyError_PHPError::disableConversion();
-        error_reporting($oldErrorReportingLevel);
-        return $green;
+        return self::apply($text, __FUNCTION__);
     }
 
     /**
@@ -68,12 +71,7 @@ class Coloring
      */
     public static function red($text)
     {
-        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
-        \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
-        $red = \Console_Color::convert("%r$text%n");
-        \Stagehand_LegacyError_PHPError::disableConversion();
-        error_reporting($oldErrorReportingLevel);
-        return $red;
+        return self::apply($text, __FUNCTION__);
     }
 
     /**
@@ -82,12 +80,7 @@ class Coloring
      */
     public static function magenta($text)
     {
-        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
-        \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
-        $magenta = \Console_Color::convert("%m$text%n");
-        \Stagehand_LegacyError_PHPError::disableConversion();
-        error_reporting($oldErrorReportingLevel);
-        return $magenta;
+        return self::apply($text, __FUNCTION__);
     }
 
     /**
@@ -96,12 +89,21 @@ class Coloring
      */
     public static function yellow($text)
     {
-        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
-        \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
-        $yellow = \Console_Color::convert("%y$text%n");
-        \Stagehand_LegacyError_PHPError::disableConversion();
-        error_reporting($oldErrorReportingLevel);
-        return $yellow;
+        return self::apply($text, __FUNCTION__);
+    }
+
+    /**
+     * @param string $text
+     * @param string $color
+     * @return string
+     */
+    private static function apply($text, $color)
+    {
+        if (!array_key_exists($color, self::$outputFormatterStyles)) {
+            self::$outputFormatterStyles[$color] = new OutputFormatterStyle($color);
+        }
+
+        return self::$outputFormatterStyles[$color]->apply($text);
     }
 }
 

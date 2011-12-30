@@ -114,38 +114,37 @@ class TextReporter extends \PHPSpec_Runner_Reporter_Text
                 $colorLabel = 'red';
             }
 
-            $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_STRICT);
-            \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
-            $output = preg_replace(array('/^(\d+ examples?.*)/m',
-                                         '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
-                                         '/^(  -)(.+)( \(FAIL\))/m',
-                                         '/^(  -)(.+)( \(DELIBERATEFAIL\))/m',
-                                         '/^(  -)(.+)( \(PENDING\))/m',
-                                         '/^(  -)(.+)/m',
-                                         '/(\d+\)\s+)(.+ (?:ERROR|EXCEPTION)\s+.+)/',
-                                         '/(\d+\)\s+)(.+ FAILED\s+.+)/',
-                                         '/(\d+\)\s+)(.+ PENDING\s+.+)/',
-                                         '/^((?:Errors|Exceptions):)/m',
-                                         '/^(Failures:)/m',
-                                         '/^(Pending:)/m'
-                                         ),
-                                   array(Coloring::$colorLabel('$1'),
-                                         Coloring::magenta('$1$2$3'),
-                                         Coloring::red('$1$2$3'),
-                                         Coloring::red('$1$2$3'),
-                                         Coloring::yellow('$1$2$3'),
-                                         Coloring::green('$1$2$3'),
-                                         '$1' . Coloring::magenta('$2'),
-                                         '$1' . Coloring::red('$2'),
-                                         '$1' . Coloring::yellow('$2'),
-                                         Coloring::magenta('$1'),
-                                         Coloring::red('$1'),
-                                         Coloring::yellow('$1')
-                                         ),
-                                   \Console_Color::escape($output)
-                                   );
-            \Stagehand_LegacyError_PHPError::disableConversion();
-            error_reporting($oldErrorReportingLevel);
+            $output = preg_replace(
+                array(
+                    '/^(\d+ examples?.*)/m',
+                    '/^(  -)(.+)( \(ERROR|EXCEPTION\))/m',
+                    '/^(  -)(.+)( \(FAIL\))/m',
+                    '/^(  -)(.+)( \(DELIBERATEFAIL\))/m',
+                    '/^(  -)(.+)( \(PENDING\))/m',
+                    '/^(  -)(.+)/m',
+                    '/(\d+\)\s+)(.+ (?:ERROR|EXCEPTION)\s+.+)/',
+                    '/(\d+\)\s+)(.+ FAILED\s+.+)/',
+                    '/(\d+\)\s+)(.+ PENDING\s+.+)/',
+                    '/^((?:Errors|Exceptions):)/m',
+                    '/^(Failures:)/m',
+                    '/^(Pending:)/m'
+                ),
+                array(
+                    Coloring::$colorLabel('$1'),
+                    Coloring::magenta('$1$2$3'),
+                    Coloring::red('$1$2$3'),
+                    Coloring::red('$1$2$3'),
+                    Coloring::yellow('$1$2$3'),
+                    Coloring::green('$1$2$3'),
+                    '$1' . Coloring::magenta('$2'),
+                    '$1' . Coloring::red('$2'),
+                    '$1' . Coloring::yellow('$2'),
+                    Coloring::magenta('$1'),
+                    Coloring::red('$1'),
+                    Coloring::yellow('$1')
+                ),
+                $output
+            );
         }
 
         echo $output;

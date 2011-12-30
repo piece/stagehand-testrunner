@@ -37,6 +37,9 @@
 
 namespace Stagehand\TestRunner\Test;
 
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 
@@ -64,6 +67,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $this->oldApplicationContext = ApplicationContext::getInstance();
 
         $this->applicationContext = $this->createApplicationContext();
+        $this->applicationContext->setComponent('input', new ArgvInput());
+        $output = new ConsoleOutput();
+        $this->applicationContext->setComponent('output', $output);
+        $output->setDecorated(false);
         ApplicationContext::setInstance($this->applicationContext);
 
         $this->applicationContext->setComponent(

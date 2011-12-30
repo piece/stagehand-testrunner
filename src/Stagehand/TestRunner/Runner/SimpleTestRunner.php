@@ -48,6 +48,7 @@ use Stagehand\TestRunner\Runner\SimpleTestRunner\ClassFilterReporter;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporterFactory;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\MethodFilterReporter;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\StopOnFailureReporter;
+use Stagehand\TestRunner\Util\Coloring;
 
 /**
  * A test runner for SimpleTest.
@@ -103,18 +104,23 @@ class SimpleTestRunner extends Runner
         }
 
         if ($this->terminal->colors()) {
-            echo \Console_Color::convert(preg_replace(array('/^(OK.+)/ms',
-                                                            '/^(FAILURES!!!.+)/ms',
-                                                            '/^(\d+\)\s)(.+at \[.+\]$\s+in .+)$/m',
-                                                            '/^(Exception \d+!)/m',
-                                                            '/^(Unexpected exception of type \[.+\] with message \[.+\] in \[.+\]$\s+in .+)$/m'),
-                                                      array('%g$1%n',
-                                                            '%r$1%n',
-                                                            "\$1%r\$2%n",
-                                                            '%p$1%n',
-                                                            '%p$1%n'),
-                                                      \Console_Color::escape($output))
-                                         );
+            echo preg_replace(
+                     array(
+                         '/^(OK.+)/ms',
+                         '/^(FAILURES!!!.+)/ms',
+                         '/^(\d+\)\s)(.+at \[.+\]$\s+in .+)$/m',
+                         '/^(Exception \d+!)/m',
+                         '/^(Unexpected exception of type \[.+\] with message \[.+\] in \[.+\]$\s+in .+)$/m'
+                     ),
+                     array(
+                         Coloring::green('$1'),
+                         Coloring::red('$1'),
+                         '$1' . Coloring::red('$2'),
+                         Coloring::magenta('$1'),
+                         Coloring::magenta('$1')
+                     ),
+                     $output
+                 );
         } else {
             echo $output;
         }
