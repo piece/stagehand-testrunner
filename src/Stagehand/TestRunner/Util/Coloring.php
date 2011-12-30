@@ -58,7 +58,7 @@ class Coloring
 
     /**
      * @param string $text
-     * @return text
+     * @return string
      */
     public static function green($text)
     {
@@ -67,7 +67,7 @@ class Coloring
 
     /**
      * @param string $text
-     * @return text
+     * @return string
      */
     public static function red($text)
     {
@@ -76,7 +76,7 @@ class Coloring
 
     /**
      * @param string $text
-     * @return text
+     * @return string
      */
     public static function magenta($text)
     {
@@ -85,7 +85,7 @@ class Coloring
 
     /**
      * @param string $text
-     * @return text
+     * @return string
      */
     public static function yellow($text)
     {
