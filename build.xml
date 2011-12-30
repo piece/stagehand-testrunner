@@ -108,7 +108,6 @@ Four Defect Fix
         <package type="required" name="Stagehand_AlterationMonitor" channel="${package.channel}" minimum_version="1.0.0"/>
         <package type="required" name="Stagehand_DirectoryScanner" channel="${package.channel}" minimum_version="1.0.0"/>
         <package type="required" name="Stagehand_LegacyError" channel="${package.channel}" minimum_version="1.0.2"/>
-        <package type="optional" name="Console_Color" channel="pear.php.net" minimum_version="1.0.2"/>
         <package type="optional" name="PHPUnit" channel="pear.phpunit.de" minimum_version="3.4.1"/>
         <extension type="required" name="pcre"/>
         <extension type="required" name="SPL"/>
