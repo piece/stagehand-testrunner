@@ -50,15 +50,6 @@ class TestApplicationContext extends ApplicationContext
 {
     /**
      * @param string $componentID
-     * @param mixed $component
-     */
-    public function setComponent($componentID, $component)
-    {
-        $this->componentFactory->set($componentID, $component);
-    }
-
-    /**
-     * @param string $componentID
      * @param string $componentClass
      */
     public function setComponentClass($componentID, $componentClass)

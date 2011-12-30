@@ -103,6 +103,15 @@ class ApplicationContext
     }
 
     /**
+     * @param string $componentID
+     * @param mixed $component
+     */
+    public function setComponent($componentID, $component)
+    {
+        $this->componentFactory->set($componentID, $component);
+    }
+
+    /**
      * @param \Stagehand\TestRunner\Core\Environment $environment
      */
     public function setEnvironment(Environment $environment)
