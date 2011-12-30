@@ -60,15 +60,6 @@ class TestComponentFactory extends ComponentFactory
 
     /**
      * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
-    {
-        $this->container->set($this->resolveServiceID($componentID), $component);
-    }
-
-    /**
-     * @param string $componentID
      * @param string $componentClass
      */
     public function setClass($componentID, $componentClass)
