@@ -57,7 +57,7 @@ abstract class Extension implements ExtensionInterface
         $processor = new Processor();
         $config = $processor->processConfiguration($this->createConfiguration(), $configs);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/Definitions'));
         $loader->load($this->getAlias() . '.yml');
 
         $this->transformConfiguration($container, $config);
