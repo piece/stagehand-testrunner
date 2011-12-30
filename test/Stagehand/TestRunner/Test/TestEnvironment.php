@@ -59,21 +59,15 @@ class TestEnvironment extends Environment
 
     public static function earlyInitialize()
     {
-        $oldApplicationContext = ApplicationContext::getInstance();
-
-        $container = new TestContainerBuilder();
-        $componentFactory = new TestComponentFactory();
         self::$applicationContext = new TestApplicationContext();
-        self::$applicationContext->setComponentFactory($componentFactory);
+        self::$applicationContext->setComponentFactory(new TestComponentFactory());
         self::$applicationContext->setEnvironment(new TestEnvironment());
-        ApplicationContext::setInstance(self::$applicationContext);
-        $configurationTransformer = new ConfigurationTransformer($container);
+        $configurationTransformer = new ConfigurationTransformer(new TestContainerBuilder());
         $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => PHPUnitPlugin::getPluginID()));
+        ApplicationContext::setInstance(self::$applicationContext);
         ApplicationContext::getInstance()
             ->getComponentFactory()
             ->setContainer($configurationTransformer->transformToContainer());
-
-        ApplicationContext::setInstance($oldApplicationContext);
     }
 
     /**
