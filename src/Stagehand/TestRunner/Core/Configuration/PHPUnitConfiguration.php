@@ -61,12 +61,14 @@ class PHPUnitConfiguration extends Configuration
     protected function defineGrammar(NodeBuilder $nodeBuilder)
     {
         $nodeBuilder
-            ->scalarNode('phpunit_config_file')
+            ->scalarNode('config')
+                ->defaultNull()
                 ->cannotBeEmpty()
             ->end()
-            ->booleanNode('prints_detailed_progress_report')
+            ->booleanNode('detailed_progress')
                 ->defaultFalse()
-            ->end();
+            ->end()
+        ;
     }
 }
 

@@ -63,19 +63,8 @@ class CakePHPExtension extends PluginExtension
      */
     protected function transformConfiguration(ContainerBuilder $container, array $config)
     {
-        if (array_key_exists('cakephp_app_path', $config)) {
-            $container->setParameter(
-                Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'cakephp_app_path',
-                $config['cakephp_app_path']
-            );
-        }
-
-        if (array_key_exists('cakephp_core_path', $config)) {
-            $container->setParameter(
-                Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'cakephp_core_path',
-                $config['cakephp_core_path']
-            );
-        }
+        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'cakephp_app_path', $config['app_path']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'cakephp_core_path', $config['core_path']);
     }
 
     protected function createConfiguration()

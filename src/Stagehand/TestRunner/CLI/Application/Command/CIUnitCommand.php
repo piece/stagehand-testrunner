@@ -83,7 +83,10 @@ class CIUnitCommand extends PHPUnitCommand
 
         if ($this->getPlugin()->hasFeature('ciunit_path')) {
             if (!is_null($input->getOption('ciunit-path'))) {
-                $configurationTransformer->setConfigurationPart(CIUnitConfiguration::getConfigurationID(), array('ciunit_path' => $input->getOption('ciunit-path')));
+                $configurationTransformer->setConfigurationPart(
+                    CIUnitConfiguration::getConfigurationID(),
+                    array('ciunit_path' => $input->getOption('ciunit-path'))
+                );
             }
         }
     }

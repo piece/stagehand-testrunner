@@ -70,7 +70,7 @@ class PHPUnitCommand extends PluginCommand
         }
 
         if ($this->getPlugin()->hasFeature('prints_detailed_progress_report')) {
-            $this->addOption('print-detailed-progress', null, InputOption::VALUE_NONE, 'Prints detailed progress report.');
+            $this->addOption('phpunit-detailed-progress', null, InputOption::VALUE_NONE, 'Prints detailed progress report.');
         }
     }
 
@@ -83,12 +83,20 @@ class PHPUnitCommand extends PluginCommand
     {
         if ($this->getPlugin()->hasFeature('phpunit_config_file')) {
             if (!is_null($input->getOption('phpunit-config'))) {
-                $configurationTransformer->setConfigurationPart(PHPUnitConfiguration::getConfigurationID(), array('phpunit_config_file' => $input->getOption('phpunit-config')));
+                $configurationTransformer->setConfigurationPart(
+                    PHPUnitConfiguration::getConfigurationID(),
+                    array('config' => $input->getOption('phpunit-config'))
+                );
             }
         }
 
         if ($this->getPlugin()->hasFeature('prints_detailed_progress_report')) {
-            $configurationTransformer->setConfigurationPart(PHPUnitConfiguration::getConfigurationID(), array('prints_detailed_progress_report' => $input->getOption('print-detailed-progress')));
+            if ($input->getOption('phpunit-detailed-progress')) {
+                $configurationTransformer->setConfigurationPart(
+                    PHPUnitConfiguration::getConfigurationID(),
+                    array('detailed_progress' => true)
+                );
+            }
         }
     }
 }

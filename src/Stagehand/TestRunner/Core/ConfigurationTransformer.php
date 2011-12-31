@@ -37,7 +37,9 @@
 
 namespace Stagehand\TestRunner\Core;
 
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 use Stagehand\TestRunner\Core\DependencyInjection\Compiler\TestFilePatternPass;
 use Stagehand\TestRunner\Core\DependencyInjection\GeneralExtension;
@@ -62,6 +64,11 @@ class ConfigurationTransformer
      * @var \Symfony\Component\DependencyInjection\ContainerBuilder
      */
     protected $container;
+
+    /**
+     * @var string
+     */
+    protected $configurationFile;
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
@@ -98,9 +105,13 @@ class ConfigurationTransformer
             $this->container->registerExtension($extension);
         }
 
-        // TODO YAML-based Configuration (Issue #178)
-//         $loader = new YamlFileLoader($container, new FileLocator('/path/to/yamlDir'));
-//         $loader->load('example.yml');
+        if (!is_null($this->configurationFile)) {
+            $loader = new YamlFileLoader(
+                $this->container,
+                new FileLocator(dirname($this->configurationFile))
+            );
+            $loader->load(basename($this->configurationFile));
+        }
 
         $normalizedConfiguration = String::applyFilter($this->configuration, function ($v) {
             return urldecode($v);
@@ -117,6 +128,14 @@ class ConfigurationTransformer
         $this->container->compile();
 
         return $this->container;
+    }
+
+    /**
+     * @param string $configurationFile
+     */
+    public function setConfigurationFile($configurationFile)
+    {
+        $this->configurationFile = $configurationFile;
     }
 
     /**

@@ -63,12 +63,7 @@ class CIUnitExtension extends PluginExtension
      */
     protected function transformConfiguration(ContainerBuilder $container, array $config)
     {
-        if (array_key_exists('ciunit_path', $config)) {
-            $container->setParameter(
-                Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'ciunit_path',
-                $config['ciunit_path']
-            );
-        }
+        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'ciunit_path', $config['ciunit_path']);
     }
 
     protected function createConfiguration()

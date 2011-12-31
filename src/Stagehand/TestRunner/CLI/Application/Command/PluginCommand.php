@@ -46,6 +46,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\ConfigurationTransformer;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
+use Stagehand\TestRunner\Util\FileSystem;
 
 /**
  * @package    Stagehand_TestRunner
@@ -56,6 +57,17 @@ use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
  */
 abstract class PluginCommand extends Command
 {
+    /**
+     * @var \Stagehand\TestRunner\Util\FileSystem
+     */
+    protected $fileSystem;
+
+    public function __construct($name = null)
+    {
+        parent::__construct($name);
+        $this->fileSystem = new FileSystem();
+    }
+
     protected function configure()
     {
         parent::configure();
@@ -69,6 +81,7 @@ PHP_EOL .
         );
 
         $this->addArgument('test_directory_or_file', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The directory or file that contains tests to be run');
+        $this->addOption('config', 'c', InputOption::VALUE_REQUIRED, 'The YAML-based configuration file for Stagehand_TestRunner');
         $this->addOption('recursive', 'R', InputOption::VALUE_NONE, 'Recursively runs tests in the specified directries.');
 
         if ($this->getPlugin()->hasFeature('enables_autotest')) {
@@ -110,7 +123,7 @@ PHP_EOL .
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
         ApplicationContext::getInstance()->setComponent('input', $input);
         ApplicationContext::getInstance()->setComponent('output', $output);
-        $configurationTransformer = new ConfigurationTransformer($container);
+        $configurationTransformer = $this->createConfigurationTransformer($container);
         $this->transformToConfiguration($input, $output, $configurationTransformer);
         $configurationTransformer->transformToContainer();
         $this->createTestRunner()->run();
@@ -129,38 +142,98 @@ PHP_EOL .
      */
     protected function transformToConfiguration(InputInterface $input, OutputInterface $output, ConfigurationTransformer $configurationTransformer)
     {
+        if (!is_null($input->getOption('config'))) {
+            $configurationTransformer->setConfigurationFile(
+                 $this->fileSystem->getAbsolutePath(
+                     $input->getOption('config'),
+                     ApplicationContext::getInstance()->getEnvironment()->getWorkingDirectoryAtStartup()
+                 )
+            );
+        }
+
         $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => $this->getPlugin()->getPluginID()));
-        $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_resources' => $input->getArgument('test_directory_or_file')));
-        $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('recursively_scans' => $input->getOption('recursive')));
+
+        if (count($input->getArgument('test_directory_or_file')) > 0) {
+            $configurationTransformer->setConfigurationPart(
+                GeneralConfiguration::getConfigurationID(),
+                array('test_targets' => array('resources' => $input->getArgument('test_directory_or_file')))
+            );
+        }
+        if ($input->getOption('recursive')) {
+            $configurationTransformer->setConfigurationPart(
+                GeneralConfiguration::getConfigurationID(),
+                array('test_targets' => array('recursive' => true))
+            );
+        }
+        if ($this->getPlugin()->hasFeature('test_methods')) {
+            if (count($input->getOption('test-method')) > 0) {
+                $configurationTransformer->setConfigurationPart(
+                    GeneralConfiguration::getConfigurationID(),
+                    array('test_targets' => array('methods' => $input->getOption('test-method')))
+                );
+            }
+        }
+        if ($this->getPlugin()->hasFeature('test_classes')) {
+            if (count($input->getOption('test-class')) > 0) {
+                $configurationTransformer->setConfigurationPart(
+                    GeneralConfiguration::getConfigurationID(),
+                    array('test_targets' => array('classes' => $input->getOption('test-class')))
+                );
+            }
+        }
         if (!is_null($input->getOption('test-file-pattern'))) {
-            $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_file_pattern' => $input->getOption('test-file-pattern')));
+            $configurationTransformer->setConfigurationPart(
+                GeneralConfiguration::getConfigurationID(),
+                array('test_targets' => array('file_pattern' => $input->getOption('test-file-pattern')))
+            );
         }
 
         if ($this->getPlugin()->hasFeature('enables_autotest')) {
-            $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('enables_autotest' => $input->getOption('autotest')));
-            $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('monitoring_directories' => $input->getOption('watch-dir')));
+            if ($input->getOption('autotest')) {
+                $configurationTransformer->setConfigurationPart(
+                    GeneralConfiguration::getConfigurationID(),
+                    array('autotest' => array('enabled' => true))
+                );
+            }
+            if (count($input->getOption('watch-dir')) > 0) {
+                $configurationTransformer->setConfigurationPart(
+                    GeneralConfiguration::getConfigurationID(),
+                    array('autotest' => array('watch_dirs' => $input->getOption('watch-dir')))
+                );
+            }
         }
 
         if ($this->getPlugin()->hasFeature('uses_notification')) {
-            $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('uses_notification' => $input->getOption('notify')));
-        }
-
-        if ($this->getPlugin()->hasFeature('test_methods')) {
-            $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_methods' => $input->getOption('test-method')));
-        }
-
-        if ($this->getPlugin()->hasFeature('test_classes')) {
-            $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('test_classes' => $input->getOption('test-class')));
+            if ($input->getOption('notify')) {
+                $configurationTransformer->setConfigurationPart(
+                    GeneralConfiguration::getConfigurationID(),
+                    array('notify' => true)
+                );
+            }
         }
 
         if ($this->getPlugin()->hasFeature('junit_xml')) {
             if (!is_null($input->getOption('log-junit'))) {
-                $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('junit_xml' => array('file' => $input->getOption('log-junit'), 'realtime' => $input->getOption('log-junit-realtime'))));
+                $configurationTransformer->setConfigurationPart(
+                    GeneralConfiguration::getConfigurationID(),
+                    array('junit_xml' => array('file' => $input->getOption('log-junit')))
+                );
+            }
+            if ($input->getOption('log-junit-realtime')) {
+                $configurationTransformer->setConfigurationPart(
+                    GeneralConfiguration::getConfigurationID(),
+                    array('junit_xml' => array('realtime' => true))
+                );
             }
         }
 
         if ($this->getPlugin()->hasFeature('stops_on_failure')) {
-            $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('stops_on_failure' => $input->getOption('stop-on-failure')));
+            if ($input->getOption('stop-on-failure')) {
+                $configurationTransformer->setConfigurationPart(
+                    GeneralConfiguration::getConfigurationID(),
+                    array('stop_on_failure' => true)
+                );
+            }
         }
 
         $this->doTransformToConfiguration($input, $output, $configurationTransformer);
@@ -187,6 +260,14 @@ PHP_EOL .
     protected function createTestRunner()
     {
         return ApplicationContext::getInstance()->createComponent('test_runner');
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    protected function createConfigurationTransformer(ContainerBuilder $container)
+    {
+        return new ConfigurationTransformer($container);
     }
 }
 

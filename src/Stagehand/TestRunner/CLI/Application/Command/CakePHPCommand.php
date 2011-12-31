@@ -87,13 +87,19 @@ class CakePHPCommand extends SimpleTestCommand
 
         if ($this->getPlugin()->hasFeature('cakephp_app_path')) {
             if (!is_null($input->getOption('cakephp-app-path'))) {
-                $configurationTransformer->setConfigurationPart(CakePHPConfiguration::getConfigurationID(), array('cakephp_app_path' => $input->getOption('cakephp-app-path')));
+                $configurationTransformer->setConfigurationPart(
+                    CakePHPConfiguration::getConfigurationID(),
+                    array('app_path' => $input->getOption('cakephp-app-path'))
+                );
             }
         }
 
         if ($this->getPlugin()->hasFeature('cakephp_core_path')) {
             if (!is_null($input->getOption('cakephp-core-path'))) {
-                $configurationTransformer->setConfigurationPart(CakePHPConfiguration::getConfigurationID(), array('cakephp_core_path' => $input->getOption('cakephp-core-path')));
+                $configurationTransformer->setConfigurationPart(
+                    CakePHPConfiguration::getConfigurationID(),
+                    array('core_path' => $input->getOption('cakephp-core-path'))
+                );
             }
         }
     }

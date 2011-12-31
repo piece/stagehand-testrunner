@@ -81,7 +81,7 @@ class PHPUnitAutotestTest extends TestCase
         $preservedConfigurations = parent::preservedConfigurations();
         $index = count($preservedConfigurations);
         return array_merge($preservedConfigurations, array(
-            array($index++, array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--print-detailed-progress'), array(true, true, true)),
+            array($index++, array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--phpunit-detailed-progress'), array(true, true, true)),
             array($index++, array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true, true)),
         ));
     }

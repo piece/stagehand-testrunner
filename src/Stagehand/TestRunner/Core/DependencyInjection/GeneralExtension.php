@@ -67,30 +67,22 @@ class GeneralExtension extends Extension
         }
 
         $container->setParameter(Package::PACKAGE_ID . '.' . 'plugin_id', $config['testing_framework']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'recursively_scans', $config['recursively_scans']);
 
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'enables_autotest', $config['enables_autotest']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'monitoring_directories', $config['monitoring_directories']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_resources', $config['test_targets']['resources']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'recursively_scans', $config['test_targets']['recursive']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_methods', $config['test_targets']['methods']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_classes', $config['test_targets']['classes']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern', $config['test_targets']['file_pattern']);
 
-        if (array_key_exists('uses_notification', $config)) {
-            $container->setParameter(Package::PACKAGE_ID . '.' . 'uses_notification', $config['uses_notification']);
-        }
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'enables_autotest', $config['autotest']['enabled']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'monitoring_directories', $config['autotest']['watch_dirs']);
 
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_methods', $config['test_methods']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_classes', $config['test_classes']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'uses_notification', $config['notify']);
 
-        if (array_key_exists('junit_xml', $config)) {
-            $container->setParameter(Package::PACKAGE_ID . '.' . 'junit_xml_file', $config['junit_xml']['file']);
-            $container->setParameter(Package::PACKAGE_ID . '.' . 'logs_results_in_junit_xml_in_realtime', $config['junit_xml']['realtime']);
-        }
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'junit_xml_file', $config['junit_xml']['file']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'logs_results_in_junit_xml_in_realtime', $config['junit_xml']['realtime']);
 
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'stops_on_failure', $config['stops_on_failure']);
-
-        if (array_key_exists('test_file_pattern', $config)) {
-            $container->setParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern', $config['test_file_pattern']);
-        }
-
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_resources', $config['test_resources']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . 'stops_on_failure', $config['stop_on_failure']);
     }
 
     protected function createConfiguration()
