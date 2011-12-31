@@ -64,9 +64,11 @@ class Bootstrap
 
     protected function prepareApplicationContext()
     {
+        $environment = new Environment();
+        $environment->setWorkingDirectoryAtStartup($GLOBALS['STAGEHAND_TESTRUNNER_workingDirectoryAtStartup']);
         $applicationContext = new ApplicationContext();
         $applicationContext->setComponentFactory(new ComponentFactory());
-        $applicationContext->setEnvironment(new Environment());
+        $applicationContext->setEnvironment($environment);
         ApplicationContext::setInstance($applicationContext);
     }
 }
