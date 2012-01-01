@@ -62,12 +62,13 @@ class TestEnvironment extends Environment
         self::$applicationContext = new TestApplicationContext();
         self::$applicationContext->setComponentFactory(new TestComponentFactory());
         self::$applicationContext->setEnvironment(new TestEnvironment());
-        $configurationTransformer = new ConfigurationTransformer(new TestContainerBuilder());
-        $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => PHPUnitPlugin::getPluginID()));
         ApplicationContext::setInstance(self::$applicationContext);
-        ApplicationContext::getInstance()
-            ->getComponentFactory()
-            ->setContainer($configurationTransformer->transformToContainer());
+
+        $container = new TestContainerBuilder();
+        $configurationTransformer = new ConfigurationTransformer($container);
+        $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => PHPUnitPlugin::getPluginID()));
+        $configurationTransformer->transformToContainer();
+        ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
     }
 
     /**

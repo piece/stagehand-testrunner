@@ -94,7 +94,6 @@ class ConfigurationTransformer
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
      * @throws \Stagehand\TestRunner\Core\Exception
      */
     public function transformToContainer()
@@ -126,8 +125,6 @@ class ConfigurationTransformer
         }
 
         $this->container->compile();
-
-        return $this->container;
     }
 
     /**
