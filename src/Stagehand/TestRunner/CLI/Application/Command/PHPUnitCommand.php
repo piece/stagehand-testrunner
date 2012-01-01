@@ -69,7 +69,7 @@ class PHPUnitCommand extends PluginCommand
             $this->addOption('phpunit-config', null, InputOption::VALUE_REQUIRED, 'The PHPUnit XML configuration file');
         }
 
-        if ($this->getPlugin()->hasFeature('prints_detailed_progress_report')) {
+        if ($this->getPlugin()->hasFeature('phpunit_detailed_progress')) {
             $this->addOption('phpunit-detailed-progress', null, InputOption::VALUE_NONE, 'Prints detailed progress report.');
         }
     }
@@ -90,7 +90,7 @@ class PHPUnitCommand extends PluginCommand
             }
         }
 
-        if ($this->getPlugin()->hasFeature('prints_detailed_progress_report')) {
+        if ($this->getPlugin()->hasFeature('phpunit_detailed_progress')) {
             if ($input->getOption('phpunit-detailed-progress')) {
                 $configurationTransformer->setConfigurationPart(
                     PHPUnitConfiguration::getConfigurationID(),

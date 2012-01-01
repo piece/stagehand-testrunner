@@ -55,13 +55,13 @@ class SimpleTestPlugin extends Plugin
 
     protected function defineFeatures()
     {
-        $this->addFeature('colors');
-        $this->addFeature('enables_autotest');
-        $this->addFeature('uses_notification');
+        $this->addFeature('color');
+        $this->addFeature('autotest');
+        $this->addFeature('notify');
         $this->addFeature('test_methods');
         $this->addFeature('test_classes');
         $this->addFeature('junit_xml');
-        $this->addFeature('stops_on_failure');
+        $this->addFeature('stop_on_failure');
     }
 }
 

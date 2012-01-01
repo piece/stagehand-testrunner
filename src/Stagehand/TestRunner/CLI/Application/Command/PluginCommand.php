@@ -84,16 +84,16 @@ PHP_EOL .
         $this->addOption('config', 'c', InputOption::VALUE_REQUIRED, 'The YAML-based configuration file for Stagehand_TestRunner');
         $this->addOption('recursive', 'R', InputOption::VALUE_NONE, 'Recursively runs tests in the specified directries.');
 
-        if ($this->getPlugin()->hasFeature('enables_autotest')) {
+        if ($this->getPlugin()->hasFeature('autotest')) {
             $this->addOption('autotest', 'a', InputOption::VALUE_NONE, 'Monitors for changes in the specified directories and run tests when changes are detected.');
             $this->addOption('watch-dir', 'w', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'The directory to be monitored for changes');
         }
 
-        if ($this->getPlugin()->hasFeature('uses_notification')) {
+        if ($this->getPlugin()->hasFeature('notify')) {
             $this->addOption('notify', 'n', InputOption::VALUE_NONE, 'Notifies test results by using the growlnotify command in Mac OS X and Windows or the notify-send command in Linux.');
         }
 
-        if ($this->getPlugin()->hasFeature('stops_on_failure')) {
+        if ($this->getPlugin()->hasFeature('stop_on_failure')) {
             $this->addOption('stop-on-failure', 's', InputOption::VALUE_NONE, 'Stops the test run when the first failure or error is raised.');
         }
 
@@ -188,7 +188,7 @@ PHP_EOL .
             );
         }
 
-        if ($this->getPlugin()->hasFeature('enables_autotest')) {
+        if ($this->getPlugin()->hasFeature('autotest')) {
             if ($input->getOption('autotest')) {
                 $configurationTransformer->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
@@ -203,7 +203,7 @@ PHP_EOL .
             }
         }
 
-        if ($this->getPlugin()->hasFeature('uses_notification')) {
+        if ($this->getPlugin()->hasFeature('notify')) {
             if ($input->getOption('notify')) {
                 $configurationTransformer->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
@@ -227,7 +227,7 @@ PHP_EOL .
             }
         }
 
-        if ($this->getPlugin()->hasFeature('stops_on_failure')) {
+        if ($this->getPlugin()->hasFeature('stop_on_failure')) {
             if ($input->getOption('stop-on-failure')) {
                 $configurationTransformer->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
