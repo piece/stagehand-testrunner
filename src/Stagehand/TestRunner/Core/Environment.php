@@ -51,6 +51,11 @@ class Environment
      */
     protected $workingDirectoryAtStartup;
 
+    /**
+     * @var string
+     */
+    protected $preloadScript;
+
     public function __construct()
     {
         $this->initialize();
@@ -70,6 +75,22 @@ class Environment
     public function getWorkingDirectoryAtStartup()
     {
         return $this->workingDirectoryAtStartup;
+    }
+
+    /**
+     * @param string $preloadScript
+     */
+    public function setPreloadScript($preloadScript)
+    {
+        $this->preloadScript = $preloadScript;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPreloadScript()
+    {
+        return $this->preloadScript;
     }
 
     /**

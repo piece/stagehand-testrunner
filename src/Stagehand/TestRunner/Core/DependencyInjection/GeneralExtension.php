@@ -39,6 +39,7 @@ namespace Stagehand\TestRunner\Core\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Core\Package;
 
@@ -62,10 +63,6 @@ class GeneralExtension extends Extension
      */
     protected function transformConfiguration(ContainerBuilder $container, array $config)
     {
-        if (!is_null($GLOBALS['STAGEHAND_TESTRUNNER_preloadScript'])) {
-            $container->setParameter(Package::PACKAGE_ID . '.' . 'preload_script', $GLOBALS['STAGEHAND_TESTRUNNER_preloadScript']);
-        }
-
         $container->setParameter(Package::PACKAGE_ID . '.' . 'plugin_id', $config['testing_framework']);
 
         $container->setParameter(Package::PACKAGE_ID . '.' . 'test_resources', $config['test_targets']['resources']);

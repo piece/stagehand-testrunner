@@ -66,6 +66,8 @@ class Bootstrap
     {
         $environment = new Environment();
         $environment->setWorkingDirectoryAtStartup($GLOBALS['STAGEHAND_TESTRUNNER_workingDirectoryAtStartup']);
+        $environment->setPreloadScript($GLOBALS['STAGEHAND_TESTRUNNER_preloadScript']);
+
         $applicationContext = new ApplicationContext();
         $applicationContext->setComponentFactory(new ComponentFactory());
         $applicationContext->setEnvironment($environment);

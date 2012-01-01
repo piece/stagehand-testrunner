@@ -38,6 +38,7 @@
 namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\TestRunner\CLI\Terminal;
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\ComponentAwareFactory;
 use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Core\LegacyProxy;
@@ -67,12 +68,6 @@ abstract class Autotest
      * @var array
      */
     protected $runnerOptions;
-
-    /**
-     * @var string
-     * @since Property available since Release 3.0.0
-     */
-    protected $preloadScript;
 
     /**
      * @var \Stagehand\TestRunner\CLI\Terminal
@@ -172,15 +167,6 @@ abstract class Autotest
                 new Notification(Notification::RESULT_STOPPED, $fatalError->getFullMessage())
             );
         }
-    }
-
-    /**
-     * @param string $preloadScript
-     * @since Method available since Release 3.0.0
-     */
-    public function setPreloadScript($preloadScript)
-    {
-        $this->preloadScript = $preloadScript;
     }
 
     /**
@@ -337,8 +323,8 @@ abstract class Autotest
 
         $options[] = escapeshellarg(strtolower($this->plugin->getPluginID()));
 
-        if (!is_null($this->preloadScript)) {
-            $options[] = '-p ' . escapeshellarg($this->preloadScript);
+        if (!is_null(ApplicationContext::getInstance()->getEnvironment()->getPreloadScript())) {
+            $options[] = '-p ' . escapeshellarg(ApplicationContext::getInstance()->getEnvironment()->getPreloadScript());
         }
 
         $options[] = '-R';

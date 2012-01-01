@@ -45,6 +45,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
 
 use Stagehand\TestRunner\CLI\Application\Command\CommandFinder;
+use Stagehand\TestRunner\Core\ApplicationContext;
 
 /**
  * @package    Stagehand_TestRunner
@@ -75,7 +76,7 @@ class TestRunnerApplication extends Application
         if (is_null($commandName)) {
             return null;
         } else {
-            if ($commandName == $GLOBALS['STAGEHAND_TESTRUNNER_preloadScript']) {
+            if ($commandName == ApplicationContext::getInstance()->getEnvironment()->getPreloadScript()) {
                 return null;
             } else {
                 return $commandName;

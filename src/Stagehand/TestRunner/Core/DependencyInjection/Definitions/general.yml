@@ -25,7 +25,6 @@
 parameters:
   stagehand_testrunner.plugin_id: ~
   stagehand_testrunner.recursively_scans: false
-  stagehand_testrunner.preload_script: null
   stagehand_testrunner.enables_autotest: false
   stagehand_testrunner.monitoring_directories: []
   stagehand_testrunner.uses_notification: false
@@ -76,7 +75,6 @@ services:
   stagehand_testrunner.autotest:
     abstract: true
     calls:
-      - [ setPreloadScript, [ "%stagehand_testrunner.preload_script%" ] ]
       - [ setTerminal, [ "@stagehand_testrunner.terminal" ] ]
       - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
       - [ setMonitoringDirectories, [ "%stagehand_testrunner.monitoring_directories%" ] ]
