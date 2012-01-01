@@ -81,6 +81,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
+        ApplicationContext::getInstance()->getEnvironment()->setWorkingDirectoryAtStartup(null);
         ApplicationContext::setInstance($this->oldApplicationContext);
     }
 
