@@ -47,10 +47,16 @@ namespace Stagehand\TestRunner\Core\Plugin;
 class SimpleTestPlugin extends Plugin
 {
     private static $PLUGIN_ID = 'SimpleTest';
+    private static $TEST_FILE_PATTERN = 'Test(?:Case)?\.php$';
 
     public static function getPluginID()
     {
         return self::$PLUGIN_ID;
+    }
+
+    public function getTestFilePattern()
+    {
+        return self::$TEST_FILE_PATTERN;
     }
 
     protected function defineFeatures()

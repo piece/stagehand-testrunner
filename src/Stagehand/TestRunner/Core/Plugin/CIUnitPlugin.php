@@ -47,10 +47,16 @@ namespace Stagehand\TestRunner\Core\Plugin;
 class CIUnitPlugin extends PHPUnitPlugin
 {
     private static $PLUGIN_ID = 'CIUnit';
+    private static $TEST_FILE_PATTERN = '^test.+\.php$';
 
     public static function getPluginID()
     {
         return self::$PLUGIN_ID;
+    }
+
+    public function getTestFilePattern()
+    {
+        return self::$TEST_FILE_PATTERN;
     }
 
     protected function defineFeatures()

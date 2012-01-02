@@ -69,6 +69,11 @@ abstract class Plugin
         return in_array($featureID, $this->features);
     }
 
+    /**
+     * @return string
+     */
+    abstract public function getTestFilePattern();
+
     abstract protected function defineFeatures();
 
     /**

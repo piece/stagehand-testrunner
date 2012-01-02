@@ -39,6 +39,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 use Stagehand\TestRunner\Test\FactoryAwareTestCase;
 
 /**
@@ -85,9 +86,7 @@ abstract class TestCase extends FactoryAwareTestCase
 
         $testTargets = $this->createTestTargets();
         $testTargets->setFilePattern(
-            $this->applicationContext->getComponentFactory()->getParameter(
-                strtolower($this->getPluginID()) . '.' . 'test_file_pattern'
-            )
+            PluginFinder::findByPluginID($this->getPluginID())->getTestFilePattern()
         );
 
         $this->configure();

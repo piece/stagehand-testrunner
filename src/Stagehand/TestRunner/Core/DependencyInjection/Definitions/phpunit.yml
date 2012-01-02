@@ -23,7 +23,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
-  stagehand_testrunner.phpunit.test_file_pattern: Test(?:Case)?\.php$
   stagehand_testrunner.phpunit.prints_detailed_progress_report: false
   stagehand_testrunner.phpunit.phpunit_config_file: null
 

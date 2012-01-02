@@ -26,7 +26,6 @@ imports:
   - { resource: simpletest.yml }
 
 parameters:
-  stagehand_testrunner.cakephp.test_file_pattern: \.test\.php$
   stagehand_testrunner.cakephp.cakephp_app_path: null
   stagehand_testrunner.cakephp.cakephp_core_path: null
 

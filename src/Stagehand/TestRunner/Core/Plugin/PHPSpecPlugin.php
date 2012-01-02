@@ -47,10 +47,16 @@ namespace Stagehand\TestRunner\Core\Plugin;
 class PHPSpecPlugin extends Plugin
 {
     private static $PLUGIN_ID = 'PHPSpec';
+    private static $TEST_FILE_PATTERN = 'Spec\.php$';
 
     public static function getPluginID()
     {
         return self::$PLUGIN_ID;
+    }
+
+    public function getTestFilePattern()
+    {
+        return self::$TEST_FILE_PATTERN;
     }
 
     protected function defineFeatures()

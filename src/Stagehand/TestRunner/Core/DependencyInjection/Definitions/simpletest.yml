@@ -23,7 +23,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
-  stagehand_testrunner.simpletest.test_file_pattern: Test(?:Case)?\.php$
 
 services:
   stagehand_testrunner.simpletest.autotest:

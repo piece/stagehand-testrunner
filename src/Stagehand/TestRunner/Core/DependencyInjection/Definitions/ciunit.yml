@@ -26,7 +26,6 @@ imports:
   - { resource: phpunit.yml }
 
 parameters:
-  stagehand_testrunner.ciunit.test_file_pattern: ^test.+\.php$
   stagehand_testrunner.ciunit.ciunit_path: null
 
 services:
