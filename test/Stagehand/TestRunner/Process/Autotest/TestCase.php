@@ -164,12 +164,12 @@ abstract class TestCase extends FactoryAwareTestCase
     public function commandLines()
     {
         return array(
-            array('/usr/bin/php', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('testrunner'), escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($this->getPlugin()->getTestFilePattern()), escapeshellarg('test'))),
-            array('/usr/bin/php', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('testrunner'), escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($this->getPlugin()->getTestFilePattern()), escapeshellarg('test'))),
-            array(null, array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($this->getPlugin()->getTestFilePattern()), escapeshellarg('test'))),
-            array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($this->getPlugin()->getTestFilePattern()), escapeshellarg('test'))),
-            array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($this->getPlugin()->getTestFilePattern()), escapeshellarg('test'))),
-            array(null, array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg($this->getPlugin()->getTestFilePattern()), escapeshellarg('test'))),
+            array('/usr/bin/php', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('testrunner'), escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
+            array('/usr/bin/php', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('testrunner'), escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
+            array(null, array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
+            array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
+            array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
+            array(null, array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
         );
     }
 

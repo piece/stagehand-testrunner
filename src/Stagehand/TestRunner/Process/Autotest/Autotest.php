@@ -337,7 +337,9 @@ abstract class Autotest
             $options[] = '--stop-on-failure';
         }
 
-        $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargets->getFilePattern());
+        if ($this->testTargets->getFilePattern() != $this->plugin->getTestFilePattern()) {
+            $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargets->getFilePattern());
+        }
 
         $options = array_merge($options, $this->doBuildRunnerOptions());
 
