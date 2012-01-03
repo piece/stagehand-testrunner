@@ -50,7 +50,7 @@ use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CIUnitExtension extends PluginExtension
+class CIUnitExtension extends Extension
 {
     public function getAlias()
     {

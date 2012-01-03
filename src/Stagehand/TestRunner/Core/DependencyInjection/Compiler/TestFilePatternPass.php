@@ -40,8 +40,8 @@ namespace Stagehand\TestRunner\Core\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Package;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -57,9 +57,7 @@ class TestFilePatternPass implements CompilerPassInterface
         if (is_null($container->getParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern'))) {
             $container->setParameter(
                 Package::PACKAGE_ID . '.' . 'test_file_pattern',
-                PluginFinder::findByPluginID(
-                    $container->getParameter(Package::PACKAGE_ID . '.' . 'plugin_id')
-                )->getTestFilePattern()
+                ApplicationContext::getInstance()->getPlugin()->getTestFilePattern()
             );
         }
     }

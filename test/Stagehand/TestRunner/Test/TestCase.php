@@ -73,7 +73,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $output->setDecorated(false);
         ApplicationContext::setInstance($this->applicationContext);
 
-        $this->applicationContext->setComponent('plugin', $this->getPlugin());
+        $this->applicationContext->setPlugin($this->getPlugin());
     }
 
     protected function tearDown()

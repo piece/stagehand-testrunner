@@ -42,6 +42,7 @@ use Stagehand\TestRunner\Core\ConfigurationTransformer;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Core\Environment;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -62,11 +63,11 @@ class TestEnvironment extends Environment
         self::$applicationContext = new TestApplicationContext();
         self::$applicationContext->setComponentFactory(new TestComponentFactory());
         self::$applicationContext->setEnvironment(new TestEnvironment());
+        self::$applicationContext->setPlugin(PluginFinder::findByPluginID(PHPUnitPlugin::getPluginID()));
         ApplicationContext::setInstance(self::$applicationContext);
 
         $container = new TestContainerBuilder();
         $configurationTransformer = new ConfigurationTransformer($container);
-        $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => PHPUnitPlugin::getPluginID()));
         $configurationTransformer->transformToContainer();
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
     }

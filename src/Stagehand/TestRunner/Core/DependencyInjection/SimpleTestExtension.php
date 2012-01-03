@@ -49,7 +49,7 @@ use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class SimpleTestExtension extends PluginExtension
+class SimpleTestExtension extends Extension
 {
     public function getAlias()
     {

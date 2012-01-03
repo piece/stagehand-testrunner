@@ -50,7 +50,7 @@ use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitExtension extends PluginExtension
+class PHPUnitExtension extends Extension
 {
     public function getAlias()
     {

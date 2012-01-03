@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Core;
 
+use Stagehand\TestRunner\Core\Plugin\Plugin;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -60,6 +62,11 @@ class ApplicationContext
      * @var \Stagehand\TestRunner\Core\Environment
      */
     protected $environment;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\Plugin\Plugin
+     */
+    protected $plugin;
 
     /**
      * @return \Stagehand\TestRunner\Core\ApplicationContext
@@ -125,6 +132,22 @@ class ApplicationContext
     public function getEnvironment()
     {
         return $this->environment;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\Plugin\Plugin $plugin
+     */
+    public function setPlugin(Plugin $plugin)
+    {
+        $this->plugin = $plugin;
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Core\Plugin\Plugin
+     */
+    public function getPlugin()
+    {
+        return $this->plugin;
     }
 }
 

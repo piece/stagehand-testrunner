@@ -49,7 +49,7 @@ use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPSpecExtension extends PluginExtension
+class PHPSpecExtension extends Extension
 {
     public function getAlias()
     {

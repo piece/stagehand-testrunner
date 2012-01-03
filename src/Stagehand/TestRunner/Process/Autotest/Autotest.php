@@ -42,7 +42,6 @@ use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\ComponentAwareFactory;
 use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Core\LegacyProxy;
-use Stagehand\TestRunner\Core\Plugin\Plugin;
 use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
@@ -104,12 +103,6 @@ abstract class Autotest
      * @since Method available since Release 3.0.0
      */
     protected $notifierFactory;
-
-    /**
-     * @var \Stagehand\TestRunner\Core\Plugin\Plugin
-     * @since Method available since Release 3.0.0
-     */
-    protected $plugin;
 
     /**
      * @var \Stagehand\TestRunner\Core\LegacyProxy
@@ -242,15 +235,6 @@ abstract class Autotest
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\Plugin\Plugin $plugin
-     * @since Method available since Release 3.0.0
-     */
-    public function setPlugin(Plugin $plugin)
-    {
-        $this->plugin = $plugin;
-    }
-
-    /**
      * @return array
      * @throws \Stagehand\TestRunner\Core\Exception
      */
@@ -321,7 +305,7 @@ abstract class Autotest
             $options[] = '--ansi';
         }
 
-        $options[] = escapeshellarg(strtolower($this->plugin->getPluginID()));
+        $options[] = escapeshellarg(strtolower(ApplicationContext::getInstance()->getPlugin()->getPluginID()));
 
         if (!is_null(ApplicationContext::getInstance()->getEnvironment()->getPreloadScript())) {
             $options[] = '-p ' . escapeshellarg(ApplicationContext::getInstance()->getEnvironment()->getPreloadScript());
@@ -337,7 +321,7 @@ abstract class Autotest
             $options[] = '--stop-on-failure';
         }
 
-        if ($this->testTargets->getFilePattern() != $this->plugin->getTestFilePattern()) {
+        if ($this->testTargets->getFilePattern() != ApplicationContext::getInstance()->getPlugin()->getTestFilePattern()) {
             $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargets->getFilePattern());
         }
 

@@ -23,7 +23,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
-  stagehand_testrunner.plugin_id: ~
   stagehand_testrunner.recursively_scans: false
   stagehand_testrunner.enables_autotest: false
   stagehand_testrunner.monitoring_directories: []
@@ -35,18 +34,11 @@ parameters:
   stagehand_testrunner.stops_on_failure: false
   stagehand_testrunner.test_file_pattern: ~
   stagehand_testrunner.test_resources: []
+  stagehand_testrunner.plugin_aware_factory.class: "\\Stagehand\\TestRunner\\Core\\Plugin\\PluginAwareFactory"
 
 services:
   stagehand_testrunner.component_aware_factory_factory:
     class: Stagehand\TestRunner\Core\ComponentAwareFactoryFactory
-  stagehand_testrunner.plugin:
-    class: Stagehand\TestRunner\Core\Plugin\Plugin
-    factory_class: Stagehand\TestRunner\Core\Plugin\PluginFinder
-    factory_method: findByPluginID
-    arguments: [ "%stagehand_testrunner.plugin_id%" ]
-  stagehand_testrunner.plugin_aware_factory_factory:
-    class: Stagehand\TestRunner\Core\Plugin\PluginAwareFactoryFactory
-    arguments: [ "@stagehand_testrunner.plugin" ]
   stagehand_testrunner.legacy_proxy:
     class: Stagehand\TestRunner\Core\LegacyProxy
   stagehand_testrunner.output_buffering:
@@ -83,12 +75,11 @@ services:
       - [ setPreparerFactory, [ "@stagehand_testrunner.preparer_factory" ] ]
       - [ setRunnerFactory, [ "@stagehand_testrunner.runner_factory" ] ]
       - [ setNotifierFactory, [ "@stagehand_testrunner.notifier_factory" ] ]
-      - [ setPlugin, [ "@stagehand_testrunner.plugin" ] ]
   stagehand_testrunner.autotest_factory:
     class: Stagehand\TestRunner\Process\Autotest\Autotest
-    factory_service: stagehand_testrunner.plugin_aware_factory_factory
+    factory_service: stagehand_testrunner.component_aware_factory_factory
     factory_method: create
-    arguments: [ "autotest" ]
+    arguments: [ "autotest", "%stagehand_testrunner.plugin_aware_factory.class%" ]
   stagehand_testrunner.alteration_monitoring:
     class: Stagehand\TestRunner\Process\AlterationMonitoring
   stagehand_testrunner.input:
@@ -112,9 +103,9 @@ services:
     abstract: true
   stagehand_testrunner.preparer_factory:
     class: Stagehand\TestRunner\Preparer\Preparer
-    factory_service: stagehand_testrunner.plugin_aware_factory_factory
+    factory_service: stagehand_testrunner.component_aware_factory_factory
     factory_method: create
-    arguments: [ "preparer" ]
+    arguments: [ "preparer", "%stagehand_testrunner.plugin_aware_factory.class%" ]
   stagehand_testrunner.collector:
     abstract: true
     arguments: [ "@stagehand_testrunner.test_targets" ]
@@ -122,9 +113,9 @@ services:
       - [ setCollectingTypeFactory, [ "@stagehand_testrunner.collecting_type_factory" ] ]
   stagehand_testrunner.collector_factory:
     class: Stagehand\TestRunner\Collector\Collector
-    factory_service: stagehand_testrunner.plugin_aware_factory_factory
+    factory_service: stagehand_testrunner.component_aware_factory_factory
     factory_method: create
-    arguments: [ "collector" ]
+    arguments: [ "collector", "%stagehand_testrunner.plugin_aware_factory.class%" ]
   stagehand_testrunner.collecting_type:
     scope: prototype
     class: Stagehand\TestRunner\Collector\CollectingType
@@ -145,9 +136,9 @@ services:
       - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
   stagehand_testrunner.runner_factory:
     class: Stagehand\TestRunner\Runner\Runner
-    factory_service: stagehand_testrunner.plugin_aware_factory_factory
+    factory_service: stagehand_testrunner.component_aware_factory_factory
     factory_method: create
-    arguments: [ "runner" ]
+    arguments: [ "runner", "%stagehand_testrunner.plugin_aware_factory.class%" ]
   stagehand_testrunner.notifier:
     class: Stagehand\TestRunner\Notification\Notifier
     calls:

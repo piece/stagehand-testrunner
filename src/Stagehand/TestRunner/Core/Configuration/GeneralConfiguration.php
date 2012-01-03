@@ -66,9 +66,7 @@ class GeneralConfiguration extends Configuration
     protected function defineGrammar(NodeBuilder $nodeBuilder)
     {
         $nodeBuilder
-            ->scalarNode('testing_framework')
-                ->isRequired()
-                ->cannotBeEmpty()
+            ->scalarNode('testing_framework') // This element is just a label for YAML-based configuration.
             ->end()
             ->arrayNode('test_targets')
                 ->addDefaultsIfNotSet()

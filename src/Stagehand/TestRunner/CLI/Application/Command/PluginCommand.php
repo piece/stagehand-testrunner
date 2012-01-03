@@ -121,6 +121,7 @@ PHP_EOL .
     {
         $container = $this->createContainer();
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
+        ApplicationContext::getInstance()->setPlugin($this->getPlugin());
         ApplicationContext::getInstance()->setComponent('input', $input);
         ApplicationContext::getInstance()->setComponent('output', $output);
         $configurationTransformer = $this->createConfigurationTransformer($container);
@@ -150,8 +151,6 @@ PHP_EOL .
                  )
             );
         }
-
-        $configurationTransformer->setConfigurationPart(GeneralConfiguration::getConfigurationID(), array('testing_framework' => $this->getPlugin()->getPluginID()));
 
         if (count($input->getArgument('test_directory_or_file')) > 0) {
             $configurationTransformer->setConfigurationPart(

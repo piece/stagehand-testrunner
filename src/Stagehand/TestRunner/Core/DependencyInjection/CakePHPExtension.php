@@ -50,7 +50,7 @@ use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPExtension extends PluginExtension
+class CakePHPExtension extends Extension
 {
     public function getAlias()
     {

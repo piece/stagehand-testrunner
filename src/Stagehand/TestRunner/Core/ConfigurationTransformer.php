@@ -148,6 +148,11 @@ class ConfigurationTransformer
 
         $extensions = array(new GeneralExtension());
         foreach ($plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\Plugin */
+            if (ApplicationContext::getInstance()->getEnvironment()->isProduction()) {
+                if (!(ApplicationContext::getInstance()->getPlugin() instanceof $plugin)) {
+                    continue;
+                }
+            }
             $extensionClass = __NAMESPACE__ .
                 '\\DependencyInjection\\' .
                 $plugin->getPluginID() . 'Extension';
