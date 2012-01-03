@@ -39,7 +39,6 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 use Stagehand\TestRunner\Test\FactoryAwareTestCase;
 
 /**
@@ -83,11 +82,6 @@ abstract class TestCase extends FactoryAwareTestCase
         \Phake::when($legacyProxy)->ob_get_level()->thenReturn(0);
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
-
-        $testTargets = $this->createTestTargets();
-        $testTargets->setFilePattern(
-            PluginFinder::findByPluginID($this->getPluginID())->getTestFilePattern()
-        );
 
         $this->configure();
     }
@@ -215,15 +209,6 @@ abstract class TestCase extends FactoryAwareTestCase
      */
     protected function configure()
     {
-    }
-
-    /**
-     * @return \Stagehand\TestRunner\Core\TestTargets
-     * @since Method available since Release 3.0.0
-     */
-    protected function createTestTargets()
-    {
-        return $this->applicationContext->createComponent('test_targets');
     }
 
     /**

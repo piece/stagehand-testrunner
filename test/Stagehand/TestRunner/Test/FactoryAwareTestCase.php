@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Test;
 
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -50,6 +52,11 @@ abstract class FactoryAwareTestCase extends TestCase
     {
         parent::setUp();
         $this->applicationContext->getComponentFactory()->backupDefinitions();
+
+        $testTargets = $this->createTestTargets();
+        $testTargets->setFilePattern(
+            PluginFinder::findByPluginID($this->getPluginID())->getTestFilePattern()
+        );
     }
 
     protected function tearDown()
@@ -64,6 +71,14 @@ abstract class FactoryAwareTestCase extends TestCase
     protected function createApplicationContext()
     {
         return TestEnvironment::getApplicationContext();
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Core\TestTargets
+     */
+    protected function createTestTargets()
+    {
+        return $this->applicationContext->createComponent('test_targets');
     }
 }
 
