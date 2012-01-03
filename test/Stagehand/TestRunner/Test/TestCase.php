@@ -73,10 +73,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $output->setDecorated(false);
         ApplicationContext::setInstance($this->applicationContext);
 
-        $this->applicationContext->setComponent(
-            'plugin',
-            PluginFinder::findByPluginID($this->getPluginID())
-        );
+        $this->applicationContext->setComponent('plugin', $this->getPlugin());
     }
 
     protected function tearDown()
@@ -103,6 +100,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $applicationContext->setComponentFactory($componentFactory);
         $applicationContext->setEnvironment(new TestEnvironment());
         return $applicationContext;
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Core\Plugin\Plugin
+     */
+    protected function getPlugin()
+    {
+        return PluginFinder::findByPluginID($this->getPluginID());
     }
 }
 
