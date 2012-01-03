@@ -82,7 +82,7 @@ PHP_EOL .
 
         $this->addArgument('test_directory_or_file', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The directory or file that contains tests to be run <comment>(default: The working directory at testrunner startup)</comment>');
         $this->addOption('config', 'c', InputOption::VALUE_REQUIRED, 'The YAML-based configuration file for Stagehand_TestRunner');
-        $this->addOption('recursive', 'R', InputOption::VALUE_NONE, 'Recursively runs tests in the specified directries.');
+        $this->addOption('recursive', 'R', InputOption::VALUE_NONE, 'Recursively runs tests in the specified directories.');
 
         if ($this->getPlugin()->hasFeature('autotest')) {
             $this->addOption('autotest', 'a', InputOption::VALUE_NONE, 'Monitors for changes in the specified directories and run tests when changes are detected.');
