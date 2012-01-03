@@ -53,14 +53,14 @@ class PHPUnitAutotestTest extends TestCase
     public static function setUpBeforeClass()
     {
         TestCase::initializeConfigurators();
-        static::$configurators[] = function () {
-            $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+        static::$configurators[] = function (ApplicationContext $applicationContext) {
+            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
             $runner->setPrintsDetailedProgressReport(true);
         };
-        static::$configurators[] = function () {
+        static::$configurators[] = function (ApplicationContext $applicationContext) {
             $phpunitXMLConfiguration = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfiguration'); /* @var $phpunitXMLConfiguration \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration */
             \Phake::when($phpunitXMLConfiguration)->getFileName()->thenReturn('FILE');
-            $autotest = ApplicationContext::getInstance()->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
+            $autotest = $applicationContext->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
             $autotest->setPHPUnitXMLConfiguration($phpunitXMLConfiguration);
         };
     }

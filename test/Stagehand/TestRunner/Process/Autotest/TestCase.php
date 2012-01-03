@@ -61,51 +61,51 @@ abstract class TestCase extends FactoryAwareTestCase
     protected static function initializeConfigurators()
     {
         self::$configurators = array();
-        self::$configurators[] = function () {
-            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setRecursivelyScans(true);
         };
-        self::$configurators[] = function () {
-            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setRecursivelyScans(false);
         };
-        self::$configurators[] = function () {
-            $terminal = ApplicationContext::getInstance()->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $terminal = $applicationContext->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
             $terminal->setColors(true);
         };
-        self::$configurators[] = function () {
-            ApplicationContext::getInstance()->getEnvironment()->setPreloadScript('test/prepare.php');
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $applicationContext->getEnvironment()->setPreloadScript('test/prepare.php');
         };
-        self::$configurators[] = function () {
-            $autotest = ApplicationContext::getInstance()->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $autotest = $applicationContext->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
             $autotest->setMonitoringDirectories(array('src'));
         };
-        self::$configurators[] = function () {
-            $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
             $runner->setUsesNotification(true);
         };
-        self::$configurators[] = function () {
-            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setMethods(array('METHOD1'));
         };
-        self::$configurators[] = function () {
-            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setClasses(array('CLASS1'));
         };
-        self::$configurators[] = function () {
-            $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
             $runner->setJUnitXMLFile('FILE');
         };
-        self::$configurators[] = function () {
-            $junitXMLWriterFactory = ApplicationContext::getInstance()->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $junitXMLWriterFactory = $applicationContext->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */
             $junitXMLWriterFactory->setLogsResultsInRealtime(true);
         };
-        self::$configurators[] = function () {
-            $runner = ApplicationContext::getInstance()->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
             $runner->setStopsOnFailure(true);
         };
-        self::$configurators[] = function () {
-            $testTargets = ApplicationContext::getInstance()->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setFilePattern('PATTERN');
         };
     }
@@ -202,7 +202,7 @@ abstract class TestCase extends FactoryAwareTestCase
         \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('alteration_monitoring', $alterationMonitoring);
 
-        call_user_func(self::$configurators[$configuratorIndex], $this->getPluginID());
+        call_user_func(self::$configurators[$configuratorIndex], $this->applicationContext);
 
         $autotest = $this->applicationContext->createComponent('autotest_factory')->create();
         $autotest->monitorAlteration();
