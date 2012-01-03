@@ -23,7 +23,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 general:
-  testing_framework: phpunit
+  framework: phpunit
   test_targets:
     recursive:
   autotest:
