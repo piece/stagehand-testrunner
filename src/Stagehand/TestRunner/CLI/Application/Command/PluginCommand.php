@@ -80,13 +80,13 @@ PHP_EOL .
 '  <info>testrunner ' . $this->getName() . ' ...</info>'
         );
 
-        $this->addArgument('test_directory_or_file', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The directory or file that contains tests to be run');
+        $this->addArgument('test_directory_or_file', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The directory or file that contains tests to be run <comment>(default: The working directory at testrunner startup)</comment>');
         $this->addOption('config', 'c', InputOption::VALUE_REQUIRED, 'The YAML-based configuration file for Stagehand_TestRunner');
         $this->addOption('recursive', 'R', InputOption::VALUE_NONE, 'Recursively runs tests in the specified directries.');
 
         if ($this->getPlugin()->hasFeature('autotest')) {
             $this->addOption('autotest', 'a', InputOption::VALUE_NONE, 'Monitors for changes in the specified directories and run tests when changes are detected.');
-            $this->addOption('watch-dir', 'w', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'The directory to be monitored for changes');
+            $this->addOption('watch-dir', 'w', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'The directory to be monitored for changes <comment>(default: The directories specified by the arguments)</comment>');
         }
 
         if ($this->getPlugin()->hasFeature('notify')) {
@@ -102,7 +102,7 @@ PHP_EOL .
             $this->addOption('log-junit-realtime', null, InputOption::VALUE_NONE, 'Logs test results in real-time into the specified file in the JUnit XML format.');
         }
 
-        $this->addOption('test-file-pattern', null, InputOption::VALUE_REQUIRED, 'The regular expression pattern for test files');
+        $this->addOption('test-file-pattern', null, InputOption::VALUE_REQUIRED, 'The regular expression pattern for test files <comment>(default: ' . $this->getPlugin()->getTestFilePattern() . ')</comment');
 
         if ($this->getPlugin()->hasFeature('test_methods')) {
             $this->addOption('test-method', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'The test method to be run');

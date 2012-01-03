@@ -68,11 +68,11 @@ class CakePHPCommand extends SimpleTestCommand
         parent::doConfigure();
 
         if ($this->getPlugin()->hasFeature('cakephp_app_path')) {
-            $this->addOption('cakephp-app-path', null, InputOption::VALUE_REQUIRED, 'The path of your app folder. By default, the current working directory is used.');
+            $this->addOption('cakephp-app-path', null, InputOption::VALUE_REQUIRED, 'The path of your app folder. <comment>(default: The working directory at testrunner startup)</comment>');
         }
 
         if ($this->getPlugin()->hasFeature('cakephp_core_path')) {
-            $this->addOption('cakephp-core-path', null, InputOption::VALUE_REQUIRED, 'The path of your CakePHP libraries folder (/path/to/cake). By default, the \"cake\" directory under the parent directory of your app folder is used. (/path/to/app/../cake)');
+            $this->addOption('cakephp-core-path', null, InputOption::VALUE_REQUIRED, 'The path of your CakePHP libraries folder (/path/to/cake). <comment>(default: The "cake" directory under the parent directory of your app folder is used. (/path/to/app/../cake))</comment>');
         }
     }
 

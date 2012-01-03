@@ -68,7 +68,7 @@ class CIUnitCommand extends PHPUnitCommand
         parent::doConfigure();
 
         if ($this->getPlugin()->hasFeature('ciunit_path')) {
-            $this->addOption('ciunit-path', null, InputOption::VALUE_REQUIRED, 'The path of your CIUnit tests directory. By default, the current working directory is used.');
+            $this->addOption('ciunit-path', null, InputOption::VALUE_REQUIRED, 'The path of your CIUnit tests directory. <comment>(default: The working directory at testrunner startup)</comment>');
         }
     }
 
