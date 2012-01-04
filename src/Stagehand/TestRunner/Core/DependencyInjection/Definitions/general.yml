@@ -34,7 +34,7 @@ parameters:
   stagehand_testrunner.stops_on_failure: false
   stagehand_testrunner.test_file_pattern: ~
   stagehand_testrunner.test_resources: []
-  stagehand_testrunner.plugin_aware_factory.class: "\\Stagehand\\TestRunner\\Core\\Plugin\\PluginAwareFactory"
+  stagehand_testrunner.plugin_aware_factory.class: "Stagehand\\TestRunner\\Core\\Plugin\\PluginAwareFactory"
 
 services:
   stagehand_testrunner.component_aware_factory_factory:
