@@ -66,7 +66,7 @@ class TestEnvironment extends Environment
         self::$applicationContext->setPlugin(PluginFinder::findByPluginID(PHPUnitPlugin::getPluginID()));
         ApplicationContext::setInstance(self::$applicationContext);
 
-        $container = new TestContainerBuilder();
+        $container = new TestContainer();
         $configurationTransformer = new ConfigurationTransformer($container);
         $configurationTransformer->transformToContainer();
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);

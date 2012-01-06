@@ -37,9 +37,6 @@
 
 namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use Stagehand\TestRunner\Core\Configuration\PHPSpecConfiguration;
 use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
 
 /**
@@ -54,19 +51,6 @@ class PHPSpecExtension extends Extension
     public function getAlias()
     {
         return strtolower(PHPSpecPlugin::getPluginID());
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     * @param array $config
-     */
-    protected function transformConfiguration(ContainerBuilder $container, array $config)
-    {
-    }
-
-    protected function createConfiguration()
-    {
-        return new PHPSpecConfiguration();
     }
 }
 

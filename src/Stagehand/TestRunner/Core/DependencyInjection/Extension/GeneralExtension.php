@@ -37,12 +37,6 @@
 
 namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
-use Stagehand\TestRunner\Core\Package;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -55,34 +49,6 @@ class GeneralExtension extends Extension
     public function getAlias()
     {
         return 'general';
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     * @param array $config
-     */
-    protected function transformConfiguration(ContainerBuilder $container, array $config)
-    {
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_resources', $config['test_targets']['resources']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'recursively_scans', $config['test_targets']['recursive']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_methods', $config['test_targets']['methods']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_classes', $config['test_targets']['classes']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern', $config['test_targets']['file_pattern']);
-
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'enables_autotest', $config['autotest']['enabled']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'monitoring_directories', $config['autotest']['watch_dirs']);
-
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'uses_notification', $config['notify']);
-
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'junit_xml_file', $config['junit_xml']['file']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'logs_results_in_junit_xml_in_realtime', $config['junit_xml']['realtime']);
-
-        $container->setParameter(Package::PACKAGE_ID . '.' . 'stops_on_failure', $config['stop_on_failure']);
-    }
-
-    protected function createConfiguration()
-    {
-        return new GeneralConfiguration();
     }
 }
 

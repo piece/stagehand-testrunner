@@ -35,13 +35,11 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection\Compiler;
+namespace Stagehand\TestRunner\Core\Transformation;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-
-use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\Configuration\SimpleTestConfiguration;
 use Stagehand\TestRunner\Core\Package;
+use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -50,16 +48,20 @@ use Stagehand\TestRunner\Core\Package;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestFilePatternPass implements CompilerPassInterface
+class SimpleTestTransformer extends Transformer
 {
-    public function process(ContainerBuilder $container)
+    public function transform()
     {
-        if (is_null($container->getParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern'))) {
-            $container->setParameter(
-                Package::PACKAGE_ID . '.' . 'test_file_pattern',
-                ApplicationContext::getInstance()->getPlugin()->getTestFilePattern()
-            );
-        }
+    }
+
+    protected function createConfiguration()
+    {
+        return new SimpleTestConfiguration();
+    }
+
+    protected function getParameterPrefix()
+    {
+        return strtolower(Package::PACKAGE_ID . '.' . SimpleTestPlugin::getPluginID());
     }
 }
 

@@ -35,8 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core;
+namespace Stagehand\TestRunner\Core\Transformation;
 
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -46,46 +47,52 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ComponentFactory
+abstract class Transformer
 {
+    /**
+     * @var array
+     */
+    protected $configurationPart;
+
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected $container;
 
     /**
+     * @param array $configurationPart
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
-    public function setContainer(ContainerInterface $container)
+    public function __construct(array $configurationPart, ContainerInterface $container)
     {
         $this->container = $container;
+
+        $processor = new Processor();
+        $this->configurationPart = $processor->processConfiguration(
+            $this->createConfiguration(),
+            $configurationPart
+        );
     }
 
+    abstract public function transform();
+
     /**
-     * @param string $componentID
-     * @return mixed
+     * @return \Symfony\Component\Config\Definition\ConfigurationInterface
      */
-    public function create($componentID)
-    {
-        return $this->container->get($this->resolveServiceID($componentID));
-    }
+    abstract protected function createConfiguration();
 
     /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
-    {
-        $this->container->set($this->resolveServiceID($componentID), $component);
-    }
-
-    /**
-     * @param string $componentID
      * @return string
      */
-    protected function resolveServiceID($componentID)
+    abstract protected function getParameterPrefix();
+
+    /**
+     * @param string $name
+     * @param string $value
+     */
+    protected function setParameter($name, $value)
     {
-        return Package::PACKAGE_ID . '.' . $componentID;
+        $this->container->setParameter($this->getParameterPrefix() . '.' . $name, $value);
     }
 }
 

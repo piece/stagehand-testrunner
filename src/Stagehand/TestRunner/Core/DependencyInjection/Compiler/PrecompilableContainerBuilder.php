@@ -35,9 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core;
+namespace Stagehand\TestRunner\Core\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,46 +47,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ComponentFactory
+class PrecompilableContainerBuilder extends ContainerBuilder
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container)
+    public function compile()
     {
-        $this->container = $container;
-    }
-
-    /**
-     * @param string $componentID
-     * @return mixed
-     */
-    public function create($componentID)
-    {
-        return $this->container->get($this->resolveServiceID($componentID));
-    }
-
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
-    {
-        $this->container->set($this->resolveServiceID($componentID), $component);
-    }
-
-    /**
-     * @param string $componentID
-     * @return string
-     */
-    protected function resolveServiceID($componentID)
-    {
-        return Package::PACKAGE_ID . '.' . $componentID;
+        parent::compile();
+        $this->parameterBag = new ParameterBag($this->parameterBag->all());
     }
 }
 

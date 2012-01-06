@@ -35,10 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Test;
+namespace Stagehand\TestRunner\Core\Transformation;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Stagehand\TestRunner\Core\Configuration\PHPSpecConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,19 +46,15 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestContainerBuilder extends ContainerBuilder
+class PHPUnitTransformer extends Transformer
 {
-    public function compile()
+    public function transform()
     {
-        parent::compile();
-        $this->parameterBag = new ParameterBag($this->parameterBag->all());
     }
 
-    public function clearServices()
+    protected function createConfiguration()
     {
-        $this->services = array();
-        $this->scopedServices = array();
-        $this->loading = array();
+        return new PHPSpecConfiguration();
     }
 }
 

@@ -37,10 +37,6 @@
 
 namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use Stagehand\TestRunner\Core\Configuration\PHPUnitConfiguration;
-use Stagehand\TestRunner\Core\Package;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 
 /**
@@ -55,21 +51,6 @@ class PHPUnitExtension extends Extension
     public function getAlias()
     {
         return strtolower(PHPUnitPlugin::getPluginID());
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     * @param array $config
-     */
-    protected function transformConfiguration(ContainerBuilder $container, array $config)
-    {
-        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'phpunit_config_file', $config['config']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'prints_detailed_progress_report', $config['detailed_progress']);
-    }
-
-    protected function createConfiguration()
-    {
-        return new PHPUnitConfiguration();
     }
 }
 

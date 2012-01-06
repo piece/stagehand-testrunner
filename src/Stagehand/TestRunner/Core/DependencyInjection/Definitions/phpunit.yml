@@ -25,6 +25,7 @@
 parameters:
   stagehand_testrunner.phpunit.prints_detailed_progress_report: false
   stagehand_testrunner.phpunit.phpunit_config_file: null
+  stagehand_testrunner.phpunit.runner.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner"
 
 services:
   stagehand_testrunner.phpunit.autotest:
@@ -45,7 +46,7 @@ services:
       - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
   stagehand_testrunner.phpunit.runner:
     parent: stagehand_testrunner.runner
-    class: Stagehand\TestRunner\Runner\PHPUnitRunner
+    class: "%stagehand_testrunner.phpunit.runner.class%"
     calls:
       - [ setPrintsDetailedProgressReport, [ "%stagehand_testrunner.phpunit.prints_detailed_progress_report%" ] ]
       - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]

@@ -93,7 +93,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function createApplicationContext()
     {
-        $container = new TestContainerBuilder();
+        $container = new TestContainer();
         $componentFactory = new TestComponentFactory();
         $componentFactory->setContainer($container);
         $applicationContext = new TestApplicationContext();

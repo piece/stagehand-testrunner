@@ -41,11 +41,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\ConfigurationTransformer;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
+use Stagehand\TestRunner\Core\DependencyInjection\Container;
 use Stagehand\TestRunner\Util\FileSystem;
 
 /**
@@ -246,11 +247,11 @@ PHP_EOL .
     abstract protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, ConfigurationTransformer $configurationTransformer);
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected function createContainer()
     {
-        return new ContainerBuilder();
+        return new Container();
     }
 
     /**
@@ -262,9 +263,9 @@ PHP_EOL .
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
-    protected function createConfigurationTransformer(ContainerBuilder $container)
+    protected function createConfigurationTransformer(ContainerInterface $container)
     {
         return new ConfigurationTransformer($container);
     }

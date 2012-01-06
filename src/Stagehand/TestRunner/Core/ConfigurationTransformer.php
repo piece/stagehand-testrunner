@@ -37,12 +37,12 @@
 
 namespace Stagehand\TestRunner\Core;
 
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Yaml\Yaml;
 
-use Stagehand\TestRunner\Core\DependencyInjection\Compiler\TestFilePatternPass;
-use Stagehand\TestRunner\Core\DependencyInjection\Extension\ExtensionFinder;
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -60,7 +60,7 @@ class ConfigurationTransformer
     protected $configuration = array();
 
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected $container;
 
@@ -70,9 +70,9 @@ class ConfigurationTransformer
     protected $configurationFile;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
-    public function __construct(ContainerBuilder $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -97,33 +97,33 @@ class ConfigurationTransformer
      */
     public function transformToContainer()
     {
-        $this->container->addCompilerPass(new TestFilePatternPass());
-
-        foreach (ExtensionFinder::findAll() as $extension) {
-            $this->container->registerExtension($extension);
-        }
-
         if (!is_null($this->configurationFile)) {
-            $loader = new YamlFileLoader(
-                $this->container,
-                new FileLocator(dirname($this->configurationFile))
-            );
-            $loader->load(basename($this->configurationFile));
+            foreach (Yaml::parse($this->configurationFile) as $configurationID => $configurationPart) {
+                $this->setConfigurationPart($configurationID, $configurationPart);
+            }
         }
 
         $normalizedConfiguration = String::applyFilter($this->configuration, function ($v) {
             return urldecode($v);
         });
-        foreach ($this->container->getExtensions() as $extension) { /* @var $extension \Symfony\Component\DependencyInjection\Extension\ExtensionInterface */
-            $this->container->loadFromExtension(
-                $extension->getAlias(),
-                array_key_exists($extension->getAlias(), $normalizedConfiguration) ?
-                    $normalizedConfiguration[ $extension->getAlias() ] :
-                    array()
-            );
+        foreach ($normalizedConfiguration as $configurationID => $configurationPart) {
+            if ($configurationID == GeneralConfiguration::getConfigurationID()) {
+                $transformerID = 'General';
+            } else {
+                $plugin = PluginFinder::findByPluginID($configurationID);
+                $transformerID = $plugin->getPluginID();
+            }
+            $transformerClass = __NAMESPACE__ . '\Transformation\\' . $transformerID . 'Transformer';
+            $transformer = new $transformerClass(array($configurationID => $configurationPart), $this->container); /* @var $transformer \Stagehand\TestRunner\Core\Transformer\Transformer */
+            $transformer->transform();
         }
 
-        $this->container->compile();
+        if (is_null($this->container->getParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern'))) {
+            $this->container->setParameter(
+                Package::PACKAGE_ID . '.' . 'test_file_pattern',
+                ApplicationContext::getInstance()->getPlugin()->getTestFilePattern()
+            );
+        }
     }
 
     /**

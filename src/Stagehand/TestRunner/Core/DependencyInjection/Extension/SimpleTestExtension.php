@@ -37,9 +37,6 @@
 
 namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use Stagehand\TestRunner\Core\Configuration\SimpleTestConfiguration;
 use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 
 /**
@@ -54,19 +51,6 @@ class SimpleTestExtension extends Extension
     public function getAlias()
     {
         return strtolower(SimpleTestPlugin::getPluginID());
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     * @param array $config
-     */
-    protected function transformConfiguration(ContainerBuilder $container, array $config)
-    {
-    }
-
-    protected function createConfiguration()
-    {
-        return new SimpleTestConfiguration();
     }
 }
 

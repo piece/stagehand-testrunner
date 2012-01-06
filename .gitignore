@@ -1,2 +1,3 @@
 /build/
 /dist/
+/src/Stagehand/TestRunner/Core/DependencyInjection/PrecompiledContainer.php

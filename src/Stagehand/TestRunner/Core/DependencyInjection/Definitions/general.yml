@@ -34,11 +34,10 @@ parameters:
   stagehand_testrunner.stops_on_failure: false
   stagehand_testrunner.test_file_pattern: ~
   stagehand_testrunner.test_resources: []
+  stagehand_testrunner.component_aware_factory_factory.class: "Stagehand\\TestRunner\\Core\\ComponentAwareFactoryFactory"
   stagehand_testrunner.plugin_aware_factory.class: "Stagehand\\TestRunner\\Core\\Plugin\\PluginAwareFactory"
 
 services:
-  stagehand_testrunner.component_aware_factory_factory:
-    class: Stagehand\TestRunner\Core\ComponentAwareFactoryFactory
   stagehand_testrunner.legacy_proxy:
     class: Stagehand\TestRunner\Core\LegacyProxy
   stagehand_testrunner.output_buffering:
@@ -61,7 +60,7 @@ services:
       - [ setNotifierFactory, [ "@stagehand_testrunner.notifier_factory" ] ]
   stagehand_testrunner.test_run_factory:
     class: Stagehand\TestRunner\Process\TestRun
-    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
     arguments: [ "test_run" ]
   stagehand_testrunner.autotest:
@@ -77,7 +76,7 @@ services:
       - [ setNotifierFactory, [ "@stagehand_testrunner.notifier_factory" ] ]
   stagehand_testrunner.autotest_factory:
     class: Stagehand\TestRunner\Process\Autotest\Autotest
-    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
     arguments: [ "autotest", "%stagehand_testrunner.plugin_aware_factory.class%" ]
   stagehand_testrunner.alteration_monitoring:
@@ -103,7 +102,7 @@ services:
     abstract: true
   stagehand_testrunner.preparer_factory:
     class: Stagehand\TestRunner\Preparer\Preparer
-    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
     arguments: [ "preparer", "%stagehand_testrunner.plugin_aware_factory.class%" ]
   stagehand_testrunner.collector:
@@ -113,7 +112,7 @@ services:
       - [ setCollectingTypeFactory, [ "@stagehand_testrunner.collecting_type_factory" ] ]
   stagehand_testrunner.collector_factory:
     class: Stagehand\TestRunner\Collector\Collector
-    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
     arguments: [ "collector", "%stagehand_testrunner.plugin_aware_factory.class%" ]
   stagehand_testrunner.collecting_type:
@@ -123,7 +122,7 @@ services:
       - [ setLegacyProxy, [ "@stagehand_testrunner.legacy_proxy" ] ]
   stagehand_testrunner.collecting_type_factory:
     class: Stagehand\TestRunner\Collector\CollectingType
-    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
     arguments: [ "collecting_type", "\\Stagehand\\TestRunner\\Collector\\CollectingTypeFactory" ]
   stagehand_testrunner.runner:
@@ -136,7 +135,7 @@ services:
       - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
   stagehand_testrunner.runner_factory:
     class: Stagehand\TestRunner\Runner\Runner
-    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
     arguments: [ "runner", "%stagehand_testrunner.plugin_aware_factory.class%" ]
   stagehand_testrunner.notifier:
@@ -145,7 +144,7 @@ services:
       - [ setLegacyProxy, [ "@stagehand_testrunner.legacy_proxy" ] ]
   stagehand_testrunner.notifier_factory:
     class: Stagehand\TestRunner\Notification\Notifier
-    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
     arguments: [ "notifier" ]
   stagehand_testrunner.junit_xml_dom_writer:
@@ -153,7 +152,7 @@ services:
     class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter
   stagehand_testrunner.junit_xml_dom_writer_factory:
     class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter
-    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
     arguments: [ "junit_xml_dom_writer" ]
   stagehand_testrunner.junit_xml_stream_writer:
@@ -161,7 +160,7 @@ services:
     class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter
   stagehand_testrunner.junit_xml_stream_writer_factory:
     class: Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLStreamWriter
-    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
     arguments: [ "junit_xml_stream_writer" ]
   stagehand_testrunner.junit_xml_writer_factory:

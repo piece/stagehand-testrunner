@@ -49,13 +49,12 @@ abstract class FactoryAwareTestCase extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->applicationContext->getComponentFactory()->backupDefinitions();
         $this->createTestTargets()->setFilePattern($this->getPlugin()->getTestFilePattern());
     }
 
     protected function tearDown()
     {
-        $this->applicationContext->getComponentFactory()->restoreDefinitions();
+        $this->applicationContext->getComponentFactory()->clearComponents();
         parent::tearDown();
     }
 

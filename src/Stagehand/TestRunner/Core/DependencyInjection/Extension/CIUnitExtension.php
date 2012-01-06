@@ -37,10 +37,6 @@
 
 namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use Stagehand\TestRunner\Core\Configuration\CIUnitConfiguration;
-use Stagehand\TestRunner\Core\Package;
 use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
 
 /**
@@ -55,20 +51,6 @@ class CIUnitExtension extends Extension
     public function getAlias()
     {
         return strtolower(CIUnitPlugin::getPluginID());
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     * @param array $config
-     */
-    protected function transformConfiguration(ContainerBuilder $container, array $config)
-    {
-        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'ciunit_path', $config['ciunit_path']);
-    }
-
-    protected function createConfiguration()
-    {
-        return new CIUnitConfiguration();
     }
 }
 

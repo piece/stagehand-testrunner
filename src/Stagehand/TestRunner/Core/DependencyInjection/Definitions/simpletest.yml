@@ -23,6 +23,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
+  stagehand_testrunner.simpletest.runner.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner"
 
 services:
   stagehand_testrunner.simpletest.autotest:
@@ -36,12 +37,12 @@ services:
     class: Stagehand\TestRunner\Collector\SimpleTestCollector
   stagehand_testrunner.simpletest.runner:
     parent: stagehand_testrunner.runner
-    class: Stagehand\TestRunner\Runner\SimpleTestRunner
+    class: "%stagehand_testrunner.simpletest.runner.class%"
     calls:
       - [ setJUnitXMLReporterFactory, [ "@stagehand_testrunner.simpletest.junit_xml_reporter_factory" ] ]
   stagehand_testrunner.simpletest.junit_xml_reporter_factory:
     class: Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporterFactory
-    factory_service: stagehand_testrunner.component_aware_factory_factory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
     arguments: [ "junit_xml_reporter", "\\Stagehand\\TestRunner\\Runner\\SimpleTestRunner\\JUnitXMLReporterFactory" ]
     calls:

@@ -35,9 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core;
+namespace Stagehand\TestRunner\Core\Transformation;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
+use Stagehand\TestRunner\Core\Package;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,46 +47,35 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ComponentFactory
+class GeneralTransformer extends Transformer
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container)
+    public function transform()
     {
-        $this->container = $container;
+        $this->setParameter('test_resources', $this->configurationPart['test_targets']['resources']);
+        $this->setParameter('recursively_scans', $this->configurationPart['test_targets']['recursive']);
+        $this->setParameter('test_methods', $this->configurationPart['test_targets']['methods']);
+        $this->setParameter('test_classes', $this->configurationPart['test_targets']['classes']);
+        $this->setParameter('test_file_pattern', $this->configurationPart['test_targets']['file_pattern']);
+
+        $this->setParameter('enables_autotest', $this->configurationPart['autotest']['enabled']);
+        $this->setParameter('monitoring_directories', $this->configurationPart['autotest']['watch_dirs']);
+
+        $this->setParameter('uses_notification', $this->configurationPart['notify']);
+
+        $this->setParameter('junit_xml_file', $this->configurationPart['junit_xml']['file']);
+        $this->setParameter('logs_results_in_junit_xml_in_realtime', $this->configurationPart['junit_xml']['realtime']);
+
+        $this->setParameter('stops_on_failure', $this->configurationPart['stop_on_failure']);
     }
 
-    /**
-     * @param string $componentID
-     * @return mixed
-     */
-    public function create($componentID)
+    protected function createConfiguration()
     {
-        return $this->container->get($this->resolveServiceID($componentID));
+        return new GeneralConfiguration();
     }
 
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
+    protected function getParameterPrefix()
     {
-        $this->container->set($this->resolveServiceID($componentID), $component);
-    }
-
-    /**
-     * @param string $componentID
-     * @return string
-     */
-    protected function resolveServiceID($componentID)
-    {
-        return Package::PACKAGE_ID . '.' . $componentID;
+        return strtolower(Package::PACKAGE_ID);
     }
 }
 

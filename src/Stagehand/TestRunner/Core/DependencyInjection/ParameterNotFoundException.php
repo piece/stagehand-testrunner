@@ -35,9 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core;
+namespace Stagehand\TestRunner\Core\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Stagehand\TestRunner\Core\Exception;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,47 +46,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ComponentFactory
+class ParameterNotFoundException extends Exception
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * @param string $componentID
-     * @return mixed
-     */
-    public function create($componentID)
-    {
-        return $this->container->get($this->resolveServiceID($componentID));
-    }
-
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
-    {
-        $this->container->set($this->resolveServiceID($componentID), $component);
-    }
-
-    /**
-     * @param string $componentID
-     * @return string
-     */
-    protected function resolveServiceID($componentID)
-    {
-        return Package::PACKAGE_ID . '.' . $componentID;
-    }
 }
 
 /*

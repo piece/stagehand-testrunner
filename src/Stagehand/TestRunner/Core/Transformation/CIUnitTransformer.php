@@ -35,9 +35,11 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core;
+namespace Stagehand\TestRunner\Core\Transformation;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Stagehand\TestRunner\Core\Configuration\CIUnitConfiguration;
+use Stagehand\TestRunner\Core\Package;
+use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,46 +48,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ComponentFactory
+class CIUnitTransformer extends Transformer
 {
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container)
+    public function transform()
     {
-        $this->container = $container;
+        $this->setParameter('ciunit_path', $this->configurationPart['ciunit_path']);
     }
 
-    /**
-     * @param string $componentID
-     * @return mixed
-     */
-    public function create($componentID)
+    protected function createConfiguration()
     {
-        return $this->container->get($this->resolveServiceID($componentID));
+        return new CIUnitConfiguration();
     }
 
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
+    protected function getParameterPrefix()
     {
-        $this->container->set($this->resolveServiceID($componentID), $component);
-    }
-
-    /**
-     * @param string $componentID
-     * @return string
-     */
-    protected function resolveServiceID($componentID)
-    {
-        return Package::PACKAGE_ID . '.' . $componentID;
+        return strtolower(Package::PACKAGE_ID . '.' . CIUnitPlugin::getPluginID());
     }
 }
 

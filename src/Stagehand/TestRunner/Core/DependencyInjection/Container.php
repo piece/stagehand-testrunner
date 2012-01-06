@@ -35,9 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core;
-
-use Symfony\Component\DependencyInjection\ContainerInterface;
+namespace Stagehand\TestRunner\Core\DependencyInjection;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,46 +44,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ComponentFactory
+class Container extends PrecompiledContainer
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @throws \Stagehand\TestRunner\Core\DependencyInjection\ParameterNotFoundException
      */
-    protected $container;
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container)
+    public function setParameter($name, $value)
     {
-        $this->container = $container;
-    }
+        if (!$this->hasParameter($name)) {
+            throw new ParameterNotFoundException('The parameter [ ' . $name . ' ] is not found in the container.');
+        }
 
-    /**
-     * @param string $componentID
-     * @return mixed
-     */
-    public function create($componentID)
-    {
-        return $this->container->get($this->resolveServiceID($componentID));
-    }
-
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
-    {
-        $this->container->set($this->resolveServiceID($componentID), $component);
-    }
-
-    /**
-     * @param string $componentID
-     * @return string
-     */
-    protected function resolveServiceID($componentID)
-    {
-        return Package::PACKAGE_ID . '.' . $componentID;
+        parent::setParameter($name, $value);
     }
 }
 

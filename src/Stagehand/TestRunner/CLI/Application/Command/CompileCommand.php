@@ -35,9 +35,12 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core;
+namespace Stagehand\TestRunner\CLI\Application\Command;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+use Stagehand\TestRunner\Core\DependencyInjection\Compiler\Precompiler;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,46 +49,43 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ComponentFactory
+class CompileCommand extends Command
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var string
      */
-    protected $container;
+    private static $PRECOMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\Core\DependencyInjection';
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @var string
      */
-    public function setContainer(ContainerInterface $container)
+    private static $PRECOMPILED_CONTAINER_CLASS = 'PrecompiledContainer';
+
+    protected function configure()
     {
-        $this->container = $container;
+        parent::configure();
+
+        $this->setName('compile');
+        $this->setDescription('Compiles the DIC for the production environment.');
+        $this->setHelp(
+'The <info>compile</info> command compiles the dependency injection container for the production environment:' . PHP_EOL .
+PHP_EOL .
+'  <info>testrunner list</info>'
+        );
     }
 
     /**
-     * @param string $componentID
-     * @return mixed
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
-    public function create($componentID)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        return $this->container->get($this->resolveServiceID($componentID));
-    }
+        $precompiler = new Precompiler(
+            self::$PRECOMPILED_CONTAINER_NAMESPACE,
+            self::$PRECOMPILED_CONTAINER_CLASS
+        );
+        $precompiler->compile();
 
-    /**
-     * @param string $componentID
-     * @param mixed $component
-     */
-    public function set($componentID, $component)
-    {
-        $this->container->set($this->resolveServiceID($componentID), $component);
-    }
-
-    /**
-     * @param string $componentID
-     * @return string
-     */
-    protected function resolveServiceID($componentID)
-    {
-        return Package::PACKAGE_ID . '.' . $componentID;
+        return 0;
     }
 }
 

@@ -27,6 +27,7 @@ imports:
 
 parameters:
   stagehand_testrunner.ciunit.ciunit_path: null
+  stagehand_testrunner.ciunit.runner.class: "Stagehand\\TestRunner\\Runner\\CIUnitRunner"
 
 services:
   stagehand_testrunner.ciunit.autotest:
@@ -42,7 +43,7 @@ services:
     class: Stagehand\TestRunner\Collector\CIUnitCollector
   stagehand_testrunner.ciunit.runner:
     parent: stagehand_testrunner.phpunit.runner
-    class: Stagehand\TestRunner\Runner\CIUnitRunner
+    class: "%stagehand_testrunner.ciunit.runner.class%"
 
 # Local Variables:
 # mode: conf

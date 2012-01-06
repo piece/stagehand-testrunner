@@ -37,7 +37,6 @@
 
 namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
@@ -54,13 +53,8 @@ abstract class Extension implements ExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container)
     {
-        $processor = new Processor();
-        $config = $processor->processConfiguration($this->createConfiguration(), $configs);
-
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Definitions'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Definitions'));
         $loader->load($this->getAlias() . '.yml');
-
-        $this->transformConfiguration($container, $config);
     }
 
     public function getNamespace()
@@ -72,17 +66,6 @@ abstract class Extension implements ExtensionInterface
     {
         return false;
     }
-
-    /**
-     * @param ContainerBuilder $container
-     * @param array $config
-     */
-    abstract protected function transformConfiguration(ContainerBuilder $container, array $config);
-
-    /**
-     * @return \Stagehand\TestRunner\Core\Configuration\Configuration
-     */
-    abstract protected function createConfiguration();
 }
 
 /*

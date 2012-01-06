@@ -28,6 +28,7 @@ imports:
 parameters:
   stagehand_testrunner.cakephp.cakephp_app_path: null
   stagehand_testrunner.cakephp.cakephp_core_path: null
+  stagehand_testrunner.cakephp.runner.class: "Stagehand\\TestRunner\\Runner\\CakePHPRunner"
 
 services:
   stagehand_testrunner.cakephp.autotest:
@@ -44,7 +45,7 @@ services:
     class: Stagehand\TestRunner\Collector\CakePHPCollector
   stagehand_testrunner.cakephp.runner:
     parent: stagehand_testrunner.simpletest.runner
-    class: Stagehand\TestRunner\Runner\CakePHPRunner
+    class: "%stagehand_testrunner.cakephp.runner.class%"
   stagehand_testrunner.cakephp.junit_xml_reporter:
     parent: stagehand_testrunner.simpletest.junit_xml_reporter
     class: Stagehand\TestRunner\Runner\CakePHPRunner\JUnitXMLReporter

@@ -23,6 +23,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
+  stagehand_testrunner.phpspec.runner.class: "Stagehand\\TestRunner\\Runner\\PHPSpecRunner"
 
 services:
   stagehand_testrunner.phpspec.autotest:
@@ -36,7 +37,7 @@ services:
     class: Stagehand\TestRunner\Collector\PHPSpecCollector
   stagehand_testrunner.phpspec.runner:
     parent: stagehand_testrunner.runner
-    class: Stagehand\TestRunner\Runner\PHPSpecRunner
+    class: "%stagehand_testrunner.phpspec.runner.class%"
 
 # Local Variables:
 # mode: conf

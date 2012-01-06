@@ -46,16 +46,12 @@ namespace Stagehand\TestRunner\Core;
  */
 class ComponentAwareFactoryFactory
 {
-    public function __construct()
-    {
-    }
-
     /**
      * @param string $componentID
      * @param string $factoryClass
      * @return \Stagehand\TestRunner\Core\IComponentAwareFactory
      */
-    public function create($componentID, $factoryClass = '\Stagehand\TestRunner\Core\ComponentAwareFactory')
+    public static function create($componentID, $factoryClass = '\Stagehand\TestRunner\Core\ComponentAwareFactory')
     {
         $factory = new $factoryClass(); /*var $factory \Stagehand\TestRunner\Core\IComponentAwareFactory */
         $factory->setComponentID($componentID);
