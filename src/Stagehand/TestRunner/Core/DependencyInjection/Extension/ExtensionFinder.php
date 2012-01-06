@@ -35,7 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core;
+namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
+
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,8 +46,27 @@ namespace Stagehand\TestRunner\Core;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class FrameworkUnavailableException extends Exception
+class ExtensionFinder
 {
+    /**
+     * @return array
+     * @throws \Stagehand\TestRunner\Core\DependencyInjection\Extension\FrameworkUnavailableException
+     */
+    public static function findAll()
+    {
+        $plugins = PluginFinder::findAll();
+        if (count($plugins) == 0) {
+            throw new FrameworkUnavailableException('Stagehand_TestRunner is unavailable since no plugins are found in this installation.');
+        }
+
+        $extensions = array(new GeneralExtension());
+        foreach ($plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\Plugin */
+            $extensionClass = __NAMESPACE__ . '\\' . $plugin->getPluginID() . 'Extension';
+            $extensions[] = new $extensionClass();
+        }
+
+        return $extensions;
+    }
 }
 
 /*

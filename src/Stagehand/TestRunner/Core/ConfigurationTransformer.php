@@ -42,8 +42,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 use Stagehand\TestRunner\Core\DependencyInjection\Compiler\TestFilePatternPass;
-use Stagehand\TestRunner\Core\DependencyInjection\Extension\GeneralExtension;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\DependencyInjection\Extension\ExtensionFinder;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -100,7 +99,7 @@ class ConfigurationTransformer
     {
         $this->container->addCompilerPass(new TestFilePatternPass());
 
-        foreach ($this->getExtensions() as $extension) {
+        foreach (ExtensionFinder::findAll() as $extension) {
             $this->container->registerExtension($extension);
         }
 
@@ -133,33 +132,6 @@ class ConfigurationTransformer
     public function setConfigurationFile($configurationFile)
     {
         $this->configurationFile = $configurationFile;
-    }
-
-    /**
-     * @return array
-     * @throws \Stagehand\TestRunner\Core\FrameworkUnavailableException
-     */
-    protected function getExtensions()
-    {
-        $plugins = PluginFinder::findAll();
-        if (count($plugins) == 0) {
-            throw new FrameworkUnavailableException('Stagehand_TestRunner is unavailable since no plugins are found in this installation.');
-        }
-
-        $extensions = array(new GeneralExtension());
-        foreach ($plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\Plugin */
-            if (ApplicationContext::getInstance()->getEnvironment()->isProduction()) {
-                if (!(ApplicationContext::getInstance()->getPlugin() instanceof $plugin)) {
-                    continue;
-                }
-            }
-            $extensionClass = __NAMESPACE__ .
-                '\DependencyInjection\Extension\\' .
-                $plugin->getPluginID() . 'Extension';
-            $extensions[] = new $extensionClass();
-        }
-
-        return $extensions;
     }
 }
 
