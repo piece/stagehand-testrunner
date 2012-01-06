@@ -35,13 +35,13 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection;
+namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
-use Symfony\Component\Config\Definition\Processor;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+
+use Stagehand\TestRunner\Core\Configuration\CakePHPConfiguration;
+use Stagehand\TestRunner\Core\Package;
+use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -50,39 +50,27 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-abstract class Extension implements ExtensionInterface
+class CakePHPExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function getAlias()
     {
-        $processor = new Processor();
-        $config = $processor->processConfiguration($this->createConfiguration(), $configs);
-
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/Definitions'));
-        $loader->load($this->getAlias() . '.yml');
-
-        $this->transformConfiguration($container, $config);
-    }
-
-    public function getNamespace()
-    {
-        return false;
-    }
-
-    public function getXsdValidationBasePath()
-    {
-        return false;
+        return strtolower(CakePHPPlugin::getPluginID());
     }
 
     /**
      * @param ContainerBuilder $container
      * @param array $config
      */
-    abstract protected function transformConfiguration(ContainerBuilder $container, array $config);
+    protected function transformConfiguration(ContainerBuilder $container, array $config)
+    {
+        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'cakephp_app_path', $config['app_path']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'cakephp_core_path', $config['core_path']);
+    }
 
-    /**
-     * @return \Stagehand\TestRunner\Core\Configuration\Configuration
-     */
-    abstract protected function createConfiguration();
+    protected function createConfiguration()
+    {
+        return new CakePHPConfiguration();
+    }
 }
 
 /*

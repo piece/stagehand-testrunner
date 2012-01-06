@@ -35,12 +35,13 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection;
+namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
+use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use Stagehand\TestRunner\Core\Configuration\PHPSpecConfiguration;
-use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,25 +50,39 @@ use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPSpecExtension extends Extension
+abstract class Extension implements ExtensionInterface
 {
-    public function getAlias()
+    public function load(array $configs, ContainerBuilder $container)
     {
-        return strtolower(PHPSpecPlugin::getPluginID());
+        $processor = new Processor();
+        $config = $processor->processConfiguration($this->createConfiguration(), $configs);
+
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Definitions'));
+        $loader->load($this->getAlias() . '.yml');
+
+        $this->transformConfiguration($container, $config);
+    }
+
+    public function getNamespace()
+    {
+        return false;
+    }
+
+    public function getXsdValidationBasePath()
+    {
+        return false;
     }
 
     /**
      * @param ContainerBuilder $container
      * @param array $config
      */
-    protected function transformConfiguration(ContainerBuilder $container, array $config)
-    {
-    }
+    abstract protected function transformConfiguration(ContainerBuilder $container, array $config);
 
-    protected function createConfiguration()
-    {
-        return new PHPSpecConfiguration();
-    }
+    /**
+     * @return \Stagehand\TestRunner\Core\Configuration\Configuration
+     */
+    abstract protected function createConfiguration();
 }
 
 /*

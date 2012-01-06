@@ -35,13 +35,13 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection;
+namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-use Stagehand\TestRunner\Core\Configuration\PHPUnitConfiguration;
+use Stagehand\TestRunner\Core\Configuration\CIUnitConfiguration;
 use Stagehand\TestRunner\Core\Package;
-use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -50,11 +50,11 @@ use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitExtension extends Extension
+class CIUnitExtension extends Extension
 {
     public function getAlias()
     {
-        return strtolower(PHPUnitPlugin::getPluginID());
+        return strtolower(CIUnitPlugin::getPluginID());
     }
 
     /**
@@ -63,13 +63,12 @@ class PHPUnitExtension extends Extension
      */
     protected function transformConfiguration(ContainerBuilder $container, array $config)
     {
-        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'phpunit_config_file', $config['config']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'prints_detailed_progress_report', $config['detailed_progress']);
+        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'ciunit_path', $config['ciunit_path']);
     }
 
     protected function createConfiguration()
     {
-        return new PHPUnitConfiguration();
+        return new CIUnitConfiguration();
     }
 }
 

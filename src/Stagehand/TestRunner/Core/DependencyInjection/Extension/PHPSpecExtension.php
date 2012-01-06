@@ -35,13 +35,12 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection;
+namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-use Stagehand\TestRunner\Core\Configuration\CakePHPConfiguration;
-use Stagehand\TestRunner\Core\Package;
-use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
+use Stagehand\TestRunner\Core\Configuration\PHPSpecConfiguration;
+use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -50,11 +49,11 @@ use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPExtension extends Extension
+class PHPSpecExtension extends Extension
 {
     public function getAlias()
     {
-        return strtolower(CakePHPPlugin::getPluginID());
+        return strtolower(PHPSpecPlugin::getPluginID());
     }
 
     /**
@@ -63,13 +62,11 @@ class CakePHPExtension extends Extension
      */
     protected function transformConfiguration(ContainerBuilder $container, array $config)
     {
-        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'cakephp_app_path', $config['app_path']);
-        $container->setParameter(Package::PACKAGE_ID . '.' . $this->getAlias() . '.' . 'cakephp_core_path', $config['core_path']);
     }
 
     protected function createConfiguration()
     {
-        return new CakePHPConfiguration();
+        return new PHPSpecConfiguration();
     }
 }
 

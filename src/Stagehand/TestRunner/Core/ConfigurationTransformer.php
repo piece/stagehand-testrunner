@@ -42,7 +42,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 use Stagehand\TestRunner\Core\DependencyInjection\Compiler\TestFilePatternPass;
-use Stagehand\TestRunner\Core\DependencyInjection\GeneralExtension;
+use Stagehand\TestRunner\Core\DependencyInjection\Extension\GeneralExtension;
 use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 use Stagehand\TestRunner\Util\String;
 
@@ -154,7 +154,7 @@ class ConfigurationTransformer
                 }
             }
             $extensionClass = __NAMESPACE__ .
-                '\\DependencyInjection\\' .
+                '\DependencyInjection\Extension\\' .
                 $plugin->getPluginID() . 'Extension';
             $extensions[] = new $extensionClass();
         }
