@@ -98,11 +98,11 @@ PHP_EOL .
 
         $messages[] = '<comment>Testing Framework Commands:</comment>';
         ksort($pluginCommands);
-        array_walk(array_values($pluginCommands), $buildCommandMessage);
+        array_map($buildCommandMessage, array_values($pluginCommands));
 
         $messages[] = '<comment>Other Commands:</comment>';
         ksort($generalCommands);
-        array_walk(array_values($generalCommands), $buildCommandMessage);
+        array_map($buildCommandMessage, array_values($generalCommands));
 
         return implode(PHP_EOL, $messages);
     }
