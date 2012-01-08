@@ -53,11 +53,11 @@ class ComponentAwareFactoryFactory
     /**
      * @param string $componentID
      * @param string $factoryClass
-     * @return \Stagehand\TestRunner\Core\ComponentAwareFactory
+     * @return \Stagehand\TestRunner\Core\IComponentAwareFactory
      */
     public function create($componentID, $factoryClass = '\Stagehand\TestRunner\Core\ComponentAwareFactory')
     {
-        $factory = new $factoryClass(); /*var $factory \Stagehand\TestRunner\Core\ComponentAwareFactory */
+        $factory = new $factoryClass(); /*var $factory \Stagehand\TestRunner\Core\IComponentAwareFactory */
         $factory->setComponentID($componentID);
         return $factory;
     }

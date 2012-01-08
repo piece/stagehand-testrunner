@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
-use Stagehand\TestRunner\Core\ComponentAwareFactory;
+use Stagehand\TestRunner\Core\IComponentAwareFactory;
 use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
@@ -57,12 +57,12 @@ class JUnitXMLWriterFactory
     protected $logsResultsInRealtime;
 
     /**
-     * @var \Stagehand\TestRunner\Core\ComponentAwareFactory
+     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
      */
     protected $junitXMLDOMWriterFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Core\ComponentAwareFactory
+     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
      */
     protected $junitXMLStreamWriterFactory;
 
@@ -90,17 +90,17 @@ class JUnitXMLWriterFactory
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\ComponentAwareFactory $junitXMLDOMWriterFactory
+     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $junitXMLDOMWriterFactory
      */
-    public function setJUnitXMLDOMWriterFactory(ComponentAwareFactory $junitXMLDOMWriterFactory)
+    public function setJUnitXMLDOMWriterFactory(IComponentAwareFactory $junitXMLDOMWriterFactory)
     {
         $this->junitXMLDOMWriterFactory = $junitXMLDOMWriterFactory;
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\ComponentAwareFactory $junitXMLStreamWriterFactory
+     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $junitXMLStreamWriterFactory
      */
-    public function setJUnitXMLStreamWriterFactory(ComponentAwareFactory $junitXMLStreamWriterFactory)
+    public function setJUnitXMLStreamWriterFactory(IComponentAwareFactory $junitXMLStreamWriterFactory)
     {
         $this->junitXMLStreamWriterFactory = $junitXMLStreamWriterFactory;
     }

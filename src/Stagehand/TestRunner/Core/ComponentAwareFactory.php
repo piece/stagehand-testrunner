@@ -44,33 +44,23 @@ namespace Stagehand\TestRunner\Core;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ComponentAwareFactory
+class ComponentAwareFactory implements IComponentAwareFactory
 {
     /**
      * @var string
      */
     protected $componentID;
 
-    /**
-     * @param string $componentID
-     */
     public function setComponentID($componentID)
     {
         $this->componentID = $componentID;
     }
 
-    /**
-     * @return mixed
-     */
     public function create()
     {
         return ApplicationContext::getInstance()->createComponent($this->resolveComponentID($this->componentID));
     }
 
-    /**
-     * @param string $componentID
-     * @return string
-     */
     public function resolveComponentID($componentID)
     {
         return $this->componentID;

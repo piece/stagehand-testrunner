@@ -35,9 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI;
-
-use Stagehand\TestRunner\Core\IComponentAwareFactory;
+namespace Stagehand\TestRunner\Core;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,60 +44,23 @@ use Stagehand\TestRunner\Core\IComponentAwareFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestRunner
+interface IComponentAwareFactory
 {
     /**
-     * @var boolean
+     * @param string $componentID
      */
-    protected $enablesAutotest;
+    public function setComponentID($componentID);
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @return mixed
      */
-    protected $testRunFactory;
+    public function create();
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @param string $componentID
+     * @return string
      */
-    protected $autotestFactory;
-
-    /**
-     * @throws \Stagehand\TestRunner\Core\Exception
-     */
-    public function run()
-    {
-        if (!$this->enablesAutotest) {
-            $this->testRunFactory->create()->run();
-        } else {
-            $autotest = $this->autotestFactory->create();
-            $autotest->runTests();
-            $autotest->monitorAlteration();
-        }
-    }
-
-    /**
-     * @param boolean $enablesAutotest
-     */
-    public function setEnablesAutotest($enablesAutotest)
-    {
-        $this->enablesAutotest = $enablesAutotest;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $testRunFactory
-     */
-    public function setTestRunFactory(IComponentAwareFactory $testRunFactory)
-    {
-        $this->testRunFactory = $testRunFactory;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $autotestFactory
-     */
-    public function setAutotestFactory(IComponentAwareFactory $autotestFactory)
-    {
-        $this->autotestFactory = $autotestFactory;
-    }
+    public function resolveComponentID($componentID);
 }
 
 /*
