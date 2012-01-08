@@ -63,7 +63,7 @@ class JUnitXMLReporterFactory extends PluginAwareFactory
      * @param \Stagehand\TestRunner\TestSuite\SimpleTestTestSuite $suite
      * @return \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporter
      */
-    public function create(StreamWriter $streamWriter, SimpleTestTestSuite $suite)
+    public function create(StreamWriter $streamWriter = null, SimpleTestTestSuite $suite = null)
     {
         $junitXMLReporter = parent::create();
         $junitXMLReporter->setXMLWriter($this->junitXMLWriterFactory->create($streamWriter));

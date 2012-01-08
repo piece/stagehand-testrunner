@@ -55,7 +55,7 @@ class CollectingTypeFactory extends ComponentAwareFactory
      * @param array $expectedSuperTypes
      * @return \Stagehand\TestRunner\Collector\CollectingType
      */
-    public function create($type, array $expectedSuperTypes)
+    public function create($type = null, array $expectedSuperTypes = array())
     {
         $collectingType = parent::create();
         $collectingType->setType($type);
