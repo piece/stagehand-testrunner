@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Core\Plugin;
 
-use Symfony\Component\Finder\Finder;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,51 +44,23 @@ use Symfony\Component\Finder\Finder;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PluginFinder
+interface IPlugin
 {
     /**
-     * @var array
+     * @return string
      */
-    private static $plugins;
+    public static function getPluginID();
 
     /**
-     * @return array
+     * @param string $featureID
+     * @return boolean
      */
-    public static function findAll()
-    {
-        if (is_null(self::$plugins)) {
-            self::loadAllPlugins();
-        }
-
-        return self::$plugins;
-    }
+    public function hasFeature($featureID);
 
     /**
-     * @param string $pluginID
-     * @return \Stagehand\TestRunner\Core\Plugin\IPlugin
+     * @return string
      */
-    public static function findByPluginID($pluginID)
-    {
-        if (is_null(self::$plugins)) {
-            self::loadAllPlugins();
-        }
-
-        foreach (self::$plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\IPlugin */
-            if (strtolower($plugin->getPluginID()) == strtolower($pluginID)) {
-                return $plugin;
-            }
-        }
-    }
-
-    private static function loadAllPlugins()
-    {
-        foreach (Finder::create()->name('/^.+Plugin\.php$/')->files()->in(__DIR__) as $file) { /* @var $file \SplFileInfo */
-            $pluginClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $file->getBasename('.php'));
-            if (!$pluginClass->isInterface() && !$pluginClass->isAbstract()) {
-                self::$plugins[] = $pluginClass->newInstance();
-            }
-        }
-    }
+    public function getTestFilePattern();
 }
 
 /*

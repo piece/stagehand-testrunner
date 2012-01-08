@@ -60,7 +60,7 @@ class ExtensionFinder
         }
 
         $extensions = array(new GeneralExtension());
-        foreach ($plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\Plugin */
+        foreach ($plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\IPlugin */
             $extensionClass = __NAMESPACE__ . '\\' . $plugin->getPluginID() . 'Extension';
             $extensions[] = new $extensionClass();
         }

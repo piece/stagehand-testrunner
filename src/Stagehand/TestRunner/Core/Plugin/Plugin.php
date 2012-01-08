@@ -44,7 +44,7 @@ namespace Stagehand\TestRunner\Core\Plugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-abstract class Plugin
+abstract class Plugin implements IPlugin
 {
     /**
      * @var array
@@ -56,23 +56,10 @@ abstract class Plugin
         $this->defineFeatures();
     }
 
-    /**
-     * @return string
-     */
-    abstract public static function getPluginID();
-
-    /**
-     * @return boolean
-     */
     public function hasFeature($featureID)
     {
         return in_array($featureID, $this->features);
     }
-
-    /**
-     * @return string
-     */
-    abstract public function getTestFilePattern();
 
     abstract protected function defineFeatures();
 

@@ -132,7 +132,7 @@ PHP_EOL .
     }
 
     /**
-     * @return \Stagehand\TestRunner\Core\Plugin\Plugin
+     * @return \Stagehand\TestRunner\Core\Plugin\IPlugin
      */
     abstract protected function getPlugin();
 
