@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\CLI\Application\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Stagehand\TestRunner\Core\ConfigurationTransformer;
+use Stagehand\TestRunner\Core\Transformation\Transformation;
 use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 
@@ -62,12 +62,7 @@ class PHPSpecCommand extends PluginCommand
     {
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \Stagehand\TestRunner\Core\ConfigurationTransformer $configurationTransformer
-     */
-    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, ConfigurationTransformer $configurationTransformer)
+    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
     {
     }
 }

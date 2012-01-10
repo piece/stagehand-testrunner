@@ -44,9 +44,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\ConfigurationTransformer;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Core\DependencyInjection\Container;
+use Stagehand\TestRunner\Core\Transformation\Transformation;
 use Stagehand\TestRunner\Util\FileSystem;
 
 /**
@@ -125,9 +125,9 @@ PHP_EOL .
         ApplicationContext::getInstance()->setPlugin($this->getPlugin());
         ApplicationContext::getInstance()->setComponent('input', $input);
         ApplicationContext::getInstance()->setComponent('output', $output);
-        $configurationTransformer = $this->createConfigurationTransformer($container);
-        $this->transformToConfiguration($input, $output, $configurationTransformer);
-        $configurationTransformer->transformToContainer();
+        $transformation = $this->createTransformation($container);
+        $this->transformToConfiguration($input, $output, $transformation);
+        $transformation->transformToContainer();
         $this->createTestRunner()->run();
         return 0;
     }
@@ -140,12 +140,12 @@ PHP_EOL .
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \Stagehand\TestRunner\Core\ConfigurationTransformer $configurationTransformer
+     * @param \Stagehand\TestRunner\Core\Transformation\Transformation $transformation
      */
-    protected function transformToConfiguration(InputInterface $input, OutputInterface $output, ConfigurationTransformer $configurationTransformer)
+    protected function transformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
     {
         if (!is_null($input->getOption('config'))) {
-            $configurationTransformer->setConfigurationFile(
+            $transformation->setConfigurationFile(
                  $this->fileSystem->getAbsolutePath(
                      $input->getOption('config'),
                      ApplicationContext::getInstance()->getEnvironment()->getWorkingDirectoryAtStartup()
@@ -154,20 +154,20 @@ PHP_EOL .
         }
 
         if (count($input->getArgument('test_directory_or_file')) > 0) {
-            $configurationTransformer->setConfigurationPart(
+            $transformation->setConfigurationPart(
                 GeneralConfiguration::getConfigurationID(),
                 array('test_targets' => array('resources' => $input->getArgument('test_directory_or_file')))
             );
         }
         if ($input->getOption('recursive')) {
-            $configurationTransformer->setConfigurationPart(
+            $transformation->setConfigurationPart(
                 GeneralConfiguration::getConfigurationID(),
                 array('test_targets' => array('recursive' => true))
             );
         }
         if ($this->getPlugin()->hasFeature('test_methods')) {
             if (count($input->getOption('test-method')) > 0) {
-                $configurationTransformer->setConfigurationPart(
+                $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
                     array('test_targets' => array('methods' => $input->getOption('test-method')))
                 );
@@ -175,14 +175,14 @@ PHP_EOL .
         }
         if ($this->getPlugin()->hasFeature('test_classes')) {
             if (count($input->getOption('test-class')) > 0) {
-                $configurationTransformer->setConfigurationPart(
+                $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
                     array('test_targets' => array('classes' => $input->getOption('test-class')))
                 );
             }
         }
         if (!is_null($input->getOption('test-file-pattern'))) {
-            $configurationTransformer->setConfigurationPart(
+            $transformation->setConfigurationPart(
                 GeneralConfiguration::getConfigurationID(),
                 array('test_targets' => array('file_pattern' => $input->getOption('test-file-pattern')))
             );
@@ -190,13 +190,13 @@ PHP_EOL .
 
         if ($this->getPlugin()->hasFeature('autotest')) {
             if ($input->getOption('autotest')) {
-                $configurationTransformer->setConfigurationPart(
+                $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
                     array('autotest' => array('enabled' => true))
                 );
             }
             if (count($input->getOption('watch-dir')) > 0) {
-                $configurationTransformer->setConfigurationPart(
+                $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
                     array('autotest' => array('watch_dirs' => $input->getOption('watch-dir')))
                 );
@@ -205,7 +205,7 @@ PHP_EOL .
 
         if ($this->getPlugin()->hasFeature('notify')) {
             if ($input->getOption('notify')) {
-                $configurationTransformer->setConfigurationPart(
+                $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
                     array('notify' => true)
                 );
@@ -214,13 +214,13 @@ PHP_EOL .
 
         if ($this->getPlugin()->hasFeature('junit_xml')) {
             if (!is_null($input->getOption('log-junit'))) {
-                $configurationTransformer->setConfigurationPart(
+                $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
                     array('junit_xml' => array('file' => $input->getOption('log-junit')))
                 );
             }
             if ($input->getOption('log-junit-realtime')) {
-                $configurationTransformer->setConfigurationPart(
+                $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
                     array('junit_xml' => array('realtime' => true))
                 );
@@ -229,22 +229,22 @@ PHP_EOL .
 
         if ($this->getPlugin()->hasFeature('stop_on_failure')) {
             if ($input->getOption('stop-on-failure')) {
-                $configurationTransformer->setConfigurationPart(
+                $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
                     array('stop_on_failure' => true)
                 );
             }
         }
 
-        $this->doTransformToConfiguration($input, $output, $configurationTransformer);
+        $this->doTransformToConfiguration($input, $output, $transformation);
     }
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \Stagehand\TestRunner\Core\ConfigurationTransformer $configurationTransformer
+     * @param \Stagehand\TestRunner\Core\Transformation\Transformation $transformation
      */
-    abstract protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, ConfigurationTransformer $configurationTransformer);
+    abstract protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation);
 
     /**
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
@@ -264,10 +264,11 @@ PHP_EOL .
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @return \Stagehand\TestRunner\Core\Transformation\Transformation
      */
-    protected function createConfigurationTransformer(ContainerInterface $container)
+    protected function createTransformation(ContainerInterface $container)
     {
-        return new ConfigurationTransformer($container);
+        return new Transformation($container);
     }
 }
 

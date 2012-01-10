@@ -38,8 +38,8 @@
 namespace Stagehand\TestRunner\CLI\Application\Command;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\ConfigurationTransformer;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
@@ -63,12 +63,12 @@ class PHPUnitCommandTest extends TestCase
         return array(
             array(
                 array('--phpunit-config=phpunit.xml'),
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, ConfigurationTransformer $configurationTransformer) {
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                     $phpunitXMLConfigurationFactory = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory');
                     \Phake::when($phpunitXMLConfigurationFactory)->maybeCreate($test->anything())->thenReturn(null);
                     $applicationContext->setComponent('phpunit.phpunit_xml_configuration_factory', $phpunitXMLConfigurationFactory);
                 },
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, ConfigurationTransformer $configurationTransformer) {
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                     $applicationContext->createComponent('phpunit.phpunit_xml_configuration');
                     \Phake::verify($applicationContext->createComponent('phpunit.phpunit_xml_configuration_factory'))->maybeCreate('phpunit.xml');
                 }

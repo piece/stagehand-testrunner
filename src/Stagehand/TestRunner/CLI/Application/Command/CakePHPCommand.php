@@ -41,10 +41,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Stagehand\TestRunner\Core\ConfigurationTransformer;
 use Stagehand\TestRunner\Core\Configuration\CakePHPConfiguration;
 use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
@@ -73,18 +73,13 @@ class CakePHPCommand extends SimpleTestCommand
         }
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \Stagehand\TestRunner\Core\ConfigurationTransformer $configurationTransformer
-     */
-    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, ConfigurationTransformer $configurationTransformer)
+    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
     {
-        parent::doTransformToConfiguration($input, $output, $configurationTransformer);
+        parent::doTransformToConfiguration($input, $output, $transformation);
 
         if ($this->getPlugin()->hasFeature('cakephp_app_path')) {
             if (!is_null($input->getOption('cakephp-app-path'))) {
-                $configurationTransformer->setConfigurationPart(
+                $transformation->setConfigurationPart(
                     CakePHPConfiguration::getConfigurationID(),
                     array('app_path' => $input->getOption('cakephp-app-path'))
                 );
@@ -93,7 +88,7 @@ class CakePHPCommand extends SimpleTestCommand
 
         if ($this->getPlugin()->hasFeature('cakephp_core_path')) {
             if (!is_null($input->getOption('cakephp-core-path'))) {
-                $configurationTransformer->setConfigurationPart(
+                $transformation->setConfigurationPart(
                     CakePHPConfiguration::getConfigurationID(),
                     array('core_path' => $input->getOption('cakephp-core-path'))
                 );

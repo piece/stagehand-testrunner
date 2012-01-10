@@ -38,11 +38,11 @@
 namespace Stagehand\TestRunner\Test;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\ConfigurationTransformer;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Core\Environment;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
@@ -67,8 +67,8 @@ class TestEnvironment extends Environment
         ApplicationContext::setInstance(self::$applicationContext);
 
         $container = new TestContainer();
-        $configurationTransformer = new ConfigurationTransformer($container);
-        $configurationTransformer->transformToContainer();
+        $transformation = new Transformation($container);
+        $transformation->transformToContainer();
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
     }
 

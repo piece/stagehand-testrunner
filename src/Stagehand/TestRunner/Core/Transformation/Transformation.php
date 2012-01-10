@@ -35,13 +35,14 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core;
+namespace Stagehand\TestRunner\Core\Transformation;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
+use Stagehand\TestRunner\Core\Package;
 use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 use Stagehand\TestRunner\Util\String;
 
@@ -52,7 +53,7 @@ use Stagehand\TestRunner\Util\String;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ConfigurationTransformer
+class Transformation
 {
     /**
      * @var array
@@ -113,8 +114,8 @@ class ConfigurationTransformer
                 $plugin = PluginFinder::findByPluginID($configurationID);
                 $transformerID = $plugin->getPluginID();
             }
-            $transformerClass = __NAMESPACE__ . '\Transformation\\' . $transformerID . 'Transformer';
-            $transformer = new $transformerClass(array($configurationID => $configurationPart), $this->container); /* @var $transformer \Stagehand\TestRunner\Core\Transformer\Transformer */
+            $transformerClass = __NAMESPACE__ . '\\' . $transformerID . 'Transformer';
+            $transformer = new $transformerClass(array($configurationID => $configurationPart), $this->container); /* @var $transformer \Stagehand\TestRunner\Core\Transformation\Transformer */
             $transformer->transform();
         }
 

@@ -41,7 +41,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\ConfigurationTransformer;
+use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
@@ -68,27 +68,27 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
         return array(
             array(
                 array('--test-file-pattern=^test_'),
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, ConfigurationTransformer $configurationTransformer) {
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                 },
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, ConfigurationTransformer $configurationTransformer) {
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                     $test->assertEquals('^test_', $applicationContext->createComponent('test_targets')->getFilePattern());
                 }
             ),
             array(
                 array('--notify'),
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, ConfigurationTransformer $configurationTransformer) {
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                 },
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, ConfigurationTransformer $configurationTransformer) {
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                     $test->assertTrue($applicationContext->createComponent('runner_factory')->create()->usesNotification());
                 }
             ),
             array(
                 array('--config=example.yml'),
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, ConfigurationTransformer $configurationTransformer) {
-                    \Phake::when($configurationTransformer)->setConfigurationFile($test->anything())->thenReturn(null);
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
+                    \Phake::when($transformation)->setConfigurationFile($test->anything())->thenReturn(null);
                 },
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, ConfigurationTransformer $configurationTransformer) {
-                    \Phake::verify($configurationTransformer)->setConfigurationFile($applicationContext->getEnvironment()->getWorkingDirectoryAtStartup() . DIRECTORY_SEPARATOR . 'example.yml');
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
+                    \Phake::verify($transformation)->setConfigurationFile($applicationContext->getEnvironment()->getWorkingDirectoryAtStartup() . DIRECTORY_SEPARATOR . 'example.yml');
                 }
             ),
         );
@@ -105,27 +105,27 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
      */
     public function transformsOptionsToConfiguration(array $options, \Closure $preparer, \Closure $verifier)
     {
-        $configurationTransformer = \Phake::partialMock(
-            '\Stagehand\TestRunner\Core\ConfigurationTransformer',
+        $transformation = \Phake::partialMock(
+            '\Stagehand\TestRunner\Core\Transformation\Transformation',
             $this->applicationContext->getComponentFactory()->getContainer()
         );
         $command = \Phake::partialMock('\Stagehand\TestRunner\CLI\Application\Command\\' . $this->getPluginID() . 'Command');
         \Phake::when($command)->createContainer()
             ->thenReturn($this->applicationContext->getComponentFactory()->getContainer());
-        \Phake::when($command)->createConfigurationTransformer($this->anything())
-            ->thenReturn($configurationTransformer);
+        \Phake::when($command)->createTransformation($this->anything())
+            ->thenReturn($transformation);
         $testRunner = \Phake::mock('\Stagehand\TestRunner\CLI\TestRunner');
         \Phake::when($testRunner)->run()->thenReturn(null);
         $this->applicationContext->setComponent('test_runner', $testRunner);
 
-        $preparer($this, $this->applicationContext, $configurationTransformer);
+        $preparer($this, $this->applicationContext, $transformation);
 
         $command->run(
             new ArgvInput(array_merge(array('testrunner', strtolower($this->getPluginID())), $options)),
             new ConsoleOutput()
         );
 
-        $verifier($this, $this->applicationContext, $configurationTransformer);
+        $verifier($this, $this->applicationContext, $transformation);
     }
 }
 
