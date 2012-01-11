@@ -45,7 +45,6 @@ set_include_path(
     get_include_path()
 );
 
-require_once 'PHPUnit/Autoload.php';
 require_once 'Phake.php';
 require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
 
