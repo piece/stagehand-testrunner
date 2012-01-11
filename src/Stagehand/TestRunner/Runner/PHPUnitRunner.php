@@ -49,8 +49,6 @@ use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\NamePrettifier;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\Stream;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestRunner;
 
-require_once 'PHPUnit/Util/TestDox/NamePrettifier.php';
-
 /**
  * A test runner for PHPUnit.
  *

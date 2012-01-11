@@ -42,8 +42,6 @@ use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 use Stagehand\TestRunner\TestSuite\PHPUnitGroupFilterTestSuite;
 use Stagehand\TestRunner\TestSuite\PHPUnitMethodFilterTestSuite;
 
-require_once 'PHPUnit/Runner/BaseTestRunner.php';
-
 /**
  * A test collector for PHPUnit.
  *

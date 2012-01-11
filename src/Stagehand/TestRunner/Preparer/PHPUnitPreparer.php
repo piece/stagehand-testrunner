@@ -133,7 +133,6 @@ class PHPUnitPreparer extends Preparer
         }
 
         if ($this->phpunitXMLConfiguration->hasSeleniumBrowserConfiguration()) {
-            require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
             \PHPUnit_Extensions_SeleniumTestCase::$browsers =
                 $this->phpunitXMLConfiguration->getSeleniumBrowserConfiguration();
         }

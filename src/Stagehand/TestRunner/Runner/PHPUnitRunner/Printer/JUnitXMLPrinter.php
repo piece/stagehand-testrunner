@@ -42,8 +42,6 @@ use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 use Stagehand\TestRunner\Runner\JUnitXMLWriterAdapter;
 
 require_once 'PHPUnit/Util/Class.php';
-require_once 'PHPUnit/Util/Filter.php';
-require_once 'PHPUnit/Util/Printer.php';
 require_once 'PHPUnit/Util/XML.php';
 
 /**
