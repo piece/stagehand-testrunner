@@ -41,9 +41,6 @@ namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 use Stagehand\TestRunner\Runner\JUnitXMLWriterAdapter;
 
-require_once 'PHPUnit/Util/Class.php';
-require_once 'PHPUnit/Util/XML.php';
-
 /**
  * A result printer for PHPUnit.
  *
