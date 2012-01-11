@@ -39,8 +39,8 @@
 namespace Stagehand\TestRunner\Collector;
 
 use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
-use Stagehand\TestRunner\TestSuite\PHPUnit35GroupFilterTestSuite;
-use Stagehand\TestRunner\TestSuite\PHPUnit35MethodFilterTestSuite;
+use Stagehand\TestRunner\TestSuite\PHPUnitGroupFilterTestSuite;
+use Stagehand\TestRunner\TestSuite\PHPUnitMethodFilterTestSuite;
 
 require_once 'PHPUnit/Runner/BaseTestRunner.php';
 
@@ -91,7 +91,7 @@ class PHPUnitCollector extends Collector
 
         if (!$suiteMethod) {
             $this->suite->addTest(
-                new PHPUnit35GroupFilterTestSuite($testClass, $this->phpunitXMLConfiguration)
+                new PHPUnitGroupFilterTestSuite($testClass, $this->phpunitXMLConfiguration)
             );
         }
     }
@@ -124,7 +124,7 @@ class PHPUnitCollector extends Collector
     {
         if ($this->testTargets->testsOnlySpecifiedMethods()) {
             $this->suite->addTestSuite(
-                new PHPUnit35MethodFilterTestSuite($testClass, $this->testTargets)
+                new PHPUnitMethodFilterTestSuite($testClass, $this->testTargets)
             );
         } elseif ($this->testTargets->testsOnlySpecifiedClasses()) {
             if ($this->testTargets->shouldTreatElementAsTest($testClass->getName())) {
