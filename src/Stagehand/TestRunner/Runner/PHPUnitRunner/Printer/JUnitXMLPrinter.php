@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -50,7 +50,7 @@ require_once 'PHPUnit/Util/XML.php';
  * A result printer for PHPUnit.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -221,11 +221,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
         } else {
             list($file, $line) = $this->findFileAndLineOfFailureOrError($e, new \ReflectionClass($test));
         }
-        if (version_compare(\PHPUnit_Runner_Version::id(), '3.6.0RC1', '>=')) {
-            $trace = \PHPUnit_Util_Filter::getFilteredStacktrace($e, true);
-        } else {
-            $trace = \PHPUnit_Util_Filter::getFilteredStacktrace($e, false, true);
-        }
+        $trace = \PHPUnit_Util_Filter::getFilteredStacktrace($e, true);
         $this->xmlWriter->{ 'write' . $failureOrError }(
             $message .
             $trace,

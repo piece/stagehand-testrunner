@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2007-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -39,8 +39,6 @@
 namespace Stagehand\TestRunner\Collector;
 
 use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
-use Stagehand\TestRunner\TestSuite\PHPUnit34GroupFilterTestSuite;
-use Stagehand\TestRunner\TestSuite\PHPUnit34MethodFilterTestSuite;
 use Stagehand\TestRunner\TestSuite\PHPUnit35GroupFilterTestSuite;
 use Stagehand\TestRunner\TestSuite\PHPUnit35MethodFilterTestSuite;
 
@@ -50,7 +48,7 @@ require_once 'PHPUnit/Runner/BaseTestRunner.php';
  * A test collector for PHPUnit.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -93,9 +91,7 @@ class PHPUnitCollector extends Collector
 
         if (!$suiteMethod) {
             $this->suite->addTest(
-                version_compare(\PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
-                    ? new PHPUnit35GroupFilterTestSuite($testClass, $this->phpunitXMLConfiguration)
-                    : new PHPUnit34GroupFilterTestSuite($testClass, $this->phpunitXMLConfiguration)
+                new PHPUnit35GroupFilterTestSuite($testClass, $this->phpunitXMLConfiguration)
             );
         }
     }
@@ -128,9 +124,7 @@ class PHPUnitCollector extends Collector
     {
         if ($this->testTargets->testsOnlySpecifiedMethods()) {
             $this->suite->addTestSuite(
-                version_compare(\PHPUnit_Runner_Version::id(), '3.5.0RC1', '>=')
-                    ? new PHPUnit35MethodFilterTestSuite($testClass, $this->testTargets)
-                    : new PHPUnit34MethodFilterTestSuite($testClass, $this->testTargets)
+                new PHPUnit35MethodFilterTestSuite($testClass, $this->testTargets)
             );
         } elseif ($this->testTargets->testsOnlySpecifiedClasses()) {
             if ($this->testTargets->shouldTreatElementAsTest($testClass->getName())) {

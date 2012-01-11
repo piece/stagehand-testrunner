@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.12.0
@@ -40,11 +40,9 @@ namespace Stagehand\TestRunner\Preparer;
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 
-require_once 'PHPUnit/Runner/Version.php';
-
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.12.0
@@ -111,11 +109,7 @@ class PHPUnitPreparer extends Preparer
      */
     public function prepareFramework()
     {
-        if (version_compare(\PHPUnit_Runner_Version::id(), '3.5.0beta1', '>=')) {
-            require_once 'PHPUnit/Autoload.php';
-        } else {
-            require_once 'PHPUnit/Framework.php';
-        }
+        require_once 'PHPUnit/Autoload.php';
     }
 
     /**
