@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.14.0
@@ -45,7 +45,7 @@ require_once 'simpletest/mock_objects.php';
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
@@ -79,10 +79,7 @@ class JUnitXMLTest extends \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXM
         include_once 'Stagehand/TestRunner/cakephp_failure_in_anonymous_function.test.php';
         include_once 'Stagehand/TestRunner/cakephp_skip_class.test.php';
         include_once 'Stagehand/TestRunner/cakephp_skip_method.test.php';
-
-        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            include_once 'Stagehand/TestRunner/cakephp_multiple_classes_with_namespace.test.php';
-        }
+        include_once 'Stagehand/TestRunner/cakephp_multiple_classes_with_namespace.test.php';
     }
 
     /**

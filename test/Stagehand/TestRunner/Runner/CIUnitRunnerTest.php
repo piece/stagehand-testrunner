@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.16.0
@@ -41,7 +41,7 @@ use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.16.0
@@ -64,9 +64,7 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
         include_once 'Stagehand/TestRunner/testCIUnitError.php';
         include_once 'Stagehand/TestRunner/testCIUnitMultipleFailures.php';
         include_once 'Stagehand/TestRunner/testCIUnitGroups.php';
-        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            include_once 'Stagehand/TestRunner/testCIUnitMultipleClassesWithNamespace.php';
-        }
+        include_once 'Stagehand/TestRunner/testCIUnitMultipleClassesWithNamespace.php';
     }
 
     /**

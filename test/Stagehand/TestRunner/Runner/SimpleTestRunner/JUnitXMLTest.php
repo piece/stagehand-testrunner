@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -42,7 +42,7 @@ use Stagehand\TestRunner\Runner\TestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
@@ -513,16 +513,11 @@ class JUnitXMLTest extends TestCase
      * @param integer $line
      * @param string  $message
      * @param string  $actualClassName
-     * @param boolean $requiresPHP53
      * @link http://redmine.piece-framework.com/issues/261
      * @since Method available since Release 2.16.0
      */
-    public function logsTheFileAndLineWhereAFailureOrErrorHasOccurredInRealtime($methodName, $className, $line, $message, $actualClassName, $requiresPHP53)
+    public function logsTheFileAndLineWhereAFailureOrErrorHasOccurredInRealtime($methodName, $className, $line, $message, $actualClassName)
     {
-        if ($requiresPHP53 && version_compare(PHP_VERSION, '5.3.0', '<')) {
-            $this->markTestSkipped('Your PHP version is less than 5.3.0.');
-        }
-
         if (is_null($actualClassName)) {
             $actualClassName = $className;
         }
@@ -559,10 +554,10 @@ class JUnitXMLTest extends TestCase
     public function provideFailurePatterns()
     {
         return array(
-            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureTest', 51, 'This is an error message.', null, false),
-            array('testIsError', 'Stagehand_TestRunner_SimpleTestErrorTest', 51, 'This is an exception message.', null, false),
-            array('testTestShouldFailCommon', 'Stagehand_TestRunner_SimpleTestExtendedTest', 59, '', 'Stagehand_TestRunner_SimpleTestCommonTest', false),
-            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureInAnonymousFunctionTest', 49, 'This is an error message.', null, true),
+            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureTest', 51, 'This is an error message.', null),
+            array('testIsError', 'Stagehand_TestRunner_SimpleTestErrorTest', 51, 'This is an exception message.', null),
+            array('testTestShouldFailCommon', 'Stagehand_TestRunner_SimpleTestExtendedTest', 59, '', 'Stagehand_TestRunner_SimpleTestCommonTest'),
+            array('testIsFailure', 'Stagehand_TestRunner_SimpleTestFailureInAnonymousFunctionTest', 49, 'This is an error message.', null),
         );
     }
 }

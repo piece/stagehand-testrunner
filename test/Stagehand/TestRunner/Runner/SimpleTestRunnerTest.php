@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2010 KUMAKURA Yousuke <kumatch@gmail.com>,
  * All rights reserved.
  *
@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -43,7 +43,7 @@ use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -63,9 +63,7 @@ class SimpleTestRunnerTest extends TestCase
         $preparer->prepare();
 
         class_exists('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClassesTest');
-        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            class_exists('\Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespaceTest');
-        }
+        class_exists('\Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespaceTest');
     }
 
     /**
@@ -161,10 +159,6 @@ class SimpleTestRunnerTest extends TestCase
      */
     public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodNameWithNamespaces($testMethod)
     {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-            $this->markTestSkipped('Your PHP version is less than 5.3.0.');
-        }
-
         $testTargets = $this->createTestTargets();
         $testTargets->setMethods(array($testMethod));
         $collector = $this->createCollector();
@@ -236,10 +230,6 @@ class SimpleTestRunnerTest extends TestCase
      */
     public function runsOnlyTheSpecifiedClassesWithNamespaces($testClass)
     {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-            $this->markTestSkipped('Your PHP version is less than 5.3.0.');
-        }
-
         $testTargets = $this->createTestTargets();
         $testTargets->setClasses(array($testClass));
         $collector = $this->createCollector();
