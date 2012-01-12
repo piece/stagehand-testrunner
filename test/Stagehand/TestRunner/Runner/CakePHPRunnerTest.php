@@ -68,6 +68,7 @@ class CakePHPRunnerTest extends SimpleTestRunnerTest
         include_once 'Stagehand/TestRunner/cakephp_multiple_failures.test.php';
         include_once 'Stagehand/TestRunner/cakephp_always_called_methods.test.php';
         include_once 'Stagehand/TestRunner/cakephp_multiple_classes_with_namespace.test.php';
+        include_once 'Stagehand/TestRunner/cakephp_failure.test.php';
     }
 
     /**
@@ -93,32 +94,6 @@ class CakePHPRunnerTest extends SimpleTestRunnerTest
         $this->assertTestCaseExists('testPassWithAnAssertion', 'Stagehand_TestRunner_CakePHPPassTest');
         $this->assertTestCaseExists('testPassWithMultipleAssertions', 'Stagehand_TestRunner_CakePHPPassTest');
         $this->assertTestCaseExists('test日本語を使用できる', 'Stagehand_TestRunner_CakePHPPassTest');
-    }
-
-    /**
-     * @test
-     * @link http://redmine.piece-framework.com/issues/230
-     * @since Method available since Release 2.16.0
-     */
-    public function runsTheFilesWithTheSpecifiedPattern()
-    {
-        $file = dirname(__FILE__) .
-            '/../../../../examples/Stagehand/TestRunner/test_cakephp_with_any_pattern.php';
-        $collector = $this->createCollector();
-        $collector->collectTestCasesFromFile($file);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(0);
-
-        $testTargets = $this->createTestTargets();
-        $testTargets->setFilePattern('^test_.+\.php$');
-        $collector->collectTestCasesFromFile($file);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('testPass', 'Stagehand_TestRunner_CakePHPWithAnyPatternTest');
     }
 
     /**

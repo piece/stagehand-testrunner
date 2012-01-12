@@ -49,7 +49,7 @@ use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class SimpleTestRunnerTest extends TestCase
+class SimpleTestRunnerTest extends CompatibilityTestCase
 {
     protected $oldErrorHandler;
 
@@ -89,269 +89,61 @@ class SimpleTestRunnerTest extends TestCase
         }
     }
 
-    /**
-     * @param string $testMethod
-     * @test
-     * @dataProvider provideMethods
-     */
-    public function runsOnlyTheSpecifiedMethods($testMethod)
+    public function dataForTestMethods()
     {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setMethods(array($testMethod));
-        $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test');
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists(
-            'testPass1',
-            'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'
-        );
-        $this->assertTestCaseExists(
-            'testPass1',
-            'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test'
-        );
-    }
-
-    public function provideMethods()
-    {
-        return array(array('testPass1'), array('testpass1'));
-    }
-
-    /**
-     * @param string $testMethod
-     * @test
-     * @dataProvider provideFullyQualifiedMethodNames
-     */
-    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($testMethod)
-    {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setMethods(array($testMethod));
-        $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test');
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists(
-            'testPass1',
-            'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'
-        );
-    }
-
-    public function provideFullyQualifiedMethodNames()
-    {
+        $firstTestClass = 'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test';
+        $secondTestClass = 'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test';
+        $specifyingTestMethod = 'testPass1';
+        $runningTestMethod = $specifyingTestMethod;
         return array(
-                   array('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test::testPass1'),
-                   array('stagehand_testrunner_' . strtolower($this->getPluginID()) . 'multipleclasses1test::testpass1')
-               );
-    }
-
-    /**
-     * @param string $testMethod
-     * @test
-     * @dataProvider provideFullyQualifiedMethodNamesWithNamespaces
-     * @since Method available since Release 2.15.0
-     * @link http://redmine.piece-framework.com/issues/245
-     */
-    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodNameWithNamespaces($testMethod)
-    {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setMethods(array($testMethod));
-        $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test');
-        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace2Test');
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists(
-            'testPass1',
-            'Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test'
+            array($firstTestClass, $secondTestClass, $specifyingTestMethod, $runningTestMethod),
         );
     }
 
-    /**
-     * @since Method available since Release 2.15.0
-     * @link http://redmine.piece-framework.com/issues/245
-     */
-    public function provideFullyQualifiedMethodNamesWithNamespaces()
+    public function dataForTestClasses()
     {
+        $firstTestClass = 'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test';
+        $secondTestClass = 'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test';
+        $specifyingTestClass = $firstTestClass;
+        $runningTestMethod1 = 'testPass1';
+        $runningTestMethod2 = 'testPass2';
         return array(
-                   array('\Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test::testPass1'),
-                   array('\stagehand\testrunner\\' . strtolower($this->getPluginID()) . 'multipleclasseswithnamespace1test::testpass1'),
-                   array('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test::testPass1')
-               );
-    }
-
-    /**
-     * @param $string $testClass
-     * @test
-     * @dataProvider provideClasses
-     */
-    public function runsOnlyTheSpecifiedClasses($testClass)
-    {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setClasses(array($testClass));
-        $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses2Test');
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists(
-            'testPass1',
-            'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'
-        );
-        $this->assertTestCaseExists(
-            'testPass2',
-            'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'
-        );
-    }
-
-    public function provideClasses()
-    {
-        return array(
-                   array('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClasses1Test'),
-                   array('stagehand_testrunner_' . $this->getPluginID() . 'multipleclasses1test')
-               );
-    }
-
-    /**
-     * @param $string $testClass
-     * @test
-     * @dataProvider provideClassesWithNamespaces
-     * @since Method available since Release 2.15.0
-     * @link http://redmine.piece-framework.com/issues/245
-     */
-    public function runsOnlyTheSpecifiedClassesWithNamespaces($testClass)
-    {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setClasses(array($testClass));
-        $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test');
-        $collector->collectTestCase('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace2Test');
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists(
-            'testPass1',
-            'Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test'
-        );
-        $this->assertTestCaseExists(
-            'testPass2',
-            'Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test'
+            array($firstTestClass, $secondTestClass, $specifyingTestClass, $runningTestMethod1, $runningTestMethod2),
         );
     }
 
     /**
-     * @since Method available since Release 2.15.0
-     * @link http://redmine.piece-framework.com/issues/245
-     */
-    public function provideClassesWithNamespaces()
-    {
-        return array(
-                   array('\Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test'),
-                   array('\stagehand\testrunner\\' . $this->getPluginID() . 'multipleclassesWithNamespace1test'),
-                   array('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespace1Test')
-               );
-    }
-
-    /**
-     * @test
      * @since Method available since Release 2.11.0
      */
-    public function stopsTheTestRunWhenTheFirstFailureIsRaised()
+    public function dataForStopOnFailure()
     {
-        $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'FailureAndPassTest');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest');
-        $runner = $this->createRunner();
-        $runner->setStopsOnFailure(true);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists(
-            'testIsFailure',
-            'Stagehand_TestRunner_' . $this->getPluginID() . 'FailureAndPassTest'
+        $firstTestClass1 = 'Stagehand_TestRunner_' . $this->getPluginID() . 'FailureAndPassTest';
+        $firstTestClass2 = 'Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorAndPassTest';
+        $secondTestClass1 = 'Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest';
+        $secondTestClass2 = $secondTestClass1;
+        $failingTestMethod1 = 'testIsFailure';
+        $failingTestMethod2 = 'testIsError';
+        return array(
+            array($firstTestClass1, $secondTestClass1, $failingTestMethod1),
+            array($firstTestClass2, $secondTestClass2, $failingTestMethod2),
         );
     }
 
-    /**
-     * @test
-     * @since Method available since Release 2.11.0
-     */
-    public function stopsTheTestRunWhenTheFirstErrorIsRaised()
+    public function dataForNotify()
     {
-        $collector = $this->createCollector();
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorAndPassTest');
-        $collector->collectTestCase('Stagehand_TestRunner_' . $this->getPluginID() . 'PassTest');
-        $runner = $this->createRunner();
-        $runner->setStopsOnFailure(true);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists(
-            'testIsError',
-            'Stagehand_TestRunner_' . $this->getPluginID() . 'ErrorAndPassTest'
+        return array(
+            array('Stagehand_TestRunner_'. $this->getPluginID() . 'PassTest', static::$RESULT_PASSED, static::$COLORS, 'OK Test cases run: 1/1, Passes: 4, Failures: 0, Exceptions: 0 '),
+            array('Stagehand_TestRunner_'. $this->getPluginID() . 'PassTest', static::$RESULT_PASSED, static::$NOT_COLOR, 'OK Test cases run: 1/1, Passes: 4, Failures: 0, Exceptions: 0 '),
+            array('Stagehand_TestRunner_'. $this->getPluginID() . 'FailureTest', static::$RESULT_NOT_PASSED, static::$COLORS, 'FAILURES!!! Test cases run: 1/1, Passes: 0, Failures: 1, Exceptions: 0 '),
+            array('Stagehand_TestRunner_'. $this->getPluginID() . 'FailureTest', static::$RESULT_NOT_PASSED, static::$NOT_COLOR, 'FAILURES!!! Test cases run: 1/1, Passes: 0, Failures: 1, Exceptions: 0 '),
         );
     }
 
-    /**
-     * @test
-     * @link http://redmine.piece-framework.com/issues/230
-     * @since Method available since Release 2.16.0
-     */
-    public function runsTheFilesWithTheSpecifiedPattern()
+    public function dataForMultipleFailures()
     {
-        $file = dirname(__FILE__) .
-            '/../../../../examples/Stagehand/TestRunner/test_SimpleTestWithAnyPattern.php';
-        $collector = $this->createCollector();
-        $collector->collectTestCasesFromFile($file);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(0);
-
-        $testTargets = $this->createTestTargets();
-        $testTargets->setFilePattern('^test_.+\.php$');
-        $collector->collectTestCasesFromFile($file);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('testPass', 'Stagehand_TestRunner_SimpleTestWithAnyPatternTest');
-    }
-
-    /**
-     * @test
-     * @link http://redmine.piece-framework.com/issues/219
-     * @since Method available since Release 2.14.0
-     */
-    public function reportsOnlyTheFirstFailureInASingleTestToJunitXml()
-    {
-        $testClass = 'Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleFailuresTest';
-        $collector = $this->createCollector();
-        $collector->collectTestCase($testClass);
-
-        $this->runTests();
-
-        $junitXML = new \DOMDocument();
-        $junitXML->load($this->junitXMLFile);
-        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('testIsFailure', $testClass);
-        $this->assertTestCaseAssertionCount(1, 'testIsFailure', $testClass);
-        $this->assertTestCaseFailed('testIsFailure', $testClass);
-        $this->assertTestCaseFailureMessageEquals('/^The First Failure/', 'testIsFailure', $testClass);
+        return array(
+            array('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleFailuresTest', 'testIsFailure'),
+        );
     }
 }
 

@@ -76,79 +76,27 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
         return CIUnitPlugin::getPluginID();
     }
 
-    /**
-     * @return array
-     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideMethods()
-     */
-    public function provideMethods()
+    public function dataForTestMethods()
     {
-        $class1 = 'testStagehand_TestRunner_CIUnitMultipleClasses1';
-        $class2 = 'testStagehand_TestRunner_CIUnitMultipleClasses2';
+        $firstTestClass = 'testStagehand_TestRunner_CIUnitMultipleClasses1';
+        $secondTestClass = 'testStagehand_TestRunner_CIUnitMultipleClasses2';
+        $specifyingTestMethod = 'pass1';
+        $runningTestMethod = $specifyingTestMethod;
         return array(
-                   array('pass1', $class1, $class2),
-                   array('PASS1', $class1, $class2),
-               );
+            array($firstTestClass, $secondTestClass, $specifyingTestMethod, $runningTestMethod),
+        );
     }
 
-    /**
-     * @return array
-     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideFullyQualifiedMethodNames()
-     */
-    public function provideFullyQualifiedMethodNames()
+    public function dataForTestClasses()
     {
-        $class1 = 'testStagehand_TestRunner_CIUnitMultipleClasses1';
-        $class2 = 'testStagehand_TestRunner_CIUnitMultipleClasses2';
-        $fullyQualifiedMethod = $class1 . '::pass1';
+        $firstTestClass = 'testStagehand_TestRunner_CIUnitMultipleClasses1';
+        $secondTestClass = 'testStagehand_TestRunner_CIUnitMultipleClasses2';
+        $specifyingTestClass = $firstTestClass;
+        $runningTestMethod1 = 'pass1';
+        $runningTestMethod2 = 'pass2';
         return array(
-                   array($fullyQualifiedMethod, $class1, $class2),
-                   array(strtoupper($fullyQualifiedMethod), $class1, $class2),
-               );
-    }
-
-    /**
-     * @return array
-     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideFullyQualifiedMethodNamesWithNamespaces()
-     */
-    public function provideFullyQualifiedMethodNamesWithNamespaces()
-    {
-        $class1 = 'Stagehand\TestRunner\testCIUnitMultipleClassesWithNamespace1';
-        $class2 = 'Stagehand\TestRunner\testCIUnitMultipleClassesWithNamespace2';
-        $fullyQualifiedMethod = $class1 . '::pass1';
-        return array(
-                   array('\\' . $fullyQualifiedMethod, $class1, $class2),
-                   array('\\' . strtoupper($fullyQualifiedMethod), $class1, $class2),
-                   array($fullyQualifiedMethod, $class1, $class2),
-               );
-    }
-
-    /**
-     * @return array
-     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideClasses()
-     */
-    public function provideClasses()
-    {
-        $class1 = 'testStagehand_TestRunner_CIUnitMultipleClasses1';
-        $class2 = 'testStagehand_TestRunner_CIUnitMultipleClasses2';
-        return array(
-                   array($class1, $class1, $class2),
-                   array(strtolower($class1), $class1, $class2),
-               );
-    }
-
-    /**
-     * @return array
-     * @see \Stagehand\TestRunner\Runner\PHPUnitRunnerTest::provideClassesWithNamespaces()
-     */
-    public function provideClassesWithNamespaces()
-    {
-        $class1 = 'Stagehand\TestRunner\testCIUnitMultipleClassesWithNamespace1';
-        $class2 = 'Stagehand\TestRunner\testCIUnitMultipleClassesWithNamespace2';
-        $fullyQualifiedMethod = $class1 . '::pass1';
-        return array(
-                   array('\\' . $class1, $class1, $class2),
-                   array('\\' . strtolower($class1), $class1, $class2),
-                   array($class1, $class1, $class2),
-               );
+            array($firstTestClass, $secondTestClass, $specifyingTestClass, $runningTestMethod1, $runningTestMethod2),
+        );
     }
 
     /**
@@ -163,14 +111,17 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
                );
     }
 
-    /**
-     * @return array
-     */
-    public function provideDataForStopsTheTestRunWhenTheFirstFailureIsRaised()
+    public function dataForStopOnFailure()
     {
+        $firstTestClass1 = 'testStagehand_TestRunner_CIUnitFailureAndPass';
+        $firstTestClass2 = 'testStagehand_TestRunner_CIUnitErrorAndPass';
+        $secondTestClass1 = 'testStagehand_TestRunner_CIUnitPass';
+        $secondTestClass2 = $secondTestClass1;
+        $failingTestMethod1 = 'isFailure';
+        $failingTestMethod2 = 'isError';
         return array(
-            array('testStagehand_TestRunner_CIUnitFailureAndPass', 'testStagehand_TestRunner_CIUnitPass', 'isFailure'),
-            array('testStagehand_TestRunner_CIUnitErrorAndPass', 'testStagehand_TestRunner_CIUnitPass', 'isError'),
+            array($firstTestClass1, $secondTestClass1, $failingTestMethod1),
+            array($firstTestClass2, $secondTestClass2, $failingTestMethod2),
         );
     }
 
@@ -204,17 +155,15 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
         );
     }
 
-    /**
-     * @return array
-     */
-    public function provideDataForCreatesANotificationForGrowl()
+    public function dataForNotify()
     {
         return array(
-            array('testStagehand_TestRunner_CIUnitPass', true, 'OK (3 tests, 4 assertions)'),
-            array('testStagehand_TestRunner_CIUnitFailure', false, 'FAILURES! Tests: 1, Assertions: 1, Failures: 1.'),
-            array('testStagehand_TestRunner_CIUnitError', false, 'FAILURES! Tests: 1, Assertions: 0, Errors: 1.'),
-            array('testStagehand_TestRunner_CIUnitIncomplete', false, 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Incomplete: 2.'),
-            array('testStagehand_TestRunner_CIUnitSkipped', false, 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Skipped: 2.'),
+            array('testStagehand_TestRunner_CIUnitPass', static::$RESULT_PASSED, static::$COLORS, 'OK (3 tests, 4 assertions)'),
+            array('testStagehand_TestRunner_CIUnitPass', static::$RESULT_PASSED, static::$NOT_COLOR, 'OK (3 tests, 4 assertions)'),
+            array('testStagehand_TestRunner_CIUnitFailure', static::$RESULT_NOT_PASSED, static::$COLORS, 'FAILURES! Tests: 1, Assertions: 1, Failures: 1.'),
+            array('testStagehand_TestRunner_CIUnitFailure', static::$RESULT_NOT_PASSED, static::$NOT_COLOR, 'FAILURES! Tests: 1, Assertions: 1, Failures: 1.'),
+            array('testStagehand_TestRunner_CIUnitIncomplete', static::$RESULT_NOT_PASSED, static::$COLORS, 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Incomplete: 2.'),
+            array('testStagehand_TestRunner_CIUnitIncomplete', static::$RESULT_NOT_PASSED, static::$NOT_COLOR, 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Incomplete: 2.'),
         );
     }
 
@@ -229,23 +178,10 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
         );
     }
 
-    /**
-     * @return array
-     */
-    public function provideDataForRunsTheFilesWithTheSpecifiedPattern()
+    public function dataForMultipleFailures()
     {
         return array(
-            array(dirname(__FILE__) . '/../../../../examples/Stagehand/TestRunner/CIUnitWithAnyPatternTest.php', 'Test\.php$', 'testStagehand_TestRunner_CIUnitWithAnyPattern'),
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function provideDataForReportsOnlyTheFirstFailureInASingleTestToJunitXml()
-    {
-        return array(
-            array('testStagehand_TestRunner_CIUnitMultipleFailures'),
+            array('testStagehand_TestRunner_CIUnitMultipleFailures', 'isFailure'),
         );
     }
 

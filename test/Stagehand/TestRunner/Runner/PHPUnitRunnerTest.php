@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class PHPUnitRunnerTest extends TestCase
+class PHPUnitRunnerTest extends CompatibilityTestCase
 {
     /**
      * @since Method available since Release 2.16.0
@@ -66,179 +66,27 @@ class PHPUnitRunnerTest extends TestCase
         return PHPUnitPlugin::getPluginID();
     }
 
-    /**
-     * @param string $testMethod
-     * @param string $testClass1
-     * @param string $testClass2
-     * @test
-     * @dataProvider provideMethods
-     */
-    public function runsOnlyTheSpecifiedMethods($testMethod, $testClass1, $testClass2)
+    public function dataForTestMethods()
     {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setMethods(array($testMethod));
-        $collector = $this->createCollector();
-        $collector->collectTestCase($testClass1);
-        $collector->collectTestCase($testClass2);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists('pass1', $testClass1);
-        $this->assertTestCaseExists('pass1', $testClass2);
-    }
-
-    public function provideMethods()
-    {
-        $class1 = 'Stagehand_TestRunner_PHPUnitMultipleClasses1Test';
-        $class2 = 'Stagehand_TestRunner_PHPUnitMultipleClasses2Test';
+        $firstTestClass = 'Stagehand_TestRunner_PHPUnitMultipleClasses1Test';
+        $secondTestClass = 'Stagehand_TestRunner_PHPUnitMultipleClasses2Test';
+        $specifyingTestMethod = 'pass1';
+        $runningTestMethod = $specifyingTestMethod;
         return array(
-                   array('pass1', $class1, $class2),
-                   array('PASS1', $class1, $class2),
-               );
+            array($firstTestClass, $secondTestClass, $specifyingTestMethod, $runningTestMethod),
+        );
     }
 
-    /**
-     * @param string $testMethod
-     * @param string $testClass1
-     * @param string $testClass2
-     * @test
-     * @dataProvider provideFullyQualifiedMethodNames
-     */
-    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodName($testMethod, $testClass1, $testClass2)
+    public function dataForTestClasses()
     {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setMethods(array($testMethod));
-        $collector = $this->createCollector();
-        $collector->collectTestCase($testClass1);
-        $collector->collectTestCase($testClass2);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('pass1', $testClass1);
-    }
-
-    public function provideFullyQualifiedMethodNames()
-    {
-        $class1 = 'Stagehand_TestRunner_PHPUnitMultipleClasses1Test';
-        $class2 = 'Stagehand_TestRunner_PHPUnitMultipleClasses2Test';
-        $fullyQualifiedMethod = $class1 . '::pass1';
+        $firstTestClass = 'Stagehand_TestRunner_PHPUnitMultipleClasses1Test';
+        $secondTestClass = 'Stagehand_TestRunner_PHPUnitMultipleClasses2Test';
+        $specifyingTestClass = $firstTestClass;
+        $runningTestMethod1 = 'pass1';
+        $runningTestMethod2 = 'pass2';
         return array(
-                   array($fullyQualifiedMethod, $class1, $class2),
-                   array(strtoupper($fullyQualifiedMethod), $class1, $class2),
-               );
-    }
-
-    /**
-     * @param string $testMethod
-     * @param string $testClass1
-     * @param string $testClass2
-     * @test
-     * @dataProvider provideFullyQualifiedMethodNamesWithNamespaces
-     * @since Method available since Release 2.15.0
-     * @link http://redmine.piece-framework.com/issues/245
-     */
-    public function runsOnlyTheSpecifiedMethodsByFullyQualifiedMethodNameWithNamespaces($testMethod, $testClass1, $testClass2)
-    {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setMethods(array($testMethod));
-        $collector = $this->createCollector();
-        $collector->collectTestCase($testClass1);
-        $collector->collectTestCase($testClass2);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('pass1', $testClass1);
-    }
-
-    /**
-     * @since Method available since Release 2.15.0
-     * @link http://redmine.piece-framework.com/issues/245
-     */
-    public function provideFullyQualifiedMethodNamesWithNamespaces()
-    {
-        $class1 = 'Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test';
-        $class2 = 'Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace2Test';
-        $fullyQualifiedMethod = $class1 . '::pass1';
-        return array(
-                   array('\\' . $fullyQualifiedMethod, $class1, $class2),
-                   array('\\' . strtoupper($fullyQualifiedMethod), $class1, $class2),
-                   array($fullyQualifiedMethod, $class1, $class2),
-               );
-    }
-
-    /**
-     * @param string $testClass
-     * @param string $testClass1
-     * @param string $testClass2
-     * @test
-     * @dataProvider provideClasses
-     */
-    public function runsOnlyTheSpecifiedClasses($testClass, $testClass1, $testClass2)
-    {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setClasses(array($testClass));
-        $collector = $this->createCollector();
-        $collector->collectTestCase($testClass1);
-        $collector->collectTestCase($testClass2);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists('pass1', $testClass1);
-        $this->assertTestCaseExists('pass2', $testClass1);
-    }
-
-    public function provideClasses()
-    {
-        $class1 = 'Stagehand_TestRunner_PHPUnitMultipleClasses1Test';
-        $class2 = 'Stagehand_TestRunner_PHPUnitMultipleClasses2Test';
-        return array(
-                   array($class1, $class1, $class2),
-                   array(strtolower($class1), $class1, $class2),
-               );
-    }
-
-    /**
-     * @param string $testClass
-     * @param string $testClass1
-     * @param string $testClass2
-     * @test
-     * @dataProvider provideClassesWithNamespaces
-     * @since Method available since Release 2.15.0
-     * @link http://redmine.piece-framework.com/issues/245
-     */
-    public function runsOnlyTheSpecifiedClassesWithNamespaces($testClass, $testClass1, $testClass2)
-    {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setClasses(array($testClass));
-        $collector = $this->createCollector();
-        $collector->collectTestCase($testClass1);
-        $collector->collectTestCase($testClass2);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists('pass1', $testClass1);
-        $this->assertTestCaseExists('pass2', $testClass1);
-    }
-
-    /**
-     * @since Method available since Release 2.15.0
-     * @link http://redmine.piece-framework.com/issues/245
-     */
-    public function provideClassesWithNamespaces()
-    {
-        $class1 = 'Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace1Test';
-        $class2 = 'Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespace2Test';
-        $fullyQualifiedMethod = $class1 . '::pass1';
-        return array(
-                   array('\\' . $class1, $class1, $class2),
-                   array('\\' . strtolower($class1), $class1, $class2),
-                   array($class1, $class1, $class2),
-               );
+            array($firstTestClass, $secondTestClass, $specifyingTestClass, $runningTestMethod1, $runningTestMethod2),
+        );
     }
 
     /**
@@ -307,59 +155,40 @@ class PHPUnitRunnerTest extends TestCase
     public function provideFullyQualifiedMethodNamesForIncompleteAndSkippedTestsWithoutMessage()
     {
         return array(
-                   array('Stagehand_TestRunner_PHPUnitIncompleteTest::isIncompleteWithoutMessage'),
-                   array('Stagehand_TestRunner_PHPUnitSkippedTest::isSkippedWithoutMessage')
-               );
-    }
-
-    /**
-     * @param string $testClass1
-     * @param string $testClass2
-     * @param string $failingMethod
-     * @test
-     * @dataProvider provideDataForStopsTheTestRunWhenTheFirstFailureIsRaised
-     * @since Method available since Release 2.11.0
-     */
-    public function stopsTheTestRunWhenTheFirstFailureIsRaised($testClass1, $testClass2, $failingMethod)
-    {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setClasses(array($testClass1, $testClass2));
-        $collector = $this->createCollector();
-        $collector->collectTestCase($testClass1);
-        $collector->collectTestCase($testClass2);
-        $runner = $this->createRunner();
-        $runner->setStopsOnFailure(true);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists($failingMethod, $testClass1);
-    }
-
-    /**
-     * @return array
-     * @since Method available since Release 2.16.0
-     */
-    public function provideDataForStopsTheTestRunWhenTheFirstFailureIsRaised()
-    {
-        return array(
-            array('Stagehand_TestRunner_PHPUnitFailureAndPassTest', 'Stagehand_TestRunner_PHPUnitPassTest', 'isFailure'),
-            array('Stagehand_TestRunner_PHPUnitErrorAndPassTest', 'Stagehand_TestRunner_PHPUnitPassTest', 'isError'),
+            array('Stagehand_TestRunner_PHPUnitIncompleteTest::isIncompleteWithoutMessage'),
+            array('Stagehand_TestRunner_PHPUnitSkippedTest::isSkippedWithoutMessage')
         );
     }
 
     /**
-     * @param string $testClass1
-     * @param string $testClass2
+     * @since Method available since Release 2.16.0
+     */
+    public function dataForStopOnFailure()
+    {
+        $firstTestClass1 = 'Stagehand_TestRunner_PHPUnitFailureAndPassTest';
+        $firstTestClass2 = 'Stagehand_TestRunner_PHPUnitErrorAndPassTest';
+        $secondTestClass1 = 'Stagehand_TestRunner_PHPUnitPassTest';
+        $secondTestClass2 = $secondTestClass1;
+        $failingTestMethod1 = 'isFailure';
+        $failingTestMethod2 = 'isError';
+        return array(
+            array($firstTestClass1, $secondTestClass1, $failingTestMethod1),
+            array($firstTestClass2, $secondTestClass2, $failingTestMethod2),
+        );
+    }
+
+    /**
+     * @param string $firstTestClass
+     * @param string $secondTestClass
      * @test
      * @dataProvider provideDataForNotStopTheTestRunWhenATestCaseIsSkipped
      * @since Method available since Release 2.11.0
      */
-    public function notStopTheTestRunWhenATestCaseIsSkipped($testClass1, $testClass2)
+    public function notStopTheTestRunWhenATestCaseIsSkipped($firstTestClass, $secondTestClass)
     {
         $collector = $this->createCollector();
-        $collector->collectTestCase($testClass1);
-        $collector->collectTestCase($testClass2);
+        $collector->collectTestCase($firstTestClass);
+        $collector->collectTestCase($secondTestClass);
         $runner = $this->createRunner();
         $runner->setStopsOnFailure(true);
 
@@ -380,17 +209,17 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testClass1
-     * @param string $testClass2
+     * @param string $firstTestClass
+     * @param string $secondTestClass
      * @test
      * @dataProvider provideDataForNotStopTheTestRunWhenATestCaseIsIncomplete
      * @since Method available since Release 2.11.0
      */
-    public function notStopTheTestRunWhenATestCaseIsIncomplete($testClass1, $testClass2)
+    public function notStopTheTestRunWhenATestCaseIsIncomplete($firstTestClass, $secondTestClass)
     {
         $collector = $this->createCollector();
-        $collector->collectTestCase($testClass1);
-        $collector->collectTestCase($testClass2);
+        $collector->collectTestCase($firstTestClass);
+        $collector->collectTestCase($secondTestClass);
         $runner = $this->createRunner();
         $runner->setStopsOnFailure(true);
 
@@ -440,74 +269,16 @@ class PHPUnitRunnerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @dataProvider provideDataForCreatesANotificationForGrowl
-     * @link http://redmine.piece-framework.com/issues/192
-     * @since Method available since Release 2.13.0
-     */
-    public function createsANotificationForGrowlWithColors($testClass, $result, $description)
-    {
-        $collector = $this->createCollector();
-        $collector->collectTestCase($testClass);
-        $runner = $this->createRunner();
-        $runner->setUsesNotification(true);
-        $terminal = $this->createTerminal();
-        $terminal->setColors(true);
-
-        $this->runTests();
-
-        $notification = $runner->getNotification();
-        if ($result) {
-            $this->assertTrue($notification->isPassed());
-            $this->assertFalse($notification->isFailed());
-            $this->assertFalse($notification->isStopped());
-        } else {
-            $this->assertFalse($notification->isPassed());
-            $this->assertTrue($notification->isFailed());
-            $this->assertFalse($notification->isStopped());
-        }
-        $this->assertEquals($description, $notification->getMessage());
-    }
-
-    /**
-     * @param string $testClass
-     * @param boolean $result
-     * @param string $description
-     * @test
-     * @dataProvider provideDataForCreatesANotificationForGrowl
-     * @link http://redmine.piece-framework.com/issues/192
-     * @since Method available since Release 2.13.0
-     */
-    public function createsANotificationForGrowlWithoutColors($testClass, $result, $description)
-    {
-        $collector = $this->createCollector();
-        $collector->collectTestCase($testClass);
-        $runner = $this->createRunner();
-        $runner->setUsesNotification(true);
-        $terminal = $this->createTerminal();
-        $terminal->setColors(true);
-
-        $this->runTests();
-
-        $notification = $runner->getNotification();
-        if ($result) {
-            $this->assertTrue($notification->isPassed());
-        } else {
-            $this->assertFalse($notification->isPassed());
-        }
-        $this->assertEquals($description, $notification->getMessage());
-    }
-
-    public function provideDataForCreatesANotificationForGrowl()
+    public function dataForNotify()
     {
         return array(
-                   array('Stagehand_TestRunner_PHPUnitPassTest', true, 'OK (3 tests, 4 assertions)'),
-                   array('Stagehand_TestRunner_PHPUnitFailureTest', false, 'FAILURES! Tests: 1, Assertions: 1, Failures: 1.'),
-                   array('Stagehand_TestRunner_PHPUnitErrorTest', false, 'FAILURES! Tests: 1, Assertions: 0, Errors: 1.'),
-                   array('Stagehand_TestRunner_PHPUnitIncompleteTest', false, 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Incomplete: 2.'),
-                   array('Stagehand_TestRunner_PHPUnitSkippedTest', false, 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Skipped: 2.')
-               );
+            array('Stagehand_TestRunner_PHPUnitPassTest', static::$RESULT_PASSED, static::$COLORS, 'OK (3 tests, 4 assertions)'),
+            array('Stagehand_TestRunner_PHPUnitPassTest', static::$RESULT_PASSED, static::$NOT_COLOR, 'OK (3 tests, 4 assertions)'),
+            array('Stagehand_TestRunner_PHPUnitFailureTest', static::$RESULT_NOT_PASSED, static::$COLORS, 'FAILURES! Tests: 1, Assertions: 1, Failures: 1.'),
+            array('Stagehand_TestRunner_PHPUnitFailureTest', static::$RESULT_NOT_PASSED, static::$NOT_COLOR, 'FAILURES! Tests: 1, Assertions: 1, Failures: 1.'),
+            array('Stagehand_TestRunner_PHPUnitIncompleteTest', static::$RESULT_NOT_PASSED, static::$COLORS, 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Incomplete: 2.'),
+            array('Stagehand_TestRunner_PHPUnitIncompleteTest', static::$RESULT_NOT_PASSED, static::$NOT_COLOR, 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Incomplete: 2.'),
+        );
     }
 
     /**
@@ -578,78 +349,12 @@ class PHPUnitRunnerTest extends TestCase
     }
 
     /**
-     * @param string $testingFile
-     * @param string $testFilePattern
-     * @param string $testClass
-     * @test
-     * @dataProvider provideDataForRunsTheFilesWithTheSpecifiedPattern
-     * @link http://redmine.piece-framework.com/issues/230
      * @since Method available since Release 2.16.0
      */
-    public function runsTheFilesWithTheSpecifiedPattern($testingFile, $testFilePattern, $testClass)
-    {
-        $reflectionClass = new \ReflectionClass($this);
-        $collector = $this->createCollector();
-        $collector->collectTestCasesFromFile($testingFile);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(0);
-
-        $testTargets = $this->createTestTargets();
-        $testTargets->setFilePattern($testFilePattern);
-        $collector->collectTestCasesFromFile($testingFile);
-
-        $this->runTests();
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('pass', $testClass);
-    }
-
-    /**
-     * @return array
-     * @since Method available since Release 2.16.0
-     */
-    public function provideDataForRunsTheFilesWithTheSpecifiedPattern()
+    public function dataForMultipleFailures()
     {
         return array(
-            array(dirname(__FILE__) . '/../../../../examples/Stagehand/TestRunner/test_PHPUnitWithAnyPattern.php', '^test_.+\.php$', 'Stagehand_TestRunner_PHPUnitWithAnyPatternTest'),
-        );
-    }
-
-    /**
-     * @param string $testClass
-     * @test
-     * @dataProvider provideDataForReportsOnlyTheFirstFailureInASingleTestToJunitXml
-     * @link http://redmine.piece-framework.com/issues/219
-     * @since Method available since Release 2.14.0
-     */
-    public function reportsOnlyTheFirstFailureInASingleTestToJunitXml($testClass)
-    {
-        $collector = $this->createCollector();
-        $collector->collectTestCase($testClass);
-
-        $this->runTests();
-
-        $junitXML = new \DOMDocument();
-        $junitXML->load($this->junitXMLFile);
-        $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
-
-        $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists('isFailure', $testClass);
-        $this->assertTestCaseAssertionCount(1, 'isFailure', $testClass);
-        $this->assertTestCaseFailed('isFailure', $testClass);
-        $this->assertTestCaseFailureMessageEquals('/The First Failure/', 'isFailure', $testClass);
-    }
-
-    /**
-     * @return array
-     * @since Method available since Release 2.16.0
-     */
-    public function provideDataForReportsOnlyTheFirstFailureInASingleTestToJunitXml()
-    {
-        return array(
-            array('Stagehand_TestRunner_PHPUnitMultipleFailuresTest'),
+            array('Stagehand_TestRunner_PHPUnitMultipleFailuresTest', 'isFailure'),
         );
     }
 
