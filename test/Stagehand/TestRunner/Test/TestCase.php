@@ -67,13 +67,12 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $this->oldApplicationContext = ApplicationContext::getInstance();
 
         $this->applicationContext = $this->createApplicationContext();
+        $this->applicationContext->setPlugin($this->getPlugin());
         $this->applicationContext->setComponent('input', new ArgvInput());
         $output = new ConsoleOutput();
-        $this->applicationContext->setComponent('output', $output);
         $output->setDecorated(false);
+        $this->applicationContext->setComponent('output', $output);
         ApplicationContext::setInstance($this->applicationContext);
-
-        $this->applicationContext->setPlugin($this->getPlugin());
     }
 
     protected function tearDown()
