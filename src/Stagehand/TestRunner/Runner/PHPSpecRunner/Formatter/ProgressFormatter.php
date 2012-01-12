@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2007-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,30 +29,80 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.0.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
 
-use PHPSpec\Context;
+use PHPSpec\Runner\Formatter;
+use PHPSpec\Runner\Formatter\Documentation;
+use PHPSpec\Runner\Formatter\Progress;
+use PHPSpec\Runner\Reporter;
+
+use Stagehand\TestRunner\Runner\Runner;
 
 /**
- * TestCase for the PHPSpec runner.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.0.0
+ * @since      Class available since Release 3.0.0
  */
-class DescribePhpSpecError extends Context
+class ProgressFormatter implements Formatter
 {
-    public function itShouldBeError()
+    /**
+     * @var \Stagehand\TestRunner\Runner\Runner
+     */
+    protected $runner;
+
+    /**
+     * @var \PHPSpec\Runner\Reporter
+     */
+    protected $reporter;
+
+    /**
+     * @var \PHPSpec\Runner\Formatter
+     */
+    protected $formatter;
+
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return mixed
+     */
+    public function __call($name, $arguments)
     {
-        $this->foo;
+        return call_user_func_array(array($this->formatter, $name), $arguments);
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Runner\Runner $runner
+     * @param \PHPSpec\Runner\Reporter $reporter
+     */
+    public function __construct(Runner $runner, Reporter $reporter)
+    {
+        $this->runner = $runner;
+        $this->reporter = $reporter;
+        $this->formatter = $this->runner->printsDetailedProgressReport()
+            ? new Documentation($this->reporter)
+            : new Progress($this->reporter);
+    }
+
+    public function update(\SplSubject $subject, $reporterEvent = null)
+    {
+        if ($reporterEvent->event == 'exit') {
+            $this->formatter->output();
+        } else {
+            $this->formatter->update($subject, $reporterEvent);
+        }
+    }
+
+    public function output()
+    {
+        $this->formatter->output();
     }
 }
 

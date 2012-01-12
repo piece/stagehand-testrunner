@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2007-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpspec.org/
@@ -38,14 +38,19 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Notification\Notification;
-use Stagehand\TestRunner\Runner\PHPSpecRunner\TextReporter;
+use PHPSpec\Runner\Cli\Reporter;
+use PHPSpec\Runner\ReporterEvent;
+use PHPSpec\World;
+
+use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatter;
+use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter;
+use Stagehand\TestRunner\Runner\PHPSpecRunner\SpecLoaderFactory;
 
 /**
  * A test runner for PHPSpec.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpspec.org/
@@ -54,42 +59,38 @@ use Stagehand\TestRunner\Runner\PHPSpecRunner\TextReporter;
 class PHPSpecRunner extends Runner
 {
     /**
-     * Runs tests based on the given \ArrayObject object.
+     * Runs tests based on the given array.
      *
-     * @param \ArrayObject $suite
+     * @param array $suite
      */
     public function run($suite)
     {
-        $result = new \PHPSpec_Runner_Result();
-        $reporter = new TextReporter($result, $this->terminal->colors());
-        $result->setReporter($reporter);
+        $options = array();
+        $options['specFile'] = $suite;
+        $options['c'] = $this->terminal->colors();
 
-        $result->setRuntimeStart(microtime(true));
-        foreach ($suite as $contextClass) {
-            $collection = new \PHPSpec_Runner_Collection(new $contextClass());
-            \PHPSpec_Runner_Base::execute($collection, $result);
-        }
-        $result->setRuntimeEnd(microtime(true));
-
-        $reporter->output(true);
+        $reporter = new Reporter();
+        $reporter->addFormatter(new ProgressFormatter($this, $reporter));
 
         if ($this->usesNotification()) {
-            $output = $reporter->toString(true);
+            $notificationFormatter = new NotificationFormatter($reporter);
+            $notificationFormatter->setRunner($this);
+            $reporter->addFormatter($notificationFormatter);
+        }
 
-            $failuresCount = $result->countFailures();
-            $deliberateFailuresCount = $result->countDeliberateFailures();
-            $errorsCount = $result->countErrors();
-            $exceptionsCount = $result->countExceptions();
-            $pendingsCount = $result->countPending();
+        $world = new World();
+        $world->setOptions($options);
+        $world->setReporter($reporter);
 
-            if ($failuresCount + $deliberateFailuresCount + $errorsCount + $exceptionsCount + $pendingsCount == 0) {
-                $notificationResult = Notification::RESULT_PASSED;
-            } else {
-                $notificationResult = Notification::RESULT_FAILED;
-            }
+        $loader = new SpecLoaderFactory();
+        $runner = new \PHPSpec\Runner\Cli\Runner();
+        $runner->setLoader($loader);
+        $runner->run($world);
 
-            preg_match('/^(\d+ examples?, \d+ failures?.*)/m', $output, $matches);
-            $this->notification = new Notification($notificationResult, $matches[1]);
+        $reporter->notify(new ReporterEvent('exit', '', ''));
+
+        if ($this->usesNotification()) {
+            $this->notification = $notificationFormatter->getNotification();
         }
     }
 }

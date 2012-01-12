@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2007-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,30 +29,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.0.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
 
-use PHPSpec\Context;
+use PHPSpec\Loader\Loader;
 
 /**
- * TestCase for the PHPSpec runner.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.0.0
+ * @since      Class available since Release 3.0.0
  */
-class DescribePhpSpecError extends Context
+class SpecLoaderFactory extends Loader
 {
-    public function itShouldBeError()
+    public function factory($pathToSpecs)
     {
-        $this->foo;
+        return new SpecLoader();
     }
 }
 

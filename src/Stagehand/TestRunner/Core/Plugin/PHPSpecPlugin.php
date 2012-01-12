@@ -64,6 +64,7 @@ class PHPSpecPlugin extends Plugin
         $this->addFeature('color');
         $this->addFeature('autotest');
         $this->addFeature('notify');
+        $this->addFeature('detailed_progress');
     }
 }
 

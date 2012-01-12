@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2008-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2008-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,28 +29,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2008-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2008-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.2.0
  */
 
-if (!class_exists('PHPSpec_Context')) {
-    return;
-}
+namespace Stagehand\TestRunner;
 
-require_once dirname(__FILE__) . '/PHPSpecCommon.php';
+use PHPSpec\Context;
 
 /**
  * TestCase for the PHPSpec runner.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2008-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2008-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.2.0
  */
-class DescribePhpSpecExtended extends Stagehand_TestRunner_PHPSpecCommon
+class DescribePhpSpecExtended extends PHPSpecCommon
 {
     public function itShouldPassExtended()
     {

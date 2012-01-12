@@ -50,7 +50,7 @@ namespace Stagehand\TestRunner\Collector;
  */
 class PHPSpecCollector extends Collector
 {
-    protected $superTypes = array('PHPSpec_Context');
+    protected $superTypes = array('PHPSpec\Context');
 
     /**
      * @param string $testCase
@@ -58,18 +58,21 @@ class PHPSpecCollector extends Collector
      */
     public function collectTestCase($testCase)
     {
-        $this->suite[] = $testCase;
+        $specClass = new \ReflectionClass($testCase);
+        if (!$specClass->isAbstract()) {
+            $this->suite[] = $specClass->newInstance();
+        }
     }
 
     /**
      * Creates the test suite object.
      *
      * @param string $name
-     * @return \ArrayObject
+     * @return array
      */
     protected function createTestSuite($name)
     {
-        return new \ArrayObject();
+        return array();
     }
 }
 

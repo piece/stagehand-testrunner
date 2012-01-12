@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
+use Stagehand\TestRunner\Core\ApplicationContext;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -48,7 +50,9 @@ class PHPSpecPreparer extends Preparer
 {
     public function prepare()
     {
-        require_once 'PHPSpec/Framework.php';
+        if (class_exists('Mockery', false)) {
+            @include_once 'Mockery.php';
+        }
     }
 }
 
