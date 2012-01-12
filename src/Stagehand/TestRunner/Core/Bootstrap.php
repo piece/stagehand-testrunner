@@ -56,10 +56,16 @@ class Bootstrap
 
     public function prepareClassLoader()
     {
-        $classLoader = new \Symfony\Component\ClassLoader\UniversalClassLoader();
-        $classLoader->useIncludePath(true);
-        $classLoader->registerPrefix('Stagehand_', array());
-        $classLoader->register();
+        static $classLoaderRegistered = false;
+
+        if (!$classLoaderRegistered) {
+            $classLoader = new \Symfony\Component\ClassLoader\UniversalClassLoader();
+            $classLoader->useIncludePath(true);
+            $classLoader->registerPrefix('Stagehand_', array());
+            $classLoader->register();
+
+            $classLoaderRegistered = true;
+        }
     }
 
     protected function prepareApplicationContext()
