@@ -104,10 +104,7 @@ class Transformation
             }
         }
 
-        $normalizedConfiguration = String::applyFilter($this->configuration, function ($v) {
-            return urldecode($v);
-        });
-        foreach ($normalizedConfiguration as $configurationID => $configurationPart) {
+        foreach ($this->configuration as $configurationID => $configurationPart) {
             if ($configurationID == GeneralConfiguration::getConfigurationID()) {
                 $transformerID = 'General';
             } else {
