@@ -145,16 +145,20 @@ class TestTargets
      */
     public function shouldTreatElementAsTest($class, $method = null)
     {
-        if (is_null($method)) {
-            return in_array(strtolower($class), $this->classes);
-        } else {
-            foreach (array($class . '::' . $method, $method) as $fullyQualifiedMethodName) {
-                if (in_array(strtolower($fullyQualifiedMethodName), $this->methods)) {
-                    return true;
+        if ($this->testsOnlySpecifiedElements()) {
+            if (is_null($method)) {
+                return in_array(strtolower($class), $this->classes);
+            } else {
+                foreach (array($class . '::' . $method, $method) as $fullyQualifiedMethodName) {
+                    if (in_array(strtolower($fullyQualifiedMethodName), $this->methods)) {
+                        return true;
+                    }
                 }
-            }
 
-            return false;
+                return false;
+            }
+        } else {
+           return true;
         }
     }
 
