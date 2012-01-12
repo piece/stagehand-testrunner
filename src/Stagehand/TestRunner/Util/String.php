@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.18.0
@@ -39,7 +39,7 @@ namespace Stagehand\TestRunner\Util;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
@@ -49,28 +49,6 @@ class String
     public static function normalizeNewlines($target)
     {
         return preg_replace("/\x0d\x0a|\x0d|\x0a/", PHP_EOL, $target);
-    }
-
-    /**
-     * @param array|string $target
-     * @param \Closure $filter
-     * @return array|string
-     * @since Method available since Release 3.0.0
-     */
-    public static function applyFilter($target, \Closure $filter)
-    {
-        if (is_array($target)) {
-            $escapedSubjects = array();
-            foreach ($target as $key => $value) {
-                $escapedSubjects[ $filter($key) ] = self::applyFilter($value, $filter);
-            }
-
-            return $escapedSubjects;
-        } elseif (is_string($target)) {
-            return $filter($target);
-        } else {
-            return $target;
-        }
     }
 }
 
