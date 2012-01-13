@@ -221,8 +221,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
         }
         $trace = \PHPUnit_Util_Filter::getFilteredStacktrace($e, true);
         $this->xmlWriter->{ 'write' . $failureOrError }(
-            $message .
-            $trace,
+            $message . $trace,
             get_class($e),
             $file,
             $line,
