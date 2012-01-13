@@ -65,9 +65,6 @@ class PHPUnitConfiguration extends Configuration
                 ->defaultNull()
                 ->cannotBeEmpty()
             ->end()
-            ->booleanNode('detailed_progress')
-                ->defaultFalse()
-            ->end()
         ;
     }
 }

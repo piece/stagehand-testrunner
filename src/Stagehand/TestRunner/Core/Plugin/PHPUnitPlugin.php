@@ -68,8 +68,8 @@ class PHPUnitPlugin extends Plugin
         $this->addFeature('test_classes');
         $this->addFeature('junit_xml');
         $this->addFeature('stop_on_failure');
+        $this->addFeature('detailed_progress');
         $this->addFeature('phpunit_config_file');
-        $this->addFeature('phpunit_detailed_progress');
     }
 }
 

@@ -325,6 +325,10 @@ abstract class Autotest
             $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargets->getFilePattern());
         }
 
+        if ($this->runnerFactory->create()->printsDetailedProgressReport()) {
+            $options[] = '--detailed-progress';
+        }
+
         $options = array_merge($options, $this->doBuildRunnerOptions());
 
         $this->testTargets->walkOnResources(function ($resource, $index, TestTargets $testTargets) use (&$options) {

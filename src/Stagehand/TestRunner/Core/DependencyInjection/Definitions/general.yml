@@ -34,6 +34,7 @@ parameters:
   stagehand_testrunner.stops_on_failure: false
   stagehand_testrunner.test_file_pattern: ~
   stagehand_testrunner.test_resources: []
+  stagehand_testrunner.prints_detailed_progress_report: false
   stagehand_testrunner.component_aware_factory_factory.class: "Stagehand\\TestRunner\\Core\\ComponentAwareFactoryFactory"
   stagehand_testrunner.plugin_aware_factory.class: "Stagehand\\TestRunner\\Core\\Plugin\\PluginAwareFactory"
 
@@ -133,6 +134,7 @@ services:
       - [ setStopsOnFailure, [ "%stagehand_testrunner.stops_on_failure%" ] ]
       - [ setUsesNotification, [ "%stagehand_testrunner.uses_notification%" ] ]
       - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
+      - [ setPrintsDetailedProgressReport, [ "%stagehand_testrunner.prints_detailed_progress_report%" ] ]
   stagehand_testrunner.runner_factory:
     class: Stagehand\TestRunner\Runner\Runner
     factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"

@@ -94,6 +94,12 @@ abstract class Runner
     protected $testTargets;
 
     /**
+     * @var boolean
+     * @since Property available since Release 3.0.0
+     */
+    protected $printsDetailedProgressReport;
+
+    /**
      * Runs tests.
      *
      * @param mixed $suite
@@ -177,6 +183,24 @@ abstract class Runner
     public function setTestTargets(TestTargets $testTargets)
     {
         $this->testTargets = $testTargets;
+    }
+
+    /**
+     * @param boolean $printsDetailedProgressReport
+     * @since Method available since Release 3.0.0
+     */
+    public function setPrintsDetailedProgressReport($printsDetailedProgressReport)
+    {
+        $this->printsDetailedProgressReport = $printsDetailedProgressReport;
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 3.0.0
+     */
+    public function printsDetailedProgressReport()
+    {
+        return $this->printsDetailedProgressReport;
     }
 
     /**

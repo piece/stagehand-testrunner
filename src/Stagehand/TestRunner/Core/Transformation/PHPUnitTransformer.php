@@ -53,7 +53,6 @@ class PHPUnitTransformer extends Transformer
     public function transform()
     {
         $this->setParameter('phpunit_config_file', $this->configurationPart['config']);
-        $this->setParameter('prints_detailed_progress_report', $this->configurationPart['detailed_progress']);
     }
 
     protected function createConfiguration()

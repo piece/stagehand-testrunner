@@ -54,10 +54,6 @@ class PHPUnitAutotestTest extends TestCase
     {
         TestCase::initializeConfigurators();
         static::$configurators[] = function (ApplicationContext $applicationContext) {
-            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-            $runner->setPrintsDetailedProgressReport(true);
-        };
-        static::$configurators[] = function (ApplicationContext $applicationContext) {
             $phpunitXMLConfiguration = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfiguration'); /* @var $phpunitXMLConfiguration \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration */
             \Phake::when($phpunitXMLConfiguration)->getFileName()->thenReturn('FILE');
             $autotest = $applicationContext->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
@@ -81,7 +77,6 @@ class PHPUnitAutotestTest extends TestCase
         $preservedConfigurations = parent::preservedConfigurations();
         $index = count($preservedConfigurations);
         return array_merge($preservedConfigurations, array(
-            array($index++, array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--phpunit-detailed-progress'), array(true, true, true)),
             array($index++, array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true, true)),
         ));
     }

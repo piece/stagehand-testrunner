@@ -62,12 +62,6 @@ use Stagehand\TestRunner\Runner\PHPUnitRunner\TestRunner;
 class PHPUnitRunner extends Runner
 {
     /**
-     * @var boolean
-     * @since Property available since Release 3.0.0
-     */
-    protected $printsDetailedProgressReport;
-
-    /**
      * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
      * @since Property available since Release 3.0.0
      */
@@ -148,24 +142,6 @@ class PHPUnitRunner extends Runner
 
             $this->notification = new Notification($notificationResult, $notificationMessage);
         }
-    }
-
-    /**
-     * @param boolean $printsDetailedProgressReport
-     * @since Method available since Release 3.0.0
-     */
-    public function setPrintsDetailedProgressReport($printsDetailedProgressReport)
-    {
-        $this->printsDetailedProgressReport = $printsDetailedProgressReport;
-    }
-
-    /**
-     * @return boolean
-     * @since Method available since Release 3.0.0
-     */
-    public function printsDetailedProgressReport()
-    {
-        return $this->printsDetailedProgressReport;
     }
 
     /**

@@ -94,6 +94,10 @@ PHP_EOL .
             $this->addOption('notify', 'n', InputOption::VALUE_NONE, 'Notifies test results by using the growlnotify command in Mac OS X and Windows or the notify-send command in Linux.');
         }
 
+        if ($this->getPlugin()->hasFeature('detailed_progress')) {
+            $this->addOption('detailed-progress', 'd', InputOption::VALUE_NONE, 'Prints detailed progress report.');
+        }
+
         if ($this->getPlugin()->hasFeature('stop_on_failure')) {
             $this->addOption('stop-on-failure', 's', InputOption::VALUE_NONE, 'Stops the test run when the first failure or error is raised.');
         }
@@ -232,6 +236,15 @@ PHP_EOL .
                 $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
                     array('stop_on_failure' => true)
+                );
+            }
+        }
+
+        if ($this->getPlugin()->hasFeature('detailed_progress')) {
+            if ($input->getOption('detailed-progress')) {
+                $transformation->setConfigurationPart(
+                    GeneralConfiguration::getConfigurationID(),
+                    array('detailed_progress' => true)
                 );
             }
         }

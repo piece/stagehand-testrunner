@@ -66,6 +66,7 @@ class GeneralTransformer extends Transformer
         $this->setParameter('logs_results_in_junit_xml_in_realtime', $this->configurationPart['junit_xml']['realtime']);
 
         $this->setParameter('stops_on_failure', $this->configurationPart['stop_on_failure']);
+        $this->setParameter('prints_detailed_progress_report', $this->configurationPart['detailed_progress']);
     }
 
     protected function createConfiguration()

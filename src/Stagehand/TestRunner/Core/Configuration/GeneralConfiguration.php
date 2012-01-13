@@ -141,6 +141,9 @@ class GeneralConfiguration extends Configuration
             ->booleanNode('stop_on_failure')
                 ->defaultFalse()
             ->end()
+            ->booleanNode('detailed_progress')
+                ->defaultFalse()
+            ->end()
         ;
     }
 }

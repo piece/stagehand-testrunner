@@ -65,10 +65,6 @@ class PHPUnitCommand extends PluginCommand
         if ($this->getPlugin()->hasFeature('phpunit_config_file')) {
             $this->addOption('phpunit-config', null, InputOption::VALUE_REQUIRED, 'The PHPUnit XML configuration file');
         }
-
-        if ($this->getPlugin()->hasFeature('phpunit_detailed_progress')) {
-            $this->addOption('phpunit-detailed-progress', null, InputOption::VALUE_NONE, 'Prints detailed progress report.');
-        }
     }
 
     protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
@@ -78,15 +74,6 @@ class PHPUnitCommand extends PluginCommand
                 $transformation->setConfigurationPart(
                     PHPUnitConfiguration::getConfigurationID(),
                     array('config' => $input->getOption('phpunit-config'))
-                );
-            }
-        }
-
-        if ($this->getPlugin()->hasFeature('phpunit_detailed_progress')) {
-            if ($input->getOption('phpunit-detailed-progress')) {
-                $transformation->setConfigurationPart(
-                    PHPUnitConfiguration::getConfigurationID(),
-                    array('detailed_progress' => true)
                 );
             }
         }

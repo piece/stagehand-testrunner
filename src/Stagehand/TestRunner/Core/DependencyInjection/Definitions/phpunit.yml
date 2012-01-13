@@ -23,7 +23,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
-  stagehand_testrunner.phpunit.prints_detailed_progress_report: false
   stagehand_testrunner.phpunit.phpunit_config_file: null
   stagehand_testrunner.phpunit.runner.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner"
 
@@ -48,7 +47,6 @@ services:
     parent: stagehand_testrunner.runner
     class: "%stagehand_testrunner.phpunit.runner.class%"
     calls:
-      - [ setPrintsDetailedProgressReport, [ "%stagehand_testrunner.phpunit.prints_detailed_progress_report%" ] ]
       - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
       - [ setJUnitXMLPrinterFactory, [ "@stagehand_testrunner.phpunit.junit_xml_printer_factory" ] ]
   stagehand_testrunner.phpunit.phpunit_xml_configuration_factory:

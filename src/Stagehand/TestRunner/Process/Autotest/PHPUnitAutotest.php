@@ -68,10 +68,6 @@ class PHPUnitAutotest extends Autotest
     {
         $options = array();
 
-        if ($this->runnerFactory->create()->printsDetailedProgressReport()) {
-            $options[] = '--phpunit-detailed-progress';
-        }
-
         if (!is_null($this->phpunitXMLConfiguration)) {
             $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitXMLConfiguration->getFileName());
         }

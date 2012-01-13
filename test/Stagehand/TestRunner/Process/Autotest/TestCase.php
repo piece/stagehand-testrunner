@@ -108,6 +108,10 @@ abstract class TestCase extends FactoryAwareTestCase
             $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
             $testTargets->setFilePattern('PATTERN');
         };
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+            $runner->setPrintsDetailedProgressReport(true);
+        };
     }
 
     /**
@@ -234,6 +238,7 @@ abstract class TestCase extends FactoryAwareTestCase
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--log-junit-realtime'), array(true, true, false)),
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--stop-on-failure'), array(true, true, true)),
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true, true)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--detailed-progress'), array(true, true, true)),
         );
 
         return array_map(function (array $preservedConfiguration) {
