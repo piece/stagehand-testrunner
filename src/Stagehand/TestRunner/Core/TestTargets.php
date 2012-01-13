@@ -184,7 +184,7 @@ class TestTargets
      */
     public function shouldTreatFileAsTest($file)
     {
-        return (boolean)preg_match('/' . str_replace('/', '\/', $this->filePattern) . '/', $file);
+        return (boolean)preg_match('/' . str_replace('/', '\/', $this->filePattern) . '/', basename($file));
     }
 
     /**
