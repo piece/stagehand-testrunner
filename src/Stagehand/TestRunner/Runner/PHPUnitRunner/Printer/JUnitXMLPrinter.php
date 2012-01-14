@@ -39,7 +39,6 @@
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
-use Stagehand\TestRunner\Runner\JUnitXMLWriterAdapter;
 
 /**
  * A result printer for PHPUnit.
@@ -51,7 +50,7 @@ use Stagehand\TestRunner\Runner\JUnitXMLWriterAdapter;
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.10.0
  */
-class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framework_TestListener, JUnitXMLWriterAdapter
+class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framework_TestListener
 {
     protected $autoFlush = true;
     protected $xmlWriter;
