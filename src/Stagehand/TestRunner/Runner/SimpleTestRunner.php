@@ -5,7 +5,7 @@
  * PHP version 5.3
  *
  * Copyright (c) 2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>,
- *               2007-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ *               2007-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2010 KUMAKURA Yousuke <kumatch@gmail.com>,
  * All rights reserved.
  *
@@ -32,7 +32,7 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -42,20 +42,18 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Core\Exception;
-use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\ClassFilterReporter;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporterFactory;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\MethodFilterReporter;
 use Stagehand\TestRunner\Runner\SimpleTestRunner\StopOnFailureReporter;
-use Stagehand\TestRunner\Util\Coloring;
+use Stagehand\TestRunner\Runner\SimpleTestRunner\TextReporter;
 
 /**
  * A test runner for SimpleTest.
  *
  * @package    Stagehand_TestRunner
  * @copyright  2007 Masahiko Sakamoto <msakamoto-sf@users.sourceforge.net>
- * @copyright  2007-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2010 KUMAKURA Yousuke <kumatch@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -76,7 +74,9 @@ class SimpleTestRunner extends Runner
      */
     public function run($suite)
     {
-        $textReporter = new \TextReporter();
+        $textReporter = new TextReporter();
+        $textReporter->setRunner($this);
+        $textReporter->setTerminal($this->terminal);
         $reporter = new \MultipleReporter();
         $reporter->attachReporter($this->decorateReporter($textReporter));
 
@@ -87,43 +87,9 @@ class SimpleTestRunner extends Runner
             )));
         }
 
-        ob_start();
         $suite->run($reporter);
-        $output = ob_get_contents();
-        ob_end_clean();
 
-        if ($this->usesNotification()) {
-            if ($textReporter->getFailCount() + $textReporter->getExceptionCount() == 0) {
-                $notificationResult = Notification::RESULT_PASSED;
-            } else {
-                $notificationResult = Notification::RESULT_FAILED;
-            }
-
-            preg_match('/^((?:OK|FAILURES).+)/ms', $output, $matches);
-            $this->notification = new Notification($notificationResult, $matches[1]);
-        }
-
-        if ($this->terminal->colors()) {
-            echo preg_replace(
-                     array(
-                         '/^(OK.+)/ms',
-                         '/^(FAILURES!!!.+)/ms',
-                         '/^(\d+\)\s)(.+at \[.+\]$\s+in .+)$/m',
-                         '/^(Exception \d+!)/m',
-                         '/^(Unexpected exception of type \[.+\] with message \[.+\] in \[.+\]$\s+in .+)$/m'
-                     ),
-                     array(
-                         Coloring::green('$1'),
-                         Coloring::red('$1'),
-                         '$1' . Coloring::red('$2'),
-                         Coloring::magenta('$1'),
-                         Coloring::magenta('$1')
-                     ),
-                     $output
-                 );
-        } else {
-            echo $output;
-        }
+        $this->notification = $textReporter->getNotification();
     }
 
     /**
