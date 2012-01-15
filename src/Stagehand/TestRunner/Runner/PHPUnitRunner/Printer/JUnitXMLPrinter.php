@@ -159,7 +159,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     /**
      * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $xmlWriter
      */
-    public function setXMLWriter(JUnitXMLWriter $xmlWriter)
+    public function setJUnitXMLWriter(JUnitXMLWriter $xmlWriter)
     {
         $this->xmlWriter = $xmlWriter;
     }

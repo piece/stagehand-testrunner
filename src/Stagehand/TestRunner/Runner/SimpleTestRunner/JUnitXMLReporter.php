@@ -85,7 +85,7 @@ class JUnitXMLReporter extends \SimpleReporter
     /**
      * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $xmlWriter
      */
-    public function setXMLWriter(JUnitXMLWriter $xmlWriter)
+    public function setJUnitXMLWriter(JUnitXMLWriter $xmlWriter)
     {
         $this->xmlWriter = $xmlWriter;
     }

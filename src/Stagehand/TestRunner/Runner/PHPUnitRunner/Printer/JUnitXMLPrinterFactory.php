@@ -63,7 +63,7 @@ class JUnitXMLPrinterFactory
     public function create(StreamWriter $streamWriter)
     {
         $junitXMLPrinter = new JUnitXMLPrinter();
-        $junitXMLPrinter->setXMLWriter($this->junitXMLWriterFactory->create($streamWriter));
+        $junitXMLPrinter->setJUnitXMLWriter($this->junitXMLWriterFactory->create($streamWriter));
         return $junitXMLPrinter;
     }
 
