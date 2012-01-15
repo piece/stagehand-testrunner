@@ -39,7 +39,6 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
-use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\DetailedProgressPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ProgressPrinter;
@@ -82,6 +81,7 @@ class PHPUnitRunner extends Runner
     {
         $testResult = new \PHPUnit_Framework_TestResult();
         $printer = new ResultPrinter(null, true, $this->terminal->colors());
+        $printer->setRunner($this);
 
         $arguments = array();
         $arguments['printer'] = $printer;
@@ -120,28 +120,7 @@ class PHPUnitRunner extends Runner
         $testRunner->setTestResult($testResult);
         $testRunner->doRun($suite, $arguments);
 
-        if ($this->usesNotification()) {
-            if ($testResult->failureCount() + $testResult->errorCount() + $testResult->skippedCount() + $testResult->notImplementedCount() == 0) {
-                $notificationResult = Notification::RESULT_PASSED;
-            } else {
-                $notificationResult = Notification::RESULT_FAILED;
-            }
-
-            ob_start();
-            $printer->printResult($testResult);
-            $output = ob_get_contents();
-            ob_end_clean();
-
-            if (preg_match('/^(?:\x1b\[30;42m\x1b\[2K)?(OK .+)/m', $output, $matches)) {
-                $notificationMessage = $matches[1];
-            } elseif (preg_match('/^(?:\x1b\[37;41m\x1b\[2K)?(FAILURES!)\s^(?:\x1b\[0m\x1b\[37;41m\x1b\[2K)?(.+)/m', $output, $matches)) {
-                $notificationMessage = $matches[1] . "\n" . $matches[2];
-            } elseif (preg_match('/^(?:\x1b\[30;43m\x1b\[2K)?(OK, but incomplete or skipped tests!)\s^(?:\x1b\[0m\x1b\[30;43m\x1b\[2K)?(.+)/m', $output, $matches)) {
-                $notificationMessage = $matches[1] . "\n" . $matches[2];
-            }
-
-            $this->notification = new Notification($notificationResult, $notificationMessage);
-        }
+        $this->notification = $printer->getNotification();
     }
 
     /**

@@ -38,7 +38,9 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
+use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\TestDox;
+use Stagehand\TestRunner\Runner\Runner;
 
 /**
  * A result printer for PHPUnit.
@@ -53,16 +55,55 @@ use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\TestDox;
 class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
 {
     /**
+     * @var \Stagehand\TestRunner\Runner\Runner
+     * @since Property available since Release 3.0.0
+     */
+    protected $runner;
+
+    /**
+     * @var \Stagehand\TestRunner\Notification\Notification
+     * @since Property available since Release 3.0.0
+     */
+    protected $notification;
+
+    /**
      * @param \PHPUnit_Framework_TestResult $result
      */
     public function printResult(\PHPUnit_Framework_TestResult $result)
     {
+        if ($this->runner->usesNotification()) {
+            ob_start();
+        }
+
         $testDox = trim(TestDox::get(spl_object_hash($result)));
         if (strlen($testDox)) {
             $this->write(PHP_EOL . PHP_EOL . $testDox);
         }
 
         parent::printResult($result);
+
+        if ($this->runner->usesNotification()) {
+            $output = ob_get_contents();
+            ob_end_clean();
+
+            echo $output;
+
+            if ($result->failureCount() + $result->errorCount() + $result->skippedCount() + $result->notImplementedCount() == 0) {
+                $notificationResult = Notification::RESULT_PASSED;
+            } else {
+                $notificationResult = Notification::RESULT_FAILED;
+            }
+
+            if (preg_match('/^(?:\x1b\[30;42m\x1b\[2K)?(OK .+)/m', $output, $matches)) {
+                $notificationMessage = $matches[1];
+            } elseif (preg_match('/^(?:\x1b\[37;41m\x1b\[2K)?(FAILURES!)\s^(?:\x1b\[0m\x1b\[37;41m\x1b\[2K)?(.+)/m', $output, $matches)) {
+                $notificationMessage = $matches[1] . "\n" . $matches[2];
+            } elseif (preg_match('/^(?:\x1b\[30;43m\x1b\[2K)?(OK, but incomplete or skipped tests!)\s^(?:\x1b\[0m\x1b\[30;43m\x1b\[2K)?(.+)/m', $output, $matches)) {
+                $notificationMessage = $matches[1] . "\n" . $matches[2];
+            }
+
+            $this->notification = new Notification($notificationResult, $notificationMessage);
+        }
     }
 
     /**
@@ -87,6 +128,24 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
         $this->verbose = false;
         parent::endTestSuite($suite);
         $this->verbose = $oldVerbose;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Runner\Runner $runner
+     * @since Method available since Release 3.0.0
+     */
+    public function setRunner(Runner $runner)
+    {
+        $this->runner = $runner;
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Notification\Notification
+     * @since Method available since Release 3.0.0
+     */
+    public function getNotification()
+    {
+        return $this->notification;
     }
 
     /**
