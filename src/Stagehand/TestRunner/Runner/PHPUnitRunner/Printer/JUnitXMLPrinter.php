@@ -53,13 +53,13 @@ use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framework_TestListener
 {
     protected $autoFlush = true;
-    protected $xmlWriter;
+    protected $junitXMLWriter;
     protected $testSuitesWrote = false;
     protected $testStarted = false;
 
     public function flush()
     {
-        $this->xmlWriter->endTestSuites();
+        $this->junitXMLWriter->endTestSuites();
         parent::flush();
     }
 
@@ -111,7 +111,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if (!$this->testSuitesWrote) {
-            $this->xmlWriter->startTestSuites();
+            $this->junitXMLWriter->startTestSuites();
             $this->testSuitesWrote = true;
         }
 
@@ -122,7 +122,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
             $this->currentTestClassName = $name;
         }
 
-        $this->xmlWriter->startTestSuite($name, count($suite));
+        $this->junitXMLWriter->startTestSuite($name, count($suite));
     }
 
     /**
@@ -130,7 +130,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
      */
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
-        $this->xmlWriter->endTestSuite();
+        $this->junitXMLWriter->endTestSuite();
     }
 
     /**
@@ -138,7 +138,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
      */
     public function startTest(\PHPUnit_Framework_Test $test)
     {
-        $this->xmlWriter->startTestCase($test->getName(), $test, $test->getName(false));
+        $this->junitXMLWriter->startTestCase($test->getName(), $test, $test->getName(false));
         $this->testStarted = true;
     }
 
@@ -149,19 +149,19 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
         if ($test instanceof \PHPUnit_Framework_TestCase) {
-            $this->xmlWriter->endTestCase($time, $test->getNumAssertions());
+            $this->junitXMLWriter->endTestCase($time, $test->getNumAssertions());
         } else {
-            $this->xmlWriter->endTestCase($time);
+            $this->junitXMLWriter->endTestCase($time);
         }
         $this->testStarted = false;
     }
 
     /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $xmlWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $junitXMLWriter
      */
-    public function setJUnitXMLWriter(JUnitXMLWriter $xmlWriter)
+    public function setJUnitXMLWriter(JUnitXMLWriter $junitXMLWriter)
     {
-        $this->xmlWriter = $xmlWriter;
+        $this->junitXMLWriter = $junitXMLWriter;
     }
 
     /**
@@ -216,7 +216,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
             list($file, $line) = $this->findFileAndLineOfFailureOrError($e, new \ReflectionClass($test));
         }
         $trace = \PHPUnit_Util_Filter::getFilteredStacktrace($e, true);
-        $this->xmlWriter->{ 'write' . $failureOrError }(
+        $this->junitXMLWriter->{ 'write' . $failureOrError }(
             $message . $trace,
             get_class($e),
             $file,

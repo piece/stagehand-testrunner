@@ -54,7 +54,7 @@ class JUnitXMLReporter extends \SimpleReporter
     /**
      * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter
      */
-    protected $xmlWriter;
+    protected $junitXMLWriter;
 
     /**
      * @var \Stagehand\TestRunner\TestSuite\SimpleTestTestSuite
@@ -83,11 +83,11 @@ class JUnitXMLReporter extends \SimpleReporter
     protected $methodStarted = false;
 
     /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $xmlWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $junitXMLWriter
      */
-    public function setJUnitXMLWriter(JUnitXMLWriter $xmlWriter)
+    public function setJUnitXMLWriter(JUnitXMLWriter $junitXMLWriter)
     {
-        $this->xmlWriter = $xmlWriter;
+        $this->junitXMLWriter = $junitXMLWriter;
     }
 
     /**
@@ -105,7 +105,7 @@ class JUnitXMLReporter extends \SimpleReporter
     public function paintGroupStart($testName, $size)
     {
         parent::paintGroupStart($testName, $size);
-        $this->xmlWriter->startTestSuite($testName, $this->suite->countTests());
+        $this->junitXMLWriter->startTestSuite($testName, $this->suite->countTests());
     }
 
     /**
@@ -114,7 +114,7 @@ class JUnitXMLReporter extends \SimpleReporter
     public function paintGroupEnd($testName)
     {
         parent::paintGroupEnd($testName);
-        $this->xmlWriter->endTestSuite();
+        $this->junitXMLWriter->endTestSuite();
     }
 
     /**
@@ -123,7 +123,7 @@ class JUnitXMLReporter extends \SimpleReporter
     public function paintCaseStart($testName)
     {
         parent::paintCaseStart($testName);
-        $this->xmlWriter->startTestSuite(
+        $this->junitXMLWriter->startTestSuite(
             $testName,
             $this->suite->countTestsInTestCase(\SimpleTest::getContext()->getTest())
         );
@@ -136,7 +136,7 @@ class JUnitXMLReporter extends \SimpleReporter
     public function paintCaseEnd($testName)
     {
         parent::paintCaseEnd($testName);
-        $this->xmlWriter->endTestSuite();
+        $this->junitXMLWriter->endTestSuite();
         $this->caseStarted = false;
     }
 
@@ -152,7 +152,7 @@ class JUnitXMLReporter extends \SimpleReporter
         }
 
         parent::paintMethodStart($testName);
-        $this->xmlWriter->startTestCase(
+        $this->junitXMLWriter->startTestCase(
             $testName,
             \SimpleTest::getContext()->getTest()
         );
@@ -169,7 +169,7 @@ class JUnitXMLReporter extends \SimpleReporter
     {
         $elapsedTime = microtime(true) - $this->methodStartTime;
         parent::paintMethodEnd($testName);
-        $this->xmlWriter->endTestCase($elapsedTime, $this->assertionCount);
+        $this->junitXMLWriter->endTestCase($elapsedTime, $this->assertionCount);
         $this->methodStarted = false;
 
         if ($this->caseIsArtificial) {
@@ -183,7 +183,7 @@ class JUnitXMLReporter extends \SimpleReporter
     public function paintHeader($testName)
     {
         parent::paintHeader($testName);
-        $this->xmlWriter->startTestSuites();
+        $this->junitXMLWriter->startTestSuites();
     }
 
     /**
@@ -192,7 +192,7 @@ class JUnitXMLReporter extends \SimpleReporter
     public function paintFooter($testName)
     {
         parent::paintFooter($testName);
-        $this->xmlWriter->endTestSuites();
+        $this->junitXMLWriter->endTestSuites();
     }
 
     /**
@@ -334,7 +334,7 @@ class JUnitXMLReporter extends \SimpleReporter
             $methodIsArtificial = true;
         }
 
-        $this->xmlWriter->{ 'write' . $failureOrError }($text, $type, $file, $line, $message);
+        $this->junitXMLWriter->{ 'write' . $failureOrError }($text, $type, $file, $line, $message);
 
         if ($methodIsArtificial) {
             $this->paintMethodEnd($testName);
