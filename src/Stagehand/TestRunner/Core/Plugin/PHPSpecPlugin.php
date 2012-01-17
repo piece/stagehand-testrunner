@@ -65,6 +65,7 @@ class PHPSpecPlugin extends Plugin
         $this->addFeature('autotest');
         $this->addFeature('notify');
         $this->addFeature('detailed_progress');
+        $this->addFeature('junit_xml');
     }
 }
 

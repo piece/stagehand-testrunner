@@ -38,6 +38,12 @@ services:
   stagehand_testrunner.phpspec.runner:
     parent: stagehand_testrunner.runner
     class: "%stagehand_testrunner.phpspec.runner.class%"
+    calls:
+      - [ setJUnitXMLFormatterFactory, [ "@stagehand_testrunner.phpspec.junit_xml_formatter_factory" ] ]
+  stagehand_testrunner.phpspec.junit_xml_formatter_factory:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory
+    calls:
+      - [ setJUnitXMLWriterFactory, [ "@stagehand_testrunner.junit_xml_writer_factory" ] ]
 
 # Local Variables:
 # mode: conf

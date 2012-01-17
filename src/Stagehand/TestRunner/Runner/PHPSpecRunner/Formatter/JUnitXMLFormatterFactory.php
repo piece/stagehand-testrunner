@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2007-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,41 +29,54 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.0.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner;
+namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
 
-use PHPSpec\Context;
+use PHPSpec\Runner\Reporter;
+
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
+use Stagehand\TestRunner\TestSuite\PHPSpecTestSuite;
+use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
- * TestCase for the PHPSpec runner.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.0.0
+ * @since      Class available since Release 3.0.0
  */
-class DescribePhpSpecPass extends Context
+class JUnitXMLFormatterFactory
 {
-    public function itShouldPass()
+    /**
+     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
+     */
+    protected $junitXMLWriterFactory;
+
+    /**
+     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
+     * @param \PHPSpec\Runner\Reporter $reporter
+     * @param \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite $testSuite
+     * @return \Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatter
+     */
+    public function create(StreamWriter $streamWriter, Reporter $reporter, PHPSpecTestSuite $testSuite)
     {
-        $this->spec(true)->should->beTrue();
+        $junitXMLFormatter = new JUnitXMLFormatter($reporter);
+        $junitXMLFormatter->setJUnitXMLWriter($this->junitXMLWriterFactory->create($streamWriter));
+        $junitXMLFormatter->setTestSuite($testSuite);
+        return $junitXMLFormatter;
     }
 
-    public function itShouldPassWithMultipleExpectations()
+    /**
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory $junitXMLWriterFactory
+     */
+    public function setJUnitXMLWriterFactory(JUnitXMLWriterFactory $junitXMLWriterFactory)
     {
-        $this->spec(true)->should->beTrue();
-        $this->spec(true)->should->beTrue();
-    }
-
-    public function itは日本語を使用できること()
-    {
-        $this->spec(true)->should->beTrue();
+        $this->junitXMLWriterFactory = $junitXMLWriterFactory;
     }
 }
 

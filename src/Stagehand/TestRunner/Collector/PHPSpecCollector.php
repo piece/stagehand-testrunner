@@ -38,6 +38,8 @@
 
 namespace Stagehand\TestRunner\Collector;
 
+use Stagehand\TestRunner\TestSuite\PHPSpecTestSuite;
+
 /**
  * A test collector for PHPSpec.
  *
@@ -60,7 +62,7 @@ class PHPSpecCollector extends Collector
     {
         $specClass = new \ReflectionClass($testCase);
         if (!$specClass->isAbstract()) {
-            $this->suite[] = $specClass->newInstance();
+            $this->suite->addExampleGroup($specClass->newInstance());
         }
     }
 
@@ -68,11 +70,11 @@ class PHPSpecCollector extends Collector
      * Creates the test suite object.
      *
      * @param string $name
-     * @return array
+     * @return \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite
      */
     protected function createTestSuite($name)
     {
-        return array();
+        return new PHPSpecTestSuite($name);
     }
 }
 

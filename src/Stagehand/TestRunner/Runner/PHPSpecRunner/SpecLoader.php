@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
 
-use PHPSpec\Specification\ExampleGroup;
+use Stagehand\TestRunner\TestSuite\PHPSpecTestSuite;
 
 /**
  * @package    Stagehand_TestRunner
@@ -48,9 +48,13 @@ use PHPSpec\Specification\ExampleGroup;
  */
 class SpecLoader
 {
-    public function load(array $suite)
+    /**
+     * @param \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite $suite
+     * @return array
+     */
+    public function load(PHPSpecTestSuite $suite)
     {
-        return $suite;
+        return $suite->getExampleGroups();
     }
 }
 
