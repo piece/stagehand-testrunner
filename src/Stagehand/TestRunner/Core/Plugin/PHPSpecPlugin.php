@@ -48,6 +48,7 @@ class PHPSpecPlugin extends Plugin
 {
     private static $PLUGIN_ID = 'PHPSpec';
     private static $TEST_FILE_PATTERN = 'Spec\.php$';
+    private static $TEST_CLASS_SUPER_TYPES = array('PHPSpec\Context');
 
     public static function getPluginID()
     {
@@ -57,6 +58,11 @@ class PHPSpecPlugin extends Plugin
     public function getTestFilePattern()
     {
         return self::$TEST_FILE_PATTERN;
+    }
+
+    public function getTestClassSuperTypes()
+    {
+        return self::$TEST_CLASS_SUPER_TYPES;
     }
 
     protected function defineFeatures()

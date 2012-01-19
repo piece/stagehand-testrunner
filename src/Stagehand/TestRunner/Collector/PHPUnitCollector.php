@@ -54,8 +54,6 @@ use Stagehand\TestRunner\TestSuite\PHPUnitMethodFilterTestSuite;
  */
 class PHPUnitCollector extends Collector
 {
-    protected $superTypes = array('PHPUnit_Framework_TestCase');
-
     /**
      * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
      * @since Property available since Release 3.0.0

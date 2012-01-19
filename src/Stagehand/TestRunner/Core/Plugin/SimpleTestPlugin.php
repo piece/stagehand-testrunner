@@ -48,6 +48,7 @@ class SimpleTestPlugin extends Plugin
 {
     private static $PLUGIN_ID = 'SimpleTest';
     private static $TEST_FILE_PATTERN = 'Test(?:Case)?\.php$';
+    private static $TEST_CLASS_SUPER_TYPES = array('SimpleTestCase');
 
     public static function getPluginID()
     {
@@ -57,6 +58,11 @@ class SimpleTestPlugin extends Plugin
     public function getTestFilePattern()
     {
         return self::$TEST_FILE_PATTERN;
+    }
+
+    public function getTestClassSuperTypes()
+    {
+        return self::$TEST_CLASS_SUPER_TYPES;
     }
 
     protected function defineFeatures()

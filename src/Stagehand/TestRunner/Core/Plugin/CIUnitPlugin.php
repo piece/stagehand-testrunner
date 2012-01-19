@@ -48,6 +48,7 @@ class CIUnitPlugin extends PHPUnitPlugin
 {
     private static $PLUGIN_ID = 'CIUnit';
     private static $TEST_FILE_PATTERN = '^test.+\.php$';
+    private static $TEST_CLASS_SUPER_TYPES = array('CIUnit_TestCase', 'CIUnit_TestCase_Selenium');
 
     public static function getPluginID()
     {
@@ -57,6 +58,11 @@ class CIUnitPlugin extends PHPUnitPlugin
     public function getTestFilePattern()
     {
         return self::$TEST_FILE_PATTERN;
+    }
+
+    public function getTestClassSuperTypes()
+    {
+        return self::$TEST_CLASS_SUPER_TYPES;
     }
 
     protected function defineFeatures()

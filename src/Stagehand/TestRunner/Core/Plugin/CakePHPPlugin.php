@@ -48,6 +48,7 @@ class CakePHPPlugin extends SimpleTestPlugin
 {
     private static $PLUGIN_ID = 'CakePHP';
     private static $TEST_FILE_PATTERN = '\.test\.php$';
+    private static $TEST_CLASS_SUPER_TYPES = array('CakeTestCase', 'CakeWebTestCase');
 
     public static function getPluginID()
     {
@@ -57,6 +58,11 @@ class CakePHPPlugin extends SimpleTestPlugin
     public function getTestFilePattern()
     {
         return self::$TEST_FILE_PATTERN;
+    }
+
+    public function getTestClassSuperTypes()
+    {
+        return self::$TEST_CLASS_SUPER_TYPES;
     }
 
     protected function defineFeatures()

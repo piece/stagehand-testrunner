@@ -61,6 +61,11 @@ interface IPlugin
      * @return string
      */
     public function getTestFilePattern();
+
+    /**
+     * @return array
+     */
+    public function getTestClassSuperTypes();
 }
 
 /*

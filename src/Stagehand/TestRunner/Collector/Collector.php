@@ -38,6 +38,7 @@
 namespace Stagehand\TestRunner\Collector;
 
 use Stagehand\TestRunner\Collector\CollectingTypeFactory;
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Core\TestTargets;
 
@@ -52,7 +53,6 @@ use Stagehand\TestRunner\Core\TestTargets;
  */
 abstract class Collector
 {
-    protected $superTypes;
     protected $suite;
 
     /**
@@ -142,8 +142,11 @@ abstract class Collector
         if (!$this->testTargets->shouldTreatFileAsTest($file)) return;
 
         foreach ($this->findNewClasses($file) as $newClass) {
-            $collectingType = $this->collectingTypeFactory->create($newClass, $this->superTypes);
-            if ($collectingType->isTest()) {
+            $collectingTypeFactory = $this->collectingTypeFactory->create(
+                $newClass,
+                ApplicationContext::getInstance()->getPlugin()->getTestClassSuperTypes()
+            );
+            if ($collectingTypeFactory->isTest()) {
                 $this->collectTestCase($newClass);
             }
         }
