@@ -40,6 +40,7 @@ namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 use Stagehand\TestRunner\TestSuite\SimpleTestTestSuite;
+use Stagehand\TestRunner\Util\FailureTrace;
 
 /**
  * @package    Stagehand_TestRunner
@@ -239,11 +240,8 @@ class JUnitXMLReporter extends \SimpleReporter
     public function paintException(\Exception $e)
     {
         parent::paintException($e);
-        $failureTrace = $this->buildFailureTrace($e->getTrace());
         $this->writeError(
-            get_class($e) . ': ' . $e->getMessage() . PHP_EOL . PHP_EOL .
-            $e->getFile() . ':' . $e->getLine() . PHP_EOL .
-            $failureTrace,
+            get_class($e) . ': ' . $e->getMessage() . PHP_EOL . PHP_EOL . $e->getFile() . ':' . $e->getLine() . PHP_EOL . FailureTrace::buildFailureTrace($e->getTrace()),
             null,
             $e->getFile(),
             $e->getLine(),

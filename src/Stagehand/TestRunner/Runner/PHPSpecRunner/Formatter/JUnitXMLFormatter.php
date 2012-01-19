@@ -40,8 +40,10 @@ namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
 use PHPSpec\Runner\Formatter\Progress;
 use PHPSpec\Runner\ReporterEvent;
 
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 use Stagehand\TestRunner\TestSuite\PHPSpecTestSuite;
+use Stagehand\TestRunner\Util\FailureTrace;
 
 /**
  * @package    Stagehand_TestRunner
@@ -197,11 +199,12 @@ class JUnitXMLFormatter extends Progress
      */
     protected function renderFailureOrError(ReporterEvent $reporterEvent, $failureOrError)
     {
-        list($file, $line) = $this->findFileAndLineOfFailureOrError(
+        list($file, $line) = FailureTrace::findFileAndLineOfFailureOrError(
+            ApplicationContext::getInstance()->getPlugin()->getTestClassSuperTypes(),
             $reporterEvent->exception,
             new \ReflectionClass($this->testSuite->getExampleGroupClass($this->currentExampleGroupName))
         );
-        $failureTrace = $this->buildFailureTrace($reporterEvent->exception->getTrace());
+        $failureTrace = FailureTrace::buildFailureTrace($reporterEvent->exception->getTrace());
         $this->junitXMLWriter->{ 'write' . $failureOrError }(
             $reporterEvent->message . PHP_EOL . PHP_EOL . $failureTrace,
             get_class($reporterEvent->exception),
@@ -247,48 +250,6 @@ class JUnitXMLFormatter extends Progress
     {
         $elapsedTime = microtime(true) - $this->exampleStartTime;
         $this->junitXMLWriter->endTestCase($elapsedTime);
-    }
-
-    /**
-     * @param array $backtrace
-     * @return string
-     */
-    protected function buildFailureTrace(array $backtrace)
-    {
-        $failureTrace = '';
-        for ($i = 0, $count = count($backtrace); $i < $count; ++$i) {
-            if (!array_key_exists('file', $backtrace[$i])) {
-                continue;
-            }
-
-            $failureTrace .=
-                $backtrace[$i]['file'] .
-                ':' .
-                (array_key_exists('line', $backtrace[$i]) ? $backtrace[$i]['line']
-                                                          : '?') .
-                PHP_EOL;
-        }
-
-        return $failureTrace;
-    }
-
-    /**
-     * @param \Exception $e
-     * @param \ReflectionClass $class
-     * @return array
-     */
-    protected function findFileAndLineOfFailureOrError(\Exception $e, \ReflectionClass $class)
-    {
-        if ($class->getName() == 'PHPSpec\Context') return;
-        if ($e->getFile() == $class->getFileName()) {
-            return array($e->getFile(), $e->getLine());
-        }
-        foreach ($e->getTrace() as $trace) {
-            if (array_key_exists('file', $trace) && $trace['file'] == $class->getFileName()) {
-                return array($trace['file'], $trace['line']);
-            }
-        }
-        return $this->findFileAndLineOfFailureOrError($e, $class->getParentClass());
     }
 }
 

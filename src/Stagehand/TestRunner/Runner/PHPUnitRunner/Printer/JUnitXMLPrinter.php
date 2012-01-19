@@ -38,7 +38,9 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
+use Stagehand\TestRunner\Util\FailureTrace;
 
 /**
  * A result printer for PHPUnit.
@@ -213,7 +215,11 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
             $file = $testClass->getFileName();
             $line = 1;
         } else {
-            list($file, $line) = $this->findFileAndLineOfFailureOrError($e, new \ReflectionClass($test));
+            list($file, $line) = FailureTrace::findFileAndLineOfFailureOrError(
+                ApplicationContext::getInstance()->getPlugin()->getTestClassSuperTypes(),
+                $e,
+                new \ReflectionClass($test)
+            );
         }
         $trace = \PHPUnit_Util_Filter::getFilteredStacktrace($e, true);
         $this->junitXMLWriter->{ 'write' . $failureOrError }(
@@ -227,26 +233,6 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
         if ($testIsArtificial) {
             $this->endTest($test, 0);
         }
-    }
-
-    /**
-     * @param \Exception $e
-     * @param \ReflectionClass $class
-     * @return array
-     * @since Method available since Release 2.16.0
-     */
-    protected function findFileAndLineOfFailureOrError(\Exception $e, \ReflectionClass $class)
-    {
-        if ($class->getName() == 'PHPUnit_Framework_TestCase') return;
-        if ($e->getFile() == $class->getFileName()) {
-            return array($e->getFile(), $e->getLine());
-        }
-        foreach ($e->getTrace() as $trace) {
-            if (array_key_exists('file', $trace) && $trace['file'] == $class->getFileName()) {
-                return array($trace['file'], $trace['line']);
-            }
-        }
-        return $this->findFileAndLineOfFailureOrError($e, $class->getParentClass());
     }
 }
 
