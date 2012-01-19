@@ -221,8 +221,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
             get_class($e),
             $file,
             $line,
-            $message,
-            $trace
+            $message
         );
 
         if ($testIsArtificial) {
