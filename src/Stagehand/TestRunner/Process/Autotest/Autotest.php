@@ -321,7 +321,7 @@ abstract class Autotest
             $options[] = '--stop-on-failure';
         }
 
-        if ($this->testTargets->getFilePattern() != ApplicationContext::getInstance()->getPlugin()->getTestFilePattern()) {
+        if (!$this->testTargets->isDefaultFilePattern()) {
             $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargets->getFilePattern());
         }
 

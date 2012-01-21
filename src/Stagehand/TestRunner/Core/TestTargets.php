@@ -179,6 +179,14 @@ class TestTargets
     }
 
     /**
+     * @return boolean
+     */
+    public function isDefaultFilePattern()
+    {
+        return $this->getFilePattern() == ApplicationContext::getInstance()->getPlugin()->getTestFilePattern();
+    }
+
+    /**
      * @param string $file
      * @return boolean
      */
