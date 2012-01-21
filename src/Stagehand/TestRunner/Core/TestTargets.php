@@ -210,6 +210,14 @@ class TestTargets
     {
         return $this->recursivelyScans;
     }
+
+    /**
+     * @return array
+     */
+    public function getRequiredSupertypes()
+    {
+        return ApplicationContext::getInstance()->getPlugin()->getTestClassSuperTypes();
+    }
 }
 
 /*

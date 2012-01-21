@@ -39,6 +39,7 @@ namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
 
 use PHPSpec\Runner\Reporter;
 
+use Stagehand\TestRunner\Core\Plugin\PluginAwareFactory;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
 use Stagehand\TestRunner\TestSuite\PHPSpecTestSuite;
 use Stagehand\TestRunner\Util\StreamWriter;
@@ -50,7 +51,7 @@ use Stagehand\TestRunner\Util\StreamWriter;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class JUnitXMLFormatterFactory
+class JUnitXMLFormatterFactory extends PluginAwareFactory
 {
     /**
      * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
@@ -63,9 +64,9 @@ class JUnitXMLFormatterFactory
      * @param \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite $testSuite
      * @return \Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatter
      */
-    public function create(StreamWriter $streamWriter, Reporter $reporter, PHPSpecTestSuite $testSuite)
+    public function create(StreamWriter $streamWriter = null, Reporter $reporter = null, PHPSpecTestSuite $testSuite = null)
     {
-        $junitXMLFormatter = new JUnitXMLFormatter($reporter);
+        $junitXMLFormatter = parent::create();
         $junitXMLFormatter->setJUnitXMLWriter($this->junitXMLWriterFactory->create($streamWriter));
         $junitXMLFormatter->setTestSuite($testSuite);
         return $junitXMLFormatter;

@@ -38,6 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
+use Stagehand\TestRunner\Core\ComponentAwareFactory;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
 use Stagehand\TestRunner\Util\StreamWriter;
 
@@ -49,7 +50,7 @@ use Stagehand\TestRunner\Util\StreamWriter;
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
-class JUnitXMLPrinterFactory
+class JUnitXMLPrinterFactory extends ComponentAwareFactory
 {
     /**
      * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
@@ -60,9 +61,9 @@ class JUnitXMLPrinterFactory
      * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
      * @return \PHPUnit_Util_Printer
      */
-    public function create(StreamWriter $streamWriter)
+    public function create(StreamWriter $streamWriter = null)
     {
-        $junitXMLPrinter = new JUnitXMLPrinter();
+        $junitXMLPrinter = parent::create();
         $junitXMLPrinter->setJUnitXMLWriter($this->junitXMLWriterFactory->create($streamWriter));
         return $junitXMLPrinter;
     }

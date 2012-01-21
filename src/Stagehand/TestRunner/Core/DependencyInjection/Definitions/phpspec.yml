@@ -24,6 +24,7 @@
 
 parameters:
   stagehand_testrunner.phpspec.runner.class: "Stagehand\\TestRunner\\Runner\\PHPSpecRunner"
+  stagehand_testrunner.phpspec.junit_xml_formatter_factory.class: "Stagehand\\TestRunner\\Runner\\PHPSpecRunner\\Formatter\\JUnitXMLFormatterFactory"
 
 services:
   stagehand_testrunner.phpspec.autotest:
@@ -42,9 +43,18 @@ services:
       - [ setJUnitXMLFormatterFactory, [ "@stagehand_testrunner.phpspec.junit_xml_formatter_factory" ] ]
       - [ setReporter, [ "@stagehand_testrunner.phpspec.reporter" ] ]
   stagehand_testrunner.phpspec.junit_xml_formatter_factory:
-    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory
+    class: "%stagehand_testrunner.phpspec.junit_xml_formatter_factory.class%"
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
+    factory_method: create
+    arguments: [ "junit_xml_formatter", "%stagehand_testrunner.phpspec.junit_xml_formatter_factory.class%" ]
     calls:
       - [ setJUnitXMLWriterFactory, [ "@stagehand_testrunner.junit_xml_writer_factory" ] ]
+  stagehand_testrunner.phpspec.junit_xml_formatter:
+    scope: prototype
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatter
+    arguments: [ "@stagehand_testrunner.phpspec.reporter" ]
+    calls:
+      - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
   stagehand_testrunner.phpspec.reporter:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter
 
