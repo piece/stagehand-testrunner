@@ -54,16 +54,6 @@ use Stagehand\TestRunner\Runner\Runner;
 class ProgressFormatter implements Formatter
 {
     /**
-     * @var \Stagehand\TestRunner\Runner\Runner
-     */
-    protected $runner;
-
-    /**
-     * @var \PHPSpec\Runner\Reporter
-     */
-    protected $reporter;
-
-    /**
      * @var \PHPSpec\Runner\Formatter
      */
     protected $formatter;
@@ -84,11 +74,9 @@ class ProgressFormatter implements Formatter
      */
     public function __construct(Reporter $reporter, Runner $runner)
     {
-        $this->runner = $runner;
-        $this->reporter = $reporter;
-        $this->formatter = $this->runner->printsDetailedProgressReport()
-            ? new Documentation($this->reporter)
-            : new Progress($this->reporter);
+        $this->formatter = $runner->printsDetailedProgressReport()
+            ? new Documentation($reporter)
+            : new Progress($reporter);
     }
 
     public function update(\SplSubject $subject, $reporterEvent = null)
