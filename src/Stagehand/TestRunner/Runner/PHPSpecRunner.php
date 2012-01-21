@@ -41,9 +41,9 @@ namespace Stagehand\TestRunner\Runner;
 use PHPSpec\Runner\ReporterEvent;
 use PHPSpec\World;
 
+use Stagehand\TestRunner\Core\IComponentAwareFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory;
-use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatter;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\SpecLoaderFactory;
 
@@ -72,6 +72,12 @@ class PHPSpecRunner extends Runner
     protected $reporter;
 
     /**
+     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @since Property available since Release 3.0.0
+     */
+    protected $notificationFormatterFactory;
+
+    /**
      * Runs tests based on the given array.
      *
      * @param \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite $suite
@@ -83,9 +89,7 @@ class PHPSpecRunner extends Runner
         $options['c'] = $this->terminal->colors();
 
         if ($this->usesNotification()) {
-            $notificationFormatter = new NotificationFormatter($this->reporter);
-            $notificationFormatter->setRunner($this);
-            $this->reporter->addFormatter($notificationFormatter);
+            $this->reporter->addFormatter($this->notificationFormatterFactory->create());
         }
 
         if ($this->logsResultsInJUnitXML) {
@@ -110,7 +114,7 @@ class PHPSpecRunner extends Runner
         $this->reporter->notify(new ReporterEvent('exit', '', ''));
 
         if ($this->usesNotification()) {
-            $this->notification = $notificationFormatter->getNotification();
+            $this->notification = $this->notificationFormatterFactory->create()->getNotification();
         }
     }
 
@@ -130,6 +134,15 @@ class PHPSpecRunner extends Runner
     public function setReporter(Reporter $reporter)
     {
         $this->reporter = $reporter;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $notificationFormatterFactory
+     * @since Method available since Release 3.0.0
+     */
+    public function setNotificationFormatterFactory(IComponentAwareFactory $notificationFormatterFactory)
+    {
+        $this->notificationFormatterFactory = $notificationFormatterFactory;
     }
 }
 

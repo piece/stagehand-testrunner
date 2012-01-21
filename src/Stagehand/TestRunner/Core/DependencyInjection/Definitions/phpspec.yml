@@ -42,6 +42,7 @@ services:
     calls:
       - [ setJUnitXMLFormatterFactory, [ "@stagehand_testrunner.phpspec.junit_xml_formatter_factory" ] ]
       - [ setReporter, [ "@stagehand_testrunner.phpspec.reporter" ] ]
+      - [ setNotificationFormatterFactory, [ "@stagehand_testrunner.phpspec.notification_formatter_factory" ] ]
   stagehand_testrunner.phpspec.junit_xml_formatter_factory:
     class: "%stagehand_testrunner.phpspec.junit_xml_formatter_factory.class%"
     factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
@@ -62,6 +63,16 @@ services:
   stagehand_testrunner.phpspec.progress_formatter:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter
     arguments: [ "@stagehand_testrunner.phpspec.runner", "@stagehand_testrunner.phpspec.reporter" ]
+  stagehand_testrunner.phpspec.notification_formatter_factory:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatterFactory
+    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
+    factory_method: create
+    arguments: [ "notification_formatter", "%stagehand_testrunner.plugin_aware_factory.class%" ]
+  stagehand_testrunner.phpspec.notification_formatter:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatter
+    arguments: [ "@stagehand_testrunner.phpspec.reporter" ]
+    calls:
+      - [ setRunner, [ "@stagehand_testrunner.phpspec.runner" ] ]
 
 # Local Variables:
 # mode: conf
