@@ -37,11 +37,11 @@
 
 require __DIR__ . '/../preload.php';
 
-set_include_path(
-    __DIR__ . PATH_SEPARATOR .
-    __DIR__ . '/../examples' . PATH_SEPARATOR .
-    get_include_path()
-);
+set_include_path(implode(PATH_SEPARATOR, array(
+    __DIR__,
+    __DIR__ . '/../examples',
+    get_include_path(),
+)));
 
 require_once 'Phake.php';
 require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
