@@ -46,7 +46,7 @@ namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
  */
 class Example extends \PHPSpec\Specification\Example
 {
-    public function run (\PHPSpec\Runner\Reporter $reporter)
+    public function run(\PHPSpec\Runner\Reporter $reporter)
     {
         $reporter->exampleStarted($this);
         parent::run($reporter);
