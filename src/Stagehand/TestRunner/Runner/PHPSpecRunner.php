@@ -62,6 +62,7 @@ class PHPSpecRunner extends Runner
 {
     /**
      * @var \Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory
+     * @since Property available since Release 3.0.0
      */
     protected $junitXMLFormatterFactory;
 
@@ -119,6 +120,7 @@ class PHPSpecRunner extends Runner
 
     /**
      * @param \Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory $junitXMLFormatterFactory
+     * @since Method available since Release 3.0.0
      */
     public function setJUnitXMLFormatterFactory(JUnitXMLFormatterFactory $junitXMLFormatterFactory)
     {
