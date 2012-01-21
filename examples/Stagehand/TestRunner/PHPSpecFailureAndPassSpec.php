@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,50 +29,35 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Plugin;
+namespace Stagehand\TestRunner;
+
+use PHPSpec\Context;
 
 /**
+ * TestCase for the PHPSpec runner.
+ *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPSpecPlugin extends Plugin
+class DescribePhpSpecFailureAndPass extends Context
 {
-    private static $PLUGIN_ID = 'PHPSpec';
-    private static $TEST_FILE_PATTERN = 'Spec\.php$';
-    private static $TEST_CLASS_SUPER_TYPES = array('PHPSpec\Context');
-
-    public static function getPluginID()
+    public function itShouldBeFailure()
     {
-        return self::$PLUGIN_ID;
+        $this->spec(false)->should->beTrue();
     }
 
-    public function getTestFilePattern()
+    public function itShouldPass()
     {
-        return self::$TEST_FILE_PATTERN;
-    }
-
-    public function getTestClassSuperTypes()
-    {
-        return self::$TEST_CLASS_SUPER_TYPES;
-    }
-
-    protected function defineFeatures()
-    {
-        $this->addFeature('color');
-        $this->addFeature('autotest');
-        $this->addFeature('notify');
-        $this->addFeature('detailed_progress');
-        $this->addFeature('junit_xml');
-        $this->addFeature('stop_on_failure');
+        $this->spec(true)->should->beTrue();
     }
 }
 

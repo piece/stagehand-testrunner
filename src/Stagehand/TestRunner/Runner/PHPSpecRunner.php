@@ -87,6 +87,7 @@ class PHPSpecRunner extends Runner
         $options = array();
         $options['specFile'] = $suite;
         $options['c'] = $this->terminal->colors();
+        $options['failfast'] = $this->stopsOnFailure();
 
         if ($this->usesNotification()) {
             $this->reporter->addFormatter($this->notificationFormatterFactory->create());
