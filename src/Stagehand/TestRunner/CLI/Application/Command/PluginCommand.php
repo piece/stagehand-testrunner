@@ -107,7 +107,7 @@ PHP_EOL .
             $this->addOption('log-junit-realtime', null, InputOption::VALUE_NONE, 'Logs test results in real-time into the specified file in the JUnit XML format.');
         }
 
-        $this->addOption('test-file-pattern', null, InputOption::VALUE_REQUIRED, 'The regular expression pattern for test files <comment>(default: ' . $this->getPlugin()->getTestFilePattern() . ')</comment');
+        $this->addOption('test-file-pattern', null, InputOption::VALUE_REQUIRED, 'The regular expression pattern for test files <comment>(default: ' . $this->getPlugin()->getTestFilePattern() . ')</comment>');
 
         if ($this->getPlugin()->hasFeature('test_methods')) {
             $this->addOption('test-method', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'The test method to be run');
