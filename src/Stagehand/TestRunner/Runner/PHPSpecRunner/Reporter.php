@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
 
 use PHPSpec\Runner\ReporterEvent;
-use PHPSpec\Specification\Example;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,12 +48,12 @@ use PHPSpec\Specification\Example;
  */
 class Reporter extends \PHPSpec\Runner\Cli\Reporter
 {
-    public function exampleStarted(Example $example)
+    public function exampleStarted(\PHPSpec\Specification\Example $example)
     {
         $this->notify(new ReporterEvent('exampleStart', '', $example->getSpecificationText()));
     }
 
-    public function exampleFinished(Example $example)
+    public function exampleFinished(\PHPSpec\Specification\Example $example)
     {
         $this->notify(new ReporterEvent('exampleFinish', '', $example->getSpecificationText()));
     }
