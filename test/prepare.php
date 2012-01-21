@@ -35,13 +35,11 @@
  * @since      File available since Release 2.10.0
  */
 
-error_reporting(error_reporting() & ~E_STRICT & ~E_DEPRECATED);
+require __DIR__ . '/../preload.php';
 
 set_include_path(
     __DIR__ . PATH_SEPARATOR .
     __DIR__ . '/../examples' . PATH_SEPARATOR .
-    __DIR__ . '/../src' . PATH_SEPARATOR .
-    __DIR__ . '/../vendor/symfony/src' . PATH_SEPARATOR .
     get_include_path()
 );
 
