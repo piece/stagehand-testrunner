@@ -62,7 +62,7 @@ services:
       - [ addFormatter, [ "@stagehand_testrunner.phpspec.progress_formatter" ] ]
   stagehand_testrunner.phpspec.progress_formatter:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter
-    arguments: [ "@stagehand_testrunner.phpspec.runner", "@stagehand_testrunner.phpspec.reporter" ]
+    arguments: [ "@stagehand_testrunner.phpspec.reporter", "@stagehand_testrunner.phpspec.runner" ]
   stagehand_testrunner.phpspec.notification_formatter_factory:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatterFactory
     factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"

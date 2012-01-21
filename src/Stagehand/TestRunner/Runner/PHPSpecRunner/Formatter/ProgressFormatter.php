@@ -79,10 +79,10 @@ class ProgressFormatter implements Formatter
     }
 
     /**
-     * @param \Stagehand\TestRunner\Runner\Runner $runner
      * @param \PHPSpec\Runner\Reporter $reporter
+     * @param \Stagehand\TestRunner\Runner\Runner $runner
      */
-    public function __construct(Runner $runner, Reporter $reporter)
+    public function __construct(Reporter $reporter, Runner $runner)
     {
         $this->runner = $runner;
         $this->reporter = $reporter;
