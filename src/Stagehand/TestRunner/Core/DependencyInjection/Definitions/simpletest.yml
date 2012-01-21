@@ -49,6 +49,7 @@ services:
     calls:
       - [ setJUnitXMLWriterFactory, [ "@stagehand_testrunner.junit_xml_writer_factory" ] ]
   stagehand_testrunner.simpletest.junit_xml_reporter:
+    scope: prototype
     class: Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporter
 
 # Local Variables:
