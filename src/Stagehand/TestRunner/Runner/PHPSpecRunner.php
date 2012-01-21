@@ -44,7 +44,6 @@ use PHPSpec\World;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatter;
-use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\SpecLoaderFactory;
 
@@ -82,8 +81,6 @@ class PHPSpecRunner extends Runner
         $options = array();
         $options['specFile'] = $suite;
         $options['c'] = $this->terminal->colors();
-
-        $this->reporter->addFormatter(new ProgressFormatter($this, $this->reporter));
 
         if ($this->usesNotification()) {
             $notificationFormatter = new NotificationFormatter($this->reporter);

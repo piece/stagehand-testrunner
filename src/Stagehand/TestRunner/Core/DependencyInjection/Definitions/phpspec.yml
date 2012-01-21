@@ -57,6 +57,11 @@ services:
       - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
   stagehand_testrunner.phpspec.reporter:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter
+    calls:
+      - [ addFormatter, [ "@stagehand_testrunner.phpspec.progress_formatter" ] ]
+  stagehand_testrunner.phpspec.progress_formatter:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter
+    arguments: [ "@stagehand_testrunner.phpspec.runner", "@stagehand_testrunner.phpspec.reporter" ]
 
 # Local Variables:
 # mode: conf
