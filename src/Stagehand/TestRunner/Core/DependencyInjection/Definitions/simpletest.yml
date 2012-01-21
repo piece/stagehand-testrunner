@@ -24,6 +24,7 @@
 
 parameters:
   stagehand_testrunner.simpletest.runner.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner"
+  stagehand_testrunner.simpletest.junit_xml_reporter_factory.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner\\JUnitXMLReporterFactory"
 
 services:
   stagehand_testrunner.simpletest.autotest:
@@ -41,10 +42,10 @@ services:
     calls:
       - [ setJUnitXMLReporterFactory, [ "@stagehand_testrunner.simpletest.junit_xml_reporter_factory" ] ]
   stagehand_testrunner.simpletest.junit_xml_reporter_factory:
-    class: Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporterFactory
+    class: "%stagehand_testrunner.simpletest.junit_xml_reporter_factory.class%"
     factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
     factory_method: create
-    arguments: [ "junit_xml_reporter", "\\Stagehand\\TestRunner\\Runner\\SimpleTestRunner\\JUnitXMLReporterFactory" ]
+    arguments: [ "junit_xml_reporter", "%stagehand_testrunner.simpletest.junit_xml_reporter_factory.class%" ]
     calls:
       - [ setJUnitXMLWriterFactory, [ "@stagehand_testrunner.junit_xml_writer_factory" ] ]
   stagehand_testrunner.simpletest.junit_xml_reporter:
