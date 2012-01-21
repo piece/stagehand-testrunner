@@ -95,7 +95,6 @@ class PHPSpecRunner extends Runner
             $this->reporter->addFormatter(
                 $this->junitXMLFormatterFactory->create(
                     $this->createStreamWriter($this->junitXMLFile),
-                    $this->reporter,
                     $suite
                 )
             );
