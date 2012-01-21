@@ -81,10 +81,15 @@ class ProgressFormatter implements Formatter
 
     public function update(\SplSubject $subject, $reporterEvent = null)
     {
-        if ($reporterEvent->event == 'exit') {
+        switch ($reporterEvent->event) {
+        case 'exit':
+            break;
+        case 'termination':
             $this->output();
-        } else {
+            break;
+        default:
             $this->formatter->update($subject, $reporterEvent);
+            break;
         }
     }
 

@@ -43,6 +43,7 @@ use PHPSpec\World;
 use Stagehand\ComponentFactory\IComponentAwareFactory;
 
 use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleFactory;
+use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleRunner;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\SpecLoaderFactory;
@@ -107,12 +108,14 @@ class PHPSpecRunner extends Runner
         $world->setReporter($this->reporter);
 
         $loader = new SpecLoaderFactory();
+        $exampleRunner = new ExampleRunner();
+        $exampleRunner->setExampleFactory(new ExampleFactory());
         $runner = new \PHPSpec\Runner\Cli\Runner();
         $runner->setLoader($loader);
-        $runner->getExampleRunner()->setExampleFactory(new ExampleFactory());
+        $runner->setExampleRunner($exampleRunner);
         $runner->run($world);
 
-        $this->reporter->notify(new ReporterEvent('exit', '', ''));
+        $this->reporter->notify(new ReporterEvent('termination', '', ''));
 
         if ($this->usesNotification()) {
             $this->notification = $this->notificationFormatterFactory->create()->getNotification();

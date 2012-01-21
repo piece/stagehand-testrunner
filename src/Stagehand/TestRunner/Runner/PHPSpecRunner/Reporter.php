@@ -57,6 +57,12 @@ class Reporter extends \PHPSpec\Runner\Cli\Reporter
     {
         $this->notify(new ReporterEvent('exampleFinish', '', $example->getSpecificationText()));
     }
+
+    public function checkFailFast()
+    {
+        return $this->getFailFast()
+            && ($this->getFailures()->count() + $this->getErrors()->count() + $this->getExceptions()->count() > 0);
+    }
 }
 
 /*

@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
 
+use PHPSpec\Specification\ExampleGroup;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
@@ -44,17 +46,15 @@ namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class Example extends \PHPSpec\Specification\Example
+class ExampleRunner extends \PHPSpec\Specification\ExampleRunner
 {
-    public function run(\PHPSpec\Runner\Reporter $reporter)
+    public function run(ExampleGroup $exampleGroup, \PHPSpec\Runner\Reporter $reporter)
     {
         if (($reporter instanceof Reporter) && $reporter->checkFailFast()) {
             return;
         }
 
-        $reporter->exampleStarted($this);
-        parent::run($reporter);
-        $reporter->exampleFinished($this);
+        parent::run($exampleGroup, $reporter);
     }
 }
 
