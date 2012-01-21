@@ -38,6 +38,7 @@
 namespace Stagehand\TestRunner\Core\Transformation;
 
 use Stagehand\TestRunner\Core\Configuration\PHPSpecConfiguration;
+use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,7 +47,7 @@ use Stagehand\TestRunner\Core\Configuration\PHPSpecConfiguration;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitTransformer extends Transformer
+class PHPSpecTransformer extends Transformer
 {
     public function transform()
     {
@@ -55,6 +56,11 @@ class PHPUnitTransformer extends Transformer
     protected function createConfiguration()
     {
         return new PHPSpecConfiguration();
+    }
+
+    protected function getParameterPrefix()
+    {
+        return strtolower(Package::PACKAGE_ID . '.' . PHPSpecPlugin::getPluginID());
     }
 }
 
