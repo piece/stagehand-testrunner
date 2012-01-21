@@ -39,6 +39,8 @@ namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
 
 use PHPSpec\Specification\ExampleGroup;
 
+use Stagehand\TestRunner\Core\TestTargets;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
@@ -48,9 +50,24 @@ use PHPSpec\Specification\ExampleGroup;
  */
 class ExampleFactory extends \PHPSpec\Specification\ExampleFactory
 {
-    public function create(ExampleGroup $exampleGroup, $example)
+    /**
+     * @var \Stagehand\TestRunner\Core\TestTargets
+     */
+    protected $testTargets;
+
+    /**
+     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     */
+    public function setTestTargets(TestTargets $testTargets)
     {
-        return new Example($exampleGroup, $example);
+        $this->testTargets = $testTargets;
+    }
+
+    public function create(ExampleGroup $exampleGroup, $exampleMethod)
+    {
+        $example = new Example($exampleGroup, $exampleMethod);
+        $example->setTestTargets($this->testTargets);
+        return $example;
     }
 }
 

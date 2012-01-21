@@ -74,6 +74,7 @@ class PHPSpecPlugin extends Plugin
         $this->addFeature('junit_xml');
         $this->addFeature('stop_on_failure');
         $this->addFeature('test_classes');
+        $this->addFeature('test_methods');
     }
 }
 

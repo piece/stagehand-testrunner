@@ -43,6 +43,7 @@ services:
       - [ setJUnitXMLFormatterFactory, [ "@phpspec.junit_xml_formatter_factory" ] ]
       - [ setReporter, [ "@phpspec.reporter" ] ]
       - [ setNotificationFormatterFactory, [ "@phpspec.notification_formatter_factory" ] ]
+      - [ setCliRunner, [ "@phpspec.cli_runner" ] ]
   phpspec.junit_xml_formatter_factory:
     class: "%phpspec.junit_xml_formatter_factory.class%"
     factory_service: component_aware_factory_factory
@@ -68,6 +69,21 @@ services:
     arguments: [ "@phpspec.reporter" ]
     calls:
       - [ setRunner, [ "@phpspec.runner" ] ]
+  phpspec.cli_runner:
+    class: PHPSpec\Runner\Cli\Runner
+    calls:
+      - [ setLoader, [ "@phpspec.spec_loader_factory" ] ]
+      - [ setExampleRunner, [ "@phpspec.example_runner" ] ]
+  phpspec.spec_loader_factory:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\SpecLoaderFactory
+  phpspec.example_runner:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleRunner
+    calls:
+      - [ setExampleFactory, [ "@phpspec.example_factory" ] ]
+  phpspec.example_factory:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleFactory
+    calls:
+      - [ setTestTargets, [ "@test_targets" ] ]
 
 # Local Variables:
 # mode: conf

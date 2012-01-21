@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
 
+use Stagehand\TestRunner\Core\TestTargets;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,9 +48,27 @@ namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
  */
 class Example extends \PHPSpec\Specification\Example
 {
+    /**
+     * @var \Stagehand\TestRunner\Core\TestTargets
+     */
+    protected $testTargets;
+
+    /**
+     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     */
+    public function setTestTargets(TestTargets $testTargets)
+    {
+        $this->testTargets = $testTargets;
+    }
+
     public function run(\PHPSpec\Runner\Reporter $reporter)
     {
         if (($reporter instanceof Reporter) && $reporter->checkFailFast()) {
+            return;
+        }
+
+        if ($this->testTargets->testsOnlySpecifiedMethods()
+            && !$this->testTargets->shouldTreatElementAsTest(get_class($this->getExampleGroup()), $this->getMethodName())) {
             return;
         }
 

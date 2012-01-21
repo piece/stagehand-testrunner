@@ -44,12 +44,9 @@ use PHPSpec\Runner\ReporterEvent;
 use PHPSpec\World;
 use Stagehand\ComponentFactory\IComponentAwareFactory;
 
-use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleFactory;
-use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleRunner;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter;
-use Stagehand\TestRunner\Runner\PHPSpecRunner\SpecLoaderFactory;
 
 /**
  * A test runner for PHPSpec.
@@ -80,6 +77,12 @@ class PHPSpecRunner extends Runner
      * @since Property available since Release 3.0.0
      */
     protected $notificationFormatterFactory;
+
+    /**
+     * @var \PHPSpec\Runner\Cli\Runner
+     * @since Method available since Release 3.0.0
+     */
+    protected $cliRunner;
 
     /**
      * Runs tests based on the given array.
@@ -115,15 +118,7 @@ class PHPSpecRunner extends Runner
         $world = new World();
         $world->setOptions($options);
         $world->setReporter($this->reporter);
-
-        $loader = new SpecLoaderFactory();
-        $exampleRunner = new ExampleRunner();
-        $exampleRunner->setExampleFactory(new ExampleFactory());
-        $runner = new \PHPSpec\Runner\Cli\Runner();
-        $runner->setLoader($loader);
-        $runner->setExampleRunner($exampleRunner);
-        $runner->run($world);
-
+        $this->cliRunner->run($world);
         $this->reporter->notify(new ReporterEvent('termination', '', ''));
 
         if ($this->usesNotification()) {
@@ -156,6 +151,15 @@ class PHPSpecRunner extends Runner
     public function setNotificationFormatterFactory(IComponentAwareFactory $notificationFormatterFactory)
     {
         $this->notificationFormatterFactory = $notificationFormatterFactory;
+    }
+
+    /**
+     * @param \PHPSpec\Runner\Cli\Runner $cliRunner
+     * @since Method available since Release 3.0.0
+     */
+    public function setCliRunner(\PHPSpec\Runner\Cli\Runner $cliRunner)
+    {
+        $this->cliRunner = $cliRunner;
     }
 }
 

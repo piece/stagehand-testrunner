@@ -105,14 +105,23 @@ class PHPSpecTestSuite
             }
         }
 
-        $exampleGroup = $exampleGroupClass->newInstance();
-        $this->exampleGroups[] = $exampleGroup;
-        $this->examplesByGroup[ get_class($exampleGroup) ] = array();
-
+        $examples = array();
         foreach ($exampleGroupClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $exampleMethod) { /* @var $exampleMethod \ReflectionMethod */
             if (strtolower(substr($exampleMethod->getName(), 0, 2)) == 'it') {
-                $this->examplesByGroup[ get_class($exampleGroup) ][] = $exampleMethod;
+                if ($this->testTargets->testsOnlySpecifiedMethods()) {
+                    if (!$this->testTargets->shouldTreatElementAsTest($exampleGroupClass->getName(), $exampleMethod->getName())) {
+                        continue;
+                    }
+                }
+
+                $examples[] = $exampleMethod;
             }
+        }
+
+        if (count($examples) > 0) {
+            $exampleGroup = $exampleGroupClass->newInstance();
+            $this->exampleGroups[] = $exampleGroup;
+            $this->examplesByGroup[ get_class($exampleGroup) ] = $examples;
         }
     }
 
