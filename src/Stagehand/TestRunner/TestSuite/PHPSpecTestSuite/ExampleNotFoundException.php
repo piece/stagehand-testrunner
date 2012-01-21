@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-nnamespace Stagehand\TestRunner\TestSuite\PHPSpecTestSuite;
+namespace Stagehand\TestRunner\TestSuite\PHPSpecTestSuite;
 
 use Stagehand\TestRunner\Core\Exception;
 
