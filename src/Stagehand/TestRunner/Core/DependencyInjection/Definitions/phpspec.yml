@@ -40,10 +40,13 @@ services:
     class: "%stagehand_testrunner.phpspec.runner.class%"
     calls:
       - [ setJUnitXMLFormatterFactory, [ "@stagehand_testrunner.phpspec.junit_xml_formatter_factory" ] ]
+      - [ setReporter, [ "@stagehand_testrunner.phpspec.reporter" ] ]
   stagehand_testrunner.phpspec.junit_xml_formatter_factory:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory
     calls:
       - [ setJUnitXMLWriterFactory, [ "@stagehand_testrunner.junit_xml_writer_factory" ] ]
+  stagehand_testrunner.phpspec.reporter:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter
 
 # Local Variables:
 # mode: conf

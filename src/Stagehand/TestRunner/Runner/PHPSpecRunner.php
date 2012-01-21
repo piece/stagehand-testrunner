@@ -66,6 +66,12 @@ class PHPSpecRunner extends Runner
     protected $junitXMLFormatterFactory;
 
     /**
+     * @var \Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter
+     * @since Property available since Release 3.0.0
+     */
+    protected $reporter;
+
+    /**
      * Runs tests based on the given array.
      *
      * @param \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite $suite
@@ -76,20 +82,19 @@ class PHPSpecRunner extends Runner
         $options['specFile'] = $suite;
         $options['c'] = $this->terminal->colors();
 
-        $reporter = new Reporter();
-        $reporter->addFormatter(new ProgressFormatter($this, $reporter));
+        $this->reporter->addFormatter(new ProgressFormatter($this, $this->reporter));
 
         if ($this->usesNotification()) {
-            $notificationFormatter = new NotificationFormatter($reporter);
+            $notificationFormatter = new NotificationFormatter($this->reporter);
             $notificationFormatter->setRunner($this);
-            $reporter->addFormatter($notificationFormatter);
+            $this->reporter->addFormatter($notificationFormatter);
         }
 
         if ($this->logsResultsInJUnitXML) {
-            $reporter->addFormatter(
+            $this->reporter->addFormatter(
                 $this->junitXMLFormatterFactory->create(
                     $this->createStreamWriter($this->junitXMLFile),
-                    $reporter,
+                    $this->reporter,
                     $suite
                 )
             );
@@ -97,7 +102,7 @@ class PHPSpecRunner extends Runner
 
         $world = new World();
         $world->setOptions($options);
-        $world->setReporter($reporter);
+        $world->setReporter($this->reporter);
 
         $loader = new SpecLoaderFactory();
         $runner = new \PHPSpec\Runner\Cli\Runner();
@@ -105,7 +110,7 @@ class PHPSpecRunner extends Runner
         $runner->getExampleRunner()->setExampleFactory(new ExampleFactory());
         $runner->run($world);
 
-        $reporter->notify(new ReporterEvent('exit', '', ''));
+        $this->reporter->notify(new ReporterEvent('exit', '', ''));
 
         if ($this->usesNotification()) {
             $this->notification = $notificationFormatter->getNotification();
@@ -118,6 +123,15 @@ class PHPSpecRunner extends Runner
     public function setJUnitXMLFormatterFactory(JUnitXMLFormatterFactory $junitXMLFormatterFactory)
     {
         $this->junitXMLFormatterFactory = $junitXMLFormatterFactory;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter $reporter
+     * @since Method available since Release 3.0.0
+     */
+    public function setReporter(Reporter $reporter)
+    {
+        $this->reporter = $reporter;
     }
 }
 
