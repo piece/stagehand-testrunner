@@ -73,6 +73,7 @@ class PHPSpecPlugin extends Plugin
         $this->addFeature('detailed_progress');
         $this->addFeature('junit_xml');
         $this->addFeature('stop_on_failure');
+        $this->addFeature('test_classes');
     }
 }
 

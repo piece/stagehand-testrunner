@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2007-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,74 +29,60 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpspec.org/
- * @since      File available since Release 2.1.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Collector;
+namespace Stagehand\TestRunner;
 
-use Stagehand\TestRunner\TestSuite\PHPSpecTestSuite;
+use PHPSpec\Context;
 
 /**
- * A test collector for PHPSpec.
- *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @link       http://www.phpspec.org/
- * @since      Class available since Release 2.1.0
+ * @since      Class available since Release 3.0.0
  */
-class PHPSpecCollector extends Collector
+class DescribePhpSpecMultipleClasses1 extends Context
 {
-    /**
-     * @param string $testCase
-     * @since Method available since Release 2.11.0
-     */
-    public function collectTestCase($testCase)
+    public function itShouldPass1()
     {
-        $specClass = new \ReflectionClass($testCase);
-        if ($specClass->isAbstract()) return;
-
-        if ($this->testTargets->testsOnlySpecifiedElements()) {
-            $this->addOnlySpecifiedExamples($specClass);
-        } else {
-            $this->suite->addExampleGroup($specClass->newInstance());
-        }
+        $this->spec(true)->should->beTrue();
     }
 
-    /**
-     * Creates the test suite object.
-     *
-     * @param string $name
-     * @return \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite
-     */
-    protected function createTestSuite($name)
+    public function itShouldPass2()
     {
-        return new PHPSpecTestSuite($name);
+        $this->spec(true)->should->beTrue();
+    }
+}
+
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 3.0.0
+ */
+class DescribePhpSpecMultipleClasses2 extends Context
+{
+    public function itShouldPass1()
+    {
+        $this->spec(true)->should->beTrue();
     }
 
-    /**
-     * @param \ReflectionClass $specClass
-     * @since Method available since Release 3.0.0
-     */
-    protected function addOnlySpecifiedExamples(\ReflectionClass $specClass)
+    public function itShouldPass2()
     {
-        if ($this->testTargets->testsOnlySpecifiedClasses()) {
-            if ($this->testTargets->shouldTreatElementAsTest($specClass->getName())) {
-                $this->suite->addExampleGroup($specClass->newInstance());
-            }
-        }
+        $this->spec(true)->should->beTrue();
     }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil
