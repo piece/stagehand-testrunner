@@ -49,7 +49,7 @@ use Stagehand\TestRunner\Core\LegacyProxy;
 class CollectingType
 {
     protected $type;
-    protected $expectedSuperTypes = array();
+    protected $requiredSuperTypes = array();
 
     /**
      * @var \Stagehand\TestRunner\Core\LegacyProxy
@@ -62,11 +62,11 @@ class CollectingType
      */
     public function isTest()
     {
-        if (in_array($this->type, $this->expectedSuperTypes)) {
+        if (in_array($this->type, $this->requiredSuperTypes)) {
             return false;
         } else {
-            foreach ($this->expectedSuperTypes as $expectedSuperType) {
-                if ($this->isSubTypeOfExpectedSuperType($this->type, $expectedSuperType)) {
+            foreach ($this->requiredSuperTypes as $expectedSuperType) {
+                if ($this->isSubTypeOfRequiredSuperType($this->type, $expectedSuperType)) {
                     return true;
                 }
             }
@@ -93,19 +93,19 @@ class CollectingType
     }
 
     /**
-     * @param array $expectedSuperTypes
+     * @param array $requiredSuperTypes
      * @since Method available since Release 3.0.0
      */
-    public function setExpectedSuperTypes(array $expectedSuperTypes)
+    public function setRequiredSuperTypes(array $requiredSuperTypes)
     {
-        $this->expectedSuperTypes = $expectedSuperTypes;
+        $this->requiredSuperTypes = $requiredSuperTypes;
     }
 
     /**
      * @param string $type
      * @param string $expectedSuperType
      */
-    protected function isSubTypeOfExpectedSuperType($type, $expectedSuperType)
+    protected function isSubTypeOfRequiredSuperType($type, $expectedSuperType)
     {
         return $this->legacyProxy->is_subclass_of($type, $expectedSuperType);
     }

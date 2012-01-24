@@ -52,15 +52,15 @@ class CollectingTypeTest extends PHPUnitFactoryAwareTestCase
      * @test
      * @dataProvider typeToResultMap
      * @param string $type
-     * @param boolean $isSubTypeOfExpectedType
+     * @param boolean $isSubTypeOfRequiredSuperType
      * @param boolean $isTest
      * @link http://redmine.piece-framework.com/issues/347
      */
-    public function tellsWhetherATypeIsATest($type, $isSubTypeOfExpectedType, $isTest)
+    public function tellsWhetherATypeIsATest($type, $isSubTypeOfRequiredSuperType, $isTest)
     {
         $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
         \Phake::when($legacyProxy)->is_subclass_of($this->anything(), $this->anything())
-            ->thenReturn($isSubTypeOfExpectedType);
+            ->thenReturn($isSubTypeOfRequiredSuperType);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
         $collectingType = $this->applicationContext->createComponent('collecting_type_factory')->create(
             $type, array('PHPSpec\Specification\ExampleGroup', 'PHPSpec\Context')
