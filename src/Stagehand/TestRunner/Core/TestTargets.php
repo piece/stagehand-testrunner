@@ -214,7 +214,7 @@ class TestTargets
     /**
      * @return array
      */
-    public function getRequiredSupertypes()
+    public function getRequiredSuperTypes()
     {
         return ApplicationContext::getInstance()->getPlugin()->getTestClassSuperTypes();
     }

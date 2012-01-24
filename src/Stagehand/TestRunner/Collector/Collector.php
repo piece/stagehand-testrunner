@@ -144,7 +144,7 @@ abstract class Collector
         foreach ($this->findNewClasses($file) as $newClass) {
             $collectingTypeFactory = $this->collectingTypeFactory->create(
                 $newClass,
-                $this->testTargets->getRequiredSupertypes()
+                $this->testTargets->getRequiredSuperTypes()
             );
             if ($collectingTypeFactory->isTest()) {
                 $this->collectTestCase($newClass);

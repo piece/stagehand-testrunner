@@ -231,7 +231,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
             $line = 1;
         } else {
             list($file, $line) = FailureTrace::findFileAndLineOfFailureOrError(
-                $this->testTargets->getRequiredSupertypes(),
+                $this->testTargets->getRequiredSuperTypes(),
                 $e,
                 new \ReflectionClass($test)
             );
