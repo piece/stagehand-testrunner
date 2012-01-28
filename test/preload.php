@@ -49,7 +49,7 @@ require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
 $bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
 $bootstrap->prepareClassLoader();
 
-\Phake::setClient(Phake::CLIENT_PHPUNIT);
+\Phake::setClient(\Phake::CLIENT_PHPUNIT);
 \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
 
 \Stagehand\TestRunner\Test\TestEnvironment::earlyInitialize();
