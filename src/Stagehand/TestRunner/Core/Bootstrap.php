@@ -37,7 +37,10 @@
 
 namespace Stagehand\TestRunner\Core;
 
-require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
+// Does not load UniversalClassLoader.php if the UniversalClassLoader class has already been defined.
+if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) {
+    require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
+}
 
 /**
  * @package    Stagehand_TestRunner
