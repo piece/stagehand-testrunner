@@ -62,7 +62,7 @@ class CakePHPTransformer extends Transformer
 
     protected function getParameterPrefix()
     {
-        return strtolower(CakePHPPlugin::getPluginID());
+        return CakePHPPlugin::getPluginID();
     }
 }
 

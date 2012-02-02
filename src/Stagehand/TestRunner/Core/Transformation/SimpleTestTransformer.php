@@ -60,7 +60,7 @@ class SimpleTestTransformer extends Transformer
 
     protected function getParameterPrefix()
     {
-        return strtolower(SimpleTestPlugin::getPluginID());
+        return SimpleTestPlugin::getPluginID();
     }
 }
 

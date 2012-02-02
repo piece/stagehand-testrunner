@@ -94,7 +94,7 @@ abstract class Transformer
     {
         $parameterPrefix = $this->getParameterPrefix();
         $this->container->setParameter(
-            (strlen($parameterPrefix) > 0 ? ($parameterPrefix . '.') : '') . $name,
+            (strlen($parameterPrefix) > 0 ? (strtolower($parameterPrefix) . '.') : '') . $name,
             $value
         );
     }

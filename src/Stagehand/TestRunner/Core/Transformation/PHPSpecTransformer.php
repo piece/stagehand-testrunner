@@ -60,7 +60,7 @@ class PHPSpecTransformer extends Transformer
 
     protected function getParameterPrefix()
     {
-        return strtolower(PHPSpecPlugin::getPluginID());
+        return PHPSpecPlugin::getPluginID();
     }
 }
 

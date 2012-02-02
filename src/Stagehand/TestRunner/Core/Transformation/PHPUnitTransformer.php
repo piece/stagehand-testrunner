@@ -61,7 +61,7 @@ class PHPUnitTransformer extends Transformer
 
     protected function getParameterPrefix()
     {
-        return strtolower(PHPUnitPlugin::getPluginID());
+        return PHPUnitPlugin::getPluginID();
     }
 }
 

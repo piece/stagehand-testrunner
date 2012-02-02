@@ -61,7 +61,7 @@ class CIUnitTransformer extends Transformer
 
     protected function getParameterPrefix()
     {
-        return strtolower(CIUnitPlugin::getPluginID());
+        return CIUnitPlugin::getPluginID();
     }
 }
 
