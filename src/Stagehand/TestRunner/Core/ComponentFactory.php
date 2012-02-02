@@ -85,7 +85,7 @@ class ComponentFactory
      */
     protected function resolveServiceID($componentID)
     {
-        return Package::PACKAGE_ID . '.' . $componentID;
+        return $componentID;
     }
 }
 

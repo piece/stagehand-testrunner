@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Core\Transformation;
 
 use Stagehand\TestRunner\Core\Configuration\PHPUnitConfiguration;
-use Stagehand\TestRunner\Core\Package;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 
 /**
@@ -62,7 +61,7 @@ class PHPUnitTransformer extends Transformer
 
     protected function getParameterPrefix()
     {
-        return strtolower(Package::PACKAGE_ID . '.' . PHPUnitPlugin::getPluginID());
+        return strtolower(PHPUnitPlugin::getPluginID());
     }
 }
 

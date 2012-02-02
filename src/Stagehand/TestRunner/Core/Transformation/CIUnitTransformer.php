@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Core\Transformation;
 
 use Stagehand\TestRunner\Core\Configuration\CIUnitConfiguration;
-use Stagehand\TestRunner\Core\Package;
 use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
 
 /**
@@ -62,7 +61,7 @@ class CIUnitTransformer extends Transformer
 
     protected function getParameterPrefix()
     {
-        return strtolower(Package::PACKAGE_ID . '.' . CIUnitPlugin::getPluginID());
+        return strtolower(CIUnitPlugin::getPluginID());
     }
 }
 

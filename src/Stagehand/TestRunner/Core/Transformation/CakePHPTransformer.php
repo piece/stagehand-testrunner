@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Core\Transformation;
 
 use Stagehand\TestRunner\Core\Configuration\CakePHPConfiguration;
-use Stagehand\TestRunner\Core\Package;
 use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
 
 /**
@@ -63,7 +62,7 @@ class CakePHPTransformer extends Transformer
 
     protected function getParameterPrefix()
     {
-        return strtolower(Package::PACKAGE_ID . CakePHPPlugin::getPluginID());
+        return strtolower(CakePHPPlugin::getPluginID());
     }
 }
 

@@ -23,32 +23,32 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
-  stagehand_testrunner.simpletest.runner.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner"
-  stagehand_testrunner.simpletest.junit_xml_reporter_factory.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner\\JUnitXMLReporterFactory"
+  simpletest.runner.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner"
+  simpletest.junit_xml_reporter_factory.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner\\JUnitXMLReporterFactory"
 
 services:
-  stagehand_testrunner.simpletest.autotest:
-    parent: stagehand_testrunner.autotest
+  simpletest.autotest:
+    parent: autotest
     class: Stagehand\TestRunner\Process\Autotest\SimpleTestAutotest
-  stagehand_testrunner.simpletest.preparer:
-    parent: stagehand_testrunner.preparer
+  simpletest.preparer:
+    parent: preparer
     class: Stagehand\TestRunner\Preparer\SimpleTestPreparer
-  stagehand_testrunner.simpletest.collector:
-    parent: stagehand_testrunner.collector
+  simpletest.collector:
+    parent: collector
     class: Stagehand\TestRunner\Collector\SimpleTestCollector
-  stagehand_testrunner.simpletest.runner:
-    parent: stagehand_testrunner.runner
-    class: "%stagehand_testrunner.simpletest.runner.class%"
+  simpletest.runner:
+    parent: runner
+    class: "%simpletest.runner.class%"
     calls:
-      - [ setJUnitXMLReporterFactory, [ "@stagehand_testrunner.simpletest.junit_xml_reporter_factory" ] ]
-  stagehand_testrunner.simpletest.junit_xml_reporter_factory:
-    class: "%stagehand_testrunner.simpletest.junit_xml_reporter_factory.class%"
-    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
+      - [ setJUnitXMLReporterFactory, [ "@simpletest.junit_xml_reporter_factory" ] ]
+  simpletest.junit_xml_reporter_factory:
+    class: "%simpletest.junit_xml_reporter_factory.class%"
+    factory_class: "%component_aware_factory_factory.class%"
     factory_method: create
-    arguments: [ "junit_xml_reporter", "%stagehand_testrunner.simpletest.junit_xml_reporter_factory.class%" ]
+    arguments: [ "junit_xml_reporter", "%simpletest.junit_xml_reporter_factory.class%" ]
     calls:
-      - [ setJUnitXMLWriterFactory, [ "@stagehand_testrunner.junit_xml_writer_factory" ] ]
-  stagehand_testrunner.simpletest.junit_xml_reporter:
+      - [ setJUnitXMLWriterFactory, [ "@junit_xml_writer_factory" ] ]
+  simpletest.junit_xml_reporter:
     scope: prototype
     class: Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporter
 

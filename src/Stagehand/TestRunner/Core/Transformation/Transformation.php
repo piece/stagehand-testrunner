@@ -42,7 +42,6 @@ use Symfony\Component\Yaml\Yaml;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
-use Stagehand\TestRunner\Core\Package;
 use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 use Stagehand\TestRunner\Util\String;
 
@@ -116,9 +115,9 @@ class Transformation
             $transformer->transform();
         }
 
-        if (is_null($this->container->getParameter(Package::PACKAGE_ID . '.' . 'test_file_pattern'))) {
+        if (is_null($this->container->getParameter('test_file_pattern'))) {
             $this->container->setParameter(
-                Package::PACKAGE_ID . '.' . 'test_file_pattern',
+                'test_file_pattern',
                 ApplicationContext::getInstance()->getPlugin()->getTestFilePattern()
             );
         }

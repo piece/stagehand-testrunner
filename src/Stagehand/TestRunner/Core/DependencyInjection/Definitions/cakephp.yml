@@ -26,28 +26,28 @@ imports:
   - { resource: simpletest.yml }
 
 parameters:
-  stagehand_testrunner.cakephp.cakephp_app_path: null
-  stagehand_testrunner.cakephp.cakephp_core_path: null
-  stagehand_testrunner.cakephp.runner.class: "Stagehand\\TestRunner\\Runner\\CakePHPRunner"
+  cakephp.cakephp_app_path: null
+  cakephp.cakephp_core_path: null
+  cakephp.runner.class: "Stagehand\\TestRunner\\Runner\\CakePHPRunner"
 
 services:
-  stagehand_testrunner.cakephp.autotest:
-    parent: stagehand_testrunner.simpletest.autotest
+  cakephp.autotest:
+    parent: simpletest.autotest
     class: Stagehand\TestRunner\Process\Autotest\CakePHPAutotest
-  stagehand_testrunner.cakephp.preparer:
-    parent: stagehand_testrunner.simpletest.preparer
+  cakephp.preparer:
+    parent: simpletest.preparer
     class: Stagehand\TestRunner\Preparer\CakePHPPreparer
     calls:
-      - [ setCakePHPAppPath, [ "%stagehand_testrunner.cakephp.cakephp_app_path%" ] ]
-      - [ setCakePHPCorePath, [ "%stagehand_testrunner.cakephp.cakephp_core_path%" ] ]
-  stagehand_testrunner.cakephp.collector:
-    parent: stagehand_testrunner.simpletest.collector
+      - [ setCakePHPAppPath, [ "%cakephp.cakephp_app_path%" ] ]
+      - [ setCakePHPCorePath, [ "%cakephp.cakephp_core_path%" ] ]
+  cakephp.collector:
+    parent: simpletest.collector
     class: Stagehand\TestRunner\Collector\CakePHPCollector
-  stagehand_testrunner.cakephp.runner:
-    parent: stagehand_testrunner.simpletest.runner
-    class: "%stagehand_testrunner.cakephp.runner.class%"
-  stagehand_testrunner.cakephp.junit_xml_reporter:
-    parent: stagehand_testrunner.simpletest.junit_xml_reporter
+  cakephp.runner:
+    parent: simpletest.runner
+    class: "%cakephp.runner.class%"
+  cakephp.junit_xml_reporter:
+    parent: simpletest.junit_xml_reporter
     class: Stagehand\TestRunner\Runner\CakePHPRunner\JUnitXMLReporter
 
 # Local Variables:

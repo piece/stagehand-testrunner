@@ -23,52 +23,52 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
-  stagehand_testrunner.phpunit.phpunit_config_file: null
-  stagehand_testrunner.phpunit.runner.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner"
-  stagehand_testrunner.phpunit.junit_xml_printer_factory.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner\\Printer\\JUnitXMLPrinterFactory"
+  phpunit.phpunit_config_file: null
+  phpunit.runner.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner"
+  phpunit.junit_xml_printer_factory.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner\\Printer\\JUnitXMLPrinterFactory"
 
 services:
-  stagehand_testrunner.phpunit.autotest:
-    parent: stagehand_testrunner.autotest
+  phpunit.autotest:
+    parent: autotest
     class: Stagehand\TestRunner\Process\Autotest\PHPUnitAutotest
     calls:
-      - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
-  stagehand_testrunner.phpunit.preparer:
-    parent: stagehand_testrunner.preparer
+      - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
+  phpunit.preparer:
+    parent: preparer
     class: Stagehand\TestRunner\Preparer\PHPUnitPreparer
     calls:
-      - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
-      - [ setTerminal, [ "@stagehand_testrunner.terminal" ] ]
-  stagehand_testrunner.phpunit.collector:
-    parent: stagehand_testrunner.collector
+      - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
+      - [ setTerminal, [ "@terminal" ] ]
+  phpunit.collector:
+    parent: collector
     class: Stagehand\TestRunner\Collector\PHPUnitCollector
     calls:
-      - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
-  stagehand_testrunner.phpunit.runner:
-    parent: stagehand_testrunner.runner
-    class: "%stagehand_testrunner.phpunit.runner.class%"
+      - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
+  phpunit.runner:
+    parent: runner
+    class: "%phpunit.runner.class%"
     calls:
-      - [ setPHPUnitXMLConfiguration, [ "@stagehand_testrunner.phpunit.phpunit_xml_configuration" ] ]
-      - [ setJUnitXMLPrinterFactory, [ "@stagehand_testrunner.phpunit.junit_xml_printer_factory" ] ]
-  stagehand_testrunner.phpunit.phpunit_xml_configuration_factory:
+      - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
+      - [ setJUnitXMLPrinterFactory, [ "@phpunit.junit_xml_printer_factory" ] ]
+  phpunit.phpunit_xml_configuration_factory:
     class: Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory
-  stagehand_testrunner.phpunit.phpunit_xml_configuration:
+  phpunit.phpunit_xml_configuration:
     class: Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
-    factory_service: stagehand_testrunner.phpunit.phpunit_xml_configuration_factory
+    factory_service: phpunit.phpunit_xml_configuration_factory
     factory_method: maybeCreate
-    arguments: [ "%stagehand_testrunner.phpunit.phpunit_config_file%" ]
-  stagehand_testrunner.phpunit.junit_xml_printer_factory:
-    class: "%stagehand_testrunner.phpunit.junit_xml_printer_factory.class%"
-    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
+    arguments: [ "%phpunit.phpunit_config_file%" ]
+  phpunit.junit_xml_printer_factory:
+    class: "%phpunit.junit_xml_printer_factory.class%"
+    factory_class: "%component_aware_factory_factory.class%"
     factory_method: create
-    arguments: [ "phpunit.junit_xml_printer", "%stagehand_testrunner.phpunit.junit_xml_printer_factory.class%" ]
+    arguments: [ "phpunit.junit_xml_printer", "%phpunit.junit_xml_printer_factory.class%" ]
     calls:
-      - [ setJUnitXMLWriterFactory, [ "@stagehand_testrunner.junit_xml_writer_factory" ] ]
-  stagehand_testrunner.phpunit.junit_xml_printer:
+      - [ setJUnitXMLWriterFactory, [ "@junit_xml_writer_factory" ] ]
+  phpunit.junit_xml_printer:
     scope: prototype
     class: Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinter
     calls:
-      - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
+      - [ setTestTargets, [ "@test_targets" ] ]
 
 # Local Variables:
 # mode: conf

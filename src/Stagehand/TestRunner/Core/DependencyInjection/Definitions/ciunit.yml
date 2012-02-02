@@ -26,24 +26,24 @@ imports:
   - { resource: phpunit.yml }
 
 parameters:
-  stagehand_testrunner.ciunit.ciunit_path: null
-  stagehand_testrunner.ciunit.runner.class: "Stagehand\\TestRunner\\Runner\\CIUnitRunner"
+  ciunit.ciunit_path: null
+  ciunit.runner.class: "Stagehand\\TestRunner\\Runner\\CIUnitRunner"
 
 services:
-  stagehand_testrunner.ciunit.autotest:
-    parent: stagehand_testrunner.phpunit.autotest
+  ciunit.autotest:
+    parent: phpunit.autotest
     class: Stagehand\TestRunner\Process\Autotest\CIUnitAutotest
-  stagehand_testrunner.ciunit.preparer:
-    parent: stagehand_testrunner.phpunit.preparer
+  ciunit.preparer:
+    parent: phpunit.preparer
     class: Stagehand\TestRunner\Preparer\CIUnitPreparer
     calls:
-      - [ setCIUnitPath, [ "%stagehand_testrunner.ciunit.ciunit_path%" ] ]
-  stagehand_testrunner.ciunit.collector:
-    parent: stagehand_testrunner.phpunit.collector
+      - [ setCIUnitPath, [ "%ciunit.ciunit_path%" ] ]
+  ciunit.collector:
+    parent: phpunit.collector
     class: Stagehand\TestRunner\Collector\CIUnitCollector
-  stagehand_testrunner.ciunit.runner:
-    parent: stagehand_testrunner.phpunit.runner
-    class: "%stagehand_testrunner.ciunit.runner.class%"
+  ciunit.runner:
+    parent: phpunit.runner
+    class: "%ciunit.runner.class%"
 
 # Local Variables:
 # mode: conf

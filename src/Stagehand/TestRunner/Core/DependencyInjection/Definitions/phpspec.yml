@@ -23,56 +23,56 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
-  stagehand_testrunner.phpspec.runner.class: "Stagehand\\TestRunner\\Runner\\PHPSpecRunner"
-  stagehand_testrunner.phpspec.junit_xml_formatter_factory.class: "Stagehand\\TestRunner\\Runner\\PHPSpecRunner\\Formatter\\JUnitXMLFormatterFactory"
+  phpspec.runner.class: "Stagehand\\TestRunner\\Runner\\PHPSpecRunner"
+  phpspec.junit_xml_formatter_factory.class: "Stagehand\\TestRunner\\Runner\\PHPSpecRunner\\Formatter\\JUnitXMLFormatterFactory"
 
 services:
-  stagehand_testrunner.phpspec.autotest:
-    parent: stagehand_testrunner.autotest
+  phpspec.autotest:
+    parent: autotest
     class: Stagehand\TestRunner\Process\Autotest\PHPSpecAutotest
-  stagehand_testrunner.phpspec.preparer:
-    parent: stagehand_testrunner.preparer
+  phpspec.preparer:
+    parent: preparer
     class: Stagehand\TestRunner\Preparer\PHPSpecPreparer
-  stagehand_testrunner.phpspec.collector:
-    parent: stagehand_testrunner.collector
+  phpspec.collector:
+    parent: collector
     class: Stagehand\TestRunner\Collector\PHPSpecCollector
-  stagehand_testrunner.phpspec.runner:
-    parent: stagehand_testrunner.runner
-    class: "%stagehand_testrunner.phpspec.runner.class%"
+  phpspec.runner:
+    parent: runner
+    class: "%phpspec.runner.class%"
     calls:
-      - [ setJUnitXMLFormatterFactory, [ "@stagehand_testrunner.phpspec.junit_xml_formatter_factory" ] ]
-      - [ setReporter, [ "@stagehand_testrunner.phpspec.reporter" ] ]
-      - [ setNotificationFormatterFactory, [ "@stagehand_testrunner.phpspec.notification_formatter_factory" ] ]
-  stagehand_testrunner.phpspec.junit_xml_formatter_factory:
-    class: "%stagehand_testrunner.phpspec.junit_xml_formatter_factory.class%"
-    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
+      - [ setJUnitXMLFormatterFactory, [ "@phpspec.junit_xml_formatter_factory" ] ]
+      - [ setReporter, [ "@phpspec.reporter" ] ]
+      - [ setNotificationFormatterFactory, [ "@phpspec.notification_formatter_factory" ] ]
+  phpspec.junit_xml_formatter_factory:
+    class: "%phpspec.junit_xml_formatter_factory.class%"
+    factory_class: "%component_aware_factory_factory.class%"
     factory_method: create
-    arguments: [ "junit_xml_formatter", "%stagehand_testrunner.phpspec.junit_xml_formatter_factory.class%" ]
+    arguments: [ "junit_xml_formatter", "%phpspec.junit_xml_formatter_factory.class%" ]
     calls:
-      - [ setJUnitXMLWriterFactory, [ "@stagehand_testrunner.junit_xml_writer_factory" ] ]
-  stagehand_testrunner.phpspec.junit_xml_formatter:
+      - [ setJUnitXMLWriterFactory, [ "@junit_xml_writer_factory" ] ]
+  phpspec.junit_xml_formatter:
     scope: prototype
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatter
-    arguments: [ "@stagehand_testrunner.phpspec.reporter" ]
+    arguments: [ "@phpspec.reporter" ]
     calls:
-      - [ setTestTargets, [ "@stagehand_testrunner.test_targets" ] ]
-  stagehand_testrunner.phpspec.reporter:
+      - [ setTestTargets, [ "@test_targets" ] ]
+  phpspec.reporter:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter
     calls:
-      - [ addFormatter, [ "@stagehand_testrunner.phpspec.progress_formatter" ] ]
-  stagehand_testrunner.phpspec.progress_formatter:
+      - [ addFormatter, [ "@phpspec.progress_formatter" ] ]
+  phpspec.progress_formatter:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter
-    arguments: [ "@stagehand_testrunner.phpspec.reporter", "@stagehand_testrunner.phpspec.runner" ]
-  stagehand_testrunner.phpspec.notification_formatter_factory:
+    arguments: [ "@phpspec.reporter", "@phpspec.runner" ]
+  phpspec.notification_formatter_factory:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatterFactory
-    factory_class: "%stagehand_testrunner.component_aware_factory_factory.class%"
+    factory_class: "%component_aware_factory_factory.class%"
     factory_method: create
-    arguments: [ "notification_formatter", "%stagehand_testrunner.plugin_aware_factory.class%" ]
-  stagehand_testrunner.phpspec.notification_formatter:
+    arguments: [ "notification_formatter", "%plugin_aware_factory.class%" ]
+  phpspec.notification_formatter:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatter
-    arguments: [ "@stagehand_testrunner.phpspec.reporter" ]
+    arguments: [ "@phpspec.reporter" ]
     calls:
-      - [ setRunner, [ "@stagehand_testrunner.phpspec.runner" ] ]
+      - [ setRunner, [ "@phpspec.runner" ] ]
 
 # Local Variables:
 # mode: conf

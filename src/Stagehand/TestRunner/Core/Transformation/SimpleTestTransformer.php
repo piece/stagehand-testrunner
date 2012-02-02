@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Core\Transformation;
 
 use Stagehand\TestRunner\Core\Configuration\SimpleTestConfiguration;
-use Stagehand\TestRunner\Core\Package;
 use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 
 /**
@@ -61,7 +60,7 @@ class SimpleTestTransformer extends Transformer
 
     protected function getParameterPrefix()
     {
-        return strtolower(Package::PACKAGE_ID . '.' . SimpleTestPlugin::getPluginID());
+        return strtolower(SimpleTestPlugin::getPluginID());
     }
 }
 

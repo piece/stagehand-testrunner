@@ -92,7 +92,11 @@ abstract class Transformer
      */
     protected function setParameter($name, $value)
     {
-        $this->container->setParameter($this->getParameterPrefix() . '.' . $name, $value);
+        $parameterPrefix = $this->getParameterPrefix();
+        $this->container->setParameter(
+            (strlen($parameterPrefix) > 0 ? ($parameterPrefix . '.') : '') . $name,
+            $value
+        );
     }
 }
 

@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Core\Transformation;
 
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
-use Stagehand\TestRunner\Core\Package;
 
 /**
  * @package    Stagehand_TestRunner
@@ -76,7 +75,7 @@ class GeneralTransformer extends Transformer
 
     protected function getParameterPrefix()
     {
-        return strtolower(Package::PACKAGE_ID);
+        return '';
     }
 }
 
