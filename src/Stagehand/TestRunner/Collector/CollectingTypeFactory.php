@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Collector;
 
-use Stagehand\TestRunner\Core\ComponentAwareFactory;
+use Stagehand\ComponentFactory\ComponentAwareFactory;
 
 /**
  * The base class for test collectors.

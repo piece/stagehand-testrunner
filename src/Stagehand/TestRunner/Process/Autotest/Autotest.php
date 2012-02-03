@@ -37,10 +37,11 @@
 
 namespace Stagehand\TestRunner\Process\Autotest;
 
+use Stagehand\ComponentFactory\IComponentAwareFactory;
+
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Exception;
-use Stagehand\TestRunner\Core\IComponentAwareFactory;
 use Stagehand\TestRunner\Core\LegacyProxy;
 use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
@@ -87,19 +88,19 @@ abstract class Autotest
     protected $monitoringDirectories;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      * @since Property available since Release 3.0.0
      */
     protected $preparerFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      * @since Property available since Release 3.0.0
      */
     protected $runnerFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      * @since Method available since Release 3.0.0
      */
     protected $notifierFactory;
@@ -208,7 +209,7 @@ abstract class Autotest
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $preparerFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $preparerFactory
      * @since Method available since Release 3.0.0
      */
     public function setPreparerFactory(IComponentAwareFactory $preparerFactory)
@@ -217,7 +218,7 @@ abstract class Autotest
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $runnerFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $runnerFactory
      * @since Method available since Release 3.0.0
      */
     public function setRunnerFactory(IComponentAwareFactory $runnerFactory)
@@ -226,7 +227,7 @@ abstract class Autotest
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $notifierFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $notifierFactory
      * @since Method available since Release 3.0.0
      */
     public function setNotifierFactory(IComponentAwareFactory $notifierFactory)

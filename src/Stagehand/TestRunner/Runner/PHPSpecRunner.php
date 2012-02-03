@@ -40,8 +40,8 @@ namespace Stagehand\TestRunner\Runner;
 
 use PHPSpec\Runner\ReporterEvent;
 use PHPSpec\World;
+use Stagehand\ComponentFactory\IComponentAwareFactory;
 
-use Stagehand\TestRunner\Core\IComponentAwareFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter;
@@ -72,7 +72,7 @@ class PHPSpecRunner extends Runner
     protected $reporter;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      * @since Property available since Release 3.0.0
      */
     protected $notificationFormatterFactory;
@@ -138,7 +138,7 @@ class PHPSpecRunner extends Runner
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $notificationFormatterFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $notificationFormatterFactory
      * @since Method available since Release 3.0.0
      */
     public function setNotificationFormatterFactory(IComponentAwareFactory $notificationFormatterFactory)

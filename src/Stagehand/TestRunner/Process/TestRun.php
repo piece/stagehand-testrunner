@@ -39,7 +39,8 @@
 
 namespace Stagehand\TestRunner\Process;
 
-use Stagehand\TestRunner\Core\IComponentAwareFactory;
+use Stagehand\ComponentFactory\IComponentAwareFactory;
+
 use Stagehand\TestRunner\Util\OutputBuffering;
 
 /**
@@ -65,25 +66,25 @@ class TestRun
     protected $outputBuffering;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      * @since Property available since Release 3.0.0
      */
     protected $preparerFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      * @since Property available since Release 3.0.0
      */
     protected $collectorFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      * @since Property available since Release 3.0.0
      */
     protected $runnerFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      * @since Method available since Release 3.0.0
      */
     protected $notifierFactory;
@@ -117,7 +118,7 @@ class TestRun
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $preparerFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $preparerFactory
      * @since Method available since Release 3.0.0
      */
     public function setPreparerFactory(IComponentAwareFactory $preparerFactory)
@@ -126,7 +127,7 @@ class TestRun
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $collectorFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $collectorFactory
      * @since Method available since Release 3.0.0
      */
     public function setCollectorFactory(IComponentAwareFactory $collectorFactory)
@@ -135,7 +136,7 @@ class TestRun
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $runnerFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $runnerFactory
      * @since Method available since Release 3.0.0
      */
     public function setRunnerFactory(IComponentAwareFactory $runnerFactory)
@@ -144,7 +145,7 @@ class TestRun
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $notifierFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $notifierFactory
      * @since Method available since Release 3.0.0
      */
     public function setNotifierFactory(IComponentAwareFactory $notifierFactory)

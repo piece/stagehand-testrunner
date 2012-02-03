@@ -38,7 +38,8 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
-use Stagehand\TestRunner\Core\ComponentAwareFactory;
+use Stagehand\ComponentFactory\ComponentAwareFactory;
+
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
 use Stagehand\TestRunner\Util\StreamWriter;
 

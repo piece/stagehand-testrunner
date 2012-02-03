@@ -59,7 +59,7 @@ services:
     arguments: [ "%phpunit.phpunit_config_file%" ]
   phpunit.junit_xml_printer_factory:
     class: "%phpunit.junit_xml_printer_factory.class%"
-    factory_class: "%component_aware_factory_factory.class%"
+    factory_service: component_aware_factory_factory
     factory_method: create
     arguments: [ "phpunit.junit_xml_printer", "%phpunit.junit_xml_printer_factory.class%" ]
     calls:

@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Test;
 
-use Stagehand\TestRunner\Core\ComponentFactory;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,7 +44,7 @@ use Stagehand\TestRunner\Core\ComponentFactory;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestComponentFactory extends ComponentFactory
+class TestComponentFactory extends \Stagehand\ComponentFactory\ComponentFactory
 {
     /**
      * @param string $componentID
@@ -56,22 +54,9 @@ class TestComponentFactory extends ComponentFactory
     public function setClass($componentID, $componentClass)
     {
         $this->container->setParameter(
-            $this->resolveServiceID($componentID) . '.class',
+            $this->resolveComponentID($componentID) . '.class',
             $componentClass
         );
-    }
-
-    /**
-     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    public function getContainer()
-    {
-        return $this->container;
-    }
-
-    public function clearComponents()
-    {
-        $this->container->clearServices();
     }
 }
 

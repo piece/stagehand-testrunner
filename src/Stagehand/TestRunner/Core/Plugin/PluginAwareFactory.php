@@ -37,8 +37,9 @@
 
 namespace Stagehand\TestRunner\Core\Plugin;
 
+use Stagehand\ComponentFactory\ComponentAwareFactory;
+
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\ComponentAwareFactory;
 
 /**
  * @package    Stagehand_TestRunner
@@ -53,7 +54,7 @@ class PluginAwareFactory extends ComponentAwareFactory
      * @param string $componentID
      * @return string
      */
-    public function resolveComponentID($componentID)
+    protected function resolveComponentID($componentID)
     {
         return ApplicationContext::getInstance()->getPlugin()->getPluginID() . '.' . $componentID;
     }

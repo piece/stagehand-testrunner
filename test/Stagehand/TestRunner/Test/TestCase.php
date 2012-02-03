@@ -41,6 +41,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\DependencyInjection\Container;
 use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 
 /**
@@ -92,7 +93,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function createApplicationContext()
     {
-        $container = new TestContainer();
+        $container = new Container();
         $componentFactory = new TestComponentFactory();
         $componentFactory->setContainer($container);
         $applicationContext = new TestApplicationContext();

@@ -45,7 +45,7 @@ services:
       - [ setNotificationFormatterFactory, [ "@phpspec.notification_formatter_factory" ] ]
   phpspec.junit_xml_formatter_factory:
     class: "%phpspec.junit_xml_formatter_factory.class%"
-    factory_class: "%component_aware_factory_factory.class%"
+    factory_service: component_aware_factory_factory
     factory_method: create
     arguments: [ "junit_xml_formatter", "%phpspec.junit_xml_formatter_factory.class%" ]
     calls:
@@ -65,7 +65,7 @@ services:
     arguments: [ "@phpspec.reporter", "@phpspec.runner" ]
   phpspec.notification_formatter_factory:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatterFactory
-    factory_class: "%component_aware_factory_factory.class%"
+    factory_service: component_aware_factory_factory
     factory_method: create
     arguments: [ "notification_formatter", "%plugin_aware_factory.class%" ]
   phpspec.notification_formatter:

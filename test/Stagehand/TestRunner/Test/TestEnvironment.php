@@ -39,6 +39,7 @@ namespace Stagehand\TestRunner\Test;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
+use Stagehand\TestRunner\Core\DependencyInjection\Container;
 use Stagehand\TestRunner\Core\Environment;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginFinder;
@@ -66,7 +67,7 @@ class TestEnvironment extends Environment
         self::$applicationContext->setPlugin(PluginFinder::findByPluginID(PHPUnitPlugin::getPluginID()));
         ApplicationContext::setInstance(self::$applicationContext);
 
-        $container = new TestContainer();
+        $container = new Container();
         $transformation = new Transformation($container);
         $transformation->transformToContainer();
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);

@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\CLI;
 
-use Stagehand\TestRunner\Core\IComponentAwareFactory;
+use Stagehand\ComponentFactory\IComponentAwareFactory;
 
 /**
  * @package    Stagehand_TestRunner
@@ -54,12 +54,12 @@ class TestRunner
     protected $enablesAutotest;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      */
     protected $testRunFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      */
     protected $autotestFactory;
 
@@ -86,7 +86,7 @@ class TestRunner
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $testRunFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $testRunFactory
      */
     public function setTestRunFactory(IComponentAwareFactory $testRunFactory)
     {
@@ -94,7 +94,7 @@ class TestRunner
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $autotestFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $autotestFactory
      */
     public function setAutotestFactory(IComponentAwareFactory $autotestFactory)
     {

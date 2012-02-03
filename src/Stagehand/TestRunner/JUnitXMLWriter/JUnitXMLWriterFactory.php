@@ -38,7 +38,8 @@
 
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
-use Stagehand\TestRunner\Core\IComponentAwareFactory;
+use Stagehand\ComponentFactory\IComponentAwareFactory;
+
 use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
@@ -57,12 +58,12 @@ class JUnitXMLWriterFactory
     protected $logsResultsInRealtime;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      */
     protected $junitXMLDOMWriterFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Core\IComponentAwareFactory
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      */
     protected $junitXMLStreamWriterFactory;
 
@@ -90,7 +91,7 @@ class JUnitXMLWriterFactory
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $junitXMLDOMWriterFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $junitXMLDOMWriterFactory
      */
     public function setJUnitXMLDOMWriterFactory(IComponentAwareFactory $junitXMLDOMWriterFactory)
     {
@@ -98,7 +99,7 @@ class JUnitXMLWriterFactory
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\IComponentAwareFactory $junitXMLStreamWriterFactory
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $junitXMLStreamWriterFactory
      */
     public function setJUnitXMLStreamWriterFactory(IComponentAwareFactory $junitXMLStreamWriterFactory)
     {

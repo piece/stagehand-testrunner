@@ -42,6 +42,10 @@ if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) 
     require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
 }
 
+use Symfony\Component\ClassLoader\UniversalClassLoader;
+
+use Stagehand\ComponentFactory\ComponentFactory;
+
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
@@ -62,7 +66,7 @@ class Bootstrap
         static $classLoaderRegistered = false;
 
         if (!$classLoaderRegistered) {
-            $classLoader = new \Symfony\Component\ClassLoader\UniversalClassLoader();
+            $classLoader = new UniversalClassLoader();
             $classLoader->useIncludePath(true);
             $classLoader->registerPrefix('Stagehand_', array());
             $classLoader->register();
