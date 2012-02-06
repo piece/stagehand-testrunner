@@ -41,7 +41,6 @@ namespace Stagehand\TestRunner\Core;
 if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) {
     require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
 }
-
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 use Stagehand\ComponentFactory\ComponentFactory;
