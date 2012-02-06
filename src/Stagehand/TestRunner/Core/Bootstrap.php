@@ -55,6 +55,26 @@ use Stagehand\ComponentFactory\ComponentFactory;
  */
 class Bootstrap
 {
+    /**
+     * @var array
+     */
+    private static $namespaces = array(
+        'Stagehand\ComponentFactory',
+        'Symfony\Component\Config',
+        'Symfony\Component\Console',
+        'Symfony\Component\DependencyInjection',
+        'Symfony\Component\Finder',
+        'Symfony\Component\Yaml',
+        'Stagehand\TestRunner',
+    );
+
+    /**
+     * @var array
+     */
+    private static $prefixes = array(
+        'Stagehand_',
+    );
+
     public function boot()
     {
         $this->prepareClassLoader();
@@ -66,9 +86,14 @@ class Bootstrap
         static $classLoaderRegistered = false;
 
         if (!$classLoaderRegistered) {
+            $includePaths = explode(PATH_SEPARATOR, get_include_path());
             $classLoader = new UniversalClassLoader();
-            $classLoader->useIncludePath(true);
-            $classLoader->registerPrefix('Stagehand_', array());
+            foreach (self::$namespaces as $namespace) {
+                $classLoader->registerNamespace($namespace, $includePaths);
+            }
+            foreach (self::$prefixes as $prefix) {
+                $classLoader->registerPrefix($prefix, $includePaths);
+            }
             $classLoader->register();
 
             $classLoaderRegistered = true;

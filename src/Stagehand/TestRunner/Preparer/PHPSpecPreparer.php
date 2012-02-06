@@ -37,6 +37,9 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
+require_once 'PHPSpec/Loader/UniversalClassLoader.php';
+use PHPSpec\Loader\UniversalClassLoader;
+
 use Stagehand\TestRunner\Core\ApplicationContext;
 
 /**
@@ -50,8 +53,14 @@ class PHPSpecPreparer extends Preparer
 {
     public function prepare()
     {
-        if (class_exists('Mockery', false)) {
-            @include_once 'Mockery.php';
+        static $classLoaderRegistered = false;
+
+        if (!$classLoaderRegistered) {
+            $classLoader = new UniversalClassLoader();
+            $classLoader->registerNamespace('PHPSpec', explode(PATH_SEPARATOR, get_include_path()));
+            $classLoader->register();
+
+            $classLoaderRegistered = true;
         }
     }
 }

@@ -60,6 +60,12 @@ class PHPSpecAutotestTest extends TestCase
     {
         return PHPSpecPlugin::getPluginID();
     }
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->applicationContext->createComponent('preparer_factory')->create()->prepare();
+    }
 }
 
 /*
