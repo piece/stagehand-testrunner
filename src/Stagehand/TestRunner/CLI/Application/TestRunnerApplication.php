@@ -56,10 +56,23 @@ use Stagehand\TestRunner\Core\ApplicationContext;
  */
 class TestRunnerApplication extends Application
 {
+    /**
+     * @var \Stagehand\TestRunner\CLI\Application\Command\CommandFinder
+     */
+    protected $commandFinder;
+
     public function __construct()
     {
+        $this->commandFinder = new CommandFinder();
         parent::__construct('Stagehand_TestRunner', '@package_version@');
         $this->setAutoExit(false);
+
+        // For compatibility with Symfony 2.0
+        if (count(array_keys($this->all())) != count(array_keys($this->commandFinder->findAll()))) {
+            foreach ($this->getDefaultCommands() as $command) {
+                $this->add($command);
+            }
+        }
     }
 
     public function getLongVersion()
@@ -97,7 +110,7 @@ class TestRunnerApplication extends Application
 
     protected function getDefaultCommands()
     {
-        return CommandFinder::findAll();
+        return $this->commandFinder->findAll();
     }
 
     /**
