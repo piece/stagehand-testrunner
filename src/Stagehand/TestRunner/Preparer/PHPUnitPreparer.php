@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
+require_once 'PHPUnit/Autoload.php';
+
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 
@@ -63,7 +65,6 @@ class PHPUnitPreparer extends Preparer
 
     public function prepare()
     {
-        $this->prepareFramework();
         if (!is_null($this->phpunitXMLConfiguration)) {
             $this->earlyConfigure();
         }
@@ -102,14 +103,6 @@ class PHPUnitPreparer extends Preparer
         } catch (RuntimeException $e) {
             \PHPUnit_TextUI_TestRunner::showError($e->getMessage());
         }
-    }
-
-    /**
-     * @since Method available since Release 2.16.0
-     */
-    public function prepareFramework()
-    {
-        require_once 'PHPUnit/Autoload.php';
     }
 
     /**
