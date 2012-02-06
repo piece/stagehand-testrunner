@@ -91,7 +91,7 @@ PHP_EOL .
         }
 
         if ($this->getPlugin()->hasFeature('notify')) {
-            $this->addOption('notify', 'n', InputOption::VALUE_NONE, 'Notifies test results by using the growlnotify command in Mac OS X and Windows or the notify-send command in Linux.');
+            $this->addOption('notify', 'm', InputOption::VALUE_NONE, 'Notifies test results by using the growlnotify command in Mac OS X and Windows or the notify-send command in Linux.');
         }
 
         if ($this->getPlugin()->hasFeature('detailed_progress')) {

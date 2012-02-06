@@ -315,7 +315,7 @@ abstract class Autotest
         $options[] = '-R';
 
         if ($this->runnerFactory->create()->usesNotification()) {
-            $options[] = '-n';
+            $options[] = '-m';
         }
 
         if ($this->runnerFactory->create()->stopsOnFailure()) {
