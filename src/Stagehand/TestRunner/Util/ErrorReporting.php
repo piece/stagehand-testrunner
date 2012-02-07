@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,29 +29,67 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.10.0
+ * @since      File available since Release 3.0.0
  */
 
-require __DIR__ . '/../preload.php';
+namespace Stagehand\TestRunner\Util;
 
-set_include_path(implode(PATH_SEPARATOR, array(
-    __DIR__,
-    __DIR__ . '/../examples',
-    get_include_path(),
-)));
+/**
+ * @package    Stagehand_TestRunner
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ * @version    Release: @package_version@
+ * @since      Class available since Release 3.0.0
+ */
+class ErrorReporting
+{
+    /**
+     * @param integer $level
+     * @param \Closure $callable
+     * @throws \Exception
+     */
+    public static function invokeWith($level, \Closure $callable)
+    {
+        $oldLevel = error_reporting($level);
+        self::enableErrorToException($level);
 
-require_once 'Phake.php';
-require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
+        try {
+            call_user_func($callable);
+        } catch (\Exception $e) {
+            self::disableErrorToException();
+            error_reporting($oldLevel);
+            throw $e;
+        }
 
-$bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
-$bootstrap->prepareClassLoader();
+        self::disableErrorToException();
+        error_reporting($oldLevel);
+    }
 
-\Phake::setClient(\Phake::CLIENT_PHPUNIT);
-\Stagehand\TestRunner\Util\ErrorReporting::enableErrorToException();
-\Stagehand\TestRunner\Test\TestEnvironment::earlyInitialize();
+    /**
+     * @param integer $level
+     */
+    public static function enableErrorToException($level = null)
+    {
+        if (is_null($level)) {
+            $level = error_reporting();
+        }
+
+        set_error_handler(function ($code, $message, $file, $line) {
+            if (error_reporting() & $code) {
+                throw new \ErrorException($message, 0, $code, $file, $line);
+            }
+        }, $level
+        );
+    }
+
+    public static function disableErrorToException()
+    {
+        restore_error_handler();
+    }
+}
 
 /*
  * Local Variables:

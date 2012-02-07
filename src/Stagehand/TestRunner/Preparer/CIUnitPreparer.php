@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.16.0
@@ -38,10 +38,11 @@
 namespace Stagehand\TestRunner\Preparer;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Util\ErrorReporting;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.16.0
@@ -86,11 +87,9 @@ class CIUnitPreparer extends PHPUnitPreparer
          * environment variables for debugging.
          */
         $this->backupVariables();
-        $oldErrorReportingLevel = error_reporting(error_reporting() & ~E_USER_NOTICE);
-        \Stagehand_LegacyError_PHPError::enableConversion(error_reporting());
-        require_once $ciunitPath . '/CIUnit.php';
-        \Stagehand_LegacyError_PHPError::disableConversion();
-        error_reporting($oldErrorReportingLevel);
+        ErrorReporting::invokeWith(error_reporting() & ~E_USER_NOTICE, function () use ($ciunitPath) {
+            require_once $ciunitPath . '/CIUnit.php';
+        });
         $this->restoreVariables();
     }
 

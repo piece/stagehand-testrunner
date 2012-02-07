@@ -178,9 +178,9 @@ class JUnitXMLTest extends TestCase
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $this->assertEquals(0, $testcase->getAttribute('assertions'));
         $error = $testcase->childNodes->item(0);
-        $this->assertEquals('Stagehand_LegacyError_PHPError_Exception',
+        $this->assertEquals('ErrorException',
                             $error->getAttribute('type'));
-        $this->assertRegexp('/^Stagehand_TestRunner_PHPUnitErrorTest::isError\s+Stagehand_LegacyError_PHPError_Exception:/', $error->nodeValue);
+        $this->assertRegexp('/^Stagehand_TestRunner_PHPUnitErrorTest::isError\s+ErrorException:/', $error->nodeValue);
     }
 
     /**
@@ -424,9 +424,9 @@ class JUnitXMLTest extends TestCase
         $method = $class->getMethod('isError');
         $this->assertEquals($method->getStartLine(), $testcase->getAttribute('line'));
         $error = $testcase->childNodes->item(0);
-        $this->assertEquals('Stagehand_LegacyError_PHPError_Exception',
+        $this->assertEquals('ErrorException',
                             $error->getAttribute('type'));
-        $this->assertRegexp('/^Stagehand_TestRunner_PHPUnitErrorTest::isError\s+Stagehand_LegacyError_PHPError_Exception:/', $error->nodeValue);
+        $this->assertRegexp('/^Stagehand_TestRunner_PHPUnitErrorTest::isError\s+ErrorException:/', $error->nodeValue);
     }
 
     /**

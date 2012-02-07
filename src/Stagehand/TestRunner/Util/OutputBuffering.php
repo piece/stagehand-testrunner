@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.19.0
@@ -41,7 +41,7 @@ use Stagehand\TestRunner\Core\LegacyProxy;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.19.0
@@ -59,16 +59,16 @@ class OutputBuffering
      */
     public function clearOutputHandlers()
     {
-        \Stagehand_LegacyError_PHPError::enableConversion(E_NOTICE);
-        while ($this->getNestingLevel()) {
-            try {
-                $this->clearOutputHandler();
-            } catch (\Stagehand_LegacyError_PHPError_Exception $e) {
-                \Stagehand_LegacyError_PHPError::disableConversion();
-                throw new CannotRemoveException($e->getMessage());
-            }
+        $self = $this;
+        try {
+            ErrorReporting::invokeWith(E_NOTICE, function () use ($self) {
+                while ($self->getNestingLevel()) {
+                    $self->clearOutputHandler();
+                }
+            });
+        } catch (\ErrorException $e) {
+            throw new CannotRemoveException($e->getMessage());
         }
-        \Stagehand_LegacyError_PHPError::disableConversion();
     }
 
     /**
@@ -84,7 +84,7 @@ class OutputBuffering
      * @return integer
      * @since Method available since Release 2.20.0
      */
-    protected function getNestingLevel()
+    public function getNestingLevel()
     {
         return $this->legacyProxy->ob_get_level();
     }
@@ -92,7 +92,7 @@ class OutputBuffering
     /**
      * @since Method available since Release 2.20.0
      */
-    protected function clearOutputHandler()
+    public function clearOutputHandler()
     {
         return $this->legacyProxy->ob_end_clean();
     }
