@@ -82,7 +82,7 @@ class ProgressFormatter implements Formatter
     public function update(\SplSubject $subject, $reporterEvent = null)
     {
         if ($reporterEvent->event == 'exit') {
-            $this->formatter->output();
+            $this->output();
         } else {
             $this->formatter->update($subject, $reporterEvent);
         }
