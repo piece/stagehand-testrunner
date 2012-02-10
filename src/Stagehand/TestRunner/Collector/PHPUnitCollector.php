@@ -72,7 +72,7 @@ class PHPUnitCollector extends Collector
         }
 
         if ($this->testTargets->testsOnlySpecifiedElements()) {
-            $this->addTestCaseOnlySpecified($testClass);
+            $this->addOnlySpecifiedTestCases($testClass);
             return;
         }
 
@@ -116,7 +116,7 @@ class PHPUnitCollector extends Collector
      * @param \ReflectionClass $testClass
      * @since Method available since Release 2.10.0
      */
-    protected function addTestCaseOnlySpecified(\ReflectionClass $testClass)
+    protected function addOnlySpecifiedTestCases(\ReflectionClass $testClass)
     {
         if ($this->testTargets->testsOnlySpecifiedMethods()) {
             $this->suite->addTestSuite(
