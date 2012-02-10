@@ -59,9 +59,9 @@ class PHPSpecCollector extends Collector
     public function collectTestCase($testCase)
     {
         $specClass = new \ReflectionClass($testCase);
-        if (!$specClass->isAbstract()) {
-            $this->suite->addExampleGroup($specClass->newInstance());
-        }
+        if ($specClass->isAbstract()) return;
+
+        $this->suite->addExampleGroup($specClass->newInstance());
     }
 
     /**
