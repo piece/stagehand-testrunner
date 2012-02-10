@@ -67,28 +67,25 @@ class PHPUnitCollector extends Collector
     public function collectTestCase($testCase)
     {
         $testClass = new \ReflectionClass($testCase);
-        if ($testClass->isAbstract()) {
-            return;
-        }
+        if ($testClass->isAbstract()) return;
 
         if ($this->testTargets->testsOnlySpecifiedElements()) {
             $this->addOnlySpecifiedTestCases($testClass);
-            return;
-        }
-
-        $suiteMethod = false;
-        if ($testClass->hasMethod(\PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME)) {
-            $method = $testClass->getMethod(\PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME);
-            if ($method->isStatic()) {
-                $this->suite->addTest($method->invoke(null, $testClass->getName()));
-                $suiteMethod = true;
+        } else {
+            $suiteMethod = false;
+            if ($testClass->hasMethod(\PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME)) {
+                $method = $testClass->getMethod(\PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME);
+                if ($method->isStatic()) {
+                    $this->suite->addTest($method->invoke(null, $testClass->getName()));
+                    $suiteMethod = true;
+                }
             }
-        }
 
-        if (!$suiteMethod) {
-            $this->suite->addTest(
-                new PHPUnitGroupFilterTestSuite($testClass, $this->phpunitXMLConfiguration)
-            );
+            if (!$suiteMethod) {
+                $this->suite->addTest(
+                    new PHPUnitGroupFilterTestSuite($testClass, $this->phpunitXMLConfiguration)
+                );
+            }
         }
     }
 
