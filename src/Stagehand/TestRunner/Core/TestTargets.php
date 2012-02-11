@@ -131,14 +131,6 @@ class TestTargets
     }
 
     /**
-     * @return boolean
-     */
-    public function testsOnlySpecifiedElements()
-    {
-        return $this->testsOnlySpecifiedMethods() || $this->testsOnlySpecifiedClasses();
-    }
-
-    /**
      * @param string $class
      * @param string $method
      * @return boolean
