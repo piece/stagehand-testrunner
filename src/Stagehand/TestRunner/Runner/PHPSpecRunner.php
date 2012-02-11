@@ -38,14 +38,12 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use PHPSpec\Runner\Formatter\Documentation;
-use PHPSpec\Runner\Formatter\Progress;
 use PHPSpec\Runner\ReporterEvent;
 use PHPSpec\World;
 use Stagehand\ComponentFactory\IComponentAwareFactory;
 
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory;
-use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter;
+use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\TerminatableFormatter;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter;
 
 /**
@@ -61,22 +59,34 @@ use Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter;
 class PHPSpecRunner extends Runner
 {
     /**
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
+     * @since Property available since Release 3.0.0
+     */
+    protected $progressFormatterFactory;
+
+    /**
+     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
+     * @since Property available since Release 3.0.0
+     */
+    protected $documentationFormatterFactory;
+
+    /**
      * @var \Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory
      * @since Property available since Release 3.0.0
      */
     protected $junitXMLFormatterFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter
-     * @since Property available since Release 3.0.0
-     */
-    protected $reporter;
-
-    /**
      * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      * @since Property available since Release 3.0.0
      */
     protected $notificationFormatterFactory;
+
+    /**
+     * @var \Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter
+     * @since Property available since Release 3.0.0
+     */
+    protected $reporter;
 
     /**
      * @var \PHPSpec\Runner\Cli\Runner
@@ -97,17 +107,17 @@ class PHPSpecRunner extends Runner
         $options['failfast'] = $this->stopsOnFailure();
 
         if ($this->printsDetailedProgressReport()) {
-            $this->reporter->addFormatter(new ProgressFormatter(new Documentation($this->reporter)));
+            $this->reporter->addFormatter(new TerminatableFormatter($this->documentationFormatterFactory->create()));
         } else {
-            $this->reporter->addFormatter(new ProgressFormatter(new Progress($this->reporter)));
+            $this->reporter->addFormatter(new TerminatableFormatter($this->progressFormatterFactory->create()));
         }
 
         if ($this->usesNotification()) {
-            $this->reporter->addFormatter($this->notificationFormatterFactory->create());
+            $this->reporter->addFormatter(new TerminatableFormatter($this->notificationFormatterFactory->create()));
         }
 
         if ($this->logsResultsInJUnitXML) {
-            $this->reporter->addFormatter(new ProgressFormatter(
+            $this->reporter->addFormatter(new TerminatableFormatter(
                 $this->junitXMLFormatterFactory->create(
                     $this->createStreamWriter($this->junitXMLFile),
                     $suite
@@ -118,12 +128,42 @@ class PHPSpecRunner extends Runner
         $world = new World();
         $world->setOptions($options);
         $world->setReporter($this->reporter);
-        $this->cliRunner->run($world);
+
+        $oldErrorHandler = set_error_handler(function () {});
+        restore_error_handler();
+        if (!is_null($oldErrorHandler)) {
+            $this->cliRunner->setErrorHandler($oldErrorHandler);
+        }
+
+        try {
+            $this->cliRunner->run($world);
+        } catch (\Exception $e) {
+            restore_error_handler();
+        }
+
         $this->reporter->notify(new ReporterEvent('termination', '', ''));
 
         if ($this->usesNotification()) {
             $this->notification = $this->notificationFormatterFactory->create()->getNotification();
         }
+    }
+
+    /**
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $progressFormatterFactory
+     * @since Method available since Release 3.0.0
+     */
+    public function setProgressFormatterFactory(IComponentAwareFactory $progressFormatterFactory)
+    {
+        $this->progressFormatterFactory = $progressFormatterFactory;
+    }
+
+    /**
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $documentationFormatterFactory
+     * @since Method available since Release 3.0.0
+     */
+    public function setDocumentationFormatterFactory(IComponentAwareFactory $documentationFormatterFactory)
+    {
+        $this->documentationFormatterFactory = $documentationFormatterFactory;
     }
 
     /**
@@ -136,21 +176,21 @@ class PHPSpecRunner extends Runner
     }
 
     /**
-     * @param \Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter $reporter
-     * @since Method available since Release 3.0.0
-     */
-    public function setReporter(Reporter $reporter)
-    {
-        $this->reporter = $reporter;
-    }
-
-    /**
      * @param \Stagehand\ComponentFactory\IComponentAwareFactory $notificationFormatterFactory
      * @since Method available since Release 3.0.0
      */
     public function setNotificationFormatterFactory(IComponentAwareFactory $notificationFormatterFactory)
     {
         $this->notificationFormatterFactory = $notificationFormatterFactory;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter $reporter
+     * @since Method available since Release 3.0.0
+     */
+    public function setReporter(Reporter $reporter)
+    {
+        $this->reporter = $reporter;
     }
 
     /**

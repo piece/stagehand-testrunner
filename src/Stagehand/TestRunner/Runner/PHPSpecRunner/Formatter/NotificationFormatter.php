@@ -40,7 +40,6 @@ namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
 use PHPSpec\Runner\Formatter\Progress;
 
 use Stagehand\TestRunner\Notification\Notification;
-use Stagehand\TestRunner\Runner\Runner;
 
 /**
  * @package    Stagehand_TestRunner
@@ -52,40 +51,32 @@ use Stagehand\TestRunner\Runner\Runner;
 class NotificationFormatter extends Progress
 {
     /**
-     * @var \Stagehand\TestRunner\Runner\Runner
-     */
-    protected $runner;
-
-    /**
      * @var \Stagehand\TestRunner\Notification\Notification
      */
     protected $notification;
 
     public function update(\SplSubject $subject, $reporterEvent = null)
     {
-        if ($reporterEvent->event == 'exit' && $this->runner->usesNotification()) {
-            if (($this->_reporter->getFailures()->count() +
-                 $this->_reporter->getErrors()->count() +
-                 $this->_reporter->getPendingExamples()->count() +
-                 $this->_reporter->getExceptions()->count()) == 0) {
-                $notificationResult = Notification::RESULT_PASSED;
-            } else {
-                $notificationResult = Notification::RESULT_FAILED;
-            }
-
-            $oldShowColors = $this->showColors();
-            $this->setShowColors(false);
-            $this->notification = new Notification($notificationResult, $this->getTotals());
-            $this->setShowColors($oldShowColors);
+        if ($reporterEvent->event == 'exit') {
+            parent::update($subject, $reporterEvent);
         }
     }
 
-    /**
-     * @param \Stagehand\TestRunner\Runner\Runner $runner
-     */
-    public function setRunner(Runner $runner)
+    public function output()
     {
-        $this->runner = $runner;
+        if (($this->_reporter->getFailures()->count() +
+             $this->_reporter->getErrors()->count() +
+             $this->_reporter->getPendingExamples()->count() +
+             $this->_reporter->getExceptions()->count()) == 0) {
+            $notificationResult = Notification::RESULT_PASSED;
+        } else {
+            $notificationResult = Notification::RESULT_FAILED;
+        }
+
+        $oldShowColors = $this->showColors();
+        $this->setShowColors(false);
+        $this->notification = new Notification($notificationResult, $this->getTotals());
+        $this->setShowColors($oldShowColors);
     }
 
     /**
@@ -94,6 +85,10 @@ class NotificationFormatter extends Progress
     public function getNotification()
     {
         return $this->notification;
+    }
+
+    protected function _onExit()
+    {
     }
 }
 

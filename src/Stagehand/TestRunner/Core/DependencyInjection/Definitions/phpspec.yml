@@ -40,10 +40,28 @@ services:
     parent: runner
     class: "%phpspec.runner.class%"
     calls:
+      - [ setProgressFormatterFactory, [ "@phpspec.progress_formatter_factory" ] ]
+      - [ setDocumentationFormatterFactory, [ "@phpspec.documentation_formatter_factory" ] ]
       - [ setJUnitXMLFormatterFactory, [ "@phpspec.junit_xml_formatter_factory" ] ]
-      - [ setReporter, [ "@phpspec.reporter" ] ]
       - [ setNotificationFormatterFactory, [ "@phpspec.notification_formatter_factory" ] ]
+      - [ setReporter, [ "@phpspec.reporter" ] ]
       - [ setCliRunner, [ "@phpspec.cli_runner" ] ]
+  phpspec.progress_formatter_factory:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatterFactory
+    factory_service: component_aware_factory_factory
+    factory_method: create
+    arguments: [ "progress_formatter", "%plugin_aware_factory.class%" ]
+  phpspec.progress_formatter:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter
+    arguments: [ "@phpspec.reporter" ]
+  phpspec.documentation_formatter_factory:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\DocumentationFormatterFactory
+    factory_service: component_aware_factory_factory
+    factory_method: create
+    arguments: [ "documentation_formatter", "%plugin_aware_factory.class%" ]
+  phpspec.documentation_formatter:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\DocumentationFormatter
+    arguments: [ "@phpspec.reporter" ]
   phpspec.junit_xml_formatter_factory:
     class: "%phpspec.junit_xml_formatter_factory.class%"
     factory_service: component_aware_factory_factory
@@ -57,8 +75,6 @@ services:
     arguments: [ "@phpspec.reporter" ]
     calls:
       - [ setTestTargets, [ "@test_targets" ] ]
-  phpspec.reporter:
-    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter
   phpspec.notification_formatter_factory:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatterFactory
     factory_service: component_aware_factory_factory
@@ -67,8 +83,8 @@ services:
   phpspec.notification_formatter:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatter
     arguments: [ "@phpspec.reporter" ]
-    calls:
-      - [ setRunner, [ "@phpspec.runner" ] ]
+  phpspec.reporter:
+    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter
   phpspec.cli_runner:
     class: PHPSpec\Runner\Cli\Runner
     calls:

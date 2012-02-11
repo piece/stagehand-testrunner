@@ -72,8 +72,8 @@ abstract class CompatibilityTestCase extends TestCase
         $this->runTests();
 
         $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists($runningTestMethod, $firstTestClass);
-        $this->assertTestCaseExists($runningTestMethod, $secondTestClass);
+        $this->assertTestCaseExists($this->getTestMethodName($runningTestMethod), $firstTestClass);
+        $this->assertTestCaseExists($this->getTestMethodName($runningTestMethod), $secondTestClass);
     }
 
     /**
@@ -101,8 +101,8 @@ abstract class CompatibilityTestCase extends TestCase
         $this->runTests();
 
         $this->assertTestCaseCount(2);
-        $this->assertTestCaseExists($runningTestMethod1, $firstTestClass);
-        $this->assertTestCaseExists($runningTestMethod2, $firstTestClass);
+        $this->assertTestCaseExists($this->getTestMethodName($runningTestMethod1), $firstTestClass);
+        $this->assertTestCaseExists($this->getTestMethodName($runningTestMethod2), $firstTestClass);
     }
 
     /**
@@ -130,7 +130,7 @@ abstract class CompatibilityTestCase extends TestCase
         $this->runTests();
 
         $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists($failingTestMethod, $firstTestClass);
+        $this->assertTestCaseExists($this->getTestMethodName($failingTestMethod), $firstTestClass);
     }
 
     /**
@@ -192,16 +192,24 @@ abstract class CompatibilityTestCase extends TestCase
         $this->assertTrue($junitXML->relaxNGValidate(dirname(__FILE__) . '/../../../../data/pear.piece-framework.com/Stagehand_TestRunner/JUnitXMLDOM.rng'));
 
         $this->assertTestCaseCount(1);
-        $this->assertTestCaseExists($failingMethod, $testClass);
-        $this->assertTestCaseAssertionCount(1, $failingMethod, $testClass);
-        $this->assertTestCaseFailed($failingMethod, $testClass);
-        $this->assertTestCaseFailureMessageEquals('/The First Failure/', $failingMethod, $testClass);
+        $this->assertTestCaseExists($this->getTestMethodName($failingMethod), $testClass);
+        $this->assertTestCaseAssertionCount(1, $this->getTestMethodName($failingMethod), $testClass);
+        $this->assertTestCaseFailed($this->getTestMethodName($failingMethod), $testClass);
+        $this->assertTestCaseFailureMessageEquals('/The First Failure/', $this->getTestMethodName($failingMethod), $testClass);
     }
 
     /**
      * @return array
      */
     abstract public function dataForMultipleFailures();
+
+    /**
+     * @return string
+     */
+    protected function getTestMethodName($testMethodName)
+    {
+        return $testMethodName;
+    }
 }
 
 /*

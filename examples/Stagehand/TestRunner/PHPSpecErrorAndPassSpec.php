@@ -35,37 +35,29 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
+namespace Stagehand\TestRunner;
 
-use PHPSpec\Runner\Formatter\Progress;
+use PHPSpec\Context;
 
 /**
+ * TestCase for the PHPSpec runner.
+ *
  * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ProgressFormatter extends Progress
+class DescribePhpSpecErrorAndPass extends Context
 {
-    public function printLineInProgressFormatter()
+    public function itShouldBeError()
     {
-        echo PHP_EOL;
+        $this->foo;
     }
 
-    public function put($output)
+    public function itShouldPass()
     {
-        echo $output;
-    }
-
-    public function putln($output)
-    {
-        $this->put($output);
-        echo PHP_EOL;
-    }
-
-    protected function _onExit()
-    {
+        $this->spec(true)->should->beTrue();
     }
 }
 

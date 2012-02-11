@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
 
+use PHPSpec\Runner\Formatter;
 use PHPSpec\Runner\Formatter\Progress;
 
 /**
@@ -46,26 +47,49 @@ use PHPSpec\Runner\Formatter\Progress;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ProgressFormatter extends Progress
+class TerminatableFormatter implements Formatter
 {
-    public function printLineInProgressFormatter()
+    /**
+     * @var \PHPSpec\Runner\Formatter\Progress
+     */
+    protected $formatter;
+
+    /**
+     * @param \PHPSpec\Runner\Formatter\Progress $formatter
+     */
+    public function __construct(Progress $formatter)
     {
-        echo PHP_EOL;
+        $this->formatter = $formatter;
     }
 
-    public function put($output)
+    /**
+     * @param string $name
+     * @param array $arguments
+     */
+    public function __call($name, array $arguments)
     {
-        echo $output;
+        return call_user_func_array(array($this->formatter, $name), $arguments);
     }
 
-    public function putln($output)
+    public function update(\SplSubject $subject, $reporterEvent = null)
     {
-        $this->put($output);
-        echo PHP_EOL;
+        switch ($reporterEvent->event) {
+        case 'exit':
+            return;
+        case 'termination':
+            $temporaryReporterEvent = clone $reporterEvent;
+            $temporaryReporterEvent->event = 'exit';
+            $this->formatter->update($subject, $temporaryReporterEvent);
+            break;
+        default:
+            $this->formatter->update($subject, $reporterEvent);
+            break;
+        }
     }
 
-    protected function _onExit()
+    public function output()
     {
+        $this->formatter->output();
     }
 }
 

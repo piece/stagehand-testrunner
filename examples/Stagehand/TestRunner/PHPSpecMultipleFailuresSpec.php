@@ -35,9 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
+namespace Stagehand\TestRunner;
 
-use PHPSpec\Runner\Formatter\Progress;
+use PHPSpec\Context;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,26 +46,12 @@ use PHPSpec\Runner\Formatter\Progress;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ProgressFormatter extends Progress
+class DescribePhpSpecMultipleFailures extends Context
 {
-    public function printLineInProgressFormatter()
+    public function itShouldBeFailure()
     {
-        echo PHP_EOL;
-    }
-
-    public function put($output)
-    {
-        echo $output;
-    }
-
-    public function putln($output)
-    {
-        $this->put($output);
-        echo PHP_EOL;
-    }
-
-    protected function _onExit()
-    {
+        $this->spec('The First Failure')->should->equal('');
+        $this->spec('The Second Failure')->should->beTrue('');
     }
 }
 

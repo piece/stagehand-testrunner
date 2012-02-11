@@ -100,6 +100,11 @@ class JUnitXMLFormatter extends Progress
     protected $exampleStartTime;
 
     /**
+     * @var integer
+     */
+    protected $assertionCount;
+
+    /**
      * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $junitXMLWriter
      */
     public function setJUnitXMLWriter(JUnitXMLWriter $junitXMLWriter)
@@ -177,8 +182,10 @@ class JUnitXMLFormatter extends Progress
     {
         switch ($reporterEvent->status) {
         case self::$STATUS_PASS:
+            ++$this->assertionCount;
             break;
         case self::$STATUS_FAILURE:
+            ++$this->assertionCount;
             $this->renderFailure($reporterEvent);
             break;
         case self::$STATUS_ERROR:
@@ -190,6 +197,10 @@ class JUnitXMLFormatter extends Progress
         default:
             throw new UnknownStatusException('An unknown status [ ' . $reporterEvent->status . ' ] is given for the example corresponding to [ ' . $reporterEvent->example . ' ] and [ ' . $this->currentExampleGroupName .  ' ].');
         }
+    }
+
+    protected function _onExit()
+    {
     }
 
     /**
@@ -253,12 +264,13 @@ class JUnitXMLFormatter extends Progress
             )
         );
         $this->exampleStartTime = microtime(true);
+        $this->assertionCount = 0;
     }
 
     protected function finishRenderingExample($reporterEvent)
     {
         $elapsedTime = microtime(true) - $this->exampleStartTime;
-        $this->junitXMLWriter->endTestCase($elapsedTime);
+        $this->junitXMLWriter->endTestCase($elapsedTime, $this->assertionCount);
     }
 }
 

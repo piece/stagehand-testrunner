@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
 
-use PHPSpec\Runner\Formatter\Progress;
+use PHPSpec\Runner\Formatter\Documentation;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,11 +46,15 @@ use PHPSpec\Runner\Formatter\Progress;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ProgressFormatter extends Progress
+class DocumentationFormatter extends Documentation
 {
-    public function printLineInProgressFormatter()
+    public function update(\SplSubject $subject, $reporterEvent = null)
     {
-        echo PHP_EOL;
+        if ($reporterEvent->event == 'exit') {
+            $this->output();
+        } else {
+            parent::update($subject, $reporterEvent);
+        }
     }
 
     public function put($output)
