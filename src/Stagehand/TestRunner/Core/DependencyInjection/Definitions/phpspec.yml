@@ -58,11 +58,6 @@ services:
       - [ setTestTargets, [ "@test_targets" ] ]
   phpspec.reporter:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter
-    calls:
-      - [ addFormatter, [ "@phpspec.progress_formatter" ] ]
-  phpspec.progress_formatter:
-    class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter
-    arguments: [ "@phpspec.reporter", "@phpspec.runner" ]
   phpspec.notification_formatter_factory:
     class: Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\NotificationFormatterFactory
     factory_service: component_aware_factory_factory

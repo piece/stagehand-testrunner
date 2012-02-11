@@ -38,11 +38,6 @@
 namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
 
 use PHPSpec\Runner\Formatter;
-use PHPSpec\Runner\Formatter\Documentation;
-use PHPSpec\Runner\Formatter\Progress;
-use PHPSpec\Runner\Reporter;
-
-use Stagehand\TestRunner\Runner\Runner;
 
 /**
  * @package    Stagehand_TestRunner
@@ -69,14 +64,11 @@ class ProgressFormatter implements Formatter
     }
 
     /**
-     * @param \PHPSpec\Runner\Reporter $reporter
-     * @param \Stagehand\TestRunner\Runner\Runner $runner
+     * @param \PHPSpec\Runner\Formatter $formatter
      */
-    public function __construct(Reporter $reporter, Runner $runner)
+    public function __construct(Formatter $formatter)
     {
-        $this->formatter = $runner->printsDetailedProgressReport()
-            ? new Documentation($reporter)
-            : new Progress($reporter);
+        $this->formatter = $formatter;
     }
 
     public function update(\SplSubject $subject, $reporterEvent = null)

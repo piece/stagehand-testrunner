@@ -38,6 +38,8 @@
 
 namespace Stagehand\TestRunner\Runner;
 
+use PHPSpec\Runner\Formatter\Documentation;
+use PHPSpec\Runner\Formatter\Progress;
 use PHPSpec\Runner\ReporterEvent;
 use PHPSpec\World;
 use Stagehand\ComponentFactory\IComponentAwareFactory;
@@ -45,6 +47,7 @@ use Stagehand\ComponentFactory\IComponentAwareFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleRunner;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\JUnitXMLFormatterFactory;
+use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\ProgressFormatter;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Reporter;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\SpecLoaderFactory;
 
@@ -90,17 +93,23 @@ class PHPSpecRunner extends Runner
         $options['c'] = $this->terminal->colors();
         $options['failfast'] = $this->stopsOnFailure();
 
+        if ($this->printsDetailedProgressReport()) {
+            $this->reporter->addFormatter(new ProgressFormatter(new Documentation($this->reporter)));
+        } else {
+            $this->reporter->addFormatter(new ProgressFormatter(new Progress($this->reporter)));
+        }
+
         if ($this->usesNotification()) {
             $this->reporter->addFormatter($this->notificationFormatterFactory->create());
         }
 
         if ($this->logsResultsInJUnitXML) {
-            $this->reporter->addFormatter(
+            $this->reporter->addFormatter(new ProgressFormatter(
                 $this->junitXMLFormatterFactory->create(
                     $this->createStreamWriter($this->junitXMLFile),
                     $suite
                 )
-            );
+            ));
         }
 
         $world = new World();

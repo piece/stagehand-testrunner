@@ -141,6 +141,8 @@ class JUnitXMLFormatter extends Progress
 
     public function output()
     {
+        $this->junitXMLWriter->endTestSuite();
+        $this->junitXMLWriter->endTestSuites();
     }
 
     /**
@@ -233,12 +235,6 @@ class JUnitXMLFormatter extends Progress
     protected function renderPending(ReporterEvent $reporterEvent)
     {
         $this->junitXMLWriter->writeError($reporterEvent->message, null, null, null, $reporterEvent->message);
-    }
-
-    protected function _onExit()
-    {
-        $this->junitXMLWriter->endTestSuite();
-        $this->junitXMLWriter->endTestSuites();
     }
 
     /**
