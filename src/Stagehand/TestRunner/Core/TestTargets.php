@@ -145,7 +145,7 @@ class TestTargets
      */
     public function shouldTreatElementAsTest($class, $method = null)
     {
-        if ($this->testsOnlySpecifiedElements()) {
+        if ($this->testsOnlySpecifiedMethods() || $this->testsOnlySpecifiedClasses()) {
             if (is_null($method)) {
                 return in_array(strtolower($class), $this->classes);
             } else {

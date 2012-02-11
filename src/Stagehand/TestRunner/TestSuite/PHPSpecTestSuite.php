@@ -99,11 +99,9 @@ class PHPSpecTestSuite
      */
     public function addExampleGroup(\ReflectionClass $exampleGroupClass)
     {
-        if ($this->testTargets->testsOnlySpecifiedElements()) {
-            if ($this->testTargets->testsOnlySpecifiedClasses()) {
-                if (!$this->testTargets->shouldTreatElementAsTest($exampleGroupClass->getName())) {
-                    return;
-                }
+        if ($this->testTargets->testsOnlySpecifiedClasses()) {
+            if (!$this->testTargets->shouldTreatElementAsTest($exampleGroupClass->getName())) {
+                return;
             }
         }
 

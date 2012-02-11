@@ -69,8 +69,14 @@ class PHPUnitCollector extends Collector
         $testClass = new \ReflectionClass($testCase);
         if ($testClass->isAbstract()) return;
 
-        if ($this->testTargets->testsOnlySpecifiedElements()) {
-            $this->addOnlySpecifiedTestCases($testClass);
+        if ($this->testTargets->testsOnlySpecifiedMethods()) {
+            $this->suite->addTestSuite(
+                new PHPUnitMethodFilterTestSuite($testClass, $this->testTargets)
+            );
+        } elseif ($this->testTargets->testsOnlySpecifiedClasses()) {
+            if ($this->testTargets->shouldTreatElementAsTest($testClass->getName())) {
+                $this->suite->addTestSuite($testClass);
+            }
         } else {
             $suiteMethod = false;
             if ($testClass->hasMethod(\PHPUnit_Runner_BaseTestRunner::SUITE_METHODNAME)) {
@@ -107,23 +113,6 @@ class PHPUnitCollector extends Collector
     protected function createTestSuite($name)
     {
         return new \PHPUnit_Framework_TestSuite($name);
-    }
-
-    /**
-     * @param \ReflectionClass $testClass
-     * @since Method available since Release 2.10.0
-     */
-    protected function addOnlySpecifiedTestCases(\ReflectionClass $testClass)
-    {
-        if ($this->testTargets->testsOnlySpecifiedMethods()) {
-            $this->suite->addTestSuite(
-                new PHPUnitMethodFilterTestSuite($testClass, $this->testTargets)
-            );
-        } elseif ($this->testTargets->testsOnlySpecifiedClasses()) {
-            if ($this->testTargets->shouldTreatElementAsTest($testClass->getName())) {
-                $this->suite->addTestSuite($testClass);
-            }
-        }
     }
 }
 
