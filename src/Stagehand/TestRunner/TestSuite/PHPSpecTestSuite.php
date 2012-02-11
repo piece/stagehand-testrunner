@@ -40,6 +40,7 @@ namespace Stagehand\TestRunner\TestSuite;
 use PHPSpec\Specification\ExampleGroup;
 use PHPSpec\Util\Filter;
 
+use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\TestSuite\ExampleGroupNotFoundException;
 use Stagehand\TestRunner\TestSuite\ExampleNotFoundException;
 
@@ -56,6 +57,11 @@ class PHPSpecTestSuite
      * @var string
      */
     protected $name;
+
+    /**
+     * @var \Stagehand\TestRunner\Core\TestTargets
+     */
+    protected $testTargets;
 
     /**
      * @param array
@@ -81,14 +87,30 @@ class PHPSpecTestSuite
     }
 
     /**
-     * @param \PHPSpec\Specification\ExampleGroup $exampleGroup
+     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
      */
-    public function addExampleGroup(ExampleGroup $exampleGroup)
+    public function setTestTargets(TestTargets $testTargets)
     {
+        $this->testTargets = $testTargets;
+    }
+
+    /**
+     * @param \ReflectionClass $exampleGroupClass
+     */
+    public function addExampleGroup(\ReflectionClass $exampleGroupClass)
+    {
+        if ($this->testTargets->testsOnlySpecifiedElements()) {
+            if ($this->testTargets->testsOnlySpecifiedClasses()) {
+                if (!$this->testTargets->shouldTreatElementAsTest($exampleGroupClass->getName())) {
+                    return;
+                }
+            }
+        }
+
+        $exampleGroup = $exampleGroupClass->newInstance();
         $this->exampleGroups[] = $exampleGroup;
         $this->examplesByGroup[ get_class($exampleGroup) ] = array();
 
-        $exampleGroupClass = new \ReflectionClass($exampleGroup);
         foreach ($exampleGroupClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $exampleMethod) { /* @var $exampleMethod \ReflectionMethod */
             if (strtolower(substr($exampleMethod->getName(), 0, 2)) == 'it') {
                 $this->examplesByGroup[ get_class($exampleGroup) ][] = $exampleMethod;

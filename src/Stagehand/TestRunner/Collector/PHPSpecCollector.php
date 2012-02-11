@@ -59,12 +59,8 @@ class PHPSpecCollector extends Collector
     public function collectTestCase($testCase)
     {
         $specClass = new \ReflectionClass($testCase);
-        if ($specClass->isAbstract()) return;
-
-        if ($this->testTargets->testsOnlySpecifiedElements()) {
-            $this->addOnlySpecifiedExamples($specClass);
-        } else {
-            $this->suite->addExampleGroup($specClass->newInstance());
+        if (!$specClass->isAbstract()) {
+            $this->suite->addExampleGroup($specClass);
         }
     }
 
@@ -76,20 +72,9 @@ class PHPSpecCollector extends Collector
      */
     protected function createTestSuite($name)
     {
-        return new PHPSpecTestSuite($name);
-    }
-
-    /**
-     * @param \ReflectionClass $specClass
-     * @since Method available since Release 3.0.0
-     */
-    protected function addOnlySpecifiedExamples(\ReflectionClass $specClass)
-    {
-        if ($this->testTargets->testsOnlySpecifiedClasses()) {
-            if ($this->testTargets->shouldTreatElementAsTest($specClass->getName())) {
-                $this->suite->addExampleGroup($specClass->newInstance());
-            }
-        }
+        $suite = new PHPSpecTestSuite($name);
+        $suite->setTestTargets($this->testTargets);
+        return $suite;
     }
 }
 
