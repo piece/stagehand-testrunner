@@ -54,17 +54,17 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
         $preparer->setCIUnitPath(__DIR__ . '/../../../../vendor/codeigniter/system/application/tests');
         $preparer->prepare();
 
-        include_once 'Stagehand/TestRunner/testCIUnitMultipleClasses.php';
-        include_once 'Stagehand/TestRunner/testCIUnitIncomplete.php';
-        include_once 'Stagehand/TestRunner/testCIUnitSkipped.php';
-        include_once 'Stagehand/TestRunner/testCIUnitFailureAndPass.php';
-        include_once 'Stagehand/TestRunner/testCIUnitErrorAndPass.php';
-        include_once 'Stagehand/TestRunner/testCIUnitPass.php';
-        include_once 'Stagehand/TestRunner/testCIUnitFailure.php';
-        include_once 'Stagehand/TestRunner/testCIUnitError.php';
-        include_once 'Stagehand/TestRunner/testCIUnitMultipleFailures.php';
-        include_once 'Stagehand/TestRunner/testCIUnitGroups.php';
-        include_once 'Stagehand/TestRunner/testCIUnitMultipleClassesWithNamespace.php';
+        require_once 'Stagehand/TestRunner/testCIUnitMultipleClasses.php';
+        require_once 'Stagehand/TestRunner/testCIUnitIncomplete.php';
+        require_once 'Stagehand/TestRunner/testCIUnitSkipped.php';
+        require_once 'Stagehand/TestRunner/testCIUnitFailureAndPass.php';
+        require_once 'Stagehand/TestRunner/testCIUnitErrorAndPass.php';
+        require_once 'Stagehand/TestRunner/testCIUnitPass.php';
+        require_once 'Stagehand/TestRunner/testCIUnitFailure.php';
+        require_once 'Stagehand/TestRunner/testCIUnitError.php';
+        require_once 'Stagehand/TestRunner/testCIUnitMultipleFailures.php';
+        require_once 'Stagehand/TestRunner/testCIUnitGroups.php';
+        require_once 'Stagehand/TestRunner/testCIUnitMultipleClassesWithNamespace.php';
     }
 
     /**
