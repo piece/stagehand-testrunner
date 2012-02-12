@@ -77,17 +77,25 @@ class ErrorReporting
             $level = error_reporting();
         }
 
-        set_error_handler(function ($code, $message, $file, $line) {
-            if (error_reporting() & $code) {
-                throw new \ErrorException($message, 0, $code, $file, $line);
-            }
-        }, $level
-        );
+        set_error_handler(array(__CLASS__, 'errorToException'), $level);
     }
 
     public static function disableErrorToException()
     {
         restore_error_handler();
+    }
+
+    /**
+     * @param integer $code
+     * @param string $message
+     * @param string $file
+     * @param integer $line
+     */
+    public static function errorToException($code, $message, $file, $line)
+    {
+        if (error_reporting() & $code) {
+            throw new \ErrorException($message, 0, $code, $file, $line);
+        }
     }
 }
 
