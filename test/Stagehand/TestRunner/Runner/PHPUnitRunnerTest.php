@@ -54,7 +54,6 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     protected function configure()
     {
         class_exists('Stagehand_TestRunner_PHPUnitMultipleClassesTest');
-        class_exists('\Stagehand\TestRunner\PHPUnitMultipleClassesWithNamespaceTest');
     }
 
     /**
