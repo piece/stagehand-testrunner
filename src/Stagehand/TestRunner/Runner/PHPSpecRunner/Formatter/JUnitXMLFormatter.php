@@ -146,6 +146,10 @@ class JUnitXMLFormatter extends Progress
 
     public function output()
     {
+        if (is_null($this->currentExampleGroupName)) {
+            $this->startRendering();
+        }
+
         $this->junitXMLWriter->endTestSuite();
         $this->junitXMLWriter->endTestSuites();
     }
