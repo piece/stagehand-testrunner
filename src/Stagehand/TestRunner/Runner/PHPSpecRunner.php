@@ -131,17 +131,13 @@ class PHPSpecRunner extends Runner
 
         $oldErrorHandler = set_error_handler(function () {});
         restore_error_handler();
-        if (!is_null($oldErrorHandler)) {
-            $this->cliRunner->setErrorHandler($oldErrorHandler);
-        }
 
-        try {
-            $this->cliRunner->run($world);
-        } catch (\Exception $e) {
-            restore_error_handler();
-        }
-
+        $this->cliRunner->run($world);
         $this->reporter->notify(new ReporterEvent('termination', '', ''));
+
+        if (!is_null($oldErrorHandler)) {
+            set_error_handler($oldErrorHandler);
+        }
 
         if ($this->usesNotification()) {
             $this->notification = $this->notificationFormatterFactory->create()->getNotification();
