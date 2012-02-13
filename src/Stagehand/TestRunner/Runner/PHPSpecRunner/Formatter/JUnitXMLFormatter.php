@@ -156,11 +156,7 @@ class JUnitXMLFormatter extends Progress
     protected function _startRenderingExampleGroup($reporterEvent)
     {
         if (is_null($this->currentExampleGroupName)) {
-            $this->junitXMLWriter->startTestSuites();
-            $this->junitXMLWriter->startTestSuite(
-                $this->testSuite->getName(),
-                $this->testSuite->getAllExampleCount()
-            );
+            $this->startRendering();
         }
 
         $this->currentExampleGroupName = $reporterEvent->example;
@@ -271,6 +267,15 @@ class JUnitXMLFormatter extends Progress
     {
         $elapsedTime = microtime(true) - $this->exampleStartTime;
         $this->junitXMLWriter->endTestCase($elapsedTime, $this->assertionCount);
+    }
+
+    protected function startRendering()
+    {
+        $this->junitXMLWriter->startTestSuites();
+        $this->junitXMLWriter->startTestSuite(
+            $this->testSuite->getName(),
+            $this->testSuite->getAllExampleCount()
+        );
     }
 }
 
