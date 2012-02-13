@@ -53,7 +53,6 @@ require_once 'simpletest/mock_objects.php';
 class JUnitXMLTest extends \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLTest
 {
     /**
-     * @return string
      * @since Method available since Release 3.0.0
      */
     protected function getPluginID()

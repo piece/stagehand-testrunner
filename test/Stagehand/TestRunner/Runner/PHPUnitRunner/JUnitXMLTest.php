@@ -50,7 +50,6 @@ use Stagehand\TestRunner\Runner\TestCase;
 class JUnitXMLTest extends TestCase
 {
     /**
-     * @return string
      * @since Method available since Release 3.0.0
      */
     protected function getPluginID()

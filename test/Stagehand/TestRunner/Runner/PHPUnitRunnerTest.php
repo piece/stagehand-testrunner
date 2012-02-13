@@ -57,7 +57,6 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     }
 
     /**
-     * @return string
      * @since Method available since Release 3.0.0
      */
     protected function getPluginID()
