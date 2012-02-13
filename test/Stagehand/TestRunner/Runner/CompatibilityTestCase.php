@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Test\FactoryAwareTestCase;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
