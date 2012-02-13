@@ -200,14 +200,6 @@ abstract class CompatibilityTestCase extends TestCase
      * @return array
      */
     abstract public function dataForMultipleFailures();
-
-    /**
-     * @return string
-     */
-    protected function getTestMethodName($testMethodName)
-    {
-        return $testMethodName;
-    }
 }
 
 /*

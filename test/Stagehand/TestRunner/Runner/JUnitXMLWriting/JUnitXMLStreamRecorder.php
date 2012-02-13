@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,51 +29,61 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.14.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Runner\CakePHPRunner\JUnitXMLTest;
+namespace Stagehand\TestRunner\Runner\JUnitXMLWriting;
 
-use Stagehand\TestRunner\Runner\CakePHPRunner;
-use Stagehand\TestRunner\Runner\JUnitXMLStreamRecorder;
-use Stagehand\TestRunner\Runner\JUnitXMLStreamTester;
+use Stagehand\TestRunner\Util\FileStreamWriter;
+use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.14.0
+ * @since      Class available since Release 3.0.0
  */
-class MockCakePHPRunner extends CakePHPRunner implements JUnitXMLStreamTester
+class JUnitXMLStreamRecorder implements StreamWriter
 {
     /**
-     * @var \Stagehand\TestRunner\Runner\JUnitXMLStreamRecorder
-     * @since Property available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Util\FileStreamWriter
      */
-    protected $junitXMLStreamRecorder;
+    protected $fileStreamWriter;
 
     /**
-     * @return \Stagehand\TestRunner\Runner\JUnitXMLStreamRecorder
-     * @since Method available since Release 3.0.0
+     * @var array
      */
-    public function getJUnitXMLStreamRecorder()
-    {
-        return $this->junitXMLStreamRecorder;
-    }
+    protected $streamContents = array();
 
     /**
      * @param string $file
-     * @return \Stagehand\TestRunner\Util\StreamWriter
-     * @since Method available since Release 3.0.0
+     * @throws \Stagehand\TestRunner\Core\Exception
      */
-    protected function createStreamWriter($file)
+    public function __construct($file)
     {
-        $this->junitXMLStreamRecorder = new JUnitXMLStreamRecorder($file);
-        return $this->junitXMLStreamRecorder;
+        $this->fileStreamWriter = new FileStreamWriter($file);
+    }
+
+    /**
+     * @param string $buffer
+     * @throws \Stagehand\TestRunner\Core\Exception
+     */
+    public function write($buffer)
+    {
+        $this->streamContents[] = $buffer;
+        $this->fileStreamWriter->write($buffer);
+    }
+
+    /**
+     * @return array
+     */
+    public function getStreamContents()
+    {
+        return $this->streamContents;
     }
 }
 

@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,47 +29,35 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.10.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Runner\PHPUnitRunner\JUnitXMLTest;
+namespace Stagehand\TestRunner\Runner\JUnitXMLWriting;
 
-use Stagehand\TestRunner\Runner\PHPUnitRunner;
-use Stagehand\TestRunner\Runner\JUnitXMLStreamRecorder;
-use Stagehand\TestRunner\Runner\JUnitXMLStreamTester;
+use Stagehand\TestRunner\Runner\SimpleTestRunner;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.10.0
+ * @since      Class available since Release 3.0.0
  */
-class MockPHPUnitRunner extends PHPUnitRunner implements JUnitXMLStreamTester
+class StreamingSimpleTestRunner extends SimpleTestRunner implements JUnitXMLStreamTester
 {
     /**
      * @var \Stagehand\TestRunner\Runner\JUnitXMLStreamRecorder
-     * @since Property available since Release 3.0.0
      */
     protected $junitXMLStreamRecorder;
 
-    /**
-     * @return \Stagehand\TestRunner\Runner\JUnitXMLStreamRecorder
-     * @since Method available since Release 3.0.0
-     */
     public function getJUnitXMLStreamRecorder()
     {
         return $this->junitXMLStreamRecorder;
     }
 
-    /**
-     * @param string $file
-     * @return \Stagehand\TestRunner\Util\StreamWriter
-     * @since Method available since Release 3.0.0
-     */
     protected function createStreamWriter($file)
     {
         $this->junitXMLStreamRecorder = new JUnitXMLStreamRecorder($file);

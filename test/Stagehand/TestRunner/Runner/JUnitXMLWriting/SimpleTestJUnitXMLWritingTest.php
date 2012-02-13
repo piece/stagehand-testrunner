@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,60 +29,79 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Runner;
+namespace Stagehand\TestRunner\Runner\JUnitXMLWriting;
 
-use Stagehand\TestRunner\Util\FileStreamWriter;
-use Stagehand\TestRunner\Util\StreamWriter;
+use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class JUnitXMLStreamRecorder implements StreamWriter
+class SimpleTestJUnitXMLWritingTest extends CompatibilityTestCase
 {
-    /**
-     * @var \Stagehand\TestRunner\Util\FileStreamWriter
-     */
-    protected $fileStreamWriter;
-
-    /**
-     * @var array
-     */
-    protected $streamContents = array();
-
-    /**
-     * @param string $file
-     * @throws \Stagehand\TestRunner\Core\Exception
-     */
-    public function __construct($file)
+    protected function configure()
     {
-        $this->fileStreamWriter = new FileStreamWriter($file);
+        $this->createPreparer()->prepare();
+
+        require_once 'Stagehand/TestRunner/SimpleTestMultipleClassesTest.php';
     }
 
-    /**
-     * @param string $buffer
-     * @throws \Stagehand\TestRunner\Core\Exception
-     */
-    public function write($buffer)
+    protected function getPluginID()
     {
-        $this->streamContents[] = $buffer;
-        $this->fileStreamWriter->write($buffer);
+        return SimpleTestPlugin::getPluginID();
+    }
+
+    public function dataForJUnitXML()
+    {
+        return array(
+            array('Stagehand_TestRunner_SimpleTestPassTest', array('testPassWithAnAssertion', 'testPassWithMultipleAssertions', 'test日本語を使用できる'), self::RESULT_PASS),
+            array('Stagehand_TestRunner_SimpleTestFailureTest', array('testIsFailure'), self::RESULT_FAILURE),
+            array('Stagehand_TestRunner_SimpleTestErrorTest', array('testIsError'), self::RESULT_ERROR),
+        );
+    }
+
+    public function dataForTestMethods()
+    {
+        return array(
+            array('Stagehand_TestRunner_SimpleTestMultipleClasses1Test', 'testPass1'),
+        );
+    }
+
+    public function dataForTestClasses()
+    {
+        return array(
+            array(array('Stagehand_TestRunner_SimpleTestMultipleClasses1Test', 'Stagehand_TestRunner_SimpleTestMultipleClasses2Test'), 'Stagehand_TestRunner_SimpleTestMultipleClasses1Test'),
+        );
+    }
+
+    public function dataForInheritedTestMethods()
+    {
+        return array(
+            array('Stagehand_TestRunner_SimpleTestExtendedTest', 'testTestShouldPassCommon'),
+        );
+    }
+
+    public function dataForFailuresInInheritedTestMethod()
+    {
+        return array(
+            array('Stagehand_TestRunner_SimpleTestExtendedTest', 'testTestShouldFailCommon'),
+        );
     }
 }
 
 /*
  * Local Variables:
  * mode: php
- * coding: iso-8859-1
+ * coding: utf-8
  * tab-width: 4
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil
