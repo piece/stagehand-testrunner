@@ -89,7 +89,9 @@ abstract class TestCase extends FactoryAwareTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        unlink($this->junitXMLFile);
+        if (file_exists($this->junitXMLFile)) {
+            unlink($this->junitXMLFile);
+        }
     }
 
     protected function assertTestCaseCount($count)
