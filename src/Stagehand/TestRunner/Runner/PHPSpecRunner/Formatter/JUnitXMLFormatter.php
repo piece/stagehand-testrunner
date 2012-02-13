@@ -150,8 +150,7 @@ class JUnitXMLFormatter extends Progress
             $this->startRendering();
         }
 
-        $this->junitXMLWriter->endTestSuite();
-        $this->junitXMLWriter->endTestSuites();
+        $this->finishRendering();
     }
 
     /**
@@ -280,6 +279,12 @@ class JUnitXMLFormatter extends Progress
             $this->testSuite->getName(),
             $this->testSuite->getAllExampleCount()
         );
+    }
+
+    protected function finishRendering()
+    {
+        $this->junitXMLWriter->endTestSuite();
+        $this->junitXMLWriter->endTestSuites();
     }
 }
 
