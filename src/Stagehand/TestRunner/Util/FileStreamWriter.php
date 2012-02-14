@@ -75,9 +75,7 @@ class FileStreamWriter implements StreamWriter
 
     public function __destruct()
     {
-        if (is_resource($this->fileHandle)) {
-            fclose($this->fileHandle);
-        }
+        $this->close();
     }
 
     /**
