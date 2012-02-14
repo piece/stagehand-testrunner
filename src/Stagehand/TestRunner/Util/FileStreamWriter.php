@@ -91,6 +91,13 @@ class FileStreamWriter implements StreamWriter
             throw new Exception('Failed to write buffer into the file [ ' . $this->file . ' ].');
         }
     }
+
+    public function close()
+    {
+        if (is_resource($this->fileHandle)) {
+            fclose($this->fileHandle);
+        }
+    }
 }
 
 /*

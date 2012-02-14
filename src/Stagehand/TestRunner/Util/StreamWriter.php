@@ -50,6 +50,8 @@ interface StreamWriter
      * @param string $buffer
      */
     public function write($buffer);
+
+    public function close();
 }
 
 /*

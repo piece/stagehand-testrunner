@@ -78,6 +78,11 @@ class JUnitXMLStreamRecorder implements StreamWriter
         $this->fileStreamWriter->write($buffer);
     }
 
+    public function close()
+    {
+        $this->fileStreamWriter->close();
+    }
+
     /**
      * @return array
      */

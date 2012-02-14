@@ -210,6 +210,7 @@ class JUnitXMLDOMWriter implements JUnitXMLWriter
     public function endTestSuites()
     {
         $this->flush();
+        $this->streamWriter->close();
     }
 
     /**

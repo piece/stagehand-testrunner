@@ -185,6 +185,7 @@ class JUnitXMLStreamWriter implements JUnitXMLWriter
     {
         $this->xmlWriter->endElement();
         $this->flush();
+        $this->streamWriter->close();
     }
 
     /**
