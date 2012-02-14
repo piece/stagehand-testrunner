@@ -106,6 +106,9 @@ class JUnitXMLReporter extends \SimpleReporter
     public function paintGroupStart($testName, $size)
     {
         parent::paintGroupStart($testName, $size);
+        if (count($this->_test_stack) == 1) {
+            $this->junitXMLWriter->startTestSuites();
+        }
         $this->junitXMLWriter->startTestSuite($testName, $this->suite->countTests());
     }
 
@@ -116,6 +119,9 @@ class JUnitXMLReporter extends \SimpleReporter
     {
         parent::paintGroupEnd($testName);
         $this->junitXMLWriter->endTestSuite();
+        if (count($this->_test_stack) == 0) {
+            $this->junitXMLWriter->endTestSuites();
+        }
     }
 
     /**
@@ -176,24 +182,6 @@ class JUnitXMLReporter extends \SimpleReporter
         if ($this->caseIsArtificial) {
             $this->paintCaseEnd(\SimpleTest::getContext()->getTest()->getLabel());
         }
-    }
-
-    /**
-     * @param string $testName
-     */
-    public function paintHeader($testName)
-    {
-        parent::paintHeader($testName);
-        $this->junitXMLWriter->startTestSuites();
-    }
-
-    /**
-     * @param string $testName
-     */
-    public function paintFooter($testName)
-    {
-        parent::paintFooter($testName);
-        $this->junitXMLWriter->endTestSuites();
     }
 
     /**
