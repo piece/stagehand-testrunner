@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Collector;
 
+use Symfony\Component\Finder\Finder;
+
 use Stagehand\TestRunner\Collector\CollectingTypeFactory;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Exception;
@@ -94,13 +96,14 @@ abstract class Collector
             }
 
             if (is_dir($absoluteTargetPath)) {
-                $directoryScanner = new \Stagehand_DirectoryScanner(function ($element) use ($collector) {
-                    if (is_file($element)) {
-                        call_user_func($collector, $element);
-                    }
-                });
-                $directoryScanner->setRecursivelyScans($testTargets->recursivelyScans());
-                $directoryScanner->scan($absoluteTargetPath);
+                $finder = Finder::create()
+                    ->files()
+                    ->in($absoluteTargetPath)
+                    ->depth($testTargets->recursivelyScans() ? '>= 0' : '== 0')
+                    ->sortByName();
+                foreach ($finder->getIterator() as $file) {
+                    call_user_func($collector, $file->getPathname());
+                }
             } else {
                 call_user_func($collector, $absoluteTargetPath);
             }
