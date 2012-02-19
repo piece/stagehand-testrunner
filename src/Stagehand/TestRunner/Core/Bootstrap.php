@@ -37,10 +37,6 @@
 
 namespace Stagehand\TestRunner\Core;
 
-// Does not load UniversalClassLoader.php if the UniversalClassLoader class has already been defined.
-if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) {
-    require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
-}
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 use Stagehand\ComponentFactory\ComponentFactory;
@@ -85,15 +81,31 @@ class Bootstrap
         static $classLoaderRegistered = false;
 
         if (!$classLoaderRegistered) {
-            $includePaths = explode(PATH_SEPARATOR, get_include_path());
-            $classLoader = new UniversalClassLoader();
-            foreach (self::$namespaces as $namespace) {
-                $classLoader->registerNamespace($namespace, $includePaths);
+            if (file_exists(__DIR__ . '/../../../../vendor/.composer/autoload.php')) {
+                require_once __DIR__ . '/../../../../vendor/.composer/autoload.php';
+
+                $includePaths = explode(PATH_SEPARATOR, get_include_path());
+                $classLoader = new UniversalClassLoader();
+                foreach (self::$prefixes as $prefix) {
+                    $classLoader->registerPrefix($prefix, $includePaths);
+                }
+                $classLoader->register();
+            } else {
+                // Does not load UniversalClassLoader.php if the UniversalClassLoader class has already been defined.
+                if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) {
+                    require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
+                }
+
+                $includePaths = explode(PATH_SEPARATOR, get_include_path());
+                $classLoader = new UniversalClassLoader();
+                foreach (self::$namespaces as $namespace) {
+                    $classLoader->registerNamespace($namespace, $includePaths);
+                }
+                foreach (self::$prefixes as $prefix) {
+                    $classLoader->registerPrefix($prefix, $includePaths);
+                }
+                $classLoader->register();
             }
-            foreach (self::$prefixes as $prefix) {
-                $classLoader->registerPrefix($prefix, $includePaths);
-            }
-            $classLoader->register();
 
             $classLoaderRegistered = true;
         }

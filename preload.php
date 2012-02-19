@@ -39,8 +39,6 @@ error_reporting(error_reporting() & ~E_STRICT & ~E_DEPRECATED);
 
 set_include_path(implode(PATH_SEPARATOR, array(
     __DIR__ . '/src',
-    __DIR__ . '/vendor/symfony/src',
-    __DIR__ . '/vendor/stagehand-componentfactory/src',
     get_include_path(),
 )));
 

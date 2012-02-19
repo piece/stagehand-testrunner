@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Test;
 
+use Symfony\Component\ClassLoader\UniversalClassLoader;
+
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Core\DependencyInjection\Container;
@@ -61,9 +63,17 @@ class TestEnvironment extends Environment
 
     public static function earlyInitialize()
     {
+        $classLoader = new UniversalClassLoader();
+        $classLoader->registerNamespace('Stagehand\TestRunner', array(
+            __DIR__ . '/../../..',
+            __DIR__ . '/../../../../examples',
+        ));
+        $classLoader->registerPrefix('Stagehand_TestRunner_', __DIR__ . '/../../../../examples');
+        $classLoader->register();
+
         self::$applicationContext = new TestApplicationContext();
         self::$applicationContext->setComponentFactory(new TestComponentFactory());
-        self::$applicationContext->setEnvironment(new TestEnvironment());
+        self::$applicationContext->setEnvironment(new self());
         self::$applicationContext->setPlugin(PluginFinder::findByPluginID(PHPUnitPlugin::getPluginID()));
         ApplicationContext::setInstance(self::$applicationContext);
 
