@@ -133,7 +133,7 @@ services:
     class: Stagehand\TestRunner\Collector\CollectingType
     factory_service: component_aware_factory_factory
     factory_method: create
-    arguments: [ "collecting_type", "\\Stagehand\\TestRunner\\Collector\\CollectingTypeFactory" ]
+    arguments: [ "collecting_type", "Stagehand\\TestRunner\\Collector\\CollectingTypeFactory" ]
   runner:
     abstract: true
     calls:

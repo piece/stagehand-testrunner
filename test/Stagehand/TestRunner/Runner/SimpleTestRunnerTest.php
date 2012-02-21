@@ -63,7 +63,7 @@ class SimpleTestRunnerTest extends CompatibilityTestCase
         $preparer->prepare();
 
         class_exists('Stagehand_TestRunner_' . $this->getPluginID() . 'MultipleClassesTest');
-        class_exists('\Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespaceTest');
+        class_exists('Stagehand\TestRunner\\' . $this->getPluginID() . 'MultipleClassesWithNamespaceTest');
     }
 
     /**

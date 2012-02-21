@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.19.0
@@ -41,7 +41,7 @@ use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.19.0
@@ -56,7 +56,7 @@ class PHPUnitPreparerTest extends PHPUnitFactoryAwareTestCase
      */
     public function reflectsTheColorsAttributeInTheXmlConfigurationFileToTheConfiguration($colors)
     {
-        $phpunitXMLConfiguration = \Phake::mock('\Stagehand\TestRunner\Core\PHPUnitXMLConfiguration');
+        $phpunitXMLConfiguration = \Phake::mock('Stagehand\TestRunner\Core\PHPUnitXMLConfiguration');
         \Phake::when($phpunitXMLConfiguration)->hasPHPUnitConfiguration('colors')->thenReturn(true);
         \Phake::when($phpunitXMLConfiguration)->getPHPUnitConfiguration('colors')->thenReturn($colors);
         $this->applicationContext->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);

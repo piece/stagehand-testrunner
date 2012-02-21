@@ -53,7 +53,7 @@ namespace Stagehand\TestRunner\Collector;
  */
 class SimpleTestCollector extends Collector
 {
-    protected $suiteClass = '\Stagehand\TestRunner\TestSuite\SimpleTestTestSuite';
+    protected $suiteClass = 'Stagehand\TestRunner\TestSuite\SimpleTestTestSuite';
 
     /**
      * @param string $testCase

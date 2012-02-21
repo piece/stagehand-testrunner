@@ -58,7 +58,7 @@ class CollectingTypeTest extends PHPUnitFactoryAwareTestCase
      */
     public function tellsWhetherATypeIsATest($type, $isSubTypeOfRequiredSuperType, $isTest)
     {
-        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Core\LegacyProxy');
         \Phake::when($legacyProxy)->is_subclass_of($this->anything(), $this->anything())
             ->thenReturn($isSubTypeOfRequiredSuperType);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);

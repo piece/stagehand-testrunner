@@ -46,7 +46,7 @@ namespace Stagehand\TestRunner\Collector;
  */
 class CakePHPCollector extends SimpleTestCollector
 {
-    protected $suiteClass = '\Stagehand\TestRunner\TestSuite\CakePHPTestSuite';
+    protected $suiteClass = 'Stagehand\TestRunner\TestSuite\CakePHPTestSuite';
 }
 
 /*

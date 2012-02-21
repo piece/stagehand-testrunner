@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.20.0
@@ -41,7 +41,7 @@ use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
@@ -60,7 +60,7 @@ class NotifierTest extends PHPUnitFactoryAwareTestCase
      */
     public function notifiesTheResultByTheAppropriateCommandForTheCurrentHost($result, $os, $commandRegex)
     {
-        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Core\LegacyProxy');
         \Phake::when($legacyProxy)->PHP_OS()->thenReturn($os);
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
@@ -152,7 +152,7 @@ class NotifierTest extends PHPUnitFactoryAwareTestCase
      */
     public function addsABackslashForEachBackslashInTheMessageOnLinuxToPreventLosingOriginalBackslashes()
     {
-        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Core\LegacyProxy');
         \Phake::when($legacyProxy)->PHP_OS()->thenReturn('linux');
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);

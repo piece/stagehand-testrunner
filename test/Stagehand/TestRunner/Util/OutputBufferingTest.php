@@ -54,7 +54,7 @@ class OutputBufferingTest extends PHPUnitFactoryAwareTestCase
      */
     public function clearsThePrecedingOutputHandlers()
     {
-        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Core\LegacyProxy');
         \Phake::when($legacyProxy)->ob_get_level()
           ->thenReturn(2)
           ->thenReturn(1)
@@ -75,7 +75,7 @@ class OutputBufferingTest extends PHPUnitFactoryAwareTestCase
      */
     public function raisesAnExceptionWhenAPrecedingOutputBufferCannotBeRemoved()
     {
-        $legacyProxy = \Phake::mock('\Stagehand\TestRunner\Core\LegacyProxy');
+        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Core\LegacyProxy');
         \Phake::when($legacyProxy)->ob_get_level()->thenReturn(1);
         \Phake::when($legacyProxy)->ob_end_clean()->thenThrow(new \ErrorException());
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);

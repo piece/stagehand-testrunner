@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
  * All rights reserved.
  *
@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -44,7 +44,7 @@ use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -62,20 +62,20 @@ class TestRunTest extends PHPUnitFactoryAwareTestCase
      */
     public function runsATest($usesNotification)
     {
-        $outputBuffering = \Phake::mock('\Stagehand\TestRunner\Util\OutputBuffering');
+        $outputBuffering = \Phake::mock('Stagehand\TestRunner\Util\OutputBuffering');
         \Phake::when($outputBuffering)->clearOutputHandlers()->thenReturn(null);
         $this->applicationContext->setComponent('output_buffering', $outputBuffering);
 
-        $preparer = \Phake::mock('\Stagehand\TestRunner\Preparer\Preparer');
+        $preparer = \Phake::mock('Stagehand\TestRunner\Preparer\Preparer');
         \Phake::when($preparer)->prepare()->thenReturn(null);
         $this->applicationContext->setComponent('phpunit.preparer', $preparer);
 
-        $collector = \Phake::mock('\Stagehand\TestRunner\Collector\Collector');
+        $collector = \Phake::mock('Stagehand\TestRunner\Collector\Collector');
         $testSuite = new \stdClass();
         \Phake::when($collector)->collect()->thenReturn($testSuite);
         $this->applicationContext->setComponent('phpunit.collector', $collector);
 
-        $runner = \Phake::mock('\Stagehand\TestRunner\Runner\Runner');
+        $runner = \Phake::mock('Stagehand\TestRunner\Runner\Runner');
         \Phake::when($runner)->run($this->anything())->thenReturn(null);
         \Phake::when($runner)->usesNotification()->thenReturn($usesNotification);
         if ($usesNotification) {
@@ -84,7 +84,7 @@ class TestRunTest extends PHPUnitFactoryAwareTestCase
         }
         $this->applicationContext->setComponent('phpunit.runner', $runner);
 
-        $notifier = \Phake::mock('\Stagehand\TestRunner\Notification\Notifier');
+        $notifier = \Phake::mock('Stagehand\TestRunner\Notification\Notifier');
         if ($usesNotification) {
             \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
         }

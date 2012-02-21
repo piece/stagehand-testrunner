@@ -106,15 +106,15 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
     public function transformsOptionsToConfiguration(array $options, \Closure $preparer, \Closure $verifier)
     {
         $transformation = \Phake::partialMock(
-            '\Stagehand\TestRunner\Core\Transformation\Transformation',
+            'Stagehand\TestRunner\Core\Transformation\Transformation',
             $this->applicationContext->getComponentFactory()->getContainer()
         );
-        $command = \Phake::partialMock('\Stagehand\TestRunner\CLI\Application\Command\\' . $this->getPluginID() . 'Command');
+        $command = \Phake::partialMock('Stagehand\TestRunner\CLI\Application\Command\\' . $this->getPluginID() . 'Command');
         \Phake::when($command)->createContainer()
             ->thenReturn($this->applicationContext->getComponentFactory()->getContainer());
         \Phake::when($command)->createTransformation($this->anything())
             ->thenReturn($transformation);
-        $testRunner = \Phake::mock('\Stagehand\TestRunner\CLI\TestRunner');
+        $testRunner = \Phake::mock('Stagehand\TestRunner\CLI\TestRunner');
         \Phake::when($testRunner)->run()->thenReturn(null);
         $this->applicationContext->setComponent('test_runner', $testRunner);
 
