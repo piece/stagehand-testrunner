@@ -71,24 +71,17 @@ class Bootstrap
 
     public function prepareClassLoader()
     {
-        static $classLoaderRegistered = false;
-
-        if (!$classLoaderRegistered) {
-            if (!file_exists(__DIR__ . '/../../../../vendor/.composer/autoload.php')) {
-                // Does not load UniversalClassLoader.php if the UniversalClassLoader class has already been defined.
-                if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) {
-                    require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
-                }
-
-                $includePaths = explode(PATH_SEPARATOR, get_include_path());
-                $classLoader = new UniversalClassLoader();
-                foreach (self::$namespaces as $namespace) {
-                    $classLoader->registerNamespace($namespace, $includePaths);
-                }
-                $classLoader->register();
+        if (!class_exists('Stagehand\TestRunner\Core\Environment')) {
+            if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) {
+                require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
             }
 
-            $classLoaderRegistered = true;
+            $includePaths = explode(PATH_SEPARATOR, get_include_path());
+            $classLoader = new UniversalClassLoader();
+            foreach (self::$namespaces as $namespace) {
+                $classLoader->registerNamespace($namespace, $includePaths);
+            }
+            $classLoader->register();
         }
     }
 

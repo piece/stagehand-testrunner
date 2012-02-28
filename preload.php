@@ -42,6 +42,8 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+require_once __DIR__ . '/vendor/.composer/autoload.php';
+
 /*
  * Local Variables:
  * mode: php
