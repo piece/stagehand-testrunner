@@ -63,13 +63,6 @@ class Bootstrap
         'Stagehand\TestRunner',
     );
 
-    /**
-     * @var array
-     */
-    private static $prefixes = array(
-        'Stagehand_',
-    );
-
     public function boot()
     {
         $this->prepareClassLoader();
@@ -81,16 +74,7 @@ class Bootstrap
         static $classLoaderRegistered = false;
 
         if (!$classLoaderRegistered) {
-            if (file_exists(__DIR__ . '/../../../../vendor/.composer/autoload.php')) {
-                require_once __DIR__ . '/../../../../vendor/.composer/autoload.php';
-
-                $includePaths = explode(PATH_SEPARATOR, get_include_path());
-                $classLoader = new UniversalClassLoader();
-                foreach (self::$prefixes as $prefix) {
-                    $classLoader->registerPrefix($prefix, $includePaths);
-                }
-                $classLoader->register();
-            } else {
+            if (!file_exists(__DIR__ . '/../../../../vendor/.composer/autoload.php')) {
                 // Does not load UniversalClassLoader.php if the UniversalClassLoader class has already been defined.
                 if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) {
                     require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
@@ -100,9 +84,6 @@ class Bootstrap
                 $classLoader = new UniversalClassLoader();
                 foreach (self::$namespaces as $namespace) {
                     $classLoader->registerNamespace($namespace, $includePaths);
-                }
-                foreach (self::$prefixes as $prefix) {
-                    $classLoader->registerPrefix($prefix, $includePaths);
                 }
                 $classLoader->register();
             }
