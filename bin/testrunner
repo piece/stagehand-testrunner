@@ -82,7 +82,13 @@ $preload = function () {
 };
 $preload();
 
-require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
+if (file_exists(__DIR__ . '/../../../.composer/autoload.php')) {
+    require_once __DIR__ . '/../../../.composer/autoload.php';
+} elseif (file_exists(__DIR__ . '/../vendor/.composer/autoload.php')) {
+    require_once __DIR__ . '/../vendor/.composer/autoload.php';
+} else {
+    require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
+}
 
 $bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
 $bootstrap->boot();
