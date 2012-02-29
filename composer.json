@@ -28,5 +28,5 @@
     "autoload": {
         "psr-0": { "Stagehand\\TestRunner": "src/" }
     },
-    "bin": ["bin/testrunner", "bin/testrunner.bat"]
+    "bin": ["bin/testrunner"]
 }
