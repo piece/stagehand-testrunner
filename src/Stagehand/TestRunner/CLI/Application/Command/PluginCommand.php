@@ -124,6 +124,15 @@ PHP_EOL .
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (!class_exists('Stagehand\TestRunner\Core\DependencyInjection\PrecompiledContainer')) {
+            $output->writeln(
+'<error>Please run the following command before running the ' . $this->getName() . ' command:</error>' . PHP_EOL .
+PHP_EOL .
+'  <info>testrunner compile</info>'
+            );
+            return 1;
+        }
+
         $container = $this->createContainer();
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
         ApplicationContext::getInstance()->setPlugin($this->getPlugin());
