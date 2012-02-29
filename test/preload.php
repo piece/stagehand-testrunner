@@ -35,7 +35,7 @@
  * @since      File available since Release 2.10.0
  */
 
-require __DIR__ . '/../preload.php';
+error_reporting(error_reporting() & ~E_STRICT & ~E_DEPRECATED);
 
 set_include_path(implode(PATH_SEPARATOR, array(
     __DIR__ . '/../examples',
@@ -43,7 +43,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 require_once 'Phake.php';
-require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
+require_once __DIR__ . '/../vendor/.composer/autoload.php';
 
 $bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
 $bootstrap->prepareClassLoader();
