@@ -69,7 +69,7 @@ class Bootstrap
         $this->prepareApplicationContext();
     }
 
-    public function prepareClassLoader()
+    protected function prepareClassLoader()
     {
         if (!class_exists('Stagehand\TestRunner\Core\Environment')) {
             if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) {
