@@ -42,13 +42,10 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+require __DIR__ . '/../vendor/.composer/autoload.php';
+require __DIR__ . '/Stagehand/TestRunner/Test/TestEnvironment.php';
+
 require_once 'Phake.php';
-require_once __DIR__ . '/../vendor/.composer/autoload.php';
-
-$bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
-$bootstrap->prepareClassLoader();
-
-require_once __DIR__ . '/Stagehand/TestRunner/Test/TestEnvironment.php';
 
 \Phake::setClient(\Phake::CLIENT_PHPUNIT);
 \Stagehand\TestRunner\Util\ErrorReporting::enableErrorToException();
