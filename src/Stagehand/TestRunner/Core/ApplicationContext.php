@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Core;
 
-use Stagehand\ComponentFactory\IComponentFactory;
+use Stagehand\ComponentFactory\ComponentFactory;
 
 use Stagehand\TestRunner\Core\Plugin\IPlugin;
 
@@ -56,7 +56,7 @@ class ApplicationContext
     private static $soleInstance;
 
     /**
-     * @var \Stagehand\ComponentFactory\IComponentFactory
+     * @var \Stagehand\ComponentFactory\ComponentFactory
      */
     protected $componentFactory;
 
@@ -87,15 +87,15 @@ class ApplicationContext
     }
 
     /**
-     * @param \Stagehand\ComponentFactory\IComponentFactory $componentFactory
+     * @param \Stagehand\ComponentFactory\ComponentFactory $componentFactory
      */
-    public function setComponentFactory(IComponentFactory $componentFactory)
+    public function setComponentFactory(ComponentFactory $componentFactory)
     {
         $this->componentFactory = $componentFactory;
     }
 
     /**
-     * @return \Stagehand\ComponentFactory\IComponentFactory
+     * @return \Stagehand\ComponentFactory\ComponentFactory
      */
     public function getComponentFactory()
     {
