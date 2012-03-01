@@ -65,11 +65,11 @@ class Bootstrap
 
     public function boot()
     {
-        $this->prepareClassLoader();
+        $this->configureClassLoader();
         $this->prepareApplicationContext();
     }
 
-    protected function prepareClassLoader()
+    protected function configureClassLoader()
     {
         if (!class_exists('Stagehand\TestRunner\Core\Environment')) {
             if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) {
