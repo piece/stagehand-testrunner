@@ -66,7 +66,7 @@ class Bootstrap
     public function boot()
     {
         $this->configureClassLoader();
-        $this->prepareApplicationContext();
+        $this->configureApplicationContext();
     }
 
     protected function configureClassLoader()
@@ -85,7 +85,7 @@ class Bootstrap
         }
     }
 
-    protected function prepareApplicationContext()
+    protected function configureApplicationContext()
     {
         $environment = new Environment();
         $environment->setWorkingDirectoryAtStartup($GLOBALS['STAGEHAND_TESTRUNNER_workingDirectoryAtStartup']);
