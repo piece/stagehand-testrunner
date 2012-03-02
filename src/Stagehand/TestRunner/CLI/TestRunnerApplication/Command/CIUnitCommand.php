@@ -43,7 +43,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Stagehand\TestRunner\Core\Configuration\CIUnitConfiguration;
 use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
@@ -57,7 +57,7 @@ class CIUnitCommand extends PHPUnitCommand
 {
     protected function getPlugin()
     {
-        return PluginFinder::findByPluginID(CIUnitPlugin::getPluginID());
+        return PluginRepository::findByPluginID(CIUnitPlugin::getPluginID());
     }
 
     protected function doConfigure()

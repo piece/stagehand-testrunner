@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 use Stagehand\TestRunner\Core\Transformation\Transformation;
 
@@ -55,7 +55,7 @@ class SimpleTestCommand extends PluginCommand
 {
     protected function getPlugin()
     {
-        return PluginFinder::findByPluginID(SimpleTestPlugin::getPluginID());
+        return PluginRepository::findByPluginID(SimpleTestPlugin::getPluginID());
     }
 
     protected function doConfigure()

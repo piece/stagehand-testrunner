@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 
 /**
  * @package    Stagehand_TestRunner
@@ -54,7 +54,7 @@ class ExtensionFinder
      */
     public static function findAll()
     {
-        $plugins = PluginFinder::findAll();
+        $plugins = PluginRepository::findAll();
         if (count($plugins) == 0) {
             throw new FrameworkUnavailableException('Stagehand_TestRunner is unavailable since no plugins are found in this installation.');
         }

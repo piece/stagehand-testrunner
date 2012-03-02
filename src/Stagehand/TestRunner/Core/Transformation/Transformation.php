@@ -42,7 +42,7 @@ use Symfony\Component\Yaml\Yaml;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -107,7 +107,7 @@ class Transformation
             if ($configurationID == GeneralConfiguration::getConfigurationID()) {
                 $transformerID = 'General';
             } else {
-                $plugin = PluginFinder::findByPluginID($configurationID);
+                $plugin = PluginRepository::findByPluginID($configurationID);
                 $transformerID = $plugin->getPluginID();
             }
             $transformerClass = __NAMESPACE__ . '\\' . $transformerID . 'Transformer';

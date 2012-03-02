@@ -42,7 +42,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\DependencyInjection\Container;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 
 /**
  * @package    Stagehand_TestRunner
@@ -107,7 +107,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function getPlugin()
     {
-        return PluginFinder::findByPluginID($this->getPluginID());
+        return PluginRepository::findByPluginID($this->getPluginID());
     }
 }
 

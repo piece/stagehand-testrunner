@@ -43,7 +43,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Stagehand\TestRunner\Core\Configuration\CakePHPConfiguration;
 use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
@@ -57,7 +57,7 @@ class CakePHPCommand extends SimpleTestCommand
 {
     protected function getPlugin()
     {
-        return PluginFinder::findByPluginID(CakePHPPlugin::getPluginID());
+        return PluginRepository::findByPluginID(CakePHPPlugin::getPluginID());
     }
 
     protected function doConfigure()

@@ -43,7 +43,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Stagehand\TestRunner\Core\Configuration\PHPUnitConfiguration;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
@@ -57,7 +57,7 @@ class PHPUnitCommand extends PluginCommand
 {
     protected function getPlugin()
     {
-        return PluginFinder::findByPluginID(PHPUnitPlugin::getPluginID());
+        return PluginRepository::findByPluginID(PHPUnitPlugin::getPluginID());
     }
 
     protected function doConfigure()

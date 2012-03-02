@@ -42,7 +42,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Stagehand\TestRunner\Core\Transformation\Transformation;
 use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 
 /**
  * @package    Stagehand_TestRunner
@@ -55,7 +55,7 @@ class PHPSpecCommand extends PluginCommand
 {
     protected function getPlugin()
     {
-        return PluginFinder::findByPluginID(PHPSpecPlugin::getPluginID());
+        return PluginRepository::findByPluginID(PHPSpecPlugin::getPluginID());
     }
 
     protected function doConfigure()
