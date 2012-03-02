@@ -93,7 +93,7 @@ if (file_exists(__DIR__ . '/../../../.composer/autoload.php')) {
 $bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
 $bootstrap->boot();
 
-$application = new \Stagehand\TestRunner\CLI\TestRunnerApplication\TestRunnerApplication();
+$application = new \Stagehand\TestRunner\CLI\TestRunnerApplication\Application();
 $result = $application->run();
 
 exit($result);

@@ -37,7 +37,6 @@
 
 namespace Stagehand\TestRunner\CLI\TestRunnerApplication;
 
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -54,7 +53,7 @@ use Stagehand\TestRunner\Core\ApplicationContext;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestRunnerApplication extends Application
+class Application extends \Symfony\Component\Console\Application
 {
     /**
      * @var \Stagehand\TestRunner\CLI\TestRunnerApplication\Command\CommandFinder
