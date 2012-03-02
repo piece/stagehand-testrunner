@@ -75,6 +75,21 @@ class TestRunnerApplication extends Application
         }
     }
 
+    public function getDefinition()
+    {
+        if (method_exists('Symfony\Component\Console\Application', 'getDefaultCommands')) {
+            return parent::getDefinition();
+        } else {
+            // For compatibility with Symfony 2.0
+            static $definition;
+
+            if (is_null($definition)) {
+                $definition = $this->getDefaultInputDefinition();
+            }
+            return $definition;
+        }
+    }
+
     public function getLongVersion()
     {
         return
