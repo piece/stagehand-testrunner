@@ -41,7 +41,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ResolveParameterPlaceHoldersPass;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 
-use Stagehand\TestRunner\Core\DependencyInjection\Extension\ExtensionFinder;
+use Stagehand\TestRunner\Core\DependencyInjection\Extension\ExtensionRepository;
 
 /**
  * @package    Stagehand_TestRunner
@@ -86,7 +86,7 @@ class Precompiler
 
     public function compileContainer()
     {
-        foreach (ExtensionFinder::findAll() as $extension) {
+        foreach (ExtensionRepository::findAll() as $extension) {
             $this->container->registerExtension($extension);
         }
 

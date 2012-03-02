@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Core\Plugin\PluginRepository;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ExtensionFinder
+class ExtensionRepository
 {
     /**
      * @return array
