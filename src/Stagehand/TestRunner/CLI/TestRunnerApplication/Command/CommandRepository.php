@@ -62,7 +62,9 @@ class CommandRepository
             $this->commands = array();
             foreach (Finder::create()->name('/^.+Command\.php$/')->files()->in(__DIR__) as $file) { /* @var $file \SplFileInfo */
                 $commandClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $file->getBasename('.php'));
-                if (!$commandClass->isAbstract()) {
+                if (!$commandClass->isInterface()
+                    && !$commandClass->isAbstract()
+                    && $commandClass->isSubclassOf('Symfony\Component\Console\Command\Command')) {
                     $this->commands[] = $commandClass->newInstance();
                 }
             }
