@@ -50,8 +50,6 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
 {
     protected function configure()
     {
-        parent::configure();
-
         $this->addOption('preload-script', 'p', InputOption::VALUE_REQUIRED, 'The PHP script to be loaded before running a command');
     }
 }
