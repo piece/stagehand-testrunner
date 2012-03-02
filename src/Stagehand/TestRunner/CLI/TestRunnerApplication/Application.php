@@ -115,7 +115,7 @@ class Application extends \Symfony\Component\Console\Application
     {
         return new InputDefinition(array(
             new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
-            new InputOption('help', 'h', InputOption::VALUE_NONE, 'Prints this help and exit.'),
+            new InputOption('help', 'h', InputOption::VALUE_NONE, 'Prints help and exit.'),
             new InputOption('version', 'V', InputOption::VALUE_NONE, 'Prints version information and exit.'),
             new InputOption('ansi', null, InputOption::VALUE_NONE, 'Enables ANSI output.'),
             new InputOption('no-ansi', null, InputOption::VALUE_NONE, 'Disables ANSI output.'),
