@@ -86,7 +86,9 @@ class PluginRepository
     {
         foreach (Finder::create()->name('/^.+Plugin\.php$/')->files()->in(__DIR__) as $file) { /* @var $file \SplFileInfo */
             $pluginClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $file->getBasename('.php'));
-            if (!$pluginClass->isInterface() && !$pluginClass->isAbstract()) {
+            if (!$pluginClass->isInterface()
+                && !$pluginClass->isAbstract()
+                && $pluginClass->isSubclassOf('Stagehand\TestRunner\Core\Plugin\IPlugin')) {
                 self::$plugins[] = $pluginClass->newInstance();
             }
         }
