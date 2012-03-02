@@ -61,8 +61,12 @@ class ExtensionRepository
 
         $extensions = array(new GeneralExtension());
         foreach ($plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\IPlugin */
-            $extensionClass = __NAMESPACE__ . '\\' . $plugin->getPluginID() . 'Extension';
-            $extensions[] = new $extensionClass();
+            $extensionClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $plugin->getPluginID() . 'Extension');
+            if (!$extensionClass->isInterface()
+                && !$extensionClass->isAbstract()
+                && $extensionClass->isSubclassOf('Symfony\Component\DependencyInjection\Extension\ExtensionInterface')) {
+                $extensions[] = $extensionClass->newInstance();
+            }
         }
 
         return $extensions;
