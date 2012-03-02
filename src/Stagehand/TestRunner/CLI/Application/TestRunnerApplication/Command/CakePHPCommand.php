@@ -35,14 +35,16 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\Command;
+namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Stagehand\TestRunner\Core\Transformation\Transformation;
-use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
+use Stagehand\TestRunner\Core\Configuration\CakePHPConfiguration;
+use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
@@ -51,19 +53,47 @@ use Stagehand\TestRunner\Core\Plugin\PluginFinder;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPSpecCommand extends PluginCommand
+class CakePHPCommand extends SimpleTestCommand
 {
     protected function getPlugin()
     {
-        return PluginFinder::findByPluginID(PHPSpecPlugin::getPluginID());
+        return PluginFinder::findByPluginID(CakePHPPlugin::getPluginID());
     }
 
     protected function doConfigure()
     {
+        parent::doConfigure();
+
+        if ($this->getPlugin()->hasFeature('cakephp_app_path')) {
+            $this->addOption('cakephp-app-path', null, InputOption::VALUE_REQUIRED, 'The path of your app folder. <comment>(default: The working directory at testrunner startup)</comment>');
+        }
+
+        if ($this->getPlugin()->hasFeature('cakephp_core_path')) {
+            $this->addOption('cakephp-core-path', null, InputOption::VALUE_REQUIRED, 'The path of your CakePHP libraries folder (/path/to/cake). <comment>(default: The "cake" directory under the parent directory of your app folder is used. (/path/to/app/../cake))</comment>');
+        }
     }
 
     protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
     {
+        parent::doTransformToConfiguration($input, $output, $transformation);
+
+        if ($this->getPlugin()->hasFeature('cakephp_app_path')) {
+            if (!is_null($input->getOption('cakephp-app-path'))) {
+                $transformation->setConfigurationPart(
+                    CakePHPConfiguration::getConfigurationID(),
+                    array('app_path' => $input->getOption('cakephp-app-path'))
+                );
+            }
+        }
+
+        if ($this->getPlugin()->hasFeature('cakephp_core_path')) {
+            if (!is_null($input->getOption('cakephp-core-path'))) {
+                $transformation->setConfigurationPart(
+                    CakePHPConfiguration::getConfigurationID(),
+                    array('core_path' => $input->getOption('cakephp-core-path'))
+                );
+            }
+        }
     }
 }
 

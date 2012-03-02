@@ -35,9 +35,14 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\Command;
+namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
 
-use Symfony\Component\Finder\Finder;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+use Stagehand\TestRunner\Core\Transformation\Transformation;
+use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,29 +51,19 @@ use Symfony\Component\Finder\Finder;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CommandFinder
+class PHPSpecCommand extends PluginCommand
 {
-    /**
-     * @var array
-     */
-    protected $commands;
-
-    /**
-     * @return array
-     */
-    public function findAll()
+    protected function getPlugin()
     {
-        if (is_null($this->commands)) {
-            $this->commands = array();
-            foreach (Finder::create()->name('/^.+Command\.php$/')->files()->in(__DIR__) as $file) { /* @var $file \SplFileInfo */
-                $commandClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $file->getBasename('.php'));
-                if (!$commandClass->isAbstract()) {
-                    $this->commands[] = $commandClass->newInstance();
-                }
-            }
-        }
+        return PluginFinder::findByPluginID(PHPSpecPlugin::getPluginID());
+    }
 
-        return $this->commands;
+    protected function doConfigure()
+    {
+    }
+
+    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
+    {
     }
 }
 

@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\Command;
+namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
 
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -109,7 +109,7 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
             'Stagehand\TestRunner\Core\Transformation\Transformation',
             $this->applicationContext->getComponentFactory()->getContainer()
         );
-        $command = \Phake::partialMock('Stagehand\TestRunner\CLI\Application\Command\\' . $this->getPluginID() . 'Command');
+        $command = \Phake::partialMock('Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command\\' . $this->getPluginID() . 'Command');
         \Phake::when($command)->createContainer()
             ->thenReturn($this->applicationContext->getComponentFactory()->getContainer());
         \Phake::when($command)->createTransformation($this->anything())

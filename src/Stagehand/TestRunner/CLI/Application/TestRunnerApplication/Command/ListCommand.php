@@ -35,16 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\Command;
+namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use Stagehand\TestRunner\Core\Configuration\CIUnitConfiguration;
-use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
-use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
@@ -53,34 +47,64 @@ use Stagehand\TestRunner\Core\Transformation\Transformation;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CIUnitCommand extends PHPUnitCommand
+class ListCommand extends Command
 {
-    protected function getPlugin()
+    protected function configure()
     {
-        return PluginFinder::findByPluginID(CIUnitPlugin::getPluginID());
+        parent::configure();
+
+        $this->setName('list');
+        $this->setDescription('Lists commands.');
+        $this->setHelp(
+'The <info>list</info> command lists all commands:' . PHP_EOL .
+PHP_EOL .
+'  <info>testrunner list</info>'
+        );
     }
 
-    protected function doConfigure()
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        parent::doConfigure();
+        $output->writeln($this->buildMessage());
+    }
 
-        if ($this->getPlugin()->hasFeature('ciunit_path')) {
-            $this->addOption('ciunit-path', null, InputOption::VALUE_REQUIRED, 'The path of your CIUnit tests directory. <comment>(default: The working directory at testrunner startup)</comment>');
+    protected function buildMessage()
+    {
+        $commands = $this->getApplication()->all();
+
+        $width = 0;
+        foreach ($commands as $command) {
+            $width = strlen($command->getName()) > $width ? strlen($command->getName()) : $width;
         }
-    }
+        $width += 2;
 
-    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
-    {
-        parent::doTransformToConfiguration($input, $output, $transformation);
-
-        if ($this->getPlugin()->hasFeature('ciunit_path')) {
-            if (!is_null($input->getOption('ciunit-path'))) {
-                $transformation->setConfigurationPart(
-                    CIUnitConfiguration::getConfigurationID(),
-                    array('ciunit_path' => $input->getOption('ciunit-path'))
-                );
+        $generalCommands = array();
+        $pluginCommands = array();
+        foreach ($commands as $name => $command) {
+            if ($command instanceof PluginCommand) {
+                $pluginCommands[$name] = $command;
+            } else {
+                $generalCommands[$name] = $command;
             }
         }
+
+        $messages = array($this->getApplication()->getHelp(), '');
+        $buildCommandMessage = function (\Symfony\Component\Console\Command\Command $command) use (&$messages, $width) {
+            $messages[] = sprintf(
+                '  <info>%-' . $width . 's</info> %s',
+                $command->getName(),
+                $command->getDescription()
+            );
+        };
+
+        $messages[] = '<comment>Testing Framework Commands:</comment>';
+        ksort($pluginCommands);
+        array_map($buildCommandMessage, array_values($pluginCommands));
+
+        $messages[] = '<comment>Other Commands:</comment>';
+        ksort($generalCommands);
+        array_map($buildCommandMessage, array_values($generalCommands));
+
+        return implode(PHP_EOL, $messages);
     }
 }
 

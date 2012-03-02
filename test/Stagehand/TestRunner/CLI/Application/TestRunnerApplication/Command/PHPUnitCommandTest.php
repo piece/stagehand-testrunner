@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,30 +29,51 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\Command;
+namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
 
-use Symfony\Component\Console\Input\InputOption;
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-abstract class Command extends \Symfony\Component\Console\Command\Command
+class PHPUnitCommandTest extends TestCase
 {
-    protected function configure()
+    /**
+     * @return string
+     */
+    protected function getPluginID()
     {
-        parent::configure();
+        return PHPUnitPlugin::getPluginID();
+    }
 
-        $this->addOption('preload-script', 'p', InputOption::VALUE_REQUIRED, 'The PHP script to be loaded before running a command');
+    public function pluginOptions()
+    {
+        return array(
+            array(
+                array('--phpunit-config=phpunit.xml'),
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
+                    $phpunitXMLConfigurationFactory = \Phake::mock('Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory');
+                    \Phake::when($phpunitXMLConfigurationFactory)->maybeCreate($test->anything())->thenReturn(null);
+                    $applicationContext->setComponent('phpunit.phpunit_xml_configuration_factory', $phpunitXMLConfigurationFactory);
+                },
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
+                    $applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+                    \Phake::verify($applicationContext->createComponent('phpunit.phpunit_xml_configuration_factory'))->maybeCreate('phpunit.xml');
+                }
+            ),
+        );
     }
 }
 

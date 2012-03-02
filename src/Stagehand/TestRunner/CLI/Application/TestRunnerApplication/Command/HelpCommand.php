@@ -35,16 +35,11 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\Command;
+namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use Stagehand\TestRunner\Core\Configuration\CakePHPConfiguration;
-use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
-use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
@@ -53,47 +48,42 @@ use Stagehand\TestRunner\Core\Transformation\Transformation;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPCommand extends SimpleTestCommand
+class HelpCommand extends Command
 {
-    protected function getPlugin()
+    /**
+     * @var \Symfony\Component\Console\Command\Command
+     */
+    protected $command;
+
+    protected function configure()
     {
-        return PluginFinder::findByPluginID(CakePHPPlugin::getPluginID());
+        parent::configure();
+
+        $this->setName('help');
+        $this->addArgument('command_name', InputArgument::OPTIONAL, 'The command name', 'help');
+        $this->setDescription('Prints the help for a command.');
+        $this->setHelp(
+'The <info>help</info> command prints the help for a given command:' . PHP_EOL .
+PHP_EOL .
+'  <info>testrunner help list</info>'
+        );
     }
 
-    protected function doConfigure()
+    /**
+     * @param \Symfony\Component\Console\Command\Command $command
+     */
+    public function setCommand(\Symfony\Component\Console\Command\Command $command)
     {
-        parent::doConfigure();
-
-        if ($this->getPlugin()->hasFeature('cakephp_app_path')) {
-            $this->addOption('cakephp-app-path', null, InputOption::VALUE_REQUIRED, 'The path of your app folder. <comment>(default: The working directory at testrunner startup)</comment>');
-        }
-
-        if ($this->getPlugin()->hasFeature('cakephp_core_path')) {
-            $this->addOption('cakephp-core-path', null, InputOption::VALUE_REQUIRED, 'The path of your CakePHP libraries folder (/path/to/cake). <comment>(default: The "cake" directory under the parent directory of your app folder is used. (/path/to/app/../cake))</comment>');
-        }
+        $this->command = $command;
     }
 
-    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        parent::doTransformToConfiguration($input, $output, $transformation);
-
-        if ($this->getPlugin()->hasFeature('cakephp_app_path')) {
-            if (!is_null($input->getOption('cakephp-app-path'))) {
-                $transformation->setConfigurationPart(
-                    CakePHPConfiguration::getConfigurationID(),
-                    array('app_path' => $input->getOption('cakephp-app-path'))
-                );
-            }
+        if (is_null($this->command)) {
+            $this->command = $this->getApplication()->get($input->getArgument('command_name'));
         }
 
-        if ($this->getPlugin()->hasFeature('cakephp_core_path')) {
-            if (!is_null($input->getOption('cakephp-core-path'))) {
-                $transformation->setConfigurationPart(
-                    CakePHPConfiguration::getConfigurationID(),
-                    array('core_path' => $input->getOption('cakephp-core-path'))
-                );
-            }
-        }
+        $output->writeln($this->command->asText());
     }
 }
 

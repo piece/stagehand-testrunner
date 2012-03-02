@@ -35,10 +35,13 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\Command;
+namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
@@ -48,32 +51,19 @@ use Stagehand\TestRunner\Core\Transformation\Transformation;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitCommandTest extends TestCase
+class SimpleTestCommand extends PluginCommand
 {
-    /**
-     * @return string
-     */
-    protected function getPluginID()
+    protected function getPlugin()
     {
-        return PHPUnitPlugin::getPluginID();
+        return PluginFinder::findByPluginID(SimpleTestPlugin::getPluginID());
     }
 
-    public function pluginOptions()
+    protected function doConfigure()
     {
-        return array(
-            array(
-                array('--phpunit-config=phpunit.xml'),
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
-                    $phpunitXMLConfigurationFactory = \Phake::mock('Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory');
-                    \Phake::when($phpunitXMLConfigurationFactory)->maybeCreate($test->anything())->thenReturn(null);
-                    $applicationContext->setComponent('phpunit.phpunit_xml_configuration_factory', $phpunitXMLConfigurationFactory);
-                },
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
-                    $applicationContext->createComponent('phpunit.phpunit_xml_configuration');
-                    \Phake::verify($applicationContext->createComponent('phpunit.phpunit_xml_configuration_factory'))->maybeCreate('phpunit.xml');
-                }
-            ),
-        );
+    }
+
+    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
+    {
     }
 }
 

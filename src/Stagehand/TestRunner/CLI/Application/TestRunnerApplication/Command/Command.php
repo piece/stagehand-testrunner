@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,61 +29,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\Command;
+namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class HelpCommand extends Command
+abstract class Command extends \Symfony\Component\Console\Command\Command
 {
-    /**
-     * @var \Symfony\Component\Console\Command\Command
-     */
-    protected $command;
-
     protected function configure()
     {
         parent::configure();
 
-        $this->setName('help');
-        $this->addArgument('command_name', InputArgument::OPTIONAL, 'The command name', 'help');
-        $this->setDescription('Prints the help for a command.');
-        $this->setHelp(
-'The <info>help</info> command prints the help for a given command:' . PHP_EOL .
-PHP_EOL .
-'  <info>testrunner help list</info>'
-        );
-    }
-
-    /**
-     * @param \Symfony\Component\Console\Command\Command $command
-     */
-    public function setCommand(\Symfony\Component\Console\Command\Command $command)
-    {
-        $this->command = $command;
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        if (is_null($this->command)) {
-            $this->command = $this->getApplication()->get($input->getArgument('command_name'));
-        }
-
-        $output->writeln($this->command->asText());
+        $this->addOption('preload-script', 'p', InputOption::VALUE_REQUIRED, 'The PHP script to be loaded before running a command');
     }
 }
 

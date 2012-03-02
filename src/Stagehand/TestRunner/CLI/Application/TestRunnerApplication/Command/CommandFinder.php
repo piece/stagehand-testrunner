@@ -35,16 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\Command;
+namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-
-use Stagehand\TestRunner\Core\Configuration\PHPUnitConfiguration;
-use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
-use Stagehand\TestRunner\Core\Transformation\Transformation;
+use Symfony\Component\Finder\Finder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -53,30 +46,29 @@ use Stagehand\TestRunner\Core\Transformation\Transformation;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitCommand extends PluginCommand
+class CommandFinder
 {
-    protected function getPlugin()
-    {
-        return PluginFinder::findByPluginID(PHPUnitPlugin::getPluginID());
-    }
+    /**
+     * @var array
+     */
+    protected $commands;
 
-    protected function doConfigure()
+    /**
+     * @return array
+     */
+    public function findAll()
     {
-        if ($this->getPlugin()->hasFeature('phpunit_config_file')) {
-            $this->addOption('phpunit-config', null, InputOption::VALUE_REQUIRED, 'The PHPUnit XML configuration file');
-        }
-    }
-
-    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
-    {
-        if ($this->getPlugin()->hasFeature('phpunit_config_file')) {
-            if (!is_null($input->getOption('phpunit-config'))) {
-                $transformation->setConfigurationPart(
-                    PHPUnitConfiguration::getConfigurationID(),
-                    array('config' => $input->getOption('phpunit-config'))
-                );
+        if (is_null($this->commands)) {
+            $this->commands = array();
+            foreach (Finder::create()->name('/^.+Command\.php$/')->files()->in(__DIR__) as $file) { /* @var $file \SplFileInfo */
+                $commandClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $file->getBasename('.php'));
+                if (!$commandClass->isAbstract()) {
+                    $this->commands[] = $commandClass->newInstance();
+                }
             }
         }
+
+        return $this->commands;
     }
 }
 
