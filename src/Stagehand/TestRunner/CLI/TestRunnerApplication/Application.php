@@ -43,7 +43,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
 
-use Stagehand\TestRunner\CLI\TestRunnerApplication\Command\CommandFinder;
+use Stagehand\TestRunner\CLI\TestRunnerApplication\Command\CommandRepository;
 use Stagehand\TestRunner\Core\ApplicationContext;
 
 /**
@@ -56,13 +56,13 @@ use Stagehand\TestRunner\Core\ApplicationContext;
 class Application extends \Symfony\Component\Console\Application
 {
     /**
-     * @var \Stagehand\TestRunner\CLI\TestRunnerApplication\Command\CommandFinder
+     * @var \Stagehand\TestRunner\CLI\TestRunnerApplication\Command\CommandRepository
      */
-    protected $commandFinder;
+    protected $commandRepository;
 
     public function __construct()
     {
-        $this->commandFinder = new CommandFinder();
+        $this->commandRepository = new CommandRepository();
         parent::__construct('Stagehand_TestRunner', '@package_version@');
         $this->setAutoExit(false);
 
@@ -124,7 +124,7 @@ class Application extends \Symfony\Component\Console\Application
 
     protected function getDefaultCommands()
     {
-        return $this->commandFinder->findAll();
+        return $this->commandRepository->findAll();
     }
 
     /**
