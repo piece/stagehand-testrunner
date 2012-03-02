@@ -68,7 +68,7 @@ class TestRunnerApplication extends Application
         $this->setAutoExit(false);
 
         // For compatibility with Symfony 2.0
-        if (count(array_keys($this->all())) != count(array_keys($this->commandFinder->findAll()))) {
+        if (!method_exists('Symfony\Component\Console\Application', 'getDefaultCommands')) {
             foreach ($this->getDefaultCommands() as $command) {
                 $this->add($command);
             }
