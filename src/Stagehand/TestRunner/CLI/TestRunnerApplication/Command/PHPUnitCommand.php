@@ -35,11 +35,16 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
+namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
+use Stagehand\TestRunner\Core\Configuration\PHPUnitConfiguration;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
@@ -48,42 +53,30 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class HelpCommand extends Command
+class PHPUnitCommand extends PluginCommand
 {
-    /**
-     * @var \Symfony\Component\Console\Command\Command
-     */
-    protected $command;
-
-    protected function configure()
+    protected function getPlugin()
     {
-        parent::configure();
-
-        $this->setName('help');
-        $this->addArgument('command_name', InputArgument::OPTIONAL, 'The command name', 'help');
-        $this->setDescription('Prints the help for a command.');
-        $this->setHelp(
-'The <info>help</info> command prints the help for a given command:' . PHP_EOL .
-PHP_EOL .
-'  <info>testrunner help list</info>'
-        );
+        return PluginFinder::findByPluginID(PHPUnitPlugin::getPluginID());
     }
 
-    /**
-     * @param \Symfony\Component\Console\Command\Command $command
-     */
-    public function setCommand(\Symfony\Component\Console\Command\Command $command)
+    protected function doConfigure()
     {
-        $this->command = $command;
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        if (is_null($this->command)) {
-            $this->command = $this->getApplication()->get($input->getArgument('command_name'));
+        if ($this->getPlugin()->hasFeature('phpunit_config_file')) {
+            $this->addOption('phpunit-config', null, InputOption::VALUE_REQUIRED, 'The PHPUnit XML configuration file');
         }
+    }
 
-        $output->writeln($this->command->asText());
+    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
+    {
+        if ($this->getPlugin()->hasFeature('phpunit_config_file')) {
+            if (!is_null($input->getOption('phpunit-config'))) {
+                $transformation->setConfigurationPart(
+                    PHPUnitConfiguration::getConfigurationID(),
+                    array('config' => $input->getOption('phpunit-config'))
+                );
+            }
+        }
     }
 }
 

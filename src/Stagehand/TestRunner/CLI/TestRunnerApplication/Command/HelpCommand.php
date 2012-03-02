@@ -35,9 +35,11 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
+namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 
-use Symfony\Component\Finder\Finder;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,29 +48,42 @@ use Symfony\Component\Finder\Finder;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CommandFinder
+class HelpCommand extends Command
 {
     /**
-     * @var array
+     * @var \Symfony\Component\Console\Command\Command
      */
-    protected $commands;
+    protected $command;
+
+    protected function configure()
+    {
+        parent::configure();
+
+        $this->setName('help');
+        $this->addArgument('command_name', InputArgument::OPTIONAL, 'The command name', 'help');
+        $this->setDescription('Prints the help for a command.');
+        $this->setHelp(
+'The <info>help</info> command prints the help for a given command:' . PHP_EOL .
+PHP_EOL .
+'  <info>testrunner help list</info>'
+        );
+    }
 
     /**
-     * @return array
+     * @param \Symfony\Component\Console\Command\Command $command
      */
-    public function findAll()
+    public function setCommand(\Symfony\Component\Console\Command\Command $command)
     {
-        if (is_null($this->commands)) {
-            $this->commands = array();
-            foreach (Finder::create()->name('/^.+Command\.php$/')->files()->in(__DIR__) as $file) { /* @var $file \SplFileInfo */
-                $commandClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $file->getBasename('.php'));
-                if (!$commandClass->isAbstract()) {
-                    $this->commands[] = $commandClass->newInstance();
-                }
-            }
+        $this->command = $command;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        if (is_null($this->command)) {
+            $this->command = $this->getApplication()->get($input->getArgument('command_name'));
         }
 
-        return $this->commands;
+        $output->writeln($this->command->asText());
     }
 }
 

@@ -35,16 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
+namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-
-use Stagehand\TestRunner\Core\Configuration\CIUnitConfiguration;
-use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
-use Stagehand\TestRunner\Core\Transformation\Transformation;
+use Symfony\Component\Finder\Finder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -53,34 +46,29 @@ use Stagehand\TestRunner\Core\Transformation\Transformation;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CIUnitCommand extends PHPUnitCommand
+class CommandFinder
 {
-    protected function getPlugin()
+    /**
+     * @var array
+     */
+    protected $commands;
+
+    /**
+     * @return array
+     */
+    public function findAll()
     {
-        return PluginFinder::findByPluginID(CIUnitPlugin::getPluginID());
-    }
-
-    protected function doConfigure()
-    {
-        parent::doConfigure();
-
-        if ($this->getPlugin()->hasFeature('ciunit_path')) {
-            $this->addOption('ciunit-path', null, InputOption::VALUE_REQUIRED, 'The path of your CIUnit tests directory. <comment>(default: The working directory at testrunner startup)</comment>');
-        }
-    }
-
-    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
-    {
-        parent::doTransformToConfiguration($input, $output, $transformation);
-
-        if ($this->getPlugin()->hasFeature('ciunit_path')) {
-            if (!is_null($input->getOption('ciunit-path'))) {
-                $transformation->setConfigurationPart(
-                    CIUnitConfiguration::getConfigurationID(),
-                    array('ciunit_path' => $input->getOption('ciunit-path'))
-                );
+        if (is_null($this->commands)) {
+            $this->commands = array();
+            foreach (Finder::create()->name('/^.+Command\.php$/')->files()->in(__DIR__) as $file) { /* @var $file \SplFileInfo */
+                $commandClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $file->getBasename('.php'));
+                if (!$commandClass->isAbstract()) {
+                    $this->commands[] = $commandClass->newInstance();
+                }
             }
         }
+
+        return $this->commands;
     }
 }
 

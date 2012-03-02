@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
+namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

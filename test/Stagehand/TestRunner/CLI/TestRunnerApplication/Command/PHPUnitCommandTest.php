@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
+namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;

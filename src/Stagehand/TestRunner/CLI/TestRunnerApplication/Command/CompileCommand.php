@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,41 +29,63 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
+namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Stagehand\TestRunner\Core\Plugin\PluginFinder;
-use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
-use Stagehand\TestRunner\Core\Transformation\Transformation;
+use Stagehand\TestRunner\Core\DependencyInjection\Compiler\Precompiler;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class SimpleTestCommand extends PluginCommand
+class CompileCommand extends Command
 {
-    protected function getPlugin()
+    /**
+     * @var string
+     */
+    private static $PRECOMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\Core\DependencyInjection';
+
+    /**
+     * @var string
+     */
+    private static $PRECOMPILED_CONTAINER_CLASS = 'PrecompiledContainer';
+
+    protected function configure()
     {
-        return PluginFinder::findByPluginID(SimpleTestPlugin::getPluginID());
+        parent::configure();
+
+        $this->setName('compile');
+        $this->setDescription('Compiles the DIC for the production environment.');
+        $this->setHelp(
+'The <info>compile</info> command compiles the dependency injection container for the production environment:' . PHP_EOL .
+PHP_EOL .
+'  <info>testrunner list</info>'
+        );
     }
 
-    protected function doConfigure()
+    /**
+     * @throws \Stagehand\TestRunner\Core\Exception
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-    }
+        $precompiler = new Precompiler(
+            self::$PRECOMPILED_CONTAINER_NAMESPACE,
+            self::$PRECOMPILED_CONTAINER_CLASS
+        );
+        $precompiler->compile();
 
-    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
-    {
+        return 0;
     }
 }
 

@@ -35,9 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
+namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,11 +47,64 @@ use Symfony\Component\Console\Input\InputOption;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-abstract class Command extends \Symfony\Component\Console\Command\Command
+class ListCommand extends Command
 {
     protected function configure()
     {
-        $this->addOption('preload-script', 'p', InputOption::VALUE_REQUIRED, 'The PHP script to be loaded before running a command');
+        parent::configure();
+
+        $this->setName('list');
+        $this->setDescription('Lists commands.');
+        $this->setHelp(
+'The <info>list</info> command lists all commands:' . PHP_EOL .
+PHP_EOL .
+'  <info>testrunner list</info>'
+        );
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $output->writeln($this->buildMessage());
+    }
+
+    protected function buildMessage()
+    {
+        $commands = $this->getApplication()->all();
+
+        $width = 0;
+        foreach ($commands as $command) {
+            $width = strlen($command->getName()) > $width ? strlen($command->getName()) : $width;
+        }
+        $width += 2;
+
+        $generalCommands = array();
+        $pluginCommands = array();
+        foreach ($commands as $name => $command) {
+            if ($command instanceof PluginCommand) {
+                $pluginCommands[$name] = $command;
+            } else {
+                $generalCommands[$name] = $command;
+            }
+        }
+
+        $messages = array($this->getApplication()->getHelp(), '');
+        $buildCommandMessage = function (\Symfony\Component\Console\Command\Command $command) use (&$messages, $width) {
+            $messages[] = sprintf(
+                '  <info>%-' . $width . 's</info> %s',
+                $command->getName(),
+                $command->getDescription()
+            );
+        };
+
+        $messages[] = '<comment>Testing Framework Commands:</comment>';
+        ksort($pluginCommands);
+        array_map($buildCommandMessage, array_values($pluginCommands));
+
+        $messages[] = '<comment>Other Commands:</comment>';
+        ksort($generalCommands);
+        array_map($buildCommandMessage, array_values($generalCommands));
+
+        return implode(PHP_EOL, $messages);
     }
 }
 

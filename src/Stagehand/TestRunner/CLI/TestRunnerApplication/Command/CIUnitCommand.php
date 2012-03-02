@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,63 +29,58 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command;
+namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Stagehand\TestRunner\Core\DependencyInjection\Compiler\Precompiler;
+use Stagehand\TestRunner\Core\Configuration\CIUnitConfiguration;
+use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
+use Stagehand\TestRunner\Core\Plugin\PluginFinder;
+use Stagehand\TestRunner\Core\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CompileCommand extends Command
+class CIUnitCommand extends PHPUnitCommand
 {
-    /**
-     * @var string
-     */
-    private static $PRECOMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\Core\DependencyInjection';
-
-    /**
-     * @var string
-     */
-    private static $PRECOMPILED_CONTAINER_CLASS = 'PrecompiledContainer';
-
-    protected function configure()
+    protected function getPlugin()
     {
-        parent::configure();
-
-        $this->setName('compile');
-        $this->setDescription('Compiles the DIC for the production environment.');
-        $this->setHelp(
-'The <info>compile</info> command compiles the dependency injection container for the production environment:' . PHP_EOL .
-PHP_EOL .
-'  <info>testrunner list</info>'
-        );
+        return PluginFinder::findByPluginID(CIUnitPlugin::getPluginID());
     }
 
-    /**
-     * @throws \Stagehand\TestRunner\Core\Exception
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doConfigure()
     {
-        $precompiler = new Precompiler(
-            self::$PRECOMPILED_CONTAINER_NAMESPACE,
-            self::$PRECOMPILED_CONTAINER_CLASS
-        );
-        $precompiler->compile();
+        parent::doConfigure();
 
-        return 0;
+        if ($this->getPlugin()->hasFeature('ciunit_path')) {
+            $this->addOption('ciunit-path', null, InputOption::VALUE_REQUIRED, 'The path of your CIUnit tests directory. <comment>(default: The working directory at testrunner startup)</comment>');
+        }
+    }
+
+    protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
+    {
+        parent::doTransformToConfiguration($input, $output, $transformation);
+
+        if ($this->getPlugin()->hasFeature('ciunit_path')) {
+            if (!is_null($input->getOption('ciunit-path'))) {
+                $transformation->setConfigurationPart(
+                    CIUnitConfiguration::getConfigurationID(),
+                    array('ciunit_path' => $input->getOption('ciunit-path'))
+                );
+            }
+        }
     }
 }
 

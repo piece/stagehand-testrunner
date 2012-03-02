@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\CLI\Application\TestRunnerApplication;
+namespace Stagehand\TestRunner\CLI\TestRunnerApplication;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputArgument;
@@ -44,7 +44,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
 
-use Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command\CommandFinder;
+use Stagehand\TestRunner\CLI\TestRunnerApplication\Command\CommandFinder;
 use Stagehand\TestRunner\Core\ApplicationContext;
 
 /**
@@ -57,7 +57,7 @@ use Stagehand\TestRunner\Core\ApplicationContext;
 class TestRunnerApplication extends Application
 {
     /**
-     * @var \Stagehand\TestRunner\CLI\Application\TestRunnerApplication\Command\CommandFinder
+     * @var \Stagehand\TestRunner\CLI\TestRunnerApplication\Command\CommandFinder
      */
     protected $commandFinder;
 
