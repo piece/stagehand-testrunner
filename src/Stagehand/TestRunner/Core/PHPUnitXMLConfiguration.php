@@ -53,7 +53,6 @@ class PHPUnitXMLConfiguration
 
     /**
      * @param \PHPUnit_Util_Configuration $configuration
-     * @throws \PHPUnit_Framework_Exception
      */
     public function __construct(\PHPUnit_Util_Configuration $configuration)
     {

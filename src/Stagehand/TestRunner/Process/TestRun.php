@@ -92,7 +92,6 @@ class TestRun
     /**
      * Runs tests.
      *
-     * @throws \Stagehand\TestRunner\Core\Exception
      * @since Method available since Release 2.1.0
      */
     public function run()

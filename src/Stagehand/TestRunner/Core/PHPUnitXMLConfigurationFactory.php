@@ -49,7 +49,6 @@ class PHPUnitXMLConfigurationFactory
     /**
      * @param string $fileName
      * @return \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
-     * @throws \PHPUnit_Framework_Exception
      */
     public function maybeCreate($fileName)
     {

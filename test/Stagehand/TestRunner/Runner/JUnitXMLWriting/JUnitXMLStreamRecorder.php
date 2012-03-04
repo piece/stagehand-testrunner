@@ -61,7 +61,6 @@ class JUnitXMLStreamRecorder implements StreamWriter
 
     /**
      * @param string $file
-     * @throws \Stagehand\TestRunner\Core\Exception
      */
     public function __construct($file)
     {
@@ -70,7 +69,6 @@ class JUnitXMLStreamRecorder implements StreamWriter
 
     /**
      * @param string $buffer
-     * @throws \Stagehand\TestRunner\Core\Exception
      */
     public function write($buffer)
     {

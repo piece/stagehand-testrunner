@@ -49,7 +49,6 @@ class TestComponentFactory extends \Stagehand\ComponentFactory\ComponentFactory
     /**
      * @param string $componentID
      * @param string $componentClass
-     * @throws \Stagehand\TestRunner\Core\Exception
      */
     public function setClass($componentID, $componentClass)
     {

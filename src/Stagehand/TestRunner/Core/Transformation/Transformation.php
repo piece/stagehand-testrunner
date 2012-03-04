@@ -92,9 +92,6 @@ class Transformation
         return $this;
     }
 
-    /**
-     * @throws \Stagehand\TestRunner\Core\Exception
-     */
     public function transformToContainer()
     {
         if (!is_null($this->configurationFile)) {

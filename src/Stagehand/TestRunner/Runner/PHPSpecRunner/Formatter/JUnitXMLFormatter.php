@@ -128,11 +128,6 @@ class JUnitXMLFormatter extends Progress
         $this->testTargets = $testTargets;
     }
 
-    /**
-     * @throws \Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\UnknownStatusException
-     * @throws \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite\ExampleGroupNotFoundException
-     * @throws \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite\ExampleNotFoundException
-     */
     public function update(\SplSubject $method, $reporterEvent = null)
     {
         if ($reporterEvent->event == 'exampleStart') {
@@ -153,9 +148,6 @@ class JUnitXMLFormatter extends Progress
         $this->finishRendering();
     }
 
-    /**
-     * @throws \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite\ExampleGroupNotFoundException
-     */
     protected function _startRenderingExampleGroup($reporterEvent)
     {
         if (is_null($this->currentExampleGroupName)) {
@@ -249,8 +241,6 @@ class JUnitXMLFormatter extends Progress
 
     /**
      * @param \PHPSpec\Runner\ReporterEvent $reporterEvent
-     * @throws \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite\ExampleGroupNotFoundException
-     * @throws \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite\ExampleNotFoundException
      */
     protected function startRenderingExample(ReporterEvent $reporterEvent)
     {

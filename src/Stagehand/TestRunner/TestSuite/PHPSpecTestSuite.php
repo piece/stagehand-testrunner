@@ -164,7 +164,6 @@ class PHPSpecTestSuite
     /**
      * @param string $exampleGroupName
      * @return integer
-     * @throws \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite\ExampleGroupNotFoundException
      */
     public function getExampleCount($exampleGroupName)
     {

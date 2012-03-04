@@ -74,9 +74,6 @@ PHP_EOL .
         );
     }
 
-    /**
-     * @throws \Stagehand\TestRunner\Core\Exception
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $precompiler = new Precompiler(
