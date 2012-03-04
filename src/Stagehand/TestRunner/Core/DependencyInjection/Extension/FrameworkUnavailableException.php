@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
 
-use Stagehand\TestRunner\Core\Exception;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
@@ -46,7 +44,7 @@ use Stagehand\TestRunner\Core\Exception;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class FrameworkUnavailableException extends Exception
+class FrameworkUnavailableException extends \RuntimeException
 {
 }
 

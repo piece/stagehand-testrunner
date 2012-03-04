@@ -70,16 +70,16 @@ class OutputBufferingTest extends PHPUnitFactoryAwareTestCase
 
     /**
      * @test
-     * @expectedException \Stagehand\TestRunner\Util\CannotRemoveException
      * @link http://redmine.piece-framework.com/issues/323
      */
     public function raisesAnExceptionWhenAPrecedingOutputBufferCannotBeRemoved()
     {
         $legacyProxy = \Phake::mock('Stagehand\TestRunner\Core\LegacyProxy');
         \Phake::when($legacyProxy)->ob_get_level()->thenReturn(1);
-        \Phake::when($legacyProxy)->ob_end_clean()->thenThrow(new \ErrorException());
+        \Phake::when($legacyProxy)->ob_end_clean()->thenThrow(new \RuntimeException(__METHOD__));
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
 
+        $this->setExpectedException('RuntimeException', __METHOD__);
         $this->applicationContext->createComponent('output_buffering')->clearOutputHandlers();
     }
 }

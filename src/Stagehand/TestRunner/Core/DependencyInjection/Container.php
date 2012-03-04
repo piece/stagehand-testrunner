@@ -47,12 +47,12 @@ namespace Stagehand\TestRunner\Core\DependencyInjection;
 class Container extends PrecompiledContainer
 {
     /**
-     * @throws \Stagehand\TestRunner\Core\DependencyInjection\ParameterNotFoundException
+     * @throws \UnexpectedValueException
      */
     public function setParameter($name, $value)
     {
         if (!$this->hasParameter($name)) {
-            throw new ParameterNotFoundException('The parameter [ ' . $name . ' ] is not found in the container.');
+            throw new \UnexpectedValueException('The parameter [ ' . $name . ' ] is not found in the container.');
         }
 
         parent::setParameter($name, $value);

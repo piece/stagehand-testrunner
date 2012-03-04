@@ -41,8 +41,6 @@ use PHPSpec\Specification\ExampleGroup;
 use PHPSpec\Util\Filter;
 
 use Stagehand\TestRunner\Core\TestTargets;
-use Stagehand\TestRunner\TestSuite\ExampleGroupNotFoundException;
-use Stagehand\TestRunner\TestSuite\ExampleNotFoundException;
 
 /**
  * @package    Stagehand_TestRunner
@@ -148,7 +146,7 @@ class PHPSpecTestSuite
     /**
      * @param string $exampleGroupName
      * @return string
-     * @throws \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite\ExampleGroupNotFoundException
+     * @throws \UnexpectedValueException
      */
     public function getExampleGroupClass($exampleGroupName)
     {
@@ -159,7 +157,7 @@ class PHPSpecTestSuite
         if (array_key_exists($exampleGroupClass, $this->examplesByGroup)) {
             return $exampleGroupClass;
         } else {
-            throw new ExampleGroupNotFoundException('The example group corresponding to [ ' . $exampleGroupName . ' ] is not found in the test suite.');
+            throw new \UnexpectedValueException('The example group corresponding to [ ' . $exampleGroupName . ' ] is not found in the test suite.');
         }
     }
 
@@ -177,8 +175,7 @@ class PHPSpecTestSuite
      * @param string $exampleGroupName
      * @param string $specificationText
      * @return string
-     * @throws \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite\ExampleGroupNotFoundException
-     * @throws \Stagehand\TestRunner\TestSuite\PHPSpecTestSuite\ExampleNotFoundException
+     * @throws \UnexpectedValueException
      */
     public function getExampleMethod($exampleGroupName, $specificationText)
     {
@@ -188,7 +185,7 @@ class PHPSpecTestSuite
             }
         }
 
-        throw new ExampleNotFoundException('The example corresponding to [ ' . $specificationText . ' ] and [ ' . $exampleGroupName .  ' ] is not found in the test suite.');
+        throw new \UnexpectedValueException('The example corresponding to [ ' . $specificationText . ' ] and [ ' . $exampleGroupName .  ' ] is not found in the test suite.');
     }
 }
 

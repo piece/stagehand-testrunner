@@ -54,21 +54,14 @@ class OutputBuffering
      */
     protected $legacyProxy;
 
-    /**
-     * @throws \Stagehand\TestRunner\Util\CannotRemoveException
-     */
     public function clearOutputHandlers()
     {
         $self = $this;
-        try {
-            ErrorReporting::invokeWith(E_NOTICE, function () use ($self) {
-                while ($self->getNestingLevel()) {
-                    $self->clearOutputHandler();
-                }
-            });
-        } catch (\ErrorException $e) {
-            throw new CannotRemoveException($e->getMessage());
-        }
+        ErrorReporting::invokeWith(E_NOTICE, function () use ($self) {
+            while ($self->getNestingLevel()) {
+                $self->clearOutputHandler();
+            }
+        });
     }
 
     /**

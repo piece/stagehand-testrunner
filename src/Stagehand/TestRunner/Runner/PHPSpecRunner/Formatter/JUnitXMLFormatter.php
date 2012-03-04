@@ -175,7 +175,7 @@ class JUnitXMLFormatter extends Progress
     }
 
     /**
-     * @throws \Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\UnknownStatusException
+     * @throws \UnexpectedValueException
      */
     protected function _renderExamples($reporterEvent)
     {
@@ -194,7 +194,7 @@ class JUnitXMLFormatter extends Progress
             $this->renderPending($reporterEvent);
             break;
         default:
-            throw new UnknownStatusException('An unknown status [ ' . $reporterEvent->status . ' ] is given for the example corresponding to [ ' . $reporterEvent->example . ' ] and [ ' . $this->currentExampleGroupName .  ' ].');
+            throw new \UnexpectedValueException('An unknown status [ ' . $reporterEvent->status . ' ] is given for the example corresponding to [ ' . $reporterEvent->example . ' ] and [ ' . $this->currentExampleGroupName .  ' ].');
         }
     }
 

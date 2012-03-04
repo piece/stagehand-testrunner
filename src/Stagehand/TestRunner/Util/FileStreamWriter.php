@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Util;
 
-use Stagehand\TestRunner\Core\Exception;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -60,13 +58,13 @@ class FileStreamWriter implements StreamWriter
 
     /**
      * @param string $file
-     * @throws \Stagehand\TestRunner\Core\Exception
+     * @throws \UnexpectedValueException
      */
     public function __construct($file)
     {
         $fileHandle = fopen($file, 'w');
         if ($fileHandle === false) {
-             throw new Exception('Failed to open the file [ ' . $file . ' ].');
+             throw new \UnexpectedValueException('Failed to open the file [ ' . $file . ' ].');
         }
 
         $this->file = $file;
@@ -80,13 +78,13 @@ class FileStreamWriter implements StreamWriter
 
     /**
      * @param string $buffer
-     * @throws \Stagehand\TestRunner\Core\Exception
+     * @throws \UnexpectedValueException
      */
     public function write($buffer)
     {
         $result = fwrite($this->fileHandle, $buffer, strlen($buffer));
         if ($result === false) {
-            throw new Exception('Failed to write buffer into the file [ ' . $this->file . ' ].');
+            throw new \UnexpectedValueException('Failed to write buffer into the file [ ' . $this->file . ' ].');
         }
     }
 

@@ -41,7 +41,6 @@ use Stagehand\ComponentFactory\IComponentAwareFactory;
 
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Core\LegacyProxy;
 use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
@@ -237,7 +236,7 @@ abstract class Autotest
 
     /**
      * @return array
-     * @throws \Stagehand\TestRunner\Core\Exception
+     * @throws \UnexpectedValueException
      */
     protected function getMonitoringDirectories()
     {
@@ -248,12 +247,12 @@ abstract class Autotest
                 $this->testTargets->getResources()
             ) as $directory) {
             if (!$this->legacyProxy->is_dir($directory)) {
-                throw new Exception('A specified path [ ' . $directory . ' ] is not found or not a directory.');
+                throw new \UnexpectedValueException('A specified path [ ' . $directory . ' ] is not found or not a directory.');
             }
 
             $directory = $this->legacyProxy->realpath($directory);
             if ($directory === false) {
-                throw new Exception('Cannnot get the absolute path of a specified directory [ ' . $directory . ' ]. Make sure all elements of the absolute path have valid permissions.');
+                throw new \UnexpectedValueException('Cannnot get the absolute path of a specified directory [ ' . $directory . ' ]. Make sure all elements of the absolute path have valid permissions.');
             }
 
             if (!in_array($directory, $monitoringDirectories)) {

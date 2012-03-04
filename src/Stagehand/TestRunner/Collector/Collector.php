@@ -41,7 +41,6 @@ use Symfony\Component\Finder\Finder;
 
 use Stagehand\TestRunner\Collector\CollectingTypeFactory;
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\Exception;
 use Stagehand\TestRunner\Core\TestTargets;
 
 /**
@@ -84,7 +83,7 @@ abstract class Collector
      * Collects tests.
      *
      * @return mixed
-     * @throws \Stagehand\TestRunner\Core\Exception
+     * @throws \UnexpectedValueException
      */
     public function collect()
     {
@@ -92,7 +91,7 @@ abstract class Collector
         $this->testTargets->walkOnResources(function ($resource, $index, TestTargets $testTargets) use ($collector) {
             $absoluteTargetPath = realpath($resource);
             if ($absoluteTargetPath === false) {
-                throw new Exception('The directory or file [ ' . $resource . ' ] is not found');
+                throw new \UnexpectedValueException('The directory or file [ ' . $resource . ' ] is not found');
             }
 
             if (is_dir($absoluteTargetPath)) {
