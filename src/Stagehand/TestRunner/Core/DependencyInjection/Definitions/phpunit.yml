@@ -23,40 +23,57 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 parameters:
-  phpunit.phpunit_config_file: null
-  phpunit.runner.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner"
+  # Domain Components
+  phpunit.autotest.class: "Stagehand\\TestRunner\\Process\\Autotest\\PHPUnitAutotest"
+  phpunit.collector.class: "Stagehand\\TestRunner\\Collector\\PHPUnitCollector"
+  phpunit.junit_xml_printer.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner\\Printer\\JUnitXMLPrinter"
   phpunit.junit_xml_printer_factory.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner\\Printer\\JUnitXMLPrinterFactory"
+  phpunit.phpunit_xml_configuration.class: "Stagehand\\TestRunner\\Core\\PHPUnitXMLConfiguration"
+  phpunit.phpunit_xml_configuration_factory.class: "Stagehand\\TestRunner\\Core\\PHPUnitXMLConfigurationFactory"
+  phpunit.preparer.class: "Stagehand\\TestRunner\\Preparer\\PHPUnitPreparer"
+  phpunit.runner.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner"
+
+  # Parameters for Configuration
+  phpunit.phpunit_config_file: null
 
 services:
-  phpunit.autotest:
-    parent: autotest
-    class: Stagehand\TestRunner\Process\Autotest\PHPUnitAutotest
-    calls:
-      - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
-  phpunit.preparer:
-    parent: preparer
-    class: Stagehand\TestRunner\Preparer\PHPUnitPreparer
-    calls:
-      - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
-      - [ setTerminal, [ "@terminal" ] ]
+  # Collector
   phpunit.collector:
     parent: collector
-    class: Stagehand\TestRunner\Collector\PHPUnitCollector
+    class: "%phpunit.collector.class%"
     calls:
       - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
-  phpunit.runner:
-    parent: runner
-    class: "%phpunit.runner.class%"
-    calls:
-      - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
-      - [ setJUnitXMLPrinterFactory, [ "@phpunit.junit_xml_printer_factory" ] ]
-  phpunit.phpunit_xml_configuration_factory:
-    class: Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory
+
+  # Core
   phpunit.phpunit_xml_configuration:
-    class: Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+    class: "%phpunit.phpunit_xml_configuration.class%"
     factory_service: phpunit.phpunit_xml_configuration_factory
     factory_method: maybeCreate
     arguments: [ "%phpunit.phpunit_config_file%" ]
+  phpunit.phpunit_xml_configuration_factory:
+    class: "%phpunit.phpunit_xml_configuration_factory.class%"
+
+  # Preparer
+  phpunit.preparer:
+    parent: preparer
+    class: "%phpunit.preparer.class%"
+    calls:
+      - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
+      - [ setTerminal, [ "@terminal" ] ]
+
+  # Process
+  phpunit.autotest:
+    parent: autotest
+    class: "%phpunit.autotest.class%"
+    calls:
+      - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
+
+  # Runner
+  phpunit.junit_xml_printer:
+    scope: prototype
+    class: "%phpunit.junit_xml_printer.class%"
+    calls:
+      - [ setTestTargets, [ "@test_targets" ] ]
   phpunit.junit_xml_printer_factory:
     class: "%phpunit.junit_xml_printer_factory.class%"
     factory_service: component_aware_factory_factory
@@ -64,11 +81,12 @@ services:
     arguments: [ "phpunit.junit_xml_printer", "%phpunit.junit_xml_printer_factory.class%" ]
     calls:
       - [ setJUnitXMLWriterFactory, [ "@junit_xml_writer_factory" ] ]
-  phpunit.junit_xml_printer:
-    scope: prototype
-    class: Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinter
+  phpunit.runner:
+    parent: runner
+    class: "%phpunit.runner.class%"
     calls:
-      - [ setTestTargets, [ "@test_targets" ] ]
+      - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
+      - [ setJUnitXMLPrinterFactory, [ "@phpunit.junit_xml_printer_factory" ] ]
 
 # Local Variables:
 # mode: conf

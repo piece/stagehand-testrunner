@@ -26,21 +26,34 @@ imports:
   - { resource: phpunit.yml }
 
 parameters:
-  ciunit.ciunit_path: null
+  # Domain Components
+  ciunit.autotest.class: "Stagehand\\TestRunner\\Process\\Autotest\\CIUnitAutotest"
+  ciunit.collector.class: "Stagehand\\TestRunner\\Collector\\CIUnitCollector"
+  ciunit.preparer.class: "Stagehand\\TestRunner\\Preparer\\CIUnitPreparer"
   ciunit.runner.class: "Stagehand\\TestRunner\\Runner\\CIUnitRunner"
 
+  # Parameters for Configuration
+  ciunit.ciunit_path: null
+
 services:
-  ciunit.autotest:
-    parent: phpunit.autotest
-    class: Stagehand\TestRunner\Process\Autotest\CIUnitAutotest
-  ciunit.preparer:
-    parent: phpunit.preparer
-    class: Stagehand\TestRunner\Preparer\CIUnitPreparer
-    calls:
-      - [ setCIUnitPath, [ "%ciunit.ciunit_path%" ] ]
+  # Collector
   ciunit.collector:
     parent: phpunit.collector
-    class: Stagehand\TestRunner\Collector\CIUnitCollector
+    class: "%ciunit.collector.class%"
+
+  # Preparer
+  ciunit.preparer:
+    parent: phpunit.preparer
+    class: "%ciunit.preparer.class%"
+    calls:
+      - [ setCIUnitPath, [ "%ciunit.ciunit_path%" ] ]
+
+  # Process
+  ciunit.autotest:
+    parent: phpunit.autotest
+    class: "%ciunit.autotest.class%"
+
+  # Runner
   ciunit.runner:
     parent: phpunit.runner
     class: "%ciunit.runner.class%"
