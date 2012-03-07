@@ -5,7 +5,7 @@
     "keywords": ["testing", "cli"],
     "homepage": "http://redmine.piece-framework.com/projects/stagehand-testrunner",
     "version": "3.0.0",
-    "license": "New BSD License",
+    "license": "BSD-2",
     "authors": [
         {
             "name": "KUBO Atsuhiro",
