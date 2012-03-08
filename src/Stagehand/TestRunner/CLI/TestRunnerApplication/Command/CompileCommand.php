@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Stagehand\TestRunner\Core\DependencyInjection\Precompiler;
+use Stagehand\TestRunner\Core\DependencyInjection\Compiler;
 
 /**
  * @package    Stagehand_TestRunner
@@ -54,12 +54,12 @@ class CompileCommand extends Command
     /**
      * @var string
      */
-    private static $PRECOMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\Core\DependencyInjection';
+    private static $COMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\Core\DependencyInjection';
 
     /**
      * @var string
      */
-    private static $PRECOMPILED_CONTAINER_CLASS = 'PrecompiledContainer';
+    private static $COMPILED_CONTAINER_CLASS = 'CompiledContainer';
 
     protected function configure()
     {
@@ -76,11 +76,11 @@ PHP_EOL .
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $precompiler = new Precompiler(
-            self::$PRECOMPILED_CONTAINER_NAMESPACE,
-            self::$PRECOMPILED_CONTAINER_CLASS
+        $compiler = new Compiler(
+            self::$COMPILED_CONTAINER_NAMESPACE,
+            self::$COMPILED_CONTAINER_CLASS
         );
-        $precompiler->compile();
+        $compiler->compile();
 
         return 0;
     }

@@ -124,7 +124,7 @@ PHP_EOL .
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!class_exists('Stagehand\TestRunner\Core\DependencyInjection\PrecompiledContainer')) {
+        if (!class_exists('Stagehand\TestRunner\Core\DependencyInjection\CompiledContainer')) {
             $output->writeln(
 '<error>Please run the following command before running the ' . $this->getName() . ' command:</error>' . PHP_EOL .
 PHP_EOL .

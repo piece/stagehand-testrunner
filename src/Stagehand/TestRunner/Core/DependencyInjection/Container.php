@@ -44,7 +44,7 @@ namespace Stagehand\TestRunner\Core\DependencyInjection;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class Container extends PrecompiledContainer
+class Container extends CompiledContainer
 {
     /**
      * @throws \UnexpectedValueException

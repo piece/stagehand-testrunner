@@ -51,7 +51,7 @@ use Stagehand\TestRunner\Core\DependencyInjection\Extension\ExtensionRepository;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class Precompiler
+class Compiler
 {
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerBuilder
@@ -104,19 +104,19 @@ class Precompiler
     public function dumpContainer()
     {
         $phpDumper = new PhpDumper($this->container);
-        $precompiledContainer = $phpDumper->dump(array(
+        $compiledContainer = $phpDumper->dump(array(
             'class' => $this->outputClass
         ));
 
-        $precompiledContainer = preg_replace(
+        $compiledContainer = preg_replace(
             '/^<\?php/',
             '<?php' . PHP_EOL . 'namespace ' . $this->outputNamespace . ';' . PHP_EOL,
-            $precompiledContainer
+            $compiledContainer
         );
 
-        $precompiledContainerFile = __DIR__ . '/' . $this->outputClass . '.php';
+        $compiledContainerFile = __DIR__ . '/' . $this->outputClass . '.php';
 
-        file_put_contents($precompiledContainerFile, $precompiledContainer);
+        file_put_contents($compiledContainerFile, $compiledContainer);
     }
 }
 
