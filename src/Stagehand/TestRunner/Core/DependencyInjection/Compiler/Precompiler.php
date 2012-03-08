@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\Core\DependencyInjection\Compiler;
 
+use Stagehand\ComponentFactory\UnfreezableContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ResolveParameterPlaceHoldersPass;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
@@ -73,7 +74,7 @@ class Precompiler
      */
     public function __construct($outputNamespace, $outputClass)
     {
-        $this->container = new PrecompilableContainerBuilder();
+        $this->container = new UnfreezableContainerBuilder();
         $this->outputNamespace = $outputNamespace;
         $this->outputClass = $outputClass;
     }
