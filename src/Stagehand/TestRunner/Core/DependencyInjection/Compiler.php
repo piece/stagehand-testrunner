@@ -53,30 +53,17 @@ use Stagehand\TestRunner\Core\DependencyInjection\Extension\ExtensionRepository;
  */
 class Compiler
 {
+    const COMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\Core\DependencyInjection';
+    const COMPILED_CONTAINER_CLASS = 'CompiledContainer';
+
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerBuilder
      */
     protected $container;
 
-    /**
-     * @var string
-     */
-    protected $outputNamespace;
-
-    /**
-     * @var string
-     */
-    protected $outputClass;
-
-    /**
-     * @param string $outputNamespace
-     * @param string $outputClass
-     */
-    public function __construct($outputNamespace, $outputClass)
+    public function __construct()
     {
         $this->container = new UnfreezableContainerBuilder();
-        $this->outputNamespace = $outputNamespace;
-        $this->outputClass = $outputClass;
     }
 
     public function compile()
@@ -105,16 +92,16 @@ class Compiler
     {
         $phpDumper = new PhpDumper($this->container);
         $compiledContainer = $phpDumper->dump(array(
-            'class' => $this->outputClass
+            'class' => self::COMPILED_CONTAINER_CLASS
         ));
 
         $compiledContainer = preg_replace(
             '/^<\?php/',
-            '<?php' . PHP_EOL . 'namespace ' . $this->outputNamespace . ';' . PHP_EOL,
+            '<?php' . PHP_EOL . 'namespace ' . self::COMPILED_CONTAINER_NAMESPACE . ';' . PHP_EOL,
             $compiledContainer
         );
 
-        $compiledContainerFile = __DIR__ . '/' . $this->outputClass . '.php';
+        $compiledContainerFile = __DIR__ . '/' . self::COMPILED_CONTAINER_CLASS . '.php';
 
         file_put_contents($compiledContainerFile, $compiledContainer);
     }

@@ -45,6 +45,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
+use Stagehand\TestRunner\Core\DependencyInjection\Compiler;
 use Stagehand\TestRunner\Core\DependencyInjection\Container;
 use Stagehand\TestRunner\Core\Transformation\Transformation;
 use Stagehand\TestRunner\Util\FileSystem;
@@ -124,7 +125,7 @@ PHP_EOL .
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!class_exists('Stagehand\TestRunner\Core\DependencyInjection\CompiledContainer')) {
+        if (!class_exists(Compiler::COMPILED_CONTAINER_NAMESPACE . '\\' . Compiler::COMPILED_CONTAINER_CLASS)) {
             $output->writeln(
 '<error>Please run the following command before running the ' . $this->getName() . ' command:</error>' . PHP_EOL .
 PHP_EOL .

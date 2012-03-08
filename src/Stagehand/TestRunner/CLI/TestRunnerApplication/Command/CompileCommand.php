@@ -51,16 +51,6 @@ use Stagehand\TestRunner\Core\DependencyInjection\Compiler;
  */
 class CompileCommand extends Command
 {
-    /**
-     * @var string
-     */
-    private static $COMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\Core\DependencyInjection';
-
-    /**
-     * @var string
-     */
-    private static $COMPILED_CONTAINER_CLASS = 'CompiledContainer';
-
     protected function configure()
     {
         parent::configure();
@@ -76,10 +66,7 @@ PHP_EOL .
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $compiler = new Compiler(
-            self::$COMPILED_CONTAINER_NAMESPACE,
-            self::$COMPILED_CONTAINER_CLASS
-        );
+        $compiler = new Compiler();
         $compiler->compile();
 
         return 0;
