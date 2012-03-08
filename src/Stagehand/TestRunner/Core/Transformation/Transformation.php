@@ -96,7 +96,10 @@ class Transformation
     {
         if (!is_null($this->configurationFile)) {
             foreach (Yaml::parse($this->configurationFile) as $configurationID => $configurationPart) {
-                $this->setConfigurationPart($configurationID, $configurationPart);
+                $this->setConfigurationPart(
+                    $configurationID,
+                    is_null($configurationPart) ? array() : $configurationPart
+                );
             }
         }
 
