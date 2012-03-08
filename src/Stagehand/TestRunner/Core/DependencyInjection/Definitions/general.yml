@@ -75,6 +75,7 @@ services:
   component_factory:
     synthetic: true
 
+  # Util
   legacy_proxy:
     class: "%legacy_proxy.class%"
   output_buffering:
