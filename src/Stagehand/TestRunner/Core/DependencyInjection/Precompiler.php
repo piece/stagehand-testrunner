@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection\Compiler;
+namespace Stagehand\TestRunner\Core\DependencyInjection;
 
 use Stagehand\ComponentFactory\UnfreezableContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -114,9 +114,8 @@ class Precompiler
             $precompiledContainer
         );
 
-        $precompiledContainerFile =
-            __DIR__ . '/../../../Core/DependencyInjection/' .
-            $this->outputClass . '.php';
+        $precompiledContainerFile = __DIR__ . '/' . $this->outputClass . '.php';
+
         file_put_contents($precompiledContainerFile, $precompiledContainer);
     }
 }
