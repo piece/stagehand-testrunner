@@ -91,7 +91,7 @@ abstract class Collector
         $this->testTargets->walkOnResources(function ($resource, $index, TestTargets $testTargets) use ($collector) {
             $absoluteTargetPath = realpath($resource);
             if ($absoluteTargetPath === false) {
-                throw new \UnexpectedValueException('The directory or file [ ' . $resource . ' ] is not found');
+                throw new \UnexpectedValueException(sprintf('The directory or file [ %s ] is not found', $resource));
             }
 
             if (is_dir($absoluteTargetPath)) {

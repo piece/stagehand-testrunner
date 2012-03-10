@@ -157,7 +157,7 @@ class PHPSpecTestSuite
         if (array_key_exists($exampleGroupClass, $this->examplesByGroup)) {
             return $exampleGroupClass;
         } else {
-            throw new \UnexpectedValueException('The example group corresponding to [ ' . $exampleGroupName . ' ] is not found in the test suite.');
+            throw new \UnexpectedValueException(sprintf('The example group corresponding to [ %s ] is not found in the test suite.', $exampleGroupName));
         }
     }
 
@@ -184,7 +184,11 @@ class PHPSpecTestSuite
             }
         }
 
-        throw new \UnexpectedValueException('The example corresponding to [ ' . $specificationText . ' ] and [ ' . $exampleGroupName .  ' ] is not found in the test suite.');
+        throw new \UnexpectedValueException(sprintf(
+            'The example corresponding to [ %s ] and [ %s ] is not found in the test suite.',
+            $specificationText,
+            $exampleGroupName
+        ));
     }
 }
 

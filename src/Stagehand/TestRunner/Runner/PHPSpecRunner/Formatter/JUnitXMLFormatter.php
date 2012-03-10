@@ -186,7 +186,12 @@ class JUnitXMLFormatter extends Progress
             $this->renderPending($reporterEvent);
             break;
         default:
-            throw new \UnexpectedValueException('An unknown status [ ' . $reporterEvent->status . ' ] is given for the example corresponding to [ ' . $reporterEvent->example . ' ] and [ ' . $this->currentExampleGroupName .  ' ].');
+            throw new \UnexpectedValueException(sprintf(
+                'An unknown status [ %s ] is given for the example corresponding to [ %s ] and [ %s ].',
+                $reporterEvent->status,
+                $reporterEvent->example,
+                $this->currentExampleGroupName
+            ));
         }
     }
 

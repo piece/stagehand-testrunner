@@ -244,12 +244,12 @@ abstract class Autotest
                 $this->testTargets->getResources()
             ) as $directory) {
             if (!$this->legacyProxy->is_dir($directory)) {
-                throw new \UnexpectedValueException('A specified path [ ' . $directory . ' ] is not found or not a directory.');
+                throw new \UnexpectedValueException(sprintf('A specified path [ %s ] is not found or not a directory.', $directory));
             }
 
             $directory = $this->legacyProxy->realpath($directory);
             if ($directory === false) {
-                throw new \UnexpectedValueException('Cannnot get the absolute path of a specified directory [ ' . $directory . ' ]. Make sure all elements of the absolute path have valid permissions.');
+                throw new \UnexpectedValueException(sprintf('Cannnot get the absolute path of a specified directory [ %s ]. Make sure all elements of the absolute path have valid permissions.', $directory));
             }
 
             if (!in_array($directory, $monitoringDirectories)) {

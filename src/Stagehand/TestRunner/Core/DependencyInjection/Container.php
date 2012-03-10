@@ -52,7 +52,7 @@ class Container extends CompiledContainer
     public function setParameter($name, $value)
     {
         if (!$this->hasParameter($name)) {
-            throw new \UnexpectedValueException('The parameter [ ' . $name . ' ] is not found in the container.');
+            throw new \UnexpectedValueException(sprintf('The parameter [ %s ] is not found in the container.', $name));
         }
 
         parent::setParameter($name, $value);
