@@ -40,7 +40,6 @@ namespace Stagehand\TestRunner\Core\DependencyInjection;
 use Stagehand\ComponentFactory\UnfreezableContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ResolveParameterPlaceHoldersPass;
-use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 
 use Stagehand\TestRunner\Core\DependencyInjection\Extension\ExtensionRepository;
 
@@ -56,54 +55,35 @@ class Compiler
     const COMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\Core\DependencyInjection';
     const COMPILED_CONTAINER_CLASS = 'CompiledContainer';
 
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
-     */
-    protected $container;
-
-    public function __construct()
-    {
-        $this->container = new UnfreezableContainerBuilder();
-    }
-
     public function compile()
     {
-        $this->compileContainer();
-        $this->dumpContainer();
-    }
+        $containerBuilder = new UnfreezableContainerBuilder();
 
-    public function compileContainer()
-    {
         foreach (ExtensionRepository::findAll() as $extension) {
-            $this->container->registerExtension($extension);
+            $containerBuilder->registerExtension($extension);
         }
 
-        foreach ($this->container->getExtensions() as $extension) { /* @var $extension \Symfony\Component\DependencyInjection\Extension\ExtensionInterface */
-            $this->container->loadFromExtension($extension->getAlias(), array());
+        foreach ($containerBuilder->getExtensions() as $extension) { /* @var $extension \Symfony\Component\DependencyInjection\Extension\ExtensionInterface */
+            $containerBuilder->loadFromExtension($extension->getAlias(), array());
         }
 
-        $this->container->getCompilerPassConfig()->setOptimizationPasses(array_filter($this->container->getCompilerPassConfig()->getOptimizationPasses(), function (CompilerPassInterface $compilerPass) {
-            return !($compilerPass instanceof ResolveParameterPlaceHoldersPass);
-        }));
-        $this->container->compile();
-    }
-
-    public function dumpContainer()
-    {
-        $phpDumper = new PhpDumper($this->container);
-        $compiledContainer = $phpDumper->dump(array(
-            'class' => self::COMPILED_CONTAINER_CLASS
+        $containerBuilder->getCompilerPassConfig()->setOptimizationPasses(
+            array_filter(
+                $containerBuilder->getCompilerPassConfig()->getOptimizationPasses(),
+                function (CompilerPassInterface $compilerPass) {
+                    return !($compilerPass instanceof ResolveParameterPlaceHoldersPass);
+                }
         ));
 
-        $compiledContainer = preg_replace(
-            '/^<\?php/',
-            '<?php' . PHP_EOL . 'namespace ' . self::COMPILED_CONTAINER_NAMESPACE . ';' . PHP_EOL,
-            $compiledContainer
+        $compiler = new \Stagehand\ComponentFactory\Compiler(
+            $containerBuilder,
+            self::COMPILED_CONTAINER_CLASS,
+            self::COMPILED_CONTAINER_NAMESPACE
         );
-
-        $compiledContainerFile = __DIR__ . '/' . self::COMPILED_CONTAINER_CLASS . '.php';
-
-        file_put_contents($compiledContainerFile, $compiledContainer);
+        file_put_contents(
+            __DIR__ . '/' . self::COMPILED_CONTAINER_CLASS . '.php',
+            $compiler->compile()
+        );
     }
 }
 
