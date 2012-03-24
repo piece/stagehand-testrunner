@@ -30,7 +30,7 @@ parameters:
   cakephp.preparer.class: "Stagehand\\TestRunner\\Preparer\\CakePHPPreparer"
   cakephp.runner.class: "Stagehand\\TestRunner\\Runner\\CakePHPRunner"
 
-  # Parameters for Configuration
+  # Configuration Parameters
   cakephp.cakephp_app_path: null
   cakephp.cakephp_core_path: null
 

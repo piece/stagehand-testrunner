@@ -51,7 +51,7 @@ parameters:
   test_runner.class: "Stagehand\\TestRunner\\CLI\\TestRunner"
   test_targets.class: "Stagehand\\TestRunner\\Core\\TestTargets"
 
-  # Parameters for Configuration
+  # Configuration Parameters
   recursively_scans: false
   enables_autotest: false
   monitoring_directories: []

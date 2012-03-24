@@ -33,7 +33,7 @@ parameters:
   phpunit.preparer.class: "Stagehand\\TestRunner\\Preparer\\PHPUnitPreparer"
   phpunit.runner.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner"
 
-  # Parameters for Configuration
+  # Configuration Parameters
   phpunit.phpunit_config_file: null
 
 services:
