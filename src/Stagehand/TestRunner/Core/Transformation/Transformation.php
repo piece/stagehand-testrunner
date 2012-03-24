@@ -92,7 +92,7 @@ class Transformation
         return $this;
     }
 
-    public function transformToContainer()
+    public function transformToContainerParameters()
     {
         if (!is_null($this->configurationFile)) {
             foreach (Yaml::parse($this->configurationFile) as $configurationID => $configurationPart) {

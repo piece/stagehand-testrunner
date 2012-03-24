@@ -141,7 +141,7 @@ PHP_EOL .
         ApplicationContext::getInstance()->setComponent('output', $output);
         $transformation = $this->createTransformation($container);
         $this->transformToConfiguration($input, $output, $transformation);
-        $transformation->transformToContainer();
+        $transformation->transformToContainerParameters();
         $this->createTestRunner()->run();
         return 0;
     }
