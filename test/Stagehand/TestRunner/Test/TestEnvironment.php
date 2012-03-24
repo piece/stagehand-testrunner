@@ -79,7 +79,7 @@ class TestEnvironment extends Environment
 
         $container = new Container();
         $transformation = new Transformation($container);
-        $transformation->transformToContainer();
+        $transformation->transformToContainerParameters();
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
     }
 
