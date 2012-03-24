@@ -80,7 +80,6 @@ class Transformation
     /**
      * @param string $configurationID
      * @param array $configurationPart
-     * @return \Stagehand\TestRunner\Core\ConfigurationTransformer
      */
     public function setConfigurationPart($configurationID, array $configurationPart)
     {
@@ -89,7 +88,6 @@ class Transformation
         } else {
             $this->configuration[$configurationID] = $configurationPart;
         }
-        return $this;
     }
 
     public function transformToContainerParameters()
