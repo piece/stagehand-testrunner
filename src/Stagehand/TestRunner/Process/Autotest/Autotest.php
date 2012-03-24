@@ -41,7 +41,7 @@ use Stagehand\ComponentFactory\IComponentAwareFactory;
 
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\LegacyProxy;
+use Stagehand\TestRunner\Util\LegacyProxy;
 use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
@@ -105,7 +105,7 @@ abstract class Autotest
     protected $notifierFactory;
 
     /**
-     * @var \Stagehand\TestRunner\Core\LegacyProxy
+     * @var \Stagehand\TestRunner\Util\LegacyProxy
      * @since Property available since Release 3.0.0
      */
     protected $legacyProxy;
@@ -187,7 +187,7 @@ abstract class Autotest
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\LegacyProxy $legacyProxy
+     * @param \Stagehand\TestRunner\Util\LegacyProxy $legacyProxy
      * @since Method available since Release 3.0.0
      */
     public function setLegacyProxy(LegacyProxy $legacyProxy)

@@ -60,7 +60,7 @@ class NotifierTest extends PHPUnitFactoryAwareTestCase
      */
     public function notifiesTheResultByTheAppropriateCommandForTheCurrentHost($result, $os, $commandRegex)
     {
-        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Core\LegacyProxy');
+        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->PHP_OS()->thenReturn($os);
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
@@ -152,7 +152,7 @@ class NotifierTest extends PHPUnitFactoryAwareTestCase
      */
     public function addsABackslashForEachBackslashInTheMessageOnLinuxToPreventLosingOriginalBackslashes()
     {
-        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Core\LegacyProxy');
+        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->PHP_OS()->thenReturn('linux');
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);

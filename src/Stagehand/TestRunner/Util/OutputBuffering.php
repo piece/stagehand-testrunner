@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Util;
 
-use Stagehand\TestRunner\Core\LegacyProxy;
+use Stagehand\TestRunner\Util\LegacyProxy;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,7 +49,7 @@ use Stagehand\TestRunner\Core\LegacyProxy;
 class OutputBuffering
 {
     /**
-     * @var \Stagehand\TestRunner\Core\LegacyProxy
+     * @var \Stagehand\TestRunner\Util\LegacyProxy
      * @since Property available since Release 3.0.0
      */
     protected $legacyProxy;
@@ -65,7 +65,7 @@ class OutputBuffering
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\LegacyProxy $legacyProxy
+     * @param \Stagehand\TestRunner\Util\LegacyProxy $legacyProxy
      * @since Method available since Release 3.0.0
      */
     public function setLegacyProxy(LegacyProxy $legacyProxy)

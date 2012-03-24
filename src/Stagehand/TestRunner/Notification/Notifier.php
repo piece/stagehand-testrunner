@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
  * All rights reserved.
  *
@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -39,7 +39,7 @@
 
 namespace Stagehand\TestRunner\Notification;
 
-use Stagehand\TestRunner\Core\LegacyProxy;
+use Stagehand\TestRunner\Util\LegacyProxy;
 
 Notifier::$ICON_PASSED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'passed.png';
 Notifier::$ICON_FAILED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'failed.png';
@@ -47,7 +47,7 @@ Notifier::$ICON_STOPPED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'stopped.png
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -64,7 +64,7 @@ class Notifier
     public static $ICON_STOPPED;
 
     /**
-     * @var \Stagehand\TestRunner\Core\LegacyProxy
+     * @var \Stagehand\TestRunner\Util\LegacyProxy
      * @since Property available since Release 3.0.0
      */
     protected $legacyProxy;
@@ -102,7 +102,7 @@ class Notifier
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\LegacyProxy $legacyProxy
+     * @param \Stagehand\TestRunner\Util\LegacyProxy $legacyProxy
      * @since Method available since Release 3.0.0
      */
     public function setLegacyProxy(LegacyProxy $legacyProxy)

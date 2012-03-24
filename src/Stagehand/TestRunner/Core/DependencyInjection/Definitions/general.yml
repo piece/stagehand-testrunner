@@ -39,7 +39,7 @@ parameters:
   junit_xml_stream_writer.class: "Stagehand\\TestRunner\\JUnitXMLWriter\\JUnitXMLStreamWriter"
   junit_xml_stream_writer_factory.class: "%junit_xml_stream_writer.class%"
   junit_xml_writer_factory.class: "Stagehand\\TestRunner\\JUnitXMLWriter\\JUnitXMLWriterFactory"
-  legacy_proxy.class: "Stagehand\\TestRunner\\Core\\LegacyProxy"
+  legacy_proxy.class: "Stagehand\\TestRunner\\Util\\LegacyProxy"
   notifier.class: "Stagehand\\TestRunner\\Notification\\Notifier"
   notifier_factory.class: "Stagehand\\TestRunner\\Notification\\Notifier"
   output_buffering.class: "Stagehand\\TestRunner\\Util\\OutputBuffering"

@@ -78,7 +78,7 @@ abstract class TestCase extends FactoryAwareTestCase
         $this->tmpDirectory = dirname(__FILE__) . '/../../../../tmp';
         $this->junitXMLFile = $this->tmpDirectory . '/' . $this->getName(false) . '.xml';
 
-        $legacyProxy = \Phake::partialMock('Stagehand\TestRunner\Core\LegacyProxy');
+        $legacyProxy = \Phake::partialMock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->ob_get_level()->thenReturn(0);
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);

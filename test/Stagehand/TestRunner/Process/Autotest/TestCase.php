@@ -140,7 +140,7 @@ abstract class TestCase extends FactoryAwareTestCase
         $testTargets = $this->applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
         $testTargets->setResources(array($options[ count($options) - 1 ]));
 
-        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Core\LegacyProxy');
+        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->get_cfg_var($this->anything())->thenReturn($phpConfigDir);
         \Phake::when($legacyProxy)->is_dir($this->anything())->thenReturn(true);
         \Phake::when($legacyProxy)->realpath($this->anything())->thenReturn(true);
@@ -197,7 +197,7 @@ abstract class TestCase extends FactoryAwareTestCase
         \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
         $this->applicationContext->setComponent('notifier', $notifier);
 
-        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Core\LegacyProxy');
+        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->passthru($this->anything())->thenReturn(null);
         \Phake::when($legacyProxy)->is_dir($this->anything())->thenReturn(true);
         $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
