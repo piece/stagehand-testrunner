@@ -57,12 +57,23 @@ class SimpleTestTestSuite extends \TestSuite
     protected $testTargets;
 
     /**
+     * @var array
+     */
+    protected $testCases = array();
+
+    public function add($test_case)
+    {
+        parent::add($test_case);
+        $this->testCases[] = $test_case;
+    }
+
+    /**
      * @return integer
      */
     public function countTests()
     {
         $testCount = 0;
-        foreach ($this->_test_cases as $testCase) {
+        foreach ($this->testCases as $testCase) {
             $testCount += $this->countTestsInTestCase($testCase);
         }
 

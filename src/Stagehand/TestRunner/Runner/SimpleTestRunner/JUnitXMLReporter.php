@@ -106,7 +106,7 @@ class JUnitXMLReporter extends \SimpleReporter
     public function paintGroupStart($testName, $size)
     {
         parent::paintGroupStart($testName, $size);
-        if (count($this->_test_stack) == 1) {
+        if (count($this->getTestList()) == 1) {
             $this->junitXMLWriter->startTestSuites();
         }
         $this->junitXMLWriter->startTestSuite($testName, $this->suite->countTests());
@@ -119,7 +119,7 @@ class JUnitXMLReporter extends \SimpleReporter
     {
         parent::paintGroupEnd($testName);
         $this->junitXMLWriter->endTestSuite();
-        if (count($this->_test_stack) == 0) {
+        if (count($this->getTestList()) == 0) {
             $this->junitXMLWriter->endTestSuites();
         }
     }
