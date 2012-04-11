@@ -90,6 +90,7 @@ class ErrorReporting
      * @param string $message
      * @param string $file
      * @param integer $line
+     * @throws \ErrorException
      */
     public static function errorToException($code, $message, $file, $line)
     {
