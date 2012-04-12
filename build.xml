@@ -27,34 +27,71 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">2.20.0</property>
+  <property name="package.releaseversion">3.0.0</property>
   <property name="package.releasestability">stable</property>
-  <property name="package.apiversion">1.1.0</property>
+  <property name="package.apiversion">3.0.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
 
-Supports PHPUnit 3.6.
+Migration to PHP 5.3
 
- (Issue #327)
+ (Issue #354)
 
- PHPUnit 3.6 has been supported.
+ Stagehand_TestRunner has been migrated to PHP 5.3. As of this version, it only works with PHP 5.3.2+.
 
-Four Defect Fix
+New Command Line Application
 
- The following defects have been fixed:
+ (Issue #368)
 
- * Missing backslashes in notice messages on Linux. (Issue #332)
- * An error message does not appear in the notice message. (Issue #333)
- * A possible crash by "Strict Standards" (Issue #334)
- * Super-type is collected as test unexpectedly. (Issue #347)
+ A new launcher script "testrunner" has been added. It provides a new style of arguments and options that are different by each testing framework. All existing launcher script have been removed.
+
+Supports PHPSpec 1.3.
+
+ (Issue #339)
+
+ PHPSpec 1.3 has been supported.
+
+Enhanced PHPSpec Support
+
+(Issue #340)
+
+ The PHPSpec support has been enhanced, and the following features have been added:
+
+ * Runs only the specified tests in the specified file.
+ * Runs only the tests in the specified classes.
+ * Logs test results into the specified file in the JUnit XML format.
+ * Stops on the first failure or error.
+
+Supports SimpleTest 1.1.
+
+ (Issue #307)
+
+ SimpleTest 1.1 has been supported.
+
+YAML-based Configuration
+
+ (Issue #178)
+
+ In the past versions, the runtime environment of Stagehand_TestRunner can only be configured with command line options. As of this version, the runtime environment can also be configured with a YAML configuration file.
+
+Deprecated Functionality in Stagehand_TestRunner 3.0.0
+
+ * The Support for PHPSpec 0.2 (Issue #338)
+ * The Support for PHPT (Issue #356)
+ * Test File Suffix (Issue #357)
+ * The Support for PHPUnit 3.5, 3.4 (Issue #359)
+ * The Support for PHP 5.2 (Issue #362)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
-  <property name="package.summary">A test runner for Test Driven Development</property>
-  <property name="package.description"><![CDATA[Stagehand_TestRunner provides a test runner to run unit tests. Stagehand_TestRunner strongly supports Test Driven Development by various features.]]></property>
+  <property name="package.summary">A continuous test runner for CLI</property>
+  <property name="package.description"><![CDATA[Stagehand_TestRunner is a continuous test runner to run unit tests in CLI.
+
+It makes unit testing in a local environment much easier and comfortable. Additionally it can easily be integrated with a continuous integration server like Jenkins. It has been designed for integration into Integrated Development Environments (IDEs), a developer can create an extension like MakeGood.
+]]></property>
   <property name="package.license.name">New BSD License</property>
   <property name="package.license.uri">http://www.opensource.org/licenses/bsd-license.php</property>
   <property name="package.channel">pear.piece-framework.com</property>
-  <property name="package.phpdep">5.2.0</property>
+  <property name="package.phpdep">5.3.2</property>
   <property name="package.pearinstallerdep">1.4.3</property>
   <property name="package.packagefile">package.xml</property>
 
@@ -105,8 +142,16 @@ Four Defect Fix
       <dirroles key="doc" value="doc"/>
       <dirroles key="Stagehand" value="php"/>
       <dependencies>
-        <package type="required" name="Stagehand_AlterationMonitor" channel="${package.channel}" minimum_version="1.0.0"/>
-        <package type="optional" name="PHPUnit" channel="pear.phpunit.de" minimum_version="3.4.1"/>
+        <package type="required" name="ClassLoader" channel="pear.symfony.com" minimum_version="2.0.0"/>
+        <package type="required" name="Config" channel="pear.symfony.com" minimum_version="2.0.0"/>
+        <package type="required" name="Console" channel="pear.symfony.com" minimum_version="2.0.0"/>
+        <package type="required" name="DependencyInjection" channel="pear.symfony.com" minimum_version="2.0.0"/>
+        <package type="required" name="Finder" channel="pear.symfony.com" minimum_version="2.0.0"/>
+        <package type="required" name="Stagehand_AlterationMonitor" channel="${package.channel}" minimum_version="2.0.1"/>
+        <package type="required" name="Stagehand_ComponentFactory" channel="${package.channel}" minimum_version="1.0.0"/>
+        <package type="required" name="Yaml" channel="pear.symfony.com" minimum_version="2.0.0"/>
+        <package type="optional" name="PHPSpec" channel="pear.phpspec.net" minimum_version="1.3.0beta"/>
+        <package type="optional" name="PHPUnit" channel="pear.phpunit.de" minimum_version="3.6.0"/>
         <extension type="required" name="pcre"/>
         <extension type="required" name="SPL"/>
         <extension type="optional" name="dom"/>
@@ -115,16 +160,8 @@ Four Defect Fix
         <pear minimum_version="${package.pearinstallerdep}"/>
       </dependencies>
       <release>
-        <install name="bin/cakerunner" as="cakerunner"/>
-        <install name="bin/cakerunner.bat" as="cakerunner.bat"/>
-        <install name="bin/ciunitrunner" as="ciunitrunner"/>
-        <install name="bin/ciunitrunner.bat" as="ciunitrunner.bat"/>
-        <install name="bin/phpspecrunner" as="phpspecrunner"/>
-        <install name="bin/phpspecrunner.bat" as="phpspecrunner.bat"/>
-        <install name="bin/phpunitrunner" as="phpunitrunner"/>
-        <install name="bin/phpunitrunner.bat" as="phpunitrunner.bat"/>
-        <install name="bin/simpletestrunner" as="simpletestrunner"/>
-        <install name="bin/simpletestrunner.bat" as="simpletestrunner.bat"/>
+        <install name="bin/testrunner" as="testrunner"/>
+        <install name="bin/testrunner.bat" as="testrunner.bat"/>
       </release>
     </d51pearpkg2>
   </target>
