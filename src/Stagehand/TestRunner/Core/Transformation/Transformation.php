@@ -74,34 +74,53 @@ class Transformation
      */
     public function __construct(ContainerInterface $container)
     {
+        $pluginConfigurationClass =
+            'Stagehand\TestRunner\Core\Configuration' . '\\' .
+            ApplicationContext::getInstance()->getPlugin()->getPluginID() . 'Configuration';
+        $this->configuration[ $pluginConfigurationClass::getConfigurationID() ] = array();
+        $this->configuration[ GeneralConfiguration::getConfigurationID() ] = array();
+
         $this->container = $container;
     }
 
     /**
      * @param string $configurationID
      * @param array $configurationPart
+     * @throws \InvalidArgumentException
      */
     public function setConfigurationPart($configurationID, array $configurationPart)
     {
-        if (array_key_exists($configurationID, $this->configuration)) {
-            $this->configuration[$configurationID] = array_merge_recursive($this->configuration[$configurationID], $configurationPart);
-        } else {
-            $this->configuration[$configurationID] = $configurationPart;
+        if (!array_key_exists($configurationID, $this->configuration)) {
+            throw new \InvalidArgumentException(sprintf(
+                'The configuration ID must be a one of %s, [ %s ] is given.',
+                implode(' and ', array_keys($this->configuration)),
+                $configurationID
+            ));
         }
+
+        $this->configuration[$configurationID][] = $configurationPart;
     }
 
     public function transformToContainerParameters()
     {
         if (!is_null($this->configurationFile)) {
             foreach (Yaml::parse($this->configurationFile) as $configurationID => $configurationPart) {
-                $this->setConfigurationPart(
-                    $configurationID,
-                    is_null($configurationPart) ? array() : $configurationPart
-                );
+                if (!is_null($configurationPart)) {
+                    if (!array_key_exists($configurationID, $this->configuration)) {
+                        $this->configuration[$configurationID] = array();
+                    }
+
+                    array_unshift($this->configuration[$configurationID], $configurationPart);
+                }
             }
         }
 
-        foreach ($this->configuration as $configurationID => $configurationPart) {
+        foreach ($this->configuration as $configurationID => $configurationParts) {
+            $configurations = array();
+            foreach ($configurationParts as $configurationPart) {
+                $configurations[] = $configurationPart;
+            }
+
             if ($configurationID == GeneralConfiguration::getConfigurationID()) {
                 $transformerID = 'General';
             } else {
@@ -109,7 +128,7 @@ class Transformation
                 $transformerID = $plugin->getPluginID();
             }
             $transformerClass = __NAMESPACE__ . '\\' . $transformerID . 'Transformer';
-            $transformer = new $transformerClass(array($configurationID => $configurationPart), $this->container); /* @var $transformer \Stagehand\TestRunner\Core\Transformation\Transformer */
+            $transformer = new $transformerClass($configurations, $this->container); /* @var $transformer \Stagehand\TestRunner\Core\Transformation\Transformer */
             $transformer->transform();
         }
 
