@@ -54,6 +54,7 @@ class Bootstrap
      * @var array
      */
     private static $namespaces = array(
+        'Stagehand\AlterationMonitor',
         'Stagehand\ComponentFactory',
         'Symfony\Component\Config',
         'Symfony\Component\Console',
