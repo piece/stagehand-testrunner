@@ -39,7 +39,6 @@ namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
-use Stagehand\TestRunner\Test\FactoryAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
