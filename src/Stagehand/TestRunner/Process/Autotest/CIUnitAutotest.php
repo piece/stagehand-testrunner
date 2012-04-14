@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
@@ -39,7 +39,7 @@ namespace Stagehand\TestRunner\Process\Autotest;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
@@ -53,8 +53,8 @@ class CIUnitAutotest extends PHPUnitAutotest
     {
         $options = parent::doBuildRunnerOptions();
 
-        if (!is_null($this->preparerFactory->create()->getCIUnitPath())) {
-            $options[] = '--ciunit-path=' . escapeshellarg($this->preparerFactory->create()->getCIUnitPath());
+        if (!is_null($this->preparer->getCIUnitPath())) {
+            $options[] = '--ciunit-path=' . escapeshellarg($this->preparer->getCIUnitPath());
         }
 
         return $options;

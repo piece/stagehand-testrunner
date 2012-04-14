@@ -53,8 +53,8 @@ class CIUnitAutotestTest extends PHPUnitAutotestTest
     {
         PHPUnitAutotestTest::setUpBeforeClass();
         static::$configurators[] = function (ApplicationContext $applicationContext) {
-            $preparer = $applicationContext->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\CIUnitPreparer */
-            $preparer->setCIUnitPath('DIRECTORY');
+            $preparer = $applicationContext->createComponent('preparer_factory')->create();
+            \Phake::when($preparer)->getCIUnitPath()->thenReturn('DIRECTORY');
         };
     }
 
@@ -64,6 +64,12 @@ class CIUnitAutotestTest extends PHPUnitAutotestTest
     protected function getPluginID()
     {
         return CIUnitPlugin::getPluginID();
+    }
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->applicationContext->setComponent('ciunit.preparer', \Phake::mock('Stagehand\TestRunner\Preparer\CIUnitPreparer'));
     }
 
     /**

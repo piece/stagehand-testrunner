@@ -29,7 +29,6 @@ parameters:
   phpunit.junit_xml_printer.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner\\Printer\\JUnitXMLPrinter"
   phpunit.junit_xml_printer_factory.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner\\Printer\\JUnitXMLPrinterFactory"
   phpunit.phpunit_xml_configuration.class: "Stagehand\\TestRunner\\Core\\PHPUnitXMLConfiguration"
-  phpunit.phpunit_xml_configuration_factory.class: "Stagehand\\TestRunner\\Core\\PHPUnitXMLConfigurationFactory"
   phpunit.preparer.class: "Stagehand\\TestRunner\\Preparer\\PHPUnitPreparer"
   phpunit.runner.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner"
 
@@ -47,11 +46,8 @@ services:
   # Core
   phpunit.phpunit_xml_configuration:
     class: "%phpunit.phpunit_xml_configuration.class%"
-    factory_service: phpunit.phpunit_xml_configuration_factory
-    factory_method: maybeCreate
-    arguments: [ "%phpunit.phpunit_config_file%" ]
-  phpunit.phpunit_xml_configuration_factory:
-    class: "%phpunit.phpunit_xml_configuration_factory.class%"
+    calls:
+      - [ setFileName, [ "%phpunit.phpunit_config_file%" ] ]
 
   # Preparer
   phpunit.preparer:

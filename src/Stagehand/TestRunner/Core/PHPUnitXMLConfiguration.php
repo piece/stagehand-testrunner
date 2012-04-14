@@ -47,16 +47,27 @@ namespace Stagehand\TestRunner\Core;
 class PHPUnitXMLConfiguration
 {
     /**
-     * @var \PHPUnit_Util_Configuration
+     * @var string
+     * @since Property available since Release 3.0.1
      */
-    protected $configuration;
+    protected $fileName;
 
     /**
-     * @param \PHPUnit_Util_Configuration $configuration
+     * @param string $fileName
+     * @since Method available since Release 3.0.1
      */
-    public function __construct(\PHPUnit_Util_Configuration $configuration)
+    public function setFileName($fileName)
     {
-        $this->configuration = $configuration;
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 3.0.1
+     */
+    public function isEnabled()
+    {
+        return !is_null($this->fileName);
     }
 
     /**
@@ -64,7 +75,7 @@ class PHPUnitXMLConfiguration
      */
     public function getFileName()
     {
-        return $this->configuration->getFilename();
+        return $this->fileName;
     }
 
     /**
@@ -73,7 +84,7 @@ class PHPUnitXMLConfiguration
      */
     public function hasPHPUnitConfiguration($name)
     {
-        $phpunitConfiguration = $this->configuration->getPHPUnitConfiguration();
+        $phpunitConfiguration = $this->createConfiguration()->getPHPUnitConfiguration();
         return array_key_exists($name, $phpunitConfiguration);
     }
 
@@ -83,7 +94,7 @@ class PHPUnitXMLConfiguration
      */
     public function getPHPUnitConfiguration($name)
     {
-        $phpunitConfiguration = $this->configuration->getPHPUnitConfiguration();
+        $phpunitConfiguration = $this->createConfiguration()->getPHPUnitConfiguration();
         return $phpunitConfiguration[$name];
     }
 
@@ -92,7 +103,7 @@ class PHPUnitXMLConfiguration
      */
     public function hasSeleniumBrowserConfiguration()
     {
-        return count($this->configuration->getSeleniumBrowserConfiguration());
+        return count($this->createConfiguration()->getSeleniumBrowserConfiguration());
     }
 
     /**
@@ -100,7 +111,7 @@ class PHPUnitXMLConfiguration
      */
     public function getSeleniumBrowserConfiguration()
     {
-        return $this->configuration->getSeleniumBrowserConfiguration();
+        return $this->createConfiguration()->getSeleniumBrowserConfiguration();
     }
 
     /**
@@ -109,7 +120,7 @@ class PHPUnitXMLConfiguration
      */
     public function hasGroupConfiguration($name)
     {
-        $groupConfiguration = $this->configuration->getGroupConfiguration();
+        $groupConfiguration = $this->createConfiguration()->getGroupConfiguration();
         return array_key_exists($name, $groupConfiguration) && count($groupConfiguration[$name]);
     }
 
@@ -119,8 +130,22 @@ class PHPUnitXMLConfiguration
      */
     public function getGroupConfiguration($name)
     {
-        $groupConfiguration = $this->configuration->getGroupConfiguration();
+        $groupConfiguration = $this->createConfiguration()->getGroupConfiguration();
         return $groupConfiguration[$name];
+    }
+
+    /**
+     * @return \PHPUnit_Util_Configuration
+     * @throws \InvalidArgumentException
+     * @since Method available since Release 3.0.1
+     */
+    protected function createConfiguration()
+    {
+        if (is_null($this->fileName)) {
+            throw new \InvalidArgumentException('The name of the XML configuration file must be specified.');
+        }
+
+        return \PHPUnit_Util_Configuration::getInstance($this->fileName);
     }
 }
 

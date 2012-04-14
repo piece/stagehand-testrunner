@@ -297,15 +297,11 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $logFile = $configDirectory . DIRECTORY_SEPARATOR . 'logfile.tap';
         $oldIncludePath = set_include_path($configDirectory . PATH_SEPARATOR . get_include_path());
 
-        $phpunitXMLConfigurationFactory = $this->createPHPUnitXMLConfigurationFactory();
-        $phpunitXMLConfiguration = $phpunitXMLConfigurationFactory->maybeCreate($configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml');
-        $this->applicationContext->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);
+        $phpunitXMLConfiguration = $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+        $phpunitXMLConfiguration->setFileName($configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml');
 
         $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\PHPUnitPreparer */
-        $preparer->setPHPUnitXMLConfiguration($phpunitXMLConfiguration);
-
         $runner = $this->createRunner(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-        $runner->setPHPUnitXMLConfiguration($phpunitXMLConfiguration);
 
         $e = null;
         try {
@@ -369,9 +365,8 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     {
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
-        $phpunitXMLConfigurationFactory = $this->createPHPUnitXMLConfigurationFactory();
-        $phpunitXMLConfiguration = $phpunitXMLConfigurationFactory->maybeCreate($configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
-        $this->applicationContext->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);
+        $phpunitXMLConfiguration = $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+        $phpunitXMLConfiguration->setFileName($configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
         $junitXMLWriterFactory = $this->applicationContext->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */
         $junitXMLWriterFactory->setLogsResultsInRealtime(true);
         $collector = $this->createCollector();
@@ -406,15 +401,6 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     protected function groupsTest()
     {
         return 'Stagehand_TestRunner_PHPUnitGroupsTest';
-    }
-
-    /**
-     * @return \Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory
-     * @since Method available since Release 3.0.0
-     */
-    protected function createPHPUnitXMLConfigurationFactory()
-    {
-        return $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration_factory');
     }
 }
 

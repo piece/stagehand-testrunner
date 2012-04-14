@@ -65,7 +65,7 @@ class PHPUnitPreparer extends Preparer
 
     public function prepare()
     {
-        if (!is_null($this->phpunitXMLConfiguration)) {
+        if ($this->phpunitXMLConfiguration->isEnabled()) {
             $this->earlyConfigure();
         }
     }

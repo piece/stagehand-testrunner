@@ -87,10 +87,10 @@ abstract class Autotest
     protected $monitoringDirectories;
 
     /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
-     * @since Property available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Preparer\Preparer
+     * @since Property available since Release 3.0.1
      */
-    protected $preparerFactory;
+    protected $preparer;
 
     /**
      * @var \Stagehand\ComponentFactory\IComponentAwareFactory
@@ -114,6 +114,16 @@ abstract class Autotest
      * @var \Stagehand\TestRunner\Process\AlterationMonitoring
      */
     protected $alterationMonitoring;
+
+    /**
+     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $preparerFactory
+     * @since Method available since Release 3.0.1
+     */
+    public function __construct(IComponentAwareFactory $preparerFactory)
+    {
+        $this->preparer = $preparerFactory->create();
+        $this->preparer->prepare();
+    }
 
     /**
      * Monitors for changes in one or more target directories and runs tests in
@@ -202,15 +212,6 @@ abstract class Autotest
     public function setAlterationMonitoring(AlterationMonitoring $alterationMonitoring)
     {
         $this->alterationMonitoring = $alterationMonitoring;
-    }
-
-    /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $preparerFactory
-     * @since Method available since Release 3.0.0
-     */
-    public function setPreparerFactory(IComponentAwareFactory $preparerFactory)
-    {
-        $this->preparerFactory = $preparerFactory;
     }
 
     /**

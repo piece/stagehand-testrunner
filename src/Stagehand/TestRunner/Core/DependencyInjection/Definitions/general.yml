@@ -181,12 +181,12 @@ services:
     class: "%alteration_monitoring.class%"
   autotest:
     abstract: true
+    arguments: [ "@preparer_factory" ]
     calls:
       - [ setAlterationMonitoring, [ "@alteration_monitoring" ] ]
       - [ setLegacyProxy, [ "@legacy_proxy" ] ]
       - [ setMonitoringDirectories, [ "%monitoring_directories%" ] ]
       - [ setNotifierFactory, [ "@notifier_factory" ] ]
-      - [ setPreparerFactory, [ "@preparer_factory" ] ]
       - [ setRunnerFactory, [ "@runner_factory" ] ]
       - [ setTerminal, [ "@terminal" ] ]
       - [ setTestTargets, [ "@test_targets" ] ]

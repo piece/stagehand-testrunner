@@ -112,7 +112,7 @@ class PHPUnitRunner extends Runner
             $arguments['stopOnError'] = true;
         }
 
-        if (!is_null($this->phpunitXMLConfiguration)) {
+        if ($this->phpunitXMLConfiguration->isEnabled()) {
             $arguments['configuration'] = $this->phpunitXMLConfiguration->getFileName();
         }
 

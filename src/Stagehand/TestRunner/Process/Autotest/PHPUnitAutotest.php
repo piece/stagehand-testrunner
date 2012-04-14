@@ -68,7 +68,7 @@ class PHPUnitAutotest extends Autotest
     {
         $options = array();
 
-        if (!is_null($this->phpunitXMLConfiguration)) {
+        if ($this->phpunitXMLConfiguration->isEnabled()) {
             $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitXMLConfiguration->getFileName());
         }
 

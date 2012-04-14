@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.20.0
@@ -42,7 +42,7 @@ use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
@@ -53,12 +53,12 @@ class CakePHPAutotestTest extends SimpleTestAutotestTest
     {
         SimpleTestAutotestTest::setUpBeforeClass();
         static::$configurators[] = function (ApplicationContext $applicationContext) {
-            $preparer = $applicationContext->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePHPPreparer */
-            $preparer->setCakePHPAppPath('DIRECTORY');
+            $preparer = $applicationContext->createComponent('preparer_factory')->create();
+            \Phake::when($preparer)->getCakePHPAppPath()->thenReturn('DIRECTORY');
         };
         static::$configurators[] = function (ApplicationContext $applicationContext) {
-            $preparer = $applicationContext->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\CakePHPPreparer */
-            $preparer->setCakePHPCorePath('DIRECTORY');
+            $preparer = $applicationContext->createComponent('preparer_factory')->create();
+            \Phake::when($preparer)->getCakePHPCorePath()->thenReturn('DIRECTORY');;
         };
     }
 
@@ -68,6 +68,12 @@ class CakePHPAutotestTest extends SimpleTestAutotestTest
     protected function getPluginID()
     {
         return CakePHPPlugin::getPluginID();
+    }
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->applicationContext->setComponent('cakephp.preparer', \Phake::mock('Stagehand\TestRunner\Preparer\CakePHPPreparer'));
     }
 
     /**

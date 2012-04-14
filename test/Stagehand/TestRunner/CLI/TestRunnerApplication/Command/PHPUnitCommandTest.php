@@ -64,13 +64,10 @@ class PHPUnitCommandTest extends TestCase
             array(
                 array('--phpunit-config=phpunit.xml'),
                 function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
-                    $phpunitXMLConfigurationFactory = \Phake::mock('Stagehand\TestRunner\Core\PHPUnitXMLConfigurationFactory');
-                    \Phake::when($phpunitXMLConfigurationFactory)->maybeCreate($test->anything())->thenReturn(null);
-                    $applicationContext->setComponent('phpunit.phpunit_xml_configuration_factory', $phpunitXMLConfigurationFactory);
                 },
                 function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
-                    $applicationContext->createComponent('phpunit.phpunit_xml_configuration');
-                    \Phake::verify($applicationContext->createComponent('phpunit.phpunit_xml_configuration_factory'))->maybeCreate('phpunit.xml');
+                    $phpunitXMLConfiguration = $applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+                    $test->assertEquals('phpunit.xml', $phpunitXMLConfiguration->getFileName());
                 }
             ),
         );

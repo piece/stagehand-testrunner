@@ -83,7 +83,7 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
      */
     protected function shouldExclude(\ReflectionClass $class, \ReflectionMethod $method)
     {
-        if (is_null($this->phpunitXMLConfiguration)) return false;
+        if (!$this->phpunitXMLConfiguration->isEnabled()) return false;
 
         $groups = \PHPUnit_Util_Test::getGroups($class->getName(), $method->getName());
         $shouldExclude = false;
