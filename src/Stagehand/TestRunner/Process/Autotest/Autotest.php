@@ -41,12 +41,12 @@ use Stagehand\ComponentFactory\IComponentAwareFactory;
 
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Util\LegacyProxy;
 use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
 use Stagehand\TestRunner\Process\StreamableProcess;
+use Stagehand\TestRunner\Util\LegacyProxy;
 use Stagehand\TestRunner\Util\String;
 
 /**
