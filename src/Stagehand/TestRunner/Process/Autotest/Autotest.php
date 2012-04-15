@@ -278,7 +278,12 @@ abstract class Autotest
             $command = $matches[1] . ':\\' . str_replace('/', '\\', $matches[2]);
         }
 
-        return escapeshellarg($command);
+        if ($this->isWin()) {
+            putenv(sprintf('ENVPATH="%s"', $command));
+            return '%ENVPATH%';
+        } else {
+            return escapeshellarg($command);
+        }
     }
 
     /**
@@ -368,6 +373,24 @@ abstract class Autotest
      * @since Method available since Release 3.0.0
      */
     abstract protected function doBuildRunnerOptions();
+
+    /**
+     * @return boolean
+     * @since Method available since Release 3.0.1
+     */
+    public function isWin()
+    {
+        return strtolower(substr($this->getPHPOS(), 0, strlen('win'))) == 'win';
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 3.0.1
+     */
+    protected function getPHPOS()
+    {
+        return $this->legacyProxy->PHP_OS();
+    }
 }
 
 /*
