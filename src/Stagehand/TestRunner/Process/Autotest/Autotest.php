@@ -163,7 +163,7 @@ abstract class Autotest
 
         if ($exitStatus != 0 && $this->runnerFactory->create()->usesNotification()) {
             $fatalError = new FatalError($streamOutput);
-            $this->notifierFactory->craete()->notifyResult(
+            $this->notifierFactory->create()->notifyResult(
                 new Notification(Notification::RESULT_STOPPED, $fatalError->getFullMessage())
             );
         }
