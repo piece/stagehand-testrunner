@@ -47,6 +47,7 @@ use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
 use Stagehand\TestRunner\Process\StreamableProcess;
 use Stagehand\TestRunner\Util\LegacyProxy;
+use Stagehand\TestRunner\Util\OS;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -58,6 +59,12 @@ use Stagehand\TestRunner\Util\String;
  */
 abstract class Autotest
 {
+    /**
+     * @var \Stagehand\TestRunner\Util\OS
+     * @since Property available since Release 3.0.1
+     */
+    protected $os;
+
     /**
      * @var string
      */
@@ -123,6 +130,15 @@ abstract class Autotest
     {
         $this->preparer = $preparerFactory->create();
         $this->preparer->prepare();
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Util\OS $os
+     * @since Method available since Release 3.0.1
+     */
+    public function setOS(OS $os)
+    {
+        $this->os = $os;
     }
 
     /**
@@ -278,7 +294,7 @@ abstract class Autotest
             $command = $matches[1] . ':\\' . str_replace('/', '\\', $matches[2]);
         }
 
-        if ($this->isWin()) {
+        if ($this->os->isWin()) {
             putenv(sprintf('ENVPATH="%s"', $command));
             return '%ENVPATH%';
         } else {
@@ -373,24 +389,6 @@ abstract class Autotest
      * @since Method available since Release 3.0.0
      */
     abstract protected function doBuildRunnerOptions();
-
-    /**
-     * @return boolean
-     * @since Method available since Release 3.0.1
-     */
-    public function isWin()
-    {
-        return strtolower(substr($this->getPHPOS(), 0, strlen('win'))) == 'win';
-    }
-
-    /**
-     * @return string
-     * @since Method available since Release 3.0.1
-     */
-    protected function getPHPOS()
-    {
-        return $this->legacyProxy->PHP_OS();
-    }
 }
 
 /*

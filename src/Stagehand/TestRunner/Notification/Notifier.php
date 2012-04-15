@@ -40,6 +40,7 @@
 namespace Stagehand\TestRunner\Notification;
 
 use Stagehand\TestRunner\Util\LegacyProxy;
+use Stagehand\TestRunner\Util\OS;
 
 Notifier::$ICON_PASSED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'passed.png';
 Notifier::$ICON_FAILED = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'failed.png';
@@ -70,35 +71,26 @@ class Notifier
     protected $legacyProxy;
 
     /**
+     * @var \Stagehand\TestRunner\Util\OS
+     * @since Property available since Release 3.0.1
+     */
+    protected $os;
+
+    /**
+     * @param \Stagehand\TestRunner\Util\OS $os
+     * @since Method available since Release 3.0.1
+     */
+    public function setOS(OS $os)
+    {
+        $this->os = $os;
+    }
+
+    /**
      * @param \Stagehand\TestRunner\Notification\Notification $notification
      */
     public function notifyResult(Notification $notification)
     {
         $this->executeNotifyCommand($this->buildNotifyCommand($notification));
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isWin()
-    {
-        return strtolower(substr($this->getPHPOS(), 0, strlen('win'))) == 'win';
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDarwin()
-    {
-        return strtolower(substr($this->getPHPOS(), 0, strlen('darwin'))) == 'darwin';
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isLinux()
-    {
-        return strtolower(substr($this->getPHPOS(), 0, strlen('linux'))) == 'linux';
     }
 
     /**
@@ -127,7 +119,7 @@ class Notifier
             $icon = self::$ICON_STOPPED;
         }
 
-        if ($this->isWin()) {
+        if ($this->os->isWin()) {
             return sprintf(
                 'growlnotify /t:%s /p:-2 /i:%s /a:Stagehand_TestRunner /r:%s,%s,%s /n:%s /silent:true %s',
                 escapeshellarg($title),
@@ -138,7 +130,7 @@ class Notifier
                 escapeshellarg($title),
                 escapeshellarg($notification->getMessage())
             );
-        } elseif ($this->isDarwin()) {
+        } elseif ($this->os->isDarwin()) {
             return sprintf(
                 'growlnotify --name %s --priority -2 --image %s --title %s --message %s',
                 escapeshellarg($title),
@@ -146,7 +138,7 @@ class Notifier
                 escapeshellarg($title),
                 escapeshellarg($notification->getMessage())
             );
-        } elseif ($this->isLinux()) {
+        } elseif ($this->os->isLinux()) {
             return sprintf(
                 'notify-send --urgency=low --icon=%s %s %s',
                 escapeshellarg($icon),
@@ -165,14 +157,6 @@ class Notifier
             $exitStatus = null;
             $this->legacyProxy->system($command, $exitStatus);
         }
-    }
-
-    /**
-     * @return string
-     */
-    protected function getPHPOS()
-    {
-        return $this->legacyProxy->PHP_OS();
     }
 }
 

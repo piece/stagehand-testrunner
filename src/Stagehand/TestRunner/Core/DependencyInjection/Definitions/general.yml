@@ -42,6 +42,7 @@ parameters:
   legacy_proxy.class: "Stagehand\\TestRunner\\Util\\LegacyProxy"
   notifier.class: "Stagehand\\TestRunner\\Notification\\Notifier"
   notifier_factory.class: "Stagehand\\TestRunner\\Notification\\Notifier"
+  os.class: "Stagehand\\TestRunner\\Util\\OS"
   output_buffering.class: "Stagehand\\TestRunner\\Util\\OutputBuffering"
   preparer_factory.class: "Stagehand\\TestRunner\\Preparer\\Preparer"
   runner_factory.class: "Stagehand\\TestRunner\\Runner\\Runner"
@@ -78,6 +79,10 @@ services:
   # Util
   legacy_proxy:
     class: "%legacy_proxy.class%"
+  os:
+    class: "%os.class%"
+    calls:
+      - [ setLegacyProxy, [ "@legacy_proxy" ] ]
   output_buffering:
     class: "%output_buffering.class%"
     calls:
@@ -161,6 +166,7 @@ services:
     class: "%notifier.class%"
     calls:
       - [ setLegacyProxy, [ "@legacy_proxy" ] ]
+      - [ setOS, [ "@os" ] ]
   notifier_factory:
     class: "%notifier_factory.class%"
     factory_service: component_aware_factory_factory
@@ -187,6 +193,7 @@ services:
       - [ setLegacyProxy, [ "@legacy_proxy" ] ]
       - [ setMonitoringDirectories, [ "%monitoring_directories%" ] ]
       - [ setNotifierFactory, [ "@notifier_factory" ] ]
+      - [ setOS, [ "@os" ] ]
       - [ setRunnerFactory, [ "@runner_factory" ] ]
       - [ setTerminal, [ "@terminal" ] ]
       - [ setTestTargets, [ "@test_targets" ] ]
