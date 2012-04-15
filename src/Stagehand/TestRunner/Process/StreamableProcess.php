@@ -84,12 +84,10 @@ class StreamableProcess
         stream_set_blocking($pipes[2], 0);
 
         while (!feof($pipes[1]) || !feof($pipes[2])) {
-            $changedStreamCount = stream_select(
-                $readingStreams = array($pipes[1], $pipes[2]),
-                $writingStreams = null,
-                $exceptStreams = null,
-                1
-            );
+            $readingStreams = array($pipes[1], $pipes[2]);
+            $writingStreams = null;
+            $exceptStreams = null;
+            $changedStreamCount = stream_select($readingStreams, $writingStreams, $exceptStreams, 1);
             if ($changedStreamCount === false) {
                 throw new StreamException('An error is raised during waiting for any data to be written to the standard output or standard error.');
             }
