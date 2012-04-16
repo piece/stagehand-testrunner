@@ -27,60 +27,22 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">3.0.0</property>
+  <property name="package.releaseversion">3.0.1</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">3.0.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
 
-Migration to PHP 5.3
+Six Defect Fixes
 
- (Issue #354)
+ The following defects have been fixed:
 
- Stagehand_TestRunner has been migrated to PHP 5.3. As of this version, it only works with PHP 5.3.2+.
-
-New Command Line Application
-
- (Issue #368)
-
- A new launcher script "testrunner" has been added. It provides a new style of arguments and options that are different by each testing framework. All existing launcher script have been removed.
-
-Supports PHPSpec 1.3.
-
- (Issue #339)
-
- PHPSpec 1.3 has been supported.
-
-Enhanced PHPSpec Support
-
-(Issue #340)
-
- The PHPSpec support has been enhanced, and the following features have been added:
-
- * Runs only the specified tests in the specified file.
- * Runs only the tests in the specified classes.
- * Logs test results into the specified file in the JUnit XML format.
- * Stops on the first failure or error.
-
-Supports SimpleTest 1.1.
-
- (Issue #307)
-
- SimpleTest 1.1 has been supported.
-
-YAML-based Configuration
-
- (Issue #178)
-
- In the past versions, the runtime environment of Stagehand_TestRunner can only be configured with command line options. As of this version, the runtime environment can also be configured with a YAML configuration file.
-
-Deprecated Functionality in Stagehand_TestRunner 3.0.0
-
- * The Support for PHPSpec 0.2 (Issue #338)
- * The Support for PHPT (Issue #356)
- * Test File Suffix (Issue #357)
- * The Support for PHPUnit 3.5, 3.4 (Issue #359)
- * The Support for PHP 5.2 (Issue #362)
+ * An error "Fatal error: Class 'PHPUnit_Util_Configuration' not found in ..." is raised when using the --phpunit-config option together with the --autotest option. (Issue #386)
+ * An error "Fatal error: Call to undefined method Stagehand\ComponentFactory\ComponentAwareFactory::craete() in ..." is raised when a fatal error is raised in Autotest with notification. (Issue #387)
+ * Test is not run on Windows with Autotest. (Issue #388)
+ * Errors "Strict standards: Only variables should be passed by reference in ..." are raised on Windows with Autotest. (Issue #389)
+ * The test run process hangs when a long text is written on Windows with Autotest. (Issue #390)
+ * The testrunner command is not launched by testrunner.bat when the path to the php executable contains spaces. (Issue #391)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A continuous test runner for CLI</property>
