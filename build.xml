@@ -27,22 +27,17 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">3.0.1</property>
+  <property name="package.releaseversion">3.0.2</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">3.0.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
 
-Six Defect Fixes
+A Defect Fix
 
- The following defects have been fixed:
+ The following defect has been fixed:
 
- * An error "Fatal error: Class 'PHPUnit_Util_Configuration' not found in ..." is raised when using the --phpunit-config option together with the --autotest option. (Issue #386)
- * An error "Fatal error: Call to undefined method Stagehand\ComponentFactory\ComponentAwareFactory::craete() in ..." is raised when a fatal error is raised in Autotest with notification. (Issue #387)
- * Test is not run on Windows with Autotest. (Issue #388)
- * Errors "Strict standards: Only variables should be passed by reference in ..." are raised on Windows with Autotest. (Issue #389)
- * The test run process hangs when a long text is written on Windows with Autotest. (Issue #390)
- * The testrunner command is not launched by testrunner.bat when the path to the php executable contains spaces. (Issue #391)
+ * An InvalidArgumentException is raised every time a test is run while running Autotest. (Issue #393)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A continuous test runner for CLI</property>
