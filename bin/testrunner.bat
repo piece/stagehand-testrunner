@@ -20,9 +20,9 @@ GOTO INIT
 IF "%PHP_COMMAND%" == "" GOTO NO_PHPCOMMAND
 
 IF EXIST ".\testrunner" (
-  %PHP_COMMAND% -d html_errors=off -d open_basedir= -q ".\testrunner" %1 %2 %3 %4 %5 %6 %7 %8 %9
+  "%PHP_COMMAND%" -d html_errors=off -d open_basedir= -q ".\testrunner" %1 %2 %3 %4 %5 %6 %7 %8 %9
 ) ELSE (
-  %PHP_COMMAND% -d html_errors=off -d open_basedir= -q "%SCRIPT_DIR%testrunner" %1 %2 %3 %4 %5 %6 %7 %8 %9
+  "%PHP_COMMAND%" -d html_errors=off -d open_basedir= -q "%SCRIPT_DIR%testrunner" %1 %2 %3 %4 %5 %6 %7 %8 %9
 )
 GOTO CLEANUP
 
