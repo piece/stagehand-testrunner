@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,25 +29,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.10.0
+ * @since      File available since Release 3.0.1
  */
 
-set_include_path(implode(PATH_SEPARATOR, array(
-    __DIR__ . '/../examples',
-    get_include_path(),
-)));
+error_reporting(error_reporting() & ~E_STRICT & ~E_DEPRECATED);
 
-require __DIR__ . '/../preload.php';
-require __DIR__ . '/Stagehand/TestRunner/Test/TestEnvironment.php';
-
-require_once 'Phake.php';
-
-\Phake::setClient(\Phake::CLIENT_PHPUNIT);
-\Stagehand\TestRunner\Util\ErrorReporting::enableErrorToException();
-\Stagehand\TestRunner\Test\TestEnvironment::earlyInitialize();
+require_once __DIR__ . '/vendor/.composer/autoload.php';
 
 /*
  * Local Variables:
