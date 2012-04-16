@@ -165,17 +165,28 @@ abstract class Autotest
         }
 
         $streamOutput = '';
-        $process = new StreamableProcess($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
-        $process->addOutputStreamListener(function ($buffer) {
-            echo $buffer;
-        });
-        $process->addOutputStreamListener(function ($buffer) use (&$streamOutput) {
-            $streamOutput .= $buffer;
-        });
-        $process->addErrorStreamListener(function ($buffer) {
-            echo $buffer;
-        });
-        $exitStatus = $process->run();
+        if ($this->os->isWin()) {
+            // TODO: Remove Windows specific code if the bug #60120 and #51800 are really fixed.
+            ob_start(function ($buffer) use (&$streamOutput) {
+                $streamOutput .= $buffer;
+                return $buffer;
+            }, 2
+            );
+            passthru($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions), $exitStatus);
+            ob_end_flush();
+        } else {
+            $process = new StreamableProcess($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
+            $process->addOutputStreamListener(function ($buffer) {
+                    echo $buffer;
+                });
+            $process->addOutputStreamListener(function ($buffer) use (&$streamOutput) {
+                    $streamOutput .= $buffer;
+                });
+            $process->addErrorStreamListener(function ($buffer) {
+                    echo $buffer;
+                });
+            $exitStatus = $process->run();
+        }
 
         if ($exitStatus != 0 && $this->runnerFactory->create()->usesNotification()) {
             $fatalError = new FatalError($streamOutput);
