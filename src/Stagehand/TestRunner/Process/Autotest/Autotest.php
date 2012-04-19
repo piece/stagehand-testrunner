@@ -320,7 +320,7 @@ abstract class Autotest
     {
         $options = array();
 
-        if (!preg_match('!^testrunner$!', trim($this->runnerCommand, '\'"'))) {
+        if (basename(trim($this->runnerCommand, '\'"')) != 'testrunner') {
             $configFile = $this->getPHPConfigDir();
             if ($configFile !== false) {
                 $options[] = '-c';

@@ -124,6 +124,7 @@ abstract class TestCase extends FactoryAwareTestCase
      * @param array $builtOptions
      * @link http://redmine.piece-framework.com/issues/196
      * @link http://redmine.piece-framework.com/issues/319
+     * @link http://redmine.piece-framework.com/issues/393
      * @since Method available since Release 2.21.0
      */
     public function buildsACommandLineString($command, $options, $phpConfigDir, $builtCommand, $builtOptions)
@@ -174,6 +175,7 @@ abstract class TestCase extends FactoryAwareTestCase
             array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
             array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
             array(null, array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
+            array(null, array('/path/to/testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('/path/to/testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
         );
     }
 
