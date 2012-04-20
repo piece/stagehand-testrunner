@@ -100,7 +100,7 @@ abstract class Collector
                     ->in($absoluteTargetPath)
                     ->depth($testTargets->recursivelyScans() ? '>= 0' : '== 0')
                     ->sortByName();
-                foreach ($finder->getIterator() as $file) {
+                foreach ($finder as $file) {
                     call_user_func($collector, $file->getPathname());
                 }
             } else {
