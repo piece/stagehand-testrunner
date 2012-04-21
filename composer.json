@@ -4,7 +4,6 @@
     "description": "A continuous test runner for CLI",
     "keywords": ["testing", "cli"],
     "homepage": "http://redmine.piece-framework.com/projects/stagehand-testrunner",
-    "version": "3.1.0",
     "license": "BSD-2",
     "authors": [
         {
@@ -32,5 +31,10 @@
     "autoload": {
         "psr-0": { "Stagehand\\TestRunner": "src/" }
     },
-    "bin": ["bin/testrunner"]
+    "bin": ["bin/testrunner"],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.1-dev"
+        }
+    }
 }
