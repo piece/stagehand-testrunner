@@ -3,7 +3,7 @@
     "type": "library",
     "description": "A continuous test runner for CLI",
     "keywords": ["testing", "cli"],
-    "homepage": "http://redmine.piece-framework.com/projects/stagehand-testrunner",
+    "homepage": "http://piece-framework.com/projects/stagehand-testrunner",
     "license": "BSD-2",
     "authors": [
         {
