@@ -1,5 +1,9 @@
-#Sat Sep 11 15:31:48 JST 2010
+cakephp_app_path=
+cakephp_core_path=
+ciunit_config_file=
+ciunit_path=
 eclipse.preferences.version=1
-preload_script=/stagehand-testrunner/test/prepare.php
+phpunit_config_file=
+preload_script=/stagehand-testrunner/test/preload.php
 test_folders=/stagehand-testrunner/test
 testing_framework=PHPUnit
