@@ -251,28 +251,6 @@ class JUnitXMLReporter extends \SimpleReporter
     }
 
     /**
-     * @param array $backtrace
-     */
-    protected function buildFailureTrace(array $backtrace)
-    {
-        $failureTrace = '';
-        for ($i = 0, $count = count($backtrace); $i < $count; ++$i) {
-            if (!array_key_exists('file', $backtrace[$i])) {
-                continue;
-            }
-
-            $failureTrace .=
-                $backtrace[$i]['file'] .
-                ':' .
-                (array_key_exists('line', $backtrace[$i]) ? $backtrace[$i]['line']
-                                                          : '?') .
-                "\n";
-        }
-
-        return $failureTrace;
-    }
-
-    /**
      * @param string $text
      * @param string $type
      * @param string $file
