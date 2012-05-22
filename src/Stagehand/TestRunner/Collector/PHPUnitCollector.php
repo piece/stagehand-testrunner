@@ -48,7 +48,7 @@ use Stagehand\TestRunner\TestSuite\PHPUnitMethodFilterTestSuite;
  * @package    Stagehand_TestRunner
  * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    Release: 3.0.2
+ * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
