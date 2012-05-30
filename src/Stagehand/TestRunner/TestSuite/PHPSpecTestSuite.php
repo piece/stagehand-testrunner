@@ -71,9 +71,14 @@ class PHPSpecTestSuite
      */
     protected $examplesByGroup = array();
 
-    public function __construct($name)
+    /**
+     * @param string $name
+     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     */
+    public function __construct($name, TestTargets $testTargets)
     {
         $this->name = $name;
+        $this->testTargets = $testTargets;
     }
 
     /**
@@ -82,14 +87,6 @@ class PHPSpecTestSuite
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
-     */
-    public function setTestTargets(TestTargets $testTargets)
-    {
-        $this->testTargets = $testTargets;
     }
 
     /**

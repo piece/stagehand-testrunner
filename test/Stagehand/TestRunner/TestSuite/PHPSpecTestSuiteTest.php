@@ -73,8 +73,7 @@ class PHPSpecTestSuiteTest extends FactoryAwareTestCase
      */
     public function getsAnExampleGroupClass($exampleGroupClass, $exampleGroupName)
     {
-        $testSuite = new PHPSpecTestSuite(null);
-        $testSuite->setTestTargets($this->createTestTargets());
+        $testSuite = new PHPSpecTestSuite($name = null, $this->createTestTargets());
         $testSuite->addExampleGroup(new \ReflectionClass($exampleGroupClass));
 
         $this->assertEquals($exampleGroupClass, $testSuite->getExampleGroupClass($exampleGroupName));
