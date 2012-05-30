@@ -152,7 +152,7 @@ class PHPSpecTestSuite
     {
         $positionOfLastBackslash = strrpos($exampleGroupName, '\\');
         $exampleGroupClass = $positionOfLastBackslash === false
-            ? 'Describe' + $exampleGroupName
+            ? ('Describe' . $exampleGroupName)
             : substr_replace($exampleGroupName, 'Describe', $positionOfLastBackslash + 1, 0);
         if (array_key_exists($exampleGroupClass, $this->examplesByGroup)) {
             return $exampleGroupClass;
