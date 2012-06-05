@@ -27,7 +27,7 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">3.0.3</property>
+  <property name="package.releaseversion">3.0.4</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">3.0.0</property>
   <property name="package.apistability">stable</property>
@@ -37,7 +37,7 @@ A Defect Fix
 
  The following defect has been fixed:
 
- * An error is raised for a test using the PHPUnit_Extensions_SeleniumTestCase class if the "--test-method" option is specified. (Issue #401)
+ * [PHPSpec] An UnexpectedValueException is raised when using the "--log-junit" option if a spec class is in the global namespace. (Issue #406)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A continuous test runner for CLI</property>
