@@ -389,6 +389,7 @@ abstract class CompatibilityTestCase extends TestCase
         $this->assertEquals($testMethod->getStartLine(), $testCase->getAttribute('line'));
         if ($inRealtime == self::LOG_REALTIME) {
             $this->assertFalse($testCase->hasAttribute('assertions'));
+            $this->verifyExtendedTestCaseElements($testMethod, $testCase);
         } else {
             if ($result == self::RESULT_PASS || $result == self::RESULT_FAILURE) {
                 $this->assertThat($testCase->getAttribute('assertions'), $this->greaterThanOrEqual(1));
@@ -405,6 +406,17 @@ abstract class CompatibilityTestCase extends TestCase
                 $this->verifyExtendedFailureElements($testClass, $testMethod, $failureOrError);
             }
         }
+    }
+
+    /**
+     * @param \ReflectionMethod $testMethod
+     * @param \DOMNode $testCase
+     * @since Method available since Release 3.1.0
+     */
+    protected function verifyExtendedTestCaseElements(\ReflectionMethod $testMethod, \DOMNode $testCase)
+    {
+        $this->assertTrue($testCase->hasAttribute('method'));
+        $this->assertEquals($testMethod->getName(), $testCase->getAttribute('method'));
     }
 
     /**

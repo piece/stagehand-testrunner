@@ -135,6 +135,7 @@ class JUnitXMLStreamWriter implements JUnitXMLWriter
         if ($class->hasMethod($methodName)) {
             $method = $class->getMethod($methodName);
             $this->xmlWriter->writeAttribute('class', $this->utf8Converter->convert($method->getDeclaringClass()->getName()));
+            $this->xmlWriter->writeAttribute('method', $method->getName());
             $this->xmlWriter->writeAttribute('file', $this->utf8Converter->convert($method->getDeclaringClass()->getFileName()));
             $this->xmlWriter->writeAttribute('line', $method->getStartLine());
         }
