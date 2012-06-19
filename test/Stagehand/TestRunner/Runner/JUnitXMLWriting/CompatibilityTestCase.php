@@ -395,14 +395,14 @@ abstract class CompatibilityTestCase extends TestCase
             } elseif ($result == self::RESULT_ERROR) {
                 $this->assertEquals(0, $testCase->getAttribute('assertions'));
             }
+        }
 
-            if ($result == self::RESULT_FAILURE || $result == self::RESULT_ERROR) {
-                $failureOrError = $testCase->childNodes->item(0);
-                $this->assertThat(strlen($failureOrError->nodeValue), $this->greaterThan(0));
+        if ($result == self::RESULT_FAILURE || $result == self::RESULT_ERROR) {
+            $failureOrError = $testCase->childNodes->item(0);
+            $this->assertThat(strlen($failureOrError->nodeValue), $this->greaterThan(0));
 
-                if ($inRealtime == self::LOG_REALTIME) {
-                    $this->verifyExtendedFailureElement($testClass, $testMethod, $failureOrError);
-                }
+            if ($inRealtime == self::LOG_REALTIME) {
+                $this->verifyExtendedFailureElement($testClass, $testMethod, $failureOrError);
             }
         }
     }
