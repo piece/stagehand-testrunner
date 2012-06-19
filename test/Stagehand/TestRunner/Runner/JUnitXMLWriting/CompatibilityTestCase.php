@@ -402,7 +402,7 @@ abstract class CompatibilityTestCase extends TestCase
             $this->assertThat(strlen($failureOrError->nodeValue), $this->greaterThan(0));
 
             if ($inRealtime == self::LOG_REALTIME) {
-                $this->verifyExtendedFailureElement($testClass, $testMethod, $failureOrError);
+                $this->verifyExtendedFailureElements($testClass, $testMethod, $failureOrError);
             }
         }
     }
@@ -412,7 +412,7 @@ abstract class CompatibilityTestCase extends TestCase
      * @param \ReflectionMethod $testMethod
      * @param \DOMNode $failureOrError
      */
-    protected function verifyExtendedFailureElement(\ReflectionClass $testClass, \ReflectionMethod $testMethod, \DOMNode $failureOrError)
+    protected function verifyExtendedFailureElements(\ReflectionClass $testClass, \ReflectionMethod $testMethod, \DOMNode $failureOrError)
     {
         $this->assertTrue($failureOrError->hasAttribute('file'));
         $this->assertTrue($failureOrError->hasAttribute('line'));
