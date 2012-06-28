@@ -59,7 +59,11 @@ It makes unit testing in a local environment much easier and comfortable. Additi
   <property name="build.dir" value="build"/>
   <property name="dist.dir" value="dist"/>
 
-  <target name="prepare">
+  <target name="compile">
+    <exec command="${bin.dir}/testrunner compile"/>
+  </target>
+
+  <target name="prepare" depends="compile">
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${dist.dir}"/>
     <copy file="${package.packagefile}" todir="${build.dir}"/>
