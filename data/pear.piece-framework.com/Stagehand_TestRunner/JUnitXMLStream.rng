@@ -14,6 +14,11 @@
         <attribute name="name">
           <data type="string"/>
         </attribute>
+        <optional>
+          <attribute name="class">
+            <data type="string"/>
+          </attribute>
+        </optional>
         <attribute name="tests">
           <data type="integer">
             <param name="minInclusive">0</param>

@@ -109,6 +109,7 @@ class JUnitXMLStreamWriter implements JUnitXMLWriter
         if (strlen($className) > 0 && class_exists($className, false)) {
             try {
                 $class = new \ReflectionClass($className);
+                $this->xmlWriter->writeAttribute('class', $this->utf8Converter->convert($class->getName()));
                 $this->xmlWriter->writeAttribute('file', $this->utf8Converter->convert($class->getFileName()));
             } catch (\ReflectionException $e) {
             }

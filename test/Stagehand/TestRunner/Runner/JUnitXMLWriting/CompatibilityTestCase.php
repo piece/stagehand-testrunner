@@ -352,6 +352,7 @@ abstract class CompatibilityTestCase extends TestCase
             $this->assertFalse($testSuite->hasAttribute('assertions'));
             $this->assertFalse($testSuite->hasAttribute('failures'));
             $this->assertFalse($testSuite->hasAttribute('errors'));
+            $this->verifyExtendedTestSuiteElements($testClass, $testSuite);
         } else {
             if ($result == self::RESULT_PASS) {
                 $this->assertThat($testSuite->getAttribute('assertions'), $this->greaterThanOrEqual(count($testMethods)));
@@ -406,6 +407,18 @@ abstract class CompatibilityTestCase extends TestCase
                 $this->verifyExtendedFailureElements($testClass, $testMethod, $failureOrError);
             }
         }
+    }
+
+    /**
+     * @param \ReflectionClass $testClass
+     * @param \DOMNode $testSuite
+     * @link http://piece-framework.com/issues/415
+     * @since Method available since Release 3.1.0
+     */
+    protected function verifyExtendedTestSuiteElements(\ReflectionClass $testClass, \DOMNode $testSuite)
+    {
+        $this->assertTrue($testSuite->hasAttribute('class'));
+        $this->assertEquals($testClass->getName(), $testSuite->getAttribute('class'));
     }
 
     /**
