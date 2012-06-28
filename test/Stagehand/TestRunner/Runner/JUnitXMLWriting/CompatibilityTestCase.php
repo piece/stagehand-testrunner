@@ -424,6 +424,7 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @param \ReflectionMethod $testMethod
      * @param \DOMNode $testCase
+     * @link http://piece-framework.com/issues/415
      * @since Method available since Release 3.1.0
      */
     protected function verifyExtendedTestCaseElements(\ReflectionMethod $testMethod, \DOMNode $testCase)
