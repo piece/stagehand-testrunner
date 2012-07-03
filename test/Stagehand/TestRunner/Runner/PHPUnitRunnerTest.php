@@ -395,6 +395,44 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     }
 
     /**
+     * @test
+     * @link http://piece-framework.com/issues/418
+     * @since Method available since Release 3.1.1
+     */
+    public function displaysOutputFromATestCaseOnceWhenTheDetailedProgressOptionIsSpecified()
+    {
+        $testClass = 'Stagehand\TestRunner\PHPUnitOutputTest';
+        $testMethod = 'outputs';
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+        $runner = $this->createRunner(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
+        $runner->setPrintsDetailedProgressReport(true);
+        $this->runTests();
+
+        $marker = $testClass . '::' . $testMethod;
+        $this->assertThat(substr_count($this->output, $marker), $this->equalTo(1));
+    }
+
+    /**
+     * @test
+     * @link http://piece-framework.com/issues/418
+     * @since Method available since Release 3.1.1
+     */
+    public function displaysOutputFromATestCaseOnceWhenTheNoAnsiOptionIsSpecified()
+    {
+        $testClass = 'Stagehand\TestRunner\PHPUnitOutputTest';
+        $testMethod = 'outputs';
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+        $terminal = $this->createTerminal();
+        $terminal->setColors(false);
+        $this->runTests();
+
+        $marker = $testClass . '::' . $testMethod;
+        $this->assertThat(substr_count($this->output, $marker), $this->equalTo(1));
+    }
+
+    /**
      * @return string
      * @since Method available since Release 2.17.0
      */

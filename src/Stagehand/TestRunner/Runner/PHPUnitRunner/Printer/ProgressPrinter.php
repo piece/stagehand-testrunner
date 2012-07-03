@@ -50,7 +50,7 @@ use Stagehand\TestRunner\Util\Coloring;
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
-class ProgressPrinter extends \PHPUnit_TextUI_ResultPrinter
+class ProgressPrinter extends ResultPrinter
 {
     /**
      * An error occurred.
@@ -139,14 +139,11 @@ class ProgressPrinter extends \PHPUnit_TextUI_ResultPrinter
 
         if (!$this->lastTestFailed) {
             $this->writeProgress(Coloring::green('.'));
+            $this->lastTestFailed = true;
         }
 
-        if ($test instanceof \PHPUnit_Framework_TestCase) {
-            $this->numAssertions += $test->getNumAssertions();
-        }
-
+        parent::endTest($test, $time);
         $this->lastEvent = self::EVENT_TEST_END;
-        $this->lastTestFailed = false;
     }
 }
 

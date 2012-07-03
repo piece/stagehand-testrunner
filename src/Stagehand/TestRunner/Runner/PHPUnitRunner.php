@@ -80,7 +80,11 @@ class PHPUnitRunner extends Runner
     public function run($suite)
     {
         $testResult = new \PHPUnit_Framework_TestResult();
-        $printer = new ResultPrinter(null, true, $this->terminal->colors());
+        if ($this->printsDetailedProgressReport()) {
+            $printer = new DetailedProgressPrinter(null, false, $this->terminal->colors());
+        } else {
+            $printer = new ProgressPrinter(null, false, $this->terminal->colors());
+        }
         $printer->setRunner($this);
 
         $arguments = array();
@@ -95,11 +99,6 @@ class PHPUnitRunner extends Runner
                     $this->prettifier()
                 )
             );
-        if (!$this->printsDetailedProgressReport()) {
-            $arguments['listeners'][] = new ProgressPrinter(null, false, $this->terminal->colors());
-        } else {
-            $arguments['listeners'][] = new DetailedProgressPrinter(null, false, $this->terminal->colors());
-        }
 
         if ($this->logsResultsInJUnitXML) {
             $arguments['listeners'][] = $this->junitXMLPrinterFactory->create(

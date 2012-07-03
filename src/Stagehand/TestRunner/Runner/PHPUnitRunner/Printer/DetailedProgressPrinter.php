@@ -50,7 +50,7 @@ use Stagehand\TestRunner\Util\Coloring;
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
-class DetailedProgressPrinter extends \PHPUnit_TextUI_ResultPrinter
+class DetailedProgressPrinter extends ResultPrinter
 {
     /**
      * @var integer

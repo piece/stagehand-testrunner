@@ -147,14 +147,6 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
     {
         return $this->notification;
     }
-
-    /**
-     * @param string $progress
-     * @since Method available since Release 2.7.0
-     */
-    protected function writeProgress($progress)
-    {
-    }
 }
 
 /*
