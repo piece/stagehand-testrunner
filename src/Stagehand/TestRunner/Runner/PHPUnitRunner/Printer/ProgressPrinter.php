@@ -132,12 +132,7 @@ class ProgressPrinter extends ResultPrinter
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
-        if (!$this->colors) {
-            parent::endTest($test, $time);
-            return;
-        }
-
-        if (!$this->lastTestFailed) {
+        if ($this->colors && !$this->lastTestFailed) {
             $this->writeProgress(Coloring::green('.'));
             $this->lastTestFailed = true;
         }
