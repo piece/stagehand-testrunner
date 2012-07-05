@@ -110,6 +110,8 @@ class PHPUnitPreparer extends Preparer
      */
     protected function earlyConfigure()
     {
+        $this->phpunitXMLConfiguration->handlePHPConfiguration();
+
         if ($this->phpunitXMLConfiguration->hasPHPUnitConfiguration('bootstrap')) {
             if ($this->phpunitXMLConfiguration->hasPHPUnitConfiguration('syntaxCheck')) {
                 $this->handleBootstrap(

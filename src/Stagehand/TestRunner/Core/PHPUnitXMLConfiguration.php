@@ -135,6 +135,14 @@ class PHPUnitXMLConfiguration
     }
 
     /**
+     * @since Method available since Release 3.2.0
+     */
+    public function handlePHPConfiguration()
+    {
+        $this->createConfiguration()->handlePHPConfiguration();
+    }
+
+    /**
      * @return \PHPUnit_Util_Configuration
      * @throws \InvalidArgumentException
      * @since Method available since Release 3.0.1
