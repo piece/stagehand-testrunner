@@ -37,6 +37,8 @@
 
 namespace Stagehand\TestRunner\Process\Autotest;
 
+use Symfony\Component\Process\Process;
+
 use Stagehand\ComponentFactory\IComponentAwareFactory;
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\ApplicationContext;
@@ -44,7 +46,6 @@ use Stagehand\TestRunner\Core\TestTargets;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
-use Stagehand\TestRunner\Process\StreamableProcess;
 use Stagehand\TestRunner\Util\LegacyProxy;
 use Stagehand\TestRunner\Util\OS;
 use Stagehand\TestRunner\Util\String;
@@ -174,17 +175,12 @@ abstract class Autotest
             passthru($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions), $exitStatus);
             ob_end_flush();
         } else {
-            $process = new StreamableProcess($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
-            $process->addOutputStreamListener(function ($buffer) {
-                    echo $buffer;
-                });
-            $process->addOutputStreamListener(function ($buffer) use (&$streamOutput) {
-                    $streamOutput .= $buffer;
-                });
-            $process->addErrorStreamListener(function ($buffer) {
-                    echo $buffer;
-                });
-            $exitStatus = $process->run();
+            $process = new Process($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
+            $process->setTimeout(1);
+            $exitStatus = $process->run(function ($type, $data) {
+                echo $data;
+            });
+            $streamOutput = $process->getOutput();
         }
 
         if ($exitStatus != 0 && $this->runnerFactory->create()->usesNotification()) {
