@@ -17,7 +17,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
   <active>yes</active>
  </lead>
  <date>2012-07-17</date>
- <time>18:38:39</time>
+ <time>19:18:40</time>
  <version>
   <release>3.2.0</release>
   <api>3.0.0</api>
@@ -230,6 +230,11 @@ Two Defect Fixes
    </package>
    <package>
     <name>Finder</name>
+    <channel>pear.symfony.com</channel>
+    <min>2.0.0</min>
+   </package>
+   <package>
+    <name>Process</name>
     <channel>pear.symfony.com</channel>
     <min>2.0.0</min>
    </package>

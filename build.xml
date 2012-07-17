@@ -115,6 +115,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
         <package type="required" name="Console" channel="pear.symfony.com" minimum_version="2.0.0"/>
         <package type="required" name="DependencyInjection" channel="pear.symfony.com" minimum_version="2.0.0"/>
         <package type="required" name="Finder" channel="pear.symfony.com" minimum_version="2.0.0"/>
+        <package type="required" name="Process" channel="pear.symfony.com" minimum_version="2.0.0"/>
         <package type="required" name="Stagehand_AlterationMonitor" channel="${package.channel}" minimum_version="2.0.1"/>
         <package type="required" name="Stagehand_ComponentFactory" channel="${package.channel}" minimum_version="1.0.0"/>
         <package type="required" name="Yaml" channel="pear.symfony.com" minimum_version="2.0.0"/>
