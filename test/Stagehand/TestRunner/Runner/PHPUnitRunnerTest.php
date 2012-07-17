@@ -38,6 +38,7 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\Core\TestTargets;
 
 /**
  * @package    Stagehand_TestRunner
@@ -439,6 +440,44 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     protected function groupsTest()
     {
         return 'Stagehand_TestRunner_PHPUnitGroupsTest';
+    }
+
+    /**
+     * @param string $testClass
+     * @param \Closure $filter
+     * @link http://piece-framework.com/issues/424
+     * @since Method available since Release 3.2.0
+     *
+     * @test
+     * @dataProvider provideDataForNoTestsTest
+     */
+    public function keepsTheWarningForATestSuite($testClass, \Closure $filter = null)
+    {
+        if (!is_null($filter)) {
+            $filter($this->createTestTargets());
+        }
+
+        $collector = $this->createCollector();
+        $collector->collectTestCase($testClass);
+        $this->runTests();
+
+        $this->assertTestCaseCount(1);
+        $failures = $this->createXPath()->query(sprintf('//testsuite[@name="%s"]/testcase[@name="%s"]/failure', $testClass, 'Warning'));
+        $this->assertEquals(1, $failures->length);
+    }
+
+    /**
+     * @return array
+     * @link http://piece-framework.com/issues/424
+     * @since Method available since Release 3.2.0
+     */
+    public function provideDataForNoTestsTest()
+    {
+        return array(
+            array('Stagehand_TestRunner_PHPUnitNoTestsTest'),
+            array('Stagehand_TestRunner_PHPUnitNoTestsTest', function (TestTargets $testTargets) { $testTargets->setClasses(array('Stagehand_TestRunner_PHPUnitNoTestsTest')); }),
+            array('Stagehand_TestRunner_PHPUnitNoTestsTest', function (TestTargets $testTargets) { $testTargets->setMethods(array('Stagehand_TestRunner_PHPUnitNoTestsTest::nonExistingMethod')); }),
+        );
     }
 }
 

@@ -88,10 +88,12 @@ class PHPUnitCollector extends Collector
             $testSuite = $suiteMethod->invoke(null, $testClass->getName());
         }
 
-        if ($this->testTargets->testsOnlySpecifiedMethods()) {
-            $this->filterTests($testSuite, self::$FILTER_METHOD);
-        } elseif ($this->testTargets->testsOnlySpecifiedClasses()) {
-            $this->filterTests($testSuite, self::$FILTER_CLASS);
+        if (!(count($testSuite->tests()) == 1 && $testSuite->testAt(0) instanceof \PHPUnit_Framework_Warning)) {
+            if ($this->testTargets->testsOnlySpecifiedMethods()) {
+                $this->filterTests($testSuite, self::$FILTER_METHOD);
+            } elseif ($this->testTargets->testsOnlySpecifiedClasses()) {
+                $this->filterTests($testSuite, self::$FILTER_CLASS);
+            }
         }
 
         if ($testSuite->count() > 0) {
