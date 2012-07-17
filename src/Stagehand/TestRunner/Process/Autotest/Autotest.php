@@ -38,7 +38,6 @@
 namespace Stagehand\TestRunner\Process\Autotest;
 
 use Stagehand\ComponentFactory\IComponentAwareFactory;
-
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestTargets;
