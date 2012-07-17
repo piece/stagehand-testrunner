@@ -27,17 +27,24 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">3.1.0</property>
+  <property name="package.releaseversion">3.2.0</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">3.0.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
 
-Logs additional information into a JUnit XML file when the --log-junit-realtime option is specified.
+[PHPUnit] Early configures PHP configuration by the XML configuration file.
 
- (Issue #415)
+ (Issue #420)
 
- Additional information for test suites and test cases is now available in a JUnit XML file when the "--log-junit-realtime" option is specified.A Defect Fix
+ PHP configuration by the PHPUnit XML configuration file is now configured at the preparation time of the testing framework.
+
+Two Defect Fixes
+
+ The following defects have been fixed:
+
+ * [PHPUnit] Output from a test case is displayed twice. (Issue #418)
+ * [PHPUnit] An expected failure is not reported when the "--test-class" or "--test-method" option is specified. (Issue #424)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A continuous test runner for CLI</property>
