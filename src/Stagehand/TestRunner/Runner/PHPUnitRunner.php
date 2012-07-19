@@ -79,13 +79,7 @@ class PHPUnitRunner extends Runner
      */
     public function run($suite)
     {
-        if ($this->printsDetailedProgressReport()) {
-            $printer = new DetailedProgressPrinter(null, false, $this->terminal->colors());
-        } else {
-            $printer = new ProgressPrinter(null, false, $this->terminal->colors());
-        }
-        $printer->setRunner($this);
-
+        $printer = $this->createPrinter();
         $testResult = new \PHPUnit_Framework_TestResult();
         $testRunner = new TestRunner();
         $testRunner->setTestResult($testResult);
@@ -119,6 +113,22 @@ class PHPUnitRunner extends Runner
     protected function prettifier()
     {
         return new \PHPUnit_Util_TestDox_NamePrettifier();
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter
+     * @since Method available since Release 3.3.0
+     */
+    protected function createPrinter()
+    {
+        if ($this->printsDetailedProgressReport()) {
+            $printer = new DetailedProgressPrinter(null, false, $this->terminal->colors());
+        } else {
+            $printer = new ProgressPrinter(null, false, $this->terminal->colors());
+        }
+        $printer->setRunner($this);
+
+        return $printer;
     }
 
     /**
