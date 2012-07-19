@@ -79,7 +79,6 @@ class PHPUnitRunner extends Runner
      */
     public function run($suite)
     {
-        $testResult = new \PHPUnit_Framework_TestResult();
         if ($this->printsDetailedProgressReport()) {
             $printer = new DetailedProgressPrinter(null, false, $this->terminal->colors());
         } else {
@@ -87,37 +86,10 @@ class PHPUnitRunner extends Runner
         }
         $printer->setRunner($this);
 
-        $arguments = array();
-        $arguments['printer'] = $printer;
-
-        Stream::register();
-        $arguments['listeners'] =
-            array(
-                new TestDoxPrinter(
-                    fopen('testdox://' . spl_object_hash($testResult), 'w'),
-                    $this->terminal->colors(),
-                    $this->prettifier()
-                )
-            );
-
-        if ($this->logsResultsInJUnitXML) {
-            $arguments['listeners'][] = $this->junitXMLPrinterFactory->create(
-                $this->createStreamWriter($this->junitXMLFile)
-            );
-        }
-
-        if ($this->stopsOnFailure) {
-            $arguments['stopOnFailure'] = true;
-            $arguments['stopOnError'] = true;
-        }
-
-        if ($this->phpunitXMLConfiguration->isEnabled()) {
-            $arguments['configuration'] = $this->phpunitXMLConfiguration->getFileName();
-        }
-
+        $testResult = new \PHPUnit_Framework_TestResult();
         $testRunner = new TestRunner();
         $testRunner->setTestResult($testResult);
-        $testRunner->doRun($suite, $arguments);
+        $testRunner->doRun($suite, $this->createArguments($printer, $testResult));
 
         $this->notification = $printer->getNotification();
     }
@@ -147,6 +119,45 @@ class PHPUnitRunner extends Runner
     protected function prettifier()
     {
         return new \PHPUnit_Util_TestDox_NamePrettifier();
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter $printer
+     * @param \PHPUnit_Framework_TestResult $testResult
+     * @return array
+     * @since Method available since Release 3.3.0
+     */
+    protected function createArguments(ResultPrinter $printer, \PHPUnit_Framework_TestResult $testResult)
+    {
+        $arguments = array();
+        $arguments['printer'] = $printer;
+
+        Stream::register();
+        $arguments['listeners'] =
+            array(
+                new TestDoxPrinter(
+                    fopen('testdox://' . spl_object_hash($testResult), 'w'),
+                    $this->terminal->colors(),
+                    $this->prettifier()
+                )
+            );
+
+        if ($this->logsResultsInJUnitXML) {
+            $arguments['listeners'][] = $this->junitXMLPrinterFactory->create(
+                $this->createStreamWriter($this->junitXMLFile)
+            );
+        }
+
+        if ($this->stopsOnFailure) {
+            $arguments['stopOnFailure'] = true;
+            $arguments['stopOnError'] = true;
+        }
+
+        if ($this->phpunitXMLConfiguration->isEnabled()) {
+            $arguments['configuration'] = $this->phpunitXMLConfiguration->getFileName();
+        }
+
+        return $arguments;
     }
 }
 
