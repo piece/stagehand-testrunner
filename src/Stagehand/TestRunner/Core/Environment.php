@@ -107,6 +107,7 @@ class Environment
         ini_set('html_errors', false);
         ini_set('implicit_flush', true);
         ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
     }
 }
 
