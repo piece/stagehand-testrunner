@@ -71,7 +71,7 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
                 function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                 },
                 function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
-                    $test->assertEquals('^test_', $applicationContext->createComponent('test_targets')->getFilePattern());
+                    $test->assertEquals('^test_', $applicationContext->createComponent('test_target_repository')->getFilePattern());
                 }
             ),
             array(

@@ -89,9 +89,9 @@ class PHPUnitCollector extends Collector
         }
 
         if (!(count($testSuite->tests()) == 1 && $testSuite->testAt(0) instanceof \PHPUnit_Framework_Warning)) {
-            if ($this->testTargets->testsOnlySpecifiedMethods()) {
+            if ($this->testTargetRepository->testsOnlySpecifiedMethods()) {
                 $this->filterTests($testSuite, self::$FILTER_METHOD);
-            } elseif ($this->testTargets->testsOnlySpecifiedClasses()) {
+            } elseif ($this->testTargetRepository->testsOnlySpecifiedClasses()) {
                 $this->filterTests($testSuite, self::$FILTER_CLASS);
             }
         }
@@ -148,7 +148,7 @@ class PHPUnitCollector extends Collector
             if ($test instanceof \PHPUnit_Framework_TestCase) {
                 $testClassName = get_class($test);
                 $testMethodName = $test->getName(false);
-                if ($this->testTargets->shouldTreatElementAsTest($testClassName, $filter == self::$FILTER_METHOD ? $testMethodName : null)) {
+                if ($this->testTargetRepository->shouldTreatElementAsTest($testClassName, $filter == self::$FILTER_METHOD ? $testMethodName : null)) {
                     $filteredTests[] = $test;
                 }
             } else {

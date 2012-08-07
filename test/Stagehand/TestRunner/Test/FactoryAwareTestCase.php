@@ -49,7 +49,7 @@ abstract class FactoryAwareTestCase extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->createTestTargets()->setFilePattern($this->getPlugin()->getTestFilePattern());
+        $this->createTestTargetRepository()->setFilePattern($this->getPlugin()->getTestFilePattern());
     }
 
     protected function tearDown()
@@ -67,11 +67,11 @@ abstract class FactoryAwareTestCase extends TestCase
     }
 
     /**
-     * @return \Stagehand\TestRunner\Core\TestTargets
+     * @return \Stagehand\TestRunner\Core\TestTargetRepository
      */
-    protected function createTestTargets()
+    protected function createTestTargetRepository()
     {
-        return $this->applicationContext->createComponent('test_targets');
+        return $this->applicationContext->createComponent('test_target_repository');
     }
 }
 

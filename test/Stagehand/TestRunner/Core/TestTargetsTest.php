@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class TestTargetsTest extends PHPUnitFactoryAwareTestCase
+class TestTargetRepositoryTest extends PHPUnitFactoryAwareTestCase
 {
     const TREAT_AS_TEST = true;
     const NOT_TREAT_AS_TEST = false;
@@ -60,9 +60,9 @@ class TestTargetsTest extends PHPUnitFactoryAwareTestCase
      */
     public function tellsWhetherAClassShouldTreatAsATest($classes, $targetClass, $expectedResult)
     {
-        $testTargets = $this->applicationContext->createComponent('test_targets');
-        $testTargets->setClasses($classes);
-        $actualResult = $testTargets->shouldTreatElementAsTest($targetClass);
+        $testTargetRepository = $this->applicationContext->createComponent('test_target_repository');
+        $testTargetRepository->setClasses($classes);
+        $actualResult = $testTargetRepository->shouldTreatElementAsTest($targetClass);
         $this->assertEquals($expectedResult, $actualResult);
     }
 
@@ -96,9 +96,9 @@ class TestTargetsTest extends PHPUnitFactoryAwareTestCase
      */
     public function tellsWhetherAMethodShouldTreatAsATest($methods, $targetClass, $targetMethod, $expectedResult)
     {
-        $testTargets = $this->applicationContext->createComponent('test_targets');
-        $testTargets->setMethods($methods);
-        $actualResult = $testTargets->shouldTreatElementAsTest($targetClass, $targetMethod);
+        $testTargetRepository = $this->applicationContext->createComponent('test_target_repository');
+        $testTargetRepository->setMethods($methods);
+        $actualResult = $testTargetRepository->shouldTreatElementAsTest($targetClass, $targetMethod);
         $this->assertEquals($expectedResult, $actualResult);
     }
 
@@ -129,9 +129,9 @@ class TestTargetsTest extends PHPUnitFactoryAwareTestCase
      */
     public function tellsWhetherAFileShouldTreatAsATest($filePattern, $targetFile, $expectedResult)
     {
-        $testTargets = $this->applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-        $testTargets->setFilePattern($filePattern);
-        $actualResult = $testTargets->shouldTreatFileAsTest($targetFile);
+        $testTargetRepository = $this->applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
+        $testTargetRepository->setFilePattern($filePattern);
+        $actualResult = $testTargetRepository->shouldTreatFileAsTest($targetFile);
         $this->assertEquals($expectedResult, $actualResult);
     }
 

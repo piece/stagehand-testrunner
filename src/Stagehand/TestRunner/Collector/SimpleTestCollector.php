@@ -78,7 +78,7 @@ class SimpleTestCollector extends Collector
     protected function createTestSuite($name)
     {
         $suite = new $this->suiteClass($name);
-        $suite->setTestTargets($this->testTargets);
+        $suite->setTestTargetRepository($this->testTargetRepository);
         return $suite;
     }
 }

@@ -50,7 +50,7 @@ parameters:
   test_run.class: "Stagehand\\TestRunner\\Process\\TestRun"
   test_run_factory.class: "Stagehand\\TestRunner\\Process\\TestRun"
   test_runner.class: "Stagehand\\TestRunner\\CLI\\TestRunner"
-  test_targets.class: "Stagehand\\TestRunner\\Core\\TestTargets"
+  test_target_repository.class: "Stagehand\\TestRunner\\Core\\TestTargetRepository"
 
   # Configuration Parameters
   recursively_scans: false
@@ -118,7 +118,7 @@ services:
     arguments: [ "collecting_type", "%collecting_type_factory.class%" ]
   collector:
     abstract: true
-    arguments: [ "@test_targets" ]
+    arguments: [ "@test_target_repository" ]
     calls:
       - [ setCollectingTypeFactory, [ "@collecting_type_factory" ] ]
   collector_factory:
@@ -128,8 +128,8 @@ services:
     arguments: [ "collector", "%plugin_aware_factory.class%" ]
 
   # Core
-  test_targets:
-    class: "%test_targets.class%"
+  test_target_repository:
+    class: "%test_target_repository.class%"
     calls:
       - [ setClasses, [ "%test_classes%" ] ]
       - [ setFilePattern, [ "%test_file_pattern%" ] ]
@@ -196,7 +196,7 @@ services:
       - [ setOS, [ "@os" ] ]
       - [ setRunnerFactory, [ "@runner_factory" ] ]
       - [ setTerminal, [ "@terminal" ] ]
-      - [ setTestTargets, [ "@test_targets" ] ]
+      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
   autotest_factory:
     class: "%autotest_factory.class%"
     factory_service: component_aware_factory_factory
@@ -224,7 +224,7 @@ services:
       - [ setPrintsDetailedProgressReport, [ "%prints_detailed_progress_report%" ] ]
       - [ setStopsOnFailure, [ "%stops_on_failure%" ] ]
       - [ setTerminal, [ "@terminal" ] ]
-      - [ setTestTargets, [ "@test_targets" ] ]
+      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
       - [ setUsesNotification, [ "%uses_notification%" ] ]
   runner_factory:
     class: "%runner_factory.class%"

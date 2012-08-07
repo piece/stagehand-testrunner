@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\TestSuite;
 use PHPSpec\Specification\ExampleGroup;
 use PHPSpec\Util\Filter;
 
-use Stagehand\TestRunner\Core\TestTargets;
+use Stagehand\TestRunner\Core\TestTargetRepository;
 
 /**
  * @package    Stagehand_TestRunner
@@ -57,9 +57,9 @@ class PHPSpecTestSuite
     protected $name;
 
     /**
-     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @var \Stagehand\TestRunner\Core\TestTargetRepository
      */
-    protected $testTargets;
+    protected $testTargetRepository;
 
     /**
      * @param array
@@ -73,12 +73,12 @@ class PHPSpecTestSuite
 
     /**
      * @param string $name
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
      */
-    public function __construct($name, TestTargets $testTargets)
+    public function __construct($name, TestTargetRepository $testTargetRepository)
     {
         $this->name = $name;
-        $this->testTargets = $testTargets;
+        $this->testTargetRepository = $testTargetRepository;
     }
 
     /**
@@ -94,8 +94,8 @@ class PHPSpecTestSuite
      */
     public function addExampleGroup(\ReflectionClass $exampleGroupClass)
     {
-        if ($this->testTargets->testsOnlySpecifiedClasses()) {
-            if (!$this->testTargets->shouldTreatElementAsTest($exampleGroupClass->getName())) {
+        if ($this->testTargetRepository->testsOnlySpecifiedClasses()) {
+            if (!$this->testTargetRepository->shouldTreatElementAsTest($exampleGroupClass->getName())) {
                 return;
             }
         }
@@ -103,8 +103,8 @@ class PHPSpecTestSuite
         $examples = array();
         foreach ($exampleGroupClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $exampleMethod) { /* @var $exampleMethod \ReflectionMethod */
             if (strtolower(substr($exampleMethod->getName(), 0, 2)) == 'it') {
-                if ($this->testTargets->testsOnlySpecifiedMethods()) {
-                    if (!$this->testTargets->shouldTreatElementAsTest($exampleGroupClass->getName(), $exampleMethod->getName())) {
+                if ($this->testTargetRepository->testsOnlySpecifiedMethods()) {
+                    if (!$this->testTargetRepository->shouldTreatElementAsTest($exampleGroupClass->getName(), $exampleMethod->getName())) {
                         continue;
                     }
                 }

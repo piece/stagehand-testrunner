@@ -39,7 +39,7 @@ namespace Stagehand\TestRunner\Runner\PHPSpecRunner;
 
 use PHPSpec\Specification\ExampleGroup;
 
-use Stagehand\TestRunner\Core\TestTargets;
+use Stagehand\TestRunner\Core\TestTargetRepository;
 
 /**
  * @package    Stagehand_TestRunner
@@ -51,22 +51,22 @@ use Stagehand\TestRunner\Core\TestTargets;
 class ExampleFactory extends \PHPSpec\Specification\ExampleFactory
 {
     /**
-     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @var \Stagehand\TestRunner\Core\TestTargetRepository
      */
-    protected $testTargets;
+    protected $testTargetRepository;
 
     /**
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
      */
-    public function setTestTargets(TestTargets $testTargets)
+    public function setTestTargetRepository(TestTargetRepository $testTargetRepository)
     {
-        $this->testTargets = $testTargets;
+        $this->testTargetRepository = $testTargetRepository;
     }
 
     public function create(ExampleGroup $exampleGroup, $exampleMethod)
     {
         $example = new Example($exampleGroup, $exampleMethod);
-        $example->setTestTargets($this->testTargets);
+        $example->setTestTargetRepository($this->testTargetRepository);
         return $example;
     }
 }

@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
-use Stagehand\TestRunner\Core\TestTargets;
+use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 use Stagehand\TestRunner\Util\FailureTrace;
 
@@ -60,10 +60,10 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     protected $testStarted = false;
 
     /**
-     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @var \Stagehand\TestRunner\Core\TestTargetRepository
      * @since Property available since Release 3.0.0
      */
-    protected $testTargets;
+    protected $testTargetRepository;
 
     public function flush()
     {
@@ -173,12 +173,12 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
      * @since Method available since Release 3.0.0
      */
-    public function setTestTargets(TestTargets $testTargets)
+    public function setTestTargetRepository(TestTargetRepository $testTargetRepository)
     {
-        $this->testTargets = $testTargets;
+        $this->testTargetRepository = $testTargetRepository;
     }
 
     /**
@@ -231,7 +231,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
             $line = 1;
         } else {
             list($file, $line) = FailureTrace::findFileAndLineOfFailureOrError(
-                $this->testTargets->getRequiredSuperTypes(),
+                $this->testTargetRepository->getRequiredSuperTypes(),
                 $e,
                 new \ReflectionClass($test)
             );

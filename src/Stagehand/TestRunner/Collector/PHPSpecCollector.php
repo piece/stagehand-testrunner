@@ -72,7 +72,7 @@ class PHPSpecCollector extends Collector
      */
     protected function createTestSuite($name)
     {
-        return new PHPSpecTestSuite($name, $this->testTargets);
+        return new PHPSpecTestSuite($name, $this->testTargetRepository);
     }
 }
 

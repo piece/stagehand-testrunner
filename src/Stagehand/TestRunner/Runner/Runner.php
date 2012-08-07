@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\CLI\Terminal;
-use Stagehand\TestRunner\Core\TestTargets;
+use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Util\FileStreamWriter;
 
 /**
@@ -88,10 +88,10 @@ abstract class Runner
     protected $usesNotification;
 
     /**
-     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @var \Stagehand\TestRunner\Core\TestTargetRepository
      * @since Property available since Release 3.0.0
      */
-    protected $testTargets;
+    protected $testTargetRepository;
 
     /**
      * @var boolean
@@ -176,12 +176,12 @@ abstract class Runner
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
      * @since Method available since Release 3.0.0
      */
-    public function setTestTargets(TestTargets $testTargets)
+    public function setTestTargetRepository(TestTargetRepository $testTargetRepository)
     {
-        $this->testTargets = $testTargets;
+        $this->testTargetRepository = $testTargetRepository;
     }
 
     /**

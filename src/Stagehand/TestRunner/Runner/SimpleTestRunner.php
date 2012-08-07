@@ -109,14 +109,14 @@ class SimpleTestRunner extends Runner
     {
         $reporters[] = $reporter;
 
-        if ($this->testTargets->testsOnlySpecifiedMethods()) {
+        if ($this->testTargetRepository->testsOnlySpecifiedMethods()) {
             $reporters[] = $this->createMethodFilterReporter($reporters[ count($reporters) - 1 ]);
-            $reporters[ count($reporters) - 1 ]->setTestTargets($this->testTargets);
+            $reporters[ count($reporters) - 1 ]->setTestTargetRepository($this->testTargetRepository);
         }
 
-        if ($this->testTargets->testsOnlySpecifiedClasses()) {
+        if ($this->testTargetRepository->testsOnlySpecifiedClasses()) {
             $reporters[] = new ClassFilterReporter($reporters[ count($reporters) - 1 ]);
-            $reporters[ count($reporters) - 1 ]->setTestTargets($this->testTargets);
+            $reporters[ count($reporters) - 1 ]->setTestTargetRepository($this->testTargetRepository);
         }
 
         if ($this->stopsOnFailure) {

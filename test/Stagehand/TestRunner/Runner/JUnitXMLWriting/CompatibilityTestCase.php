@@ -182,7 +182,7 @@ abstract class CompatibilityTestCase extends TestCase
      */
     public function countsTheNumberOfTestsWithTestMethodsInRealtime($testClass, $testMethod)
     {
-        $this->createTestTargets()->setMethods(array($testMethod));
+        $this->createTestTargetRepository()->setMethods(array($testMethod));
         $this->createCollector()->collectTestCase($testClass);
         $this->applicationContext
             ->createComponent('junit_xml_writer_factory')
@@ -212,7 +212,7 @@ abstract class CompatibilityTestCase extends TestCase
      */
     public function countsTheNumberOfTestsWithTestClassesInRealtime(array $collectingTestClasses, $testClass)
     {
-        $this->createTestTargets()->setClasses(array($testClass));
+        $this->createTestTargetRepository()->setClasses(array($testClass));
         $this->createCollector()->collectTestCase($testClass);
         $this->applicationContext
             ->createComponent('junit_xml_writer_factory')
@@ -274,7 +274,7 @@ abstract class CompatibilityTestCase extends TestCase
      */
     public function logsTheFileAndLineWhereTheFailureOrErrorHasBeenOccurredInRealtime($testClass, $testMethod)
     {
-        $this->createTestTargets()->setMethods(array($testMethod));
+        $this->createTestTargetRepository()->setMethods(array($testMethod));
         $this->createCollector()->collectTestCase($testClass);
         $this->applicationContext
             ->createComponent('junit_xml_writer_factory')

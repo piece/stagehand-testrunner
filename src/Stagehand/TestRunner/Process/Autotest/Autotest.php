@@ -42,7 +42,7 @@ use Symfony\Component\Process\Process;
 use Stagehand\ComponentFactory\IComponentAwareFactory;
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\TestTargets;
+use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
@@ -82,10 +82,10 @@ abstract class Autotest
     protected $terminal;
 
     /**
-     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @var \Stagehand\TestRunner\Core\TestTargetRepository
      * @since Property available since Release 3.0.0
      */
-    protected $testTargets;
+    protected $testTargetRepository;
 
     /**
      * @var array
@@ -201,12 +201,12 @@ abstract class Autotest
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
      * @since Method available since Release 3.0.0
      */
-    public function setTestTargets(TestTargets $testTargets)
+    public function setTestTargetRepository(TestTargetRepository $testTargetRepository)
     {
-        $this->testTargets = $testTargets;
+        $this->testTargetRepository = $testTargetRepository;
     }
 
     /**
@@ -264,7 +264,7 @@ abstract class Autotest
         foreach (
             array_merge(
                 $this->monitoringDirectories,
-                $this->testTargets->getResources()
+                $this->testTargetRepository->getResources()
             ) as $directory) {
             if (!$this->legacyProxy->is_dir($directory)) {
                 throw new \UnexpectedValueException(sprintf('A specified path [ %s ] is not found or not a directory.', $directory));
@@ -345,8 +345,8 @@ abstract class Autotest
             $options[] = '--stop-on-failure';
         }
 
-        if (!$this->testTargets->isDefaultFilePattern()) {
-            $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargets->getFilePattern());
+        if (!$this->testTargetRepository->isDefaultFilePattern()) {
+            $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargetRepository->getFilePattern());
         }
 
         if ($this->runnerFactory->create()->printsDetailedProgressReport()) {
@@ -355,7 +355,7 @@ abstract class Autotest
 
         $options = array_merge($options, $this->doBuildRunnerOptions());
 
-        $this->testTargets->walkOnResources(function ($resource, $index, TestTargets $testTargets) use (&$options) {
+        $this->testTargetRepository->walkOnResources(function ($resource, $index, TestTargetRepository $testTargetRepository) use (&$options) {
             $options[] = escapeshellarg($resource);
         });
 

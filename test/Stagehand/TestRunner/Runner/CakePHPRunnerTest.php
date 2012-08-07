@@ -108,8 +108,8 @@ class CakePHPRunnerTest extends SimpleTestRunnerTest
         foreach ($specialMethods as $specialMethod) {
             $GLOBALS['STAGEHAND_TESTRUNNER_RUNNER_CAKERUNNERTEST_calledMethods'][$specialMethod] = 0;
         }
-        $testTargets = $this->createTestTargets();
-        $testTargets->setMethods(array('testPass'));
+        $testTargetRepository = $this->createTestTargetRepository();
+        $testTargetRepository->setMethods(array('testPass'));
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
 

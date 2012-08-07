@@ -61,8 +61,8 @@ abstract class CompatibilityTestCase extends TestCase
      */
     public function runsOnlyTheSpecifiedMethods($firstTestClass, $secondTestClass, $specyfyingTestMethod, $runningTestMethod)
     {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setMethods(array($specyfyingTestMethod));
+        $testTargetRepository = $this->createTestTargetRepository();
+        $testTargetRepository->setMethods(array($specyfyingTestMethod));
         $collector = $this->createCollector();
         $collector->collectTestCase($firstTestClass);
         $collector->collectTestCase($secondTestClass);
@@ -90,8 +90,8 @@ abstract class CompatibilityTestCase extends TestCase
      */
     public function runsOnlyTheSpecifiedClasses($firstTestClass, $secondTestClass, $specifyingTestClass, $runningTestMethod1, $runningTestMethod2)
     {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setClasses(array($specifyingTestClass));
+        $testTargetRepository = $this->createTestTargetRepository();
+        $testTargetRepository->setClasses(array($specifyingTestClass));
         $collector = $this->createCollector();
         $collector->collectTestCase($firstTestClass);
         $collector->collectTestCase($secondTestClass);
@@ -117,8 +117,8 @@ abstract class CompatibilityTestCase extends TestCase
      */
     public function stopsTheTestRunWhenTheFirstFailureIsRaised($firstTestClass, $secondTestClass, $failingTestMethod)
     {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setClasses(array($firstTestClass, $secondTestClass));
+        $testTargetRepository = $this->createTestTargetRepository();
+        $testTargetRepository->setClasses(array($firstTestClass, $secondTestClass));
         $collector = $this->createCollector();
         $collector->collectTestCase($firstTestClass);
         $collector->collectTestCase($secondTestClass);

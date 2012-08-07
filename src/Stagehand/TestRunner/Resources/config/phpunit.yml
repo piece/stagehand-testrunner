@@ -69,7 +69,7 @@ services:
     scope: prototype
     class: "%phpunit.junit_xml_printer.class%"
     calls:
-      - [ setTestTargets, [ "@test_targets" ] ]
+      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
   phpunit.junit_xml_printer_factory:
     class: "%phpunit.junit_xml_printer_factory.class%"
     factory_service: component_aware_factory_factory

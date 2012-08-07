@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
-use Stagehand\TestRunner\Core\TestTargets;
+use Stagehand\TestRunner\Core\TestTargetRepository;
 
 /**
  * @package    Stagehand_TestRunner
@@ -51,10 +51,10 @@ use Stagehand\TestRunner\Core\TestTargets;
 class MethodFilterReporter extends \SimpleReporterDecorator
 {
     /**
-     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @var \Stagehand\TestRunner\Core\TestTargetRepository
      * @since Property available since Release 3.0.0
      */
-    protected $testTargets;
+    protected $testTargetRepository;
 
     /**
      * @param string $testCase
@@ -63,16 +63,16 @@ class MethodFilterReporter extends \SimpleReporterDecorator
      */
     public function shouldInvoke($testCase, $method)
     {
-        return $this->testTargets->shouldTreatElementAsTest($testCase, $method);
+        return $this->testTargetRepository->shouldTreatElementAsTest($testCase, $method);
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
      * @since Method available since Release 3.0.0
      */
-    public function setTestTargets(TestTargets $testTargets)
+    public function setTestTargetRepository(TestTargetRepository $testTargetRepository)
     {
-        $this->testTargets = $testTargets;
+        $this->testTargetRepository = $testTargetRepository;
     }
 }
 

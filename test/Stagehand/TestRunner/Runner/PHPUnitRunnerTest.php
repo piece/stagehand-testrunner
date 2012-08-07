@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
-use Stagehand\TestRunner\Core\TestTargets;
+use Stagehand\TestRunner\Core\TestTargetRepository;
 
 /**
  * @package    Stagehand_TestRunner
@@ -96,8 +96,8 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      */
     public function printsTheSpecifiedMessageForIncompleteAndSkippedTests($testMethod)
     {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setMethods(array($testMethod));
+        $testTargetRepository = $this->createTestTargetRepository();
+        $testTargetRepository->setMethods(array($testMethod));
         preg_match('/^(.*?)::(.*)/', $testMethod, $matches);
         $testClass = $matches[1];
         $testMethod = $matches[2];
@@ -131,8 +131,8 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      */
     public function printsNormalOutputForIncompleteAndSkippedTestsIfTheMessageIsNotSpecified($testMethod)
     {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setMethods(array($testMethod));
+        $testTargetRepository = $this->createTestTargetRepository();
+        $testTargetRepository->setMethods(array($testMethod));
         preg_match('/^(.*?)::(.*)/', $testMethod, $matches);
         $testClass = $matches[1];
         $testMethod = $matches[2];
@@ -247,8 +247,8 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      */
     public function notBreakTestDoxOutputIfTheSameTestMethodNamesExceptTrailingNumbers($testClass, $testDoxClass)
     {
-        $testTargets = $this->createTestTargets();
-        $testTargets->setClasses(array($testClass));
+        $testTargetRepository = $this->createTestTargetRepository();
+        $testTargetRepository->setClasses(array($testClass));
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
 
@@ -454,7 +454,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     public function keepsTheWarningForATestSuite($testClass, \Closure $filter = null)
     {
         if (!is_null($filter)) {
-            $filter($this->createTestTargets());
+            $filter($this->createTestTargetRepository());
         }
 
         $collector = $this->createCollector();
@@ -475,8 +475,8 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     {
         return array(
             array('Stagehand_TestRunner_PHPUnitNoTestsTest'),
-            array('Stagehand_TestRunner_PHPUnitNoTestsTest', function (TestTargets $testTargets) { $testTargets->setClasses(array('Stagehand_TestRunner_PHPUnitNoTestsTest')); }),
-            array('Stagehand_TestRunner_PHPUnitNoTestsTest', function (TestTargets $testTargets) { $testTargets->setMethods(array('Stagehand_TestRunner_PHPUnitNoTestsTest::nonExistingMethod')); }),
+            array('Stagehand_TestRunner_PHPUnitNoTestsTest', function (TestTargetRepository $testTargetRepository) { $testTargetRepository->setClasses(array('Stagehand_TestRunner_PHPUnitNoTestsTest')); }),
+            array('Stagehand_TestRunner_PHPUnitNoTestsTest', function (TestTargetRepository $testTargetRepository) { $testTargetRepository->setMethods(array('Stagehand_TestRunner_PHPUnitNoTestsTest::nonExistingMethod')); }),
         );
     }
 }

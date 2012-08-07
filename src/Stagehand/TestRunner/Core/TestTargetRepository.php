@@ -44,7 +44,7 @@ namespace Stagehand\TestRunner\Core;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class TestTargets
+class TestTargetRepository
 {
     /**
      * @var array

@@ -75,7 +75,7 @@ services:
   phpspec.example_factory:
     class: "%phpspec.example_factory.class%"
     calls:
-      - [ setTestTargets, [ "@test_targets" ] ]
+      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
   phpspec.example_runner:
     class: "%phpspec.example_runner.class%"
     calls:
@@ -85,7 +85,7 @@ services:
     class: "%phpspec.junit_xml_formatter.class%"
     arguments: [ "@phpspec.reporter" ]
     calls:
-      - [ setTestTargets, [ "@test_targets" ] ]
+      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
   phpspec.junit_xml_formatter_factory:
     class: "%phpspec.junit_xml_formatter_factory.class%"
     factory_service: component_aware_factory_factory

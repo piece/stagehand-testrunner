@@ -62,12 +62,12 @@ abstract class TestCase extends FactoryAwareTestCase
     {
         self::$configurators = array();
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-            $testTargets->setRecursivelyScans(true);
+            $testTargetRepository = $applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
+            $testTargetRepository->setRecursivelyScans(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-            $testTargets->setRecursivelyScans(false);
+            $testTargetRepository = $applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
+            $testTargetRepository->setRecursivelyScans(false);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $terminal = $applicationContext->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
@@ -85,12 +85,12 @@ abstract class TestCase extends FactoryAwareTestCase
             $runner->setUsesNotification(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-            $testTargets->setMethods(array('METHOD1'));
+            $testTargetRepository = $applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
+            $testTargetRepository->setMethods(array('METHOD1'));
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-            $testTargets->setClasses(array('CLASS1'));
+            $testTargetRepository = $applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
+            $testTargetRepository->setClasses(array('CLASS1'));
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
@@ -105,8 +105,8 @@ abstract class TestCase extends FactoryAwareTestCase
             $runner->setStopsOnFailure(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $testTargets = $applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-            $testTargets->setFilePattern('PATTERN');
+            $testTargetRepository = $applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
+            $testTargetRepository->setFilePattern('PATTERN');
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
@@ -138,8 +138,8 @@ abstract class TestCase extends FactoryAwareTestCase
         $_SERVER['argv'] = $GLOBALS['argv'] = $options;
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
 
-        $testTargets = $this->applicationContext->createComponent('test_targets'); /* @var $testTargets \Stagehand\TestRunner\Core\TestTargets */
-        $testTargets->setResources(array($options[ count($options) - 1 ]));
+        $testTargetRepository = $this->applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
+        $testTargetRepository->setResources(array($options[ count($options) - 1 ]));
 
         $legacyProxy = \Phake::mock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->get_cfg_var($this->anything())->thenReturn($phpConfigDir);

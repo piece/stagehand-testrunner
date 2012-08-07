@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter;
 use PHPSpec\Runner\Formatter\Progress;
 use PHPSpec\Runner\ReporterEvent;
 
-use Stagehand\TestRunner\Core\TestTargets;
+use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 use Stagehand\TestRunner\TestSuite\PHPSpecTestSuite;
 use Stagehand\TestRunner\Util\FailureTrace;
@@ -85,9 +85,9 @@ class JUnitXMLFormatter extends Progress
     protected $testSuite;
 
     /**
-     * @var \Stagehand\TestRunner\Core\TestTargets
+     * @var \Stagehand\TestRunner\Core\TestTargetRepository
      */
-    protected $testTargets;
+    protected $testTargetRepository;
 
     /**
      * @var string
@@ -121,11 +121,11 @@ class JUnitXMLFormatter extends Progress
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\TestTargets $testTargets
+     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
      */
-    public function setTestTargets(TestTargets $testTargets)
+    public function setTestTargetRepository(TestTargetRepository $testTargetRepository)
     {
-        $this->testTargets = $testTargets;
+        $this->testTargetRepository = $testTargetRepository;
     }
 
     public function update(\SplSubject $method, $reporterEvent = null)
@@ -222,7 +222,7 @@ class JUnitXMLFormatter extends Progress
     protected function renderFailureOrError(ReporterEvent $reporterEvent, $failureOrError)
     {
         list($file, $line) = FailureTrace::findFileAndLineOfFailureOrError(
-            $this->testTargets->getRequiredSuperTypes(),
+            $this->testTargetRepository->getRequiredSuperTypes(),
             $reporterEvent->exception,
             new \ReflectionClass($this->testSuite->getExampleGroupClass($this->currentExampleGroupName))
         );
