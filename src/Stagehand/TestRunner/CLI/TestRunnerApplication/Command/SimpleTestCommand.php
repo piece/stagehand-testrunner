@@ -42,7 +42,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
-use Stagehand\TestRunner\Core\Transformation\Transformation;
+use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner

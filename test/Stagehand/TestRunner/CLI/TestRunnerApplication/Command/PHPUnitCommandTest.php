@@ -39,7 +39,7 @@ namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
-use Stagehand\TestRunner\Core\Transformation\Transformation;
+use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner

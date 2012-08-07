@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Transformation;
+namespace Stagehand\TestRunner\DependencyInjection\Transformation;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -128,7 +128,7 @@ class Transformation
                 $transformerID = $plugin->getPluginID();
             }
             $transformerClass = __NAMESPACE__ . '\\' . $transformerID . 'Transformer';
-            $transformer = new $transformerClass($configurations, $this->container); /* @var $transformer \Stagehand\TestRunner\Core\Transformation\Transformer */
+            $transformer = new $transformerClass($configurations, $this->container); /* @var $transformer \Stagehand\TestRunner\DependencyInjection\Transformation\Transformer */
             $transformer->transform();
         }
 

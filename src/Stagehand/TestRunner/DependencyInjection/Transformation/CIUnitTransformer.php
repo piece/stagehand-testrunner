@@ -35,10 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Transformation;
+namespace Stagehand\TestRunner\DependencyInjection\Transformation;
 
-use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
-use Stagehand\TestRunner\DependencyInjection\Configuration\PHPUnitConfiguration;
+use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
+use Stagehand\TestRunner\DependencyInjection\Configuration\CIUnitConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,21 +47,21 @@ use Stagehand\TestRunner\DependencyInjection\Configuration\PHPUnitConfiguration;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitTransformer extends Transformer
+class CIUnitTransformer extends Transformer
 {
     public function transform()
     {
-        $this->setParameter('phpunit_config_file', $this->configurationPart['config']);
+        $this->setParameter('ciunit_path', $this->configurationPart['ciunit_path']);
     }
 
     protected function createConfiguration()
     {
-        return new PHPUnitConfiguration();
+        return new CIUnitConfiguration();
     }
 
     protected function getParameterPrefix()
     {
-        return PHPUnitPlugin::getPluginID();
+        return CIUnitPlugin::getPluginID();
     }
 }
 

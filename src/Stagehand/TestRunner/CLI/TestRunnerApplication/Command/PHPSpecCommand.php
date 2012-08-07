@@ -40,9 +40,9 @@ namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Stagehand\TestRunner\Core\Transformation\Transformation;
 use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
+use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner

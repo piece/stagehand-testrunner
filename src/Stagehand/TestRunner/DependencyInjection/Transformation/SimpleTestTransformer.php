@@ -35,10 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Transformation;
+namespace Stagehand\TestRunner\DependencyInjection\Transformation;
 
-use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
-use Stagehand\TestRunner\DependencyInjection\Configuration\PHPSpecConfiguration;
+use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
+use Stagehand\TestRunner\DependencyInjection\Configuration\SimpleTestConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,7 +47,7 @@ use Stagehand\TestRunner\DependencyInjection\Configuration\PHPSpecConfiguration;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPSpecTransformer extends Transformer
+class SimpleTestTransformer extends Transformer
 {
     public function transform()
     {
@@ -55,12 +55,12 @@ class PHPSpecTransformer extends Transformer
 
     protected function createConfiguration()
     {
-        return new PHPSpecConfiguration();
+        return new SimpleTestConfiguration();
     }
 
     protected function getParameterPrefix()
     {
-        return PHPSpecPlugin::getPluginID();
+        return SimpleTestPlugin::getPluginID();
     }
 }
 

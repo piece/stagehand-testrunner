@@ -41,7 +41,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\Transformation\Transformation;
+use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
@@ -106,7 +106,7 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
     public function transformsOptionsToConfiguration(array $options, \Closure $preparer, \Closure $verifier)
     {
         $transformation = \Phake::partialMock(
-            'Stagehand\TestRunner\Core\Transformation\Transformation',
+            'Stagehand\TestRunner\DependencyInjection\Transformation\Transformation',
             $this->applicationContext->getComponentFactory()->getContainer()
         );
         $command = \Phake::partialMock('Stagehand\TestRunner\CLI\TestRunnerApplication\Command\\' . $this->getPluginID() . 'Command');

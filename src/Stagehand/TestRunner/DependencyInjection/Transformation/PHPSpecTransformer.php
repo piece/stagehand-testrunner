@@ -35,9 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Transformation;
+namespace Stagehand\TestRunner\DependencyInjection\Transformation;
 
-use Stagehand\TestRunner\DependencyInjection\Configuration\GeneralConfiguration;
+use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
+use Stagehand\TestRunner\DependencyInjection\Configuration\PHPSpecConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,36 +47,20 @@ use Stagehand\TestRunner\DependencyInjection\Configuration\GeneralConfiguration;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class GeneralTransformer extends Transformer
+class PHPSpecTransformer extends Transformer
 {
     public function transform()
     {
-        $this->setParameter('test_resources', $this->configurationPart['test_targets']['resources']);
-        $this->setParameter('recursively_scans', $this->configurationPart['test_targets']['recursive']);
-        $this->setParameter('test_methods', $this->configurationPart['test_targets']['methods']);
-        $this->setParameter('test_classes', $this->configurationPart['test_targets']['classes']);
-        $this->setParameter('test_file_pattern', $this->configurationPart['test_targets']['file_pattern']);
-
-        $this->setParameter('enables_autotest', $this->configurationPart['autotest']['enabled']);
-        $this->setParameter('monitoring_directories', $this->configurationPart['autotest']['watch_dirs']);
-
-        $this->setParameter('uses_notification', $this->configurationPart['notify']);
-
-        $this->setParameter('junit_xml_file', $this->configurationPart['junit_xml']['file']);
-        $this->setParameter('logs_results_in_junit_xml_in_realtime', $this->configurationPart['junit_xml']['realtime']);
-
-        $this->setParameter('stops_on_failure', $this->configurationPart['stop_on_failure']);
-        $this->setParameter('prints_detailed_progress_report', $this->configurationPart['detailed_progress']);
     }
 
     protected function createConfiguration()
     {
-        return new GeneralConfiguration();
+        return new PHPSpecConfiguration();
     }
 
     protected function getParameterPrefix()
     {
-        return '';
+        return PHPSpecPlugin::getPluginID();
     }
 }
 

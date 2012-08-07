@@ -35,10 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Transformation;
+namespace Stagehand\TestRunner\DependencyInjection\Transformation;
 
-use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
-use Stagehand\TestRunner\DependencyInjection\Configuration\CakePHPConfiguration;
+use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,22 +47,56 @@ use Stagehand\TestRunner\DependencyInjection\Configuration\CakePHPConfiguration;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPTransformer extends Transformer
+abstract class Transformer
 {
-    public function transform()
+    /**
+     * @var array
+     */
+    protected $configurationPart;
+
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * @param array $configurationPart
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     */
+    public function __construct(array $configurationPart, ContainerInterface $container)
     {
-        $this->setParameter('cakephp_app_path', $this->configurationPart['app_path']);
-        $this->setParameter('cakephp_core_path', $this->configurationPart['core_path']);
+        $this->container = $container;
+
+        $processor = new Processor();
+        $this->configurationPart = $processor->processConfiguration(
+            $this->createConfiguration(),
+            $configurationPart
+        );
     }
 
-    protected function createConfiguration()
-    {
-        return new CakePHPConfiguration();
-    }
+    abstract public function transform();
 
-    protected function getParameterPrefix()
+    /**
+     * @return \Symfony\Component\Config\Definition\ConfigurationInterface
+     */
+    abstract protected function createConfiguration();
+
+    /**
+     * @return string
+     */
+    abstract protected function getParameterPrefix();
+
+    /**
+     * @param string $name
+     * @param string $value
+     */
+    protected function setParameter($name, $value)
     {
-        return CakePHPPlugin::getPluginID();
+        $parameterPrefix = $this->getParameterPrefix();
+        $this->container->setParameter(
+            (strlen($parameterPrefix) > 0 ? (strtolower($parameterPrefix) . '.') : '') . $name,
+            $value
+        );
     }
 }
 

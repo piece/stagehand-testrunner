@@ -35,10 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Transformation;
+namespace Stagehand\TestRunner\DependencyInjection\Transformation;
 
-use Symfony\Component\Config\Definition\Processor;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\DependencyInjection\Configuration\PHPUnitConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,56 +47,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-abstract class Transformer
+class PHPUnitTransformer extends Transformer
 {
-    /**
-     * @var array
-     */
-    protected $configurationPart;
-
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @param array $configurationPart
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function __construct(array $configurationPart, ContainerInterface $container)
+    public function transform()
     {
-        $this->container = $container;
-
-        $processor = new Processor();
-        $this->configurationPart = $processor->processConfiguration(
-            $this->createConfiguration(),
-            $configurationPart
-        );
+        $this->setParameter('phpunit_config_file', $this->configurationPart['config']);
     }
 
-    abstract public function transform();
-
-    /**
-     * @return \Symfony\Component\Config\Definition\ConfigurationInterface
-     */
-    abstract protected function createConfiguration();
-
-    /**
-     * @return string
-     */
-    abstract protected function getParameterPrefix();
-
-    /**
-     * @param string $name
-     * @param string $value
-     */
-    protected function setParameter($name, $value)
+    protected function createConfiguration()
     {
-        $parameterPrefix = $this->getParameterPrefix();
-        $this->container->setParameter(
-            (strlen($parameterPrefix) > 0 ? (strtolower($parameterPrefix) . '.') : '') . $name,
-            $value
-        );
+        return new PHPUnitConfiguration();
+    }
+
+    protected function getParameterPrefix()
+    {
+        return PHPUnitPlugin::getPluginID();
     }
 }
 

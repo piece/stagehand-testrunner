@@ -35,10 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Transformation;
+namespace Stagehand\TestRunner\DependencyInjection\Transformation;
 
-use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
-use Stagehand\TestRunner\DependencyInjection\Configuration\SimpleTestConfiguration;
+use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
+use Stagehand\TestRunner\DependencyInjection\Configuration\CakePHPConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,20 +47,22 @@ use Stagehand\TestRunner\DependencyInjection\Configuration\SimpleTestConfigurati
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class SimpleTestTransformer extends Transformer
+class CakePHPTransformer extends Transformer
 {
     public function transform()
     {
+        $this->setParameter('cakephp_app_path', $this->configurationPart['app_path']);
+        $this->setParameter('cakephp_core_path', $this->configurationPart['core_path']);
     }
 
     protected function createConfiguration()
     {
-        return new SimpleTestConfiguration();
+        return new CakePHPConfiguration();
     }
 
     protected function getParameterPrefix()
     {
-        return SimpleTestPlugin::getPluginID();
+        return CakePHPPlugin::getPluginID();
     }
 }
 

@@ -43,8 +43,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
-use Stagehand\TestRunner\Core\Transformation\Transformation;
 use Stagehand\TestRunner\DependencyInjection\Configuration\PHPUnitConfiguration;
+use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
 
 /**
  * @package    Stagehand_TestRunner
