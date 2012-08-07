@@ -165,6 +165,19 @@ class PHPUnitCollector extends Collector
         $numTestsProperty->setAccessible(true);
         $numTestsProperty->setValue($testSuite, -1);
         $numTestsProperty->setAccessible(false);
+
+        $groupsProperty = $testSuiteClass->getProperty('groups');
+        $groupsProperty->setAccessible(true);
+        $groups = $groupsProperty->getValue($testSuite);
+
+        $groups = array_map(function($tests) use ($filteredTests) {
+            return array_filter($tests, function($test) use ($filteredTests) {
+                return in_array($test, $filteredTests, true);
+            });
+        }, $groups);
+
+        $groupsProperty->setValue($testSuite, $groups);
+        $groupsProperty->setAccessible(false);
     }
 }
 
