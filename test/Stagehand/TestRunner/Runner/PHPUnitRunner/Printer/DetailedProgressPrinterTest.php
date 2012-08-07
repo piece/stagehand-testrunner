@@ -66,7 +66,7 @@ class DetailedProgressPrinterTest extends TestCase
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
         $runner = $this->createRunner();
-        $runner->setPrintsDetailedProgressReport(true);
+        $runner->setDetailedProgress(true);
 
         $this->runTests();
 

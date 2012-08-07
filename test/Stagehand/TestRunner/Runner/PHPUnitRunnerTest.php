@@ -104,7 +104,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
         $runner = $this->createRunner(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-        $runner->setPrintsDetailedProgressReport(true);
+        $runner->setDetailedProgress(true);
 
         $this->runTests();
 
@@ -139,7 +139,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
         $runner = $this->createRunner(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-        $runner->setPrintsDetailedProgressReport(true);
+        $runner->setDetailedProgress(true);
 
         $this->runTests();
 
@@ -406,7 +406,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
         $runner = $this->createRunner(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
-        $runner->setPrintsDetailedProgressReport(true);
+        $runner->setDetailedProgress(true);
         $this->runTests();
 
         $marker = $testClass . '::' . $testMethod;

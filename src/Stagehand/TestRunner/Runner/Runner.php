@@ -101,7 +101,7 @@ abstract class Runner
      * @var boolean
      * @since Property available since Release 3.0.0
      */
-    protected $printsDetailedProgressReport;
+    protected $detailedProgress;
 
     /**
      * @param boolean $junitXMLRealtime
@@ -202,21 +202,21 @@ abstract class Runner
     }
 
     /**
-     * @param boolean $printsDetailedProgressReport
+     * @param boolean $detailedProgress
      * @since Method available since Release 3.0.0
      */
-    public function setPrintsDetailedProgressReport($printsDetailedProgressReport)
+    public function setDetailedProgress($detailedProgress)
     {
-        $this->printsDetailedProgressReport = $printsDetailedProgressReport;
+        $this->detailedProgress = $detailedProgress;
     }
 
     /**
      * @return boolean
      * @since Method available since Release 3.0.0
      */
-    public function printsDetailedProgressReport()
+    public function hasDetailedProgress()
     {
-        return $this->printsDetailedProgressReport;
+        return $this->detailedProgress;
     }
 
     /**

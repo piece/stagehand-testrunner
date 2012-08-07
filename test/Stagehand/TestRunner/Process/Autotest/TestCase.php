@@ -110,7 +110,7 @@ abstract class TestCase extends FactoryAwareTestCase
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
-            $runner->setPrintsDetailedProgressReport(true);
+            $runner->setDetailedProgress(true);
         };
     }
 

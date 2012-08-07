@@ -77,7 +77,7 @@ class PHPSpecRunner extends Runner
 
         $reporter = new Reporter();
 
-        if ($this->printsDetailedProgressReport()) {
+        if ($this->hasDetailedProgress()) {
             $reporter->addFormatter(new TerminatableFormatter(new DocumentationFormatter($reporter)));
         } else {
             $reporter->addFormatter(new TerminatableFormatter(new ProgressFormatter($reporter)));

@@ -107,7 +107,7 @@ class PHPUnitRunner extends Runner
      */
     protected function createPrinter()
     {
-        if ($this->printsDetailedProgressReport()) {
+        if ($this->hasDetailedProgress()) {
             $printer = new DetailedProgressPrinter(null, false, $this->terminal->colors());
         } else {
             $printer = new ProgressPrinter(null, false, $this->terminal->colors());

@@ -349,7 +349,7 @@ abstract class Autotest
             $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargetRepository->getFilePattern());
         }
 
-        if ($this->runnerFactory->create()->printsDetailedProgressReport()) {
+        if ($this->runnerFactory->create()->hasDetailedProgress()) {
             $options[] = '--detailed-progress';
         }
 
