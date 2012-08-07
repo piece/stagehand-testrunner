@@ -38,7 +38,9 @@
 
 namespace Stagehand\TestRunner\Runner;
 
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\DetailedProgressPrinter;
+use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ProgressPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter;
@@ -61,16 +63,25 @@ use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 class PHPUnitRunner extends Runner
 {
     /**
+     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
+     * @since Property available since Release 3.3.0
+     */
+    protected $junitXMLWriterFactory;
+
+    /**
      * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
      * @since Property available since Release 3.0.0
      */
     protected $phpunitXMLConfiguration;
 
     /**
-     * @var \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory
-     * @since Property available since Release 3.0.0
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory $junitXMLWriterFactory
+     * @since Method available since Release 3.3.0
      */
-    protected $junitXMLPrinterFactory;
+    public function setJUnitXMLWriterFactory(JUnitXMLWriterFactory $junitXMLWriterFactory)
+    {
+        $this->junitXMLWriterFactory = $junitXMLWriterFactory;
+    }
 
     /**
      * Runs tests based on the given \PHPUnit_Framework_TestSuite object.
@@ -95,15 +106,6 @@ class PHPUnitRunner extends Runner
     public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
     {
         $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory $junitXMLPrinterFactory
-     * @since Method available since Release 3.0.0
-     */
-    public function setJUnitXMLPrinterFactory(JUnitXMLPrinterFactory $junitXMLPrinterFactory)
-    {
-        $this->junitXMLPrinterFactory = $junitXMLPrinterFactory;
     }
 
     /**
@@ -153,9 +155,10 @@ class PHPUnitRunner extends Runner
             );
 
         if ($this->logsResultsInJUnitXML) {
-            $arguments['listeners'][] = $this->junitXMLPrinterFactory->create(
-                $this->createStreamWriter($this->junitXMLFile)
-            );
+            $junitXMLPrinter = new JUnitXMLPrinter();
+            $junitXMLPrinter->setTestTargetRepository($this->testTargetRepository);
+            $junitXMLPrinter->setJUnitXMLWriter($this->junitXMLWriterFactory->create($this->createStreamWriter($this->junitXMLFile)));
+            $arguments['listeners'][] = $junitXMLPrinter;
         }
 
         if ($this->stopsOnFailure) {
