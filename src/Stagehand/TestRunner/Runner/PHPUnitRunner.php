@@ -38,7 +38,6 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\DetailedProgressPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ProgressPrinter;
@@ -47,6 +46,7 @@ use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\TestDoxPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\NamePrettifier;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\Stream;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestRunner;
+use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 
 /**
  * A test runner for PHPUnit.
@@ -61,7 +61,7 @@ use Stagehand\TestRunner\Runner\PHPUnitRunner\TestRunner;
 class PHPUnitRunner extends Runner
 {
     /**
-     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+     * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
      * @since Property available since Release 3.0.0
      */
     protected $phpunitXMLConfiguration;
@@ -89,7 +89,7 @@ class PHPUnitRunner extends Runner
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     * @param \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration $phpunitXMLConfiguration
      * @since Method available since Release 3.0.0
      */
     public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)

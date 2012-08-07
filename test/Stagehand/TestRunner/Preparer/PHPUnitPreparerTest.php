@@ -56,7 +56,7 @@ class PHPUnitPreparerTest extends PHPUnitFactoryAwareTestCase
      */
     public function reflectsTheColorsAttributeInTheXmlConfigurationFileToTheConfiguration($colors)
     {
-        $phpunitXMLConfiguration = \Phake::mock('Stagehand\TestRunner\Core\PHPUnitXMLConfiguration');
+        $phpunitXMLConfiguration = \Phake::mock('Stagehand\TestRunner\Util\PHPUnitXMLConfiguration');
         \Phake::when($phpunitXMLConfiguration)->isEnabled()->thenReturn(true);
         \Phake::when($phpunitXMLConfiguration)->hasPHPUnitConfiguration('colors')->thenReturn(true);
         \Phake::when($phpunitXMLConfiguration)->getPHPUnitConfiguration('colors')->thenReturn($colors);

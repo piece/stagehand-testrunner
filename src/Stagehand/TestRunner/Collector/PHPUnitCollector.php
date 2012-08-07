@@ -38,9 +38,9 @@
 
 namespace Stagehand\TestRunner\Collector;
 
-use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 use Stagehand\TestRunner\TestSuite\PHPUnitGroupFilterTestSuite;
 use Stagehand\TestRunner\TestSuite\PHPUnitMethodFilterTestSuite;
+use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 
 /**
  * A test collector for PHPUnit.
@@ -67,7 +67,7 @@ class PHPUnitCollector extends Collector
     private static $FILTER_METHOD = 2;
 
     /**
-     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+     * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
      * @since Property available since Release 3.0.0
      */
     protected $phpunitXMLConfiguration;
@@ -102,7 +102,7 @@ class PHPUnitCollector extends Collector
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     * @param \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration $phpunitXMLConfiguration
      * @since Method available since Release 3.0.0
      */
     public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)

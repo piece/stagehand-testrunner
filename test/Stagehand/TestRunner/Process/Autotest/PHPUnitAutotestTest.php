@@ -53,7 +53,7 @@ class PHPUnitAutotestTest extends TestCase
     {
         TestCase::initializeConfigurators();
         static::$configurators[] = function (ApplicationContext $applicationContext) {
-            $phpunitXMLConfiguration = \Phake::mock('Stagehand\TestRunner\Core\PHPUnitXMLConfiguration'); /* @var $phpunitXMLConfiguration \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration */
+            $phpunitXMLConfiguration = \Phake::mock('Stagehand\TestRunner\Util\PHPUnitXMLConfiguration'); /* @var $phpunitXMLConfiguration \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration */
             \Phake::when($phpunitXMLConfiguration)->isEnabled()->thenReturn(true);
             \Phake::when($phpunitXMLConfiguration)->getFileName()->thenReturn('FILE');
             $applicationContext->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);

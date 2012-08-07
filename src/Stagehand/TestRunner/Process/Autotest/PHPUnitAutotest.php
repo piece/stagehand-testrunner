@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Process\Autotest;
 
-use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
+use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,12 +49,12 @@ use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 class PHPUnitAutotest extends Autotest
 {
     /**
-     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+     * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
      */
     protected $phpunitXMLConfiguration;
 
     /**
-     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     * @param \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration $phpunitXMLConfiguration
      */
     public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
     {

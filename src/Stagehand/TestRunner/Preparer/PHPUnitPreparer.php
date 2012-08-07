@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\Preparer;
 require_once 'PHPUnit/Autoload.php';
 
 use Stagehand\TestRunner\CLI\Terminal;
-use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
+use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
@@ -52,7 +52,7 @@ use Stagehand\TestRunner\Core\PHPUnitXMLConfiguration;
 class PHPUnitPreparer extends Preparer
 {
     /**
-     * @var \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration
+     * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
      * @since Property available since Release 3.0.0
      */
     protected $phpunitXMLConfiguration;
@@ -71,7 +71,7 @@ class PHPUnitPreparer extends Preparer
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     * @param \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration $phpunitXMLConfiguration
      * @since Method available since Release 3.0.0
      */
     public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
