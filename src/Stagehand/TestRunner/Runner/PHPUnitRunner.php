@@ -146,7 +146,7 @@ class PHPUnitRunner extends Runner
             );
         }
 
-        if ($this->stopsOnFailure) {
+        if ($this->shouldStopOnFailure()) {
             $arguments['stopOnFailure'] = true;
             $arguments['stopOnError'] = true;
         }

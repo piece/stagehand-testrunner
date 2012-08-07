@@ -123,7 +123,7 @@ abstract class CompatibilityTestCase extends TestCase
         $collector->collectTestCase($firstTestClass);
         $collector->collectTestCase($secondTestClass);
         $runner = $this->createRunner();
-        $runner->setStopsOnFailure(true);
+        $runner->setStopOnFailure(true);
 
         $this->runTests();
 

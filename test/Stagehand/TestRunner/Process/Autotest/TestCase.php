@@ -102,7 +102,7 @@ abstract class TestCase extends FactoryAwareTestCase
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
-            $runner->setStopsOnFailure(true);
+            $runner->setStopOnFailure(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $testTargetRepository = $applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */

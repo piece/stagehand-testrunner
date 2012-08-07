@@ -83,7 +83,7 @@ abstract class Runner
      * @var boolean
      * @since Property available since Release 3.0.0
      */
-    protected $stopsOnFailure;
+    protected $stopOnFailure;
 
     /**
      * @var boolean
@@ -160,18 +160,18 @@ abstract class Runner
      * @param boolean $stopsOnFailure
      * @since Method available since Release 3.0.0
      */
-    public function setStopsOnFailure($stopsOnFailure)
+    public function setStopOnFailure($stopsOnFailure)
     {
-        $this->stopsOnFailure = $stopsOnFailure;
+        $this->stopOnFailure = $stopsOnFailure;
     }
 
     /**
      * @return boolean
      * @since Method available since Release 3.0.0
      */
-    public function stopsOnFailure()
+    public function shouldStopOnFailure()
     {
-        return $this->stopsOnFailure;
+        return $this->stopOnFailure;
     }
 
     /**

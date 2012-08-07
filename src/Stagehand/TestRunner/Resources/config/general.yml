@@ -194,7 +194,7 @@ services:
       - [ setJUnitXMLFile, [ "%junit_xml_file%" ] ]
       - [ setJUnitXMLRealtime, [ "%logs_results_in_junit_xml_in_realtime%" ] ]
       - [ setDetailedProgress, [ "%prints_detailed_progress_report%" ] ]
-      - [ setStopsOnFailure, [ "%stops_on_failure%" ] ]
+      - [ setStopOnFailure, [ "%stops_on_failure%" ] ]
       - [ setTerminal, [ "@terminal" ] ]
       - [ setTestTargetRepository, [ "@test_target_repository" ] ]
       - [ setUsesNotification, [ "%uses_notification%" ] ]

@@ -119,7 +119,7 @@ class SimpleTestRunner extends Runner
             $reporters[ count($reporters) - 1 ]->setTestTargetRepository($this->testTargetRepository);
         }
 
-        if ($this->stopsOnFailure) {
+        if ($this->shouldStopOnFailure()) {
             $reporters[] = new StopOnFailureReporter($reporters[ count($reporters) - 1 ]);
         }
 

@@ -341,7 +341,7 @@ abstract class Autotest
             $options[] = '-m';
         }
 
-        if ($this->runnerFactory->create()->stopsOnFailure()) {
+        if ($this->runnerFactory->create()->shouldStopOnFailure()) {
             $options[] = '--stop-on-failure';
         }
 

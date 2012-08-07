@@ -189,7 +189,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $collector->collectTestCase($firstTestClass);
         $collector->collectTestCase($secondTestClass);
         $runner = $this->createRunner();
-        $runner->setStopsOnFailure(true);
+        $runner->setStopOnFailure(true);
 
         $this->runTests();
 
@@ -220,7 +220,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $collector->collectTestCase($firstTestClass);
         $collector->collectTestCase($secondTestClass);
         $runner = $this->createRunner();
-        $runner->setStopsOnFailure(true);
+        $runner->setStopOnFailure(true);
 
         $this->runTests();
 
