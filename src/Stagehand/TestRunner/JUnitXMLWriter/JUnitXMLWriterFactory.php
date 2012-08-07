@@ -58,25 +58,15 @@ class JUnitXMLWriterFactory
     protected $logsResultsInRealtime;
 
     /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
-     */
-    protected $junitXMLDOMWriterFactory;
-
-    /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
-     */
-    protected $junitXMLStreamWriterFactory;
-
-    /**
      * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
      * @return \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter
      */
     public function create(StreamWriter $streamWriter)
     {
         if ($this->logsResultsInRealtime) {
-            $junitXMLWriter = $this->junitXMLStreamWriterFactory->create(); /* @var $junitXMLWriter \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter */
+            $junitXMLWriter = new JUnitXMLStreamWriter();
         } else {
-            $junitXMLWriter = $this->junitXMLDOMWriterFactory->create(); /* @var $junitXMLWriter \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter */
+            $junitXMLWriter = new JUnitXMLDOMWriter();
         }
         $junitXMLWriter->setStreamWriter($streamWriter);
         return $junitXMLWriter;
@@ -88,22 +78,6 @@ class JUnitXMLWriterFactory
     public function setLogsResultsInRealtime($logsResultsInRealtime)
     {
         $this->logsResultsInRealtime = $logsResultsInRealtime;
-    }
-
-    /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $junitXMLDOMWriterFactory
-     */
-    public function setJUnitXMLDOMWriterFactory(IComponentAwareFactory $junitXMLDOMWriterFactory)
-    {
-        $this->junitXMLDOMWriterFactory = $junitXMLDOMWriterFactory;
-    }
-
-    /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $junitXMLStreamWriterFactory
-     */
-    public function setJUnitXMLStreamWriterFactory(IComponentAwareFactory $junitXMLStreamWriterFactory)
-    {
-        $this->junitXMLStreamWriterFactory = $junitXMLStreamWriterFactory;
     }
 }
 

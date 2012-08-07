@@ -34,10 +34,6 @@ parameters:
   collecting_type.class: "Stagehand\\TestRunner\\Collector\\CollectingType"
   collecting_type_factory.class: "Stagehand\\TestRunner\\Collector\\CollectingTypeFactory"
   collector_factory.class: "Stagehand\\TestRunner\\Collector\\Collector"
-  junit_xml_dom_writer.class: "Stagehand\\TestRunner\\JUnitXMLWriter\\JUnitXMLDOMWriter"
-  junit_xml_dom_writer_factory.class: "%junit_xml_dom_writer.class%"
-  junit_xml_stream_writer.class: "Stagehand\\TestRunner\\JUnitXMLWriter\\JUnitXMLStreamWriter"
-  junit_xml_stream_writer_factory.class: "%junit_xml_stream_writer.class%"
   junit_xml_writer_factory.class: "Stagehand\\TestRunner\\JUnitXMLWriter\\JUnitXMLWriterFactory"
   legacy_proxy.class: "Stagehand\\TestRunner\\Util\\LegacyProxy"
   notifier.class: "Stagehand\\TestRunner\\Notification\\Notifier"
@@ -138,28 +134,10 @@ services:
       - [ setResources, [ "%test_resources%" ] ]
 
   # JUnitXMLWriter
-  junit_xml_dom_writer:
-    scope: prototype
-    class: "%junit_xml_dom_writer.class%"
-  junit_xml_dom_writer_factory:
-    class: "%junit_xml_dom_writer_factory.class%"
-    factory_service: component_aware_factory_factory
-    factory_method: create
-    arguments: [ "junit_xml_dom_writer" ]
-  junit_xml_stream_writer:
-    scope: prototype
-    class: "%junit_xml_stream_writer.class%"
-  junit_xml_stream_writer_factory:
-    class: "%junit_xml_stream_writer_factory.class%"
-    factory_service: component_aware_factory_factory
-    factory_method: create
-    arguments: [ "junit_xml_stream_writer" ]
   junit_xml_writer_factory:
     class: "%junit_xml_writer_factory.class%"
     calls:
       - [ setLogsResultsInRealtime, [ "%logs_results_in_junit_xml_in_realtime%" ] ]
-      - [ setJUnitXMLDOMWriterFactory, [ "@junit_xml_dom_writer_factory" ] ]
-      - [ setJUnitXMLStreamWriterFactory, [ "@junit_xml_stream_writer_factory" ] ]
 
   # Notification
   notifier:
