@@ -157,12 +157,12 @@ abstract class Runner
     }
 
     /**
-     * @param boolean $stopsOnFailure
+     * @param boolean $stopOnFailure
      * @since Method available since Release 3.0.0
      */
-    public function setStopOnFailure($stopsOnFailure)
+    public function setStopOnFailure($stopOnFailure)
     {
-        $this->stopOnFailure = $stopsOnFailure;
+        $this->stopOnFailure = $stopOnFailure;
     }
 
     /**
