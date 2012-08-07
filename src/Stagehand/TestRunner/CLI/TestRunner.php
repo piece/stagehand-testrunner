@@ -51,7 +51,7 @@ class TestRunner
     /**
      * @var boolean
      */
-    protected $enablesAutotest;
+    protected $autotest;
 
     /**
      * @var \Stagehand\ComponentFactory\IComponentAwareFactory
@@ -65,7 +65,7 @@ class TestRunner
 
     public function run()
     {
-        if (!$this->enablesAutotest) {
+        if (!$this->autotest) {
             $this->testRunFactory->create()->run();
         } else {
             $autotest = $this->autotestFactory->create();
@@ -75,11 +75,11 @@ class TestRunner
     }
 
     /**
-     * @param boolean $enablesAutotest
+     * @param boolean $autotest
      */
-    public function setEnablesAutotest($enablesAutotest)
+    public function setAutotest($autotest)
     {
-        $this->enablesAutotest = $enablesAutotest;
+        $this->autotest = $autotest;
     }
 
     /**

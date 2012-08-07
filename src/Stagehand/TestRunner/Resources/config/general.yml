@@ -97,7 +97,7 @@ services:
     class: "%test_runner.class%"
     calls:
       - [ setAutotestFactory, [ "@autotest_factory" ] ]
-      - [ setEnablesAutotest, [ "%enables_autotest%" ] ]
+      - [ setAutotest, [ "%enables_autotest%" ] ]
       - [ setTestRunFactory, [ "@test_run_factory" ] ]
 
   # Collector
