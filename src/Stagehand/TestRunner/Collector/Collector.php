@@ -87,8 +87,8 @@ abstract class Collector
      */
     public function collect()
     {
-        $collector = array($this, 'collectTestCasesFromFile');
-        $this->testTargetRepository->walkOnResources(function ($resource, $index, TestTargetRepository $testTargetRepository) use ($collector) {
+        $self = $this;
+        $this->testTargetRepository->walkOnResources(function ($resource, $index, TestTargetRepository $testTargetRepository) use ($self) {
             $absoluteTargetPath = realpath($resource);
             if ($absoluteTargetPath === false) {
                 throw new \UnexpectedValueException(sprintf('The directory or file [ %s ] is not found', $resource));
@@ -101,10 +101,10 @@ abstract class Collector
                     ->depth($testTargetRepository->recursivelyScans() ? '>= 0' : '== 0')
                     ->sortByName();
                 foreach ($finder as $file) {
-                    call_user_func($collector, $file->getPathname());
+                    call_user_func(array($self, 'collectTestCasesFromFile'), $file->getPathname());
                 }
             } else {
-                call_user_func($collector, $absoluteTargetPath);
+                call_user_func(array($self, 'collectTestCasesFromFile'), $absoluteTargetPath);
             }
         });
 
