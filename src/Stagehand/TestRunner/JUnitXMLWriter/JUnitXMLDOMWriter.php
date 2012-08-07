@@ -37,7 +37,6 @@
 
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter\TestsuiteDOMElement;
 use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
@@ -235,7 +234,7 @@ class JUnitXMLDOMWriter implements JUnitXMLWriter
     }
 
     /**
-     * @return \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter\TestsuiteDOMElement
+     * @return \Stagehand\TestRunner\JUnitXMLWriter\TestsuiteDOMElement
      */
     protected function getCurrentTestsuite()
     {

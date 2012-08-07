@@ -35,7 +35,7 @@
  * @since      File available since Release 2.10.0
  */
 
-namespace Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLDOMWriter;
+namespace Stagehand\TestRunner\JUnitXMLWriter;
 
 /**
  * @package    Stagehand_TestRunner
