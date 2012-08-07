@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Util\StreamWriter;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class JUnitXMLStreamWriter implements JUnitXMLWriter
+class StreamJUnitXMLWriter implements JUnitXMLWriter
 {
     /**
      * @var \Stagehand\TestRunner\JUnitXMLWriter\XMLStreamWriter
