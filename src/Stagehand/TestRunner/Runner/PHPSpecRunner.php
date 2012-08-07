@@ -88,7 +88,7 @@ class PHPSpecRunner extends Runner
             $reporter->addFormatter(new TerminatableFormatter($notificationFormatter));
         }
 
-        if ($this->logsResultsInJUnitXML) {
+        if ($this->hasJUnitXMLFile()) {
             $junitXMLFormatter = new JUnitXMLFormatter($reporter);
             $junitXMLFormatter->setJUnitXMLWriter($this->createJUnitXMLWriter());
             $junitXMLFormatter->setTestSuite($suite);

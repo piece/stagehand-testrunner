@@ -83,12 +83,6 @@ abstract class Runner
      * @var boolean
      * @since Property available since Release 3.0.0
      */
-    protected $logsResultsInJUnitXML;
-
-    /**
-     * @var boolean
-     * @since Property available since Release 3.0.0
-     */
     protected $stopsOnFailure;
 
     /**
@@ -150,12 +144,16 @@ abstract class Runner
      */
     public function setJUnitXMLFile($junitXMLFile)
     {
-        if (is_null($junitXMLFile)) {
-            $this->logsResultsInJUnitXML = false;
-        } else {
-            $this->junitXMLFile = $junitXMLFile;
-            $this->logsResultsInJUnitXML = true;
-        }
+        $this->junitXMLFile = $junitXMLFile;
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 3.3.0
+     */
+    protected function hasJUnitXMLFile()
+    {
+        return !is_null($this->junitXMLFile);
     }
 
     /**

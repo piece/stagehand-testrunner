@@ -138,7 +138,7 @@ class PHPUnitRunner extends Runner
                 )
             );
 
-        if ($this->logsResultsInJUnitXML) {
+        if ($this->hasJUnitXMLFile()) {
             $arguments['listeners'][] = new JUnitXMLPrinter(
                 null,
                 $this->createJUnitXMLWriter(),
