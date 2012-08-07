@@ -37,8 +37,8 @@
 
 namespace Stagehand\TestRunner\Core\Transformation;
 
-use Stagehand\TestRunner\Core\Configuration\CIUnitConfiguration;
 use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
+use Stagehand\TestRunner\DependencyInjection\Configuration\CIUnitConfiguration;
 
 /**
  * @package    Stagehand_TestRunner

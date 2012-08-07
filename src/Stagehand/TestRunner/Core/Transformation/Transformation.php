@@ -41,8 +41,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
+use Stagehand\TestRunner\DependencyInjection\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Util\String;
 
 /**
@@ -75,7 +75,7 @@ class Transformation
     public function __construct(ContainerInterface $container)
     {
         $pluginConfigurationClass =
-            'Stagehand\TestRunner\Core\Configuration' . '\\' .
+            'Stagehand\TestRunner\DependencyInjection\Configuration' . '\\' .
             ApplicationContext::getInstance()->getPlugin()->getPluginID() . 'Configuration';
         $this->configuration[ $pluginConfigurationClass::getConfigurationID() ] = array();
         $this->configuration[ GeneralConfiguration::getConfigurationID() ] = array();

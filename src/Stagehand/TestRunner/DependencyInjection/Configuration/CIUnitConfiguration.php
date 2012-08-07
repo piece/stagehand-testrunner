@@ -35,10 +35,11 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Configuration;
+namespace Stagehand\TestRunner\DependencyInjection\Configuration;
 
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+
+use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,19 +48,26 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-abstract class Configuration implements IConfiguration
+class CIUnitConfiguration extends PHPUnitConfiguration
 {
-    public function getConfigTreeBuilder()
+    public static function getConfigurationID()
     {
-        $treeBuilder = new TreeBuilder();
-        $this->defineGrammar($treeBuilder->root($this->getConfigurationID())->children());
-        return $treeBuilder;
+        return strtolower(CIUnitPlugin::getPluginID());
     }
 
     /**
      * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder
      */
-    abstract protected function defineGrammar(NodeBuilder $nodeBuilder);
+    protected function defineGrammar(NodeBuilder $nodeBuilder)
+    {
+        parent::defineGrammar($nodeBuilder);
+        $nodeBuilder
+            ->scalarNode('ciunit_path')
+                ->defaultNull()
+                ->cannotBeEmpty()
+            ->end()
+        ;
+    }
 }
 
 /*

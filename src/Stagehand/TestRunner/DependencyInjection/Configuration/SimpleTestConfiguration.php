@@ -35,9 +35,11 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Configuration;
+namespace Stagehand\TestRunner\DependencyInjection\Configuration;
 
-use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+
+use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,13 +48,21 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-interface IConfiguration extends ConfigurationInterface
+class SimpleTestConfiguration extends Configuration
 {
+    public static function getConfigurationID()
+    {
+        return strtolower(SimpleTestPlugin::getPluginID());
+    }
+
     /**
-     * @return string
+     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder
      */
-    public static function getConfigurationID();
+    protected function defineGrammar(NodeBuilder $nodeBuilder)
+    {
+    }
 }
+
 
 /*
  * Local Variables:

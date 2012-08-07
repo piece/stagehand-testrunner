@@ -35,11 +35,11 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Configuration;
+namespace Stagehand\TestRunner\DependencyInjection\Configuration;
 
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
-use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
+use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -48,11 +48,11 @@ use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPSpecConfiguration extends Configuration
+class CakePHPConfiguration extends SimpleTestConfiguration
 {
     public static function getConfigurationID()
     {
-        return strtolower(PHPSpecPlugin::getPluginID());
+        return strtolower(CakePHPPlugin::getPluginID());
     }
 
     /**
@@ -60,9 +60,19 @@ class PHPSpecConfiguration extends Configuration
      */
     protected function defineGrammar(NodeBuilder $nodeBuilder)
     {
+        parent::defineGrammar($nodeBuilder);
+        $nodeBuilder
+            ->scalarNode('app_path')
+                ->defaultNull()
+                ->cannotBeEmpty()
+            ->end()
+            ->scalarNode('core_path')
+                ->defaultNull()
+                ->cannotBeEmpty()
+            ->end()
+        ;
     }
 }
-
 
 /*
  * Local Variables:

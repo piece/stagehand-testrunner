@@ -35,11 +35,10 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Configuration;
+namespace Stagehand\TestRunner\DependencyInjection\Configuration;
 
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
-
-use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 /**
  * @package    Stagehand_TestRunner
@@ -48,21 +47,20 @@ use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class SimpleTestConfiguration extends Configuration
+abstract class Configuration implements IConfiguration
 {
-    public static function getConfigurationID()
+    public function getConfigTreeBuilder()
     {
-        return strtolower(SimpleTestPlugin::getPluginID());
+        $treeBuilder = new TreeBuilder();
+        $this->defineGrammar($treeBuilder->root($this->getConfigurationID())->children());
+        return $treeBuilder;
     }
 
     /**
      * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder
      */
-    protected function defineGrammar(NodeBuilder $nodeBuilder)
-    {
-    }
+    abstract protected function defineGrammar(NodeBuilder $nodeBuilder);
 }
-
 
 /*
  * Local Variables:

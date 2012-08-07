@@ -35,11 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\Configuration;
+namespace Stagehand\TestRunner\DependencyInjection\Configuration;
 
-use Symfony\Component\Config\Definition\Builder\NodeBuilder;
-
-use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * @package    Stagehand_TestRunner
@@ -48,30 +46,12 @@ use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPConfiguration extends SimpleTestConfiguration
+interface IConfiguration extends ConfigurationInterface
 {
-    public static function getConfigurationID()
-    {
-        return strtolower(CakePHPPlugin::getPluginID());
-    }
-
     /**
-     * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder
+     * @return string
      */
-    protected function defineGrammar(NodeBuilder $nodeBuilder)
-    {
-        parent::defineGrammar($nodeBuilder);
-        $nodeBuilder
-            ->scalarNode('app_path')
-                ->defaultNull()
-                ->cannotBeEmpty()
-            ->end()
-            ->scalarNode('core_path')
-                ->defaultNull()
-                ->cannotBeEmpty()
-            ->end()
-        ;
-    }
+    public static function getConfigurationID();
 }
 
 /*

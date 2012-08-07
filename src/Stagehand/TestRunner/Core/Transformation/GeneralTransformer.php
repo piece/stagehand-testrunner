@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Core\Transformation;
 
-use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
+use Stagehand\TestRunner\DependencyInjection\Configuration\GeneralConfiguration;
 
 /**
  * @package    Stagehand_TestRunner

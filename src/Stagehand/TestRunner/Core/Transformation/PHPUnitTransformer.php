@@ -37,8 +37,8 @@
 
 namespace Stagehand\TestRunner\Core\Transformation;
 
-use Stagehand\TestRunner\Core\Configuration\PHPUnitConfiguration;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\DependencyInjection\Configuration\PHPUnitConfiguration;
 
 /**
  * @package    Stagehand_TestRunner

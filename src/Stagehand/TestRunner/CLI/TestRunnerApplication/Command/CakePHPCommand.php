@@ -41,10 +41,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Stagehand\TestRunner\Core\Configuration\CakePHPConfiguration;
 use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\Core\Transformation\Transformation;
+use Stagehand\TestRunner\DependencyInjection\Configuration\CakePHPConfiguration;
 
 /**
  * @package    Stagehand_TestRunner

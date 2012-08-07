@@ -37,8 +37,8 @@
 
 namespace Stagehand\TestRunner\Core\Transformation;
 
-use Stagehand\TestRunner\Core\Configuration\PHPSpecConfiguration;
 use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
+use Stagehand\TestRunner\DependencyInjection\Configuration\PHPSpecConfiguration;
 
 /**
  * @package    Stagehand_TestRunner

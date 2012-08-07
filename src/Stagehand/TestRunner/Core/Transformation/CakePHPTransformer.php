@@ -37,8 +37,8 @@
 
 namespace Stagehand\TestRunner\Core\Transformation;
 
-use Stagehand\TestRunner\Core\Configuration\CakePHPConfiguration;
 use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
+use Stagehand\TestRunner\DependencyInjection\Configuration\CakePHPConfiguration;
 
 /**
  * @package    Stagehand_TestRunner

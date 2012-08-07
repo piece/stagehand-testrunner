@@ -37,8 +37,8 @@
 
 namespace Stagehand\TestRunner\Core\Transformation;
 
-use Stagehand\TestRunner\Core\Configuration\SimpleTestConfiguration;
 use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
+use Stagehand\TestRunner\DependencyInjection\Configuration\SimpleTestConfiguration;
 
 /**
  * @package    Stagehand_TestRunner
