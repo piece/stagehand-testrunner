@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -41,7 +41,7 @@ use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
@@ -63,19 +63,12 @@ class DOMJUnitXMLWriter implements JUnitXMLWriter
     protected $utf8Converter;
 
     /**
+     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
      */
-    public function __construct()
+    public function __construct($streamWriter)
     {
         $this->xmlWriter = new \DOMDocument('1.0', 'UTF-8');
         $this->utf8Converter = UTF8ConverterFactory::create();
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
-     * @since Method available since Release 3.0.0
-     */
-    public function setStreamWriter(StreamWriter $streamWriter)
-    {
         $this->streamWriter = $streamWriter;
     }
 

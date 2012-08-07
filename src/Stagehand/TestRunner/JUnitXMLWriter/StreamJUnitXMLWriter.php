@@ -64,19 +64,12 @@ class StreamJUnitXMLWriter implements JUnitXMLWriter
     protected $utf8Converter;
 
     /**
+     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
      */
-    public function __construct()
+    public function __construct(StreamWriter $streamWriter)
     {
         $this->xmlWriter = new XMLStreamWriter();
         $this->utf8Converter = UTF8ConverterFactory::create();
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
-     * @since Method available since Release 3.0.0
-     */
-    public function setStreamWriter(StreamWriter $streamWriter)
-    {
         $this->streamWriter = $streamWriter;
     }
 

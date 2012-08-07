@@ -63,13 +63,7 @@ class JUnitXMLWriterFactory
      */
     public function create(StreamWriter $streamWriter)
     {
-        if ($this->logsResultsInRealtime) {
-            $junitXMLWriter = new StreamJUnitXMLWriter();
-        } else {
-            $junitXMLWriter = new DOMJUnitXMLWriter();
-        }
-        $junitXMLWriter->setStreamWriter($streamWriter);
-        return $junitXMLWriter;
+        return $this->logsResultsInRealtime ? new StreamJUnitXMLWriter($streamWriter) : new DOMJUnitXMLWriter($streamWriter);
     }
 
     /**
