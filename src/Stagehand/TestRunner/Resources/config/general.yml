@@ -117,6 +117,7 @@ services:
     arguments: [ "@test_target_repository" ]
     calls:
       - [ setCollectingTypeFactory, [ "@collecting_type_factory" ] ]
+      - [ setRecursive, [ "%recursively_scans%" ] ]
   collector_factory:
     class: "%collector_factory.class%"
     factory_service: component_aware_factory_factory
@@ -130,7 +131,6 @@ services:
       - [ setClasses, [ "%test_classes%" ] ]
       - [ setFilePattern, [ "%test_file_pattern%" ] ]
       - [ setMethods, [ "%test_methods%" ] ]
-      - [ setRecursivelyScans, [ "%recursively_scans%" ] ]
       - [ setResources, [ "%test_resources%" ] ]
 
   # JUnitXMLWriter

@@ -57,6 +57,12 @@ abstract class Collector
     protected $suite;
 
     /**
+     * @var boolean
+     * @since Property available since Release 3.3.0
+     */
+    protected $recursive;
+
+    /**
      * @var \Stagehand\TestRunner\Core\TestTargetRepository
      * @since Property available since Release 3.0.0
      */
@@ -80,6 +86,15 @@ abstract class Collector
     }
 
     /**
+     * @param boolean $recursive
+     * @since Method available since Release 3.3.0
+     */
+    public function setRecursive($recursive)
+    {
+        $this->recursive = $recursive;
+    }
+
+    /**
      * Collects tests.
      *
      * @return mixed
@@ -98,7 +113,7 @@ abstract class Collector
                 $finder = Finder::create()
                     ->files()
                     ->in($absoluteTargetPath)
-                    ->depth($testTargetRepository->recursivelyScans() ? '>= 0' : '== 0')
+                    ->depth($self->isRecursive() ? '>= 0' : '== 0')
                     ->sortByName();
                 foreach ($finder as $file) {
                     call_user_func(array($self, 'collectTestCasesFromFile'), $file->getPathname());
@@ -152,6 +167,15 @@ abstract class Collector
                 $this->collectTestCase($newClass);
             }
         }
+    }
+
+    /**
+     * @return boolean
+     * @since Method available since Release 3.3.0
+     */
+    public function isRecursive()
+    {
+        return $this->recursive;
     }
 
     /**

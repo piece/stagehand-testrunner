@@ -62,12 +62,12 @@ abstract class TestCase extends FactoryAwareTestCase
     {
         self::$configurators = array();
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $testTargetRepository = $applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
-            $testTargetRepository->setRecursivelyScans(true);
+            $collector = $applicationContext->createComponent('collector_factory')->create(); /* @var $collector \Stagehand\TestRunner\Collector\Collector */
+            $collector->setRecursive(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $testTargetRepository = $applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
-            $testTargetRepository->setRecursivelyScans(false);
+            $collector = $applicationContext->createComponent('collector_factory')->create(); /* @var $collector \Stagehand\TestRunner\Collector\Collector */
+            $collector->setRecursive(false);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $terminal = $applicationContext->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */

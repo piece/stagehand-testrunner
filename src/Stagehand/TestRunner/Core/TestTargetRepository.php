@@ -70,11 +70,6 @@ class TestTargetRepository
     protected $filePattern;
 
     /**
-     * @var boolean
-     */
-    protected $recursivelyScans;
-
-    /**
      * @param array $resources
      */
     public function setResources(array $resources)
@@ -185,22 +180,6 @@ class TestTargetRepository
     public function shouldTreatFileAsTest($file)
     {
         return (boolean)preg_match('/' . str_replace('/', '\/', $this->getFilePattern()) . '/', basename($file));
-    }
-
-    /**
-     * @param boolean $recursivelyScans
-     */
-    public function setRecursivelyScans($recursivelyScans)
-    {
-        $this->recursivelyScans = $recursivelyScans;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function recursivelyScans()
-    {
-        return $this->recursivelyScans;
     }
 
     /**
