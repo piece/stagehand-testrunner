@@ -40,7 +40,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
-require __DIR__ . '/../preload.php';
+require __DIR__ . '/../bootstrap.php';
 require __DIR__ . '/Stagehand/TestRunner/Test/TestEnvironment.php';
 
 require_once 'Phake.php';
