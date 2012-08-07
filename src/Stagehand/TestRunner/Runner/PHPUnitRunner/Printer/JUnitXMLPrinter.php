@@ -65,6 +65,19 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
      */
     protected $testTargetRepository;
 
+    /**
+     * @param mixed $out
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $junitXMLWriter
+     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
+     * @since Method available since Release 3.3.0
+     */
+    public function __construct($out, JUnitXMLWriter $junitXMLWriter, TestTargetRepository $testTargetRepository)
+    {
+        parent::__construct($out);
+        $this->junitXMLWriter = $junitXMLWriter;
+        $this->testTargetRepository = $testTargetRepository;
+    }
+
     public function flush()
     {
         $this->junitXMLWriter->endTestSuites();
@@ -162,23 +175,6 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
             $this->junitXMLWriter->endTestCase($time);
         }
         $this->testStarted = false;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $junitXMLWriter
-     */
-    public function setJUnitXMLWriter(JUnitXMLWriter $junitXMLWriter)
-    {
-        $this->junitXMLWriter = $junitXMLWriter;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
-     * @since Method available since Release 3.0.0
-     */
-    public function setTestTargetRepository(TestTargetRepository $testTargetRepository)
-    {
-        $this->testTargetRepository = $testTargetRepository;
     }
 
     /**

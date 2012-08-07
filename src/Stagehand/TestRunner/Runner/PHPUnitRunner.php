@@ -155,10 +155,11 @@ class PHPUnitRunner extends Runner
             );
 
         if ($this->logsResultsInJUnitXML) {
-            $junitXMLPrinter = new JUnitXMLPrinter();
-            $junitXMLPrinter->setTestTargetRepository($this->testTargetRepository);
-            $junitXMLPrinter->setJUnitXMLWriter($this->junitXMLWriterFactory->create($this->createStreamWriter($this->junitXMLFile)));
-            $arguments['listeners'][] = $junitXMLPrinter;
+            $arguments['listeners'][] = new JUnitXMLPrinter(
+                null,
+                $this->junitXMLWriterFactory->create($this->createStreamWriter($this->junitXMLFile)),
+                $this->testTargetRepository
+            );
         }
 
         if ($this->stopsOnFailure) {
