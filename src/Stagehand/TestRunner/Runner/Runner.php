@@ -89,7 +89,7 @@ abstract class Runner
      * @var boolean
      * @since Property available since Release 3.0.0
      */
-    protected $usesNotification;
+    protected $notify;
 
     /**
      * @var \Stagehand\TestRunner\Core\TestTargetRepository
@@ -175,21 +175,21 @@ abstract class Runner
     }
 
     /**
-     * @param boolean $usesNotification
+     * @param boolean $notify
      * @since Method available since Release 3.0.0
      */
-    public function setUsesNotification($usesNotification)
+    public function setNotify($notify)
     {
-        $this->usesNotification = $usesNotification;
+        $this->notify = $notify;
     }
 
     /**
      * @return boolean
      * @since Method available since Release 3.0.0
      */
-    public function usesNotification()
+    public function shouldNotify()
     {
-        return $this->usesNotification;
+        return $this->notify;
     }
 
     /**

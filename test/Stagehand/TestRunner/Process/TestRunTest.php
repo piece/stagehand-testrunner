@@ -58,9 +58,9 @@ class TestRunTest extends PHPUnitFactoryAwareTestCase
     /**
      * @test
      * @dataProvider notificationDecisions
-     * @param boolean $usesNotification
+     * @param boolean $notify
      */
-    public function runsATest($usesNotification)
+    public function runsATest($notify)
     {
         $outputBuffering = \Phake::mock('Stagehand\TestRunner\Util\OutputBuffering');
         \Phake::when($outputBuffering)->clearOutputHandlers()->thenReturn(null);
@@ -77,15 +77,15 @@ class TestRunTest extends PHPUnitFactoryAwareTestCase
 
         $runner = \Phake::mock('Stagehand\TestRunner\Runner\Runner');
         \Phake::when($runner)->run($this->anything())->thenReturn(null);
-        \Phake::when($runner)->usesNotification()->thenReturn($usesNotification);
-        if ($usesNotification) {
+        \Phake::when($runner)->shouldNotify()->thenReturn($notify);
+        if ($notify) {
             $notification = new Notification(Notification::RESULT_PASSED, 'MESSAGE');
             \Phake::when($runner)->getNotification()->thenReturn($notification);
         }
         $this->applicationContext->setComponent('phpunit.runner', $runner);
 
         $notifier = \Phake::mock('Stagehand\TestRunner\Notification\Notifier');
-        if ($usesNotification) {
+        if ($notify) {
             \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
         }
         $this->applicationContext->setComponent('notifier', $notifier);
@@ -95,9 +95,9 @@ class TestRunTest extends PHPUnitFactoryAwareTestCase
         \Phake::verify($preparer)->prepare();
         \Phake::verify($collector)->collect();
         \Phake::verify($runner)->run($this->identicalTo($testSuite));
-        \Phake::verify($runner)->usesNotification();
-        \Phake::verify($runner, \Phake::times($usesNotification ? 1 : 0))->getNotification();
-        if ($usesNotification) {
+        \Phake::verify($runner)->shouldNotify();
+        \Phake::verify($runner, \Phake::times($notify ? 1 : 0))->getNotification();
+        if ($notify) {
             \Phake::verify($notifier)->notifyResult($this->identicalTo($notification));
         } else {
             \Phake::verify($notifier, \Phake::never())->notifyResult();

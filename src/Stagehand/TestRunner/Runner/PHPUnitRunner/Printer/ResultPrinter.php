@@ -71,7 +71,7 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
      */
     public function printResult(\PHPUnit_Framework_TestResult $result)
     {
-        if ($this->runner->usesNotification()) {
+        if ($this->runner->shouldNotify()) {
             ob_start();
         }
 
@@ -82,7 +82,7 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
 
         parent::printResult($result);
 
-        if ($this->runner->usesNotification()) {
+        if ($this->runner->shouldNotify()) {
             $output = ob_get_contents();
             ob_end_clean();
 

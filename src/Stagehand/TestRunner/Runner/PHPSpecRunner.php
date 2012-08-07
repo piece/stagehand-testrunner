@@ -83,7 +83,7 @@ class PHPSpecRunner extends Runner
             $reporter->addFormatter(new TerminatableFormatter(new ProgressFormatter($reporter)));
         }
 
-        if ($this->usesNotification()) {
+        if ($this->shouldNotify()) {
             $notificationFormatter = new NotificationFormatter($reporter);
             $reporter->addFormatter(new TerminatableFormatter($notificationFormatter));
         }
@@ -115,7 +115,7 @@ class PHPSpecRunner extends Runner
             set_error_handler($oldErrorHandler);
         }
 
-        if ($this->usesNotification()) {
+        if ($this->shouldNotify()) {
             $this->notification = $notificationFormatter->getNotification();
         }
     }

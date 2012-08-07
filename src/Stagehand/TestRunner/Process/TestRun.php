@@ -102,7 +102,7 @@ class TestRun
         $runner = $this->runnerFactory->create();
         $this->result = $runner->run($this->collectorFactory->create()->collect());
 
-        if ($runner->usesNotification()) {
+        if ($runner->shouldNotify()) {
             $this->notifierFactory->create()->notifyResult($runner->getNotification());
         }
     }

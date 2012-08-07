@@ -85,7 +85,7 @@ class TextReporter extends \TextReporter
             echo $output;
         }
 
-        if ($this->runner->usesNotification()) {
+        if ($this->runner->shouldNotify()) {
             if ($this->getFailCount() + $this->getExceptionCount() == 0) {
                 $notificationResult = Notification::RESULT_PASSED;
             } else {

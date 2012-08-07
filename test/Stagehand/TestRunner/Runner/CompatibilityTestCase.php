@@ -150,7 +150,7 @@ abstract class CompatibilityTestCase extends TestCase
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
         $runner = $this->createRunner();
-        $runner->setUsesNotification(true);
+        $runner->setNotify(true);
         $terminal = $this->createTerminal();
         $terminal->setColors($colors);
 

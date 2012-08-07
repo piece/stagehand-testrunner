@@ -79,7 +79,7 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
                 function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                 },
                 function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
-                    $test->assertTrue($applicationContext->createComponent('runner_factory')->create()->usesNotification());
+                    $test->assertTrue($applicationContext->createComponent('runner_factory')->create()->shouldNotify());
                 }
             ),
             array(

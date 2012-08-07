@@ -197,7 +197,7 @@ services:
       - [ setStopOnFailure, [ "%stops_on_failure%" ] ]
       - [ setTerminal, [ "@terminal" ] ]
       - [ setTestTargetRepository, [ "@test_target_repository" ] ]
-      - [ setUsesNotification, [ "%uses_notification%" ] ]
+      - [ setNotify, [ "%uses_notification%" ] ]
   runner_factory:
     class: "%runner_factory.class%"
     factory_service: component_aware_factory_factory
