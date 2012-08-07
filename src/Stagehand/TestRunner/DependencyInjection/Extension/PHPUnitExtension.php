@@ -35,9 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
+namespace Stagehand\TestRunner\DependencyInjection\Extension;
 
-use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,11 +46,11 @@ use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPExtension extends Extension
+class PHPUnitExtension extends Extension
 {
     public function getAlias()
     {
-        return strtolower(CakePHPPlugin::getPluginID());
+        return strtolower(PHPUnitPlugin::getPluginID());
     }
 }
 

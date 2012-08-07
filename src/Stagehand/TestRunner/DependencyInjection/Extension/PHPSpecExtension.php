@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,47 +29,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
+namespace Stagehand\TestRunner\DependencyInjection\Extension;
 
-use Stagehand\TestRunner\Core\Plugin\PluginRepository;
+use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class ExtensionRepository
+class PHPSpecExtension extends Extension
 {
-    /**
-     * @return array
-     * @throws \Stagehand\TestRunner\Core\DependencyInjection\Extension\FrameworkUnavailableException
-     */
-    public static function findAll()
+    public function getAlias()
     {
-        $plugins = PluginRepository::findAll();
-        if (count($plugins) == 0) {
-            throw new FrameworkUnavailableException('Stagehand_TestRunner is unavailable since no plugins are found in this installation.');
-        }
-
-        $extensions = array(new GeneralExtension());
-        foreach ($plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\IPlugin */
-            $extensionClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $plugin->getPluginID() . 'Extension');
-            if (!$extensionClass->isInterface()
-                && !$extensionClass->isAbstract()
-                && $extensionClass->isSubclassOf('Symfony\Component\DependencyInjection\Extension\ExtensionInterface')) {
-                $extensions[] = $extensionClass->newInstance();
-            }
-        }
-
-        return $extensions;
+        return strtolower(PHPSpecPlugin::getPluginID());
     }
 }
 

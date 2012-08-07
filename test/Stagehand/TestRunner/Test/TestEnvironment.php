@@ -41,11 +41,11 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
-use Stagehand\TestRunner\Core\DependencyInjection\Container;
 use Stagehand\TestRunner\Core\Environment;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\Core\Transformation\Transformation;
+use Stagehand\TestRunner\DependencyInjection\Container;
 
 /**
  * @package    Stagehand_TestRunner

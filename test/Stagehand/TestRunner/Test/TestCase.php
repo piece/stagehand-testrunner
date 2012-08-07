@@ -41,8 +41,8 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\DependencyInjection\Container;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
+use Stagehand\TestRunner\DependencyInjection\Container;
 
 /**
  * @package    Stagehand_TestRunner

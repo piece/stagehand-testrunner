@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Stagehand\TestRunner\Core\DependencyInjection\Compiler;
+use Stagehand\TestRunner\DependencyInjection\Compiler;
 
 /**
  * @package    Stagehand_TestRunner

@@ -35,9 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
-
-use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
+namespace Stagehand\TestRunner\DependencyInjection\Extension;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,11 +44,11 @@ use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class SimpleTestExtension extends Extension
+class GeneralExtension extends Extension
 {
     public function getAlias()
     {
-        return strtolower(SimpleTestPlugin::getPluginID());
+        return 'general';
     }
 }
 

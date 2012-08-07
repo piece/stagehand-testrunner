@@ -1,5 +1,5 @@
 /build/
 /dist/
-/src/Stagehand/TestRunner/Core/DependencyInjection/CompiledContainer.php
+/src/Stagehand/TestRunner/DependencyInjection/CompiledContainer.php
 /composer.lock
 /vendor/

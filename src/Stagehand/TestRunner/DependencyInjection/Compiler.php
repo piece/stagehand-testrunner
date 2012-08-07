@@ -35,13 +35,13 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection;
+namespace Stagehand\TestRunner\DependencyInjection;
 
 use Stagehand\ComponentFactory\UnfreezableContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ResolveParameterPlaceHoldersPass;
 
-use Stagehand\TestRunner\Core\DependencyInjection\Extension\ExtensionRepository;
+use Stagehand\TestRunner\DependencyInjection\Extension\ExtensionRepository;
 
 /**
  * @package    Stagehand_TestRunner
@@ -52,7 +52,7 @@ use Stagehand\TestRunner\Core\DependencyInjection\Extension\ExtensionRepository;
  */
 class Compiler
 {
-    const COMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\Core\DependencyInjection';
+    const COMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\DependencyInjection';
     const COMPILED_CONTAINER_CLASS = 'CompiledContainer';
 
     public function compile()

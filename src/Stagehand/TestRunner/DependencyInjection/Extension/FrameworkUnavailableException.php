@@ -35,9 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
-
-use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
+namespace Stagehand\TestRunner\DependencyInjection\Extension;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,12 +44,8 @@ use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CIUnitExtension extends Extension
+class FrameworkUnavailableException extends \RuntimeException
 {
-    public function getAlias()
-    {
-        return strtolower(CIUnitPlugin::getPluginID());
-    }
 }
 
 /*

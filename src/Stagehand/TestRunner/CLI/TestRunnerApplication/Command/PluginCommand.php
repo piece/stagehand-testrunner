@@ -45,9 +45,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Configuration\GeneralConfiguration;
-use Stagehand\TestRunner\Core\DependencyInjection\Compiler;
-use Stagehand\TestRunner\Core\DependencyInjection\Container;
 use Stagehand\TestRunner\Core\Transformation\Transformation;
+use Stagehand\TestRunner\DependencyInjection\Compiler;
+use Stagehand\TestRunner\DependencyInjection\Container;
 use Stagehand\TestRunner\Util\FileSystem;
 
 /**

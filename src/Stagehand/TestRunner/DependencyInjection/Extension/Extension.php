@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
+namespace Stagehand\TestRunner\DependencyInjection\Extension;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

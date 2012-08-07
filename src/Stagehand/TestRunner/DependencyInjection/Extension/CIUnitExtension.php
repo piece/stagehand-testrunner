@@ -35,9 +35,9 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Core\DependencyInjection\Extension;
+namespace Stagehand\TestRunner\DependencyInjection\Extension;
 
-use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,11 +46,11 @@ use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitExtension extends Extension
+class CIUnitExtension extends Extension
 {
     public function getAlias()
     {
-        return strtolower(PHPUnitPlugin::getPluginID());
+        return strtolower(CIUnitPlugin::getPluginID());
     }
 }
 
