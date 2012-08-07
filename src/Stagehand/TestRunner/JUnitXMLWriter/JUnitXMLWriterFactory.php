@@ -38,8 +38,6 @@
 
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
-use Stagehand\ComponentFactory\IComponentAwareFactory;
-
 use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
