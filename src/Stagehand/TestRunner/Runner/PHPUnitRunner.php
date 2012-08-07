@@ -38,7 +38,6 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\DetailedProgressPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory;
@@ -63,25 +62,10 @@ use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 class PHPUnitRunner extends Runner
 {
     /**
-     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
-     * @since Property available since Release 3.3.0
-     */
-    protected $junitXMLWriterFactory;
-
-    /**
      * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
      * @since Property available since Release 3.0.0
      */
     protected $phpunitXMLConfiguration;
-
-    /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory $junitXMLWriterFactory
-     * @since Method available since Release 3.3.0
-     */
-    public function setJUnitXMLWriterFactory(JUnitXMLWriterFactory $junitXMLWriterFactory)
-    {
-        $this->junitXMLWriterFactory = $junitXMLWriterFactory;
-    }
 
     /**
      * Runs tests based on the given \PHPUnit_Framework_TestSuite object.
@@ -157,7 +141,7 @@ class PHPUnitRunner extends Runner
         if ($this->logsResultsInJUnitXML) {
             $arguments['listeners'][] = new JUnitXMLPrinter(
                 null,
-                $this->junitXMLWriterFactory->create($this->createStreamWriter($this->junitXMLFile)),
+                $this->createJUnitXMLWriter(),
                 $this->testTargetRepository
             );
         }

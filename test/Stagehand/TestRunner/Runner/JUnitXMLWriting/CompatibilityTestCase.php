@@ -115,9 +115,7 @@ abstract class CompatibilityTestCase extends TestCase
             $this->getPluginID() . '.runner',
             'Stagehand\TestRunner\Runner\JUnitXMLWriting\Streaming' . $this->getPluginID() . 'Runner'
         );
-        $this->applicationContext
-            ->createComponent('junit_xml_writer_factory')
-            ->setLogsResultsInRealtime(true);
+        $this->createRunner()->setJUnitXMLRealtime(true);
         $this->createCollector()->collectTestCase($testClass);
         $this->runTests();
         $this->assertFileExists($this->junitXMLFile);
@@ -184,9 +182,7 @@ abstract class CompatibilityTestCase extends TestCase
     {
         $this->createTestTargetRepository()->setMethods(array($testMethod));
         $this->createCollector()->collectTestCase($testClass);
-        $this->applicationContext
-            ->createComponent('junit_xml_writer_factory')
-            ->setLogsResultsInRealtime(true);
+        $this->createRunner()->setJUnitXMLRealtime(true);
         $this->runTests();
         $this->assertFileExists($this->junitXMLFile);
 
@@ -214,9 +210,7 @@ abstract class CompatibilityTestCase extends TestCase
     {
         $this->createTestTargetRepository()->setClasses(array($testClass));
         $this->createCollector()->collectTestCase($testClass);
-        $this->applicationContext
-            ->createComponent('junit_xml_writer_factory')
-            ->setLogsResultsInRealtime(true);
+        $this->createRunner()->setJUnitXMLRealtime(true);
         $this->runTests();
         $this->assertFileExists($this->junitXMLFile);
 
@@ -276,9 +270,7 @@ abstract class CompatibilityTestCase extends TestCase
     {
         $this->createTestTargetRepository()->setMethods(array($testMethod));
         $this->createCollector()->collectTestCase($testClass);
-        $this->applicationContext
-            ->createComponent('junit_xml_writer_factory')
-            ->setLogsResultsInRealtime(true);
+        $this->createRunner()->setJUnitXMLRealtime(true);
         $this->runTests();
         $this->assertFileExists($this->junitXMLFile);
 

@@ -39,6 +39,10 @@ namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\TestTargetRepository;
+use Stagehand\TestRunner\JUnitXMLWriter\DOMJUnitXMLWriter;
+use Stagehand\TestRunner\JUnitXMLWriter\NullUTF8Converter;
+use Stagehand\TestRunner\JUnitXMLWriter\StreamJUnitXMLWriter;
+use Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter;
 use Stagehand\TestRunner\Util\FileStreamWriter;
 
 /**
@@ -71,6 +75,12 @@ abstract class Runner
 
     /**
      * @var boolean
+     * @since Property available since Release 3.3.0
+     */
+    protected $junitXMLRealtime;
+
+    /**
+     * @var boolean
      * @since Property available since Release 3.0.0
      */
     protected $logsResultsInJUnitXML;
@@ -98,6 +108,15 @@ abstract class Runner
      * @since Property available since Release 3.0.0
      */
     protected $printsDetailedProgressReport;
+
+    /**
+     * @param boolean $junitXMLRealtime
+     * @since Method available since Release 3.3.0
+     */
+    public function setJUnitXMLRealtime($junitXMLRealtime)
+    {
+        $this->junitXMLRealtime = $junitXMLRealtime;
+    }
 
     /**
      * Runs tests.
@@ -210,6 +229,17 @@ abstract class Runner
     protected function createStreamWriter($file)
     {
         return new FileStreamWriter($file);
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter
+     * @since Method available since Release 3.3.0
+     */
+    protected function createJUnitXMLWriter()
+    {
+        $streamWriter = $this->createStreamWriter($this->junitXMLFile);
+        $utf8Converter = extension_loaded('mbstring') ? new UTF8Converter() : new NullUTF8Converter();
+        return $this->junitXMLRealtime ? new StreamJUnitXMLWriter($streamWriter, $utf8Converter) : new DOMJUnitXMLWriter($streamWriter, $utf8Converter);
     }
 }
 

@@ -41,7 +41,6 @@ namespace Stagehand\TestRunner\Runner;
 use PHPSpec\Runner\ReporterEvent;
 use PHPSpec\World;
 
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleFactory;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\ExampleRunner;
 use Stagehand\TestRunner\Runner\PHPSpecRunner\Formatter\DocumentationFormatter;
@@ -64,21 +63,6 @@ use Stagehand\TestRunner\Runner\PHPSpecRunner\SpecLoaderFactory;
  */
 class PHPSpecRunner extends Runner
 {
-    /**
-     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
-     * @since Property available since Release 3.3.0
-     */
-    protected $junitXMLWriterFactory;
-
-    /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory $junitXMLWriterFactory
-     * @since Method available since Release 3.3.0
-     */
-    public function setJUnitXMLWriterFactory(JUnitXMLWriterFactory $junitXMLWriterFactory)
-    {
-        $this->junitXMLWriterFactory = $junitXMLWriterFactory;
-    }
-
     /**
      * Runs tests based on the given array.
      *
@@ -106,7 +90,7 @@ class PHPSpecRunner extends Runner
 
         if ($this->logsResultsInJUnitXML) {
             $junitXMLFormatter = new JUnitXMLFormatter($reporter);
-            $junitXMLFormatter->setJUnitXMLWriter($this->junitXMLWriterFactory->create($this->createStreamWriter($this->junitXMLFile)));
+            $junitXMLFormatter->setJUnitXMLWriter($this->createJUnitXMLWriter());
             $junitXMLFormatter->setTestSuite($suite);
             $junitXMLFormatter->setTestTargetRepository($this->testTargetRepository);
             $reporter->addFormatter(new TerminatableFormatter($junitXMLFormatter));

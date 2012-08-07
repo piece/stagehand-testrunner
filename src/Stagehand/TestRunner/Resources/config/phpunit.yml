@@ -68,7 +68,6 @@ services:
     class: "%phpunit.runner.class%"
     calls:
       - [ setPHPUnitXMLConfiguration, [ "@phpunit.phpunit_xml_configuration" ] ]
-      - [ setJUnitXMLWriterFactory, [ "@junit_xml_writer_factory" ] ]
 
 # Local Variables:
 # mode: conf

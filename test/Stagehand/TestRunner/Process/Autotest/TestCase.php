@@ -97,8 +97,8 @@ abstract class TestCase extends FactoryAwareTestCase
             $runner->setJUnitXMLFile('FILE');
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $junitXMLWriterFactory = $applicationContext->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */
-            $junitXMLWriterFactory->setLogsResultsInRealtime(true);
+            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
+            $runner->setJUnitXMLRealtime(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */

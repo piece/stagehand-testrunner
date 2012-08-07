@@ -368,8 +368,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
         $phpunitXMLConfiguration = $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration');
         $phpunitXMLConfiguration->setFileName($configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
-        $junitXMLWriterFactory = $this->applicationContext->createComponent('junit_xml_writer_factory'); /* @var $junitXMLWriterFactory \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory */
-        $junitXMLWriterFactory->setLogsResultsInRealtime(true);
+        $this->createRunner()->setJUnitXMLRealtime(true);
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
 

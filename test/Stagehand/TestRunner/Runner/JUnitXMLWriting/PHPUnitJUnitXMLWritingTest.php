@@ -118,9 +118,7 @@ class PHPUnitJUnitXMLWritingTest extends CompatibilityTestCase
     {
         $testClass = 'Stagehand_TestRunner_PHPUnitNoTestsTest';
         $this->createCollector()->collectTestCase($testClass);
-        $this->applicationContext
-            ->createComponent('junit_xml_writer_factory')
-            ->setLogsResultsInRealtime(true);
+        $this->createRunner()->setJUnitXMLRealtime(true);
         $this->runTests();
         $this->assertFileExists($this->junitXMLFile);
 

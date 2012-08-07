@@ -82,7 +82,7 @@ class SimpleTestRunner extends Runner
 
         if ($this->logsResultsInJUnitXML) {
             $reporter->attachReporter($this->decorateReporter($this->junitXMLReporterFactory->create(
-                $this->createStreamWriter($this->junitXMLFile),
+                $this->createJUnitXMLWriter(),
                 $suite
             )));
         }

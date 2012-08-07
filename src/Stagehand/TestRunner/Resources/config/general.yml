@@ -34,7 +34,6 @@ parameters:
   collecting_type.class: "Stagehand\\TestRunner\\Collector\\CollectingType"
   collecting_type_factory.class: "Stagehand\\TestRunner\\Collector\\CollectingTypeFactory"
   collector_factory.class: "Stagehand\\TestRunner\\Collector\\Collector"
-  junit_xml_writer_factory.class: "Stagehand\\TestRunner\\JUnitXMLWriter\\JUnitXMLWriterFactory"
   legacy_proxy.class: "Stagehand\\TestRunner\\Util\\LegacyProxy"
   notifier.class: "Stagehand\\TestRunner\\Notification\\Notifier"
   notifier_factory.class: "Stagehand\\TestRunner\\Notification\\Notifier"
@@ -133,12 +132,6 @@ services:
       - [ setMethods, [ "%test_methods%" ] ]
       - [ setResources, [ "%test_resources%" ] ]
 
-  # JUnitXMLWriter
-  junit_xml_writer_factory:
-    class: "%junit_xml_writer_factory.class%"
-    calls:
-      - [ setLogsResultsInRealtime, [ "%logs_results_in_junit_xml_in_realtime%" ] ]
-
   # Notification
   notifier:
     class: "%notifier.class%"
@@ -199,6 +192,7 @@ services:
     abstract: true
     calls:
       - [ setJUnitXMLFile, [ "%junit_xml_file%" ] ]
+      - [ setJUnitXMLRealtime, [ "%logs_results_in_junit_xml_in_realtime%" ] ]
       - [ setPrintsDetailedProgressReport, [ "%prints_detailed_progress_report%" ] ]
       - [ setStopsOnFailure, [ "%stops_on_failure%" ] ]
       - [ setTerminal, [ "@terminal" ] ]

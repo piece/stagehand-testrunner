@@ -49,8 +49,6 @@ services:
   phpspec.runner:
     parent: runner
     class: "%phpspec.runner.class%"
-    calls:
-      - [ setJUnitXMLWriterFactory, [ "@junit_xml_writer_factory" ] ]
 
 # Local Variables:
 # mode: conf

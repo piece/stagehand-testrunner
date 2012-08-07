@@ -39,9 +39,8 @@
 namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
 use Stagehand\TestRunner\Core\Plugin\PluginAwareFactory;
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory;
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
 use Stagehand\TestRunner\TestSuite\SimpleTestTestSuite;
-use Stagehand\TestRunner\Util\StreamWriter;
 
 /**
  * @package    Stagehand_TestRunner
@@ -54,29 +53,16 @@ use Stagehand\TestRunner\Util\StreamWriter;
 class JUnitXMLReporterFactory extends PluginAwareFactory
 {
     /**
-     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory
-     */
-    protected $junitXMLWriterFactory;
-
-    /**
-     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $junitXMLWriter
      * @param \Stagehand\TestRunner\TestSuite\SimpleTestTestSuite $suite
      * @return \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporter
      */
-    public function create(StreamWriter $streamWriter = null, SimpleTestTestSuite $suite = null)
+    public function create(JUnitXMLWriter $junitXMLWriter = null, SimpleTestTestSuite $suite = null)
     {
         $junitXMLReporter = parent::create();
-        $junitXMLReporter->setJUnitXMLWriter($this->junitXMLWriterFactory->create($streamWriter));
+        $junitXMLReporter->setJUnitXMLWriter($junitXMLWriter);
         $junitXMLReporter->setTestSuite($suite);
         return $junitXMLReporter;
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterFactory $junitXMLWriterFactory
-     */
-    public function setJUnitXMLWriterFactory(JUnitXMLWriterFactory $junitXMLWriterFactory)
-    {
-        $this->junitXMLWriterFactory = $junitXMLWriterFactory;
     }
 }
 
