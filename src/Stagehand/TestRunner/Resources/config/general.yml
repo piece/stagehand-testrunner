@@ -48,18 +48,18 @@ parameters:
   test_target_repository.class: "Stagehand\\TestRunner\\Core\\TestTargetRepository"
 
   # Configuration Parameters
-  recursively_scans: false
-  enables_autotest: false
+  recursive: false
+  autotest: false
   monitoring_directories: []
-  uses_notification: false
+  notify: false
   test_methods: []
   test_classes: []
   junit_xml_file: null
-  logs_results_in_junit_xml_in_realtime: false
-  stops_on_failure: false
+  junit_xml_realtime: false
+  stop_on_failure: false
   test_file_pattern: ~
   test_resources: []
-  prints_detailed_progress_report: false
+  detailed_progress: false
 
 services:
   # Component Factory
@@ -97,7 +97,7 @@ services:
     class: "%test_runner.class%"
     calls:
       - [ setAutotestFactory, [ "@autotest_factory" ] ]
-      - [ setAutotest, [ "%enables_autotest%" ] ]
+      - [ setAutotest, [ "%autotest%" ] ]
       - [ setTestRunFactory, [ "@test_run_factory" ] ]
 
   # Collector
@@ -116,7 +116,7 @@ services:
     arguments: [ "@test_target_repository" ]
     calls:
       - [ setCollectingTypeFactory, [ "@collecting_type_factory" ] ]
-      - [ setRecursive, [ "%recursively_scans%" ] ]
+      - [ setRecursive, [ "%recursive%" ] ]
   collector_factory:
     class: "%collector_factory.class%"
     factory_service: component_aware_factory_factory
@@ -192,12 +192,12 @@ services:
     abstract: true
     calls:
       - [ setJUnitXMLFile, [ "%junit_xml_file%" ] ]
-      - [ setJUnitXMLRealtime, [ "%logs_results_in_junit_xml_in_realtime%" ] ]
-      - [ setDetailedProgress, [ "%prints_detailed_progress_report%" ] ]
-      - [ setStopOnFailure, [ "%stops_on_failure%" ] ]
+      - [ setJUnitXMLRealtime, [ "%junit_xml_realtime%" ] ]
+      - [ setDetailedProgress, [ "%detailed_progress%" ] ]
+      - [ setStopOnFailure, [ "%stop_on_failure%" ] ]
       - [ setTerminal, [ "@terminal" ] ]
       - [ setTestTargetRepository, [ "@test_target_repository" ] ]
-      - [ setNotify, [ "%uses_notification%" ] ]
+      - [ setNotify, [ "%notify%" ] ]
   runner_factory:
     class: "%runner_factory.class%"
     factory_service: component_aware_factory_factory
