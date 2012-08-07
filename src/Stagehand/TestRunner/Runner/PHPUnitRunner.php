@@ -133,7 +133,7 @@ class PHPUnitRunner extends Runner
             array(
                 new TestDoxPrinter(
                     fopen('testdox://' . spl_object_hash($testResult), 'w'),
-                    $this->terminal->shouldColor(),
+                    $this->terminal,
                     $this->prettifier()
                 )
             );

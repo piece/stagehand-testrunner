@@ -38,6 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
+use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Util\Coloring;
 
 /**
@@ -52,23 +53,27 @@ use Stagehand\TestRunner\Util\Coloring;
  */
 class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
 {
-
-    protected $colors;
     protected $testStatuses = array();
     protected $testStatusMessages = array();
     protected $testTypeOfInterest = 'PHPUnit_Framework_Test';
 
     /**
+     * @var \Stagehand\TestRunner\CLI\Terminal
+     * @since Property available since Release 3.3.0
+     */
+    protected $terminal;
+
+    /**
      * Constructor.
      *
      * @param  resource $out
-     * @param  boolean  $colors
+     * @param  \Stagehand\TestRunner\CLI\Terminal $terminal
      * @param  mixed    $prettifier
      */
-    public function __construct($out = NULL, $colors, $prettifier)
+    public function __construct($out = NULL, Terminal $terminal, $prettifier)
     {
         parent::__construct($out);
-        $this->colors = $colors;
+        $this->terminal = $terminal;
         $this->prettifier = $prettifier;
     }
 
@@ -146,7 +151,7 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
             }
         }
 
-        if ($this->colors) {
+        if ($this->terminal->shouldColor()) {
             switch ($testStatus) {
             case \PHPUnit_Runner_BaseTestRunner::STATUS_PASSED:
                 $name = Coloring::green($name);
