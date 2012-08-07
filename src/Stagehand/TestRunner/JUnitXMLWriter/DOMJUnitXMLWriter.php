@@ -64,11 +64,12 @@ class DOMJUnitXMLWriter implements JUnitXMLWriter
 
     /**
      * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter $utf8Converter
      */
-    public function __construct($streamWriter)
+    public function __construct(StreamWriter $streamWriter, UTF8Converter $utf8Converter)
     {
         $this->xmlWriter = new \DOMDocument('1.0', 'UTF-8');
-        $this->utf8Converter = UTF8ConverterFactory::create();
+        $this->utf8Converter = $utf8Converter;
         $this->streamWriter = $streamWriter;
     }
 

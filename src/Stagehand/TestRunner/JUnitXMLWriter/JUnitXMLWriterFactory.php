@@ -61,7 +61,8 @@ class JUnitXMLWriterFactory
      */
     public function create(StreamWriter $streamWriter)
     {
-        return $this->logsResultsInRealtime ? new StreamJUnitXMLWriter($streamWriter) : new DOMJUnitXMLWriter($streamWriter);
+        $utf8Converter = extension_loaded('mbstring') ? new UTF8Converter() : new NullUTF8Converter();
+        return $this->logsResultsInRealtime ? new StreamJUnitXMLWriter($streamWriter, $utf8Converter) : new DOMJUnitXMLWriter($streamWriter, $utf8Converter);
     }
 
     /**
