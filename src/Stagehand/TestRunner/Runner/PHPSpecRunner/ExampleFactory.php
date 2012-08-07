@@ -57,8 +57,9 @@ class ExampleFactory extends \PHPSpec\Specification\ExampleFactory
 
     /**
      * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
+     * @since Method available since Release 3.3.0
      */
-    public function setTestTargetRepository(TestTargetRepository $testTargetRepository)
+    public function __construct(TestTargetRepository $testTargetRepository)
     {
         $this->testTargetRepository = $testTargetRepository;
     }

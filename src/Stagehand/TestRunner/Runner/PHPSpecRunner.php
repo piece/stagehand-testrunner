@@ -119,10 +119,8 @@ class PHPSpecRunner extends Runner
         $oldErrorHandler = set_error_handler(function () {});
         restore_error_handler();
 
-        $exampleFactory = new ExampleFactory();
-        $exampleFactory->setTestTargetRepository($this->testTargetRepository);
         $exampleRunner = new ExampleRunner();
-        $exampleRunner->setExampleFactory($exampleFactory);
+        $exampleRunner->setExampleFactory(new ExampleFactory($this->testTargetRepository));
         $runner = new \PHPSpec\Runner\Cli\Runner();
         $runner->setLoader(new SpecLoaderFactory());
         $runner->setExampleRunner($exampleRunner);
