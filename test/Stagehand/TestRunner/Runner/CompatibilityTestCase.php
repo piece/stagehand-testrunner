@@ -152,7 +152,7 @@ abstract class CompatibilityTestCase extends TestCase
         $runner = $this->createRunner();
         $runner->setNotify(true);
         $terminal = $this->createTerminal();
-        $terminal->setColors($colors);
+        $terminal->setColor($colors);
 
         $this->runTests();
 

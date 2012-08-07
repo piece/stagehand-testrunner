@@ -72,7 +72,7 @@ class PHPSpecRunner extends Runner
     {
         $options = array();
         $options['specFile'] = $suite;
-        $options['c'] = $this->terminal->colors();
+        $options['c'] = $this->terminal->shouldColor();
         $options['failfast'] = $this->shouldStopOnFailure();
 
         $reporter = new Reporter();

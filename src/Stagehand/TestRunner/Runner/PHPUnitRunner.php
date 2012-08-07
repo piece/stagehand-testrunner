@@ -108,9 +108,9 @@ class PHPUnitRunner extends Runner
     protected function createPrinter()
     {
         if ($this->hasDetailedProgress()) {
-            $printer = new DetailedProgressPrinter(null, false, $this->terminal->colors());
+            $printer = new DetailedProgressPrinter(null, false, $this->terminal->shouldColor());
         } else {
-            $printer = new ProgressPrinter(null, false, $this->terminal->colors());
+            $printer = new ProgressPrinter(null, false, $this->terminal->shouldColor());
         }
         $printer->setRunner($this);
 
@@ -133,7 +133,7 @@ class PHPUnitRunner extends Runner
             array(
                 new TestDoxPrinter(
                     fopen('testdox://' . spl_object_hash($testResult), 'w'),
-                    $this->terminal->colors(),
+                    $this->terminal->shouldColor(),
                     $this->prettifier()
                 )
             );

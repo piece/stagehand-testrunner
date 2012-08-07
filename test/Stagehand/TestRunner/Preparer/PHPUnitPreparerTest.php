@@ -65,7 +65,7 @@ class PHPUnitPreparerTest extends PHPUnitFactoryAwareTestCase
         $preparer->prepare();
 
         $terminal = $this->applicationContext->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
-        $this->assertEquals($colors, $terminal->colors());
+        $this->assertEquals($colors, $terminal->shouldColor());
     }
 
     /**

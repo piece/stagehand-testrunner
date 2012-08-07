@@ -124,7 +124,7 @@ class PHPUnitPreparer extends Preparer
         }
 
         if ($this->phpunitXMLConfiguration->hasPHPUnitConfiguration('colors')) {
-            $this->terminal->setColors($this->phpunitXMLConfiguration->getPHPUnitConfiguration('colors'));
+            $this->terminal->setColor($this->phpunitXMLConfiguration->getPHPUnitConfiguration('colors'));
         }
 
         if ($this->phpunitXMLConfiguration->hasSeleniumBrowserConfiguration()) {

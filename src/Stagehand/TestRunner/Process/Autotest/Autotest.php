@@ -325,7 +325,7 @@ abstract class Autotest
             $options[] = escapeshellarg($_SERVER['argv'][0]);
         }
 
-        if ($this->terminal->colors()) {
+        if ($this->terminal->shouldColor()) {
             $options[] = '--ansi';
         }
 

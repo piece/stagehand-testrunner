@@ -71,7 +71,7 @@ abstract class TestCase extends FactoryAwareTestCase
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $terminal = $applicationContext->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
-            $terminal->setColors(true);
+            $terminal->setColor(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $applicationContext->getEnvironment()->setPreloadScript('test/prepare.php');

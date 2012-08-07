@@ -425,7 +425,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
         $terminal = $this->createTerminal();
-        $terminal->setColors(false);
+        $terminal->setColor(false);
         $this->runTests();
 
         $marker = $testClass . '::' . $testMethod;

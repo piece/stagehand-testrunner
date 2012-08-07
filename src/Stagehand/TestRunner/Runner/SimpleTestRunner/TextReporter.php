@@ -75,7 +75,7 @@ class TextReporter extends \TextReporter
         $output = ob_get_contents();
         ob_end_clean();
 
-        if ($this->terminal->colors()) {
+        if ($this->terminal->shouldColor()) {
             if ($this->getFailCount() + $this->getExceptionCount() == 0) {
                 echo Coloring::green($output);
             } else {
