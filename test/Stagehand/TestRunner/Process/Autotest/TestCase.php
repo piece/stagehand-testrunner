@@ -78,7 +78,7 @@ abstract class TestCase extends FactoryAwareTestCase
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $autotest = $applicationContext->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
-            $autotest->setMonitoringDirectories(array('src'));
+            $autotest->setWatchDirs(array('src'));
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */

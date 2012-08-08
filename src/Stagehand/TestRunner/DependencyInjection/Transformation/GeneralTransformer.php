@@ -57,7 +57,7 @@ class GeneralTransformer extends Transformer
         $this->setParameter('test_file_pattern', $this->configurationPart['test_targets']['file_pattern']);
 
         $this->setParameter('autotest', $this->configurationPart['autotest']['enabled']);
-        $this->setParameter('monitoring_directories', $this->configurationPart['autotest']['watch_dirs']);
+        $this->setParameter('autotest_watch_dirs', $this->configurationPart['autotest']['watch_dirs']);
 
         $this->setParameter('notify', $this->configurationPart['notify']);
 

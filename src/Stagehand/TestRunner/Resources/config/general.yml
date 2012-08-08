@@ -50,7 +50,7 @@ parameters:
   # Configuration Parameters
   recursive: false
   autotest: false
-  monitoring_directories: []
+  autotest_watch_dirs: []
   notify: false
   test_methods: []
   test_classes: []
@@ -162,7 +162,7 @@ services:
     calls:
       - [ setAlterationMonitoring, [ "@alteration_monitoring" ] ]
       - [ setLegacyProxy, [ "@legacy_proxy" ] ]
-      - [ setMonitoringDirectories, [ "%monitoring_directories%" ] ]
+      - [ setWatchDirs, [ "%autotest_watch_dirs%" ] ]
       - [ setNotifierFactory, [ "@notifier_factory" ] ]
       - [ setOS, [ "@os" ] ]
       - [ setRunnerFactory, [ "@runner_factory" ] ]

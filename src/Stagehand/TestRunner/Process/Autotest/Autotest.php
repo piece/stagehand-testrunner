@@ -91,7 +91,7 @@ abstract class Autotest
      * @var array
      * @since Property available since Release 3.0.0
      */
-    protected $monitoringDirectories;
+    protected $watchDirs;
 
     /**
      * @var \Stagehand\TestRunner\Preparer\Preparer
@@ -210,12 +210,12 @@ abstract class Autotest
     }
 
     /**
-     * @param array $monitoringDirectories
+     * @param array $watchDirs
      * @since Method available since Release 3.0.0
      */
-    public function setMonitoringDirectories(array $monitoringDirectories)
+    public function setWatchDirs(array $watchDirs)
     {
-        $this->monitoringDirectories = $monitoringDirectories;
+        $this->watchDirs = $watchDirs;
     }
 
     /**
@@ -260,12 +260,8 @@ abstract class Autotest
      */
     protected function getMonitoringDirectories()
     {
-        $monitoringDirectories = array();
-        foreach (
-            array_merge(
-                $this->monitoringDirectories,
-                $this->testTargetRepository->getResources()
-            ) as $directory) {
+        $watchDirs = array();
+        foreach (array_merge($this->watchDirs,$this->testTargetRepository->getResources()) as $directory) {
             if (!$this->legacyProxy->is_dir($directory)) {
                 throw new \UnexpectedValueException(sprintf('A specified path [ %s ] is not found or not a directory.', $directory));
             }
@@ -275,12 +271,12 @@ abstract class Autotest
                 throw new \UnexpectedValueException(sprintf('Cannnot get the absolute path of a specified directory [ %s ]. Make sure all elements of the absolute path have valid permissions.', $directory));
             }
 
-            if (!in_array($directory, $monitoringDirectories)) {
-                $monitoringDirectories[] = $directory;
+            if (!in_array($directory, $watchDirs)) {
+                $watchDirs[] = $directory;
             }
         }
 
-        return $monitoringDirectories;
+        return $watchDirs;
     }
 
     /**
