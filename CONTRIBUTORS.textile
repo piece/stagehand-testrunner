@@ -7,3 +7,4 @@ This is the list of contributors to Stagehand_TestRunner.
 * KUMAKURA Yousuke <"kumatch@gmail.com":mailto:kumatch@gmail.com> ("@kumatch":https://github.com/kumatch)
 * Shigenobu Nishikawa <"shishi.s.n@gmail.com":mailto:shishi.s.n@gmail.com> ("@shishi":https://github.com/shishi)
 * KUBO Noriko <"noricott@gmail.com":mailto:noricott@gmail.com>
+* tsyk goto <"ngyuki.ts@gmail.com":mailto:ngyuki.ts@gmail.com> ("@ngyuki":https://github.com/ngyuki)
