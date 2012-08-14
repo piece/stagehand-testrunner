@@ -41,6 +41,8 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.16.0
+ *
+ * @group one
  */
 class testStagehand_TestRunner_CIUnitMultipleClasses1 extends CIUnit_TestCase
 {

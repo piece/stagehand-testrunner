@@ -478,6 +478,66 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
             array('Stagehand_TestRunner_PHPUnitNoTestsTest', function (TestTargetRepository $testTargetRepository) { $testTargetRepository->setMethods(array('Stagehand_TestRunner_PHPUnitNoTestsTest::nonExistingMethod')); }),
         );
     }
+
+    /**
+     * @param string $firstTestClass
+     * @param string $secondTestClass
+     * @param string $specyfyingTestMethod
+     * @param string $runningTestMethod
+     * @since Method available since Release 3.3.0
+     *
+     * @test
+     * @dataProvider dataForTestMethods
+     */
+    public function runsOnlyTheSpecifiedMethodsWithTheGroups($firstTestClass, $secondTestClass, $specyfyingTestMethod, $runningTestMethod)
+    {
+        $reflectionClass = new \ReflectionClass($this);
+        $configDirectory = dirname($reflectionClass->getFileName()) . '/' . basename($reflectionClass->getFileName(), '.php');
+        $phpunitXMLConfiguration = $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+        $phpunitXMLConfiguration->setFileName($configDirectory . '/' . 'groups_include.xml');
+
+        $testTargetRepository = $this->createTestTargetRepository();
+        $testTargetRepository->setMethods(array($firstTestClass . '::' . $specyfyingTestMethod));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($firstTestClass);
+        $collector->collectTestCase($secondTestClass);
+
+        $this->runTests();
+
+        $this->assertTestCaseCount(1);
+        $this->assertTestCaseExists($this->getTestMethodName($runningTestMethod), $firstTestClass);
+    }
+
+    /**
+     * @param string $firstTestClass
+     * @param string $secondTestClass
+     * @param string $specifyingTestClass
+     * @param string $runningTestMethod1
+     * @param string $runningTestMethod2
+     * @since Method available since Release 3.3.0
+     *
+     * @test
+     * @dataProvider dataForTestClasses
+     */
+    public function runsOnlyTheSpecifiedClasses($firstTestClass, $secondTestClass, $specifyingTestClass, $runningTestMethod1, $runningTestMethod2)
+    {
+        $reflectionClass = new \ReflectionClass($this);
+        $configDirectory = dirname($reflectionClass->getFileName()) . '/' . basename($reflectionClass->getFileName(), '.php');
+        $phpunitXMLConfiguration = $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+        $phpunitXMLConfiguration->setFileName($configDirectory . '/' . 'groups_include.xml');
+
+        $testTargetRepository = $this->createTestTargetRepository();
+        $testTargetRepository->setClasses(array($firstTestClass));
+        $collector = $this->createCollector();
+        $collector->collectTestCase($firstTestClass);
+        $collector->collectTestCase($secondTestClass);
+
+        $this->runTests();
+
+        $this->assertTestCaseCount(2);
+        $this->assertTestCaseExists($this->getTestMethodName('pass1'), $firstTestClass);
+        $this->assertTestCaseExists($this->getTestMethodName('pass2'), $firstTestClass);
+    }
 }
 
 /*
