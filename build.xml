@@ -27,24 +27,32 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">3.2.0</property>
+  <property name="package.releaseversion">3.3.0</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">3.0.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
 
-[PHPUnit] Early configures PHP configuration by the XML configuration file.
+Improved Autoloading for Stagehand_TestRunner's Classes
 
- (Issue #420)
+ (Issue #6)
 
- PHP configuration by the PHPUnit XML configuration file is now configured at the preparation time of the testing framework.
+ The launcher script "testrunner" has been changed as follows:
 
-Two Defect Fixes
+ * Does not load Composer's autoload.php.
+ * Loads Stagehand/TestRunner/Core/Bootstrap.php only if the Stagehand\TestRunner\Core\Bootstrap class does not exist.
 
- The following defects have been fixed:
+Sets the memory_limit directive to -1.
 
- * [PHPUnit] Output from a test case is displayed twice. (Issue #418)
- * [PHPUnit] An expected failure is not reported when the "--test-class" or "--test-method" option is specified. (Issue #424)
+ (Issue #5)
+
+ Sometimes MakeGood, an unexpected error "Fatal error: Allowed memory size of xxx bytes exhausted ..." is raised when running a test even though the memory_limit directive is set to -1 in the php.ini file. The memory_limit directive is now set to -1 to avoid raising this error.
+
+A Defect Fix
+
+ The following defect has been fixed:
+
+ * [PHPUnit] Specifying test methods do not work with the groups. (Issue #4)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A continuous test runner for CLI</property>
