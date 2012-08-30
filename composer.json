@@ -4,7 +4,7 @@
     "description": "A continuous test runner for CLI",
     "keywords": ["testing", "cli"],
     "homepage": "http://piece-framework.com/projects/stagehand-testrunner",
-    "license": "BSD-2",
+    "license": "BSD-2-Clause",
     "authors": [
         {
             "name": "KUBO Atsuhiro",
