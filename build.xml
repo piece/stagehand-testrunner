@@ -67,7 +67,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
   <property name="dist.dir" value="dist"/>
 
   <target name="compile">
-    <exec command="${bin.dir}/testrunner compile"/>
+    <exec command="${bin.dir}/testrunner compile -p bootstrap.php"/>
   </target>
 
   <target name="prepare" depends="compile">
