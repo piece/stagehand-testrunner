@@ -60,6 +60,7 @@ class Bootstrap
         'Symfony\Component\Console',
         'Symfony\Component\DependencyInjection',
         'Symfony\Component\Finder',
+        'Symfony\Component\Process',
         'Symfony\Component\Yaml',
         'Stagehand\TestRunner',
     );
