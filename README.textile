@@ -33,7 +33,7 @@ First, add the dependency to *piece/stagehand-testrunner* into your *composer.js
 
 <pre><code class="json">{
     "require": {
-        "piece/stagehand-testrunner": ">=3.2.0"
+        "piece/stagehand-testrunner": ">=3.3.0"
     }
 }</code></pre>
 
@@ -43,8 +43,8 @@ Second, update your dependencies as the following:
 
 h3. PEAR
 
-<pre>pear channel-discover pear.piece-framework.com
-pear install piece/stagehand_testrunner</pre>
+<pre>pear config-set auto_discover 1
+pear install pear.piece-framework.com/stagehand_testrunner</pre>
 
 h2. Support
 
