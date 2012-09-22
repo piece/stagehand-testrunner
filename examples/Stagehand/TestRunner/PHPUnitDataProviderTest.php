@@ -63,7 +63,7 @@ class Stagehand_TestRunner_PHPUnitDataProviderTest extends PHPUnit_Framework_Tes
                    array(1, 0, 1),
                    array(1, 1, 3)
                );
-    }    
+    }
 }
 
 /*
