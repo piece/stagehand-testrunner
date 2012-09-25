@@ -73,6 +73,33 @@ abstract class FactoryAwareTestCase extends TestCase
     {
         return $this->applicationContext->createComponent('test_target_repository');
     }
+
+    /**
+     * @return \Stagehand\TestRunner\Preparer\Preparer
+     * @since Method available since Release 3.4.0
+     */
+    protected function createPreparer()
+    {
+        return $this->applicationContext->createComponent('preparer_factory')->create();
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Collector\Collector
+     * @since Method available since Release 3.4.0
+     */
+    protected function createCollector()
+    {
+        return $this->applicationContext->createComponent('collector_factory')->create();
+    }
+
+    /**
+     * @return \Stagehand\TestRunner\Runner\Runner
+     * @since Method available since Release 3.4.0
+     */
+    protected function createRunner()
+    {
+        return $this->applicationContext->createComponent('runner_factory')->create();
+    }
 }
 
 /*
