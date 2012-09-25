@@ -99,7 +99,7 @@ class PHPUnitCollector extends Collector
             }
         }
 
-        if ($testSuite->count() > 0) {
+        if (count($testSuite) > 0) {
             $this->suite->addTest($testSuite);
         }
     }
