@@ -147,7 +147,7 @@ class PHPUnitCollector extends Collector
     protected function filterTests(\PHPUnit_Framework_TestSuite $testSuite, $filter)
     {
         $filteredTests = array();
-        foreach ($testSuite as $test) {
+        foreach ($testSuite->tests() as $test) {
             if ($test instanceof \PHPUnit_Framework_TestCase) {
                 $testClassName = get_class($test);
                 $testMethodName = $test->getName(false);
@@ -156,6 +156,9 @@ class PHPUnitCollector extends Collector
                 }
             } else {
                 $this->filterTests($test, $filter);
+                if (count($test) > 0) {
+                    $filteredTests[] = $test;
+                }
             }
         }
 
