@@ -37,7 +37,10 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
-require_once 'PHPSpec/Loader/UniversalClassLoader.php';
+if (!class_exists('PHPSpec\Loader\UniversalClassLoader')) {
+    require_once 'PHPSpec/Loader/UniversalClassLoader.php';
+}
+
 use PHPSpec\Loader\UniversalClassLoader;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
