@@ -104,6 +104,7 @@ class Environment
     protected function initialize()
     {
         ini_set('display_errors', true);
+        ini_set('log_errors', false);
         ini_set('html_errors', false);
         ini_set('implicit_flush', true);
         ini_set('max_execution_time', 0);
