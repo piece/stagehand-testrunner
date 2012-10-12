@@ -90,8 +90,8 @@ class Bootstrap
     protected function configureApplicationContext()
     {
         $environment = new Environment();
-        $environment->setWorkingDirectoryAtStartup($GLOBALS['STAGEHAND_TESTRUNNER_workingDirectoryAtStartup']);
-        $environment->setPreloadScript($GLOBALS['STAGEHAND_TESTRUNNER_preloadScript']);
+        $environment->setWorkingDirectoryAtStartup(workingDirectoryAtStartup());
+        $environment->setPreloadScript(preloadScript());
 
         $applicationContext = new ApplicationContext();
         $applicationContext->setComponentFactory(new ComponentFactory());
