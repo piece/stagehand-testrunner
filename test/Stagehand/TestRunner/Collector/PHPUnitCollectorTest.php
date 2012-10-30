@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
-use Stagehand\TestRunner\Test\FactoryAwareTestCase;
+use Stagehand\TestRunner\Test\ComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,7 +47,7 @@ use Stagehand\TestRunner\Test\FactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.4.0
  */
-class PHPUnitCollectorTest extends FactoryAwareTestCase
+class PHPUnitCollectorTest extends ComponentAwareTestCase
 {
     const SPECIFYING_CLASS = true;
     const SPECIFYING_CLASS_NOT = false;

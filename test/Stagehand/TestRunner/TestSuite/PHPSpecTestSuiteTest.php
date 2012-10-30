@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\TestSuite;
 
 use Stagehand\TestRunner\Core\Plugin\PHPSpecPlugin;
-use Stagehand\TestRunner\Test\FactoryAwareTestCase;
+use Stagehand\TestRunner\Test\ComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,7 +47,7 @@ use Stagehand\TestRunner\Test\FactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.4
  */
-class PHPSpecTestSuiteTest extends FactoryAwareTestCase
+class PHPSpecTestSuiteTest extends ComponentAwareTestCase
 {
     protected function setUp()
     {

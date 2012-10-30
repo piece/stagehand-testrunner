@@ -44,7 +44,7 @@ namespace Stagehand\TestRunner\Test;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-abstract class FactoryAwareTestCase extends TestCase
+abstract class ComponentAwareTestCase extends TestCase
 {
     protected function setUp()
     {

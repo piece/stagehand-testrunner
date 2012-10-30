@@ -39,7 +39,7 @@
 
 namespace Stagehand\TestRunner\Runner;
 
-use Stagehand\TestRunner\Test\FactoryAwareTestCase;
+use Stagehand\TestRunner\Test\ComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,7 +49,7 @@ use Stagehand\TestRunner\Test\FactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-abstract class TestCase extends FactoryAwareTestCase
+abstract class TestCase extends ComponentAwareTestCase
 {
     protected $tmpDirectory;
     protected $output;
