@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-abstract class PHPUnitFactoryAwareTestCase extends ComponentAwareTestCase
+abstract class PHPUnitComponentAwareTestCase extends ComponentAwareTestCase
 {
     /**
      * @return string

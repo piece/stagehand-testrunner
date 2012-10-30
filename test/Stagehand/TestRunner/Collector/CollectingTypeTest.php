@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Collector;
 
-use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
+use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class CollectingTypeTest extends PHPUnitFactoryAwareTestCase
+class CollectingTypeTest extends PHPUnitComponentAwareTestCase
 {
     /**
      * @test

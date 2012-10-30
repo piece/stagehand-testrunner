@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
-use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
+use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.19.0
  */
-class PHPUnitPreparerTest extends PHPUnitFactoryAwareTestCase
+class PHPUnitPreparerTest extends PHPUnitComponentAwareTestCase
 {
     /**
      * @param boolean $colors

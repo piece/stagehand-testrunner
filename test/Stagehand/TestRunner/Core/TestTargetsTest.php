@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Util;
 
-use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
+use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
  */
-class TestTargetRepositoryTest extends PHPUnitFactoryAwareTestCase
+class TestTargetRepositoryTest extends PHPUnitComponentAwareTestCase
 {
     const TREAT_AS_TEST = true;
     const NOT_TREAT_AS_TEST = false;

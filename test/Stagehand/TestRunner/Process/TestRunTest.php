@@ -40,7 +40,7 @@
 namespace Stagehand\TestRunner\Process;
 
 use Stagehand\TestRunner\Notification\Notification;
-use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
+use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
@@ -50,7 +50,7 @@ use Stagehand\TestRunner\Test\PHPUnitFactoryAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-class TestRunTest extends PHPUnitFactoryAwareTestCase
+class TestRunTest extends PHPUnitComponentAwareTestCase
 {
     const NOTIFICATION_USE = true;
     const NOTIFICATION_NOTUSE = false;
