@@ -69,7 +69,7 @@ class CIUnitAutotestTest extends PHPUnitAutotestTest
     protected function setUp()
     {
         parent::setUp();
-        $this->applicationContext->setComponent('ciunit.preparer', \Phake::mock('Stagehand\TestRunner\Preparer\CIUnitPreparer'));
+        $this->setComponent('ciunit.preparer', \Phake::mock('Stagehand\TestRunner\Preparer\CIUnitPreparer'));
     }
 
     /**

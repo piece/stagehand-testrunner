@@ -60,7 +60,7 @@ class TestTargetRepositoryTest extends PHPUnitFactoryAwareTestCase
      */
     public function tellsWhetherAClassShouldTreatAsATest($classes, $targetClass, $expectedResult)
     {
-        $testTargetRepository = $this->applicationContext->createComponent('test_target_repository');
+        $testTargetRepository = $this->createComponent('test_target_repository');
         $testTargetRepository->setClasses($classes);
         $actualResult = $testTargetRepository->shouldTreatElementAsTest($targetClass);
         $this->assertEquals($expectedResult, $actualResult);
@@ -96,7 +96,7 @@ class TestTargetRepositoryTest extends PHPUnitFactoryAwareTestCase
      */
     public function tellsWhetherAMethodShouldTreatAsATest($methods, $targetClass, $targetMethod, $expectedResult)
     {
-        $testTargetRepository = $this->applicationContext->createComponent('test_target_repository');
+        $testTargetRepository = $this->createComponent('test_target_repository');
         $testTargetRepository->setMethods($methods);
         $actualResult = $testTargetRepository->shouldTreatElementAsTest($targetClass, $targetMethod);
         $this->assertEquals($expectedResult, $actualResult);
@@ -129,7 +129,7 @@ class TestTargetRepositoryTest extends PHPUnitFactoryAwareTestCase
      */
     public function tellsWhetherAFileShouldTreatAsATest($filePattern, $targetFile, $expectedResult)
     {
-        $testTargetRepository = $this->applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
+        $testTargetRepository = $this->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
         $testTargetRepository->setFilePattern($filePattern);
         $actualResult = $testTargetRepository->shouldTreatFileAsTest($targetFile);
         $this->assertEquals($expectedResult, $actualResult);

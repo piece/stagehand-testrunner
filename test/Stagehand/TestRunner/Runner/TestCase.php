@@ -81,7 +81,7 @@ abstract class TestCase extends FactoryAwareTestCase
         $legacyProxy = \Phake::partialMock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->ob_get_level()->thenReturn(0);
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
-        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
+        $this->setComponent('legacy_proxy', $legacyProxy);
 
         $this->configure();
     }
@@ -201,7 +201,7 @@ abstract class TestCase extends FactoryAwareTestCase
         $runner->setJUnitXMLFile($this->junitXMLFile);
 
         ob_start();
-        $this->applicationContext->createComponent('test_run_factory')->create()->run();
+        $this->createComponent('test_run_factory')->create()->run();
         $this->output = ob_get_contents();
         ob_end_clean();
     }
@@ -219,7 +219,7 @@ abstract class TestCase extends FactoryAwareTestCase
      */
     protected function createTerminal()
     {
-        return $this->applicationContext->createComponent('terminal');
+        return $this->createComponent('terminal');
     }
 
     /**

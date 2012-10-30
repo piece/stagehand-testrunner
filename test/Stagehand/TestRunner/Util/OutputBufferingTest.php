@@ -60,9 +60,9 @@ class OutputBufferingTest extends PHPUnitFactoryAwareTestCase
           ->thenReturn(1)
           ->thenReturn(0);
         \Phake::when($legacyProxy)->ob_end_clean()->thenReturn(true);
-        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
+        $this->setComponent('legacy_proxy', $legacyProxy);
 
-        $this->applicationContext->createComponent('output_buffering')->clearOutputHandlers();
+        $this->createComponent('output_buffering')->clearOutputHandlers();
 
         \Phake::verify($legacyProxy, \Phake::times(3))->ob_get_level();
         \Phake::verify($legacyProxy, \Phake::times(2))->ob_end_clean();
@@ -77,10 +77,10 @@ class OutputBufferingTest extends PHPUnitFactoryAwareTestCase
         $legacyProxy = \Phake::mock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->ob_get_level()->thenReturn(1);
         \Phake::when($legacyProxy)->ob_end_clean()->thenThrow(new \RuntimeException(__METHOD__));
-        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
+        $this->setComponent('legacy_proxy', $legacyProxy);
 
         $this->setExpectedException('RuntimeException', __METHOD__);
-        $this->applicationContext->createComponent('output_buffering')->clearOutputHandlers();
+        $this->createComponent('output_buffering')->clearOutputHandlers();
     }
 }
 

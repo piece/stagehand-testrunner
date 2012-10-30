@@ -73,7 +73,7 @@ class CakePHPAutotestTest extends SimpleTestAutotestTest
     protected function setUp()
     {
         parent::setUp();
-        $this->applicationContext->setComponent('cakephp.preparer', \Phake::mock('Stagehand\TestRunner\Preparer\CakePHPPreparer'));
+        $this->setComponent('cakephp.preparer', \Phake::mock('Stagehand\TestRunner\Preparer\CakePHPPreparer'));
     }
 
     /**

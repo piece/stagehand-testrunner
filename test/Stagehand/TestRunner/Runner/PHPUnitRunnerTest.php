@@ -298,7 +298,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $logFile = $configDirectory . DIRECTORY_SEPARATOR . 'logfile.tap';
         $oldIncludePath = set_include_path($configDirectory . PATH_SEPARATOR . get_include_path());
 
-        $phpunitXMLConfiguration = $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+        $phpunitXMLConfiguration = $this->createComponent('phpunit.phpunit_xml_configuration');
         $phpunitXMLConfiguration->setFileName($configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml');
 
         $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\PHPUnitPreparer */
@@ -366,7 +366,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     {
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
-        $phpunitXMLConfiguration = $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+        $phpunitXMLConfiguration = $this->createComponent('phpunit.phpunit_xml_configuration');
         $phpunitXMLConfiguration->setFileName($configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
         $this->createRunner()->setJUnitXMLRealtime(true);
         $collector = $this->createCollector();
@@ -493,7 +493,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     {
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . '/' . basename($reflectionClass->getFileName(), '.php');
-        $phpunitXMLConfiguration = $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+        $phpunitXMLConfiguration = $this->createComponent('phpunit.phpunit_xml_configuration');
         $phpunitXMLConfiguration->setFileName($configDirectory . '/' . 'groups_include.xml');
 
         $testTargetRepository = $this->createTestTargetRepository();
@@ -523,7 +523,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     {
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . '/' . basename($reflectionClass->getFileName(), '.php');
-        $phpunitXMLConfiguration = $this->applicationContext->createComponent('phpunit.phpunit_xml_configuration');
+        $phpunitXMLConfiguration = $this->createComponent('phpunit.phpunit_xml_configuration');
         $phpunitXMLConfiguration->setFileName($configDirectory . '/' . 'groups_include.xml');
 
         $testTargetRepository = $this->createTestTargetRepository();

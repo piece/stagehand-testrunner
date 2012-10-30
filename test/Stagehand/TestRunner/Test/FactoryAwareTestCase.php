@@ -71,7 +71,7 @@ abstract class FactoryAwareTestCase extends TestCase
      */
     protected function createTestTargetRepository()
     {
-        return $this->applicationContext->createComponent('test_target_repository');
+        return $this->createComponent('test_target_repository');
     }
 
     /**
@@ -80,7 +80,7 @@ abstract class FactoryAwareTestCase extends TestCase
      */
     protected function createPreparer()
     {
-        return $this->applicationContext->createComponent('preparer_factory')->create();
+        return $this->createComponent('preparer_factory')->create();
     }
 
     /**
@@ -89,7 +89,7 @@ abstract class FactoryAwareTestCase extends TestCase
      */
     protected function createCollector()
     {
-        return $this->applicationContext->createComponent('collector_factory')->create();
+        return $this->createComponent('collector_factory')->create();
     }
 
     /**
@@ -98,7 +98,7 @@ abstract class FactoryAwareTestCase extends TestCase
      */
     protected function createRunner()
     {
-        return $this->applicationContext->createComponent('runner_factory')->create();
+        return $this->createComponent('runner_factory')->create();
     }
 
     /**

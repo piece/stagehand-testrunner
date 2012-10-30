@@ -138,20 +138,20 @@ abstract class TestCase extends FactoryAwareTestCase
         $_SERVER['argv'] = $GLOBALS['argv'] = $options;
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
 
-        $testTargetRepository = $this->applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
+        $testTargetRepository = $this->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
         $testTargetRepository->setResources(array($options[ count($options) - 1 ]));
 
         $legacyProxy = \Phake::mock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->get_cfg_var($this->anything())->thenReturn($phpConfigDir);
         \Phake::when($legacyProxy)->is_dir($this->anything())->thenReturn(true);
         \Phake::when($legacyProxy)->realpath($this->anything())->thenReturn(true);
-        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
+        $this->setComponent('legacy_proxy', $legacyProxy);
 
         $alterationMonitoring = \Phake::mock('Stagehand\TestRunner\Process\AlterationMonitoring');
         \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
-        $this->applicationContext->setComponent('alteration_monitoring', $alterationMonitoring);
+        $this->setComponent('alteration_monitoring', $alterationMonitoring);
 
-        $autotest = $this->applicationContext->createComponent('autotest_factory')->create();
+        $autotest = $this->createComponent('autotest_factory')->create();
         $autotest->monitorAlteration();
 
         $runnerCommand = $this->readAttribute($autotest, 'runnerCommand');
@@ -197,20 +197,20 @@ abstract class TestCase extends FactoryAwareTestCase
 
         $notifier = \Phake::mock('Stagehand\TestRunner\Notification\Notifier');
         \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
-        $this->applicationContext->setComponent('notifier', $notifier);
+        $this->setComponent('notifier', $notifier);
 
         $legacyProxy = \Phake::mock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->passthru($this->anything())->thenReturn(null);
         \Phake::when($legacyProxy)->is_dir($this->anything())->thenReturn(true);
-        $this->applicationContext->setComponent('legacy_proxy', $legacyProxy);
+        $this->setComponent('legacy_proxy', $legacyProxy);
 
         $alterationMonitoring = \Phake::mock('Stagehand\TestRunner\Process\AlterationMonitoring');
         \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
-        $this->applicationContext->setComponent('alteration_monitoring', $alterationMonitoring);
+        $this->setComponent('alteration_monitoring', $alterationMonitoring);
 
         call_user_func(self::$configurators[$configuratorIndex], $this->applicationContext);
 
-        $autotest = $this->applicationContext->createComponent('autotest_factory')->create();
+        $autotest = $this->createComponent('autotest_factory')->create();
         $autotest->monitorAlteration();
 
         $runnerOptions = $this->readAttribute($autotest, 'runnerOptions');

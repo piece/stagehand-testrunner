@@ -64,16 +64,16 @@ class TestRunTest extends PHPUnitFactoryAwareTestCase
     {
         $outputBuffering = \Phake::mock('Stagehand\TestRunner\Util\OutputBuffering');
         \Phake::when($outputBuffering)->clearOutputHandlers()->thenReturn(null);
-        $this->applicationContext->setComponent('output_buffering', $outputBuffering);
+        $this->setComponent('output_buffering', $outputBuffering);
 
         $preparer = \Phake::mock('Stagehand\TestRunner\Preparer\Preparer');
         \Phake::when($preparer)->prepare()->thenReturn(null);
-        $this->applicationContext->setComponent('phpunit.preparer', $preparer);
+        $this->setComponent('phpunit.preparer', $preparer);
 
         $collector = \Phake::mock('Stagehand\TestRunner\Collector\Collector');
         $testSuite = new \stdClass();
         \Phake::when($collector)->collect()->thenReturn($testSuite);
-        $this->applicationContext->setComponent('phpunit.collector', $collector);
+        $this->setComponent('phpunit.collector', $collector);
 
         $runner = \Phake::mock('Stagehand\TestRunner\Runner\Runner');
         \Phake::when($runner)->run($this->anything())->thenReturn(null);
@@ -82,15 +82,15 @@ class TestRunTest extends PHPUnitFactoryAwareTestCase
             $notification = new Notification(Notification::RESULT_PASSED, 'MESSAGE');
             \Phake::when($runner)->getNotification()->thenReturn($notification);
         }
-        $this->applicationContext->setComponent('phpunit.runner', $runner);
+        $this->setComponent('phpunit.runner', $runner);
 
         $notifier = \Phake::mock('Stagehand\TestRunner\Notification\Notifier');
         if ($notify) {
             \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
         }
-        $this->applicationContext->setComponent('notifier', $notifier);
+        $this->setComponent('notifier', $notifier);
 
-        $this->applicationContext->createComponent('test_run_factory')->create()->run();
+        $this->createComponent('test_run_factory')->create()->run();
 
         \Phake::verify($preparer)->prepare();
         \Phake::verify($collector)->collect();

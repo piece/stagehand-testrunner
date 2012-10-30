@@ -53,7 +53,7 @@ class PHPSpecTestSuiteTest extends FactoryAwareTestCase
     {
         parent::setUp();
 
-        $this->applicationContext->createComponent('preparer_factory')->create()->prepare();
+        $this->createComponent('preparer_factory')->create()->prepare();
 
         require_once 'Stagehand/TestRunner/PHPSpecPassSpec.php';
         require_once 'Stagehand/TestRunner/PHPSpecWithoutNamespaceSpec.php';

@@ -60,11 +60,11 @@ class PHPUnitPreparerTest extends PHPUnitFactoryAwareTestCase
         \Phake::when($phpunitXMLConfiguration)->isEnabled()->thenReturn(true);
         \Phake::when($phpunitXMLConfiguration)->hasPHPUnitConfiguration('colors')->thenReturn(true);
         \Phake::when($phpunitXMLConfiguration)->getPHPUnitConfiguration('colors')->thenReturn($colors);
-        $this->applicationContext->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);
-        $preparer = $this->applicationContext->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\PHPUnitPreparer */
+        $this->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);
+        $preparer = $this->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\PHPUnitPreparer */
         $preparer->prepare();
 
-        $terminal = $this->applicationContext->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
+        $terminal = $this->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
         $this->assertEquals($colors, $terminal->shouldColor());
     }
 
