@@ -100,6 +100,26 @@ abstract class FactoryAwareTestCase extends TestCase
     {
         return $this->applicationContext->createComponent('runner_factory')->create();
     }
+
+    /**
+     * @param string $componentID
+     * @return mixed
+     * @since Method available since Release 3.4.0
+     */
+    public function createComponent($componentID)
+    {
+        return $this->applicationContext->createComponent($componentID);
+    }
+
+    /**
+     * @param string $componentID
+     * @param mixed $component
+     * @since Method available since Release 3.4.0
+     */
+    public function setComponent($componentID, $component)
+    {
+        $this->applicationContext->setComponent($componentID, $component);
+    }
 }
 
 /*
