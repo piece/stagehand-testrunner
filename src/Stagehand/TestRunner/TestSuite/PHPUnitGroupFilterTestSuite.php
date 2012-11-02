@@ -50,8 +50,6 @@ use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
  */
 class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 {
-    protected $excluded = false;
-
     /**
      * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
      * @since Property available since Release 3.0.0
@@ -66,67 +64,59 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
     {
         $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
         parent::__construct($theClass);
-        if (count($this->tests) == 1 && $this->tests[0]) {
-            if ($this->tests[0] instanceof \PHPUnit_Framework_Warning
-                && preg_match('/^No tests found in class/', $this->tests[0]->getMessage())
-            ) {
-                if ($this->excluded) {
-                    unset($this->tests[0]);
-                }
-            }
+        
+        if ($this->phpunitXMLConfiguration->isEnabled()) {
+            $this->filterGroup();
         }
     }
 
-    /**
-     * @param \ReflectionClass $theClass
-     * @return boolean
-     */
-    protected function shouldExclude(\ReflectionClass $class, \ReflectionMethod $method)
+    protected function filterGroup()
     {
-        if (!$this->phpunitXMLConfiguration->isEnabled()) return false;
-
-        $groups = \PHPUnit_Util_Test::getGroups($class->getName(), $method->getName());
-        $shouldExclude = false;
+        $include = null;
+        $exclude = null;
+        
         if ($this->phpunitXMLConfiguration->hasGroupConfiguration('include')) {
-            $groupConfiguration = $this->phpunitXMLConfiguration->getGroupConfiguration('include');
-            $shouldExclude = true;
-            foreach ($groups as $group) {
-                if (in_array($group, $groupConfiguration)) {
-                    $shouldExclude = false;
-                    break;
-                }
-            }
+            $include = $this->phpunitXMLConfiguration->getGroupConfiguration('include');
         }
-
+        
         if ($this->phpunitXMLConfiguration->hasGroupConfiguration('exclude')) {
-            $groupConfiguration = $this->phpunitXMLConfiguration->getGroupConfiguration('exclude');
-            foreach ($groups as $group) {
-                if (in_array($group, $groupConfiguration)) {
-                    $shouldExclude = true;
-                    break;
-                }
+            $exclude = $this->phpunitXMLConfiguration->getGroupConfiguration('exclude');
+            
+            if (is_array($include)) {
+                $include = array_diff($include, $exclude);
             }
         }
 
-        return $shouldExclude;
-    }
+        $groups = null;
+        $filter = null;
 
-    protected function markAsExcluded()
-    {
-        $this->excluded = true;
-    }
-
-    /**
-     * @since Method available since Release 3.0.0
-     */
-    protected function addTestMethod(\ReflectionClass $class, \ReflectionMethod $method)
-    {
-        if ($this->shouldExclude($class, $method)) {
-            $this->markAsExcluded();
-            return;
+        if (is_array($include)) {
+            $groups = $include;
+            $filter = true;
+        } else if (is_array($exclude)) {
+            $groups = $exclude;
+            $filter = false;
         }
+        
+        if ($groups !== null) {
+            $objects = new \SplObjectStorage();
 
-        parent::addTestMethod($class, $method);
+            foreach ($groups as $group) {
+                if (isset($this->groups[$group])) {
+                    foreach($this->groups[$group] as $test) {
+                        $objects->attach($test);
+                    }
+                }
+            }
+
+            $this->tests = array_filter($this->tests, function($test) use ($objects, $filter) {
+                if ($objects->contains($test)) {
+                    return $filter;
+                } else {
+                    return !$filter;
+                }
+            });
+        }
     }
 }
 
