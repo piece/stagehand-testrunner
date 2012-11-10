@@ -1,4 +1,4 @@
-h1. A continuous test runner for CLI
+h1. Stagehand_TestRunner - A continuous test runner for CLI
 
 Stagehand_TestRunner is a continuous test runner to run unit tests in CLI.
 
