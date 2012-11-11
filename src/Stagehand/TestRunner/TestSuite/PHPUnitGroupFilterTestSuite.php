@@ -73,6 +73,9 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
         }
     }
 
+    /**
+     * @since Method available since Release 3.4.0
+     */
     protected function filterGroup()
     {
         $include = null;
