@@ -448,8 +448,8 @@ abstract class CompatibilityTestCase extends TestCase
      */
     protected function getSchemaFile($inRealtime)
     {
-        return dirname(__FILE__) .
-            '/../../../../../data/pear.piece-framework.com/Stagehand_TestRunner/' .
+        return __DIR__ .
+            '/../../../../../src/Stagehand/TestRunner/Resources/config/schema/' .
             ($inRealtime ? 'JUnitXMLStream.rng' : 'JUnitXMLDOM.rng');
     }
 }
