@@ -75,7 +75,7 @@ abstract class TestCase extends ComponentAwareTestCase
     {
         parent::setUp();
 
-        $this->tmpDirectory = dirname(__FILE__) . '/../../../../tmp';
+        $this->tmpDirectory = __DIR__;
         $this->junitXMLFile = $this->tmpDirectory . '/' . $this->getName(false) . '.xml';
 
         $legacyProxy = \Phake::partialMock('Stagehand\TestRunner\Util\LegacyProxy');
