@@ -187,7 +187,7 @@ abstract class CompatibilityTestCase extends TestCase
 
         $junitXML = new \DOMDocument();
         $junitXML->load($this->junitXMLFile);
-        $this->assertTrue($junitXML->relaxNGValidate(__DIR__ . '/../../../../src/Stagehand/TestRunner/Resources/config/schema/JUnitXMLDOM.rng'));
+        $this->assertTrue($junitXML->relaxNGValidate(__DIR__ . '/../../../../src/Stagehand/TestRunner/Resources/config/schema/junit-xml-dom-2.10.0.rng'));
 
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists($this->getTestMethodName($failingMethod), $testClass);

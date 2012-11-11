@@ -450,7 +450,7 @@ abstract class CompatibilityTestCase extends TestCase
     {
         return __DIR__ .
             '/../../../../../src/Stagehand/TestRunner/Resources/config/schema/' .
-            ($inRealtime ? 'JUnitXMLStream.rng' : 'JUnitXMLDOM.rng');
+            ($inRealtime ? 'junit-xml-stream-3.1.0.rng' : 'junit-xml-dom-2.10.0.rng');
     }
 }
 
