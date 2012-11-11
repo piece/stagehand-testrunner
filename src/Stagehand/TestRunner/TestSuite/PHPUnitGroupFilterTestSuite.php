@@ -67,7 +67,7 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
     {
         $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
         parent::__construct($theClass);
-        
+
         if ($this->phpunitXMLConfiguration->isEnabled()) {
             $this->filterGroup();
         }
@@ -77,14 +77,14 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
     {
         $include = null;
         $exclude = null;
-        
+
         if ($this->phpunitXMLConfiguration->hasGroupConfiguration('include')) {
             $include = $this->phpunitXMLConfiguration->getGroupConfiguration('include');
         }
-        
+
         if ($this->phpunitXMLConfiguration->hasGroupConfiguration('exclude')) {
             $exclude = $this->phpunitXMLConfiguration->getGroupConfiguration('exclude');
-            
+
             if (is_array($include)) {
                 $include = array_diff($include, $exclude);
             }
@@ -100,7 +100,7 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
             $groups = $exclude;
             $filter = false;
         }
-        
+
         if ($groups !== null) {
             $objects = new \SplObjectStorage();
 
