@@ -47,6 +47,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
 ]]></property>
   <property name="package.license.name">New BSD License</property>
   <property name="package.license.uri">http://www.opensource.org/licenses/bsd-license.php</property>
+  <property name="package.license.file">LICENSE</property>
   <property name="package.channel">pear.piece-framework.com</property>
   <property name="package.phpdep">5.3.2</property>
   <property name="package.pearinstallerdep">1.4.3</property>
@@ -75,9 +76,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
         </replacetokens>
       </filterchain>
     </copy>
-    <copy todir="${build.dir}/${doc.dir}">
-      <fileset dir="${doc.dir}"/>
-    </copy>
+    <copy file="${package.license.file}" todir="${build.dir}/${doc.dir}"/>
     <copy todir="${build.dir}">
       <fileset dir="${src.dir}"/>
       <filterchain>
