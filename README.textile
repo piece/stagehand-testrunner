@@ -33,7 +33,7 @@ First, add the dependency to *piece/stagehand-testrunner* into your *composer.js
 
 <pre><code class="json">{
     "require": {
-        "piece/stagehand-testrunner": ">=3.3.1"
+        "piece/stagehand-testrunner": ">=3.4.0"
     }
 }</code></pre>
 

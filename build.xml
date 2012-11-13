@@ -27,17 +27,29 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">3.3.1</property>
+  <property name="package.releaseversion">3.4.0</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">3.0.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
 
+Initializes the environment before loading the preload script.
+
+ (Issue #13)
+
+ The testrunner command now ensures that the error message is displayed when a fatal error or parse error is raised in the preload script.
+
+[PHPUnit] Performance Improvement of Group Filtering
+
+ (Issue #15)
+
+ Performance of group filtering has been improved.
+
 A Defect Fix
 
  The following defect has been fixed:
 
- * An error "Fatal error: Class 'Symfony\Component\Process\Process' not found in ..." is raised when launching Autotest. (Issue #8)
+ * [PHPUnit] The JUnit XML is incomplete when the --test-class or --test-method option is specified. (Issue #12)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A continuous test runner for CLI</property>
@@ -111,7 +123,6 @@ It makes unit testing in a local environment much easier and comfortable. Additi
         <package type="required" name="Stagehand_AlterationMonitor" channel="${package.channel}" minimum_version="2.0.1"/>
         <package type="required" name="Stagehand_ComponentFactory" channel="${package.channel}" minimum_version="1.0.0"/>
         <package type="required" name="Yaml" channel="pear.symfony.com" minimum_version="2.0.0"/>
-        <package type="optional" name="PHPSpec" channel="pear.phpspec.net" minimum_version="1.3.0beta"/>
         <package type="optional" name="PHPUnit" channel="pear.phpunit.de" minimum_version="3.6.0"/>
         <extension type="required" name="pcre"/>
         <extension type="required" name="SPL"/>
