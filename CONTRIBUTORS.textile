@@ -8,3 +8,4 @@ This is the list of contributors to Stagehand_TestRunner.
 * Shigenobu Nishikawa <"shishi.s.n@gmail.com":mailto:shishi.s.n@gmail.com> ("@shishi":https://github.com/shishi)
 * KUBO Noriko <"noricott@gmail.com":mailto:noricott@gmail.com>
 * tsyk goto <"ngyuki.ts@gmail.com":mailto:ngyuki.ts@gmail.com> ("@ngyuki":https://github.com/ngyuki)
+* Ryusuke SEKIYAMA <"rsky0711@gmail.com":mailto:rsky0711@gmail.com> ("@rsky":https://github.com/rsky)
