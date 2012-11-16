@@ -135,6 +135,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
         <install name="bin/testrunner" as="testrunner"/>
         <install name="bin/testrunner.bat" as="testrunner.bat"/>
       </release>
+      <replacement path="bin/testrunner" from="/usr/bin/env php" to="php_bin" type="pear-config"/>
     </d51pearpkg2>
   </target>
 
