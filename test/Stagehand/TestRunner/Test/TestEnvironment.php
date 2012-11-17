@@ -66,9 +66,9 @@ class TestEnvironment extends Environment
         $classLoader = new UniversalClassLoader();
         $classLoader->registerNamespace('Stagehand\TestRunner', array(
             __DIR__ . '/../../..',
-            __DIR__ . '/../../../../examples',
+            __DIR__ . '/../../../../src/Stagehand/TestRunner/Resources/examples',
         ));
-        $classLoader->registerPrefix('Stagehand_TestRunner_', __DIR__ . '/../../../../examples');
+        $classLoader->registerPrefix('Stagehand_TestRunner_', __DIR__ . '/../../../../src/Stagehand/TestRunner/Resources/examples');
         $classLoader->register();
 
         self::$applicationContext = new TestApplicationContext();

@@ -36,7 +36,7 @@
  */
 
 set_include_path(implode(PATH_SEPARATOR, array(
-    __DIR__ . '/../examples',
+    __DIR__ . '/../src/Stagehand/TestRunner/Resources/examples',
     get_include_path(),
 )));
 
