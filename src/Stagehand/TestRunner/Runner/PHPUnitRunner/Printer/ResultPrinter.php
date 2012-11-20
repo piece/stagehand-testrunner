@@ -100,6 +100,8 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
                 $notificationMessage = $matches[1] . "\n" . $matches[2];
             } elseif (preg_match('/^(?:\x1b\[30;43m\x1b\[2K)?(OK, but incomplete or skipped tests!)\s^(?:\x1b\[0m\x1b\[30;43m\x1b\[2K)?(.+)/m', $output, $matches)) {
                 $notificationMessage = $matches[1] . "\n" . $matches[2];
+            } elseif (preg_match('/^(?:\x1b\[30;43m\x1b\[2K)?(No tests executed!)/m', $output, $matches)) {
+                $notificationMessage = $matches[1];
             }
 
             $this->notification = new Notification($notificationResult, $notificationMessage);
