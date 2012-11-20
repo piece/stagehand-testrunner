@@ -42,7 +42,6 @@ namespace Stagehand\TestRunner\Collector;
 
 use Stagehand\TestRunner\TestSuite\PHPUnitGroupFilterTestSuite;
 use Stagehand\TestRunner\TestSuite\PHPUnitMethodFilterTestSuite;
-use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 
 /**
  * A test collector for PHPUnit.
@@ -70,10 +69,10 @@ class PHPUnitCollector extends Collector
     private static $FILTER_METHOD = 2;
 
     /**
-     * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
-     * @since Property available since Release 3.0.0
+     * @var \PHPUnit_Util_Configuration $phpunitConfiguration
+     * @since Property available since Release 3.5.0
      */
-    protected $phpunitXMLConfiguration;
+    protected $phpunitConfiguration;
 
     /**
      * @param string $testCase
@@ -86,7 +85,7 @@ class PHPUnitCollector extends Collector
 
         $suiteMethod = $this->findSuiteMethod($testClass);
         if (is_null($suiteMethod)) {
-            $testSuite = new PHPUnitGroupFilterTestSuite($testClass, $this->phpunitXMLConfiguration);
+            $testSuite = new PHPUnitGroupFilterTestSuite($testClass, $this->phpunitConfiguration);
         } else {
             $testSuite = $suiteMethod->invoke(null, $testClass->getName());
         }
@@ -105,12 +104,12 @@ class PHPUnitCollector extends Collector
     }
 
     /**
-     * @param \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration $phpunitXMLConfiguration
-     * @since Method available since Release 3.0.0
+     * @param \PHPUnit_Util_Configuration $phpunitConfiguration
+     * @since Method available since Release 3.5.0
      */
-    public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
+    public function setPHPUnitConfiguration(\PHPUnit_Util_Configuration $phpunitConfiguration = null)
     {
-        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
+        $this->phpunitConfiguration = $phpunitConfiguration;
     }
 
     /**

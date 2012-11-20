@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,47 +29,34 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 3.0.0
+ * @since      File available since Release 3.5.0
  */
 
-namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
-
-use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
-use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
+namespace Stagehand\TestRunner\DependencyInjection;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 3.0.0
+ * @since      Class available since Release 3.5.0
  */
-class PHPUnitCommandTest extends TestCase
+class PHPUnitConfigurationFactory
 {
     /**
-     * @return string
+     * @param string $phpunitConfigurationFile
+     * @return \PHPUnit_Util_Configuration
      */
-    protected function getPluginID()
+    public function create($phpunitConfigurationFile)
     {
-        return PHPUnitPlugin::getPluginID();
-    }
-
-    public function pluginOptions()
-    {
-        return array(
-            array(
-                array('--phpunit-config=phpunit.xml'),
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
-                },
-                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
-                    $test->assertThat($applicationContext->getComponentFactory()->getContainer()->getParameter('phpunit.phpunit_config_file'), $test->equalTo('phpunit.xml'));
-                }
-            ),
-        );
+        if (is_null($phpunitConfigurationFile)) {
+            return null;
+        } else {
+            return \PHPUnit_Util_Configuration::getInstance($phpunitConfigurationFile);
+        }
     }
 }
 

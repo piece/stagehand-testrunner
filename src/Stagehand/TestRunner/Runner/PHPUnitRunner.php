@@ -47,7 +47,6 @@ use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\TestDoxPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\NamePrettifier;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\Stream;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestRunner;
-use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 
 /**
  * A test runner for PHPUnit.
@@ -62,10 +61,10 @@ use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 class PHPUnitRunner extends Runner
 {
     /**
-     * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
-     * @since Property available since Release 3.0.0
+     * @var \PHPUnit_Util_Configuration $phpunitConfiguration
+     * @since Property available since Release 3.5.0
      */
-    protected $phpunitXMLConfiguration;
+    protected $phpunitConfiguration;
 
     /**
      * Runs tests based on the given \PHPUnit_Framework_TestSuite object.
@@ -84,12 +83,12 @@ class PHPUnitRunner extends Runner
     }
 
     /**
-     * @param \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration $phpunitXMLConfiguration
-     * @since Method available since Release 3.0.0
+     * @param \PHPUnit_Util_Configuration $phpunitConfiguration
+     * @since Method available since Release 3.5.0
      */
-    public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
+    public function setPHPUnitConfiguration(\PHPUnit_Util_Configuration $phpunitConfiguration = null)
     {
-        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
+        $this->phpunitConfiguration = $phpunitConfiguration;
     }
 
     /**
@@ -151,8 +150,8 @@ class PHPUnitRunner extends Runner
             $arguments['stopOnError'] = true;
         }
 
-        if ($this->phpunitXMLConfiguration->isEnabled()) {
-            $arguments['configuration'] = $this->phpunitXMLConfiguration->getFileName();
+        if (!is_null($this->phpunitConfiguration)) {
+            $arguments['configuration'] = $this->phpunitConfiguration->getFileName();
         }
 
         return $arguments;

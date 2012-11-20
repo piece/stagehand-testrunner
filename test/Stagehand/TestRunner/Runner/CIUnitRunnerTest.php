@@ -50,6 +50,16 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
 {
     protected function configure()
     {
+        if ($this->getName(false) != 'configuresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile') {
+            $this->loadTestClasses();
+        }
+    }
+
+    /**
+     * @since Method available since Release 3.5.0
+     */
+    protected function loadTestClasses()
+    {
         $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\CIUnitPreparer */
         $preparer->setCIUnitPath(__DIR__ . '/../../../../vendor/codeigniter/system/application/tests');
         $preparer->prepare();
@@ -191,6 +201,24 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
     protected function groupsTest()
     {
         return 'testStagehand_TestRunner_CIUnitGroups';
+    }
+
+    /**
+     * @param string $testClass
+     * @test
+     * @dataProvider provideDataForConfiguresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile
+     * @link http://redmine.piece-framework.com/issues/202
+     * @since Method available since Release 3.5.0
+     */
+    public function configuresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile($testClass)
+    {
+        $reflectionClass = new \ReflectionClass($this);
+        $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
+        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml');
+
+        $this->loadTestClasses();
+
+        parent::configuresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile($testClass);
     }
 }
 

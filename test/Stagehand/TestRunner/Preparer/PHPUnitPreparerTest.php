@@ -56,14 +56,15 @@ class PHPUnitPreparerTest extends PHPUnitComponentAwareTestCase
      */
     public function reflectsTheColorsAttributeInTheXmlConfigurationFileToTheConfiguration($colors)
     {
-        $phpunitXMLConfiguration = \Phake::mock('Stagehand\TestRunner\Util\PHPUnitXMLConfiguration');
-        \Phake::when($phpunitXMLConfiguration)->isEnabled()->thenReturn(true);
-        \Phake::when($phpunitXMLConfiguration)->hasPHPUnitConfiguration('colors')->thenReturn(true);
-        \Phake::when($phpunitXMLConfiguration)->getPHPUnitConfiguration('colors')->thenReturn($colors);
-        $this->setComponent('phpunit.phpunit_xml_configuration', $phpunitXMLConfiguration);
+        $phpunitConfiguration = \Phake::mock('PHPUnit_Util_Configuration');
+        \Phake::when($phpunitConfiguration)->getPHPUnitConfiguration()->thenReturn(array('colors' => $colors));
+        $phpunitConfigurationFactory = \Phake::mock('Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory');
+        \Phake::when($phpunitConfigurationFactory)->create($this->anything())->thenReturn($phpunitConfiguration);
+        $this->setComponent('phpunit.phpunit_configuration_factory', $phpunitConfigurationFactory);
         $preparer = $this->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\PHPUnitPreparer */
         $preparer->prepare();
 
+        \Phake::verify($phpunitConfigurationFactory)->create($this->anything());
         $terminal = $this->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
         $this->assertEquals($colors, $terminal->shouldColor());
     }

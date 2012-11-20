@@ -40,8 +40,6 @@
 
 namespace Stagehand\TestRunner\TestSuite;
 
-use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
@@ -54,40 +52,33 @@ use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 {
     /**
-     * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
-     * @since Property available since Release 3.0.0
-     */
-    protected $phpunitXMLConfiguration;
-
-    /**
      * @param \ReflectionClass $theClass
-     * @param \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     * @param \PHPUnit_Util_Configuration $phpunitConfiguration
      */
-    public function __construct(\ReflectionClass $theClass, PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
+    public function __construct(\ReflectionClass $theClass, \PHPUnit_Util_Configuration $phpunitConfiguration = null)
     {
-        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
         parent::__construct($theClass);
 
-        if ($this->phpunitXMLConfiguration->isEnabled()) {
-            $this->filterGroup();
+        if (!is_null($phpunitConfiguration)) {
+            $this->filterGroup($phpunitConfiguration->getGroupConfiguration());
         }
     }
 
     /**
+     * @param array $groupConfiguration
      * @since Method available since Release 3.4.0
      */
-    protected function filterGroup()
+    protected function filterGroup(array $groupConfiguration)
     {
         $include = null;
         $exclude = null;
 
-        if ($this->phpunitXMLConfiguration->hasGroupConfiguration('include')) {
-            $include = $this->phpunitXMLConfiguration->getGroupConfiguration('include');
+        if (array_key_exists('include', $groupConfiguration) && count($groupConfiguration['include'])) {
+            $include = $groupConfiguration['include'];
         }
 
-        if ($this->phpunitXMLConfiguration->hasGroupConfiguration('exclude')) {
-            $exclude = $this->phpunitXMLConfiguration->getGroupConfiguration('exclude');
-
+        if (array_key_exists('exclude', $groupConfiguration) && count($groupConfiguration['exclude'])) {
+            $exclude = $groupConfiguration['exclude'];
             if (is_array($include)) {
                 $include = array_diff($include, $exclude);
             }

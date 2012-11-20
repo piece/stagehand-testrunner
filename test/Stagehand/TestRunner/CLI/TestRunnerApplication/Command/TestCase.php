@@ -41,6 +41,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\DependencyInjection\Container;
 use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
 
 /**
@@ -52,6 +53,16 @@ use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
  */
 abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
 {
+    /**
+     * @since Method available since Release 3.5.0
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->applicationContext->getComponentFactory()->setContainer(new Container());
+    }
+
     /**
      * @return array
      */

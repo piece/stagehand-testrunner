@@ -50,6 +50,16 @@ use Stagehand\TestRunner\Core\TestTargetRepository;
 class PHPUnitRunnerTest extends CompatibilityTestCase
 {
     /**
+     * @since Method available since Release 3.5.0
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', null);
+    }
+
+    /**
      * @since Method available since Release 2.16.0
      */
     protected function configure()
@@ -290,7 +300,6 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     public function configuresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile($testClass)
     {
         $marker = 'STAGEHAND_TESTRUNNER_RUNNER_' . strtoupper($this->getPluginID()) . 'RUNNERTEST_bootstrapLoaded';
-        $GLOBALS[$marker] = false;
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
         $oldWorkingDirectory = getcwd();
@@ -298,8 +307,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $logFile = $configDirectory . DIRECTORY_SEPARATOR . 'logfile.tap';
         $oldIncludePath = set_include_path($configDirectory . PATH_SEPARATOR . get_include_path());
 
-        $phpunitXMLConfiguration = $this->createComponent('phpunit.phpunit_xml_configuration');
-        $phpunitXMLConfiguration->setFileName($configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml');
+        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml');
 
         $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\PHPUnitPreparer */
         $runner = $this->createRunner(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
@@ -366,8 +374,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     {
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
-        $phpunitXMLConfiguration = $this->createComponent('phpunit.phpunit_xml_configuration');
-        $phpunitXMLConfiguration->setFileName($configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
+        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
         $this->createRunner()->setJUnitXMLRealtime(true);
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);
@@ -493,8 +500,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     {
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . '/' . basename($reflectionClass->getFileName(), '.php');
-        $phpunitXMLConfiguration = $this->createComponent('phpunit.phpunit_xml_configuration');
-        $phpunitXMLConfiguration->setFileName($configDirectory . '/' . 'groups_include.xml');
+        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory . '/' . 'groups_include.xml');
 
         $testTargetRepository = $this->createTestTargetRepository();
         $testTargetRepository->setMethods(array($firstTestClass . '::' . $specyfyingTestMethod));
@@ -523,8 +529,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     {
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . '/' . basename($reflectionClass->getFileName(), '.php');
-        $phpunitXMLConfiguration = $this->createComponent('phpunit.phpunit_xml_configuration');
-        $phpunitXMLConfiguration->setFileName($configDirectory . '/' . 'groups_include.xml');
+        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory . '/' . 'groups_include.xml');
 
         $testTargetRepository = $this->createTestTargetRepository();
         $testTargetRepository->setClasses(array($firstTestClass));

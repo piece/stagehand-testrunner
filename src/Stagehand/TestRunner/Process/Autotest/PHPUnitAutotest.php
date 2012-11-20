@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Process\Autotest;
 
-use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
@@ -49,16 +47,18 @@ use Stagehand\TestRunner\Util\PHPUnitXMLConfiguration;
 class PHPUnitAutotest extends Autotest
 {
     /**
-     * @var \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration
+     * @var \PHPUnit_Util_Configuration $phpunitConfiguration
+     * @since Property available since Release 3.5.0
      */
-    protected $phpunitXMLConfiguration;
+    protected $phpunitConfiguration;
 
     /**
-     * @param \Stagehand\TestRunner\Util\PHPUnitXMLConfiguration $phpunitXMLConfiguration
+     * @param \PHPUnit_Util_Configuration $phpunitConfiguration
+     * @since Method available since Release 3.5.0
      */
-    public function setPHPUnitXMLConfiguration(PHPUnitXMLConfiguration $phpunitXMLConfiguration = null)
+    public function setPHPUnitConfiguration(\PHPUnit_Util_Configuration $phpunitConfiguration = null)
     {
-        $this->phpunitXMLConfiguration = $phpunitXMLConfiguration;
+        $this->phpunitConfiguration = $phpunitConfiguration;
     }
 
     /**
@@ -68,8 +68,8 @@ class PHPUnitAutotest extends Autotest
     {
         $options = array();
 
-        if ($this->phpunitXMLConfiguration->isEnabled()) {
-            $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitXMLConfiguration->getFileName());
+        if (!is_null($this->phpunitConfiguration)) {
+            $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitConfiguration->getFilename());
         }
 
         return $options;
