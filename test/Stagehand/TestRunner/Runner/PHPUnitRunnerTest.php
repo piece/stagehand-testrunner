@@ -329,7 +329,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 '1..3' . PHP_EOL;
             $actualLog = file_get_contents($logFile);
             $this->assertEquals($expectedLog, $actualLog, $actualLog);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
         unlink($logFile);
