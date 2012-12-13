@@ -153,6 +153,11 @@ class PHPUnitCollector extends Collector
                 if ($this->testTargetRepository->shouldTreatElementAsTest($testClassName, $filter == self::$FILTER_METHOD ? $testMethodName : null)) {
                     $filteredTests[] = $test;
                 }
+            } elseif ($test instanceof \PHPUnit_Framework_TestSuite_DataProvider) {
+                list($testClassName, $testMethodName) = explode('::', $test->getName());
+                if ($this->testTargetRepository->shouldTreatElementAsTest($testClassName, $filter == self::$FILTER_METHOD ? $testMethodName : null)) {
+                    $filteredTests[] = $test;
+                }
             } else {
                 $this->filterTests($test, $filter);
                 if (count($test) > 0) {

@@ -50,6 +50,24 @@ use Stagehand\TestRunner\Core\TestTargetRepository;
 class PHPUnitRunnerTest extends CompatibilityTestCase
 {
     /**
+     * @constant
+     * @since Constant available since Release 3.5.0
+     */
+    const SELECTION_MODE_NONE = 'none';
+
+    /**
+     * @constant
+     * @since Constant available since Release 3.5.0
+     */
+    const SELECTION_MODE_CLASS = 'class';
+
+    /**
+     * @constant
+     * @since Constant available since Release 3.5.0
+     */
+    const SELECTION_MODE_METHOD = 'method';
+
+    /**
      * @since Method available since Release 3.5.0
      */
     protected function tearDown()
@@ -542,6 +560,43 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $this->assertTestCaseCount(2);
         $this->assertTestCaseExists($this->getTestMethodName('pass1'), $firstTestClass);
         $this->assertTestCaseExists($this->getTestMethodName('pass2'), $firstTestClass);
+    }
+
+    /**
+     * @return array
+     * @since Method available since Release 3.5.0
+     */
+    public function provideSelectionPatternsForNonExistingDataProviderMethod()
+    {
+        $testClass = 'Stagehand\TestRunner\PHPUnit\NonExistingDataProviderTest';
+        return array(
+            array($testClass, self::SELECTION_MODE_NONE),
+            array($testClass, self::SELECTION_MODE_CLASS),
+            array($testClass, self::SELECTION_MODE_METHOD),
+        );
+    }
+
+    /**
+     * @param string $testClass
+     * @param string $selectionMode
+     * @since Method available since Release 3.5.0
+     * @link https://github.com/piece/stagehand-testrunner/issues/21
+     *
+     * @test
+     * @dataProvider provideSelectionPatternsForNonExistingDataProviderMethod
+     */
+    public function runsAMethodWithANonExistingDataProviderMethod($testClass, $selectionMode)
+    {
+        if ($selectionMode == self::SELECTION_MODE_METHOD) {
+            $this->createTestTargetRepository()->setMethods(array($testClass . '::failsWithWarning'));
+        } elseif ($selectionMode == self::SELECTION_MODE_CLASS) {
+            $this->createTestTargetRepository()->setClasses(array($testClass));
+        }
+        $this->createCollector()->collectTestCase($testClass);
+        $this->runTests();
+
+        $failures = $this->createXPath()->query(sprintf("//testsuite[@name='%s']/testsuite[@name='failsWithWarning']/testcase[@name='Warning']/failure", $testClass));
+        $this->assertThat($failures->length, $this->equalTo(1));
     }
 }
 

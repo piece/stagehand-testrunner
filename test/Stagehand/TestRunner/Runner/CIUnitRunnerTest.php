@@ -220,6 +220,20 @@ class CIUnitRunnerTest extends PHPUnitRunnerTest
 
         parent::configuresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile($testClass);
     }
+
+    /**
+     * @return array
+     * @since Method available since Release 3.5.0
+     */
+    public function provideSelectionPatternsForNonExistingDataProviderMethod()
+    {
+        $testClass = 'Stagehand\TestRunner\CIUnit\testNonExistingDataProvider';
+        return array(
+            array($testClass, self::SELECTION_MODE_NONE),
+            array($testClass, self::SELECTION_MODE_CLASS),
+            array($testClass, self::SELECTION_MODE_METHOD),
+        );
+    }
 }
 
 /*
