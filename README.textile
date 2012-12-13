@@ -39,7 +39,7 @@ First, add the dependency to *piece/stagehand-testrunner* into your *composer.js
 
 Second, update your dependencies as the following:
 
-<pre>composer update</pre>
+<pre>composer update piece/stagehand-testrunner</pre>
 
 h3. PEAR
 
