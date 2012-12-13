@@ -543,7 +543,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @test
      * @dataProvider dataForTestClasses
      */
-    public function runsOnlyTheSpecifiedClasses($firstTestClass, $secondTestClass, $specifyingTestClass, $runningTestMethod1, $runningTestMethod2)
+    public function runsOnlyTheSpecifiedClassesWithTheGroups($firstTestClass, $secondTestClass, $specifyingTestClass, $runningTestMethod1, $runningTestMethod2)
     {
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . '/' . basename($reflectionClass->getFileName(), '.php');
