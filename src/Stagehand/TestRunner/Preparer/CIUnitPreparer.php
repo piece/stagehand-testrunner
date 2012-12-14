@@ -87,7 +87,7 @@ class CIUnitPreparer extends PHPUnitPreparer
          * environment variables for debugging.
          */
         $this->backupVariables();
-        ErrorReporting::invokeWith(error_reporting() & ~E_USER_NOTICE, function () use ($ciunitPath) {
+        ErrorReporting::invokeWith(error_reporting() & ~E_USER_NOTICE & ~E_WARNING, function () use ($ciunitPath) {
             require_once $ciunitPath . '/CIUnit.php';
         });
         $this->restoreVariables();

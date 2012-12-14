@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.14.0
@@ -39,10 +39,11 @@ namespace Stagehand\TestRunner\Preparer;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Preparer\CakePHPPreparer\TestRunnerShellDispatcher;
+use Stagehand\TestRunner\Util\ErrorReporting;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
@@ -93,8 +94,10 @@ class CakePHPPreparer extends Preparer
 
         ob_start();
         require_once $corePath . '/console/cake.php';
+        ErrorReporting::invokeWith(error_reporting(), function () use ($rootPath, $appPath) {
+            new TestRunnerShellDispatcher(array('-root', $rootPath, '-app', $appPath));
+        });
         ob_end_clean();
-        new TestRunnerShellDispatcher(array('-root', $rootPath, '-app', $appPath));
         require_once $corePath . '/tests/lib/test_manager.php';
         new \TestManager();
     }
