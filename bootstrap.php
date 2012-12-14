@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.1
  */
 
-error_reporting(error_reporting() & ~E_STRICT & ~E_DEPRECATED);
+error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
