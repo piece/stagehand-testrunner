@@ -37,7 +37,7 @@
     "bin": ["bin/testrunner"],
     "extra": {
         "branch-alias": {
-            "dev-master": "3.4-dev"
+            "dev-master": "3.6.x-dev"
         }
     }
 }
