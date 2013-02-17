@@ -159,11 +159,11 @@ abstract class Collector
         if (!$this->testTargetRepository->shouldTreatFileAsTest($file)) return;
 
         foreach ($this->findNewClasses($file) as $newClass) {
-            $collectingTypeFactory = $this->collectingTypeFactory->create(
+            $collectingType = $this->collectingTypeFactory->create(
                 $newClass,
                 $this->testTargetRepository->getRequiredSuperTypes()
             );
-            if ($collectingTypeFactory->isTest()) {
+            if ($collectingType->isTest()) {
                 $this->collectTestCase($newClass);
             }
         }
