@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2007-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2007-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.1.0
@@ -42,12 +42,13 @@ use Symfony\Component\Finder\Finder;
 use Stagehand\TestRunner\Collector\CollectingTypeFactory;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestTargetRepository;
+use Stagehand\TestRunner\Util\FileSystem;
 
 /**
  * The base class for test collectors.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.1.0
@@ -103,10 +104,11 @@ abstract class Collector
     public function collect()
     {
         $self = $this;
-        $this->testTargetRepository->walkOnResources(function ($resource, $index, TestTargetRepository $testTargetRepository) use ($self) {
-            $absoluteTargetPath = realpath($resource);
-            if ($absoluteTargetPath === false) {
-                throw new \UnexpectedValueException(sprintf('The directory or file [ %s ] is not found', $resource));
+        $fileSystem = new FileSystem();
+        $this->testTargetRepository->walkOnResources(function ($resource, $index, TestTargetRepository $testTargetRepository) use ($self, $fileSystem) {
+            $absoluteTargetPath = $fileSystem->getAbsolutePath($resource, ApplicationContext::getInstance()->getEnvironment()->getWorkingDirectoryAtStartup());
+            if (!file_exists($absoluteTargetPath)) {
+                throw new \UnexpectedValueException(sprintf('The directory or file [ %s ] is not found', $absoluteTargetPath));
             }
 
             if (is_dir($absoluteTargetPath)) {
