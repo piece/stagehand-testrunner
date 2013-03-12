@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.20.0
@@ -42,7 +42,7 @@ use Stagehand\TestRunner\Test\ComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
@@ -62,12 +62,10 @@ abstract class TestCase extends ComponentAwareTestCase
     {
         self::$configurators = array();
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $collector = $applicationContext->createComponent('collector_factory')->create(); /* @var $collector \Stagehand\TestRunner\Collector\Collector */
-            $collector->setRecursive(true);
+            $applicationContext->createComponent('collector')->setRecursive(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $collector = $applicationContext->createComponent('collector_factory')->create(); /* @var $collector \Stagehand\TestRunner\Collector\Collector */
-            $collector->setRecursive(false);
+            $applicationContext->createComponent('collector')->setRecursive(false);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $terminal = $applicationContext->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
@@ -77,12 +75,10 @@ abstract class TestCase extends ComponentAwareTestCase
             $applicationContext->getEnvironment()->setPreloadScript('test/prepare.php');
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $autotest = $applicationContext->createComponent('autotest_factory')->create(); /* @var $autotest \Stagehand\TestRunner\Process\AutoTest */
-            $autotest->setWatchDirs(array('src'));
+            $applicationContext->createComponent('autotest')->setWatchDirs(array('src'));
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
-            $runner->setNotify(true);
+            $applicationContext->createComponent('runner')->setNotify(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $testTargetRepository = $applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
@@ -93,24 +89,20 @@ abstract class TestCase extends ComponentAwareTestCase
             $testTargetRepository->setClasses(array('CLASS1'));
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
-            $runner->setJUnitXMLFile('FILE');
+            $applicationContext->createComponent('runner')->setJUnitXMLFile('FILE');
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
-            $runner->setJUnitXMLRealtime(true);
+            $applicationContext->createComponent('runner')->setJUnitXMLRealtime(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
-            $runner->setStopOnFailure(true);
+            $applicationContext->createComponent('runner')->setStopOnFailure(true);
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $testTargetRepository = $applicationContext->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
             $testTargetRepository->setFilePattern('PATTERN');
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $runner = $applicationContext->createComponent('runner_factory')->create(); /* @var $runner \Stagehand\TestRunner\Runner\Runner */
-            $runner->setDetailedProgress(true);
+            $applicationContext->createComponent('runner')->setDetailedProgress(true);
         };
     }
 
@@ -151,11 +143,10 @@ abstract class TestCase extends ComponentAwareTestCase
         \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
         $this->setComponent('alteration_monitoring', $alterationMonitoring);
 
-        $autotest = $this->createComponent('autotest_factory')->create();
-        $autotest->monitorAlteration();
+        $this->createComponent('autotest')->monitorAlteration();
 
-        $runnerCommand = $this->readAttribute($autotest, 'runnerCommand');
-        $runnerOptions = $this->readAttribute($autotest, 'runnerOptions');
+        $runnerCommand = $this->readAttribute($this->createComponent('autotest'), 'runnerCommand');
+        $runnerOptions = $this->readAttribute($this->createComponent('autotest'), 'runnerOptions');
         $this->assertEquals($builtCommand, $runnerCommand);
         for ($i = 0; $i < count($builtOptions); ++$i) {
             $this->assertEquals($builtOptions[$i], $runnerOptions[$i]);
@@ -210,10 +201,9 @@ abstract class TestCase extends ComponentAwareTestCase
 
         call_user_func(self::$configurators[$configuratorIndex], $this->applicationContext);
 
-        $autotest = $this->createComponent('autotest_factory')->create();
-        $autotest->monitorAlteration();
+        $this->createComponent('autotest')->monitorAlteration();
 
-        $runnerOptions = $this->readAttribute($autotest, 'runnerOptions');
+        $runnerOptions = $this->readAttribute($this->createComponent('autotest'), 'runnerOptions');
 
         for ($i = 0; $i < count($normalizedOption); ++$i) {
             $preserved = in_array($normalizedOption[$i], $runnerOptions);

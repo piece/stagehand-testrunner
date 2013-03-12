@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
  * All rights reserved.
  *
@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -41,11 +41,14 @@ namespace Stagehand\TestRunner\Process;
 
 use Stagehand\ComponentFactory\IComponentAwareFactory;
 
+use Stagehand\TestRunner\Collector\Collector;
+use Stagehand\TestRunner\Preparer\Preparer;
+use Stagehand\TestRunner\Runner\Runner;
 use Stagehand\TestRunner\Util\OutputBuffering;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -66,28 +69,31 @@ class TestRun
     protected $outputBuffering;
 
     /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
-     * @since Property available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Collector\Collector
+     * @since Property available since Release 3.6.0
      */
-    protected $preparerFactory;
+    protected $collector;
 
     /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
-     * @since Property available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Runner\Runner
+     * @since Property available since Release 3.6.0
      */
-    protected $collectorFactory;
-
-    /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
-     * @since Property available since Release 3.0.0
-     */
-    protected $runnerFactory;
+    protected $runner;
 
     /**
      * @var \Stagehand\ComponentFactory\IComponentAwareFactory
      * @since Method available since Release 3.0.0
      */
     protected $notifierFactory;
+
+    /**
+     * @param \Stagehand\TestRunner\Preparer\Preparer $preparer
+     * @since Method available since Release 3.6.0
+     */
+    public function __construct(Preparer $preparer)
+    {
+        $preparer->prepare();
+    }
 
     /**
      * Runs tests.
@@ -97,13 +103,11 @@ class TestRun
     public function run()
     {
         $this->outputBuffering->clearOutputHandlers();
-        $this->preparerFactory->create()->prepare();
 
-        $runner = $this->runnerFactory->create();
-        $this->result = $runner->run($this->collectorFactory->create()->collect());
+        $this->result = $this->runner->run($this->collector->collect());
 
-        if ($runner->shouldNotify()) {
-            $this->notifierFactory->create()->notifyResult($runner->getNotification());
+        if ($this->runner->shouldNotify()) {
+            $this->notifierFactory->create()->notifyResult($this->runner->getNotification());
         }
     }
 
@@ -117,30 +121,21 @@ class TestRun
     }
 
     /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $preparerFactory
-     * @since Method available since Release 3.0.0
+     * @param \Stagehand\TestRunner\Collector\Collector $collector
+     * @since Method available since Release 3.6.0
      */
-    public function setPreparerFactory(IComponentAwareFactory $preparerFactory)
+    public function setCollector(Collector $collector)
     {
-        $this->preparerFactory = $preparerFactory;
+        $this->collector = $collector;
     }
 
     /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $collectorFactory
-     * @since Method available since Release 3.0.0
+     * @param \Stagehand\TestRunner\Runner\Runner $runner
+     * @since Method available since Release 3.6.0
      */
-    public function setCollectorFactory(IComponentAwareFactory $collectorFactory)
+    public function setRunner(Runner $runner)
     {
-        $this->collectorFactory = $collectorFactory;
-    }
-
-    /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $runnerFactory
-     * @since Method available since Release 3.0.0
-     */
-    public function setRunnerFactory(IComponentAwareFactory $runnerFactory)
-    {
-        $this->runnerFactory = $runnerFactory;
+        $this->runner = $runner;
     }
 
     /**

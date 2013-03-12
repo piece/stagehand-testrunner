@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.18.0
@@ -38,21 +38,23 @@
 namespace Stagehand\TestRunner\Process\Autotest;
 
 use Symfony\Component\Process\Process;
-
 use Stagehand\ComponentFactory\IComponentAwareFactory;
+
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Notification\Notification;
+use Stagehand\TestRunner\Preparer\Preparer;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
+use Stagehand\TestRunner\Runner\Runner;
 use Stagehand\TestRunner\Util\LegacyProxy;
 use Stagehand\TestRunner\Util\OS;
 use Stagehand\TestRunner\Util\String;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
@@ -100,10 +102,10 @@ abstract class Autotest
     protected $preparer;
 
     /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
-     * @since Property available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Runner\Runner
+     * @since Property available since Release 3.6.0
      */
-    protected $runnerFactory;
+    protected $runner;
 
     /**
      * @var \Stagehand\ComponentFactory\IComponentAwareFactory
@@ -123,12 +125,12 @@ abstract class Autotest
     protected $alterationMonitoring;
 
     /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $preparerFactory
+     * @param \Stagehand\TestRunner\Preparer\Preparer $preparer
      * @since Method available since Release 3.0.1
      */
-    public function __construct(IComponentAwareFactory $preparerFactory)
+    public function __construct(Preparer $preparer)
     {
-        $this->preparer = $preparerFactory->create();
+        $this->preparer = $preparer;
         $this->preparer->prepare();
     }
 
@@ -183,7 +185,7 @@ abstract class Autotest
             $streamOutput = $process->getOutput();
         }
 
-        if ($exitStatus != 0 && $this->runnerFactory->create()->shouldNotify()) {
+        if ($exitStatus != 0 && $this->runner->shouldNotify()) {
             $fatalError = new FatalError($streamOutput);
             $this->notifierFactory->create()->notifyResult(
                 new Notification(Notification::RESULT_STOPPED, $fatalError->getFullMessage())
@@ -237,12 +239,12 @@ abstract class Autotest
     }
 
     /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $runnerFactory
-     * @since Method available since Release 3.0.0
+     * @param \Stagehand\TestRunner\Runner\Runner $runner
+     * @since Method available since Release 3.6.0
      */
-    public function setRunnerFactory(IComponentAwareFactory $runnerFactory)
+    public function setRunner(Runner $runner)
     {
-        $this->runnerFactory = $runnerFactory;
+        $this->runner = $runner;
     }
 
     /**
@@ -333,11 +335,11 @@ abstract class Autotest
 
         $options[] = '-R';
 
-        if ($this->runnerFactory->create()->shouldNotify()) {
+        if ($this->runner->shouldNotify()) {
             $options[] = '-m';
         }
 
-        if ($this->runnerFactory->create()->shouldStopOnFailure()) {
+        if ($this->runner->shouldStopOnFailure()) {
             $options[] = '--stop-on-failure';
         }
 
@@ -345,7 +347,7 @@ abstract class Autotest
             $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargetRepository->getFilePattern());
         }
 
-        if ($this->runnerFactory->create()->hasDetailedProgress()) {
+        if ($this->runner->hasDetailedProgress()) {
             $options[] = '--detailed-progress';
         }
 

@@ -95,8 +95,8 @@ PHP_EOL .
         ApplicationContext::getInstance()->setComponent('input', $input);
         ApplicationContext::getInstance()->setComponent('output', $output);
 
-        ApplicationContext::getInstance()->createComponent('preparer_factory')->create()->prepare();
-        $collector = ApplicationContext::getInstance()->createComponent('collector_factory')->create();
+        ApplicationContext::getInstance()->createComponent('preparer')->prepare();
+        $collector = ApplicationContext::getInstance()->createComponent('collector');
         $collector->setRecursive(true);
 
         define('PHPUnit_MAIN_METHOD', __METHOD__);

@@ -66,7 +66,7 @@ abstract class ComponentAwareTestCase extends TestCase
      */
     protected function createPreparer()
     {
-        return $this->createComponent('preparer_factory')->create();
+        return $this->createComponent('preparer');
     }
 
     /**
@@ -75,7 +75,7 @@ abstract class ComponentAwareTestCase extends TestCase
      */
     protected function createCollector()
     {
-        return $this->createComponent('collector_factory')->create();
+        return $this->createComponent('collector');
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class ComponentAwareTestCase extends TestCase
      */
     protected function createRunner()
     {
-        return $this->createComponent('runner_factory')->create();
+        return $this->createComponent('runner');
     }
 
     /**

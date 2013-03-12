@@ -42,6 +42,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ResolveParameterPlaceHoldersPass;
 
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
+use Stagehand\TestRunner\DependencyInjection\Compiler\ReplaceDefinitionByPluginDefinitionPass;
 use Stagehand\TestRunner\DependencyInjection\Extension\GeneralExtension;
 
 /**
@@ -72,6 +73,7 @@ class Compiler
                 $containerBuilder->loadFromExtension($extension->getAlias(), array());
             }
 
+            $containerBuilder->addCompilerPass(new ReplaceDefinitionByPluginDefinitionPass($plugin));
             $containerBuilder->getCompilerPassConfig()->setOptimizationPasses(
                 array_filter(
                     $containerBuilder->getCompilerPassConfig()->getOptimizationPasses(),

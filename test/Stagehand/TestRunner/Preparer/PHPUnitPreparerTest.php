@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.19.0
@@ -41,7 +41,7 @@ use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.19.0
@@ -61,8 +61,7 @@ class PHPUnitPreparerTest extends PHPUnitComponentAwareTestCase
         $phpunitConfigurationFactory = \Phake::mock('Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory');
         \Phake::when($phpunitConfigurationFactory)->create($this->anything())->thenReturn($phpunitConfiguration);
         $this->setComponent('phpunit.phpunit_configuration_factory', $phpunitConfigurationFactory);
-        $preparer = $this->createComponent('preparer_factory')->create(); /* @var $preparer \Stagehand\TestRunner\Preparer\PHPUnitPreparer */
-        $preparer->prepare();
+        $this->createComponent('preparer')->prepare();
 
         \Phake::verify($phpunitConfigurationFactory)->create($this->anything());
         $terminal = $this->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */

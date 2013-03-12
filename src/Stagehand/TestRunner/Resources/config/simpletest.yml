@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+# Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -34,18 +34,29 @@ parameters:
 services:
   # Collector
   simpletest.collector:
-    parent: collector
     class: "%simpletest.collector.class%"
+    arguments: [ "@test_target_repository" ]
+    calls:
+      - [ setCollectingTypeFactory, [ "@collecting_type_factory" ] ]
+      - [ setRecursive, [ "%recursive%" ] ]
 
   # Preparer
   simpletest.preparer:
-    parent: preparer
     class: "%simpletest.preparer.class%"
 
   # Process
   simpletest.autotest:
-    parent: autotest
     class: "%simpletest.autotest.class%"
+    arguments: [ "@preparer" ]
+    calls:
+      - [ setAlterationMonitoring, [ "@alteration_monitoring" ] ]
+      - [ setLegacyProxy, [ "@legacy_proxy" ] ]
+      - [ setNotifierFactory, [ "@notifier_factory" ] ]
+      - [ setOS, [ "@os" ] ]
+      - [ setRunner, [ "@runner" ] ]
+      - [ setTerminal, [ "@terminal" ] ]
+      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
+      - [ setWatchDirs, [ "%autotest_watch_dirs%" ] ]
 
   # Runner
   simpletest.junit_xml_reporter:
@@ -57,10 +68,16 @@ services:
     factory_method: create
     arguments: [ "junit_xml_reporter", "%simpletest.junit_xml_reporter_factory.class%" ]
   simpletest.runner:
-    parent: runner
     class: "%simpletest.runner.class%"
     calls:
+      - [ setDetailedProgress, [ "%detailed_progress%" ] ]
+      - [ setJUnitXMLFile, [ "%junit_xml_file%" ] ]
+      - [ setJUnitXMLRealtime, [ "%junit_xml_realtime%" ] ]
       - [ setJUnitXMLReporterFactory, [ "@simpletest.junit_xml_reporter_factory" ] ]
+      - [ setNotify, [ "%notify%" ] ]
+      - [ setStopOnFailure, [ "%stop_on_failure%" ] ]
+      - [ setTerminal, [ "@terminal" ] ]
+      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
 
 # Local Variables:
 # mode: conf

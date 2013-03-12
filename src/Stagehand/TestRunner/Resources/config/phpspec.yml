@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+# Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -32,23 +32,41 @@ parameters:
 services:
   # Collector
   phpspec.collector:
-    parent: collector
     class: "%phpspec.collector.class%"
+    arguments: [ "@test_target_repository" ]
+    calls:
+      - [ setCollectingTypeFactory, [ "@collecting_type_factory" ] ]
+      - [ setRecursive, [ "%recursive%" ] ]
 
   # Preparer
   phpspec.preparer:
-    parent: preparer
     class: "%phpspec.preparer.class%"
 
   # Process
   phpspec.autotest:
-    parent: autotest
     class: "%phpspec.autotest.class%"
+    arguments: [ "@preparer" ]
+    calls:
+      - [ setAlterationMonitoring, [ "@alteration_monitoring" ] ]
+      - [ setLegacyProxy, [ "@legacy_proxy" ] ]
+      - [ setNotifierFactory, [ "@notifier_factory" ] ]
+      - [ setOS, [ "@os" ] ]
+      - [ setRunner, [ "@runner" ] ]
+      - [ setTerminal, [ "@terminal" ] ]
+      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
+      - [ setWatchDirs, [ "%autotest_watch_dirs%" ] ]
 
   # Runner
   phpspec.runner:
-    parent: runner
     class: "%phpspec.runner.class%"
+    calls:
+      - [ setDetailedProgress, [ "%detailed_progress%" ] ]
+      - [ setJUnitXMLFile, [ "%junit_xml_file%" ] ]
+      - [ setJUnitXMLRealtime, [ "%junit_xml_realtime%" ] ]
+      - [ setNotify, [ "%notify%" ] ]
+      - [ setStopOnFailure, [ "%stop_on_failure%" ] ]
+      - [ setTerminal, [ "@terminal" ] ]
+      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
 
 # Local Variables:
 # mode: conf
