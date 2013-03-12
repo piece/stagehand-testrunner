@@ -50,13 +50,15 @@ use Stagehand\TestRunner\Core\Plugin\CakePHPPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPExtension extends Extension
+class CakePHPExtension extends SimpleTestExtension
 {
     /**
      * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        parent::load($configs, $container);
+
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../Resources/config'));
         $loader->load(self::getAlias() . '.yml');
     }

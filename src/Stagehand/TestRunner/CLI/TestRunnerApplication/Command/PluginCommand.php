@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
@@ -46,13 +46,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\DependencyInjection\Compiler;
 use Stagehand\TestRunner\DependencyInjection\Configuration\GeneralConfiguration;
-use Stagehand\TestRunner\DependencyInjection\Container;
 use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
 use Stagehand\TestRunner\Util\FileSystem;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
@@ -125,7 +124,8 @@ PHP_EOL .
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!class_exists(Compiler::COMPILED_CONTAINER_NAMESPACE . '\\' . Compiler::COMPILED_CONTAINER_CLASS)) {
+        $containerClass = Compiler::COMPILED_CONTAINER_NAMESPACE . '\\' . $this->getPlugin()->getPluginID() . 'Container';
+        if (!class_exists($containerClass)) {
             $output->writeln(
 '<error>Please run the following command before running the ' . $this->getName() . ' command:</error>' . PHP_EOL .
 PHP_EOL .
@@ -134,7 +134,7 @@ PHP_EOL .
             return 1;
         }
 
-        $container = $this->createContainer();
+        $container = $this->createContainer($containerClass);
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
         ApplicationContext::getInstance()->setPlugin($this->getPlugin());
         ApplicationContext::getInstance()->setComponent('input', $input);
@@ -270,11 +270,12 @@ PHP_EOL .
     abstract protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation);
 
     /**
+     * @param string $containerClass
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
      */
-    protected function createContainer()
+    protected function createContainer($containerClass)
     {
-        return new Container();
+        return new $containerClass();
     }
 
     /**

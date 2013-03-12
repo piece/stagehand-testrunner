@@ -45,7 +45,7 @@ use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\DependencyInjection\Compiler;
-use Stagehand\TestRunner\DependencyInjection\Container;
+use Stagehand\TestRunner\DependencyInjection\PHPUnitContainer;
 
 /**
  * @package    Stagehand_TestRunner
@@ -79,7 +79,7 @@ PHP_EOL .
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!class_exists(Compiler::COMPILED_CONTAINER_NAMESPACE . '\\' . Compiler::COMPILED_CONTAINER_CLASS)) {
+        if (!class_exists(Compiler::COMPILED_CONTAINER_NAMESPACE . '\\PHPUnitContainer')) {
             $output->writeln(
 '<error>Please run the following command before running the ' . $this->getName() . ' command:</error>' . PHP_EOL .
 PHP_EOL .
@@ -114,7 +114,7 @@ PHP_EOL .
      */
     protected function createContainer()
     {
-        return new Container();
+        return new PHPUnitContainer();
     }
 
     /**

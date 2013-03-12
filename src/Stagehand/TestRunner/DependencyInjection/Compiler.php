@@ -54,43 +54,37 @@ use Stagehand\TestRunner\DependencyInjection\Extension\GeneralExtension;
 class Compiler
 {
     const COMPILED_CONTAINER_NAMESPACE = 'Stagehand\TestRunner\DependencyInjection';
-    const COMPILED_CONTAINER_CLASS = 'CompiledContainer';
 
     public function compile()
     {
-        $containerBuilder = new UnfreezableContainerBuilder();
-        $containerBuilder->registerExtension(new GeneralExtension());
-
         foreach (PluginRepository::findAll() as $plugin) {
+            $containerBuilder = new UnfreezableContainerBuilder();
+            $containerBuilder->registerExtension(new GeneralExtension());
+
             $extensionClass = new \ReflectionClass(__NAMESPACE__ . '\\Extension\\' . $plugin->getPluginID() . 'Extension');
             if (!$extensionClass->isInterface()
                 && !$extensionClass->isAbstract()
                 && $extensionClass->isSubclassOf('Symfony\Component\DependencyInjection\Extension\ExtensionInterface')) {
                 $containerBuilder->registerExtension($extensionClass->newInstance());
             }
+
+            foreach ($containerBuilder->getExtensions() as $extension) { /* @var $extension \Symfony\Component\DependencyInjection\Extension\ExtensionInterface */
+                $containerBuilder->loadFromExtension($extension->getAlias(), array());
+            }
+
+            $containerBuilder->getCompilerPassConfig()->setOptimizationPasses(
+                array_filter(
+                    $containerBuilder->getCompilerPassConfig()->getOptimizationPasses(),
+                    function (CompilerPassInterface $compilerPass) {
+                        return !($compilerPass instanceof ResolveParameterPlaceHoldersPass);
+                    }
+            ));
+
+            $containerClass = $plugin->getPluginID() . 'Container';
+            $compiler = new \Stagehand\ComponentFactory\Compiler($containerBuilder, $containerClass, self::COMPILED_CONTAINER_NAMESPACE);
+            $containerSource = $compiler->compile();
+            file_put_contents(__DIR__ . '/' . $containerClass . '.php', $containerSource);
         }
-
-        foreach ($containerBuilder->getExtensions() as $extension) { /* @var $extension \Symfony\Component\DependencyInjection\Extension\ExtensionInterface */
-            $containerBuilder->loadFromExtension($extension->getAlias(), array());
-        }
-
-        $containerBuilder->getCompilerPassConfig()->setOptimizationPasses(
-            array_filter(
-                $containerBuilder->getCompilerPassConfig()->getOptimizationPasses(),
-                function (CompilerPassInterface $compilerPass) {
-                    return !($compilerPass instanceof ResolveParameterPlaceHoldersPass);
-                }
-        ));
-
-        $compiler = new \Stagehand\ComponentFactory\Compiler(
-            $containerBuilder,
-            self::COMPILED_CONTAINER_CLASS,
-            self::COMPILED_CONTAINER_NAMESPACE
-        );
-        file_put_contents(
-            __DIR__ . '/' . self::COMPILED_CONTAINER_CLASS . '.php',
-            $compiler->compile()
-        );
     }
 }
 
