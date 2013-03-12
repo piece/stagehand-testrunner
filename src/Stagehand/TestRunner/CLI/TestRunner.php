@@ -37,8 +37,8 @@
 
 namespace Stagehand\TestRunner\CLI;
 
-use Stagehand\ComponentFactory\IComponentAwareFactory;
 use Stagehand\TestRunner\Process\Autotest\Autotest;
+use Stagehand\TestRunner\Process\TestRun;
 
 /**
  * @package    Stagehand_TestRunner
@@ -55,9 +55,10 @@ class TestRunner
     protected $autotest;
 
     /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
+     * @param \Stagehand\TestRunner\Process\TestRun
+     * @since Property available since Release 3.6.0
      */
-    protected $testRunFactory;
+    protected $testRunner;
 
     /**
      * @var \Stagehand\ComponentFactory\IComponentAwareFactory
@@ -73,7 +74,7 @@ class TestRunner
     public function run()
     {
         if (!$this->autotest) {
-            $this->testRunFactory->create()->run();
+            $this->testRunner->run();
         } else {
             $this->continuousTestRunner->runTests();
             $this->continuousTestRunner->monitorAlteration();
@@ -89,11 +90,12 @@ class TestRunner
     }
 
     /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $testRunFactory
+     * @param \Stagehand\TestRunner\Process\TestRun $testRuner
+     * @since Method available since Release 3.6.0
      */
-    public function setTestRunFactory(IComponentAwareFactory $testRunFactory)
+    public function setTestRunner(TestRun $testRunner)
     {
-        $this->testRunFactory = $testRunFactory;
+        $this->testRunner = $testRunner;
     }
 
     /**

@@ -38,7 +38,6 @@ parameters:
   output_buffering.class: "Stagehand\\TestRunner\\Util\\OutputBuffering"
   terminal.class: "Stagehand\\TestRunner\\CLI\\Terminal"
   test_run.class: "Stagehand\\TestRunner\\Process\\TestRun"
-  test_run_factory.class: "Stagehand\\TestRunner\\Process\\TestRun"
   test_runner.class: "Stagehand\\TestRunner\\CLI\\TestRunner"
   test_target_repository.class: "Stagehand\\TestRunner\\Core\\TestTargetRepository"
 
@@ -93,7 +92,7 @@ services:
     calls:
       - [ setAutotest, [ "%autotest%" ] ]
       - [ setContinuousTestRunner, [ "@autotest" ] ]
-      - [ setTestRunFactory, [ "@test_run_factory" ] ]
+      - [ setTestRunner, [ "@test_run" ] ]
 
   # Collector
   collecting_type:
@@ -142,11 +141,6 @@ services:
       - [ setNotifier, [ "@notifier" ] ]
       - [ setRunner, [ "@runner" ] ]
       - [ setOutputBuffering, [ "@output_buffering" ] ]
-  test_run_factory:
-    class: "%test_run_factory.class%"
-    factory_service: component_aware_factory_factory
-    factory_method: create
-    arguments: [ "test_run" ]
 
   # Runner
   runner:
