@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
@@ -41,11 +41,12 @@ use Stagehand\ComponentFactory\UnfreezableContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ResolveParameterPlaceHoldersPass;
 
-use Stagehand\TestRunner\DependencyInjection\Extension\ExtensionRepository;
+use Stagehand\TestRunner\Core\Plugin\PluginRepository;
+use Stagehand\TestRunner\DependencyInjection\Extension\GeneralExtension;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
@@ -58,9 +59,15 @@ class Compiler
     public function compile()
     {
         $containerBuilder = new UnfreezableContainerBuilder();
+        $containerBuilder->registerExtension(new GeneralExtension());
 
-        foreach (ExtensionRepository::findAll() as $extension) {
-            $containerBuilder->registerExtension($extension);
+        foreach (PluginRepository::findAll() as $plugin) {
+            $extensionClass = new \ReflectionClass(__NAMESPACE__ . '\\Extension\\' . $plugin->getPluginID() . 'Extension');
+            if (!$extensionClass->isInterface()
+                && !$extensionClass->isAbstract()
+                && $extensionClass->isSubclassOf('Symfony\Component\DependencyInjection\Extension\ExtensionInterface')) {
+                $containerBuilder->registerExtension($extensionClass->newInstance());
+            }
         }
 
         foreach ($containerBuilder->getExtensions() as $extension) { /* @var $extension \Symfony\Component\DependencyInjection\Extension\ExtensionInterface */
