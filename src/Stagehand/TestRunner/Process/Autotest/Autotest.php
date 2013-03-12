@@ -38,12 +38,12 @@
 namespace Stagehand\TestRunner\Process\Autotest;
 
 use Symfony\Component\Process\Process;
-use Stagehand\ComponentFactory\IComponentAwareFactory;
 
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Notification\Notification;
+use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Preparer\Preparer;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
@@ -108,10 +108,10 @@ abstract class Autotest
     protected $runner;
 
     /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
-     * @since Method available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Notification\Notifier
+     * @since Method available since Release 3.6.0
      */
-    protected $notifierFactory;
+    protected $notifier;
 
     /**
      * @var \Stagehand\TestRunner\Util\LegacyProxy
@@ -187,7 +187,7 @@ abstract class Autotest
 
         if ($exitStatus != 0 && $this->runner->shouldNotify()) {
             $fatalError = new FatalError($streamOutput);
-            $this->notifierFactory->create()->notifyResult(
+            $this->notifier->notifyResult(
                 new Notification(Notification::RESULT_STOPPED, $fatalError->getFullMessage())
             );
         }
@@ -248,12 +248,12 @@ abstract class Autotest
     }
 
     /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $notifierFactory
-     * @since Method available since Release 3.0.0
+     * @param \Stagehand\TestRunner\Notification\Notifier $notifier
+     * @since Method available since Release 3.6.0
      */
-    public function setNotifierFactory(IComponentAwareFactory $notifierFactory)
+    public function setNotifier(Notifier $notifier)
     {
-        $this->notifierFactory = $notifierFactory;
+        $this->notifier = $notifier;
     }
 
     /**

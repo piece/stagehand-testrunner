@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.20.0
@@ -41,7 +41,7 @@ use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.20.0
@@ -65,8 +65,7 @@ class NotifierTest extends PHPUnitComponentAwareTestCase
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
         $this->setComponent('legacy_proxy', $legacyProxy);
 
-        $notifier = $this->createComponent('notifier_factory')->create();
-        $notifier->notifyResult(new Notification($result, self::NOTIFICATION_MESSAGE));
+        $this->createComponent('notifier')->notifyResult(new Notification($result, self::NOTIFICATION_MESSAGE));
 
         \Phake::verify($legacyProxy)->system($this->matchesRegularExpression($commandRegex), $this->anything());
     }
@@ -157,8 +156,7 @@ class NotifierTest extends PHPUnitComponentAwareTestCase
         \Phake::when($legacyProxy)->system($this->anything(), $this->anything())->thenReturn(null);
         $this->setComponent('legacy_proxy', $legacyProxy);
 
-        $notifier = $this->createComponent('notifier_factory')->create();
-        $notifier->notifyResult(new Notification(Notification::RESULT_STOPPED, 'Foo\Bar\Baz::qux()'));
+        $this->createComponent('notifier')->notifyResult(new Notification(Notification::RESULT_STOPPED, 'Foo\Bar\Baz::qux()'));
 
         \Phake::verify($legacyProxy)->system(
             $this->matchesRegularExpression('/' . preg_quote('Foo\\\\Bar\\\\Baz::qux()') . '/'),

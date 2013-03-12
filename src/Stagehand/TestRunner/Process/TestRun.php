@@ -39,9 +39,8 @@
 
 namespace Stagehand\TestRunner\Process;
 
-use Stagehand\ComponentFactory\IComponentAwareFactory;
-
 use Stagehand\TestRunner\Collector\Collector;
+use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Preparer\Preparer;
 use Stagehand\TestRunner\Runner\Runner;
 use Stagehand\TestRunner\Util\OutputBuffering;
@@ -81,10 +80,10 @@ class TestRun
     protected $runner;
 
     /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
-     * @since Method available since Release 3.0.0
+     * @var \Stagehand\TestRunner\Notification\Notifier
+     * @since Property available since Release 3.6.0
      */
-    protected $notifierFactory;
+    protected $notifier;
 
     /**
      * @param \Stagehand\TestRunner\Preparer\Preparer $preparer
@@ -107,7 +106,7 @@ class TestRun
         $this->result = $this->runner->run($this->collector->collect());
 
         if ($this->runner->shouldNotify()) {
-            $this->notifierFactory->create()->notifyResult($this->runner->getNotification());
+            $this->notifier->notifyResult($this->runner->getNotification());
         }
     }
 
@@ -139,12 +138,12 @@ class TestRun
     }
 
     /**
-     * @param \Stagehand\ComponentFactory\IComponentAwareFactory $notifierFactory
-     * @since Method available since Release 3.0.0
+     * @param \Stagehand\TestRunner\Notification\Notifier $notifier
+     * @since Method available since Release 3.6.0
      */
-    public function setNotifierFactory(IComponentAwareFactory $notifierFactory)
+    public function setNotifier(Notifier $notifier)
     {
-        $this->notifierFactory = $notifierFactory;
+        $this->notifier = $notifier;
     }
 }
 

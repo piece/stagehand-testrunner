@@ -34,7 +34,6 @@ parameters:
   collecting_type_factory.class: "Stagehand\\TestRunner\\Collector\\CollectingTypeFactory"
   legacy_proxy.class: "Stagehand\\TestRunner\\Util\\LegacyProxy"
   notifier.class: "Stagehand\\TestRunner\\Notification\\Notifier"
-  notifier_factory.class: "Stagehand\\TestRunner\\Notification\\Notifier"
   os.class: "Stagehand\\TestRunner\\Util\\OS"
   output_buffering.class: "Stagehand\\TestRunner\\Util\\OutputBuffering"
   terminal.class: "Stagehand\\TestRunner\\CLI\\Terminal"
@@ -125,11 +124,6 @@ services:
     calls:
       - [ setLegacyProxy, [ "@legacy_proxy" ] ]
       - [ setOS, [ "@os" ] ]
-  notifier_factory:
-    class: "%notifier_factory.class%"
-    factory_service: component_aware_factory_factory
-    factory_method: create
-    arguments: [ "notifier" ]
 
   # Preparer
   preparer:
@@ -145,7 +139,7 @@ services:
     arguments: [ "@preparer" ]
     calls:
       - [ setCollector, [ "@collector" ] ]
-      - [ setNotifierFactory, [ "@notifier_factory" ] ]
+      - [ setNotifier, [ "@notifier" ] ]
       - [ setRunner, [ "@runner" ] ]
       - [ setOutputBuffering, [ "@output_buffering" ] ]
   test_run_factory:

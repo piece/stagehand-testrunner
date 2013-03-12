@@ -49,7 +49,7 @@ services:
     calls:
       - [ setAlterationMonitoring, [ "@alteration_monitoring" ] ]
       - [ setLegacyProxy, [ "@legacy_proxy" ] ]
-      - [ setNotifierFactory, [ "@notifier_factory" ] ]
+      - [ setNotifier, [ "@notifier" ] ]
       - [ setOS, [ "@os" ] ]
       - [ setRunner, [ "@runner" ] ]
       - [ setTerminal, [ "@terminal" ] ]
