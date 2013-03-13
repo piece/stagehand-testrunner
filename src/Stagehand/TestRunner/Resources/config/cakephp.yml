@@ -24,7 +24,7 @@
 
 parameters:
   # Domain Components
-  cakephp.autotest.class: "Stagehand\\TestRunner\\Process\\Autotest\\CakePHPAutotest"
+  cakephp.autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\CakePHPAutotest"
   cakephp.collector.class: "Stagehand\\TestRunner\\Collector\\CakePHPCollector"
   simpletest.junit_xml_reporter.class: "Stagehand\\TestRunner\\Runner\\CakePHPRunner\\JUnitXMLReporter"
   cakephp.preparer.class: "Stagehand\\TestRunner\\Preparer\\CakePHPPreparer"

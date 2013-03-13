@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,28 +29,32 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner\Process\Autotest;
+namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
-use Stagehand\TestRunner\Core\Plugin\SimpleTestPlugin;
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\Plugin\CIUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class SimpleTestAutotestTest extends TestCase
+class CIUnitAutotestTest extends PHPUnitAutotestTest
 {
     public static function setUpBeforeClass()
     {
-        TestCase::initializeConfigurators();
+        PHPUnitAutotestTest::setUpBeforeClass();
+        static::$configurators[] = function (ApplicationContext $applicationContext) {
+            \Phake::when($applicationContext->createComponent('preparer'))->getCIUnitPath()->thenReturn('DIRECTORY');
+        };
     }
 
     /**
@@ -58,7 +62,25 @@ class SimpleTestAutotestTest extends TestCase
      */
     protected function getPluginID()
     {
-        return SimpleTestPlugin::getPluginID();
+        return CIUnitPlugin::getPluginID();
+    }
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->setComponent('ciunit.preparer', \Phake::mock('Stagehand\TestRunner\Preparer\CIUnitPreparer'));
+    }
+
+    /**
+     * @return array
+     */
+    public function preservedConfigurations()
+    {
+        $preservedConfigurations = parent::preservedConfigurations();
+        $index = count($preservedConfigurations);
+        return array_merge($preservedConfigurations, array(
+            array($index++, array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--ciunit-path=' . escapeshellarg('DIRECTORY')), array(true, true, true)),
+        ));
     }
 }
 

@@ -24,7 +24,7 @@
 
 parameters:
   # Domain Components
-  simpletest.autotest.class: "Stagehand\\TestRunner\\Process\\Autotest\\SimpleTestAutotest"
+  simpletest.autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\SimpleTestAutotest"
   simpletest.collector.class: "Stagehand\\TestRunner\\Collector\\SimpleTestCollector"
   simpletest.junit_xml_reporter.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner\\JUnitXMLReporter"
   simpletest.junit_xml_reporter_factory.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner\\JUnitXMLReporterFactory"

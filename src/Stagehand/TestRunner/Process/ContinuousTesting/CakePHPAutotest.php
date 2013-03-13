@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Process\Autotest;
+namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,32 +44,21 @@ namespace Stagehand\TestRunner\Process\Autotest;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitAutotest extends Autotest
+class CakePHPAutotest extends SimpleTestAutotest
 {
-    /**
-     * @var \PHPUnit_Util_Configuration $phpunitConfiguration
-     * @since Property available since Release 3.5.0
-     */
-    protected $phpunitConfiguration;
-
-    /**
-     * @param \PHPUnit_Util_Configuration $phpunitConfiguration
-     * @since Method available since Release 3.5.0
-     */
-    public function setPHPUnitConfiguration(\PHPUnit_Util_Configuration $phpunitConfiguration = null)
-    {
-        $this->phpunitConfiguration = $phpunitConfiguration;
-    }
-
     /**
      * @return array
      */
     protected function doBuildRunnerOptions()
     {
-        $options = array();
+        $options = parent::doBuildRunnerOptions();
 
-        if (!is_null($this->phpunitConfiguration)) {
-            $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitConfiguration->getFilename());
+        if (!is_null($this->preparer->getCakePHPAppPath())) {
+            $options[] = '--cakephp-app-path=' . escapeshellarg($this->preparer->getCakePHPAppPath());
+        }
+
+        if (!is_null($this->preparer->getCakePHPCorePath())) {
+            $options[] = '--cakephp-core-path=' . escapeshellarg($this->preparer->getCakePHPCorePath());
         }
 
         return $options;

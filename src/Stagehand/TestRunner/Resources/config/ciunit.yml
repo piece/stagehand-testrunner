@@ -24,7 +24,7 @@
 
 parameters:
   # Domain Components
-  ciunit.autotest.class: "Stagehand\\TestRunner\\Process\\Autotest\\CIUnitAutotest"
+  ciunit.autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\CIUnitAutotest"
   ciunit.collector.class: "Stagehand\\TestRunner\\Collector\\CIUnitCollector"
   ciunit.preparer.class: "Stagehand\\TestRunner\\Preparer\\CIUnitPreparer"
   ciunit.runner.class: "Stagehand\\TestRunner\\Runner\\CIUnitRunner"

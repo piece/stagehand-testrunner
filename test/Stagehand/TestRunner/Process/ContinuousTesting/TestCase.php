@@ -35,7 +35,7 @@
  * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner\Process\Autotest;
+namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Test\ComponentAwareTestCase;

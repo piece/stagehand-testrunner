@@ -32,10 +32,13 @@
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 3.0.0
+ * @since      File available since Release 2.20.0
  */
 
-namespace Stagehand\TestRunner\Process\Autotest;
+namespace Stagehand\TestRunner\Process\ContinuousTesting;
+
+use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,24 +47,38 @@ namespace Stagehand\TestRunner\Process\Autotest;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class CakePHPAutotest extends SimpleTestAutotest
+class PHPUnitAutotestTest extends TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        TestCase::initializeConfigurators();
+        static::$configurators[] = function (ApplicationContext $applicationContext) {
+            $phpunitConfiguration = \Phake::mock('PHPUnit_Util_Configuration');
+            \Phake::when($phpunitConfiguration)->getPHPUnitConfiguration()->thenReturn(array());
+            \Phake::when($phpunitConfiguration)->getFilename()->thenReturn('FILE');
+
+            $applicationContext->setComponent('phpunit.phpunit_configuration', $phpunitConfiguration);
+        };
+    }
+
+    /**
+     * @return string
+     */
+    protected function getPluginID()
+    {
+        return PHPUnitPlugin::getPluginID();
+    }
+
     /**
      * @return array
      */
-    protected function doBuildRunnerOptions()
+    public function preservedConfigurations()
     {
-        $options = parent::doBuildRunnerOptions();
-
-        if (!is_null($this->preparer->getCakePHPAppPath())) {
-            $options[] = '--cakephp-app-path=' . escapeshellarg($this->preparer->getCakePHPAppPath());
-        }
-
-        if (!is_null($this->preparer->getCakePHPCorePath())) {
-            $options[] = '--cakephp-core-path=' . escapeshellarg($this->preparer->getCakePHPCorePath());
-        }
-
-        return $options;
+        $preservedConfigurations = parent::preservedConfigurations();
+        $index = count($preservedConfigurations);
+        return array_merge($preservedConfigurations, array(
+            array($index++, array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true, true)),
+        ));
     }
 }
 

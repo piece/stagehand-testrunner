@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Process\Autotest;
+namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,7 +44,7 @@ namespace Stagehand\TestRunner\Process\Autotest;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class SimpleTestAutotest extends Autotest
+class PHPSpecAutotest extends Autotest
 {
     /**
      * @return array

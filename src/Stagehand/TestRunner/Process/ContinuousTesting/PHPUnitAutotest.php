@@ -32,13 +32,10 @@
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.20.0
+ * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Process\Autotest;
-
-use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,38 +44,35 @@ use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class PHPUnitAutotestTest extends TestCase
+class PHPUnitAutotest extends Autotest
 {
-    public static function setUpBeforeClass()
-    {
-        TestCase::initializeConfigurators();
-        static::$configurators[] = function (ApplicationContext $applicationContext) {
-            $phpunitConfiguration = \Phake::mock('PHPUnit_Util_Configuration');
-            \Phake::when($phpunitConfiguration)->getPHPUnitConfiguration()->thenReturn(array());
-            \Phake::when($phpunitConfiguration)->getFilename()->thenReturn('FILE');
-
-            $applicationContext->setComponent('phpunit.phpunit_configuration', $phpunitConfiguration);
-        };
-    }
+    /**
+     * @var \PHPUnit_Util_Configuration $phpunitConfiguration
+     * @since Property available since Release 3.5.0
+     */
+    protected $phpunitConfiguration;
 
     /**
-     * @return string
+     * @param \PHPUnit_Util_Configuration $phpunitConfiguration
+     * @since Method available since Release 3.5.0
      */
-    protected function getPluginID()
+    public function setPHPUnitConfiguration(\PHPUnit_Util_Configuration $phpunitConfiguration = null)
     {
-        return PHPUnitPlugin::getPluginID();
+        $this->phpunitConfiguration = $phpunitConfiguration;
     }
 
     /**
      * @return array
      */
-    public function preservedConfigurations()
+    protected function doBuildRunnerOptions()
     {
-        $preservedConfigurations = parent::preservedConfigurations();
-        $index = count($preservedConfigurations);
-        return array_merge($preservedConfigurations, array(
-            array($index++, array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true, true)),
-        ));
+        $options = array();
+
+        if (!is_null($this->phpunitConfiguration)) {
+            $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitConfiguration->getFilename());
+        }
+
+        return $options;
     }
 }
 

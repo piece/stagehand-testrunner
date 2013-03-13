@@ -24,7 +24,7 @@
 
 parameters:
   # Domain Components
-  phpspec.autotest.class: "Stagehand\\TestRunner\\Process\\Autotest\\PHPSpecAutotest"
+  phpspec.autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\PHPSpecAutotest"
   phpspec.collector.class: "Stagehand\\TestRunner\\Collector\\PHPSpecCollector"
   phpspec.preparer.class: "Stagehand\\TestRunner\\Preparer\\PHPSpecPreparer"
   phpspec.runner.class: "Stagehand\\TestRunner\\Runner\\PHPSpecRunner"

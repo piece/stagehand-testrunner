@@ -24,7 +24,7 @@
 
 parameters:
   # Domain Components
-  phpunit.autotest.class: "Stagehand\\TestRunner\\Process\\Autotest\\PHPUnitAutotest"
+  phpunit.autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\PHPUnitAutotest"
   phpunit.collector.class: "Stagehand\\TestRunner\\Collector\\PHPUnitCollector"
   phpunit.preparer.class: "Stagehand\\TestRunner\\Preparer\\PHPUnitPreparer"
   phpunit.runner.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner"
