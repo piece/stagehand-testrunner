@@ -65,7 +65,7 @@ services:
       - [ setRunner, [ "@runner" ] ]
       - [ setTerminal, [ "@terminal" ] ]
       - [ setTestTargetRepository, [ "@test_target_repository" ] ]
-      - [ setWatchDirs, [ "%autotest_watch_dirs%" ] ]
+      - [ setWatchDirs, [ "%continuous_testing_watch_dirs%" ] ]
 
   # Runner
   phpunit.runner:

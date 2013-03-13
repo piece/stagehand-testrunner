@@ -143,7 +143,7 @@ PHP_EOL .
         $this->transformToConfiguration($input, $output, $transformation);
         $transformation->transformToContainerParameters();
 
-        $this->createTestRunner($container->getParameter('autotest'))->run();
+        $this->createTestRunner($container->getParameter('continuous_testing'))->run();
 
         return 0;
     }

@@ -42,8 +42,8 @@ parameters:
 
   # Configuration Parameters
   recursive: false
-  autotest: false
-  autotest_watch_dirs: []
+  continuous_testing: false
+  continuous_testing_watch_dirs: []
   notify: false
   test_methods: []
   test_classes: []
