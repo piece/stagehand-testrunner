@@ -61,11 +61,6 @@ class TestRunner
     protected $testRunner;
 
     /**
-     * @var \Stagehand\ComponentFactory\IComponentAwareFactory
-     */
-    protected $autotestFactory;
-
-    /**
      * @var \Stagehand\TestRunner\Process\Autotest\Autotest
      * @since Property available since Release 3.6.0
      */
