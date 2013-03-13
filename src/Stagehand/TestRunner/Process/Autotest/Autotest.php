@@ -47,6 +47,7 @@ use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Preparer\Preparer;
 use Stagehand\TestRunner\Process\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
+use Stagehand\TestRunner\Process\TestRunnerInterface;
 use Stagehand\TestRunner\Runner\Runner;
 use Stagehand\TestRunner\Util\LegacyProxy;
 use Stagehand\TestRunner\Util\OS;
@@ -59,7 +60,7 @@ use Stagehand\TestRunner\Util\String;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-abstract class Autotest
+abstract class Autotest implements TestRunnerInterface
 {
     /**
      * @var \Stagehand\TestRunner\Util\OS
@@ -132,6 +133,15 @@ abstract class Autotest
     {
         $this->preparer = $preparer;
         $this->preparer->prepare();
+    }
+
+    /**
+     * @since Method available since Release 3.6.0
+     */
+    public function run()
+    {
+        $this->runTests();
+        $this->monitorAlteration();
     }
 
     /**

@@ -142,7 +142,9 @@ PHP_EOL .
         $transformation = $this->createTransformation($container);
         $this->transformToConfiguration($input, $output, $transformation);
         $transformation->transformToContainerParameters();
-        $this->createTestRunner()->run();
+
+        $this->createTestRunner($container->getParameter('autotest'))->run();
+
         return 0;
     }
 
@@ -279,11 +281,16 @@ PHP_EOL .
     }
 
     /**
-     * @return \Stagehand\TestRunner\CLI\TestRunner
+     * @param boolean $continuousTesting
+     * @return \Stagehand\TestRunner\Process\TestRunnerInterface
      */
-    protected function createTestRunner()
+    protected function createTestRunner($continuousTesting)
     {
-        return ApplicationContext::getInstance()->createComponent('test_runner');
+        if ($continuousTesting) {
+            return ApplicationContext::getInstance()->createComponent('autotest');
+        } else {
+            return ApplicationContext::getInstance()->createComponent('test_run');
+        }
     }
 
     /**

@@ -38,7 +38,6 @@ parameters:
   output_buffering.class: "Stagehand\\TestRunner\\Util\\OutputBuffering"
   terminal.class: "Stagehand\\TestRunner\\CLI\\Terminal"
   test_run.class: "Stagehand\\TestRunner\\Process\\TestRun"
-  test_runner.class: "Stagehand\\TestRunner\\CLI\\TestRunner"
   test_target_repository.class: "Stagehand\\TestRunner\\Core\\TestTargetRepository"
 
   # Configuration Parameters
@@ -87,12 +86,6 @@ services:
     calls:
       - [ setInput, [ "@input" ] ]
       - [ setOutput, [ "@output" ] ]
-  test_runner:
-    class: "%test_runner.class%"
-    calls:
-      - [ setAutotest, [ "%autotest%" ] ]
-      - [ setContinuousTestRunner, [ "@autotest" ] ]
-      - [ setTestRunner, [ "@test_run" ] ]
 
   # Collector
   collecting_type:

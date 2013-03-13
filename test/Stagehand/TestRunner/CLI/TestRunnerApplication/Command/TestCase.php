@@ -125,9 +125,9 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
             ->thenReturn($this->applicationContext->getComponentFactory()->getContainer());
         \Phake::when($command)->createTransformation($this->anything())
             ->thenReturn($transformation);
-        $testRunner = \Phake::mock('Stagehand\TestRunner\CLI\TestRunner');
+        $testRunner = \Phake::mock('Stagehand\TestRunner\Process\TestRun');
         \Phake::when($testRunner)->run()->thenReturn(null);
-        $this->applicationContext->setComponent('test_runner', $testRunner);
+        $this->applicationContext->setComponent('test_run', $testRunner);
 
         $preparer($this, $this->applicationContext, $transformation);
 
