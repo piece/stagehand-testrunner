@@ -53,7 +53,7 @@ use Stagehand\TestRunner\Util\OutputBuffering;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.14.0
  */
-class TestRun implements TestRunnerInterface
+class TestRunner implements TestRunnerInterface
 {
     /**
      * @var boolean $result

@@ -50,7 +50,7 @@ use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-class TestRunTest extends PHPUnitComponentAwareTestCase
+class TestRunnerTest extends PHPUnitComponentAwareTestCase
 {
     const NOTIFICATION_USE = true;
     const NOTIFICATION_NOTUSE = false;
@@ -90,7 +90,7 @@ class TestRunTest extends PHPUnitComponentAwareTestCase
         }
         $this->setComponent('notifier', $notifier);
 
-        $this->createComponent('test_run')->run();
+        $this->createComponent('test_runner')->run();
 
         \Phake::verify($preparer)->prepare();
         \Phake::verify($collector)->collect();

@@ -37,7 +37,7 @@ parameters:
   os.class: "Stagehand\\TestRunner\\Util\\OS"
   output_buffering.class: "Stagehand\\TestRunner\\Util\\OutputBuffering"
   terminal.class: "Stagehand\\TestRunner\\CLI\\Terminal"
-  test_run.class: "Stagehand\\TestRunner\\Process\\TestRun"
+  test_runner.class: "Stagehand\\TestRunner\\Process\\TestRunner"
   test_target_repository.class: "Stagehand\\TestRunner\\Core\\TestTargetRepository"
 
   # Configuration Parameters
@@ -126,8 +126,8 @@ services:
     class: "%alteration_monitoring.class%"
   autotest:
     synthetic: true
-  test_run:
-    class: "%test_run.class%"
+  test_runner:
+    class: "%test_runner.class%"
     arguments: [ "@preparer" ]
     calls:
       - [ setCollector, [ "@collector" ] ]

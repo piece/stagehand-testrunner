@@ -289,7 +289,7 @@ PHP_EOL .
         if ($continuousTesting) {
             return ApplicationContext::getInstance()->createComponent('autotest');
         } else {
-            return ApplicationContext::getInstance()->createComponent('test_run');
+            return ApplicationContext::getInstance()->createComponent('test_runner');
         }
     }
 

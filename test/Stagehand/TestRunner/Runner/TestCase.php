@@ -201,7 +201,7 @@ abstract class TestCase extends ComponentAwareTestCase
         $runner->setJUnitXMLFile($this->junitXMLFile);
 
         ob_start();
-        $this->createComponent('test_run')->run();
+        $this->createComponent('test_runner')->run();
         $this->output = ob_get_contents();
         ob_end_clean();
     }
