@@ -24,7 +24,6 @@
 
 parameters:
   # Domain Components
-  simpletest.autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\SimpleTestAutotest"
   simpletest.collector.class: "Stagehand\\TestRunner\\Collector\\SimpleTestCollector"
   simpletest.junit_xml_reporter.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner\\JUnitXMLReporter"
   simpletest.junit_xml_reporter_factory.class: "Stagehand\\TestRunner\\Runner\\SimpleTestRunner\\JUnitXMLReporterFactory"
@@ -43,20 +42,6 @@ services:
   # Preparer
   simpletest.preparer:
     class: "%simpletest.preparer.class%"
-
-  # Process
-  simpletest.autotest:
-    class: "%simpletest.autotest.class%"
-    arguments: [ "@preparer" ]
-    calls:
-      - [ setAlterationMonitoring, [ "@alteration_monitoring" ] ]
-      - [ setLegacyProxy, [ "@legacy_proxy" ] ]
-      - [ setNotifier, [ "@notifier" ] ]
-      - [ setOS, [ "@os" ] ]
-      - [ setRunner, [ "@runner" ] ]
-      - [ setTerminal, [ "@terminal" ] ]
-      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
-      - [ setWatchDirs, [ "%continuous_testing_watch_dirs%" ] ]
 
   # Runner
   simpletest.junit_xml_reporter:

@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,36 +29,32 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.20.0
+ * @since      File available since Release 3.6.0
  */
 
 namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\Test\ComponentAwareTestCase;
+use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 2.20.0
+ * @since      Class available since Release 3.6.0
  */
-abstract class TestCase extends ComponentAwareTestCase
+class CommandLineBuilderTest extends PHPUnitComponentAwareTestCase
 {
     /**
      * @var array
-     * @since Property available since Release 3.0.0
      */
-    protected static $configurators;
+    private static $configurators;
 
-    /**
-     * @since Method available since Release 3.0.0
-     */
-    protected static function initializeConfigurators()
+    public static function setUpBeforeClass()
     {
         self::$configurators = array();
         self::$configurators[] = function (ApplicationContext $applicationContext) {
@@ -109,53 +105,45 @@ abstract class TestCase extends ComponentAwareTestCase
     /**
      * @test
      * @dataProvider commandLines
-     * @param string $command
-     * @param array $options
+     * @param string $inputCommand
+     * @param array $inputOptions
      * @param string $phpConfigDir
-     * @param string $builtCommand
-     * @param array $builtOptions
+     * @param string $expectedBuiltCommand
+     * @param array $expectedBuiltOptions
      * @link http://redmine.piece-framework.com/issues/196
      * @link http://redmine.piece-framework.com/issues/319
      * @link http://redmine.piece-framework.com/issues/393
-     * @since Method available since Release 2.21.0
      */
-    public function buildsACommandLineString($command, $options, $phpConfigDir, $builtCommand, $builtOptions)
+    public function buildsACommandLineString($inputCommand, array $inputOptions, $phpConfigDir, $expectedBuiltCommand, $expectedBuiltOptions)
     {
         unset($_SERVER['PHP_COMMAND']);
-        if (!is_null($command)) {
-            $_SERVER['_'] = $command;
+        if (!is_null($inputCommand)) {
+            $_SERVER['_'] = $inputCommand;
         } else {
             unset($_SERVER['_']);
         }
-        $_SERVER['argv'] = $GLOBALS['argv'] = $options;
+        $_SERVER['argv'] = $GLOBALS['argv'] = $inputOptions;
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
 
         $testTargetRepository = $this->createComponent('test_target_repository'); /* @var $testTargetRepository \Stagehand\TestRunner\Core\TestTargetRepository */
-        $testTargetRepository->setResources(array($options[ count($options) - 1 ]));
+        $testTargetRepository->setResources(array($inputOptions[ count($inputOptions) - 1 ]));
 
         $legacyProxy = \Phake::mock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->get_cfg_var($this->anything())->thenReturn($phpConfigDir);
-        \Phake::when($legacyProxy)->is_dir($this->anything())->thenReturn(true);
-        \Phake::when($legacyProxy)->realpath($this->anything())->thenReturn(true);
         $this->setComponent('legacy_proxy', $legacyProxy);
 
-        $alterationMonitoring = \Phake::mock('Stagehand\TestRunner\Process\AlterationMonitoring');
-        \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
-        $this->setComponent('alteration_monitoring', $alterationMonitoring);
+        $this->createComponent('command_line_builder')->build();
 
-        $this->createComponent('autotest')->monitorAlteration();
-
-        $runnerCommand = $this->readAttribute($this->createComponent('autotest'), 'runnerCommand');
-        $runnerOptions = $this->readAttribute($this->createComponent('autotest'), 'runnerOptions');
-        $this->assertEquals($builtCommand, $runnerCommand);
-        for ($i = 0; $i < count($builtOptions); ++$i) {
-            $this->assertEquals($builtOptions[$i], $runnerOptions[$i]);
+        $builtCommand = $this->readAttribute($this->createComponent('command_line_builder'), 'command');
+        $builtOptions = $this->readAttribute($this->createComponent('command_line_builder'), 'options');
+        $this->assertThat($builtCommand, $this->equalTo($expectedBuiltCommand));
+        for ($i = 0; $i < count($expectedBuiltOptions); ++$i) {
+            $this->assertThat($builtOptions[$i], $this->equalTo($expectedBuiltOptions[$i]));
         }
     }
 
     /**
      * @return array
-     * @since Method available since Release 2.21.0
      */
     public function commandLines()
     {
@@ -172,42 +160,25 @@ abstract class TestCase extends ComponentAwareTestCase
 
     /**
      * @test
-     * @dataProvider preservedConfigurations
+     * @dataProvider commandLineOptions
      * @param integer $configuratorIndex
-     * @param array $normalizedOption
+     * @param array $normalizedOptions
      * @param array $shouldPreserve
      * @link http://redmine.piece-framework.com/issues/314
      */
-    public function preservesSomeConfigurations(
-        $configuratorIndex,
-        array $normalizedOption,
-        array $shouldPreserve)
+    public function buildsCommandLineOptions($configuratorIndex, array $normalizedOptions,array $shouldPreserve)
     {
         $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/testrunner', '-a');
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
 
-        $notifier = \Phake::mock('Stagehand\TestRunner\Notification\Notifier');
-        \Phake::when($notifier)->notifyResult($this->anything())->thenReturn(null);
-        $this->setComponent('notifier', $notifier);
-
-        $legacyProxy = \Phake::mock('Stagehand\TestRunner\Util\LegacyProxy');
-        \Phake::when($legacyProxy)->passthru($this->anything())->thenReturn(null);
-        \Phake::when($legacyProxy)->is_dir($this->anything())->thenReturn(true);
-        $this->setComponent('legacy_proxy', $legacyProxy);
-
-        $alterationMonitoring = \Phake::mock('Stagehand\TestRunner\Process\AlterationMonitoring');
-        \Phake::when($alterationMonitoring)->monitor($this->anything(), $this->anything())->thenReturn(null);
-        $this->setComponent('alteration_monitoring', $alterationMonitoring);
-
         call_user_func(self::$configurators[$configuratorIndex], $this->applicationContext);
 
-        $this->createComponent('autotest')->monitorAlteration();
+        $this->createComponent('command_line_builder')->build();
 
-        $runnerOptions = $this->readAttribute($this->createComponent('autotest'), 'runnerOptions');
-
-        for ($i = 0; $i < count($normalizedOption); ++$i) {
-            $preserved = in_array($normalizedOption[$i], $runnerOptions);
-            $this->assertEquals($shouldPreserve[$i], $preserved);
+        $builtOptions = $this->readAttribute($this->createComponent('command_line_builder'), 'options');
+        for ($i = 0; $i < count($normalizedOptions); ++$i) {
+            $preserved = in_array($normalizedOptions[$i], $builtOptions);
+            $this->assertThat($preserved, $this->equalTo($shouldPreserve[$i]));
         }
     }
 
@@ -215,7 +186,7 @@ abstract class TestCase extends ComponentAwareTestCase
      * @return array
      * @link http://redmine.piece-framework.com/issues/314
      */
-    public function preservedConfigurations()
+    public function commandLineOptions()
     {
         $preservedConfigurations = array(
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true)),

@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -42,7 +42,7 @@ use Stagehand\TestRunner\Core\TestTargetRepository;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
@@ -392,7 +392,18 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     {
         $reflectionClass = new \ReflectionClass($this);
         $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
-        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
+        $phpunitConfigurationFactory = $this->createComponent('phpunit.phpunit_configuration_factory');
+        $phpunitConfigurationFactoryClass = new \ReflectionClass($phpunitConfigurationFactory);
+        $phpunitConfigurationFileProperty = $phpunitConfigurationFactoryClass->getProperty('phpunitConfigurationFile');
+        $phpunitConfigurationFileProperty->setAccessible(true);
+        $phpunitConfigurationFileProperty->setValue($phpunitConfigurationFactory, $configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
+        $phpunitConfigurationFileProperty->setAccessible(false);
+        $preparer = $this->createPreparer();
+        $preparerClass = new \ReflectionClass($preparer);
+        $phpunitConfigurationFactoryProperty = $preparerClass->getProperty('phpunitConfigurationFactory');
+        $phpunitConfigurationFactoryProperty->setAccessible(true);
+        $phpunitConfigurationFactoryProperty->setValue($preparer, $phpunitConfigurationFactory);
+        $phpunitConfigurationFactoryProperty->setAccessible(false);
         $this->createRunner()->setJUnitXMLRealtime(true);
         $collector = $this->createCollector();
         $collector->collectTestCase($testClass);

@@ -137,8 +137,12 @@ PHP_EOL .
         $container = $this->createContainer($containerClass);
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
         ApplicationContext::getInstance()->setPlugin($this->getPlugin());
+
+        ApplicationContext::getInstance()->setComponent('environment', ApplicationContext::getInstance()->getEnvironment());
         ApplicationContext::getInstance()->setComponent('input', $input);
         ApplicationContext::getInstance()->setComponent('output', $output);
+        ApplicationContext::getInstance()->setComponent('plugin', $this->getPlugin());
+
         $transformation = $this->createTransformation($container);
         $this->transformToConfiguration($input, $output, $transformation);
         $transformation->transformToContainerParameters();

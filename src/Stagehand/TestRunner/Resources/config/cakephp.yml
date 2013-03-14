@@ -24,8 +24,8 @@
 
 parameters:
   # Domain Components
-  cakephp.autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\CakePHPAutotest"
   cakephp.collector.class: "Stagehand\\TestRunner\\Collector\\CakePHPCollector"
+  cakephp.command_line_option_builder.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\CakePHPCommandLineOptionBuilder"
   simpletest.junit_xml_reporter.class: "Stagehand\\TestRunner\\Runner\\CakePHPRunner\\JUnitXMLReporter"
   cakephp.preparer.class: "Stagehand\\TestRunner\\Preparer\\CakePHPPreparer"
   cakephp.runner.class: "Stagehand\\TestRunner\\Runner\\CakePHPRunner"
@@ -49,9 +49,9 @@ services:
       - [ setCakePHPCorePath, [ "%cakephp.cakephp_core_path%" ] ]
 
   # Process
-  cakephp.autotest:
-    parent: simpletest.autotest
-    class: "%cakephp.autotest.class%"
+  cakephp.command_line_option_builder:
+    class: "%cakephp.command_line_option_builder.class%"
+    arguments: [ "@cakephp.preparer" ]
 
   # Runner
   cakephp.runner:

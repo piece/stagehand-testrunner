@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,29 +29,52 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 3.0.0
+ * @since      File available since Release 3.6.0
  */
 
 namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
+use Stagehand\TestRunner\Preparer\CakePHPPreparer;
+
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 3.0.0
+ * @since      Class available since Release 3.6.0
  */
-class PHPSpecAutotest extends Autotest
+class CakePHPCommandLineOptionBuilder implements CommandLineOptionBuilderInterface
 {
     /**
-     * @return array
+     * @var \Stagehand\TestRunner\Preparer\CakePHPPreparer
      */
-    protected function doBuildRunnerOptions()
+    protected $preparer;
+
+    /**
+     * @param \Stagehand\TestRunner\Preparer\CakePHPPreparer $preparer
+     */
+    public function __construct(CakePHPPreparer $preparer)
     {
-        return array();
+        $this->preparer = $preparer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function build(array $options)
+    {
+        if (!is_null($this->preparer->getCakePHPAppPath())) {
+            $options[] = '--cakephp-app-path=' . escapeshellarg($this->preparer->getCakePHPAppPath());
+        }
+
+        if (!is_null($this->preparer->getCakePHPCorePath())) {
+            $options[] = '--cakephp-core-path=' . escapeshellarg($this->preparer->getCakePHPCorePath());
+        }
+
+        return $options;
     }
 }
 

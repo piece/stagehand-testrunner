@@ -24,7 +24,6 @@
 
 parameters:
   # Domain Components
-  phpspec.autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\PHPSpecAutotest"
   phpspec.collector.class: "Stagehand\\TestRunner\\Collector\\PHPSpecCollector"
   phpspec.preparer.class: "Stagehand\\TestRunner\\Preparer\\PHPSpecPreparer"
   phpspec.runner.class: "Stagehand\\TestRunner\\Runner\\PHPSpecRunner"
@@ -41,20 +40,6 @@ services:
   # Preparer
   phpspec.preparer:
     class: "%phpspec.preparer.class%"
-
-  # Process
-  phpspec.autotest:
-    class: "%phpspec.autotest.class%"
-    arguments: [ "@preparer" ]
-    calls:
-      - [ setAlterationMonitoring, [ "@alteration_monitoring" ] ]
-      - [ setLegacyProxy, [ "@legacy_proxy" ] ]
-      - [ setNotifier, [ "@notifier" ] ]
-      - [ setOS, [ "@os" ] ]
-      - [ setRunner, [ "@runner" ] ]
-      - [ setTerminal, [ "@terminal" ] ]
-      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
-      - [ setWatchDirs, [ "%continuous_testing_watch_dirs%" ] ]
 
   # Runner
   phpspec.runner:

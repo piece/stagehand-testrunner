@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.5.0
@@ -39,7 +39,7 @@ namespace Stagehand\TestRunner\DependencyInjection;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.5.0
@@ -47,15 +47,27 @@ namespace Stagehand\TestRunner\DependencyInjection;
 class PHPUnitConfigurationFactory
 {
     /**
+     * @var string
+     */
+    protected $phpunitConfigurationFile;
+
+    /**
      * @param string $phpunitConfigurationFile
+     */
+    public function __construct($phpunitConfigurationFile)
+    {
+        $this->phpunitConfigurationFile = $phpunitConfigurationFile;
+    }
+
+    /**
      * @return \PHPUnit_Util_Configuration
      */
-    public function create($phpunitConfigurationFile)
+    public function create()
     {
-        if (is_null($phpunitConfigurationFile)) {
+        if (is_null($this->phpunitConfigurationFile)) {
             return null;
         } else {
-            return \PHPUnit_Util_Configuration::getInstance($phpunitConfigurationFile);
+            return \PHPUnit_Util_Configuration::getInstance($this->phpunitConfigurationFile);
         }
     }
 }

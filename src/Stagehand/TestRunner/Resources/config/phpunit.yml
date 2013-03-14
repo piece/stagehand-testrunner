@@ -24,8 +24,8 @@
 
 parameters:
   # Domain Components
-  phpunit.autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\PHPUnitAutotest"
   phpunit.collector.class: "Stagehand\\TestRunner\\Collector\\PHPUnitCollector"
+  phpunit.command_line_option_builder.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\PHPUnitCommandLineOptionBuilder"
   phpunit.preparer.class: "Stagehand\\TestRunner\\Preparer\\PHPUnitPreparer"
   phpunit.runner.class: "Stagehand\\TestRunner\\Runner\\PHPUnitRunner"
 
@@ -42,30 +42,20 @@ services:
     arguments: [ "@test_target_repository" ]
     calls:
       - [ setCollectingTypeFactory, [ "@collecting_type_factory" ] ]
-      - [ setPHPUnitConfiguration, [ "@?phpunit.phpunit_configuration" ] ]
+      - [ setPHPUnitConfigurationFactory, [ "@phpunit.phpunit_configuration_factory" ] ]
       - [ setRecursive, [ "%recursive%" ] ]
 
   # Preparer
   phpunit.preparer:
     class: "%phpunit.preparer.class%"
     calls:
-      - [ setPHPUnitConfiguration, [ "@?phpunit.phpunit_configuration" ] ]
+      - [ setPHPUnitConfigurationFactory, [ "@phpunit.phpunit_configuration_factory" ] ]
       - [ setTerminal, [ "@terminal" ] ]
 
   # Process
-  phpunit.autotest:
-    class: "%phpunit.autotest.class%"
-    arguments: [ "@preparer" ]
-    calls:
-      - [ setAlterationMonitoring, [ "@alteration_monitoring" ] ]
-      - [ setLegacyProxy, [ "@legacy_proxy" ] ]
-      - [ setNotifier, [ "@notifier" ] ]
-      - [ setOS, [ "@os" ] ]
-      - [ setPHPUnitConfiguration, [ "@?phpunit.phpunit_configuration" ] ]
-      - [ setRunner, [ "@runner" ] ]
-      - [ setTerminal, [ "@terminal" ] ]
-      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
-      - [ setWatchDirs, [ "%continuous_testing_watch_dirs%" ] ]
+  phpunit.command_line_option_builder:
+    class: "%phpunit.command_line_option_builder.class%"
+    arguments: [ "@phpunit.phpunit_configuration_factory" ]
 
   # Runner
   phpunit.runner:
@@ -75,7 +65,7 @@ services:
       - [ setJUnitXMLFile, [ "%junit_xml_file%" ] ]
       - [ setJUnitXMLRealtime, [ "%junit_xml_realtime%" ] ]
       - [ setNotify, [ "%notify%" ] ]
-      - [ setPHPUnitConfiguration, [ "@?phpunit.phpunit_configuration" ] ]
+      - [ setPHPUnitConfigurationFactory, [ "@phpunit.phpunit_configuration_factory" ] ]
       - [ setStopOnFailure, [ "%stop_on_failure%" ] ]
       - [ setTerminal, [ "@terminal" ] ]
       - [ setTestTargetRepository, [ "@test_target_repository" ] ]
@@ -85,9 +75,9 @@ services:
     class: "%phpunit.phpunit_configuration.class%"
     factory_service: phpunit.phpunit_configuration_factory
     factory_method: create
-    arguments: [ "%phpunit.phpunit_config_file%" ]
   phpunit.phpunit_configuration_factory:
     class: "%phpunit.phpunit_configuration_factory.class%"
+    arguments: [ "%phpunit.phpunit_config_file%" ]
 
 # Local Variables:
 # mode: conf

@@ -72,7 +72,10 @@ class ReplaceDefinitionByPluginDefinitionPass implements CompilerPassInterface
         $container->setAlias('preparer', $this->plugin->getPluginID() . '.preparer');
         $container->setAlias('collector', $this->plugin->getPluginID() . '.collector');
         $container->setAlias('runner', $this->plugin->getPluginID() . '.runner');
-        $container->setAlias('autotest', $this->plugin->getPluginID() . '.autotest');
+
+        if ($container->hasDefinition($this->plugin->getPluginID() . '.command_line_option_builder')) {
+            $container->setAlias('command_line_option_builder', $this->plugin->getPluginID() . '.command_line_option_builder');
+        }
     }
 }
 

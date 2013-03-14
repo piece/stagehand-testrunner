@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,35 +29,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 2.20.0
+ * @since      File available since Release 3.6.0
  */
 
 namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
+use Stagehand\TestRunner\Test\ComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 3.0.0
+ * @since      Class available since Release 3.6.0
  */
-class PHPUnitAutotestTest extends TestCase
+class PHPUnitCommandLineOptionBuilderTest extends ComponentAwareTestCase
 {
+    /**
+     * @var array
+     */
+    private static $configurators;
+
     public static function setUpBeforeClass()
     {
-        TestCase::initializeConfigurators();
-        static::$configurators[] = function (ApplicationContext $applicationContext) {
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
             $phpunitConfiguration = \Phake::mock('PHPUnit_Util_Configuration');
-            \Phake::when($phpunitConfiguration)->getPHPUnitConfiguration()->thenReturn(array());
             \Phake::when($phpunitConfiguration)->getFilename()->thenReturn('FILE');
+            $phpunitConfigurationFactory = \Phake::mock('Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory');
+            \Phake::when($phpunitConfigurationFactory)->create()->thenReturn($phpunitConfiguration);
 
-            $applicationContext->setComponent('phpunit.phpunit_configuration', $phpunitConfiguration);
+            $applicationContext->setComponent('phpunit.phpunit_configuration_factory', $phpunitConfigurationFactory);
         };
     }
 
@@ -70,15 +76,41 @@ class PHPUnitAutotestTest extends TestCase
     }
 
     /**
+     * @link http://redmine.piece-framework.com/issues/314
+     *
+     * @test
+     * @dataProvider commandLineOptions
+     * @param integer $configuratorIndex
+     * @param array  $expectedBuiltOptions
+     * @param array $shouldPreserve
+     */
+    public function buildsCommandLineOptions($configuratorIndex, array $expectedBuiltOptions,array $shouldPreserve)
+    {
+        call_user_func(self::$configurators[$configuratorIndex], $this->applicationContext);
+
+        $builtOptions = array();
+        $builtOptions = $this->createComponent('phpunit.command_line_option_builder')->build($builtOptions);
+
+        for ($i = 0; $i < count($expectedBuiltOptions); ++$i) {
+            $preserved = in_array($expectedBuiltOptions[$i], $builtOptions);
+            $this->assertThat($preserved, $this->equalTo($shouldPreserve[$i]));
+        }
+    }
+
+    /**
      * @return array
      */
-    public function preservedConfigurations()
+    public function commandLineOptions()
     {
-        $preservedConfigurations = parent::preservedConfigurations();
-        $index = count($preservedConfigurations);
-        return array_merge($preservedConfigurations, array(
-            array($index++, array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--phpunit-config=' . escapeshellarg('FILE')), array(true, true, true)),
-        ));
+        $commandLineOptions = array(
+            array(array('--phpunit-config=' . escapeshellarg('FILE')), array(true, true)),
+        );
+
+        return array_map(function (array $commandLineOption) {
+            static $index = 0;
+            array_unshift($commandLineOption, $index++);
+            return $commandLineOption;
+        }, $commandLineOptions);
     }
 }
 

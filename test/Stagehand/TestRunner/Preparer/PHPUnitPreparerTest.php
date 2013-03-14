@@ -59,11 +59,11 @@ class PHPUnitPreparerTest extends PHPUnitComponentAwareTestCase
         $phpunitConfiguration = \Phake::mock('PHPUnit_Util_Configuration');
         \Phake::when($phpunitConfiguration)->getPHPUnitConfiguration()->thenReturn(array('colors' => $colors));
         $phpunitConfigurationFactory = \Phake::mock('Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory');
-        \Phake::when($phpunitConfigurationFactory)->create($this->anything())->thenReturn($phpunitConfiguration);
+        \Phake::when($phpunitConfigurationFactory)->create()->thenReturn($phpunitConfiguration);
         $this->setComponent('phpunit.phpunit_configuration_factory', $phpunitConfigurationFactory);
         $this->createComponent('preparer')->prepare();
 
-        \Phake::verify($phpunitConfigurationFactory)->create($this->anything());
+        \Phake::verify($phpunitConfigurationFactory)->create();
         $terminal = $this->createComponent('terminal'); /* @var $terminal \Stagehand\TestRunner\CLI\Terminal */
         $this->assertEquals($colors, $terminal->shouldColor());
     }

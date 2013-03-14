@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,47 +29,46 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      File available since Release 3.0.0
+ * @since      File available since Release 3.6.0
  */
 
 namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
+use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;
+
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
- * @since      Class available since Release 3.0.0
+ * @since      Class available since Release 3.6.0
  */
-class PHPUnitAutotest extends Autotest
+class PHPUnitCommandLineOptionBuilder implements CommandLineOptionBuilderInterface
 {
     /**
-     * @var \PHPUnit_Util_Configuration $phpunitConfiguration
-     * @since Property available since Release 3.5.0
+     * @var \Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory
      */
-    protected $phpunitConfiguration;
+    protected $phpunitConfigurationFactory;
 
     /**
-     * @param \PHPUnit_Util_Configuration $phpunitConfiguration
-     * @since Method available since Release 3.5.0
+     * @param \Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory $phpunitConfigurationFactory
      */
-    public function setPHPUnitConfiguration(\PHPUnit_Util_Configuration $phpunitConfiguration = null)
+    public function __construct(PHPUnitConfigurationFactory $phpunitConfigurationFactory)
     {
-        $this->phpunitConfiguration = $phpunitConfiguration;
+        $this->phpunitConfigurationFactory = $phpunitConfigurationFactory;
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function doBuildRunnerOptions()
+    public function build(array $options)
     {
-        $options = array();
-
-        if (!is_null($this->phpunitConfiguration)) {
-            $options[] = '--phpunit-config=' . escapeshellarg($this->phpunitConfiguration->getFilename());
+        $phpunitConfiguration = $this->phpunitConfigurationFactory->create();
+        if (!is_null($phpunitConfiguration)) {
+            $options[] = '--phpunit-config=' . escapeshellarg($phpunitConfiguration->getFilename());
         }
 
         return $options;

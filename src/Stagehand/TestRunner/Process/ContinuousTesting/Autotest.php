@@ -39,8 +39,6 @@ namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 use Symfony\Component\Process\Process;
 
-use Stagehand\TestRunner\CLI\Terminal;
-use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Notification\Notifier;
@@ -60,29 +58,13 @@ use Stagehand\TestRunner\Util\String;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-abstract class Autotest implements TestRunnerInterface
+class Autotest implements TestRunnerInterface
 {
     /**
      * @var \Stagehand\TestRunner\Util\OS
      * @since Property available since Release 3.0.1
      */
     protected $os;
-
-    /**
-     * @var string
-     */
-    protected $runnerCommand;
-
-    /**
-     * @var array
-     */
-    protected $runnerOptions;
-
-    /**
-     * @var \Stagehand\TestRunner\CLI\Terminal
-     * @since Property available since Release 3.0.0
-     */
-    protected $terminal;
 
     /**
      * @var \Stagehand\TestRunner\Core\TestTargetRepository
@@ -126,13 +108,19 @@ abstract class Autotest implements TestRunnerInterface
     protected $alterationMonitoring;
 
     /**
+     * @var \Stagehand\TestRunner\Process\ContinuousTesting\CommandLineBuilder
+     */
+    protected $commandLineBuilder;
+
+    /**
      * @param \Stagehand\TestRunner\Preparer\Preparer $preparer
+     * @param \Stagehand\TestRunner\Process\ContinuousTesting\CommandLineBuilder $commandLineBuilder
      * @since Method available since Release 3.0.1
      */
-    public function __construct(Preparer $preparer)
+    public function __construct(Preparer $preparer, CommandLineBuilder $commandLineBuilder)
     {
         $this->preparer = $preparer;
-        $this->preparer->prepare();
+        $this->commandLineBuilder = $commandLineBuilder;
     }
 
     /**
@@ -140,8 +128,10 @@ abstract class Autotest implements TestRunnerInterface
      */
     public function run()
     {
-        $this->runTests();
-        $this->monitorAlteration();
+        $this->preparer->prepare();
+        $commandLine = $this->commandLineBuilder->build();
+        $this->runTests($commandLine);
+        $this->monitorAlteration($commandLine);
     }
 
     /**
@@ -157,25 +147,23 @@ abstract class Autotest implements TestRunnerInterface
      * Monitors for changes in one or more target directories and runs tests in
      * the test directory recursively when changes are detected. And also the test
      * directory is always added to the directories to be monitored.
+     *
+     * @param string $commandLine
      */
-    public function monitorAlteration()
+    public function monitorAlteration($commandLine)
     {
-        if (is_null($this->runnerCommand)) {
-            $this->initializeRunnerCommandAndOptions();
-        }
-
-        $this->alterationMonitoring->monitor($this->getMonitoringDirectories(), array($this, 'runTests'));
+        $self = $this;
+        $this->alterationMonitoring->monitor($this->getMonitoringDirectories(), function (array $resourceChangeEvents) use ($self, $commandLine) {
+            $self->runTests($commandLine);
+        });
     }
 
     /**
+     * @param string $commandLine
      * @since Method available since Release 2.18.0
      */
-    public function runTests()
+    public function runTests($commandLine)
     {
-        if (is_null($this->runnerCommand)) {
-            $this->initializeRunnerCommandAndOptions();
-        }
-
         $streamOutput = '';
         if ($this->os->isWin()) {
             // TODO: Remove Windows specific code if the bug #60120 and #51800 are really fixed.
@@ -184,10 +172,10 @@ abstract class Autotest implements TestRunnerInterface
                 return $buffer;
             }, 2
             );
-            passthru($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions), $exitStatus);
+            passthru($commandLine, $exitStatus);
             ob_end_flush();
         } else {
-            $process = new Process($this->runnerCommand . ' ' . implode(' ', $this->runnerOptions));
+            $process = new Process($commandLine);
             $process->setTimeout(1);
             $exitStatus = $process->run(function ($type, $data) {
                 echo $data;
@@ -201,15 +189,6 @@ abstract class Autotest implements TestRunnerInterface
                 new Notification(Notification::RESULT_STOPPED, $fatalError->getFullMessage())
             );
         }
-    }
-
-    /**
-     * @param \Stagehand\TestRunner\CLI\Terminal $terminal
-     * @since Method available since Release 3.0.0
-     */
-    public function setTerminal(Terminal $terminal)
-    {
-        $this->terminal = $terminal;
     }
 
     /**
@@ -292,103 +271,6 @@ abstract class Autotest implements TestRunnerInterface
     }
 
     /**
-     * @return array
-     */
-    protected function buildRunnerCommand()
-    {
-        if (array_key_exists('_', $_SERVER)) {
-            $command = $_SERVER['_'];
-        } elseif (array_key_exists('PHP_COMMAND', $_SERVER)) {
-            $command = $_SERVER['PHP_COMMAND'];
-        } else {
-            $command = $_SERVER['argv'][0];
-        }
-
-        if (preg_match('!^/cygdrive/([a-z])/(.+)!', $command, $matches)) {
-            $command = $matches[1] . ':\\' . str_replace('/', '\\', $matches[2]);
-        }
-
-        if ($this->os->isWin()) {
-            putenv(sprintf('ENVPATH="%s"', $command));
-            return '%ENVPATH%';
-        } else {
-            return escapeshellarg($command);
-        }
-    }
-
-    /**
-     * @return array
-     */
-    protected function buildRunnerOptions()
-    {
-        $options = array();
-
-        if (basename(trim($this->runnerCommand, '\'"')) != 'testrunner') {
-            $configFile = $this->getPHPConfigDir();
-            if ($configFile !== false) {
-                $options[] = '-c';
-                $options[] = escapeshellarg($configFile);
-            }
-
-            $options[] = escapeshellarg($_SERVER['argv'][0]);
-        }
-
-        if ($this->terminal->shouldColor()) {
-            $options[] = '--ansi';
-        }
-
-        $options[] = escapeshellarg(strtolower(ApplicationContext::getInstance()->getPlugin()->getPluginID()));
-
-        if (!is_null(ApplicationContext::getInstance()->getEnvironment()->getPreloadScript())) {
-            $options[] = '-p ' . escapeshellarg(ApplicationContext::getInstance()->getEnvironment()->getPreloadScript());
-        }
-
-        $options[] = '-R';
-
-        if ($this->runner->shouldNotify()) {
-            $options[] = '-m';
-        }
-
-        if ($this->runner->shouldStopOnFailure()) {
-            $options[] = '--stop-on-failure';
-        }
-
-        if (!$this->testTargetRepository->isDefaultFilePattern()) {
-            $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargetRepository->getFilePattern());
-        }
-
-        if ($this->runner->hasDetailedProgress()) {
-            $options[] = '--detailed-progress';
-        }
-
-        $options = array_merge($options, $this->doBuildRunnerOptions());
-
-        $this->testTargetRepository->walkOnResources(function ($resource, $index, TestTargetRepository $testTargetRepository) use (&$options) {
-            $options[] = escapeshellarg($resource);
-        });
-
-        return $options;
-    }
-
-    /**
-     * @return string
-     * @since Method available since Release 2.18.1
-     */
-    protected function getPHPConfigDir()
-    {
-        return $this->legacyProxy->get_cfg_var('cfg_file_path');
-    }
-
-    /**
-     * @since Method available since Release 2.18.1
-     */
-    protected function initializeRunnerCommandAndOptions()
-    {
-        $this->runnerCommand = $this->buildRunnerCommand();
-        $this->runnerOptions = $this->buildRunnerOptions();
-    }
-
-    /**
      * @param string $runnerCommand
      * @return integer
      * @since Method available since Release 2.20.0
@@ -397,12 +279,6 @@ abstract class Autotest implements TestRunnerInterface
     {
         return $this->legacyProxy->passthru($runnerCommand);
     }
-
-    /**
-     * @return array
-     * @since Method available since Release 3.0.0
-     */
-    abstract protected function doBuildRunnerOptions();
 }
 
 /*
