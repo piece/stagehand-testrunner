@@ -44,7 +44,6 @@ use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Preparer\Preparer;
 use Stagehand\TestRunner\Process\ContinuousTesting\AlterationMonitoring;
-use Stagehand\TestRunner\Process\FatalError;
 use Stagehand\TestRunner\Process\TestRunnerInterface;
 use Stagehand\TestRunner\Runner\Runner;
 use Stagehand\TestRunner\Util\LegacyProxy;

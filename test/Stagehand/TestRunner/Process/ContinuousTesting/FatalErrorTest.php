@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Process;
+namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 /**
  * @package    Stagehand_TestRunner
