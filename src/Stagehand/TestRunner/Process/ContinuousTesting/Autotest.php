@@ -43,7 +43,7 @@ use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Preparer\Preparer;
-use Stagehand\TestRunner\Process\AlterationMonitoring;
+use Stagehand\TestRunner\Process\ContinuousTesting\AlterationMonitoring;
 use Stagehand\TestRunner\Process\FatalError;
 use Stagehand\TestRunner\Process\TestRunnerInterface;
 use Stagehand\TestRunner\Runner\Runner;
@@ -103,7 +103,7 @@ class Autotest implements TestRunnerInterface
     protected $legacyProxy;
 
     /**
-     * @var \Stagehand\TestRunner\Process\AlterationMonitoring
+     * @var \Stagehand\TestRunner\Process\ContinuousTesting\AlterationMonitoring
      */
     protected $alterationMonitoring;
 
@@ -219,7 +219,7 @@ class Autotest implements TestRunnerInterface
     }
 
     /**
-     * @param \Stagehand\TestRunner\Process\AlterationMonitoring $alterationMonitoring
+     * @param \Stagehand\TestRunner\Process\ContinuousTesting\AlterationMonitoring $alterationMonitoring
      * @since Method available since Release 3.0.0
      */
     public function setAlterationMonitoring(AlterationMonitoring $alterationMonitoring)

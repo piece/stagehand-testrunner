@@ -29,7 +29,7 @@ parameters:
   plugin_aware_factory.class: "Stagehand\\TestRunner\\Core\\Plugin\\PluginAwareFactory"
 
   # Domain Components
-  alteration_monitoring.class: "Stagehand\\TestRunner\\Process\\AlterationMonitoring"
+  alteration_monitoring.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\AlterationMonitoring"
   autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\Autotest"
   collecting_type.class: "Stagehand\\TestRunner\\Collector\\CollectingType"
   collecting_type_factory.class: "Stagehand\\TestRunner\\Collector\\CollectingTypeFactory"
