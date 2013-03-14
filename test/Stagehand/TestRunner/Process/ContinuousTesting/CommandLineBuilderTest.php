@@ -71,7 +71,7 @@ class CommandLineBuilderTest extends PHPUnitComponentAwareTestCase
             $applicationContext->getEnvironment()->setPreloadScript('test/prepare.php');
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
-            $applicationContext->createComponent('autotest')->setWatchDirs(array('src'));
+            $applicationContext->createComponent('continuous_test_runner')->setWatchDirs(array('src'));
         };
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $applicationContext->createComponent('runner')->setNotify(true);

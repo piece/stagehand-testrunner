@@ -57,7 +57,7 @@ use Stagehand\TestRunner\Util\String;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.18.0
  */
-class Autotest implements TestRunnerInterface
+class ContinuousTestRunner implements TestRunnerInterface
 {
     /**
      * @var \Stagehand\TestRunner\Util\OS

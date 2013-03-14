@@ -30,10 +30,10 @@ parameters:
 
   # Domain Components
   alteration_monitoring.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\AlterationMonitoring"
-  autotest.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\Autotest"
   collecting_type.class: "Stagehand\\TestRunner\\Collector\\CollectingType"
   collecting_type_factory.class: "Stagehand\\TestRunner\\Collector\\CollectingTypeFactory"
   command_line_builder.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\CommandLineBuilder"
+  continuous_test_runner.class: "Stagehand\\TestRunner\\Process\\ContinuousTesting\\ContinuousTestRunner"
   legacy_proxy.class: "Stagehand\\TestRunner\\Util\\LegacyProxy"
   notifier.class: "Stagehand\\TestRunner\\Notification\\Notifier"
   os.class: "Stagehand\\TestRunner\\Util\\OS"
@@ -130,17 +130,6 @@ services:
   # Process
   alteration_monitoring:
     class: "%alteration_monitoring.class%"
-  autotest:
-    class: "%autotest.class%"
-    arguments: [ "@preparer", "@command_line_builder" ]
-    calls:
-      - [ setAlterationMonitoring, [ "@alteration_monitoring" ] ]
-      - [ setLegacyProxy, [ "@legacy_proxy" ] ]
-      - [ setNotifier, [ "@notifier" ] ]
-      - [ setOS, [ "@os" ] ]
-      - [ setRunner, [ "@runner" ] ]
-      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
-      - [ setWatchDirs, [ "%continuous_testing_watch_dirs%" ] ]
   command_line_builder:
     class: "%command_line_builder.class%"
     arguments:
@@ -152,6 +141,17 @@ services:
       - "@terminal"
       - "@test_target_repository"
       - "@?command_line_option_builder"
+  continuous_test_runner:
+    class: "%continuous_test_runner.class%"
+    arguments: [ "@preparer", "@command_line_builder" ]
+    calls:
+      - [ setAlterationMonitoring, [ "@alteration_monitoring" ] ]
+      - [ setLegacyProxy, [ "@legacy_proxy" ] ]
+      - [ setNotifier, [ "@notifier" ] ]
+      - [ setOS, [ "@os" ] ]
+      - [ setRunner, [ "@runner" ] ]
+      - [ setTestTargetRepository, [ "@test_target_repository" ] ]
+      - [ setWatchDirs, [ "%continuous_testing_watch_dirs%" ] ]
 
   test_runner:
     class: "%test_runner.class%"

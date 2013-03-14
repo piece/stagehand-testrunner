@@ -291,7 +291,7 @@ PHP_EOL .
     protected function createTestRunner($continuousTesting)
     {
         if ($continuousTesting) {
-            return ApplicationContext::getInstance()->createComponent('autotest');
+            return ApplicationContext::getInstance()->createComponent('continuous_test_runner');
         } else {
             return ApplicationContext::getInstance()->createComponent('test_runner');
         }
