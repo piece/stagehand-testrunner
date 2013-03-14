@@ -85,7 +85,7 @@ PHP_EOL .
         $this->addOption('config', 'c', InputOption::VALUE_REQUIRED, 'The YAML-based configuration file for Stagehand_TestRunner');
         $this->addOption('recursive', 'R', InputOption::VALUE_NONE, 'Recursively runs tests in the specified directories.');
 
-        if ($this->getPlugin()->hasFeature('autotest')) {
+        if ($this->getPlugin()->hasFeature('continuous_testing')) {
             $this->addOption('autotest', 'a', InputOption::VALUE_NONE, 'Monitors for changes in the specified directories and run tests when changes are detected.');
             $this->addOption('watch-dir', 'w', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'The directory to be monitored for changes <comment>(default: The directories specified by the arguments)</comment>');
         }
@@ -208,7 +208,7 @@ PHP_EOL .
             );
         }
 
-        if ($this->getPlugin()->hasFeature('autotest')) {
+        if ($this->getPlugin()->hasFeature('continuous_testing')) {
             if ($input->getOption('autotest')) {
                 $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
