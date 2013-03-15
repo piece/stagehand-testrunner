@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\DependencyInjection;
+namespace Stagehand\TestRunner\DependencyInjection\Compiler;
 
 use Stagehand\ComponentFactory\UnfreezableContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -62,7 +62,7 @@ class Compiler
             $containerBuilder = new UnfreezableContainerBuilder();
             $containerBuilder->registerExtension(new GeneralExtension());
 
-            $extensionClass = new \ReflectionClass(__NAMESPACE__ . '\\Extension\\' . $plugin->getPluginID() . 'Extension');
+            $extensionClass = new \ReflectionClass('Stagehand\TestRunner\DependencyInjection\Extension\\' . $plugin->getPluginID() . 'Extension');
             if (!$extensionClass->isInterface()
                 && !$extensionClass->isAbstract()
                 && $extensionClass->isSubclassOf('Symfony\Component\DependencyInjection\Extension\ExtensionInterface')) {
@@ -85,7 +85,7 @@ class Compiler
             $containerClass = $plugin->getPluginID() . 'Container';
             $compiler = new \Stagehand\ComponentFactory\Compiler($containerBuilder, $containerClass, self::COMPILED_CONTAINER_NAMESPACE);
             $containerSource = $compiler->compile();
-            file_put_contents(__DIR__ . '/' . $containerClass . '.php', $containerSource);
+            file_put_contents(__DIR__ . '/../' . $containerClass . '.php', $containerSource);
         }
     }
 }

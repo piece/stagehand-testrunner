@@ -44,7 +44,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
-use Stagehand\TestRunner\DependencyInjection\Compiler;
+use Stagehand\TestRunner\DependencyInjection\Compiler\Compiler;
 use Stagehand\TestRunner\DependencyInjection\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
 use Stagehand\TestRunner\Util\FileSystem;

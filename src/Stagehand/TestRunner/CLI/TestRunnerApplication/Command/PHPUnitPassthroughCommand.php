@@ -44,7 +44,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
-use Stagehand\TestRunner\DependencyInjection\Compiler;
+use Stagehand\TestRunner\DependencyInjection\Compiler\Compiler;
 use Stagehand\TestRunner\DependencyInjection\PHPUnitContainer;
 
 /**
