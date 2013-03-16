@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\Runner\JUnitXMLWriting;
 
 use Stagehand\TestRunner\Util\FileStreamWriter;
-use Stagehand\TestRunner\Util\StreamWriter;
+use Stagehand\TestRunner\Util\StreamWriterInterface;
 
 /**
  * @package    Stagehand_TestRunner
@@ -47,7 +47,7 @@ use Stagehand\TestRunner\Util\StreamWriter;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-class JUnitXMLStreamRecorder implements StreamWriter
+class JUnitXMLStreamRecorder implements StreamWriterInterface
 {
     /**
      * @var \Stagehand\TestRunner\Util\FileStreamWriter

@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
-use Stagehand\TestRunner\Util\StreamWriter;
+use Stagehand\TestRunner\Util\StreamWriterInterface;
 
 /**
  * @package    Stagehand_TestRunner
@@ -51,7 +51,7 @@ class DOMJUnitXMLWriter implements JUnitXMLWriterInterface
     protected $xmlWriter;
 
     /**
-     * @param \Stagehand\TestRunner\Util\StreamWriter
+     * @param \Stagehand\TestRunner\Util\StreamWriterInterface
      */
     protected $streamWriter;
 
@@ -63,10 +63,10 @@ class DOMJUnitXMLWriter implements JUnitXMLWriterInterface
     protected $utf8Converter;
 
     /**
-     * @param \Stagehand\TestRunner\Util\StreamWriter $streamWriter
+     * @param \Stagehand\TestRunner\Util\StreamWriterInterface $streamWriter
      * @param \Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter $utf8Converter
      */
-    public function __construct(StreamWriter $streamWriter, UTF8Converter $utf8Converter)
+    public function __construct(StreamWriterInterface $streamWriter, UTF8Converter $utf8Converter)
     {
         $this->xmlWriter = new \DOMDocument('1.0', 'UTF-8');
         $this->utf8Converter = $utf8Converter;

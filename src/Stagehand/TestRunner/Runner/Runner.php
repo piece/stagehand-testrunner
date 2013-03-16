@@ -221,7 +221,7 @@ abstract class Runner
 
     /**
      * @param string $file
-     * @return \Stagehand\TestRunner\Util\StreamWriter
+     * @return \Stagehand\TestRunner\Util\StreamWriterInterface
      * @since Method available since Release 3.0.0
      */
     protected function createStreamWriter($file)
