@@ -108,6 +108,7 @@ services:
     synthetic: true
   test_target_repository:
     class: "%test_target_repository.class%"
+    arguments: [ "@plugin" ]
     calls:
       - [ setClasses, [ "%test_classes%" ] ]
       - [ setFilePattern, [ "%test_file_pattern%" ] ]

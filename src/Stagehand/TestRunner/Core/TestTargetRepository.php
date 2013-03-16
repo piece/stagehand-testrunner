@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
@@ -37,15 +37,23 @@
 
 namespace Stagehand\TestRunner\Core;
 
+use Stagehand\TestRunner\Core\Plugin\IPlugin;
+
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
 class TestTargetRepository
 {
+    /**
+     * @var \Stagehand\TestRunner\Core\Plugin\IPlugin
+     * @since Property available since Release 3.6.0
+     */
+    protected $plugin;
+
     /**
      * @var array
      */
@@ -68,6 +76,15 @@ class TestTargetRepository
      * @var string
      */
     protected $filePattern;
+
+    /**
+     * @param \Stagehand\TestRunner\Core\Plugin\IPlugin $plugin
+     * @since Method available since Release 3.6.0
+     */
+    public function __construct(IPlugin $plugin)
+    {
+        $this->plugin = $plugin;
+    }
 
     /**
      * @param array $resources
@@ -170,7 +187,7 @@ class TestTargetRepository
      */
     public function isDefaultFilePattern()
     {
-        return $this->getFilePattern() == ApplicationContext::getInstance()->getPlugin()->getTestFilePattern();
+        return $this->getFilePattern() == $this->plugin->getTestFilePattern();
     }
 
     /**
@@ -187,7 +204,7 @@ class TestTargetRepository
      */
     public function getRequiredSuperTypes()
     {
-        return ApplicationContext::getInstance()->getPlugin()->getTestClassSuperTypes();
+        return $this->plugin->getTestClassSuperTypes();
     }
 }
 
