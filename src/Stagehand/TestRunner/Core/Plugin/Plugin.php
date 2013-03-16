@@ -44,7 +44,7 @@ namespace Stagehand\TestRunner\Core\Plugin;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-abstract class Plugin implements IPlugin
+abstract class Plugin implements PluginInterface
 {
     /**
      * @var array

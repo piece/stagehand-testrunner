@@ -37,7 +37,7 @@
 
 namespace Stagehand\TestRunner\Core;
 
-use Stagehand\TestRunner\Core\Plugin\IPlugin;
+use Stagehand\TestRunner\Core\Plugin\PluginInterface;
 
 /**
  * @package    Stagehand_TestRunner
@@ -49,7 +49,7 @@ use Stagehand\TestRunner\Core\Plugin\IPlugin;
 class TestTargetRepository
 {
     /**
-     * @var \Stagehand\TestRunner\Core\Plugin\IPlugin
+     * @var \Stagehand\TestRunner\Core\Plugin\PluginInterface
      * @since Property available since Release 3.6.0
      */
     protected $plugin;
@@ -78,10 +78,10 @@ class TestTargetRepository
     protected $filePattern;
 
     /**
-     * @param \Stagehand\TestRunner\Core\Plugin\IPlugin $plugin
+     * @param \Stagehand\TestRunner\Core\Plugin\PluginInterface $plugin
      * @since Method available since Release 3.6.0
      */
-    public function __construct(IPlugin $plugin)
+    public function __construct(PluginInterface $plugin)
     {
         $this->plugin = $plugin;
     }

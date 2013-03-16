@@ -39,7 +39,7 @@ namespace Stagehand\TestRunner\Core;
 
 use Stagehand\ComponentFactory\ComponentFactory;
 
-use Stagehand\TestRunner\Core\Plugin\IPlugin;
+use Stagehand\TestRunner\Core\Plugin\PluginInterface;
 
 /**
  * @package    Stagehand_TestRunner
@@ -66,7 +66,7 @@ class ApplicationContext
     protected $environment;
 
     /**
-     * @var \Stagehand\TestRunner\Core\Plugin\IPlugin
+     * @var \Stagehand\TestRunner\Core\Plugin\PluginInterface
      */
     protected $plugin;
 
@@ -137,15 +137,15 @@ class ApplicationContext
     }
 
     /**
-     * @param \Stagehand\TestRunner\Core\Plugin\IPlugin $plugin
+     * @param \Stagehand\TestRunner\Core\Plugin\PluginInterface $plugin
      */
-    public function setPlugin(IPlugin $plugin)
+    public function setPlugin(PluginInterface $plugin)
     {
         $this->plugin = $plugin;
     }
 
     /**
-     * @return \Stagehand\TestRunner\Core\Plugin\IPlugin
+     * @return \Stagehand\TestRunner\Core\Plugin\PluginInterface
      */
     public function getPlugin()
     {

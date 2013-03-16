@@ -67,7 +67,7 @@ class PluginRepository
 
     /**
      * @param string $pluginID
-     * @return \Stagehand\TestRunner\Core\Plugin\IPlugin
+     * @return \Stagehand\TestRunner\Core\Plugin\PluginInterface
      */
     public static function findByPluginID($pluginID)
     {
@@ -75,7 +75,7 @@ class PluginRepository
             self::loadAllPlugins();
         }
 
-        foreach (self::$plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\IPlugin */
+        foreach (self::$plugins as $plugin) { /* @var $plugin \Stagehand\TestRunner\Core\Plugin\PluginInterface */
             if (strtolower($plugin->getPluginID()) == strtolower($pluginID)) {
                 return $plugin;
             }
@@ -88,7 +88,7 @@ class PluginRepository
             $pluginClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $file->getBasename('.php'));
             if (!$pluginClass->isInterface()
                 && !$pluginClass->isAbstract()
-                && $pluginClass->isSubclassOf('Stagehand\TestRunner\Core\Plugin\IPlugin')) {
+                && $pluginClass->isSubclassOf('Stagehand\TestRunner\Core\Plugin\PluginInterface')) {
                 self::$plugins[] = $pluginClass->newInstance();
             }
         }

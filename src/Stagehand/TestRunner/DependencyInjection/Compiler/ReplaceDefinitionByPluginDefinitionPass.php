@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-use Stagehand\TestRunner\Core\Plugin\IPlugin;
+use Stagehand\TestRunner\Core\Plugin\PluginInterface;
 
 /**
  * @package    Stagehand_TestRunner
@@ -52,14 +52,14 @@ use Stagehand\TestRunner\Core\Plugin\IPlugin;
 class ReplaceDefinitionByPluginDefinitionPass implements CompilerPassInterface
 {
     /**
-     * @var \Stagehand\TestRunner\Core\Plugin\IPlugin
+     * @var \Stagehand\TestRunner\Core\Plugin\PluginInterface
      */
     protected $plugin;
 
     /**
-     * @param \Stagehand\TestRunner\Core\Plugin\IPlugin $plugin
+     * @param \Stagehand\TestRunner\Core\Plugin\PluginInterface $plugin
      */
-    public function __construct(IPlugin $plugin)
+    public function __construct(PluginInterface $plugin)
     {
         $this->plugin = $plugin;
     }

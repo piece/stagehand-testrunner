@@ -39,7 +39,7 @@ namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\Core\Environment;
-use Stagehand\TestRunner\Core\Plugin\IPlugin;
+use Stagehand\TestRunner\Core\Plugin\PluginInterface;
 use Stagehand\TestRunner\Runner\Runner;
 use Stagehand\TestRunner\Util\LegacyProxy;
 use Stagehand\TestRunner\Util\OS;
@@ -70,7 +70,7 @@ class CommandLineBuilder
     protected $os;
 
     /**
-     * @var \Stagehand\TestRunner\Core\Plugin\IPlugin
+     * @var \Stagehand\TestRunner\Core\Plugin\PluginInterface
      */
     protected $plugin;
 
@@ -108,7 +108,7 @@ class CommandLineBuilder
      * @param \Stagehand\TestRunner\Core\Environment $environment
      * @param \Stagehand\TestRunner\Util\LegacyProxy $legacyProxy
      * @param \Stagehand\TestRunner\Util\OS $os
-     * @param \Stagehand\TestRunner\Core\Plugin\IPlugin $plugin
+     * @param \Stagehand\TestRunner\Core\Plugin\PluginInterface $plugin
      * @param \Stagehand\TestRunner\Runner\Runner $runner
      * @param \Stagehand\TestRunner\CLI\Terminal $terminal
      * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
@@ -118,7 +118,7 @@ class CommandLineBuilder
         Environment $environment,
         LegacyProxy $legacyProxy,
         OS $os,
-        IPlugin $plugin,
+        PluginInterface $plugin,
         Runner $runner,
         Terminal $terminal,
         TestTargetRepository $testTargetRepository,

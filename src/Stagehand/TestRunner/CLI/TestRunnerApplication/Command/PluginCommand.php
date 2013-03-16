@@ -153,7 +153,7 @@ PHP_EOL .
     }
 
     /**
-     * @return \Stagehand\TestRunner\Core\Plugin\IPlugin
+     * @return \Stagehand\TestRunner\Core\Plugin\PluginInterface
      */
     abstract protected function getPlugin();
 
