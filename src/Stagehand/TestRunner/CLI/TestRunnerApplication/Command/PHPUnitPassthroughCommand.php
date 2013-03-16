@@ -91,7 +91,6 @@ PHP_EOL .
 
         $container = $this->createContainer();
         ApplicationContext::getInstance()->getComponentFactory()->setContainer($container);
-        ApplicationContext::getInstance()->setPlugin(PluginRepository::findByPluginID(PHPUnitPlugin::getPluginID()));
         ApplicationContext::getInstance()->setComponent('environment', ApplicationContext::getInstance()->getEnvironment());
         ApplicationContext::getInstance()->setComponent('input', $input);
         ApplicationContext::getInstance()->setComponent('output', $output);

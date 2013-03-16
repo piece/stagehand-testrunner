@@ -67,7 +67,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $this->oldApplicationContext = ApplicationContext::getInstance();
 
         $this->applicationContext = $this->createApplicationContext();
-        $this->applicationContext->setPlugin($this->getPlugin());
         $this->applicationContext->setComponent('environment', $this->applicationContext->getEnvironment());
         $this->applicationContext->setComponent('input', new ArgvInput());
         $this->applicationContext->setComponent('plugin', $this->getPlugin());
