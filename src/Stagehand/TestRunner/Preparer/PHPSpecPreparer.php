@@ -43,8 +43,6 @@ if (!class_exists('PHPSpec\Loader\UniversalClassLoader')) {
 
 use PHPSpec\Loader\UniversalClassLoader;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
