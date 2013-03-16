@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
-use Stagehand\TestRunner\Util\StreamWriter;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2009-2013 KUBO Atsuhiro <kubo@iteman.jp>
