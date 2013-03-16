@@ -95,7 +95,7 @@ PHP_EOL .
         ApplicationContext::getInstance()->setComponent('environment', ApplicationContext::getInstance()->getEnvironment());
         ApplicationContext::getInstance()->setComponent('input', $input);
         ApplicationContext::getInstance()->setComponent('output', $output);
-        ApplicationContext::getInstance()->setComponent('plugin', $this->getPlugin());
+        ApplicationContext::getInstance()->setComponent('plugin', PluginRepository::findByPluginID(PHPUnitPlugin::getPluginID()));
 
         ApplicationContext::getInstance()->createComponent('preparer')->prepare();
         $collector = ApplicationContext::getInstance()->createComponent('collector');
