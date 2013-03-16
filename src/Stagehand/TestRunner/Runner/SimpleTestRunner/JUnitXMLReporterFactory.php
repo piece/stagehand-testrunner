@@ -39,7 +39,7 @@
 namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
 use Stagehand\ComponentFactory\ComponentAwareFactory;
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface;
 use Stagehand\TestRunner\TestSuite\SimpleTestTestSuite;
 
 /**
@@ -53,11 +53,11 @@ use Stagehand\TestRunner\TestSuite\SimpleTestTestSuite;
 class JUnitXMLReporterFactory extends ComponentAwareFactory
 {
     /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $junitXMLWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface $junitXMLWriter
      * @param \Stagehand\TestRunner\TestSuite\SimpleTestTestSuite $suite
      * @return \Stagehand\TestRunner\Runner\SimpleTestRunner\JUnitXMLReporter
      */
-    public function create(JUnitXMLWriter $junitXMLWriter = null, SimpleTestTestSuite $suite = null)
+    public function create(JUnitXMLWriterInterface $junitXMLWriter = null, SimpleTestTestSuite $suite = null)
     {
         $junitXMLReporter = parent::create();
         $junitXMLReporter->setJUnitXMLWriter($junitXMLWriter);

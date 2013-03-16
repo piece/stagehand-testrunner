@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Util\StreamWriter;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class DOMJUnitXMLWriter implements JUnitXMLWriter
+class DOMJUnitXMLWriter implements JUnitXMLWriterInterface
 {
     protected $xmlWriter;
 

@@ -39,7 +39,7 @@
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
 use Stagehand\TestRunner\Core\TestTargetRepository;
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface;
 use Stagehand\TestRunner\Util\FailureTrace;
 
 /**
@@ -67,11 +67,11 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
 
     /**
      * @param mixed $out
-     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $junitXMLWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface $junitXMLWriter
      * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
      * @since Method available since Release 3.3.0
      */
-    public function __construct($out, JUnitXMLWriter $junitXMLWriter, TestTargetRepository $testTargetRepository)
+    public function __construct($out, JUnitXMLWriterInterface $junitXMLWriter, TestTargetRepository $testTargetRepository)
     {
         parent::__construct($out);
         $this->junitXMLWriter = $junitXMLWriter;

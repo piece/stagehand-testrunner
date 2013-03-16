@@ -41,7 +41,7 @@ use PHPSpec\Runner\Formatter\Progress;
 use PHPSpec\Runner\ReporterEvent;
 
 use Stagehand\TestRunner\Core\TestTargetRepository;
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface;
 use Stagehand\TestRunner\TestSuite\PHPSpecTestSuite;
 use Stagehand\TestRunner\Util\FailureTrace;
 
@@ -75,7 +75,7 @@ class JUnitXMLFormatter extends Progress
     private static $STATUS_PENDING = '*';
 
     /**
-     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter
+     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface
      */
     protected $junitXMLWriter;
 
@@ -105,9 +105,9 @@ class JUnitXMLFormatter extends Progress
     protected $assertionCount;
 
     /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $junitXMLWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface $junitXMLWriter
      */
-    public function setJUnitXMLWriter(JUnitXMLWriter $junitXMLWriter)
+    public function setJUnitXMLWriter(JUnitXMLWriterInterface $junitXMLWriter)
     {
         $this->junitXMLWriter = $junitXMLWriter;
     }

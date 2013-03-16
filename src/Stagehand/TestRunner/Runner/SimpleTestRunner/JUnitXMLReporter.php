@@ -38,7 +38,7 @@
 
 namespace Stagehand\TestRunner\Runner\SimpleTestRunner;
 
-use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter;
+use Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface;
 use Stagehand\TestRunner\TestSuite\SimpleTestTestSuite;
 use Stagehand\TestRunner\Util\FailureTrace;
 
@@ -53,7 +53,7 @@ use Stagehand\TestRunner\Util\FailureTrace;
 class JUnitXMLReporter extends \SimpleReporter
 {
     /**
-     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter
+     * @var \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface
      */
     protected $junitXMLWriter;
 
@@ -84,9 +84,9 @@ class JUnitXMLReporter extends \SimpleReporter
     protected $methodStarted = false;
 
     /**
-     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter $junitXMLWriter
+     * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface $junitXMLWriter
      */
-    public function setJUnitXMLWriter(JUnitXMLWriter $junitXMLWriter)
+    public function setJUnitXMLWriter(JUnitXMLWriterInterface $junitXMLWriter)
     {
         $this->junitXMLWriter = $junitXMLWriter;
     }
