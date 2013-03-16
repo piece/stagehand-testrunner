@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
@@ -40,14 +40,14 @@ namespace Stagehand\TestRunner\DependencyInjection\Transformation;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
-use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\Plugin\PluginInterface;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\DependencyInjection\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Util\String;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
@@ -65,22 +65,30 @@ class Transformation
     protected $container;
 
     /**
+     * @var \Stagehand\TestRunner\Core\Plugin\PluginInterface
+     * @since Property available since Release 3.6.0
+     */
+    protected $plugin;
+
+    /**
      * @var string
      */
     protected $configurationFile;
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \Stagehand\TestRunner\Core\Plugin\PluginInterface $plugin
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, PluginInterface $plugin)
     {
         $pluginConfigurationClass =
             'Stagehand\TestRunner\DependencyInjection\Configuration' . '\\' .
-            ApplicationContext::getInstance()->getPlugin()->getPluginID() . 'Configuration';
+            $plugin->getPluginID() . 'Configuration';
         $this->configuration[ $pluginConfigurationClass::getConfigurationID() ] = array();
         $this->configuration[ GeneralConfiguration::getConfigurationID() ] = array();
 
         $this->container = $container;
+        $this->plugin = $plugin;
     }
 
     /**
@@ -135,7 +143,7 @@ class Transformation
         if (is_null($this->container->getParameter('test_file_pattern'))) {
             $this->container->setParameter(
                 'test_file_pattern',
-                ApplicationContext::getInstance()->getPlugin()->getTestFilePattern()
+                $this->plugin->getTestFilePattern()
             );
         }
     }

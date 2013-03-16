@@ -303,7 +303,7 @@ PHP_EOL .
      */
     protected function createTransformation(ContainerInterface $container)
     {
-        return new Transformation($container);
+        return new Transformation($container, $this->getPlugin());
     }
 }
 

@@ -118,7 +118,8 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
     {
         $transformation = \Phake::partialMock(
             'Stagehand\TestRunner\DependencyInjection\Transformation\Transformation',
-            $this->applicationContext->getComponentFactory()->getContainer()
+            $this->applicationContext->getComponentFactory()->getContainer(),
+            $this->getPlugin()
         );
         $command = \Phake::partialMock('Stagehand\TestRunner\CLI\TestRunnerApplication\Command\\' . $this->getPluginID() . 'Command');
         \Phake::when($command)->createContainer($this->anything())
