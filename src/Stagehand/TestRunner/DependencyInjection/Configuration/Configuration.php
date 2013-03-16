@@ -47,7 +47,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
-abstract class Configuration implements IConfiguration
+abstract class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
