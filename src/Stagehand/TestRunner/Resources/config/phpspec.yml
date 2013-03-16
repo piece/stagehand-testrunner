@@ -35,6 +35,7 @@ services:
     arguments: [ "@test_target_repository" ]
     calls:
       - [ setCollectingTypeFactory, [ "@collecting_type_factory" ] ]
+      - [ setEnvironment, [ "@environment" ] ]
       - [ setRecursive, [ "%recursive%" ] ]
 
   # Preparer

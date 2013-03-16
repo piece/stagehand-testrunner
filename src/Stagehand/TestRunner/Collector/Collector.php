@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\Collector;
 use Symfony\Component\Finder\Finder;
 
 use Stagehand\TestRunner\Collector\CollectingTypeFactory;
-use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\Environment;
 use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Util\FileSystem;
 
@@ -76,6 +76,12 @@ abstract class Collector
     protected $collectingTypeFactory;
 
     /**
+     * @var \Stagehand\TestRunner\Core\Environment
+     * @since Property available since Release 3.6.0
+     */
+    protected $environment;
+
+    /**
      * Initializes some properties of an instance.
      *
      * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
@@ -106,7 +112,7 @@ abstract class Collector
         $self = $this;
         $fileSystem = new FileSystem();
         $this->testTargetRepository->walkOnResources(function ($resource, $index, TestTargetRepository $testTargetRepository) use ($self, $fileSystem) {
-            $absoluteTargetPath = $fileSystem->getAbsolutePath($resource, ApplicationContext::getInstance()->getEnvironment()->getWorkingDirectoryAtStartup());
+            $absoluteTargetPath = $fileSystem->getAbsolutePath($resource, $this->environment->getWorkingDirectoryAtStartup());
             if (!file_exists($absoluteTargetPath)) {
                 throw new \UnexpectedValueException(sprintf('The directory or file [ %s ] is not found', $absoluteTargetPath));
             }
@@ -141,6 +147,15 @@ abstract class Collector
     public function setCollectingTypeFactory(CollectingTypeFactory $collectingTypeFactory)
     {
         $this->collectingTypeFactory = $collectingTypeFactory;
+    }
+
+    /**
+     * @param \Stagehand\TestRunner\Core\Environment $environment
+     * @since Method available since Release 3.6.0
+     */
+    public function setEnvironment(Environment $environment)
+    {
+        $this->environment = $environment;
     }
 
     /**

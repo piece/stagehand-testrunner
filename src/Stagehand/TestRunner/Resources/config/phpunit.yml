@@ -42,6 +42,7 @@ services:
     arguments: [ "@test_target_repository" ]
     calls:
       - [ setCollectingTypeFactory, [ "@collecting_type_factory" ] ]
+      - [ setEnvironment, [ "@environment" ] ]
       - [ setPHPUnitConfigurationFactory, [ "@phpunit.phpunit_configuration_factory" ] ]
       - [ setRecursive, [ "%recursive%" ] ]
 
