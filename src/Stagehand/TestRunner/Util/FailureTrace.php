@@ -69,7 +69,7 @@ class FailureTrace
         if (method_exists($class, 'getTraits')) {
             foreach ($class->getTraits() as $trait) {
                 $ret = self::findFileAndLineOfFailureOrError($testClassSuperTypes, $e, $trait);
-                if ($ret) {
+                if (!is_null($ret)) {
                     return $ret;
                 }
             }
