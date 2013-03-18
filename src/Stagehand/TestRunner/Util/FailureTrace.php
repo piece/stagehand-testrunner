@@ -61,11 +61,13 @@ class FailureTrace
         if ($e->getFile() == $class->getFileName()) {
             return array($e->getFile(), $e->getLine());
         }
+
         foreach ($e->getTrace() as $trace) {
             if (array_key_exists('file', $trace) && $trace['file'] == $class->getFileName()) {
                 return array($trace['file'], $trace['line']);
             }
         }
+
         if (method_exists($class, 'getTraits')) {
             foreach ($class->getTraits() as $trait) {
                 $ret = self::findFileAndLineOfFailureOrError($testClassSuperTypes, $e, $trait);
@@ -74,6 +76,7 @@ class FailureTrace
                 }
             }
         }
+
         return self::findFileAndLineOfFailureOrError($testClassSuperTypes, $e, $class->getParentClass());
     }
 
