@@ -32,7 +32,7 @@ h3. Composer
 First, add the dependency to *piece/stagehand-testrunner* into your *composer.json* file as the following:
 
 <pre><code class="json">{
-    "require": {
+    "require-dev": {
         "piece/stagehand-testrunner": ">=3.5.0"
     }
 }</code></pre>
