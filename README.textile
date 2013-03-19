@@ -8,7 +8,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
 
 h2. Features
 
-* Runs tests when a file is saved. (Autotest)
+* Runs tests when a file is saved. (*Continuous Testing*)
 * Runs tests in the specified directory.
 * Runs tests in the specified file.
 * Runs only the specified tests in the specified file.
