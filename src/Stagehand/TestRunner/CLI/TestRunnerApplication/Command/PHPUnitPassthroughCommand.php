@@ -65,9 +65,9 @@ class PHPUnitPassthroughCommand extends Command
 
         $this->ignoreValidationErrors();
         $this->setName('phpunit:passthrough');
-        $this->setDescription('Runs tests with what is equivalent to the phpunit command.');
+        $this->setDescription('Runs the phpunit command via the testrunner command.');
         $this->setHelp(
-'The <info>' . $this->getName() . '</info> command runs tests with what is equivalent to the phpunit command except it allows you to declare multiple test classes in a file:' . PHP_EOL .
+'The <info>' . $this->getName() . '</info> command runs the command which is equivalent to the phpunit command except it allows you to declare multiple test classes in a file:' . PHP_EOL .
 PHP_EOL .
 '  <info>testrunner ' . $this->getName() . ' ...</info>'
         );
