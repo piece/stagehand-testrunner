@@ -21,6 +21,7 @@ h2. Features
 * Stops on the first failure or error.
 * Specifies the test file pattern.
 * Uses a YAML-based configuration file.
+* Runs the phpunit command via the testrunner command.
 * Supports "CakePHP":http://cakephp.org/, "CIUnit":http://www.knollet.com/foostack/, "PHPSpec":http://www.phpspec.net/, "PHPUnit":https://github.com/sebastianbergmann/phpunit, and "SimpleTest":http://simpletest.org/.
 
 h2. Installation
@@ -33,7 +34,7 @@ First, add the dependency to *piece/stagehand-testrunner* into your *composer.js
 
 <pre><code class="json">{
     "require-dev": {
-        "piece/stagehand-testrunner": ">=3.5.0"
+        "piece/stagehand-testrunner": ">=3.6.0"
     }
 }</code></pre>
 
