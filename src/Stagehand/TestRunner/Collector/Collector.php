@@ -111,8 +111,9 @@ abstract class Collector
     {
         $self = $this;
         $fileSystem = new FileSystem();
-        $this->testTargetRepository->walkOnResources(function ($resource, $index, TestTargetRepository $testTargetRepository) use ($self, $fileSystem) {
-            $absoluteTargetPath = $fileSystem->getAbsolutePath($resource, $this->environment->getWorkingDirectoryAtStartup());
+        $environment = $this->environment;
+        $this->testTargetRepository->walkOnResources(function ($resource, $index, TestTargetRepository $testTargetRepository) use ($self, $fileSystem, $environment) {
+            $absoluteTargetPath = $fileSystem->getAbsolutePath($resource, $environment->getWorkingDirectoryAtStartup());
             if (!file_exists($absoluteTargetPath)) {
                 throw new \UnexpectedValueException(sprintf('The directory or file [ %s ] is not found', $absoluteTargetPath));
             }
