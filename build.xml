@@ -27,23 +27,17 @@
 <project name="Stagehand_TestRunner" basedir="." default="build">
   <taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
 
-  <property name="package.releaseversion">3.6.0</property>
+  <property name="package.releaseversion">3.6.1</property>
   <property name="package.releasestability">stable</property>
   <property name="package.apiversion">3.0.0</property>
   <property name="package.apistability">stable</property>
   <property name="package.notes"><![CDATA[What's New in ${phing.project.name} ${package.releaseversion}
 
-[PHPUnit] Runs the phpunit command via the testrunner command.
-
- (Issue #23)
-
- The "phpunit:passthrough" command has been added that is equivalent to the phpunit command except it allows you to declare multiple test classes in a file.
-
 A Defect Fix
 
  The following defect has been fixed:
 
- * The file and line attributes are not included in failure/error elements of the JUnit XML when a test method which is declared in a trait is failed or error. (Issue #24)
+ * An error "Fatal error: Using $this when not in object context in ..." is raised when launching a test with PHP 5.3. (Issue #26)
 ]]></property>
   <property name="package.name">${phing.project.name}</property>
   <property name="package.summary">A continuous test runner for CLI</property>

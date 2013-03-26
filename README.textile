@@ -34,7 +34,7 @@ First, add the dependency to *piece/stagehand-testrunner* into your *composer.js
 
 <pre><code class="json">{
     "require-dev": {
-        "piece/stagehand-testrunner": ">=3.6.0"
+        "piece/stagehand-testrunner": ">=3.6.1"
     }
 }</code></pre>
 

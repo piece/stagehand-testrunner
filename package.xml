@@ -16,10 +16,10 @@ It makes unit testing in a local environment much easier and comfortable. Additi
   <email>kubo@iteman.jp</email>
   <active>yes</active>
  </lead>
- <date>2013-03-19</date>
- <time>16:07:16</time>
+ <date>2013-03-26</date>
+ <time>17:29:43</time>
  <version>
-  <release>3.6.0</release>
+  <release>3.6.1</release>
   <api>3.0.0</api>
  </version>
  <stability>
@@ -28,121 +28,115 @@ It makes unit testing in a local environment much easier and comfortable. Additi
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
  <notes>
-What&apos;s New in Stagehand_TestRunner 3.6.0
-
-[PHPUnit] Runs the phpunit command via the testrunner command.
-
- (Issue #23)
-
- The &quot;phpunit:passthrough&quot; command has been added that is equivalent to the phpunit command except it allows you to declare multiple test classes in a file.
+What&apos;s New in Stagehand_TestRunner 3.6.1
 
 A Defect Fix
 
  The following defect has been fixed:
 
- * The file and line attributes are not included in failure/error elements of the JUnit XML when a test method which is declared in a trait is failed or error. (Issue #24)
+ * An error &quot;Fatal error: Using $this when not in object context in ...&quot; is raised when launching a test with PHP 5.3. (Issue #26)
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <file baseinstalldir="/" md5sum="39d2f214d4ee7768722e5618f1bc76ce" name="bin/testrunner" role="script">
+   <file baseinstalldir="/" md5sum="82aae4aa1174f844ac934121716524fa" name="bin/testrunner" role="script">
     <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config" />
    </file>
    <file baseinstalldir="/" md5sum="9bd405782636ef0dba182674954a1738" name="bin/testrunner.bat" role="script" />
    <file baseinstalldir="/" md5sum="e415f03319c38d602a7e9af26960e12e" name="doc/LICENSE" role="doc" />
-   <file baseinstalldir="/" md5sum="0fba048738bdacf8f1ae4b1878ce4206" name="Stagehand/TestRunner/CLI/Terminal.php" role="php" />
-   <file baseinstalldir="/" md5sum="bee66adaf805ba2c0fa37ef62d5a7c69" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Application.php" role="php" />
-   <file baseinstalldir="/" md5sum="bccd00d9b49f62bc2b472a9ca386ee39" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/CakePHPCommand.php" role="php" />
-   <file baseinstalldir="/" md5sum="bd614e57472bf10df0b3555cfffeb107" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/CIUnitCommand.php" role="php" />
-   <file baseinstalldir="/" md5sum="900b7df256f533969e28d59437c0f28d" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/Command.php" role="php" />
-   <file baseinstalldir="/" md5sum="01b6da23876d8ea0c41540cec8a26ef3" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/CommandRepository.php" role="php" />
-   <file baseinstalldir="/" md5sum="f81b260c2d0e01326309beb419c70611" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/CompileCommand.php" role="php" />
-   <file baseinstalldir="/" md5sum="d4551e172a33d6948dc0ec2b0dd5e4fc" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/HelpCommand.php" role="php" />
-   <file baseinstalldir="/" md5sum="3ac61acc2face6499151b8a2a3320c45" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/ListCommand.php" role="php" />
-   <file baseinstalldir="/" md5sum="140062a30243855d7dd3fa6a19c2178e" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PHPSpecCommand.php" role="php" />
-   <file baseinstalldir="/" md5sum="19f624782a236676506bfdd52fd11836" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PHPUnitCommand.php" role="php" />
-   <file baseinstalldir="/" md5sum="b75d5818f8a8c009cb78153921aa7596" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PHPUnitPassthroughCommand.php" role="php" />
-   <file baseinstalldir="/" md5sum="a551c17f07cdecd0a2608eaef64e9787" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PluginCommand.php" role="php" />
-   <file baseinstalldir="/" md5sum="affdc61d0ff994210f0e7b48c793d240" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/SimpleTestCommand.php" role="php" />
-   <file baseinstalldir="/" md5sum="8e93154d5e9cfd085e3f23fa16f93d4e" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PHPUnitPassthroughCommand/Command.php" role="php" />
-   <file baseinstalldir="/" md5sum="522a7ccfe574d41f56d77d5d2bbecbbd" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PHPUnitPassthroughCommand/TestRunner.php" role="php" />
-   <file baseinstalldir="/" md5sum="b44023f10b978c377abee19d11f803ba" name="Stagehand/TestRunner/Collector/CakePHPCollector.php" role="php" />
-   <file baseinstalldir="/" md5sum="f5fad395bbafd24f7064a2a7497b1385" name="Stagehand/TestRunner/Collector/CIUnitCollector.php" role="php" />
-   <file baseinstalldir="/" md5sum="d037822172ee9111f39b107bc6667882" name="Stagehand/TestRunner/Collector/CollectingType.php" role="php" />
-   <file baseinstalldir="/" md5sum="4c4c51b2743cf83a3fc8b094cb230c3a" name="Stagehand/TestRunner/Collector/CollectingTypeFactory.php" role="php" />
-   <file baseinstalldir="/" md5sum="4fe1ab44cef9137d3bf8675016bd584e" name="Stagehand/TestRunner/Collector/Collector.php" role="php" />
-   <file baseinstalldir="/" md5sum="bff9145284f8f51336928545eabde5e0" name="Stagehand/TestRunner/Collector/PHPSpecCollector.php" role="php" />
-   <file baseinstalldir="/" md5sum="05d83cb29ea586ef8d7d618fc6db2ad9" name="Stagehand/TestRunner/Collector/PHPUnitCollector.php" role="php" />
-   <file baseinstalldir="/" md5sum="040e4bd6d5002aac4928623baa1a49a1" name="Stagehand/TestRunner/Collector/SimpleTestCollector.php" role="php" />
-   <file baseinstalldir="/" md5sum="26d0a2811e8ce1f6401264a6557bcb5e" name="Stagehand/TestRunner/Core/ApplicationContext.php" role="php" />
-   <file baseinstalldir="/" md5sum="665a0472d65a88a80a36c892330716c3" name="Stagehand/TestRunner/Core/Bootstrap.php" role="php" />
-   <file baseinstalldir="/" md5sum="95d1b4e49ebf99cd87eeb91b95f64af0" name="Stagehand/TestRunner/Core/Environment.php" role="php" />
-   <file baseinstalldir="/" md5sum="d6db54297b255da513137e108dce8669" name="Stagehand/TestRunner/Core/TestTargetRepository.php" role="php" />
-   <file baseinstalldir="/" md5sum="81789f72f3cb7ce3c3ba4ca3eac89c0d" name="Stagehand/TestRunner/Core/Plugin/CakePHPPlugin.php" role="php" />
-   <file baseinstalldir="/" md5sum="30e25af5476ed8d4ae00c9af3f757151" name="Stagehand/TestRunner/Core/Plugin/CIUnitPlugin.php" role="php" />
-   <file baseinstalldir="/" md5sum="1e6ff73738615b2194124485ed263bde" name="Stagehand/TestRunner/Core/Plugin/PHPSpecPlugin.php" role="php" />
-   <file baseinstalldir="/" md5sum="700665c8fa00acbb6d65f0b1197a6a9f" name="Stagehand/TestRunner/Core/Plugin/PHPUnitPlugin.php" role="php" />
-   <file baseinstalldir="/" md5sum="14dcfdf67c0be9f5b05a8c8cc98518f6" name="Stagehand/TestRunner/Core/Plugin/Plugin.php" role="php" />
-   <file baseinstalldir="/" md5sum="24b55eb866283ab2f4ccbfba22539345" name="Stagehand/TestRunner/Core/Plugin/PluginInterface.php" role="php" />
-   <file baseinstalldir="/" md5sum="79560904870a0f514505440df3638ae1" name="Stagehand/TestRunner/Core/Plugin/PluginRepository.php" role="php" />
-   <file baseinstalldir="/" md5sum="e0bf426f9c2a8a49a17239b8e8723a70" name="Stagehand/TestRunner/Core/Plugin/SimpleTestPlugin.php" role="php" />
+   <file baseinstalldir="/" md5sum="469fab00ac02a69abb10d7bbd946c5c6" name="Stagehand/TestRunner/CLI/Terminal.php" role="php" />
+   <file baseinstalldir="/" md5sum="b4d2ca4625f42c65a241383dddeb6afe" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Application.php" role="php" />
+   <file baseinstalldir="/" md5sum="251c00d2747dc14aebb243b3b8c21633" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/CakePHPCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="8e58704ca926c4cf7a5ec7776a4a68aa" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/CIUnitCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="4d7dc63226c0ef28f514a1d401c928bd" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/Command.php" role="php" />
+   <file baseinstalldir="/" md5sum="4a288b90994b04e538eb6dda93ec778a" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/CommandRepository.php" role="php" />
+   <file baseinstalldir="/" md5sum="0f993ab97ca758a7d0d6fc2e31bfe8b6" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/CompileCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="1cba1724c4ac69b289df4a2372513f12" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/HelpCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="c80f1c4d66b8abaa3ca2d9811c1a0706" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/ListCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="b2d4dd6c78fa2e277f98e30760cd4e5b" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PHPSpecCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="7f9e0c2b32882d68cd1100983ca0bcfb" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PHPUnitCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="3cf117193aa5a622b9f5a2538f444cdc" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PHPUnitPassthroughCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="3d758582876430235870a1dd74888100" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PluginCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="23f75efecd51a1d97a08c823c4d301f4" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/SimpleTestCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="d97509162a6edf82eefcfc9434a5db95" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PHPUnitPassthroughCommand/Command.php" role="php" />
+   <file baseinstalldir="/" md5sum="c3dd0932dceca7ec04825ce1e7fb1bda" name="Stagehand/TestRunner/CLI/TestRunnerApplication/Command/PHPUnitPassthroughCommand/TestRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="a9bfaa843472100da9d9c5beb82b8d0d" name="Stagehand/TestRunner/Collector/CakePHPCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="b4a45ecd108b624321c90d2d40c1b091" name="Stagehand/TestRunner/Collector/CIUnitCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="a1e72307c9b2b4bf28c567aebaae6662" name="Stagehand/TestRunner/Collector/CollectingType.php" role="php" />
+   <file baseinstalldir="/" md5sum="328316c17d6a8c649387a6cf1de5e443" name="Stagehand/TestRunner/Collector/CollectingTypeFactory.php" role="php" />
+   <file baseinstalldir="/" md5sum="ea61b8556ac591499d621d242a464e3f" name="Stagehand/TestRunner/Collector/Collector.php" role="php" />
+   <file baseinstalldir="/" md5sum="16e0462ada6ae9b82c46a1f67d79ba88" name="Stagehand/TestRunner/Collector/PHPSpecCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="49f29eb3f49bd4a825f7a5800861eca2" name="Stagehand/TestRunner/Collector/PHPUnitCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="86494ee38ff3baac4fc4585a17a6b1a4" name="Stagehand/TestRunner/Collector/SimpleTestCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="98a628897d80608853ee69ec0b672fdf" name="Stagehand/TestRunner/Core/ApplicationContext.php" role="php" />
+   <file baseinstalldir="/" md5sum="6ae58e9e871f7412b198a450dece9c10" name="Stagehand/TestRunner/Core/Bootstrap.php" role="php" />
+   <file baseinstalldir="/" md5sum="57433e9e9e6e9cfebae152fd02ebe26d" name="Stagehand/TestRunner/Core/Environment.php" role="php" />
+   <file baseinstalldir="/" md5sum="a468c8ade39c02695b5dd8ddbba8c023" name="Stagehand/TestRunner/Core/TestTargetRepository.php" role="php" />
+   <file baseinstalldir="/" md5sum="1aafad00c17f4195aa7e04b4b8ce2401" name="Stagehand/TestRunner/Core/Plugin/CakePHPPlugin.php" role="php" />
+   <file baseinstalldir="/" md5sum="bacb1855fef263966a089ef31ffef845" name="Stagehand/TestRunner/Core/Plugin/CIUnitPlugin.php" role="php" />
+   <file baseinstalldir="/" md5sum="a96d6ccb796ef1913f6c4b5db96e87bf" name="Stagehand/TestRunner/Core/Plugin/PHPSpecPlugin.php" role="php" />
+   <file baseinstalldir="/" md5sum="be934013d4e3520977ea580dd3aa1a8d" name="Stagehand/TestRunner/Core/Plugin/PHPUnitPlugin.php" role="php" />
+   <file baseinstalldir="/" md5sum="5ff898f7bbe768933bb10919f7b5c4bc" name="Stagehand/TestRunner/Core/Plugin/Plugin.php" role="php" />
+   <file baseinstalldir="/" md5sum="282c0b42bf20a88d2b95f0612d40dace" name="Stagehand/TestRunner/Core/Plugin/PluginInterface.php" role="php" />
+   <file baseinstalldir="/" md5sum="472bbb32c25352efb30369384ab489e4" name="Stagehand/TestRunner/Core/Plugin/PluginRepository.php" role="php" />
+   <file baseinstalldir="/" md5sum="335c17146978d3e078f8e66bcba88d55" name="Stagehand/TestRunner/Core/Plugin/SimpleTestPlugin.php" role="php" />
    <file baseinstalldir="/" md5sum="3df6293830ce279e3fb4fb25393f61e1" name="Stagehand/TestRunner/DependencyInjection/CakePHPContainer.php" role="php" />
    <file baseinstalldir="/" md5sum="ee67de34215710c330f26d4b656bd4f1" name="Stagehand/TestRunner/DependencyInjection/CIUnitContainer.php" role="php" />
    <file baseinstalldir="/" md5sum="39b1147ecd1c05adebf7f9042d94526d" name="Stagehand/TestRunner/DependencyInjection/PHPSpecContainer.php" role="php" />
-   <file baseinstalldir="/" md5sum="4c6854e93b97b10114e6d5a9ceee0982" name="Stagehand/TestRunner/DependencyInjection/PHPUnitConfigurationFactory.php" role="php" />
+   <file baseinstalldir="/" md5sum="237c2c911a058e26a2ede272860ba277" name="Stagehand/TestRunner/DependencyInjection/PHPUnitConfigurationFactory.php" role="php" />
    <file baseinstalldir="/" md5sum="f52a7abeecbd7254e36b7ed516d1eef5" name="Stagehand/TestRunner/DependencyInjection/PHPUnitContainer.php" role="php" />
    <file baseinstalldir="/" md5sum="bdd7fb9a7ff379ebdf3190f8453065e8" name="Stagehand/TestRunner/DependencyInjection/SimpleTestContainer.php" role="php" />
-   <file baseinstalldir="/" md5sum="ec4d2e215a694f06934b6312e1e629c8" name="Stagehand/TestRunner/DependencyInjection/Compiler/Compiler.php" role="php" />
-   <file baseinstalldir="/" md5sum="b92ee3a3b2ad0e418e9d76315176c8cc" name="Stagehand/TestRunner/DependencyInjection/Compiler/ReplaceDefinitionByPluginDefinitionPass.php" role="php" />
-   <file baseinstalldir="/" md5sum="902dfebde5b9f901a4d642566bb56580" name="Stagehand/TestRunner/DependencyInjection/Configuration/CakePHPConfiguration.php" role="php" />
-   <file baseinstalldir="/" md5sum="1789350db51130041ee9d60199dc70fb" name="Stagehand/TestRunner/DependencyInjection/Configuration/CIUnitConfiguration.php" role="php" />
-   <file baseinstalldir="/" md5sum="18dc1b432a54eb60b49cadf8d114bfc4" name="Stagehand/TestRunner/DependencyInjection/Configuration/Configuration.php" role="php" />
-   <file baseinstalldir="/" md5sum="a892984343c49e32e43ebeab7b978a1f" name="Stagehand/TestRunner/DependencyInjection/Configuration/ConfigurationInterface.php" role="php" />
-   <file baseinstalldir="/" md5sum="91940fe9c060ad592a8e0912b171e2b3" name="Stagehand/TestRunner/DependencyInjection/Configuration/GeneralConfiguration.php" role="php" />
-   <file baseinstalldir="/" md5sum="2806daa429b7976fd6d20a4e87932201" name="Stagehand/TestRunner/DependencyInjection/Configuration/PHPSpecConfiguration.php" role="php" />
-   <file baseinstalldir="/" md5sum="d973e4bef699e7fe8f3af0c3f9c5ac21" name="Stagehand/TestRunner/DependencyInjection/Configuration/PHPUnitConfiguration.php" role="php" />
-   <file baseinstalldir="/" md5sum="392202e828c9610ff104d93e3719a49c" name="Stagehand/TestRunner/DependencyInjection/Configuration/SimpleTestConfiguration.php" role="php" />
-   <file baseinstalldir="/" md5sum="42e590033f9f8a295f3acb8c031d6b8e" name="Stagehand/TestRunner/DependencyInjection/Extension/CakePHPExtension.php" role="php" />
-   <file baseinstalldir="/" md5sum="a57cb4e96a41fb33ae462653e33c1510" name="Stagehand/TestRunner/DependencyInjection/Extension/CIUnitExtension.php" role="php" />
-   <file baseinstalldir="/" md5sum="af32ebe68d29f8d4eb00b60b0bb0f7f8" name="Stagehand/TestRunner/DependencyInjection/Extension/Extension.php" role="php" />
-   <file baseinstalldir="/" md5sum="f99ddf5bc737a85abb058dc278d28afd" name="Stagehand/TestRunner/DependencyInjection/Extension/FrameworkUnavailableException.php" role="php" />
-   <file baseinstalldir="/" md5sum="18824c6440bd44296ce9d5fa2f0274f7" name="Stagehand/TestRunner/DependencyInjection/Extension/GeneralExtension.php" role="php" />
-   <file baseinstalldir="/" md5sum="9e2911a46602c11370673730b8d920d4" name="Stagehand/TestRunner/DependencyInjection/Extension/PHPSpecExtension.php" role="php" />
-   <file baseinstalldir="/" md5sum="07384b702aaacd6fa6ee31e69f246373" name="Stagehand/TestRunner/DependencyInjection/Extension/PHPUnitExtension.php" role="php" />
-   <file baseinstalldir="/" md5sum="9193aeb27b62db0c47861cdbfa6f6a6a" name="Stagehand/TestRunner/DependencyInjection/Extension/SimpleTestExtension.php" role="php" />
-   <file baseinstalldir="/" md5sum="e5946d0e223c80741a4308abaced68d1" name="Stagehand/TestRunner/DependencyInjection/Transformation/CakePHPTransformer.php" role="php" />
-   <file baseinstalldir="/" md5sum="c2e5920071f0a949197cd20379e111cb" name="Stagehand/TestRunner/DependencyInjection/Transformation/CIUnitTransformer.php" role="php" />
-   <file baseinstalldir="/" md5sum="d5e34457fdca8d7ba43e6bbe82808d21" name="Stagehand/TestRunner/DependencyInjection/Transformation/GeneralTransformer.php" role="php" />
-   <file baseinstalldir="/" md5sum="af3be78f38924d50d40d8ce56260edde" name="Stagehand/TestRunner/DependencyInjection/Transformation/PHPSpecTransformer.php" role="php" />
-   <file baseinstalldir="/" md5sum="0b95bd66fbbebe16f2a865d7fb1282f4" name="Stagehand/TestRunner/DependencyInjection/Transformation/PHPUnitTransformer.php" role="php" />
-   <file baseinstalldir="/" md5sum="6e1915c981682f3c98d394e2b04dd58c" name="Stagehand/TestRunner/DependencyInjection/Transformation/SimpleTestTransformer.php" role="php" />
-   <file baseinstalldir="/" md5sum="4679226670560d82e738ae6de538504a" name="Stagehand/TestRunner/DependencyInjection/Transformation/Transformation.php" role="php" />
-   <file baseinstalldir="/" md5sum="0404d6bc6ed5d8dd2ebb39b977a64092" name="Stagehand/TestRunner/DependencyInjection/Transformation/Transformer.php" role="php" />
-   <file baseinstalldir="/" md5sum="1d050e05e6d229a54e8de43544f17125" name="Stagehand/TestRunner/JUnitXMLWriter/DOMJUnitXMLWriter.php" role="php" />
-   <file baseinstalldir="/" md5sum="9dd8ac5766639668a91ad9ee89e80884" name="Stagehand/TestRunner/JUnitXMLWriter/JUnitXMLWriterInterface.php" role="php" />
-   <file baseinstalldir="/" md5sum="40b39adbf54b0490b8a440feb00b309a" name="Stagehand/TestRunner/JUnitXMLWriter/NullUTF8Converter.php" role="php" />
-   <file baseinstalldir="/" md5sum="80a05b6d7b5b406d55f90daa5be54f34" name="Stagehand/TestRunner/JUnitXMLWriter/StreamJUnitXMLWriter.php" role="php" />
-   <file baseinstalldir="/" md5sum="5d9d651378ebeef4a1d76ebb809e9f95" name="Stagehand/TestRunner/JUnitXMLWriter/TestsuiteDOMElement.php" role="php" />
-   <file baseinstalldir="/" md5sum="aa0414d7ed09ef7fac66f8387972feac" name="Stagehand/TestRunner/JUnitXMLWriter/UTF8Converter.php" role="php" />
-   <file baseinstalldir="/" md5sum="1ed0ff55b195d0fb71a06876403f3b78" name="Stagehand/TestRunner/JUnitXMLWriter/XMLStreamWriter.php" role="php" />
-   <file baseinstalldir="/" md5sum="754015757f34d4f254bb67f366acc94a" name="Stagehand/TestRunner/Notification/Notification.php" role="php" />
-   <file baseinstalldir="/" md5sum="c58cd6768d722a348658d2dc206dad36" name="Stagehand/TestRunner/Notification/Notifier.php" role="php" />
-   <file baseinstalldir="/" md5sum="0ea6aea8a5ecc0b76e2f0b01dff73f79" name="Stagehand/TestRunner/Preparer/CakePHPPreparer.php" role="php" />
-   <file baseinstalldir="/" md5sum="9d41e26ea7131c9ae1269c138ac56642" name="Stagehand/TestRunner/Preparer/CIUnitPreparer.php" role="php" />
-   <file baseinstalldir="/" md5sum="8a2ee4797119765b39380eb9587a4d91" name="Stagehand/TestRunner/Preparer/PHPSpecPreparer.php" role="php" />
-   <file baseinstalldir="/" md5sum="a695d755bed21477918216519ec2b08d" name="Stagehand/TestRunner/Preparer/PHPUnitPreparer.php" role="php" />
-   <file baseinstalldir="/" md5sum="97df957c7ac3a89f5181ba55f2defc69" name="Stagehand/TestRunner/Preparer/Preparer.php" role="php" />
-   <file baseinstalldir="/" md5sum="9c2f72bfa9bb0f4e774d6f72213a07bd" name="Stagehand/TestRunner/Preparer/SimpleTestPreparer.php" role="php" />
-   <file baseinstalldir="/" md5sum="a0c2b495b652386fc757642685587cfd" name="Stagehand/TestRunner/Preparer/CakePHPPreparer/TestRunnerShellDispatcher.php" role="php" />
-   <file baseinstalldir="/" md5sum="899c7f1bb6f261e397b4fd02d26005b5" name="Stagehand/TestRunner/Process/TestRunner.php" role="php" />
-   <file baseinstalldir="/" md5sum="bfa42135330911f6334def3c2120551e" name="Stagehand/TestRunner/Process/TestRunnerInterface.php" role="php" />
-   <file baseinstalldir="/" md5sum="d9635ac0e2580105ca56a1e56cf296ce" name="Stagehand/TestRunner/Process/ContinuousTesting/AlterationMonitoring.php" role="php" />
-   <file baseinstalldir="/" md5sum="8aa6125ec3b06181be4386866857a5ff" name="Stagehand/TestRunner/Process/ContinuousTesting/CakePHPCommandLineOptionBuilder.php" role="php" />
-   <file baseinstalldir="/" md5sum="aebcf388221c868206dfafd6bf78f24e" name="Stagehand/TestRunner/Process/ContinuousTesting/CIUnitCommandLineOptionBuilder.php" role="php" />
-   <file baseinstalldir="/" md5sum="73ab7ef4b0cc5f38356a2a9da63d4c90" name="Stagehand/TestRunner/Process/ContinuousTesting/CommandLineBuilder.php" role="php" />
-   <file baseinstalldir="/" md5sum="42a6868d16c17ca3c4ba19c1d12d941d" name="Stagehand/TestRunner/Process/ContinuousTesting/CommandLineOptionBuilderInterface.php" role="php" />
-   <file baseinstalldir="/" md5sum="bc1af70d1b8e2f4a3b3aea83ae16e2a1" name="Stagehand/TestRunner/Process/ContinuousTesting/ContinuousTestRunner.php" role="php" />
-   <file baseinstalldir="/" md5sum="53955eb2a9be192de65183f3867fab55" name="Stagehand/TestRunner/Process/ContinuousTesting/FatalError.php" role="php" />
-   <file baseinstalldir="/" md5sum="ff3dc0571cb8ccd0db8edb06dc47e299" name="Stagehand/TestRunner/Process/ContinuousTesting/PHPUnitCommandLineOptionBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="c1db20b376209a91ddf8c1dc2f91b589" name="Stagehand/TestRunner/DependencyInjection/Compiler/Compiler.php" role="php" />
+   <file baseinstalldir="/" md5sum="eea1e1ec7853c87b39795758e293cbf9" name="Stagehand/TestRunner/DependencyInjection/Compiler/ReplaceDefinitionByPluginDefinitionPass.php" role="php" />
+   <file baseinstalldir="/" md5sum="4348dae8ade42eff796a1f4346f4c52f" name="Stagehand/TestRunner/DependencyInjection/Configuration/CakePHPConfiguration.php" role="php" />
+   <file baseinstalldir="/" md5sum="338722dcf5aefebcd96740a6b95983ec" name="Stagehand/TestRunner/DependencyInjection/Configuration/CIUnitConfiguration.php" role="php" />
+   <file baseinstalldir="/" md5sum="efc16802fb757914f829af062eecea51" name="Stagehand/TestRunner/DependencyInjection/Configuration/Configuration.php" role="php" />
+   <file baseinstalldir="/" md5sum="6dbc277cf29fea7aa2460b08631861d3" name="Stagehand/TestRunner/DependencyInjection/Configuration/ConfigurationInterface.php" role="php" />
+   <file baseinstalldir="/" md5sum="209cdf608b7a5592428c15b4e060dcc6" name="Stagehand/TestRunner/DependencyInjection/Configuration/GeneralConfiguration.php" role="php" />
+   <file baseinstalldir="/" md5sum="482695c861e215b3300eb44b8b9e6fc9" name="Stagehand/TestRunner/DependencyInjection/Configuration/PHPSpecConfiguration.php" role="php" />
+   <file baseinstalldir="/" md5sum="aa0f6208b3ab406d4c49f7d4e5a4e729" name="Stagehand/TestRunner/DependencyInjection/Configuration/PHPUnitConfiguration.php" role="php" />
+   <file baseinstalldir="/" md5sum="72148274819256721a97368a9e67dd5e" name="Stagehand/TestRunner/DependencyInjection/Configuration/SimpleTestConfiguration.php" role="php" />
+   <file baseinstalldir="/" md5sum="c0dfa044a987b0696c5262329d798aae" name="Stagehand/TestRunner/DependencyInjection/Extension/CakePHPExtension.php" role="php" />
+   <file baseinstalldir="/" md5sum="36efb0e64c44f630ab76792ec4438dd0" name="Stagehand/TestRunner/DependencyInjection/Extension/CIUnitExtension.php" role="php" />
+   <file baseinstalldir="/" md5sum="0a9ee7e13703edea488b2d35bcbf9332" name="Stagehand/TestRunner/DependencyInjection/Extension/Extension.php" role="php" />
+   <file baseinstalldir="/" md5sum="e5105327f90214b263b47b105aebd781" name="Stagehand/TestRunner/DependencyInjection/Extension/FrameworkUnavailableException.php" role="php" />
+   <file baseinstalldir="/" md5sum="06c2a9af85b1a047747be56e9846c78b" name="Stagehand/TestRunner/DependencyInjection/Extension/GeneralExtension.php" role="php" />
+   <file baseinstalldir="/" md5sum="3a650eff7462a09491086c3734e8e210" name="Stagehand/TestRunner/DependencyInjection/Extension/PHPSpecExtension.php" role="php" />
+   <file baseinstalldir="/" md5sum="b28b1121cf122560090f047596af71e3" name="Stagehand/TestRunner/DependencyInjection/Extension/PHPUnitExtension.php" role="php" />
+   <file baseinstalldir="/" md5sum="7618df9d60cbb312c81814728cdad413" name="Stagehand/TestRunner/DependencyInjection/Extension/SimpleTestExtension.php" role="php" />
+   <file baseinstalldir="/" md5sum="fbbd154d12e721fbad54cc7809767df4" name="Stagehand/TestRunner/DependencyInjection/Transformation/CakePHPTransformer.php" role="php" />
+   <file baseinstalldir="/" md5sum="bb4aabf41a685ee96db06ee09da6e1ee" name="Stagehand/TestRunner/DependencyInjection/Transformation/CIUnitTransformer.php" role="php" />
+   <file baseinstalldir="/" md5sum="83f5546753484253e2906d2c19338680" name="Stagehand/TestRunner/DependencyInjection/Transformation/GeneralTransformer.php" role="php" />
+   <file baseinstalldir="/" md5sum="815f16aa391597a988c841ac02a952e6" name="Stagehand/TestRunner/DependencyInjection/Transformation/PHPSpecTransformer.php" role="php" />
+   <file baseinstalldir="/" md5sum="aa4aeaa298ad2cb7d43f70538d9a561f" name="Stagehand/TestRunner/DependencyInjection/Transformation/PHPUnitTransformer.php" role="php" />
+   <file baseinstalldir="/" md5sum="6e2f1b9c1d80e84ea0115401f45dfb6b" name="Stagehand/TestRunner/DependencyInjection/Transformation/SimpleTestTransformer.php" role="php" />
+   <file baseinstalldir="/" md5sum="6bea1e66f89afc0ff6413b141c81ef8e" name="Stagehand/TestRunner/DependencyInjection/Transformation/Transformation.php" role="php" />
+   <file baseinstalldir="/" md5sum="9a96793c535700f056de2fa592552e1a" name="Stagehand/TestRunner/DependencyInjection/Transformation/Transformer.php" role="php" />
+   <file baseinstalldir="/" md5sum="41248fa6d858e002b3fad534e9a88b43" name="Stagehand/TestRunner/JUnitXMLWriter/DOMJUnitXMLWriter.php" role="php" />
+   <file baseinstalldir="/" md5sum="4387ad04769e7dccab19ca8b3877a3d1" name="Stagehand/TestRunner/JUnitXMLWriter/JUnitXMLWriterInterface.php" role="php" />
+   <file baseinstalldir="/" md5sum="db3c3c03c73cc43ddafc9c447eac51ce" name="Stagehand/TestRunner/JUnitXMLWriter/NullUTF8Converter.php" role="php" />
+   <file baseinstalldir="/" md5sum="2ce487a7c975836fac16780cb73feb90" name="Stagehand/TestRunner/JUnitXMLWriter/StreamJUnitXMLWriter.php" role="php" />
+   <file baseinstalldir="/" md5sum="7f71fbebb5c10da47d74a599525a1b1f" name="Stagehand/TestRunner/JUnitXMLWriter/TestsuiteDOMElement.php" role="php" />
+   <file baseinstalldir="/" md5sum="84c014115c7570b52558c7c733b6593a" name="Stagehand/TestRunner/JUnitXMLWriter/UTF8Converter.php" role="php" />
+   <file baseinstalldir="/" md5sum="9ce4602f7bc9ef642fad4d13842be3c3" name="Stagehand/TestRunner/JUnitXMLWriter/XMLStreamWriter.php" role="php" />
+   <file baseinstalldir="/" md5sum="1f7bedc1575a9e1e4d7e22610115a453" name="Stagehand/TestRunner/Notification/Notification.php" role="php" />
+   <file baseinstalldir="/" md5sum="e287fb2b87db8fe7c3949cd6b4f40afc" name="Stagehand/TestRunner/Notification/Notifier.php" role="php" />
+   <file baseinstalldir="/" md5sum="2332574861ffec2096592bd0f2445de4" name="Stagehand/TestRunner/Preparer/CakePHPPreparer.php" role="php" />
+   <file baseinstalldir="/" md5sum="9e76b21e98d25ff33f8ec499ae5205ee" name="Stagehand/TestRunner/Preparer/CIUnitPreparer.php" role="php" />
+   <file baseinstalldir="/" md5sum="39b6a2e6d6fc10ec65bd62ce643533c0" name="Stagehand/TestRunner/Preparer/PHPSpecPreparer.php" role="php" />
+   <file baseinstalldir="/" md5sum="523efd39cb82765d72f73666d953ac70" name="Stagehand/TestRunner/Preparer/PHPUnitPreparer.php" role="php" />
+   <file baseinstalldir="/" md5sum="8b19b76718442f1afc686b682fe8a16c" name="Stagehand/TestRunner/Preparer/Preparer.php" role="php" />
+   <file baseinstalldir="/" md5sum="9bc1c0996d58d7ed23c6db91b2eee484" name="Stagehand/TestRunner/Preparer/SimpleTestPreparer.php" role="php" />
+   <file baseinstalldir="/" md5sum="76fa5d751a81931edba51b78ff1296b9" name="Stagehand/TestRunner/Preparer/CakePHPPreparer/TestRunnerShellDispatcher.php" role="php" />
+   <file baseinstalldir="/" md5sum="b976d54a4724369a5a9d4bf3ffac1eca" name="Stagehand/TestRunner/Process/TestRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="b2247242d25e4a63c4027c3914255998" name="Stagehand/TestRunner/Process/TestRunnerInterface.php" role="php" />
+   <file baseinstalldir="/" md5sum="51b71328dda8ad7e92a64978d3dbe932" name="Stagehand/TestRunner/Process/ContinuousTesting/AlterationMonitoring.php" role="php" />
+   <file baseinstalldir="/" md5sum="1fc622af696366b088e7ab6bf5bb3e5c" name="Stagehand/TestRunner/Process/ContinuousTesting/CakePHPCommandLineOptionBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="9dea174870fa5ea3f6b0e5e8cf51acf1" name="Stagehand/TestRunner/Process/ContinuousTesting/CIUnitCommandLineOptionBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="252bdea367868109c4c43fc70db01262" name="Stagehand/TestRunner/Process/ContinuousTesting/CommandLineBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="035fe492d12cae9b5f54611ec642c5b0" name="Stagehand/TestRunner/Process/ContinuousTesting/CommandLineOptionBuilderInterface.php" role="php" />
+   <file baseinstalldir="/" md5sum="588847d59ddf2f68d5aef2c80d39c39a" name="Stagehand/TestRunner/Process/ContinuousTesting/ContinuousTestRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="257333a337bdfdee9e7a1753217d60c4" name="Stagehand/TestRunner/Process/ContinuousTesting/FatalError.php" role="php" />
+   <file baseinstalldir="/" md5sum="b6d6b1b741a682b3a65c25b7d52beedd" name="Stagehand/TestRunner/Process/ContinuousTesting/PHPUnitCommandLineOptionBuilder.php" role="php" />
    <file baseinstalldir="/" md5sum="d4020a26d70c271bac2c89a7612fd739" name="Stagehand/TestRunner/Resources/config/cakephp.yml" role="php" />
    <file baseinstalldir="/" md5sum="434d95b13b0f319e6966fbffd5e724d3" name="Stagehand/TestRunner/Resources/config/ciunit.yml" role="php" />
    <file baseinstalldir="/" md5sum="d9739c39e8e2ff3e38db26f6bd4b7f39" name="Stagehand/TestRunner/Resources/config/general.yml" role="php" />
@@ -151,145 +145,145 @@ A Defect Fix
    <file baseinstalldir="/" md5sum="0d83ba46d94ba66f02336891a412296e" name="Stagehand/TestRunner/Resources/config/simpletest.yml" role="php" />
    <file baseinstalldir="/" md5sum="cde008934da6ecdde94281d5ca425add" name="Stagehand/TestRunner/Resources/config/schema/junit-xml-dom-2.10.0.rng" role="php" />
    <file baseinstalldir="/" md5sum="945b6bcdf76bb2d9567f1aa60f650a60" name="Stagehand/TestRunner/Resources/config/schema/junit-xml-stream-3.1.0.rng" role="php" />
-   <file baseinstalldir="/" md5sum="961136ca132fce3f0632aa4acb4b8867" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_always_called_methods.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="6df11d848331d4655f81d8f88b8cc18e" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_common.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="1ce0e202a2529e85829eba44477b461c" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_error.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="552aeeb82bbced83b2536da843edb9b9" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_error_and_pass.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="47b077f2774abd654921b79a962e98ea" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_extended.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="b8599f94ab204d2bcc049ade7c4ba1d5" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_failure.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="6d76bef2773a955eb27f87d5cb24b22c" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_failure_and_pass.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="192e43f1c7302d0998baff13b54031d2" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_failure_in_anonymous_function.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="2c7582dd42b9edd6d1e1f349ffe858af" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_multiple_classes.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="907eabb8308d9bc7b270b0e9aed86b5d" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_multiple_classes_with_namespace.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="bb2da85c565fec0ff173efedfefcf3bb" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_multiple_failures.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="0095642060c952e707a9e0be3754d478" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_pass.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="167918baacf843a27611cba0d01a1374" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_skip_class.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="47c2e7714742674088413e558ec90a0c" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_skip_method.test.php" role="php" />
-   <file baseinstalldir="/" md5sum="2272c23139cae47831a15ef195efb993" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/CIUnitWithAnyPatternTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="6a704c6a6ffe63d71dfce2fac307cfbf" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecCommon.php" role="php" />
-   <file baseinstalldir="/" md5sum="51cf1be1b702cb82bc05f0f53e801d91" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecErrorAndPassSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="17c304f321fe6f55578e07100f62d03c" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecErrorSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="16b42dd8833620bcbb5cd16e7da6e713" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecExceptionSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="0379c74be7337c96b504dac4043cb09a" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecExtendedSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="c0c13dd7810fe1b1692b859733211e6e" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecFailureAndPassSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="bb3255e2a7f9f2a287e24a672f00a298" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecFailureSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="1e3e3ebda83aa13d7cb5c75c0ddcc537" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecMultipleClassesSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="915d37e8b4eb45e07415fe113f492050" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecMultipleFailuresSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="80f77b11b067d83a5c8e7d2c1944c609" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecNoSpecsSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="49ce3ed066849db3f84c0b0563541815" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecPassSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="986cdb4a080eca8c32f644d4de5e3224" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecPendingSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="a6fdd1500992260fe5bbfebe216f0ac9" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecWithoutNamespaceSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="e9e023ed83dea11503f286e8c865bfb6" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitCommonTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="74b5ab328372c5a156a62255d668ebf3" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitDataProviderTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="4c0955a37af9f82bbdc1039055586d10" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitDependsTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="0a390985a79ee2d52bb54fb011d780c0" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitErrorAndPassTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="be1ad640f6d096ee814d73b3cdeef25e" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitErrorTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="3bdca495231fd3851189f4b8970a0742" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitExceptionTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="f2133c2b86a590aaa1d2b515c2c927c8" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitExtendedTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="9dc81026222d0e21fd592fb6bc9300a8" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitFailureAndPassTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="b2526efb140afee607c0e3dc29c1c44f" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitFailureInAnonymousFunctionTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="785070f6409a1a70375f3e03c913a0d8" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitFailureTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="e1e8c7769d75a3ba4d4aa65386fff04f" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitGroupsTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="ffaafe0bbae55110b693a889bf178224" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitIncompleteTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="b9cb8e0a7650fd007a4855b54a1cacda" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitIncompleteWithDataProviderTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="256c5796c68624ea1896d80a6126f057" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitMultipleClassesTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="4df542ba9d73e27e55f4838d33b29d99" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitMultipleClassesWithNamespaceTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="8e2fb1be1f2cd4de95c9adcedd3d4657" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitMultipleFailuresTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="1f8953c1e28242551c35da3623b2c472" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitNoTestsTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="278be854f196471e5c342fa337f8ced0" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitOutputTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="9be4ee4735d3ab2a7ee3b3ed4105bc86" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitPassTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="fee559b8e3cc8d7b2ab321ee434267ca" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitSkippedTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="ae6eca2f841af34554df5ee0694f6d65" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitSkippedWithDataProviderTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="88caa17ca4d6b3e6b3750b01745d4bfd" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitSpecialCharactersInFailureMessageTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="19c6eb211a3670e3cda9f5a4bc85c0fe" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitTrait.php" role="php" />
-   <file baseinstalldir="/" md5sum="c433a53fbefc3c0da8825ead73ea1304" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitTraitTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="14d7bd173629897e9261df7296ae78d9" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitUTF8ConversionTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="273a60244290cbd93483f7ace113ddc9" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestCommonTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="d4aa6629940bda7c0b2482066fff49f9" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestErrorAndPassTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="de6e3cc953a4c07f2e284efb619564e4" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestErrorTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="1dfb6cdea421bb44c795ec85f4d038de" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestExtendedTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="4a4c287b1d3d29fd337dcd5dd7f787d9" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestFailureAndPassTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="7417a69e47ed0432d8907bf25291856e" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestFailureInAnonymousFunctionTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="7ce3945687f742504fc0cd835dc93c83" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestFailureTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="a4a6a6df4ba75802845a9528a9e5e8d3" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestMultipleClassesTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="0356ead85a2423c707c6410e2c8b6a51" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestMultipleClassesWithNamespaceTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="8b4719b369954c805db916b454d63914" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestMultipleFailuresTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="06ab182b1b6e493ad87199de9386daf8" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestNoTestsTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="54ab604c853a84c070c91b2887adb830" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestPassTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="a092ecfb66e8a558b0a4d4405c4c1a00" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestSkipClassTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="769ec5def7b98c607ed903f1b9dfbd81" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestSkipMethodTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="e0e0453e423d1faf7b6899621bc14cdd" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/spec_PHPSpecWithAnyPattern.php" role="php" />
-   <file baseinstalldir="/" md5sum="41e1c9c5848fd34fa14cf3665f72646b" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitError.php" role="php" />
-   <file baseinstalldir="/" md5sum="9ea9cf88cdfc3811ce38b155ff9a20c0" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitErrorAndPass.php" role="php" />
-   <file baseinstalldir="/" md5sum="6904b19819ab44dbf6604f85dfe7ddc6" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitFailure.php" role="php" />
-   <file baseinstalldir="/" md5sum="bbc7e92fe242ba851e9d0d1f04a64ca3" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitFailureAndPass.php" role="php" />
-   <file baseinstalldir="/" md5sum="d1f4c6fa75f89bbc4f865b1793669710" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitGroups.php" role="php" />
-   <file baseinstalldir="/" md5sum="5e9dfb9beb71b45cd35e8889f6b1e95a" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitIncomplete.php" role="php" />
-   <file baseinstalldir="/" md5sum="7953a42e7df7cfc3c09cdda0e0c85b56" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitMultipleClasses.php" role="php" />
-   <file baseinstalldir="/" md5sum="34ecc42f3656395ff4ab9faac065e1c7" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitMultipleClassesWithNamespace.php" role="php" />
-   <file baseinstalldir="/" md5sum="fc581e34f17383255facea93449b408b" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitMultipleFailures.php" role="php" />
-   <file baseinstalldir="/" md5sum="1942ccf9f0d8c72f96048eff8cce12a2" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitPass.php" role="php" />
-   <file baseinstalldir="/" md5sum="af9747ef8a77e3f5df0eecf6b1542472" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitSkipped.php" role="php" />
-   <file baseinstalldir="/" md5sum="76ac95eb355cbdfa6f1106f9f6ef86a9" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/test_cakephp_with_any_pattern.php" role="php" />
-   <file baseinstalldir="/" md5sum="1e0b521cd1ee6ec7afe003319c9dbaae" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/test_PHPUnitWithAnyPattern.php" role="php" />
-   <file baseinstalldir="/" md5sum="f95976ca792fea4b40269f67c16bfc09" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/test_SimpleTestWithAnyPattern.php" role="php" />
-   <file baseinstalldir="/" md5sum="320b05b32d3754db24b39a66e40de3c6" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/CIUnit/testNonExistingDataProvider.php" role="php" />
-   <file baseinstalldir="/" md5sum="12ef3571f0e85b2c7de535b2d923c7f2" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpec/DescriptionOfBehaviourAndExpectationSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="37f7e891d1d6aaccc5a4dd7814ba2f14" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecSpec/PHPSpecPassSpec.php" role="php" />
-   <file baseinstalldir="/" md5sum="9da58466b83f8b1e5fbb18d37400d132" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnit/NonExistingDataProviderTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="ff09f0ea62c910f944117c6c90029914" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitTest1/PHPUnitPassTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="af3be593405afa3dc42e95403e51633b" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitTest2/PHPUnitPassTest.php" role="php" />
-   <file baseinstalldir="/" md5sum="2bda2e289942c959d67543a484957e85" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestTest/SimpleTestPassTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="7156010b66fb0a9de89e0644370ec206" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_always_called_methods.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="b18de64b816718d61fa2703afe13c529" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_common.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="579afa357358498d17f5b8e28b193ded" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_error.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="5b3c2d24817ccbcb170ae9396b58e51a" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_error_and_pass.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="dce056c6c482d7a635bceb3ca7113fa4" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_extended.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="37c9f9f05bd46cc3df7cb3f8fdf233b0" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_failure.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="249259d91a44bea25148dea4da2ac146" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_failure_and_pass.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="97aedc861b1bfdcfdabed284a201a46f" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_failure_in_anonymous_function.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="d56c32bbdfe077678192b8f69a5c0fdf" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_multiple_classes.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="3001efcfa337aacd722d431f9b065a4d" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_multiple_classes_with_namespace.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="3af42a44c771dea0386d5265e730cce7" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_multiple_failures.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="94a1163ee5421a817cea233aeb83e0f7" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_pass.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="575152d4f80ace56b02ed49bc23eb16a" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_skip_class.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="12830750edb02791a104c0277a04fb89" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/cakephp_skip_method.test.php" role="php" />
+   <file baseinstalldir="/" md5sum="460198398d2202bdcaa773dbf0abab3f" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/CIUnitWithAnyPatternTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="2b2b5923a8a5f2e1544d0383bb992e24" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecCommon.php" role="php" />
+   <file baseinstalldir="/" md5sum="7496caadc9aa89c56b463a4708d7bb3e" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecErrorAndPassSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="3d065c6842da685d4817d0940adedcd6" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecErrorSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="96ed2755609cc685994a90bcfa1ec3ab" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecExceptionSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="08fa0506b555d43e3faa08befece1b60" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecExtendedSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="4585346e5fca63df21b07901f2b26cb0" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecFailureAndPassSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="c7724874a14dd606fc136ef160be42f8" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecFailureSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="7181879969b6eab6c90faa78d79dc114" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecMultipleClassesSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="4853e1f4891da5bddc368c2e29b439cd" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecMultipleFailuresSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="d7de4bc655c006dd3b8094364946cbf5" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecNoSpecsSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="247513e155f632bad0ba1e18e78eeeb6" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecPassSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="ec0ad7be75872d0140b47fd9cd411a63" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecPendingSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="f3a97b1f7aebfe7dfbe1adb6ded44622" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecWithoutNamespaceSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="0857026fb417f829dd0fc9cef520e1ac" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitCommonTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="3f47c0d6ab0cedb3d1ca07f91220d386" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitDataProviderTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="f16e4643f33f752f436f3e350ee4af48" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitDependsTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="c908f99422f05f8e7ebf89b839e68ff8" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitErrorAndPassTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="37647392b2bb1ed2e4801246263890c8" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitErrorTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="eeb665bf7a73ea87d947e2da67f176de" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitExceptionTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="8a9e8ccab83a149ec47e8a89392355c3" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitExtendedTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="cb5154cce2eefe83b58107917ff4b214" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitFailureAndPassTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="fb279e912a584dc954eb6af41a85e3d4" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitFailureInAnonymousFunctionTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="7ea87189d6c96aef4a00f646cb9cffe5" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitFailureTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="ffe40c0da83c957c36801f39216a8b7a" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitGroupsTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="159872ecd56dde02791aec6e127d6477" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitIncompleteTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="f9939883076d434b635eeef442c58d08" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitIncompleteWithDataProviderTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="20e6988bcb19328140decef9b64d549e" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitMultipleClassesTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="6490dacef53de924e2613df3436d2c43" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitMultipleClassesWithNamespaceTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="f95c43059cc74d41b107bc7168ef6974" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitMultipleFailuresTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="a63e5e7319d9adee83f7f06ff89006a6" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitNoTestsTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="94f8b873dfae3ff2ebd5938efd54f9cf" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitOutputTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="5c0465a5a3ddf8c74797a1d6b35c4c3c" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitPassTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="65b3baa1c737b1c4f0911002fd2fe37f" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitSkippedTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="3e5a083b4b024283ea27947a125d5899" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitSkippedWithDataProviderTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="3868d880e29a34aac58dbd4d7f029280" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitSpecialCharactersInFailureMessageTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="492c3ab3c5f7bb072c9b45efb91c4830" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitTrait.php" role="php" />
+   <file baseinstalldir="/" md5sum="bf4b67c91cd8639dcfce47f30c059928" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitTraitTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="11a6a8f0eff65aaa09dc4e9250f5623a" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitUTF8ConversionTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="739664613ea3aa3004f54652a43c2551" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestCommonTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="e8c97a635d8a09ee8c0ea2637c9023ec" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestErrorAndPassTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="924bad75d13ad3c2cde59dfd2e1b1e5d" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestErrorTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="0a6577615dc094c289a4847f1381aed4" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestExtendedTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="03e325d3c32bd43fc2ade2c2eefa5e0d" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestFailureAndPassTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="d43c7e136b8239a1483b8a2a43ad8551" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestFailureInAnonymousFunctionTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="58073a8b5f7ae4c50a7f75fc302c5371" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestFailureTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="afd7f66af0e99fbc0b30aeef4c1f5dff" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestMultipleClassesTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="a3a2ee46d7db60b472d46816d18a449d" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestMultipleClassesWithNamespaceTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="69e5a1dd8551334cc641259dcef15ba9" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestMultipleFailuresTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="3d1f52f05292bda68821c563b80939b8" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestNoTestsTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="3f3e6e86df08b1da4e22d0a649325a52" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestPassTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="a252f9bff2ca5728d3dbf3bcf23e8ff7" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestSkipClassTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="d5e8ae886b3c92b90de8499630806fa2" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestSkipMethodTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="6a72a3f77b6fb80dfb491ac21d343655" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/spec_PHPSpecWithAnyPattern.php" role="php" />
+   <file baseinstalldir="/" md5sum="238df40417abc53b8516c0e2d6023382" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitError.php" role="php" />
+   <file baseinstalldir="/" md5sum="2ac16e95e130a73ca701b7c3e0f32f4e" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitErrorAndPass.php" role="php" />
+   <file baseinstalldir="/" md5sum="45ecc47768e3e73dd6760cdc3d974ca8" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitFailure.php" role="php" />
+   <file baseinstalldir="/" md5sum="62a21c24ed07f3843beb0aa470aa47c1" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitFailureAndPass.php" role="php" />
+   <file baseinstalldir="/" md5sum="934018a1d03dabfb842ffd703f66a28f" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitGroups.php" role="php" />
+   <file baseinstalldir="/" md5sum="a20a74daf0f552aa643a59207970ff1f" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitIncomplete.php" role="php" />
+   <file baseinstalldir="/" md5sum="72276f5a93644d1611778f15c9c4f4c9" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitMultipleClasses.php" role="php" />
+   <file baseinstalldir="/" md5sum="8385dee599f3fb6e4b8d6d8620069903" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitMultipleClassesWithNamespace.php" role="php" />
+   <file baseinstalldir="/" md5sum="ea2d255bf9941278b69ed62f3f1cb398" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitMultipleFailures.php" role="php" />
+   <file baseinstalldir="/" md5sum="5885b9695d5d7a998a9a2b6124ceb21e" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitPass.php" role="php" />
+   <file baseinstalldir="/" md5sum="0974a3c664c5f5bbc123e92f7deaf642" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/testCIUnitSkipped.php" role="php" />
+   <file baseinstalldir="/" md5sum="1882a20b0c2806773c33fd50854f4c7f" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/test_cakephp_with_any_pattern.php" role="php" />
+   <file baseinstalldir="/" md5sum="93dabbad5d0279958a827df66b73be85" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/test_PHPUnitWithAnyPattern.php" role="php" />
+   <file baseinstalldir="/" md5sum="4c64b6bc479091db67067aed637f816f" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/test_SimpleTestWithAnyPattern.php" role="php" />
+   <file baseinstalldir="/" md5sum="a9a75c374f08e35b0dcad5903c5d89b2" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/CIUnit/testNonExistingDataProvider.php" role="php" />
+   <file baseinstalldir="/" md5sum="dfb14794ec61b4c9675c2fcd1e93ba8e" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpec/DescriptionOfBehaviourAndExpectationSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="f459fc888180aa2d200dc89267aaa45d" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPSpecSpec/PHPSpecPassSpec.php" role="php" />
+   <file baseinstalldir="/" md5sum="ef85ffdafc5f48d6f0765c7a4d1c9f25" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnit/NonExistingDataProviderTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="7b67d19bb01f115e97cb1e2fa1907fe7" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitTest1/PHPUnitPassTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="1afb93c01f6fccc5927e913a3c32dd0e" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/PHPUnitTest2/PHPUnitPassTest.php" role="php" />
+   <file baseinstalldir="/" md5sum="b9c79cf32ad6b785ded26bdb0d122062" name="Stagehand/TestRunner/Resources/examples/Stagehand/TestRunner/SimpleTestTest/SimpleTestPassTest.php" role="php" />
    <file baseinstalldir="/" md5sum="0576aec92b53ee1cab67be8c12795e1c" name="Stagehand/TestRunner/Resources/icons/failed.png" role="php" />
    <file baseinstalldir="/" md5sum="6c57f6951202e60bdd2dc38f45567819" name="Stagehand/TestRunner/Resources/icons/passed.png" role="php" />
    <file baseinstalldir="/" md5sum="37a17e0575f8c2bfef4d819a8580dc4a" name="Stagehand/TestRunner/Resources/icons/stopped.png" role="php" />
-   <file baseinstalldir="/" md5sum="c13f4c74509a17fc36c03618139540ed" name="Stagehand/TestRunner/Runner/CakePHPRunner.php" role="php" />
-   <file baseinstalldir="/" md5sum="02911e1cbbc04cceb8eb5d2afe70aa23" name="Stagehand/TestRunner/Runner/CIUnitRunner.php" role="php" />
-   <file baseinstalldir="/" md5sum="f80c26cedc52a31e9c2ab8ea85693709" name="Stagehand/TestRunner/Runner/PHPSpecRunner.php" role="php" />
-   <file baseinstalldir="/" md5sum="54806515036c3d8c45b495649c079f41" name="Stagehand/TestRunner/Runner/PHPUnitRunner.php" role="php" />
-   <file baseinstalldir="/" md5sum="f3d06c94fe89108437d0594dcb332217" name="Stagehand/TestRunner/Runner/Runner.php" role="php" />
-   <file baseinstalldir="/" md5sum="ee75986d287097945bf7d3109ae56e73" name="Stagehand/TestRunner/Runner/SimpleTestRunner.php" role="php" />
-   <file baseinstalldir="/" md5sum="d69f591b0c9955bba92d09aa85935cc1" name="Stagehand/TestRunner/Runner/CakePHPRunner/JUnitXMLReporter.php" role="php" />
-   <file baseinstalldir="/" md5sum="2551e377f447ff9d4282868594cd79ea" name="Stagehand/TestRunner/Runner/CakePHPRunner/MethodFilterReporter.php" role="php" />
-   <file baseinstalldir="/" md5sum="13d0bbd68693170d447de357e92b55b3" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Example.php" role="php" />
-   <file baseinstalldir="/" md5sum="a75a911932b3ee3e768a4fd016aa3946" name="Stagehand/TestRunner/Runner/PHPSpecRunner/ExampleFactory.php" role="php" />
-   <file baseinstalldir="/" md5sum="fa174ce1f47907acd69836f621d04fff" name="Stagehand/TestRunner/Runner/PHPSpecRunner/ExampleRunner.php" role="php" />
-   <file baseinstalldir="/" md5sum="e9e7dbd01064ebf7273e819893e2fca1" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Reporter.php" role="php" />
-   <file baseinstalldir="/" md5sum="f0f10081516679aa24aa7c82e0e06bc6" name="Stagehand/TestRunner/Runner/PHPSpecRunner/SpecLoader.php" role="php" />
-   <file baseinstalldir="/" md5sum="f693c91dc827b09b095947be544ebed4" name="Stagehand/TestRunner/Runner/PHPSpecRunner/SpecLoaderFactory.php" role="php" />
-   <file baseinstalldir="/" md5sum="64ec92b06d2b0eb621547a957cdfbc7b" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Formatter/DocumentationFormatter.php" role="php" />
-   <file baseinstalldir="/" md5sum="1b4d660b945226ae647675b3aa9f8f37" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Formatter/JUnitXMLFormatter.php" role="php" />
-   <file baseinstalldir="/" md5sum="a414a3f152dd9f4ea86a65da62c7041e" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Formatter/NotificationFormatter.php" role="php" />
-   <file baseinstalldir="/" md5sum="880c263b37de930e1c9fd2759936a3db" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Formatter/ProgressFormatter.php" role="php" />
-   <file baseinstalldir="/" md5sum="d348af8180965c24b77c42de3c3f239b" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Formatter/TerminatableFormatter.php" role="php" />
-   <file baseinstalldir="/" md5sum="9a5aa7a2f4f0b9232a9168a40212fdc5" name="Stagehand/TestRunner/Runner/PHPUnitRunner/TestRunner.php" role="php" />
-   <file baseinstalldir="/" md5sum="963078c42da5ada4847fa6ac0aa4df12" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/DetailedProgressPrinter.php" role="php" />
-   <file baseinstalldir="/" md5sum="51cae602fde14c30c1b15dec5b033e9f" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/JUnitXMLPrinter.php" role="php" />
-   <file baseinstalldir="/" md5sum="8ad07463e5cbf867189e626b3e36e251" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/ProgressPrinter.php" role="php" />
-   <file baseinstalldir="/" md5sum="305bf7a3dd93f1b4e58a8d010a61f05b" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/ResultPrinter.php" role="php" />
-   <file baseinstalldir="/" md5sum="f6c15776cc0bbc8e3ee4da857e075653" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/TestDoxPrinter.php" role="php" />
-   <file baseinstalldir="/" md5sum="746886454742e76ec52d35a7f1c84854" name="Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox/Stream.php" role="php" />
-   <file baseinstalldir="/" md5sum="afddd4c8488df544778444933b2e6477" name="Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox/TestDox.php" role="php" />
-   <file baseinstalldir="/" md5sum="a92fff559b450642e7b90c412987ab80" name="Stagehand/TestRunner/Runner/SimpleTestRunner/ClassFilterReporter.php" role="php" />
-   <file baseinstalldir="/" md5sum="3eabab71c9b9a8091056feae2357c21d" name="Stagehand/TestRunner/Runner/SimpleTestRunner/JUnitXMLReporter.php" role="php" />
-   <file baseinstalldir="/" md5sum="7ffe5c9c5ad44f9d1b6de1fddaeee701" name="Stagehand/TestRunner/Runner/SimpleTestRunner/JUnitXMLReporterFactory.php" role="php" />
-   <file baseinstalldir="/" md5sum="584852de550f20fe3e54da2d20b7db3b" name="Stagehand/TestRunner/Runner/SimpleTestRunner/MethodFilterReporter.php" role="php" />
-   <file baseinstalldir="/" md5sum="c910a27382982fc1e5779a1cb3fcf623" name="Stagehand/TestRunner/Runner/SimpleTestRunner/StopOnFailureReporter.php" role="php" />
-   <file baseinstalldir="/" md5sum="327e43a894774406218edc8a1494248e" name="Stagehand/TestRunner/Runner/SimpleTestRunner/TextReporter.php" role="php" />
-   <file baseinstalldir="/" md5sum="d0abc63b32c2647c7c0d426a9f72d53f" name="Stagehand/TestRunner/TestSuite/CakePHPTestSuite.php" role="php" />
-   <file baseinstalldir="/" md5sum="e59b15c814188bfe30de7a745c3c99ad" name="Stagehand/TestRunner/TestSuite/PHPSpecTestSuite.php" role="php" />
-   <file baseinstalldir="/" md5sum="5eb6c2c07b89aec8004e499590d28947" name="Stagehand/TestRunner/TestSuite/PHPUnitGroupFilterTestSuite.php" role="php" />
-   <file baseinstalldir="/" md5sum="d6d59634f1fe1a5dbbd6b0be3d11ae52" name="Stagehand/TestRunner/TestSuite/SimpleTestTestSuite.php" role="php" />
-   <file baseinstalldir="/" md5sum="34bcfebb68b3cd7db64e3e0c06971a27" name="Stagehand/TestRunner/Util/Coloring.php" role="php" />
-   <file baseinstalldir="/" md5sum="135f67a0d0ef10c9b7b0ce9a218f4cb7" name="Stagehand/TestRunner/Util/ErrorReporting.php" role="php" />
-   <file baseinstalldir="/" md5sum="51689b792c32bfee3a5cee1f0ee451f4" name="Stagehand/TestRunner/Util/FailureTrace.php" role="php" />
-   <file baseinstalldir="/" md5sum="8cac38d8f7a3b99e01d9b2f7789cc8b3" name="Stagehand/TestRunner/Util/FileStreamWriter.php" role="php" />
-   <file baseinstalldir="/" md5sum="e6645940e3b00846b14df8866e233137" name="Stagehand/TestRunner/Util/FileSystem.php" role="php" />
-   <file baseinstalldir="/" md5sum="55cfa9fa138490c726c9c01ea0a551a7" name="Stagehand/TestRunner/Util/LegacyProxy.php" role="php" />
-   <file baseinstalldir="/" md5sum="3ac0e153614a4e94e95cfded64827d54" name="Stagehand/TestRunner/Util/OS.php" role="php" />
-   <file baseinstalldir="/" md5sum="77e1177ff57fdf573a201b70953a607c" name="Stagehand/TestRunner/Util/OutputBuffering.php" role="php" />
-   <file baseinstalldir="/" md5sum="dbde16e05145f67cdb30001263b6e028" name="Stagehand/TestRunner/Util/StreamWriterInterface.php" role="php" />
-   <file baseinstalldir="/" md5sum="2bcfc0e8aa46eda7f506a5f8f33695a2" name="Stagehand/TestRunner/Util/String.php" role="php" />
+   <file baseinstalldir="/" md5sum="b4acea42b934a25a63d364ac9c2839ea" name="Stagehand/TestRunner/Runner/CakePHPRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="4946838f204466f7b906a01dfb397a8a" name="Stagehand/TestRunner/Runner/CIUnitRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="03d34d059429e448598ca7e7108d4353" name="Stagehand/TestRunner/Runner/PHPSpecRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="28e45d3426c6a541f972a83d85237176" name="Stagehand/TestRunner/Runner/PHPUnitRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="9608c2a982feaa8f6e5b487e2301b6e9" name="Stagehand/TestRunner/Runner/Runner.php" role="php" />
+   <file baseinstalldir="/" md5sum="83809122e9ebba9532f353b574e62bfe" name="Stagehand/TestRunner/Runner/SimpleTestRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="84b921235dc62d64ab63b7de02f8a98b" name="Stagehand/TestRunner/Runner/CakePHPRunner/JUnitXMLReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="ddf9d5c47f6ee9cfca23b6c20f5f6f7c" name="Stagehand/TestRunner/Runner/CakePHPRunner/MethodFilterReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="4c480daa1627cd5f3536498c68e677f9" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Example.php" role="php" />
+   <file baseinstalldir="/" md5sum="9c463114448b90e388b03106e6a64cae" name="Stagehand/TestRunner/Runner/PHPSpecRunner/ExampleFactory.php" role="php" />
+   <file baseinstalldir="/" md5sum="d1574979b19a805b5899f62e6b0ace42" name="Stagehand/TestRunner/Runner/PHPSpecRunner/ExampleRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="8ad143e3b1c85cc783700fa7a1d0fe48" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Reporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="e324121bf8dc8266ea98782cc7b3a674" name="Stagehand/TestRunner/Runner/PHPSpecRunner/SpecLoader.php" role="php" />
+   <file baseinstalldir="/" md5sum="c564cff3640bbb703d3f4e0bef468057" name="Stagehand/TestRunner/Runner/PHPSpecRunner/SpecLoaderFactory.php" role="php" />
+   <file baseinstalldir="/" md5sum="c8c1cb651740818759b8123d6f0d74c5" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Formatter/DocumentationFormatter.php" role="php" />
+   <file baseinstalldir="/" md5sum="60bebfe759af97a4512053e931dda91d" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Formatter/JUnitXMLFormatter.php" role="php" />
+   <file baseinstalldir="/" md5sum="3d06349286c38ed102e1483287ceb2ea" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Formatter/NotificationFormatter.php" role="php" />
+   <file baseinstalldir="/" md5sum="24dc73c2619d8a93772e6ba569d16c9e" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Formatter/ProgressFormatter.php" role="php" />
+   <file baseinstalldir="/" md5sum="9981a9916b33d2611ae1aa1c47d32bbd" name="Stagehand/TestRunner/Runner/PHPSpecRunner/Formatter/TerminatableFormatter.php" role="php" />
+   <file baseinstalldir="/" md5sum="44d6911877636efb5be43150dfd6af31" name="Stagehand/TestRunner/Runner/PHPUnitRunner/TestRunner.php" role="php" />
+   <file baseinstalldir="/" md5sum="744f12c5539ae42250aae6bc6e52073d" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/DetailedProgressPrinter.php" role="php" />
+   <file baseinstalldir="/" md5sum="55b745a0462c42941577c5315eb4c670" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/JUnitXMLPrinter.php" role="php" />
+   <file baseinstalldir="/" md5sum="7011d9f313166d5184af5c042a8f1599" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/ProgressPrinter.php" role="php" />
+   <file baseinstalldir="/" md5sum="ab9447c22f2d6043d34d6ec5ead816a4" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/ResultPrinter.php" role="php" />
+   <file baseinstalldir="/" md5sum="f4b339658edc75509c6d895cff41dd2c" name="Stagehand/TestRunner/Runner/PHPUnitRunner/Printer/TestDoxPrinter.php" role="php" />
+   <file baseinstalldir="/" md5sum="7a12b5913c38f627b962f5993db18ea3" name="Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox/Stream.php" role="php" />
+   <file baseinstalldir="/" md5sum="0dca1ceeeb18b6e2aab0cd61d61a4032" name="Stagehand/TestRunner/Runner/PHPUnitRunner/TestDox/TestDox.php" role="php" />
+   <file baseinstalldir="/" md5sum="892623694f64043913be7e929753a4cf" name="Stagehand/TestRunner/Runner/SimpleTestRunner/ClassFilterReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="488fabd944a3fdec10194ebf2cf66e45" name="Stagehand/TestRunner/Runner/SimpleTestRunner/JUnitXMLReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="10f6e076ac263f85268f7b21e5881580" name="Stagehand/TestRunner/Runner/SimpleTestRunner/JUnitXMLReporterFactory.php" role="php" />
+   <file baseinstalldir="/" md5sum="635afd8f39f81d41907fa59f684d50ea" name="Stagehand/TestRunner/Runner/SimpleTestRunner/MethodFilterReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="9e390536b79563ce0bd69446c3d095f9" name="Stagehand/TestRunner/Runner/SimpleTestRunner/StopOnFailureReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="575be0d377879b6db46d781947508650" name="Stagehand/TestRunner/Runner/SimpleTestRunner/TextReporter.php" role="php" />
+   <file baseinstalldir="/" md5sum="933f5ddf1ae048c01082bee177a7ab74" name="Stagehand/TestRunner/TestSuite/CakePHPTestSuite.php" role="php" />
+   <file baseinstalldir="/" md5sum="fdf855986300c75ca2e0550437b1f8f2" name="Stagehand/TestRunner/TestSuite/PHPSpecTestSuite.php" role="php" />
+   <file baseinstalldir="/" md5sum="d0a7ac64fb6033277f306acc8b05c470" name="Stagehand/TestRunner/TestSuite/PHPUnitGroupFilterTestSuite.php" role="php" />
+   <file baseinstalldir="/" md5sum="4238117c5e5c4695acf0d15fd5dfea79" name="Stagehand/TestRunner/TestSuite/SimpleTestTestSuite.php" role="php" />
+   <file baseinstalldir="/" md5sum="5be817e76ba4f2754524ff83b56d5969" name="Stagehand/TestRunner/Util/Coloring.php" role="php" />
+   <file baseinstalldir="/" md5sum="96c0b055421eee4c59e5becb44ade851" name="Stagehand/TestRunner/Util/ErrorReporting.php" role="php" />
+   <file baseinstalldir="/" md5sum="909de8ed4eab45cd2bb8947a7909d7cd" name="Stagehand/TestRunner/Util/FailureTrace.php" role="php" />
+   <file baseinstalldir="/" md5sum="a14ace7bbb93e417daaf1bac0d354134" name="Stagehand/TestRunner/Util/FileStreamWriter.php" role="php" />
+   <file baseinstalldir="/" md5sum="5725a4364211d9ba8d18f34c716d5dda" name="Stagehand/TestRunner/Util/FileSystem.php" role="php" />
+   <file baseinstalldir="/" md5sum="883082b937c189d3d8fd4dd6496df9de" name="Stagehand/TestRunner/Util/LegacyProxy.php" role="php" />
+   <file baseinstalldir="/" md5sum="c78038cd1cba114a8382721fee9a60f9" name="Stagehand/TestRunner/Util/OS.php" role="php" />
+   <file baseinstalldir="/" md5sum="786d6d1587a47c68b27b5b79a8ee755c" name="Stagehand/TestRunner/Util/OutputBuffering.php" role="php" />
+   <file baseinstalldir="/" md5sum="0d76385cabb5f3edbd3252f6ade70b18" name="Stagehand/TestRunner/Util/StreamWriterInterface.php" role="php" />
+   <file baseinstalldir="/" md5sum="700f7d1191bae166871e10ecef04423a" name="Stagehand/TestRunner/Util/String.php" role="php" />
   </dir>
  </contents>
  <dependencies>
@@ -1686,6 +1680,27 @@ A Defect Fix
  The following defect has been fixed:
 
  * The file and line attributes are not included in failure/error elements of the JUnit XML when a test method which is declared in a trait is failed or error. (Issue #24)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>3.6.1</release>
+    <api>3.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2013-03-26</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+What&apos;s New in Stagehand_TestRunner 3.6.1
+
+A Defect Fix
+
+ The following defect has been fixed:
+
+ * An error &quot;Fatal error: Using $this when not in object context in ...&quot; is raised when launching a test with PHP 5.3. (Issue #26)
    </notes>
   </release>
  </changelog>
