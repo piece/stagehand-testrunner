@@ -175,7 +175,7 @@ class ContinuousTestRunner implements TestRunnerInterface
             ob_end_flush();
         } else {
             $process = new Process($commandLine);
-            $process->setTimeout(1);
+            $process->setTimeout(60);
             $exitStatus = $process->run(function ($type, $data) {
                 echo $data;
             });
