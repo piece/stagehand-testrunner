@@ -6,7 +6,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
 
 ![Continuous Testing and Notification](https://github.com/piece/stagehand-testrunner/wiki/continuous_testing_and_notification_800.png)
 
-h2. Features
+## Features
 
 * Runs tests when a file is saved. (**Continuous Testing**)
 * Runs tests in the specified directory.
