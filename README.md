@@ -4,7 +4,7 @@ Stagehand_TestRunner is a continuous test runner to run unit tests in CLI.
 
 It makes unit testing in a local environment much easier and comfortable. Additionally it can easily be integrated with a continuous integration server like [Jenkins](http://jenkins-ci.org/). It has been designed for integration into Integrated Development Environments (IDEs), a developer can create an extension like [MakeGood](http://piece-framework.com/projects/makegood).
 
-![Continuous Testing and Notification](https://github.com/piece/stagehand-testrunner/wiki/continuous_testing_and_notification_800.png)
+![Continuous Testing and Notification](https://github.com/piece/stagehand-testrunner/wiki/images/continuous_testing_and_notification_800.png)
 
 ## Features
 
