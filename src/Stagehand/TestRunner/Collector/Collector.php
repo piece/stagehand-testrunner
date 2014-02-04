@@ -119,12 +119,12 @@ abstract class Collector
             }
 
             if (is_dir($absoluteTargetPath)) {
-                $finder = Finder::create()
+                $files = Finder::create()
                     ->files()
                     ->in($absoluteTargetPath)
                     ->depth($self->isRecursive() ? '>= 0' : '== 0')
                     ->sortByName();
-                foreach ($finder as $file) {
+                foreach ($files as $file) {
                     call_user_func(array($self, 'collectTestCasesFromFile'), $file->getPathname());
                 }
             } else {
