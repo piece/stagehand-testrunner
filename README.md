@@ -22,7 +22,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
 * Specifies the test file pattern.
 * Uses a YAML-based configuration file.
 * Runs the phpunit command via the testrunner command.
-* Supports [CIUnit](http://www.knollet.com/foostack/), [PHPSpec](http://www.phpspec.net/), [PHPUnit](https://github.com/sebastianbergmann/phpunit).
+* Supports [PHPSpec](http://www.phpspec.net/), [PHPUnit](https://github.com/sebastianbergmann/phpunit).
 
 ## Installation
 
