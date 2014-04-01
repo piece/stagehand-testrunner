@@ -125,12 +125,13 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     {
         $this->writeError($test, $e, $time);
     }
-    
+
     /**
-     * (non-PHPdoc)
-     * @see PHPUnit_Framework_TestListener::addRiskyTest()
+     * {@inheritDoc}
+     *
+     * @since Method available since Release 4.0.0
      */
-    public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
+    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {
         $this->writeError($test, $e, $time);
     }
 
