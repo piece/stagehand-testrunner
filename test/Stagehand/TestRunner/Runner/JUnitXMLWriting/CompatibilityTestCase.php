@@ -35,7 +35,7 @@
  * @since      File available since Release 3.0.0
  */
 
-namespace Stagehand\TestRunner\Runner\JunitXMLWriting;
+namespace Stagehand\TestRunner\Runner\JUnitXMLWriting;
 
 use Stagehand\TestRunner\Runner\TestCase;
 
