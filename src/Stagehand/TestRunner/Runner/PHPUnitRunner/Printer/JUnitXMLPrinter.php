@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Util\FailureTrace;
  * A result printer for PHPUnit.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -66,6 +66,12 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     protected $testTargetRepository;
 
     /**
+     * @var boolean
+     * @since Property available since Release 4.0.0
+     */
+    protected $rootTestSuiteWrote = false;
+
+    /**
      * @param mixed $out
      * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface $junitXMLWriter
      * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
@@ -80,6 +86,12 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
 
     public function flush()
     {
+        if (!$this->rootTestSuiteWrote) {
+            $emptyTestSuite = new \PHPUnit_Framework_TestSuite();
+            $this->startTestSuite($emptyTestSuite);
+            $this->endTestSuite($emptyTestSuite);
+        }
+
         $this->junitXMLWriter->endTestSuites();
         parent::flush();
     }
@@ -153,6 +165,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
         }
 
         $this->junitXMLWriter->startTestSuite($name, count($suite));
+        $this->rootTestSuiteWrote = true;
     }
 
     /**
