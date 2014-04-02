@@ -30,7 +30,7 @@
     },
     "require-dev": {
         "phake/phake": "1.0.*",
-        "phpunit/phpunit": ">=3.6.0"
+        "phpunit/phpunit": ">=3.7.0"
     },
     "suggest": {
         "phpunit/phpunit": "For using PHPUnit"
