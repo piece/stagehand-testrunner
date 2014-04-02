@@ -33,7 +33,7 @@
         "phpunit/phpunit": ">=3.6.0"
     },
     "suggest": {
-        "phpunit/phpunit": ">=3.6.0"
+        "phpunit/phpunit": "For using PHPUnit"
     },
     "autoload": {
         "psr-0": { "Stagehand\\TestRunner": "src/" }
