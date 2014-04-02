@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2012 tsyk goto <ngyuki.ts@gmail.com>,
  * All rights reserved.
  *
@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2012 tsyk goto <ngyuki.ts@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -42,7 +42,7 @@ namespace Stagehand\TestRunner\TestSuite;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2012 tsyk goto <ngyuki.ts@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -106,13 +106,13 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
                 }
             }
 
-            $this->tests = array_filter($this->tests, function($test) use ($objects, $filter) {
+            $this->tests = array_values(array_filter($this->tests, function($test) use ($objects, $filter) {
                 if ($objects->contains($test)) {
                     return $filter;
                 } else {
                     return !$filter;
                 }
-            });
+            }));
         }
     }
 }
