@@ -29,6 +29,7 @@
         "symfony/yaml": ">=2.0.0"
     },
     "require-dev": {
+        "phake/phake": "1.0.*",
         "phpunit/phpunit": ">=3.6.0"
     },
     "suggest": {
