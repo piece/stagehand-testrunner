@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2007-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2007-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -46,7 +46,7 @@ use Stagehand\TestRunner\Runner\Runner;
  * A result printer for PHPUnit.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2007-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://www.phpunit.de/
@@ -94,13 +94,13 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
                 $notificationResult = Notification::RESULT_FAILED;
             }
 
-            if (preg_match('/^(?:\x1b\[30;42m\x1b\[2K)?(OK .+)/m', $output, $matches)) {
+            if (preg_match('/^.*?(OK \(\d+ tests?, \d+ assertions?\))/m', $output, $matches)) {
                 $notificationMessage = $matches[1];
-            } elseif (preg_match('/^(?:\x1b\[37;41m\x1b\[2K)?(FAILURES!)\s^(?:\x1b\[0m\x1b\[37;41m\x1b\[2K)?(.+)/m', $output, $matches)) {
+            } elseif (preg_match('/^.*?(FAILURES!)\s*.*(?:\x0d|\x0a|\x0d\x0a)^.*?(Tests: \d+, Assertions: \d+(?:, Failures: \d+)?(?:, Errors: \d+)?\.)/m', $output, $matches)) {
                 $notificationMessage = $matches[1] . PHP_EOL . $matches[2];
-            } elseif (preg_match('/^(?:\x1b\[30;43m\x1b\[2K)?(OK, but incomplete or skipped tests!)\s^(?:\x1b\[0m\x1b\[30;43m\x1b\[2K)?(.+)/m', $output, $matches)) {
+            } elseif (preg_match('/^.*?(OK, but incomplete(?:, skipped, or risky| or skipped) tests!).*(?:\x0d|\x0a|\x0d\x0a)^.*?(Tests: \d+, Assertions: \d+, Incomplete: \d+\.)/m', $output, $matches)) {
                 $notificationMessage = $matches[1] . PHP_EOL . $matches[2];
-            } elseif (preg_match('/^(?:\x1b\[30;43m\x1b\[2K)?(No tests executed!)/m', $output, $matches)) {
+            } elseif (preg_match('/^.*?(No tests executed!)/m', $output, $matches)) {
                 $notificationMessage = $matches[1];
             }
 
