@@ -439,7 +439,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @link http://piece-framework.com/issues/418
      * @since Method available since Release 3.2.0
      */
-    public function displaysOutputFromATestCaseOnceWhenTheDetailedProgressOptionIsSpecified()
+    public function printsOutputFromATestCaseOnceWhenTheDetailedProgressOptionIsSpecified()
     {
         $testClass = 'Stagehand\TestRunner\PHPUnitOutputTest';
         $testMethod = 'outputs';
@@ -458,7 +458,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @link http://piece-framework.com/issues/418
      * @since Method available since Release 3.2.0
      */
-    public function displaysOutputFromATestCaseOnceWhenTheNoAnsiOptionIsSpecified()
+    public function printsOutputFromATestCaseOnceWhenTheNoAnsiOptionIsSpecified()
     {
         $testClass = 'Stagehand\TestRunner\PHPUnitOutputTest';
         $testMethod = 'outputs';
