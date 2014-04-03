@@ -98,7 +98,6 @@ class TestRunner implements TestRunnerInterface
     /**
      * Runs tests.
      *
-     * @throws \LogicException
      * @since Method available since Release 2.1.0
      */
     public function run()
@@ -111,18 +110,7 @@ class TestRunner implements TestRunnerInterface
                 throw new \LogicException('The Notification object is not set to the Runner object.');
             }
 
-            if (is_null($notification->getMessage()) || strlen($notification->getMessage()) == 0) {
-                $notificationMessage = 'The notification message is empty. This may be caused by unexpected output.';
-                if ($notification->isPassed()) {
-                    $notification = new Notification(Notification::RESULT_PASSED, $notificationMessage);
-                } elseif ($notification->isFailed()) {
-                    $notification = new Notification(Notification::RESULT_FAILED, $notificationMessage);
-                } else {
-                    throw new \LogicException('The notification result must be either Notification::RESULT_PASSED or Notification::RESULT_FAILED.');
-                }
-            }
-
-            $this->notifier->notifyResult($notification);
+            $this->notifyResult($notification);
         }
     }
 
@@ -160,6 +148,27 @@ class TestRunner implements TestRunnerInterface
     public function setNotifier(Notifier $notifier)
     {
         $this->notifier = $notifier;
+    }
+
+    /**
+     * @param  \Stagehand\TestRunner\Notification\Notification $notification
+     * @throws \LogicException
+     * @since Method available since Release 4.0.0
+     */
+    protected function notifyResult(Notification $notification)
+    {
+        if (is_null($notification->getMessage()) || strlen($notification->getMessage()) == 0) {
+            $notificationMessage = 'The notification message is empty. This may be caused by unexpected output.';
+            if ($notification->isPassed()) {
+                $notification = new Notification(Notification::RESULT_PASSED, $notificationMessage);
+            } elseif ($notification->isFailed()) {
+                $notification = new Notification(Notification::RESULT_FAILED, $notificationMessage);
+            } else {
+                throw new \LogicException('The notification result must be either Notification::RESULT_PASSED or Notification::RESULT_FAILED.');
+            }
+        }
+
+        $this->notifier->notifyResult($notification);
     }
 }
 
