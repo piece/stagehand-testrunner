@@ -102,6 +102,8 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
                 $notificationMessage = $matches[1] . PHP_EOL . $matches[2];
             } elseif (preg_match('/^.*?(No tests executed!)/m', $output, $matches)) {
                 $notificationMessage = $matches[1];
+            } else {
+                $notificationMessage = '';
             }
 
             $this->notification = new Notification($notificationResult, $notificationMessage);

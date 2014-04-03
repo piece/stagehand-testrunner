@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2014 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
  * All rights reserved.
  *
@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -44,7 +44,7 @@ use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -110,6 +110,125 @@ class TestRunnerTest extends PHPUnitComponentAwareTestCase
     public function notificationDecisions()
     {
         return array(array(self::NOTIFICATION_USE), array(self::NOTIFICATION_NOTUSE));
+    }
+
+    /**
+     * @test
+     * @since Method available since Release 4.0.0
+     */
+    public function raisesAnExceptionWhenTheNotificationObjectIsNotSet()
+    {
+        $this->setComponent('output_buffering', \Phake::mock('Stagehand\TestRunner\Util\OutputBuffering'));
+        $this->setComponent('phpunit.preparer', \Phake::mock('Stagehand\TestRunner\Preparer\Preparer'));
+        $collector = \Phake::mock('Stagehand\TestRunner\Collector\Collector');
+        \Phake::when($collector)->collect()->thenReturn(new \stdClass());
+        $this->setComponent('phpunit.collector', $collector);
+        $runner = \Phake::mock('Stagehand\TestRunner\Runner\Runner');
+        \Phake::when($runner)->shouldNotify()->thenReturn(true);
+        $this->setComponent('phpunit.runner', $runner);
+        $notifier = \Phake::mock('Stagehand\TestRunner\Notification\Notifier');
+        $this->setComponent('notifier', $notifier);
+
+        try {
+            $this->createComponent('test_runner')->run();
+            $this->fail('An expected exception has not been raised.');
+        } catch (\LogicException $e) {
+            \Phake::verify($runner)->getNotification();
+            \Phake::verify($notifier, \Phake::times(0))->notifyResult($this->anything());
+        }
+    }
+
+    /**
+     * @return array
+     * @since Method available since Release 4.0.0
+     */
+    public function emptyNotificationMessages()
+    {
+        return array(
+            array(null, Notification::RESULT_PASSED),
+            array(null, Notification::RESULT_FAILED),
+            array('', Notification::RESULT_PASSED),
+            array('', Notification::RESULT_FAILED),
+        );
+    }
+
+    /**
+     * @param string $notificationMessage
+     * @param string $result
+     * @since Method available since Release 4.0.0
+     *
+     * @test
+     * @dataProvider emptyNotificationMessages
+     */
+    public function notifiesTheSpecialMessageIfTheNotificationMessageIsEmpty($notificationMessage, $result)
+    {
+        $this->setComponent('output_buffering', \Phake::mock('Stagehand\TestRunner\Util\OutputBuffering'));
+        $this->setComponent('phpunit.preparer', \Phake::mock('Stagehand\TestRunner\Preparer\Preparer'));
+        $collector = \Phake::mock('Stagehand\TestRunner\Collector\Collector');
+        \Phake::when($collector)->collect()->thenReturn(new \stdClass());
+        $this->setComponent('phpunit.collector', $collector);
+
+        $notification = \Phake::mock('Stagehand\TestRunner\Notification\Notification');
+        \Phake::when($notification)->getMessage()->thenReturn($notificationMessage);
+        if ($result == Notification::RESULT_PASSED) {
+            \Phake::when($notification)->isPassed()->thenReturn(true);
+            \Phake::when($notification)->isFailed()->thenReturn(false);
+        } elseif ($result == Notification::RESULT_FAILED) {
+            \Phake::when($notification)->isPassed()->thenReturn(false);
+            \Phake::when($notification)->isFailed()->thenReturn(true);
+        }
+
+        $runner = \Phake::mock('Stagehand\TestRunner\Runner\Runner');
+        \Phake::when($runner)->shouldNotify()->thenReturn(true);
+        \Phake::when($runner)->getNotification()->thenReturn($notification);
+        $this->setComponent('phpunit.runner', $runner);
+        $notifier = \Phake::mock('Stagehand\TestRunner\Notification\Notifier');
+        $this->setComponent('notifier', $notifier);
+
+        $this->createComponent('test_runner')->run();
+
+        \Phake::verify($notifier)->notifyResult(\Phake::capture($newNotification));
+
+        if ($result == Notification::RESULT_PASSED) {
+            \Phake::when($notification)->isPassed();
+            \Phake::when($notification, \Phake::times(0))->isFailed();
+        } elseif ($result == Notification::RESULT_FAILED) {
+            \Phake::when($notification)->isPassed();
+            \Phake::when($notification)->isFailed();
+        }
+    }
+
+    /**
+     * @since Method available since Release 4.0.0
+     *
+     * @test
+     * @dataProvider emptyNotificationMessages
+     */
+    public function raisesAnExceptionWhenAnUnexpectedNotificationResultIsSet()
+    {
+        $this->setComponent('output_buffering', \Phake::mock('Stagehand\TestRunner\Util\OutputBuffering'));
+        $this->setComponent('phpunit.preparer', \Phake::mock('Stagehand\TestRunner\Preparer\Preparer'));
+        $collector = \Phake::mock('Stagehand\TestRunner\Collector\Collector');
+        \Phake::when($collector)->collect()->thenReturn(new \stdClass());
+        $this->setComponent('phpunit.collector', $collector);
+        $notification = \Phake::mock('Stagehand\TestRunner\Notification\Notification');
+        \Phake::when($notification)->isPassed()->thenReturn(false);
+        \Phake::when($notification)->isFailed()->thenReturn(false);
+        $runner = \Phake::mock('Stagehand\TestRunner\Runner\Runner');
+        \Phake::when($runner)->shouldNotify()->thenReturn(true);
+        \Phake::when($runner)->getNotification()->thenReturn($notification);
+        $this->setComponent('phpunit.runner', $runner);
+        $notifier = \Phake::mock('Stagehand\TestRunner\Notification\Notifier');
+        $this->setComponent('notifier', $notifier);
+
+        try {
+            $this->createComponent('test_runner')->run();
+            $this->fail('An expected exception has not been raised.');
+        } catch (\LogicException $e) {
+            \Phake::verify($runner)->getNotification();
+            \Phake::verify($notification)->isFailed();
+            \Phake::verify($notifier, \Phake::times(0))->notifyResult($this->anything());
+        }
     }
 }
 

@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2010-2013 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2010-2014 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
  * All rights reserved.
  *
@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2010-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -40,6 +40,7 @@
 namespace Stagehand\TestRunner\Process;
 
 use Stagehand\TestRunner\Collector\Collector;
+use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Preparer\Preparer;
 use Stagehand\TestRunner\Runner\Runner;
@@ -47,7 +48,7 @@ use Stagehand\TestRunner\Util\OutputBuffering;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2010-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2010-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
@@ -97,16 +98,31 @@ class TestRunner implements TestRunnerInterface
     /**
      * Runs tests.
      *
+     * @throws \LogicException
      * @since Method available since Release 2.1.0
      */
     public function run()
     {
         $this->outputBuffering->clearOutputHandlers();
-
         $this->result = $this->runner->run($this->collector->collect());
-
         if ($this->runner->shouldNotify()) {
-            $this->notifier->notifyResult($this->runner->getNotification());
+            $notification = $this->runner->getNotification();
+            if (is_null($notification)) {
+                throw new \LogicException('The Notification object is not set to the Runner object.');
+            }
+
+            if (is_null($notification->getMessage()) || strlen($notification->getMessage()) == 0) {
+                $notificationMessage = 'The notification message is empty. This may be caused by unexpected output.';
+                if ($notification->isPassed()) {
+                    $notification = new Notification(Notification::RESULT_PASSED, $notificationMessage);
+                } elseif ($notification->isFailed()) {
+                    $notification = new Notification(Notification::RESULT_FAILED, $notificationMessage);
+                } else {
+                    throw new \LogicException('The notification result must be either Notification::RESULT_PASSED or Notification::RESULT_FAILED.');
+                }
+            }
+
+            $this->notifier->notifyResult($notification);
         }
     }
 
