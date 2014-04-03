@@ -57,12 +57,6 @@ use Stagehand\TestRunner\Util\OutputBuffering;
 class TestRunner implements TestRunnerInterface
 {
     /**
-     * @var boolean $result
-     * @since Property available since Release 2.18.0
-     */
-    protected $result;
-
-    /**
      * @var \Stagehand\TestRunner\Util\OutputBuffering
      * @since Property available since Release 3.0.0
      */
@@ -103,7 +97,7 @@ class TestRunner implements TestRunnerInterface
     public function run()
     {
         $this->outputBuffering->clearOutputHandlers();
-        $this->result = $this->runner->run($this->collector->collect());
+        $this->runner->run($this->collector->collect());
         if ($this->runner->shouldNotify()) {
             $notification = $this->runner->getNotification();
             if (is_null($notification)) {
