@@ -59,7 +59,9 @@ class GeneralTransformer extends Transformer
         $this->setParameter('continuous_testing', $this->configurationPart['autotest']['enabled']);
         $this->setParameter('continuous_testing_watch_dirs', $this->configurationPart['autotest']['watch_dirs']);
 
-        $this->setParameter('notify', $this->configurationPart['notify']);
+        $this->setParameter('notify_enabled', $this->configurationPart['notify']['enabled']);
+        $this->setParameter('notify_file', $this->configurationPart['notify']['file']);
+        $this->setParameter('notify_project_name', $this->configurationPart['notify']['project_name']);
 
         $this->setParameter('junit_xml_file', $this->configurationPart['junit_xml']['file']);
         $this->setParameter('junit_xml_realtime', $this->configurationPart['junit_xml']['realtime']);

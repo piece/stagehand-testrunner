@@ -94,6 +94,23 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
                 }
             ),
             array(
+                array('--cc-file=path/to/somewhere'),
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
+                },
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
+                    $test->assertNotNull($applicationContext->createComponent('notifier')->getFile());
+                    $test->assertTrue($applicationContext->createComponent('runner')->shouldNotify());
+                }
+            ),
+            array(
+                array('--cc-file=path/to/somewhere --cc-name="example project"'),
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
+                },
+                function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
+                    $test->assertNotNull($applicationContext->createComponent('notifier')->getProjectName());
+                }
+            ),
+            array(
                 array('--config=example.yml'),
                 function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                     \Phake::when($transformation)->setConfigurationFile($test->anything())->thenReturn(null);

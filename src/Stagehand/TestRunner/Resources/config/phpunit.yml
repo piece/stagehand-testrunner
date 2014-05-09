@@ -65,7 +65,7 @@ services:
       - [ setDetailedProgress, [ "%detailed_progress%" ] ]
       - [ setJUnitXMLFile, [ "%junit_xml_file%" ] ]
       - [ setJUnitXMLRealtime, [ "%junit_xml_realtime%" ] ]
-      - [ setNotify, [ "%notify%" ] ]
+      - [ setNotify, [ "%notify_enabled%" ] ]
       - [ setPHPUnitConfigurationFactory, [ "@phpunit.phpunit_configuration_factory" ] ]
       - [ setStopOnFailure, [ "%stop_on_failure%" ] ]
       - [ setTerminal, [ "@terminal" ] ]

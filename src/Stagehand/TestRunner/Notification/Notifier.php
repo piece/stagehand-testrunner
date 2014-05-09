@@ -60,6 +60,10 @@ class Notifier
     const TITLE_FAILED = 'Test Failed';
     const TITLE_STOPPED = 'Test Stopped';
 
+    const CC_STATUS_PASSED = 'Success';
+    const CC_STATUS_FAILED = 'Failure';
+    const CC_STATUS_UNKNOWN = 'Unknown';
+
     public static $ICON_PASSED;
     public static $ICON_FAILED;
     public static $ICON_STOPPED;
@@ -77,12 +81,50 @@ class Notifier
     protected $os;
 
     /**
+     * @var string
+     */
+    protected $file;
+
+    /**
+     * @var string
+     */
+    protected $projectName;
+
+    /**
+     * @param string
+     * @param string
+     */
+    function __construct($file = null, $projectName = null)
+    {
+        $this->file = $file;
+        $this->projectName = $projectName;
+    }
+
+    /**
      * @param \Stagehand\TestRunner\Util\OS $os
      * @since Method available since Release 3.0.1
      */
     public function setOS(OS $os)
     {
         $this->os = $os;
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 3.6.3X
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @return string
+     * @since Method available since Release 3.6.3X
+     */
+    public function getProjectName()
+    {
+        return $this->projectName;
     }
 
     /**
@@ -111,15 +153,36 @@ class Notifier
         if ($notification->isPassed()) {
             $title = self::TITLE_PASSED;
             $icon = self::$ICON_PASSED;
+            $CCStatus = self::CC_STATUS_PASSED;
         } elseif ($notification->isFailed()) {
             $title = self::TITLE_FAILED;
             $icon = self::$ICON_FAILED;
+            $CCStatus = self::CC_STATUS_FAILED;
         } elseif ($notification->isStopped()) {
             $title = self::TITLE_STOPPED;
             $icon = self::$ICON_STOPPED;
+            $CCStatus = self::CC_STATUS_UNKNOWN;
         }
 
-        if ($this->os->isWin()) {
+        if ($this->file != null) {
+            $projectName = $this->projectName;
+            $currentDate = date(DATE_ATOM);
+            $xml = <<< XML
+<?xml version="1.0" encoding="UTF-8"?>
+<Projects>
+<Project
+  name="$projectName"
+  category=""
+  activity="$title"
+  lastBuildStatus="$CCStatus"
+  lastBuildTime="$currentDate"
+/>
+</Projects>
+XML;
+            file_put_contents($this->file, $xml);
+
+            return null;
+        } elseif ($this->os->isWin()) {
             return sprintf(
                 'growlnotify /t:%s /p:-2 /i:%s /a:Stagehand_TestRunner /r:%s,%s,%s /n:%s /silent:true %s',
                 escapeshellarg($title),

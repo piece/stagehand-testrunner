@@ -105,6 +105,17 @@ class CommandLineBuilder
     protected $options = array();
 
     /**
+     * @var string
+     */
+    protected $cruiseControlFile;
+
+    /**
+     * @var string
+     */
+    protected $projectName;
+
+
+    /**
      * @param \Stagehand\TestRunner\Core\Environment $environment
      * @param \Stagehand\TestRunner\Util\LegacyProxy $legacyProxy
      * @param \Stagehand\TestRunner\Util\OS $os
@@ -113,6 +124,8 @@ class CommandLineBuilder
      * @param \Stagehand\TestRunner\CLI\Terminal $terminal
      * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
      * @param \Stagehand\TestRunner\Process\ContinuousTesting\CommandLineOptionBuilderInterface $commandLineOptionBuilder
+     * @param string  available since Release 3.6.3X
+     * @param string  available since Release 3.6.3X
      */
     public function __construct(
         Environment $environment,
@@ -122,7 +135,9 @@ class CommandLineBuilder
         Runner $runner,
         Terminal $terminal,
         TestTargetRepository $testTargetRepository,
-        CommandLineOptionBuilderInterface $commandLineOptionBuilder = null
+        CommandLineOptionBuilderInterface $commandLineOptionBuilder = null,
+        $cruiseControlFile = null,
+        $projectName = null
         )
     {
         $this->environment = $environment;
@@ -133,6 +148,8 @@ class CommandLineBuilder
         $this->terminal = $terminal;
         $this->testTargetRepository = $testTargetRepository;
         $this->commandLineOptionBuilder = $commandLineOptionBuilder;
+        $this->cruiseControlFile = $cruiseControlFile;
+        $this->projectName = $projectName;
     }
 
     /**
@@ -203,6 +220,14 @@ class CommandLineBuilder
 
         if ($this->runner->shouldNotify()) {
             $options[] = '-m';
+        }
+
+        if ($this->cruiseControlFile) {
+            $options[] = '--cc-file=' . escapeshellarg($this->cruiseControlFile);
+        }
+
+        if ($this->projectName) {
+            $options[] = '--cc-name=' . escapeshellarg($this->projectName);
         }
 
         if ($this->runner->shouldStopOnFailure()) {

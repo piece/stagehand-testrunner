@@ -100,6 +100,12 @@ class CommandLineBuilderTest extends PHPUnitComponentAwareTestCase
         self::$configurators[] = function (ApplicationContext $applicationContext) {
             $applicationContext->createComponent('runner')->setDetailedProgress(true);
         };
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $applicationContext->createComponent('notifier');
+        };
+        self::$configurators[] = function (ApplicationContext $applicationContext) {
+            $applicationContext->createComponent('notifier');
+        };
     }
 
     /**
@@ -202,6 +208,8 @@ class CommandLineBuilderTest extends PHPUnitComponentAwareTestCase
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--stop-on-failure'), array(true, true, true)),
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true, true)),
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--detailed-progress'), array(true, true, true)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--cc-file=' . escapeshellarg('/path/to/somewhere')), array(true, true, false)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--cc-file=' . escapeshellarg('/path/to/somewhere') . ' --cc-name="foo project"'), array(true, true, false)),
         );
 
         return array_map(function (array $preservedConfiguration) {
