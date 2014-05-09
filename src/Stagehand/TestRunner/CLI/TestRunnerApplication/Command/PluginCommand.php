@@ -92,6 +92,12 @@ PHP_EOL .
 
         if ($this->getPlugin()->hasFeature('notify')) {
             $this->addOption('notify', 'm', InputOption::VALUE_NONE, 'Notifies test results by using the growlnotify command in Mac OS X and Windows or the notify-send command in Linux.');
+
+            // available since Release 3.6.3X
+            $this->addOption('cc-file', null, InputOption::VALUE_REQUIRED, 'Outputs a test status to a specified file with CruiseControl XML format');
+
+            // available since Release 3.6.3X
+            $this->addOption('cc-name', null, InputOption::VALUE_REQUIRED, 'Specifies a ProjectName for a CruiseControl file. If omitted, basename of cc-file option will be used.');
         }
 
         if ($this->getPlugin()->hasFeature('detailed_progress')) {
@@ -226,7 +232,22 @@ PHP_EOL .
             if ($input->getOption('notify')) {
                 $transformation->setConfigurationPart(
                     GeneralConfiguration::getConfigurationID(),
-                    array('notify' => true)
+                    array('notify' => array(
+                        'enabled' => true,
+                    ))
+                );
+            }
+            if ($input->getOption('cc-file')) {
+                $projectName = $input->getOption('cc-name') ?
+                    $input->getOption('cc-name') :
+                    basename($input->getOption('cc-file'), '.xml');
+                $transformation->setConfigurationPart(
+                    GeneralConfiguration::getConfigurationID(),
+                    array('notify' => array(
+                        'enabled' => true,
+                        'file' => $input->getOption('cc-file'),
+                        'project_name' => $projectName
+                    ))
                 );
             }
         }

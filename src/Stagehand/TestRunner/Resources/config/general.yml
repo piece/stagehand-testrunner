@@ -45,7 +45,9 @@ parameters:
   recursive: false
   continuous_testing: false
   continuous_testing_watch_dirs: []
-  notify: false
+  notify_enabled: false     # available since Release 3.6.3X
+  notify_file: ~            # available since Release 3.6.3X
+  notify_project_name: ~    # available since Release 3.6.3X
   test_methods: []
   test_classes: []
   junit_xml_file: null
@@ -117,6 +119,7 @@ services:
   # Notification
   notifier:
     class: "%notifier.class%"
+    arguments: [ "%notify_file%", "%notify_project_name%" ]
     calls:
       - [ setLegacyProxy, [ "@legacy_proxy" ] ]
       - [ setOS, [ "@os" ] ]
@@ -135,6 +138,8 @@ services:
       - "@terminal"
       - "@test_target_repository"
       - "@?command_line_option_builder"
+      - "%notify_file%"
+      - "%notify_project_name%"
   continuous_test_runner:
     class: "%continuous_test_runner.class%"
     arguments: [ "@preparer", "@command_line_builder" ]
