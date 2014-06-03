@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
@@ -37,54 +37,20 @@
 
 namespace Stagehand\TestRunner\Core;
 
-use Symfony\Component\ClassLoader\UniversalClassLoader;
-
 use Stagehand\ComponentFactory\ComponentFactory;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
  */
 class Bootstrap
 {
-    /**
-     * @var array
-     */
-    private static $namespaces = array(
-        'Stagehand\AlterationMonitor',
-        'Stagehand\ComponentFactory',
-        'Symfony\Component\Config',
-        'Symfony\Component\Console',
-        'Symfony\Component\DependencyInjection',
-        'Symfony\Component\Finder',
-        'Symfony\Component\Process',
-        'Symfony\Component\Yaml',
-        'Stagehand\TestRunner',
-    );
-
     public function boot()
     {
-        $this->configureClassLoader();
         $this->configureApplicationContext();
-    }
-
-    protected function configureClassLoader()
-    {
-        if (!class_exists('Stagehand\TestRunner\Core\Environment')) {
-            if (!class_exists('Symfony\Component\ClassLoader\UniversalClassLoader', false)) {
-                require_once 'Symfony/Component/ClassLoader/UniversalClassLoader.php';
-            }
-
-            $includePaths = explode(PATH_SEPARATOR, get_include_path());
-            $classLoader = new UniversalClassLoader();
-            foreach (self::$namespaces as $namespace) {
-                $classLoader->registerNamespace($namespace, $includePaths);
-            }
-            $classLoader->register();
-        }
     }
 
     protected function configureApplicationContext()
