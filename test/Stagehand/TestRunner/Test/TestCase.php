@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2014 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
@@ -41,11 +41,12 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
+use Stagehand\TestRunner\Core\Environment;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
@@ -100,7 +101,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $componentFactory->setContainer($container);
         $applicationContext = new TestApplicationContext();
         $applicationContext->setComponentFactory($componentFactory);
-        $applicationContext->setEnvironment(new TestEnvironment());
+        $applicationContext->setEnvironment(new Environment());
+
         return $applicationContext;
     }
 

@@ -41,11 +41,9 @@ $loader->add('Stagehand\TestRunner\\', dirname(__DIR__) . '/src/Stagehand/TestRu
 $loader->add('Stagehand_TestRunner', dirname(__DIR__) . '/src/Stagehand/TestRunner/Resources/examples');
 
 require __DIR__ . '/../bootstrap.php';
-require __DIR__ . '/Stagehand/TestRunner/Test/TestEnvironment.php';
 
 \Phake::setClient(\Phake::CLIENT_PHPUNIT);
 \Stagehand\TestRunner\Util\ErrorReporting::enableErrorToException();
-\Stagehand\TestRunner\Test\TestEnvironment::earlyInitialize();
 
 /*
  * Local Variables:
