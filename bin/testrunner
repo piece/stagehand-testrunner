@@ -48,10 +48,6 @@ try {
     exit(1);
 }
 
-if (!class_exists('Stagehand\TestRunner\Core\Bootstrap')) {
-    require_once 'Stagehand/TestRunner/Core/Bootstrap.php';
-}
-
 $bootstrap = new \Stagehand\TestRunner\Core\Bootstrap();
 $bootstrap->boot();
 
