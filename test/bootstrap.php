@@ -35,10 +35,10 @@
  * @since      File available since Release 2.10.0
  */
 
-set_include_path(implode(PATH_SEPARATOR, array(
-    __DIR__ . '/../src/Stagehand/TestRunner/Resources/examples',
-    get_include_path(),
-)));
+$loader = require __DIR__ . '/../vendor/autoload.php';
+$loader->add('Stagehand\TestRunner\\', __DIR__);
+$loader->add('Stagehand\TestRunner\\', dirname(__DIR__) . '/src/Stagehand/TestRunner/Resources/examples');
+$loader->add('Stagehand_TestRunner', dirname(__DIR__) . '/src/Stagehand/TestRunner/Resources/examples');
 
 require __DIR__ . '/../bootstrap.php';
 require __DIR__ . '/Stagehand/TestRunner/Test/TestEnvironment.php';
