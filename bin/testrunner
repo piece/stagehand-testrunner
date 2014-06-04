@@ -41,8 +41,8 @@ namespace Stagehand\TestRunner\Core;
 try {
     loadAutoloader();
     initializeEnvironment();
-    $GLOBALS['STAGEHAND_TESTRUNNER_workingDirectoryAtStartup'] = workingDirectoryAtStartup();
-    $GLOBALS['STAGEHAND_TESTRUNNER_preloadScript'] = preloadScript();
+    workingDirectoryAtStartup();
+    preloadScript();
 } catch (\Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     exit(1);
