@@ -58,7 +58,7 @@ class Environment
 
     public function __construct()
     {
-        $this->initialize();
+        static::initialize();
     }
 
     /**
@@ -93,7 +93,7 @@ class Environment
         return $this->preloadScript;
     }
 
-    protected function initialize()
+    public static function initialize()
     {
         ini_set('display_errors', true);
         ini_set('log_errors', false);
