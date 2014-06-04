@@ -1,9 +1,3 @@
-/build/
-/dist/
-/src/Stagehand/TestRunner/DependencyInjection/CakePHPContainer.php
-/src/Stagehand/TestRunner/DependencyInjection/CIUnitContainer.php
-/src/Stagehand/TestRunner/DependencyInjection/PHPSpecContainer.php
 /src/Stagehand/TestRunner/DependencyInjection/PHPUnitContainer.php
-/src/Stagehand/TestRunner/DependencyInjection/SimpleTestContainer.php
 /composer.lock
 /vendor/
