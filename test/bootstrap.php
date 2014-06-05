@@ -44,6 +44,7 @@ require __DIR__ . '/../bootstrap.php';
 
 \Phake::setClient(\Phake::CLIENT_PHPUNIT);
 \Stagehand\TestRunner\Util\ErrorReporting::enableErrorToException();
+define('PHPUNIT_TESTSUITE', true);
 
 /*
  * Local Variables:

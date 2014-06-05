@@ -200,10 +200,32 @@ abstract class TestCase extends ComponentAwareTestCase
         $runner = $this->createRunner();
         $runner->setJUnitXMLFile($this->junitXMLFile);
 
-        ob_start();
+        $testCaseClass = new \ReflectionClass('PHPUnit_Framework_TestCase');
+        $phpunitOutputBuffering = $testCaseClass->hasMethod('startOutputBuffering');
+
+        if ($phpunitOutputBuffering) {
+            $startOutputBufferingMethod = $testCaseClass->getMethod('startOutputBuffering');
+            $startOutputBufferingMethod->setAccessible(true);
+            $stopOutputBufferingMethod = $testCaseClass->getMethod('stopOutputBuffering');
+            $stopOutputBufferingMethod->setAccessible(true);
+
+            $startOutputBufferingMethod->invoke($this);
+        } else {
+            ob_start();
+        }
+
         $this->createComponent('test_runner')->run();
-        $this->output = ob_get_contents();
-        ob_end_clean();
+
+        $this->output = $phpunitOutputBuffering ? $this->getActualOutput() : ob_get_contents();
+
+        if ($phpunitOutputBuffering) {
+            $stopOutputBufferingMethod->invoke($this);
+
+            $startOutputBufferingMethod->setAccessible(false);
+            $stopOutputBufferingMethod->setAccessible(false);
+        } else {
+            ob_end_clean();
+        }
     }
 
     /**
