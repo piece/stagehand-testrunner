@@ -37,6 +37,7 @@
 
 namespace Stagehand\TestRunner\CLI\TestRunnerApplication;
 
+use SebastianBergmann\Version;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -62,7 +63,10 @@ class Application extends \Symfony\Component\Console\Application
     public function __construct()
     {
         $this->commandRepository = new CommandRepository();
-        parent::__construct('Stagehand_TestRunner', '@package_version@');
+
+        $version = new Version('4.0', dirname(dirname(dirname(__DIR__))));
+        parent::__construct('Stagehand_TestRunner', $version->getVersion());
+
         $this->setAutoExit(false);
 
         // For compatibility with Symfony 2.0
