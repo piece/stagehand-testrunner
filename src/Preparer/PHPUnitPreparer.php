@@ -37,10 +37,6 @@
 
 namespace Stagehand\TestRunner\Preparer;
 
-if (!class_exists('PHPUnit_Runner_Version')) {
-    require_once 'PHPUnit/Autoload.php';
-}
-
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;
 
