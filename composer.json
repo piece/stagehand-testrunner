@@ -11,7 +11,7 @@
             "email": "kubo@iteman.jp"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
         "ext-dom": "*",
