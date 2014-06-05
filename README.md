@@ -33,7 +33,7 @@ First, add the dependency to **piece/stagehand-testrunner** into your **composer
 ```json
 {
     "require-dev": {
-        "piece/stagehand-testrunner": ">=3.6.2"
+        "piece/stagehand-testrunner": "~4.0"
     }
 }
 ```
