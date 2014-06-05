@@ -26,9 +26,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
 
 ## Installation
 
-Stagehand_TestRunner can be installed using [Composer](http://getcomposer.org/) or [PEAR](http://pear.php.net/). The following sections explain how to install Stagehand_TestRunner.
-
-### Composer
+Stagehand_TestRunner can be installed using [Composer](http://getcomposer.org/).
 
 First, add the dependency to **piece/stagehand-testrunner** into your **composer.json** file as the following:
 
@@ -44,13 +42,6 @@ Second, update your dependencies as the following:
 
 ```console
 composer update piece/stagehand-testrunner
-```
-
-### PEAR
-
-```console
-pear config-set auto_discover 1
-pear install pear.piece-framework.com/Stagehand_TestRunner
 ```
 
 ## Support
