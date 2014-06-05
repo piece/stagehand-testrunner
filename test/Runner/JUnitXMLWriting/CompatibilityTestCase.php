@@ -449,7 +449,7 @@ abstract class CompatibilityTestCase extends TestCase
     protected function getSchemaFile($inRealtime)
     {
         return __DIR__ .
-            '/../../../../../src/Resources/config/schema/' .
+            '/../../../src/Resources/config/schema/' .
             ($inRealtime ? 'junit-xml-stream-3.1.0.rng' : 'junit-xml-dom-2.10.0.rng');
     }
 }
