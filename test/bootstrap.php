@@ -37,8 +37,8 @@
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
 $loader->add('Stagehand\TestRunner\\', __DIR__);
-$loader->add('Stagehand\TestRunner\\', dirname(__DIR__) . '/src/Stagehand/TestRunner/Resources/examples');
-$loader->add('Stagehand_TestRunner', dirname(__DIR__) . '/src/Stagehand/TestRunner/Resources/examples');
+$loader->add('Stagehand\TestRunner\\', dirname(__DIR__) . '/src/Resources/examples');
+$loader->add('Stagehand_TestRunner', dirname(__DIR__) . '/src/Resources/examples');
 
 require __DIR__ . '/../bootstrap.php';
 

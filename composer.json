@@ -35,7 +35,7 @@
         "phpunit/phpunit": "For using PHPUnit"
     },
     "autoload": {
-        "psr-0": { "Stagehand\\TestRunner": "src/" }
+        "psr-4": { "Stagehand\\TestRunner\\": "src/" }
     },
     "bin": ["bin/testrunner"],
     "extra": {
