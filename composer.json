@@ -43,5 +43,13 @@
         "branch-alias": {
             "dev-master": "4.0.x-dev"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Stagehand\\TestRunner\\Composer\\Script::compile"
+        ],
+        "post-update-cmd": [
+            "Stagehand\\TestRunner\\Composer\\Script::compile"
+        ]
     }
 }
