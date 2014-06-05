@@ -132,7 +132,7 @@ class Application extends \Symfony\Component\Console\Application
     protected function getCopyright()
     {
         return
-'Copyright (c) 2005-2013 KUBO Atsuhiro and contributors,' . PHP_EOL .
+'Copyright (c) 2005-2014 KUBO Atsuhiro and contributors,' . PHP_EOL .
 'All rights reserved.';
     }
 }
