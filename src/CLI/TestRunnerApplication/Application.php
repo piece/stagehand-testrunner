@@ -64,7 +64,7 @@ class Application extends \Symfony\Component\Console\Application
     {
         $this->commandRepository = new CommandRepository();
 
-        $version = new Version('4.0', dirname(dirname(dirname(__DIR__))));
+        $version = new Version('4.0.0', dirname(dirname(dirname(__DIR__))));
         parent::__construct('Stagehand_TestRunner', $version->getVersion());
 
         $this->setAutoExit(false);
