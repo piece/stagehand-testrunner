@@ -45,10 +45,7 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "Stagehand\\TestRunner\\Composer\\Script::compile"
-        ],
-        "post-update-cmd": [
+        "post-autoload-dump": [
             "Stagehand\\TestRunner\\Composer\\Script::compile"
         ]
     }
