@@ -49,6 +49,12 @@ Second, update your dependencies as the following:
 composer update piece/stagehand-testrunner
 ```
 
+Finally, compile Stagehand_TestRunner for your environment as the following:
+
+```console
+vendor/bin/testrunner compile
+```
+
 ## Support
 
 If you find a bug or have a question, or want to request a feature, create an issue or pull request for it on [Issues](https://github.com/piece/stagehand-testrunner/issues).
