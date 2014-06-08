@@ -1,4 +1,6 @@
-# Stagehand_TestRunner - A continuous test runner for CLI
+# Stagehand_TestRunner
+
+A continuous test runner for CLI
 
 [![Total Downloads](https://poser.pugx.org/piece/stagehand-testrunner/downloads.png)](https://packagist.org/packages/piece/stagehand-testrunner)
 [![Latest Stable Version](https://poser.pugx.org/piece/stagehand-testrunner/v/stable.png)](https://packagist.org/packages/piece/stagehand-testrunner)
