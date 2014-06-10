@@ -29,7 +29,7 @@ It makes unit testing in a local environment much easier and comfortable. Additi
 * Specifies the test file pattern.
 * Uses a YAML-based configuration file.
 * Runs the phpunit command via the testrunner command.
-* Supports [PHPUnit](https://github.com/sebastianbergmann/phpunit).
+* Supports [PHPUnit](http://phpunit.de/).
 
 ## Installation
 
