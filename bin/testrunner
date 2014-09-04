@@ -151,6 +151,10 @@ function preloadScript()
         }
 
         if (!is_null($preloadScript)) {
+            if (!isAbsolutePath($preloadScript)) {
+                $preloadScript = getAbsolutePath($preloadScript, workingDirectoryAtStartup());
+            }
+
             $result = include_once $preloadScript;
             if (!$result) {
                 throw new \UnexpectedValueException(sprintf(
@@ -162,6 +166,30 @@ function preloadScript()
     }
 
     return $preloadScript;
+}
+
+/**
+ * @param string $path
+ * @return boolean
+ * @since Method available since Release 4.0.1
+ */
+function isAbsolutePath($path)
+{
+    return preg_match('!^(?:[/\\\]|[a-zA-Z]:[/\\\])!', $path) == 1;
+}
+
+/**
+ * @param string $path
+ * @param string $prefix
+ * @since Method available since Release 4.0.1
+ */
+function getAbsolutePath($path, $prefix)
+{
+    if (isAbsolutePath($path)) {
+        return $path;
+    } else {
+        return $prefix . DIRECTORY_SEPARATOR . $path;
+    }
 }
 
 /*
