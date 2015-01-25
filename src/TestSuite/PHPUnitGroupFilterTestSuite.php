@@ -52,7 +52,7 @@ namespace Stagehand\TestRunner\TestSuite;
 class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 {
     /**
-     * @param \ReflectionClass $theClass
+     * @param \ReflectionClass            $theClass
      * @param \PHPUnit_Util_Configuration $phpunitConfiguration
      */
     public function __construct(\ReflectionClass $theClass, \PHPUnit_Util_Configuration $phpunitConfiguration = null)
@@ -90,7 +90,7 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
         if (is_array($include)) {
             $groups = $include;
             $filter = true;
-        } else if (is_array($exclude)) {
+        } elseif (is_array($exclude)) {
             $groups = $exclude;
             $filter = false;
         }
@@ -100,13 +100,13 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 
             foreach ($groups as $group) {
                 if (isset($this->groups[$group])) {
-                    foreach($this->groups[$group] as $test) {
+                    foreach ($this->groups[$group] as $test) {
                         $objects->attach($test);
                     }
                 }
             }
 
-            $this->tests = array_values(array_filter($this->tests, function($test) use ($objects, $filter) {
+            $this->tests = array_values(array_filter($this->tests, function ($test) use ($objects, $filter) {
                 if ($objects->contains($test)) {
                     return $filter;
                 } else {

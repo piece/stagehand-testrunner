@@ -143,8 +143,8 @@ class TestTargetRepository
     }
 
     /**
-     * @param string $class
-     * @param string $method
+     * @param  string  $class
+     * @param  string  $method
      * @return boolean
      */
     public function shouldTreatElementAsTest($class, $method = null)
@@ -153,7 +153,7 @@ class TestTargetRepository
             if (is_null($method)) {
                 return in_array(strtolower($class), $this->classes);
             } else {
-                foreach (array($class . '::' . $method, $method) as $fullyQualifiedMethodName) {
+                foreach (array($class.'::'.$method, $method) as $fullyQualifiedMethodName) {
                     if (in_array(strtolower($fullyQualifiedMethodName), $this->methods)) {
                         return true;
                     }
@@ -162,7 +162,7 @@ class TestTargetRepository
                 return false;
             }
         } else {
-           return true;
+            return true;
         }
     }
 
@@ -191,12 +191,12 @@ class TestTargetRepository
     }
 
     /**
-     * @param string $file
+     * @param  string  $file
      * @return boolean
      */
     public function shouldTreatFileAsTest($file)
     {
-        return (boolean)preg_match('/' . str_replace('/', '\/', $this->getFilePattern()) . '/', basename($file));
+        return (boolean) preg_match('/'.str_replace('/', '\/', $this->getFilePattern()).'/', basename($file));
     }
 
     /**

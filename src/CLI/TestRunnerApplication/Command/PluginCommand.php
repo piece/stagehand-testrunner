@@ -74,11 +74,11 @@ abstract class PluginCommand extends Command
         parent::configure();
 
         $this->setName(strtolower($this->getPlugin()->getPluginID()));
-        $this->setDescription('Runs tests with ' . $this->getPlugin()->getPluginID() . '.');
+        $this->setDescription('Runs tests with '.$this->getPlugin()->getPluginID().'.');
         $this->setHelp(
-'The <info>' . $this->getName() . '</info> command runs tests with ' . $this->getPlugin()->getPluginID() . ':' . PHP_EOL .
-PHP_EOL .
-'  <info>testrunner ' . $this->getName() . ' ...</info>'
+'The <info>'.$this->getName().'</info> command runs tests with '.$this->getPlugin()->getPluginID().':'.PHP_EOL.
+PHP_EOL.
+'  <info>testrunner '.$this->getName().' ...</info>'
         );
 
         $this->addArgument('test_directory_or_file', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The directory or file that contains tests to be run <comment>(default: The working directory at testrunner startup)</comment>');
@@ -107,7 +107,7 @@ PHP_EOL .
             $this->addOption('log-junit-realtime', null, InputOption::VALUE_NONE, 'Logs test results in real-time into the specified file in the JUnit XML format.');
         }
 
-        $this->addOption('test-file-pattern', null, InputOption::VALUE_REQUIRED, 'The regular expression pattern for test files <comment>(default: ' . $this->getPlugin()->getTestFilePattern() . ')</comment>');
+        $this->addOption('test-file-pattern', null, InputOption::VALUE_REQUIRED, 'The regular expression pattern for test files <comment>(default: '.$this->getPlugin()->getTestFilePattern().')</comment>');
 
         if ($this->getPlugin()->hasFeature('test_methods')) {
             $this->addOption('test-method', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'The test method to be run');
@@ -124,13 +124,14 @@ PHP_EOL .
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $containerClass = Compiler::COMPILED_CONTAINER_NAMESPACE . '\\' . $this->getPlugin()->getPluginID() . 'Container';
+        $containerClass = Compiler::COMPILED_CONTAINER_NAMESPACE.'\\'.$this->getPlugin()->getPluginID().'Container';
         if (!class_exists($containerClass)) {
             $output->writeln(
-'<error>Please run the following command before running the ' . $this->getName() . ' command:</error>' . PHP_EOL .
-PHP_EOL .
+'<error>Please run the following command before running the '.$this->getName().' command:</error>'.PHP_EOL.
+PHP_EOL.
 '  <info>testrunner compile</info>'
             );
+
             return 1;
         }
 
@@ -157,8 +158,8 @@ PHP_EOL .
     abstract protected function getPlugin();
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface                         $input
+     * @param \Symfony\Component\Console\Output\OutputInterface                       $output
      * @param \Stagehand\TestRunner\DependencyInjection\Transformation\Transformation $transformation
      */
     protected function transformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation)
@@ -268,14 +269,14 @@ PHP_EOL .
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface                         $input
+     * @param \Symfony\Component\Console\Output\OutputInterface                       $output
      * @param \Stagehand\TestRunner\DependencyInjection\Transformation\Transformation $transformation
      */
     abstract protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation);
 
     /**
-     * @param string $containerClass
+     * @param  string                                                    $containerClass
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected function createContainer($containerClass)
@@ -284,7 +285,7 @@ PHP_EOL .
     }
 
     /**
-     * @param boolean $continuousTesting
+     * @param  boolean                                           $continuousTesting
      * @return \Stagehand\TestRunner\Process\TestRunnerInterface
      */
     protected function createTestRunner($continuousTesting)
@@ -297,7 +298,7 @@ PHP_EOL .
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param  \Symfony\Component\DependencyInjection\ContainerInterface               $container
      * @return \Stagehand\TestRunner\DependencyInjection\Transformation\Transformation
      */
     protected function createTransformation(ContainerInterface $container)

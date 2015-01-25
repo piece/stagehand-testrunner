@@ -50,14 +50,16 @@ namespace Stagehand\TestRunner\Util;
 class FailureTrace
 {
     /**
-     * @param array $testClassSuperTypes
-     * @param \Exception $e
-     * @param \ReflectionClass $class
+     * @param  array            $testClassSuperTypes
+     * @param  \Exception       $e
+     * @param  \ReflectionClass $class
      * @return array
      */
     public static function findFileAndLineOfFailureOrError(array $testClassSuperTypes, \Exception $e, \ReflectionClass $class)
     {
-        if (in_array($class->getName(), $testClassSuperTypes)) return;
+        if (in_array($class->getName(), $testClassSuperTypes)) {
+            return;
+        }
         if ($e->getFile() == $class->getFileName()) {
             return array($e->getFile(), $e->getLine());
         }
@@ -81,7 +83,7 @@ class FailureTrace
     }
 
     /**
-     * @param array $backtrace
+     * @param  array  $backtrace
      * @return string
      */
     public static function buildFailureTrace(array $backtrace)
@@ -93,10 +95,10 @@ class FailureTrace
             }
 
             $failureTrace .=
-                $backtrace[$i]['file'] .
-                ':' .
+                $backtrace[$i]['file'].
+                ':'.
                 (array_key_exists('line', $backtrace[$i]) ? $backtrace[$i]['line']
-                                                          : '?') .
+                                                          : '?').
                 PHP_EOL;
         }
 

@@ -61,7 +61,7 @@ class Command extends \PHPUnit_TextUI_Command
     protected $testTargetRepository;
 
     /**
-     * @param \Stagehand\TestRunner\Collector\Collector $collector
+     * @param \Stagehand\TestRunner\Collector\Collector       $collector
      * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
      */
     public function __construct(Collector $collector, TestTargetRepository $testTargetRepository)
@@ -94,7 +94,7 @@ class Command extends \PHPUnit_TextUI_Command
             $filePatterns = array();
 
             foreach ($this->arguments['testSuffixes'] as $testSuffix) {
-                $filePatterns[] = preg_quote($testSuffix) . '$';
+                $filePatterns[] = preg_quote($testSuffix).'$';
             }
 
             $this->testTargetRepository->setResources(array(empty($this->arguments['testFile']) ? $this->arguments['test'] : $this->arguments['testFile']));

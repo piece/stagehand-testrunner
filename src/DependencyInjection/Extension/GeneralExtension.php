@@ -55,8 +55,8 @@ class GeneralExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../Resources/config'));
-        $loader->load(self::getAlias() . '.yml');
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config'));
+        $loader->load(self::getAlias().'.yml');
     }
 
     public function getAlias()

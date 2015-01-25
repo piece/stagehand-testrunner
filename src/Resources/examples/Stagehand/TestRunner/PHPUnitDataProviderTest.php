@@ -35,7 +35,9 @@
  * @since      File available since Release 2.10.0
  */
 
-if (!class_exists('PHPUnit_Framework_TestCase')) return;
+if (!class_exists('PHPUnit_Framework_TestCase')) {
+    return;
+}
 
 /**
  * @package    Stagehand_TestRunner
@@ -61,7 +63,7 @@ class Stagehand_TestRunner_PHPUnitDataProviderTest extends PHPUnit_Framework_Tes
                    array(0, 0, 0),
                    array(0, 1, 1),
                    array(1, 0, 1),
-                   array(1, 1, 3)
+                   array(1, 1, 3),
                );
     }
 }

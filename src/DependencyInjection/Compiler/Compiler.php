@@ -42,7 +42,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ResolveParameterPlaceHoldersPass;
 
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
-use Stagehand\TestRunner\DependencyInjection\Compiler\ReplaceDefinitionByPluginDefinitionPass;
 use Stagehand\TestRunner\DependencyInjection\Extension\GeneralExtension;
 use Stagehand\TestRunner\Util\ErrorReporting;
 
@@ -63,7 +62,7 @@ class Compiler
             $containerBuilder = new UnfreezableContainerBuilder();
             $containerBuilder->registerExtension(new GeneralExtension());
 
-            $extensionClass = new \ReflectionClass('Stagehand\TestRunner\DependencyInjection\Extension\\' . $plugin->getPluginID() . 'Extension');
+            $extensionClass = new \ReflectionClass('Stagehand\TestRunner\DependencyInjection\Extension\\'.$plugin->getPluginID().'Extension');
             if (!$extensionClass->isInterface()
                 && !$extensionClass->isAbstract()
                 && $extensionClass->isSubclassOf('Symfony\Component\DependencyInjection\Extension\ExtensionInterface')) {
@@ -83,11 +82,11 @@ class Compiler
                     }
             ));
 
-            $containerClass = $plugin->getPluginID() . 'Container';
+            $containerClass = $plugin->getPluginID().'Container';
             ErrorReporting::invokeWith(error_reporting() & ~E_USER_DEPRECATED, function () use ($containerBuilder, $containerClass) {
                 $compiler = new \Stagehand\ComponentFactory\Compiler($containerBuilder, $containerClass, Compiler::COMPILED_CONTAINER_NAMESPACE);
                 $containerSource = $compiler->compile();
-                file_put_contents(__DIR__ . '/../' . $containerClass . '.php', $containerSource);
+                file_put_contents(__DIR__.'/../'.$containerClass.'.php', $containerSource);
             });
         }
     }

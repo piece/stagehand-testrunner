@@ -35,7 +35,9 @@
  * @since      File available since Release 2.7.0
  */
 
-if (!class_exists('PHPUnit_Framework_TestCase')) return;
+if (!class_exists('PHPUnit_Framework_TestCase')) {
+    return;
+}
 
 /**
  * TestCase for the PHPUnit runner.
@@ -46,7 +48,9 @@ if (!class_exists('PHPUnit_Framework_TestCase')) return;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.7.0
  */
-class Stagehand_TestRunner_PHPUnitNoTestsTest extends PHPUnit_Framework_TestCase {}
+class Stagehand_TestRunner_PHPUnitNoTestsTest extends PHPUnit_Framework_TestCase
+{
+}
 
 /*
  * Local Variables:

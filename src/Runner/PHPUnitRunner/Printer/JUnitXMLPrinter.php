@@ -72,9 +72,9 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     protected $rootTestSuiteWrote = false;
 
     /**
-     * @param mixed $out
+     * @param mixed                                                        $out
      * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface $junitXMLWriter
-     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
+     * @param \Stagehand\TestRunner\Core\TestTargetRepository              $testTargetRepository
      * @since Method available since Release 3.3.0
      */
     public function __construct($out, JUnitXMLWriterInterface $junitXMLWriter, TestTargetRepository $testTargetRepository)
@@ -99,7 +99,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     /**
      * @param \PHPUnit_Framework_Test $test
      * @param \Exception              $e
-     * @param float                  $time
+     * @param float                   $time
      */
     public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
@@ -109,7 +109,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     /**
      * @param \PHPUnit_Framework_Test                 $test
      * @param \PHPUnit_Framework_AssertionFailedError $e
-     * @param float                                  $time
+     * @param float                                   $time
      */
     public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
     {
@@ -119,7 +119,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     /**
      * @param \PHPUnit_Framework_Test $test
      * @param \Exception              $e
-     * @param float                  $time
+     * @param float                   $time
      */
     public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
@@ -129,9 +129,9 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     /**
      * Skipped test.
      *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
+     * @param float                   $time
      */
     public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
@@ -143,7 +143,8 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
      *
      * @since Method available since Release 4.0.0
      */
-    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) {
+    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    {
         $this->writeError($test, $e, $time);
     }
 
@@ -187,7 +188,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
 
     /**
      * @param \PHPUnit_Framework_Test $test
-     * @param float                  $time
+     * @param float                   $time
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
@@ -201,8 +202,8 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
 
     /**
      * @param \PHPUnit_Framework_Test $test
-     * @param \Exception $e
-     * @param float $time
+     * @param \Exception              $e
+     * @param float                   $time
      * @since Method available since Release 2.17.0
      */
     protected function writeError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
@@ -212,8 +213,8 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
 
     /**
      * @param \PHPUnit_Framework_Test $test
-     * @param \Exception $e
-     * @param float $time
+     * @param \Exception              $e
+     * @param float                   $time
      * @since Method available since Release 2.17.0
      */
     protected function writeFailure(\PHPUnit_Framework_Test $test, \Exception $e, $time)
@@ -223,9 +224,9 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
 
     /**
      * @param \PHPUnit_Framework_Test $test
-     * @param \Exception $e
-     * @param float $time
-     * @param string $failureOrError
+     * @param \Exception              $e
+     * @param float                   $time
+     * @param string                  $failureOrError
      */
     protected function writeFailureOrError(\PHPUnit_Framework_Test $test, \Exception $e, $time, $failureOrError)
     {
@@ -236,12 +237,12 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
         }
 
         if ($test instanceof \PHPUnit_Framework_SelfDescribing) {
-            $message = $test->toString() . "\n\n";
+            $message = $test->toString()."\n\n";
         } else {
             $message = '';
         }
 
-        $message .= \PHPUnit_Framework_TestFailure::exceptionToString($e) . "\n";
+        $message .= \PHPUnit_Framework_TestFailure::exceptionToString($e)."\n";
 
         if ($test instanceof \PHPUnit_Framework_Warning) {
             $testClass = new \ReflectionClass($this->currentTestClassName);
@@ -255,8 +256,8 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
             );
         }
         $trace = \PHPUnit_Util_Filter::getFilteredStacktrace($e, true);
-        $this->junitXMLWriter->{ 'write' . $failureOrError }(
-            $message . $trace,
+        $this->junitXMLWriter->{ 'write'.$failureOrError }(
+            $message.$trace,
             get_class($e),
             $file,
             $line,

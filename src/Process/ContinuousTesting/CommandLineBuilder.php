@@ -105,13 +105,13 @@ class CommandLineBuilder
     protected $options = array();
 
     /**
-     * @param \Stagehand\TestRunner\Core\Environment $environment
-     * @param \Stagehand\TestRunner\Util\LegacyProxy $legacyProxy
-     * @param \Stagehand\TestRunner\Util\OS $os
-     * @param \Stagehand\TestRunner\Core\Plugin\PluginInterface $plugin
-     * @param \Stagehand\TestRunner\Runner\Runner $runner
-     * @param \Stagehand\TestRunner\CLI\Terminal $terminal
-     * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
+     * @param \Stagehand\TestRunner\Core\Environment                                            $environment
+     * @param \Stagehand\TestRunner\Util\LegacyProxy                                            $legacyProxy
+     * @param \Stagehand\TestRunner\Util\OS                                                     $os
+     * @param \Stagehand\TestRunner\Core\Plugin\PluginInterface                                 $plugin
+     * @param \Stagehand\TestRunner\Runner\Runner                                               $runner
+     * @param \Stagehand\TestRunner\CLI\Terminal                                                $terminal
+     * @param \Stagehand\TestRunner\Core\TestTargetRepository                                   $testTargetRepository
      * @param \Stagehand\TestRunner\Process\ContinuousTesting\CommandLineOptionBuilderInterface $commandLineOptionBuilder
      */
     public function __construct(
@@ -123,8 +123,7 @@ class CommandLineBuilder
         Terminal $terminal,
         TestTargetRepository $testTargetRepository,
         CommandLineOptionBuilderInterface $commandLineOptionBuilder = null
-        )
-    {
+        ) {
         $this->environment = $environment;
         $this->legacyProxy = $legacyProxy;
         $this->os = $os;
@@ -143,7 +142,7 @@ class CommandLineBuilder
         $this->command = $this->buildCommand();
         $this->options = $this->buildOptions($this->command);
 
-        return $this->command . ' ' . implode(' ', $this->options);
+        return $this->command.' '.implode(' ', $this->options);
     }
 
     /**
@@ -160,11 +159,12 @@ class CommandLineBuilder
         }
 
         if (preg_match('!^/cygdrive/([a-z])/(.+)!', $command, $matches)) {
-            $command = $matches[1] . ':\\' . str_replace('/', '\\', $matches[2]);
+            $command = $matches[1].':\\'.str_replace('/', '\\', $matches[2]);
         }
 
         if ($this->os->isWin()) {
             putenv(sprintf('ENVPATH="%s"', $command));
+
             return '%ENVPATH%';
         } else {
             return escapeshellarg($command);
@@ -172,7 +172,7 @@ class CommandLineBuilder
     }
 
     /**
-     * @param string $command
+     * @param  string $command
      * @return array
      */
     protected function buildOptions($command)
@@ -196,7 +196,7 @@ class CommandLineBuilder
         $options[] = escapeshellarg(strtolower($this->plugin->getPluginID()));
 
         if (!is_null($this->environment->getPreloadScript())) {
-            $options[] = '-p ' . escapeshellarg($this->environment->getPreloadScript());
+            $options[] = '-p '.escapeshellarg($this->environment->getPreloadScript());
         }
 
         $options[] = '-R';
@@ -210,7 +210,7 @@ class CommandLineBuilder
         }
 
         if (!$this->testTargetRepository->isDefaultFilePattern()) {
-            $options[] = '--test-file-pattern=' . escapeshellarg($this->testTargetRepository->getFilePattern());
+            $options[] = '--test-file-pattern='.escapeshellarg($this->testTargetRepository->getFilePattern());
         }
 
         if ($this->runner->hasDetailedProgress()) {

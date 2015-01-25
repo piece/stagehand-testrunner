@@ -47,17 +47,18 @@ namespace Stagehand\TestRunner\Util;
 class LegacyProxy
 {
     /**
-     * @param string $command
+     * @param  string  $command
      * @return integer
      */
     public function passthru($command)
     {
         passthru($command, $exitStatus);
+
         return $exitStatus;
     }
 
     /**
-     * @param string $option
+     * @param  string $option
      * @return string
      */
     public function get_cfg_var($option)
@@ -66,7 +67,7 @@ class LegacyProxy
     }
 
     /**
-     * @param string $filename
+     * @param  string  $filename
      * @return boolean
      */
     public function is_dir($filename)
@@ -75,7 +76,7 @@ class LegacyProxy
     }
 
     /**
-     * @param string $path
+     * @param  string $path
      * @return string
      */
     public function realpath($path)
@@ -84,8 +85,8 @@ class LegacyProxy
     }
 
     /**
-     * @param mixed $object
-     * @param string $class_name
+     * @param  mixed   $object
+     * @param  string  $class_name
      * @return boolean
      */
     public function is_subclass_of($object, $class_name)
@@ -102,8 +103,8 @@ class LegacyProxy
     }
 
     /**
-     * @param string $command
-     * @param string $return_var
+     * @param  string $command
+     * @param  string $return_var
      * @return string
      */
     public function system($command, &$return_var)

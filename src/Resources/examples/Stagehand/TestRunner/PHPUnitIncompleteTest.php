@@ -35,7 +35,9 @@
  * @since      File available since Release 1.0.0
  */
 
-if (!class_exists('PHPUnit_Framework_TestCase')) return;
+if (!class_exists('PHPUnit_Framework_TestCase')) {
+    return;
+}
 
 /**
  * TestCase for the PHPUnit runner.

@@ -56,8 +56,8 @@ class ListCommand extends Command
         $this->setName('list');
         $this->setDescription('Lists commands.');
         $this->setHelp(
-'The <info>list</info> command lists all commands:' . PHP_EOL .
-PHP_EOL .
+'The <info>list</info> command lists all commands:'.PHP_EOL.
+PHP_EOL.
 '  <info>testrunner list</info>'
         );
     }
@@ -90,7 +90,7 @@ PHP_EOL .
         $messages = array($this->getApplication()->getHelp(), '');
         $buildCommandMessage = function (\Symfony\Component\Console\Command\Command $command) use (&$messages, $width) {
             $messages[] = sprintf(
-                '  <info>%-' . $width . 's</info> %s',
+                '  <info>%-'.$width.'s</info> %s',
                 $command->getName(),
                 $command->getDescription()
             );

@@ -37,7 +37,9 @@
 
 namespace Stagehand\TestRunner;
 
-if (!class_exists('\PHPUnit_Framework_TestCase')) return;
+if (!class_exists('\PHPUnit_Framework_TestCase')) {
+    return;
+}
 
 /**
  * @package    Stagehand_TestRunner
@@ -46,7 +48,9 @@ if (!class_exists('\PHPUnit_Framework_TestCase')) return;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.15.0
  */
-class PHPUnitMultipleClassesWithNamespaceTest {}
+class PHPUnitMultipleClassesWithNamespaceTest
+{
+}
 
 /**
  * @package    Stagehand_TestRunner

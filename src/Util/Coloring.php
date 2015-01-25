@@ -57,7 +57,7 @@ class Coloring
     private static $outputFormatterStyles = array();
 
     /**
-     * @param string $text
+     * @param  string $text
      * @return string
      */
     public static function green($text)
@@ -66,7 +66,7 @@ class Coloring
     }
 
     /**
-     * @param string $text
+     * @param  string $text
      * @return string
      */
     public static function red($text)
@@ -75,7 +75,7 @@ class Coloring
     }
 
     /**
-     * @param string $text
+     * @param  string $text
      * @return string
      */
     public static function magenta($text)
@@ -84,7 +84,7 @@ class Coloring
     }
 
     /**
-     * @param string $text
+     * @param  string $text
      * @return string
      */
     public static function yellow($text)
@@ -93,8 +93,8 @@ class Coloring
     }
 
     /**
-     * @param string $text
-     * @param string $color
+     * @param  string $text
+     * @param  string $color
      * @return string
      */
     private static function apply($text, $color)

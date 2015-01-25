@@ -57,7 +57,7 @@ class FileStreamWriter implements StreamWriterInterface
     protected $fileHandle;
 
     /**
-     * @param string $file
+     * @param  string                    $file
      * @throws \UnexpectedValueException
      */
     public function __construct($file)
@@ -77,7 +77,7 @@ class FileStreamWriter implements StreamWriterInterface
     }
 
     /**
-     * @param string $buffer
+     * @param  string                    $buffer
      * @throws \UnexpectedValueException
      */
     public function write($buffer)

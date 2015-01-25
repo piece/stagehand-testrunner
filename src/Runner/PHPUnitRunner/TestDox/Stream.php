@@ -38,8 +38,6 @@
 
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox;
 
-use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\TestDox;
-
 /**
  * A stream wrapper to print TestDox documentation.
  *
@@ -58,10 +56,10 @@ class Stream
     /**
      * The implementation of stream_open().
      *
-     * @param string  $path
-     * @param string  $mode
-     * @param integer $options
-     * @param string  &$opened_path
+     * @param  string  $path
+     * @param  string  $mode
+     * @param  integer $options
+     * @param  string  &$opened_path
      * @return boolean
      */
     public function stream_open($path, $mode, $options, &$opened_path)
@@ -70,43 +68,48 @@ class Stream
         $this->resultID = $matches[1];
         TestDox::initialize($this->resultID);
         $opened_path = $path;
+
         return true;
     }
 
     /**
      * The implementation of stream_close().
      *
-     * @param string  $path
-     * @param string  $mode
-     * @param integer $options
-     * @param string  $opened_path
+     * @param  string  $path
+     * @param  string  $mode
+     * @param  integer $options
+     * @param  string  $opened_path
      * @return boolean
      */
-    public function stream_close() {}
+    public function stream_close()
+    {
+    }
 
     /**
      * The implementation of stream_read().
      *
-     * @param integer $count
+     * @param  integer $count
      * @return string
      */
     public function stream_read($count)
     {
         $data = substr($this->getTestDox(), $this->position, $count);
         $this->position += strlen($data);
+
         return $data;
     }
 
     /**
      * The implementation of stream_write().
      *
-     * @param string $data
+     * @param  string  $data
      * @return integer
      */
     public function stream_write($data)
     {
         $this->appendTestDox($data);
         $this->position += strlen($data);
+
         return strlen($data);
     }
 
@@ -133,8 +136,8 @@ class Stream
     /**
      * The implementation of stream_seek().
      *
-     * @param integer $offset
-     * @param integer $whence
+     * @param  integer $offset
+     * @param  integer $whence
      * @return boolean
      */
     public function stream_seek($offset, $whence)
@@ -143,6 +146,7 @@ class Stream
         case SEEK_SET:
             if ($offset < strlen($this->getTestDox()) && $offset >= 0) {
                 $this->position = $offset;
+
                 return true;
             } else {
                 return false;
@@ -150,6 +154,7 @@ class Stream
         case SEEK_CUR:
             if ($offset >= 0) {
                 $this->position += $offset;
+
                 return true;
             } else {
                 return false;
@@ -157,6 +162,7 @@ class Stream
         case SEEK_END:
             if (strlen($this->getTestDox()) + $offset >= 0) {
                 $this->position = strlen($this->getTestDox()) + $offset;
+
                 return true;
             } else {
                 return false;

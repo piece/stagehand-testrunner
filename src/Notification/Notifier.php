@@ -42,9 +42,9 @@ namespace Stagehand\TestRunner\Notification;
 use Stagehand\TestRunner\Util\LegacyProxy;
 use Stagehand\TestRunner\Util\OS;
 
-Notifier::$ICON_PASSED = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . 'passed.png';
-Notifier::$ICON_FAILED = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . 'failed.png';
-Notifier::$ICON_STOPPED = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Resources' . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR . 'stopped.png';
+Notifier::$ICON_PASSED = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'icons'.DIRECTORY_SEPARATOR.'passed.png';
+Notifier::$ICON_FAILED = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'icons'.DIRECTORY_SEPARATOR.'failed.png';
+Notifier::$ICON_STOPPED = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'icons'.DIRECTORY_SEPARATOR.'stopped.png';
 
 /**
  * @package    Stagehand_TestRunner
@@ -103,7 +103,7 @@ class Notifier
     }
 
     /**
-     * @param \Stagehand\TestRunner\Notification\Notification $notification
+     * @param  \Stagehand\TestRunner\Notification\Notification $notification
      * @return string
      */
     protected function buildNotifyCommand(Notification $notification)

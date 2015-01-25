@@ -96,7 +96,7 @@ class ApplicationContext
     }
 
     /**
-     * @param string $componentID
+     * @param  string $componentID
      * @return mixed
      */
     public function createComponent($componentID)
@@ -106,7 +106,7 @@ class ApplicationContext
 
     /**
      * @param string $componentID
-     * @param mixed $component
+     * @param mixed  $component
      */
     public function setComponent($componentID, $component)
     {

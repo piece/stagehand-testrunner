@@ -66,11 +66,11 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
     /**
      * Constructor.
      *
-     * @param  resource $out
-     * @param  \Stagehand\TestRunner\CLI\Terminal $terminal
-     * @param  mixed    $prettifier
+     * @param resource                           $out
+     * @param \Stagehand\TestRunner\CLI\Terminal $terminal
+     * @param mixed                              $prettifier
      */
-    public function __construct($out = NULL, Terminal $terminal, $prettifier)
+    public function __construct($out = null, Terminal $terminal, $prettifier)
     {
         parent::__construct($out);
         $this->terminal = $terminal;
@@ -80,7 +80,7 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
     /**
      * @param \PHPUnit_Framework_Test $test
      * @param \Exception              $e
-     * @param float                  $time
+     * @param float                   $time
      * @since Method available since Release 2.11.0
      */
     public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
@@ -92,9 +92,9 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
     /**
      * Skipped test.
      *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
+     * @param float                   $time
      * @since Method available since Release 2.11.0
      */
     public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
@@ -116,7 +116,7 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
 
     /**
      * @param \PHPUnit_Framework_Test $test
-     * @param float                  $time
+     * @param float                   $time
      * @since Method available since Release 2.7.0
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
@@ -140,13 +140,13 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
         if ($this->testStatuses[$name] == \PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE
             || $this->testStatuses[$name] == \PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED) {
             if (strlen($this->testStatusMessages[$name])) {
-                $name = $name .
-                        ' (' .
+                $name = $name.
+                        ' ('.
                         str_replace(
                             array("\x0d", "\x0a"),
                             '',
                             $this->testStatusMessages[$name]
-                        ) .
+                        ).
                         ')';
             }
         }

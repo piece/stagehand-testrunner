@@ -54,7 +54,7 @@ class XMLStreamWriter
 
     public function __construct()
     {
-        $this->buffer = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
+        $this->buffer = '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
     }
 
     public function startElement($element)
@@ -64,7 +64,7 @@ class XMLStreamWriter
         }
 
         $this->elements[] = $element;
-        $this->buffer .= '<' . $element;
+        $this->buffer .= '<'.$element;
         $this->isStartTagClosed = false;
     }
 
@@ -75,16 +75,16 @@ class XMLStreamWriter
         }
 
         $currentElement = array_pop($this->elements);
-        $this->buffer .= '</' . $currentElement . '>';
+        $this->buffer .= '</'.$currentElement.'>';
     }
 
     public function writeAttribute($attribute, $value)
     {
         $this->buffer .=
-            ' ' .
-            $attribute .
-            '="' .
-            str_replace("\x0a", '&#10;', htmlspecialchars(String::normalizeNewlines($value), ENT_QUOTES, 'UTF-8')) .
+            ' '.
+            $attribute.
+            '="'.
+            str_replace("\x0a", '&#10;', htmlspecialchars(String::normalizeNewlines($value), ENT_QUOTES, 'UTF-8')).
             '"';
     }
 
@@ -107,6 +107,7 @@ class XMLStreamWriter
     {
         $buffer = $this->buffer;
         $this->buffer = '';
+
         return $buffer;
     }
 }

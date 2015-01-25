@@ -51,7 +51,7 @@ class PHPUnitOutputTest extends \PHPUnit_Framework_TestCase
      */
     public function outputs()
     {
-        echo __METHOD__ . PHP_EOL;
+        echo __METHOD__.PHP_EOL;
     }
 }
 

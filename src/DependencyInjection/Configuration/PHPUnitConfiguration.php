@@ -69,7 +69,6 @@ class PHPUnitConfiguration extends Configuration
     }
 }
 
-
 /*
  * Local Variables:
  * mode: php

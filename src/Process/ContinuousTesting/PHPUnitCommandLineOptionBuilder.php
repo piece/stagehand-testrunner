@@ -68,7 +68,7 @@ class PHPUnitCommandLineOptionBuilder implements CommandLineOptionBuilderInterfa
     {
         $phpunitConfiguration = $this->phpunitConfigurationFactory->create();
         if (!is_null($phpunitConfiguration)) {
-            $options[] = '--phpunit-config=' . escapeshellarg($phpunitConfiguration->getFilename());
+            $options[] = '--phpunit-config='.escapeshellarg($phpunitConfiguration->getFilename());
         }
 
         return $options;

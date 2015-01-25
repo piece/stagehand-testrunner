@@ -35,7 +35,9 @@
  * @since      File available since Release 2.8.0
  */
 
-if (!class_exists('PHPUnit_Framework_TestCase')) return;
+if (!class_exists('PHPUnit_Framework_TestCase')) {
+    return;
+}
 
 /**
  * @package    Stagehand_TestRunner
@@ -44,7 +46,9 @@ if (!class_exists('PHPUnit_Framework_TestCase')) return;
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
  */
-class Stagehand_TestRunner_PHPUnitMultipleClassesTest {}
+class Stagehand_TestRunner_PHPUnitMultipleClassesTest
+{
+}
 
 /**
  * TestCase for the PHPUnit runner.

@@ -43,7 +43,6 @@ use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Notification\Notifier;
 use Stagehand\TestRunner\Preparer\Preparer;
-use Stagehand\TestRunner\Process\ContinuousTesting\AlterationMonitoring;
 use Stagehand\TestRunner\Process\TestRunnerInterface;
 use Stagehand\TestRunner\Runner\Runner;
 use Stagehand\TestRunner\Util\LegacyProxy;
@@ -112,7 +111,7 @@ class ContinuousTestRunner implements TestRunnerInterface
     protected $commandLineBuilder;
 
     /**
-     * @param \Stagehand\TestRunner\Preparer\Preparer $preparer
+     * @param \Stagehand\TestRunner\Preparer\Preparer                            $preparer
      * @param \Stagehand\TestRunner\Process\ContinuousTesting\CommandLineBuilder $commandLineBuilder
      * @since Method available since Release 3.0.1
      */
@@ -168,6 +167,7 @@ class ContinuousTestRunner implements TestRunnerInterface
             // TODO: Remove Windows specific code if the bug #60120 and #51800 are really fixed.
             ob_start(function ($buffer) use (&$streamOutput) {
                 $streamOutput .= $buffer;
+
                 return $buffer;
             }, 2
             );
@@ -251,7 +251,7 @@ class ContinuousTestRunner implements TestRunnerInterface
     protected function getMonitoringDirectories()
     {
         $watchDirs = array();
-        foreach (array_merge($this->watchDirs,$this->testTargetRepository->getResources()) as $directory) {
+        foreach (array_merge($this->watchDirs, $this->testTargetRepository->getResources()) as $directory) {
             if (!$this->legacyProxy->is_dir($directory)) {
                 throw new \UnexpectedValueException(sprintf('A specified path [ %s ] is not found or not a directory.', $directory));
             }
@@ -270,7 +270,7 @@ class ContinuousTestRunner implements TestRunnerInterface
     }
 
     /**
-     * @param string $runnerCommand
+     * @param  string  $runnerCommand
      * @return integer
      * @since Method available since Release 2.20.0
      */

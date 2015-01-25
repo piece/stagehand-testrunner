@@ -90,8 +90,8 @@ class PHPUnitPreparer extends Preparer
     /**
      * Loads a bootstrap file.
      *
-     * @param  string  $filename
-     * @param  boolean $syntaxCheck
+     * @param string  $filename
+     * @param boolean $syntaxCheck
      * @see \PHPUnit_TextUI_Command::handleBootstrap()
      * @since Method available since Release 2.16.0
      */

@@ -220,7 +220,7 @@ abstract class Runner
     }
 
     /**
-     * @param string $file
+     * @param  string                                           $file
      * @return \Stagehand\TestRunner\Util\StreamWriterInterface
      * @since Method available since Release 3.0.0
      */
@@ -237,6 +237,7 @@ abstract class Runner
     {
         $streamWriter = $this->createStreamWriter($this->junitXMLFile);
         $utf8Converter = extension_loaded('mbstring') ? new UTF8Converter() : new NullUTF8Converter();
+
         return $this->junitXMLRealtime ? new StreamJUnitXMLWriter($streamWriter, $utf8Converter) : new DOMJUnitXMLWriter($streamWriter, $utf8Converter);
     }
 }

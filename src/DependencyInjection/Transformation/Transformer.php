@@ -60,7 +60,7 @@ abstract class Transformer
     protected $container;
 
     /**
-     * @param array $configurationPart
+     * @param array                                                     $configurationPart
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function __construct(array $configurationPart, ContainerInterface $container)
@@ -94,7 +94,7 @@ abstract class Transformer
     {
         $parameterPrefix = $this->getParameterPrefix();
         $this->container->setParameter(
-            (strlen($parameterPrefix) > 0 ? (strtolower($parameterPrefix) . '.') : '') . $name,
+            (strlen($parameterPrefix) > 0 ? (strtolower($parameterPrefix).'.') : '').$name,
             $value
         );
     }

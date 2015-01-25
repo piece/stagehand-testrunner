@@ -47,7 +47,7 @@ namespace Stagehand\TestRunner\Util;
 class FileSystem
 {
     /**
-     * @param string $path
+     * @param  string  $path
      * @return boolean
      */
     public function isAbsolutePath($path)
@@ -64,7 +64,7 @@ class FileSystem
         if ($this->isAbsolutePath($path)) {
             return $path;
         } else {
-            return $prefix . DIRECTORY_SEPARATOR . $path;
+            return $prefix.DIRECTORY_SEPARATOR.$path;
         }
     }
 }

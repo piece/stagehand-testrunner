@@ -39,7 +39,6 @@ namespace Stagehand\TestRunner\Collector;
 
 use Symfony\Component\Finder\Finder;
 
-use Stagehand\TestRunner\Collector\CollectingTypeFactory;
 use Stagehand\TestRunner\Core\Environment;
 use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Util\FileSystem;
@@ -162,7 +161,7 @@ abstract class Collector
     /**
      * Creates the test suite object.
      *
-     * @param string $name
+     * @param  string $name
      * @return mixed
      */
     abstract protected function createTestSuite($name);
@@ -174,7 +173,9 @@ abstract class Collector
      */
     public function collectTestCasesFromFile($file)
     {
-        if (!$this->testTargetRepository->shouldTreatFileAsTest($file)) return;
+        if (!$this->testTargetRepository->shouldTreatFileAsTest($file)) {
+            return;
+        }
 
         foreach ($this->findNewClasses($file) as $newClass) {
             $collectingType = $this->collectingTypeFactory->create(
@@ -197,14 +198,17 @@ abstract class Collector
     }
 
     /**
-     * @param string $file
+     * @param  string  $file
      * @return boolean
      * @since Method available since Release 2.14.0
      */
     protected function findNewClasses($file)
     {
         $currentClasses = get_declared_classes();
-        if (!include_once $file) return array();
+        if (!include_once $file) {
+            return array();
+        }
+
         return array_values(array_diff(get_declared_classes(), $currentClasses));
     }
 }

@@ -88,6 +88,7 @@ class Application extends \Symfony\Component\Console\Application
             if (is_null($definition)) {
                 $definition = $this->getDefaultInputDefinition();
             }
+
             return $definition;
         }
     }
@@ -95,8 +96,8 @@ class Application extends \Symfony\Component\Console\Application
     public function getLongVersion()
     {
         return
-            parent::getLongVersion() . PHP_EOL .
-            PHP_EOL .
+            parent::getLongVersion().PHP_EOL.
+            PHP_EOL.
             $this->getCopyright();
     }
 
@@ -136,7 +137,7 @@ class Application extends \Symfony\Component\Console\Application
     protected function getCopyright()
     {
         return
-'Copyright (c) 2005-2014 KUBO Atsuhiro and contributors,' . PHP_EOL .
+'Copyright (c) 2005-2014 KUBO Atsuhiro and contributors,'.PHP_EOL.
 'All rights reserved.';
     }
 }

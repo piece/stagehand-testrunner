@@ -77,7 +77,7 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
 
         $testDox = trim(TestDox::get(spl_object_hash($result)));
         if (strlen($testDox)) {
-            $this->write(PHP_EOL . PHP_EOL . $testDox);
+            $this->write(PHP_EOL.PHP_EOL.$testDox);
         }
 
         parent::printResult($result);
@@ -97,9 +97,9 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
             if (preg_match('/^.*?(OK \(\d+ tests?, \d+ assertions?\))/m', $output, $matches)) {
                 $notificationMessage = $matches[1];
             } elseif (preg_match('/^.*?(FAILURES!)\s*.*(?:\x0d|\x0a|\x0d\x0a)^.*?(Tests: \d+, Assertions: \d+(?:, Failures: \d+)?(?:, Errors: \d+)?\.)/m', $output, $matches)) {
-                $notificationMessage = $matches[1] . PHP_EOL . $matches[2];
+                $notificationMessage = $matches[1].PHP_EOL.$matches[2];
             } elseif (preg_match('/^.*?(OK, but incomplete(?:, skipped, or risky| or skipped) tests!).*(?:\x0d|\x0a|\x0d\x0a)^.*?(Tests: \d+, Assertions: \d+, Incomplete: \d+\.)/m', $output, $matches)) {
-                $notificationMessage = $matches[1] . PHP_EOL . $matches[2];
+                $notificationMessage = $matches[1].PHP_EOL.$matches[2];
             } elseif (preg_match('/^.*?(No tests executed!)/m', $output, $matches)) {
                 $notificationMessage = $matches[1];
             } else {

@@ -53,6 +53,7 @@ abstract class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $this->defineGrammar($treeBuilder->root($this->getConfigurationID())->children());
+
         return $treeBuilder;
     }
 

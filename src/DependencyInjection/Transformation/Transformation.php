@@ -77,13 +77,13 @@ class Transformation
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \Stagehand\TestRunner\Core\Plugin\PluginInterface $plugin
+     * @param \Stagehand\TestRunner\Core\Plugin\PluginInterface         $plugin
      */
     public function __construct(ContainerInterface $container, PluginInterface $plugin)
     {
         $pluginConfigurationClass =
-            'Stagehand\TestRunner\DependencyInjection\Configuration' . '\\' .
-            $plugin->getPluginID() . 'Configuration';
+            'Stagehand\TestRunner\DependencyInjection\Configuration'.'\\'.
+            $plugin->getPluginID().'Configuration';
         $this->configuration[ $pluginConfigurationClass::getConfigurationID() ] = array();
         $this->configuration[ GeneralConfiguration::getConfigurationID() ] = array();
 
@@ -92,8 +92,8 @@ class Transformation
     }
 
     /**
-     * @param string $configurationID
-     * @param array $configurationPart
+     * @param  string                    $configurationID
+     * @param  array                     $configurationPart
      * @throws \InvalidArgumentException
      */
     public function setConfigurationPart($configurationID, array $configurationPart)
@@ -135,7 +135,7 @@ class Transformation
                 $plugin = PluginRepository::findByPluginID($configurationID);
                 $transformerID = $plugin->getPluginID();
             }
-            $transformerClass = __NAMESPACE__ . '\\' . $transformerID . 'Transformer';
+            $transformerClass = __NAMESPACE__.'\\'.$transformerID.'Transformer';
             $transformer = new $transformerClass($configurations, $this->container); /* @var $transformer \Stagehand\TestRunner\DependencyInjection\Transformation\Transformer */
             $transformer->transform();
         }

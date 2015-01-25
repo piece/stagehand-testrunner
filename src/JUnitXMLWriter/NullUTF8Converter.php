@@ -47,7 +47,7 @@ namespace Stagehand\TestRunner\JUnitXMLWriter;
 class NullUTF8Converter extends UTF8Converter
 {
     /**
-     * @param string $text
+     * @param  string $text
      * @return string
      */
     public function convert($text)

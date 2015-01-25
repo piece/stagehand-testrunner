@@ -47,8 +47,8 @@ namespace Stagehand\TestRunner\Util;
 class ErrorReporting
 {
     /**
-     * @param integer $level
-     * @param \Closure $callable
+     * @param  integer    $level
+     * @param  \Closure   $callable
      * @throws \Exception
      */
     public static function invokeWith($level, \Closure $callable)
@@ -86,10 +86,10 @@ class ErrorReporting
     }
 
     /**
-     * @param integer $code
-     * @param string $message
-     * @param string $file
-     * @param integer $line
+     * @param  integer         $code
+     * @param  string          $message
+     * @param  string          $file
+     * @param  integer         $line
      * @throws \ErrorException
      */
     public static function errorToException($code, $message, $file, $line)

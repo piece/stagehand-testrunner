@@ -61,9 +61,9 @@ class DetailedProgressPrinter extends ResultPrinter
     /**
      * An error occurred.
      *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
+     * @param float                   $time
      */
     public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
@@ -79,9 +79,9 @@ class DetailedProgressPrinter extends ResultPrinter
     /**
      * A failure occurred.
      *
-     * @param  \PHPUnit_Framework_Test                 $test
-     * @param  \PHPUnit_Framework_AssertionFailedError $e
-     * @param  float                                  $time
+     * @param \PHPUnit_Framework_Test                 $test
+     * @param \PHPUnit_Framework_AssertionFailedError $e
+     * @param float                                   $time
      */
     public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
     {
@@ -97,9 +97,9 @@ class DetailedProgressPrinter extends ResultPrinter
     /**
      * Incomplete test.
      *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
+     * @param float                   $time
      */
     public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
@@ -107,7 +107,7 @@ class DetailedProgressPrinter extends ResultPrinter
         $message = 'skipped';
         $statusMessage = $test->getStatusMessage();
         if (strlen($statusMessage)) {
-            $message .= ' (' . $statusMessage . ')';
+            $message .= ' ('.$statusMessage.')';
         }
 
         $this->write(
@@ -121,16 +121,16 @@ class DetailedProgressPrinter extends ResultPrinter
     /**
      * Skipped test.
      *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
+     * @param float                   $time
      */
     public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         $message = 'skipped';
         $statusMessage = $test->getStatusMessage();
         if (strlen($statusMessage)) {
-            $message .= ' (' . $statusMessage . ')';
+            $message .= ' ('.$statusMessage.')';
         }
 
         $this->write(
@@ -144,17 +144,17 @@ class DetailedProgressPrinter extends ResultPrinter
     /**
      * A testsuite started.
      *
-     * @param  \PHPUnit_Framework_TestSuite $suite
+     * @param \PHPUnit_Framework_TestSuite $suite
      */
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if (strlen($suite->getName())) {
             if ($this->lastEvent == \PHPUnit_TextUI_ResultPrinter::EVENT_TESTSUITE_END
                 || $this->lastEvent == \PHPUnit_TextUI_ResultPrinter::EVENT_TEST_END) {
-                $this->write(PHP_EOL . PHP_EOL);
+                $this->write(PHP_EOL.PHP_EOL);
             }
 
-            $this->write($suite->getName() . PHP_EOL);
+            $this->write($suite->getName().PHP_EOL);
         }
 
         parent::startTestSuite($suite);
@@ -164,7 +164,7 @@ class DetailedProgressPrinter extends ResultPrinter
     /**
      * A testsuite ended.
      *
-     * @param  \PHPUnit_Framework_TestSuite $suite
+     * @param \PHPUnit_Framework_TestSuite $suite
      * @since  Method available since Release 2.16.0
      */
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
@@ -176,7 +176,7 @@ class DetailedProgressPrinter extends ResultPrinter
     /**
      * A test started.
      *
-     * @param  \PHPUnit_Framework_Test $test
+     * @param \PHPUnit_Framework_Test $test
      */
     public function startTest(\PHPUnit_Framework_Test $test)
     {
@@ -185,7 +185,7 @@ class DetailedProgressPrinter extends ResultPrinter
             $this->write(PHP_EOL);
         }
 
-        $this->write('  ' . $test->getName() . ' ... ');
+        $this->write('  '.$test->getName().' ... ');
 
         $this->lastEvent = \PHPUnit_TextUI_ResultPrinter::EVENT_TEST_START;
         parent::startTest($test);
@@ -194,8 +194,8 @@ class DetailedProgressPrinter extends ResultPrinter
     /**
      * A test ended.
      *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  float                  $time
+     * @param \PHPUnit_Framework_Test $test
+     * @param float                   $time
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
@@ -212,10 +212,12 @@ class DetailedProgressPrinter extends ResultPrinter
     }
 
     /**
-     * @param  string $progress
+     * @param string $progress
      * @since  Method available since Release 2.7.0
      */
-    protected function writeProgress($progress) {}
+    protected function writeProgress($progress)
+    {
+    }
 }
 
 /*

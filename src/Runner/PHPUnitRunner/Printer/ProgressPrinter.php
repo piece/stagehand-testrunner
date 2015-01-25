@@ -55,80 +55,84 @@ class ProgressPrinter extends ResultPrinter
     /**
      * An error occurred.
      *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
+     * @param float                   $time
      */
     public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         if (!$this->colors) {
             parent::addError($test, $e, $time);
+
             return;
         }
 
         $this->writeProgress(Coloring::magenta('E'));
-        $this->lastTestFailed = TRUE;
+        $this->lastTestFailed = true;
     }
 
     /**
      * A failure occurred.
      *
-     * @param  \PHPUnit_Framework_Test                 $test
-     * @param  \PHPUnit_Framework_AssertionFailedError $e
-     * @param  float                                  $time
+     * @param \PHPUnit_Framework_Test                 $test
+     * @param \PHPUnit_Framework_AssertionFailedError $e
+     * @param float                                   $time
      */
     public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
     {
         if (!$this->colors) {
             parent::addFailure($test, $e, $time);
+
             return;
         }
 
         $this->writeProgress(Coloring::red('F'));
-        $this->lastTestFailed = TRUE;
+        $this->lastTestFailed = true;
     }
 
     /**
      * Incomplete test.
      *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
+     * @param float                   $time
      */
     public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         if (!$this->colors) {
             parent::addIncompleteTest($test, $e, $time);
+
             return;
         }
 
         $this->writeProgress(Coloring::yellow('I'));
-        $this->lastTestFailed = TRUE;
+        $this->lastTestFailed = true;
     }
 
     /**
      * Skipped test.
      *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
+     * @param float                   $time
      */
     public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         if (!$this->colors) {
             parent::addSkippedTest($test, $e, $time);
+
             return;
         }
 
         $this->writeProgress(Coloring::yellow('S'));
-        $this->lastTestFailed = TRUE;
+        $this->lastTestFailed = true;
     }
 
     /**
      * A test ended.
      *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  float                  $time
+     * @param \PHPUnit_Framework_Test $test
+     * @param float                   $time
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {

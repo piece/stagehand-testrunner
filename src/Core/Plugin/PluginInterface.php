@@ -52,7 +52,7 @@ interface PluginInterface
     public static function getPluginID();
 
     /**
-     * @param string $featureID
+     * @param  string  $featureID
      * @return boolean
      */
     public function hasFeature($featureID);

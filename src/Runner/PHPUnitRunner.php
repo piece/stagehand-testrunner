@@ -41,11 +41,9 @@ namespace Stagehand\TestRunner\Runner;
 use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\DetailedProgressPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinter;
-use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\JUnitXMLPrinterFactory;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ProgressPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\TestDoxPrinter;
-use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\NamePrettifier;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox\Stream;
 use Stagehand\TestRunner\Runner\PHPUnitRunner\TestRunner;
 
@@ -125,8 +123,8 @@ class PHPUnitRunner extends Runner
     }
 
     /**
-     * @param \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter $printer
-     * @param \PHPUnit_Framework_TestResult $testResult
+     * @param  \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter $printer
+     * @param  \PHPUnit_Framework_TestResult                                    $testResult
      * @return array
      * @since Method available since Release 3.3.0
      */
@@ -139,10 +137,10 @@ class PHPUnitRunner extends Runner
         $arguments['listeners'] =
             array(
                 new TestDoxPrinter(
-                    fopen('testdox://' . spl_object_hash($testResult), 'w'),
+                    fopen('testdox://'.spl_object_hash($testResult), 'w'),
                     $this->terminal,
                     $this->prettifier()
-                )
+                ),
             );
 
         if ($this->hasJUnitXMLFile()) {

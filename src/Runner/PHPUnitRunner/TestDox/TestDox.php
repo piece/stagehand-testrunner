@@ -70,7 +70,7 @@ class TestDox
     }
 
     /**
-     * @param string $resultID
+     * @param  string $resultID
      * @return string
      * @since Method available since Release 2.10.0
      */

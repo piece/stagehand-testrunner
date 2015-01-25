@@ -35,7 +35,9 @@
  * @since      File available since Release 2.16.0
  */
 
-if (!class_exists('PHPUnit_Framework_TestCase')) return;
+if (!class_exists('PHPUnit_Framework_TestCase')) {
+    return;
+}
 
 /**
  * @package    Stagehand_TestRunner
@@ -51,8 +53,7 @@ class Stagehand_TestRunner_PHPUnitFailureInAnonymousFunctionTest extends PHPUnit
      */
     public function isFailure()
     {
-        $func = function ($test)
-        {
+        $func = function ($test) {
             $test->assertTrue(false, 'This is an error message.');
         };
         $func($this);

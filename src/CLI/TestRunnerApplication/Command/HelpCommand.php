@@ -63,8 +63,8 @@ class HelpCommand extends Command
         $this->addArgument('command_name', InputArgument::OPTIONAL, 'The command name', 'help');
         $this->setDescription('Prints the help for a command.');
         $this->setHelp(
-'The <info>help</info> command prints the help for the specified command:' . PHP_EOL .
-PHP_EOL .
+'The <info>help</info> command prints the help for the specified command:'.PHP_EOL.
+PHP_EOL.
 '  <info>testrunner help list</info>'
         );
     }

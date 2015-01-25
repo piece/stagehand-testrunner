@@ -67,9 +67,9 @@ class PHPUnitPassthroughCommand extends Command
         $this->setName('phpunit:passthrough');
         $this->setDescription('Runs the phpunit command via the testrunner command.');
         $this->setHelp(
-'The <info>' . $this->getName() . '</info> command runs the command which is equivalent to the phpunit command except it allows you to declare multiple test classes in a file:' . PHP_EOL .
-PHP_EOL .
-'  <info>testrunner ' . $this->getName() . ' ...</info>'
+'The <info>'.$this->getName().'</info> command runs the command which is equivalent to the phpunit command except it allows you to declare multiple test classes in a file:'.PHP_EOL.
+PHP_EOL.
+'  <info>testrunner '.$this->getName().' ...</info>'
         );
         $this->addOption('phpunit-help', null, InputOption::VALUE_NONE, 'Prints the usage information for the phpunit command.');
     }
@@ -79,10 +79,10 @@ PHP_EOL .
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!class_exists(Compiler::COMPILED_CONTAINER_NAMESPACE . '\\PHPUnitContainer')) {
+        if (!class_exists(Compiler::COMPILED_CONTAINER_NAMESPACE.'\\PHPUnitContainer')) {
             $output->writeln(
-'<error>Please run the following command before running the ' . $this->getName() . ' command:</error>' . PHP_EOL .
-PHP_EOL .
+'<error>Please run the following command before running the '.$this->getName().' command:</error>'.PHP_EOL.
+PHP_EOL.
 '  <info>testrunner compile</info>'
             );
 
@@ -119,8 +119,8 @@ PHP_EOL .
     }
 
     /**
-     * @param array $argv
-     * @param array $removingArgs
+     * @param  array $argv
+     * @param  array $removingArgs
      * @return array
      */
     protected function removeTestRunnerArguments(array $argv, array $removingArgs = array())

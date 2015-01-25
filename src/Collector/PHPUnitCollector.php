@@ -42,7 +42,6 @@ namespace Stagehand\TestRunner\Collector;
 
 use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;
 use Stagehand\TestRunner\TestSuite\PHPUnitGroupFilterTestSuite;
-use Stagehand\TestRunner\TestSuite\PHPUnitMethodFilterTestSuite;
 
 /**
  * A test collector for PHPUnit.
@@ -82,7 +81,9 @@ class PHPUnitCollector extends Collector
     public function collectTestCase($testCase)
     {
         $testClass = new \ReflectionClass($testCase);
-        if ($testClass->isAbstract()) return;
+        if ($testClass->isAbstract()) {
+            return;
+        }
 
         $suiteMethod = $this->findSuiteMethod($testClass);
         if (is_null($suiteMethod)) {
@@ -116,7 +117,7 @@ class PHPUnitCollector extends Collector
     /**
      * Creates the test suite object.
      *
-     * @param string $name
+     * @param  string                       $name
      * @return \PHPUnit_Framework_TestSuite
      */
     protected function createTestSuite($name)
@@ -125,7 +126,7 @@ class PHPUnitCollector extends Collector
     }
 
     /**
-     * @param \ReflectionClass $testClass
+     * @param  \ReflectionClass  $testClass
      * @return \ReflectionMethod
      * @since Method available since Release 3.0.3
      */
@@ -141,7 +142,7 @@ class PHPUnitCollector extends Collector
 
     /**
      * @param \PHPUnit_Framework_TestSuite $testSuite
-     * @param integer $filter
+     * @param integer                      $filter
      * @since Method available since Release 3.0.3
      */
     protected function filterTests(\PHPUnit_Framework_TestSuite $testSuite, $filter)
@@ -181,8 +182,8 @@ class PHPUnitCollector extends Collector
         $groupsProperty->setAccessible(true);
         $groups = $groupsProperty->getValue($testSuite);
 
-        $groups = array_map(function($tests) use ($filteredTests) {
-            return array_filter($tests, function($test) use ($filteredTests) {
+        $groups = array_map(function ($tests) use ($filteredTests) {
+            return array_filter($tests, function ($test) use ($filteredTests) {
                 return in_array($test, $filteredTests, true);
             });
         }, $groups);

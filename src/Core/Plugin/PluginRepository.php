@@ -66,7 +66,7 @@ class PluginRepository
     }
 
     /**
-     * @param string $pluginID
+     * @param  string                                            $pluginID
      * @return \Stagehand\TestRunner\Core\Plugin\PluginInterface
      */
     public static function findByPluginID($pluginID)
@@ -85,7 +85,7 @@ class PluginRepository
     private static function loadAllPlugins()
     {
         foreach (Finder::create()->name('/^.+Plugin\.php$/')->files()->in(__DIR__) as $file) { /* @var $file \SplFileInfo */
-            $pluginClass = new \ReflectionClass(__NAMESPACE__ . '\\' . $file->getBasename('.php'));
+            $pluginClass = new \ReflectionClass(__NAMESPACE__.'\\'.$file->getBasename('.php'));
             if (!$pluginClass->isInterface()
                 && !$pluginClass->isAbstract()
                 && $pluginClass->isSubclassOf('Stagehand\TestRunner\Core\Plugin\PluginInterface')) {

@@ -51,8 +51,8 @@ use Stagehand\ComponentFactory\ComponentAwareFactory;
 class CollectingTypeFactory extends ComponentAwareFactory
 {
     /**
-     * @param string $type
-     * @param array $requiredSuperTypes
+     * @param  string                                         $type
+     * @param  array                                          $requiredSuperTypes
      * @return \Stagehand\TestRunner\Collector\CollectingType
      */
     public function create($type = null, array $requiredSuperTypes = array())
@@ -60,6 +60,7 @@ class CollectingTypeFactory extends ComponentAwareFactory
         $collectingType = parent::create();
         $collectingType->setType($type);
         $collectingType->setRequiredSuperTypes($requiredSuperTypes);
+
         return $collectingType;
     }
 }

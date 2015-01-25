@@ -37,8 +37,6 @@
 
 namespace Stagehand\TestRunner\Util;
 
-use Stagehand\TestRunner\Util\LegacyProxy;
-
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>

@@ -47,7 +47,7 @@ namespace Stagehand\TestRunner\Process\ContinuousTesting;
 interface CommandLineOptionBuilderInterface
 {
     /**
-     * @param array $options
+     * @param  array $options
      * @return array
      */
     public function build(array $options);

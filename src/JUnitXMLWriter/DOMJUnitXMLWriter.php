@@ -63,7 +63,7 @@ class DOMJUnitXMLWriter implements JUnitXMLWriterInterface
     protected $utf8Converter;
 
     /**
-     * @param \Stagehand\TestRunner\Util\StreamWriterInterface $streamWriter
+     * @param \Stagehand\TestRunner\Util\StreamWriterInterface   $streamWriter
      * @param \Stagehand\TestRunner\JUnitXMLWriter\UTF8Converter $utf8Converter
      */
     public function __construct(StreamWriterInterface $streamWriter, UTF8Converter $utf8Converter)
@@ -219,7 +219,7 @@ class DOMJUnitXMLWriter implements JUnitXMLWriterInterface
             $error->setAttribute('type', $this->utf8Converter->convert($type));
         }
 
-        $this->getCurrentTestsuite()->{ 'increase' . $failureOrError . 'Count' }();
+        $this->getCurrentTestsuite()->{ 'increase'.$failureOrError.'Count' }();
     }
 
     protected function flush()

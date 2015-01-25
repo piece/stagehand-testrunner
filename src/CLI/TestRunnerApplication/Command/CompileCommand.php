@@ -58,9 +58,9 @@ class CompileCommand extends Command
         $this->setName('compile');
         $this->setDescription('Compiles the DIC for the production environment.');
         $this->setHelp(
-'The <info>compile</info> command compiles the dependency injection container for the production environment:' . PHP_EOL .
-PHP_EOL .
-'  <info>testrunner ' . $this->getName() . '</info>'
+'The <info>compile</info> command compiles the dependency injection container for the production environment:'.PHP_EOL.
+PHP_EOL.
+'  <info>testrunner '.$this->getName().'</info>'
         );
     }
 

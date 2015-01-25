@@ -49,7 +49,7 @@ use Stagehand\AlterationMonitor\AlterationMonitor;
 class AlterationMonitoring
 {
     /**
-     * @param array $monitoringDirectories
+     * @param array    $monitoringDirectories
      * @param callback $callback
      */
     public function monitor(array $monitoringDirectories, $callback)

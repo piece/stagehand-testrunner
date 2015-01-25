@@ -70,6 +70,7 @@ class CollectingType
                     return true;
                 }
             }
+
             return false;
         }
     }
