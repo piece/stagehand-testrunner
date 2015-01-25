@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2012-2013 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2012-2013, 2015 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2012-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012-2013, 2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.0
@@ -44,10 +44,11 @@ use Symfony\Component\DependencyInjection\Compiler\ResolveParameterPlaceHoldersP
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\DependencyInjection\Compiler\ReplaceDefinitionByPluginDefinitionPass;
 use Stagehand\TestRunner\DependencyInjection\Extension\GeneralExtension;
+use Stagehand\TestRunner\Util\ErrorReporting;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2012-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2012-2013, 2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.0
@@ -83,9 +84,11 @@ class Compiler
             ));
 
             $containerClass = $plugin->getPluginID() . 'Container';
-            $compiler = new \Stagehand\ComponentFactory\Compiler($containerBuilder, $containerClass, self::COMPILED_CONTAINER_NAMESPACE);
-            $containerSource = $compiler->compile();
-            file_put_contents(__DIR__ . '/../' . $containerClass . '.php', $containerSource);
+            ErrorReporting::invokeWith(error_reporting() & ~E_USER_DEPRECATED, function () use ($containerBuilder, $containerClass) {
+                $compiler = new \Stagehand\ComponentFactory\Compiler($containerBuilder, $containerClass, self::COMPILED_CONTAINER_NAMESPACE);
+                $containerSource = $compiler->compile();
+                file_put_contents(__DIR__ . '/../' . $containerClass . '.php', $containerSource);
+            });
         }
     }
 }
