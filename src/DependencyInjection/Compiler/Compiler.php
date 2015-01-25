@@ -85,7 +85,7 @@ class Compiler
 
             $containerClass = $plugin->getPluginID() . 'Container';
             ErrorReporting::invokeWith(error_reporting() & ~E_USER_DEPRECATED, function () use ($containerBuilder, $containerClass) {
-                $compiler = new \Stagehand\ComponentFactory\Compiler($containerBuilder, $containerClass, self::COMPILED_CONTAINER_NAMESPACE);
+                $compiler = new \Stagehand\ComponentFactory\Compiler($containerBuilder, $containerClass, Compiler::COMPILED_CONTAINER_NAMESPACE);
                 $containerSource = $compiler->compile();
                 file_put_contents(__DIR__ . '/../' . $containerClass . '.php', $containerSource);
             });
