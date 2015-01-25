@@ -40,6 +40,7 @@ namespace Stagehand\TestRunner\DependencyInjection\Compiler;
 use Stagehand\ComponentFactory\UnfreezableContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ResolveParameterPlaceHoldersPass;
+use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\DependencyInjection\Extension\GeneralExtension;
@@ -82,12 +83,20 @@ class Compiler
                     }
             ));
 
-            $containerClass = $plugin->getPluginID().'Container';
-            ErrorReporting::invokeWith(error_reporting() & ~E_USER_DEPRECATED, function () use ($containerBuilder, $containerClass) {
-                $compiler = new \Stagehand\ComponentFactory\Compiler($containerBuilder, $containerClass, Compiler::COMPILED_CONTAINER_NAMESPACE);
-                $containerSource = $compiler->compile();
-                file_put_contents(__DIR__.'/../'.$containerClass.'.php', $containerSource);
+            ErrorReporting::invokeWith(error_reporting() & ~E_USER_DEPRECATED, function () use ($containerBuilder) {
+                $containerBuilder->compile();
             });
+
+            $phpDumper = new PhpDumper($containerBuilder);
+            $containerClass = $plugin->getPluginID().'Container';
+            $containerClassSource = $phpDumper->dump(array('class' => $containerClass));
+            $containerClassSource = preg_replace(
+                '/^<\?php/',
+                '<?php'.PHP_EOL.'namespace '.Compiler::COMPILED_CONTAINER_NAMESPACE.';'.PHP_EOL,
+                $containerClassSource
+            );
+
+            file_put_contents(__DIR__.'/../'.$containerClass.'.php', $containerClassSource);
         }
     }
 }
