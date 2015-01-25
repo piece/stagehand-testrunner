@@ -196,7 +196,7 @@ class TestTargetRepository
      */
     public function shouldTreatFileAsTest($file)
     {
-        return (boolean)preg_match('/' . str_replace('/', '\/', $this->getFilePattern()) . '/', basename($file));
+        return (boolean)preg_match('/' . preg_quote($this->getFilePattern(), '/') . '/', basename($file));
     }
 
     /**
