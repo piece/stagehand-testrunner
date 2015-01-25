@@ -107,11 +107,18 @@ class PHPUnitRunner extends Runner
      */
     protected function createPrinter()
     {
-        if ($this->hasDetailedProgress()) {
-            $printer = new DetailedProgressPrinter(null, false, $this->terminal->shouldColor());
+        if (defined('PHPUnit_TextUI_ResultPrinter::COLOR_AUTO') && defined('PHPUnit_TextUI_ResultPrinter::COLOR_NEVER')) {
+            $shouldColor = $this->terminal->shouldColor() ? \PHPUnit_TextUI_ResultPrinter::COLOR_AUTO : \PHPUnit_TextUI_ResultPrinter::COLOR_NEVER;
         } else {
-            $printer = new ProgressPrinter(null, false, $this->terminal->shouldColor());
+            $shouldColor = $this->terminal->shouldColor();
         }
+
+        if ($this->hasDetailedProgress()) {
+            $printer = new DetailedProgressPrinter(null, false, $shouldColor);
+        } else {
+            $printer = new ProgressPrinter(null, false, $shouldColor);
+        }
+
         $printer->setRunner($this);
 
         return $printer;
