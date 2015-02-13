@@ -59,6 +59,9 @@ class Notifier
     const TITLE_PASSED = 'Test Passed';
     const TITLE_FAILED = 'Test Failed';
     const TITLE_STOPPED = 'Test Stopped';
+    const SOUND_PASSED = 'Hero';
+    const SOUND_FAILED = 'Sosumi';
+    const SOUND_STOPPED = 'Ping';
 
     public static $ICON_PASSED;
     public static $ICON_FAILED;
@@ -111,12 +114,15 @@ class Notifier
         if ($notification->isPassed()) {
             $title = self::TITLE_PASSED;
             $icon = self::$ICON_PASSED;
+            $sound = self::SOUND_PASSED;
         } elseif ($notification->isFailed()) {
             $title = self::TITLE_FAILED;
             $icon = self::$ICON_FAILED;
+            $sound = self::SOUND_FAILED;
         } elseif ($notification->isStopped()) {
             $title = self::TITLE_STOPPED;
             $icon = self::$ICON_STOPPED;
+            $sound = self::SOUND_STOPPED;
         }
 
         if ($this->os->isWin()) {
@@ -129,6 +135,13 @@ class Notifier
                 escapeshellarg(self::TITLE_STOPPED),
                 escapeshellarg($title),
                 escapeshellarg($notification->getMessage())
+            );
+        } elseif ($this->os->isAfterMarvericks() && !$this->hasGrowl('osascript')) {
+            return sprintf(
+                'osascript -e "display notification \"%s\" subtitle \"%s\" sound name \"%s\""',
+                escapeshellarg($notification->getMessage()),
+                escapeshellcmd($title),
+                escapeshellcmd($sound)
             );
         } elseif ($this->os->isDarwin()) {
             return sprintf(
@@ -158,6 +171,16 @@ class Notifier
             $this->legacyProxy->system($command, $exitStatus);
         }
     }
+
+    /**
+     * @return boolean
+     */
+    protected function hasGrowl()
+    {
+        $command = "which growlnotify > /dev/null 2>&1";
+        return $this->legacyProxy->passthru($command) === 0;
+    }
+
 }
 
 /*
