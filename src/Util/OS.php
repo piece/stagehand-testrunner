@@ -78,6 +78,14 @@ class OS
     /**
      * @return boolean
      */
+    public function isAfterMarvericks()
+    {
+        return $this->isDarwin() && php_uname('r') >= 13;
+    }
+
+    /**
+     * @return boolean
+     */
     public function isLinux()
     {
         return strtolower(substr($this->getPHPOS(), 0, strlen('linux'))) == 'linux';
