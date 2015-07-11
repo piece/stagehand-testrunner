@@ -46,7 +46,7 @@ composer require piece/stagehand-testrunner "4.0.*"
 Development version:
 
 ```
-composer require phpmentors/domain-kata "~4.1@dev"
+composer require piece/stagehand-testrunner "~4.1@dev"
 ```
 
 Second, compile `Stagehand_TestRunner` for your environment as the following:
