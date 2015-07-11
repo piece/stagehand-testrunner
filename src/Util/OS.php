@@ -5,6 +5,7 @@
  * PHP version 5.3
  *
  * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ *               2015 evalphobia <evalphobia@gmail.com>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +31,7 @@
  *
  * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2015 evalphobia <evalphobia@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 3.0.1
@@ -40,6 +42,7 @@ namespace Stagehand\TestRunner\Util;
 /**
  * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2015 evalphobia <evalphobia@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 3.0.1
