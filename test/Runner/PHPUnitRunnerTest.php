@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2014 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2015 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2014 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
@@ -42,7 +42,7 @@ use Stagehand\TestRunner\Core\TestTargetRepository;
 
 /**
  * @package    Stagehand_TestRunner
- * @copyright  2009-2014 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      Class available since Release 2.10.0
@@ -299,16 +299,12 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     public function dataForNotify()
     {
         return array(
-            array('Stagehand_TestRunner_PHPUnitPassTest', static::$RESULT_PASSED, static::$COLORS, 'OK (3 tests, 4 assertions)'),
-            array('Stagehand_TestRunner_PHPUnitPassTest', static::$RESULT_PASSED, static::$NOT_COLOR, 'OK (3 tests, 4 assertions)'),
-            array('Stagehand_TestRunner_PHPUnitFailureTest', static::$RESULT_NOT_PASSED, static::$COLORS, 'FAILURES! Tests: 1, Assertions: 1, Failures: 1.'),
-            array('Stagehand_TestRunner_PHPUnitFailureTest', static::$RESULT_NOT_PASSED, static::$NOT_COLOR, 'FAILURES! Tests: 1, Assertions: 1, Failures: 1.'),
-            array('Stagehand_TestRunner_PHPUnitIncompleteTest', static::$RESULT_NOT_PASSED, static::$COLORS,
-                  version_compare(\PHPUnit_Runner_Version::id(), '4.0.0', '>=') ? 'OK, but incomplete, skipped, or risky tests! Tests: 2, Assertions: 0, Incomplete: 2.' : 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Incomplete: 2.'
-            ),
-            array('Stagehand_TestRunner_PHPUnitIncompleteTest', static::$RESULT_NOT_PASSED, static::$NOT_COLOR,
-                  version_compare(\PHPUnit_Runner_Version::id(), '4.0.0', '>=') ? 'OK, but incomplete, skipped, or risky tests! Tests: 2, Assertions: 0, Incomplete: 2.' : 'OK, but incomplete or skipped tests! Tests: 2, Assertions: 0, Incomplete: 2.'
-            ),
+            array('Stagehand_TestRunner_PHPUnitPassTest', static::$RESULT_PASSED, static::$COLORS, '/OK \(\d+ tests, \d+ assertions\)/'),
+            array('Stagehand_TestRunner_PHPUnitPassTest', static::$RESULT_PASSED, static::$NOT_COLOR, '/OK \(\d+ tests, \d+ assertions\)/'),
+            array('Stagehand_TestRunner_PHPUnitFailureTest', static::$RESULT_NOT_PASSED, static::$COLORS, '/FAILURES!/'),
+            array('Stagehand_TestRunner_PHPUnitFailureTest', static::$RESULT_NOT_PASSED, static::$NOT_COLOR, '/FAILURES!/'),
+            array('Stagehand_TestRunner_PHPUnitIncompleteTest', static::$RESULT_NOT_PASSED, static::$COLORS, '/OK, but incomplete,.*!/'),
+            array('Stagehand_TestRunner_PHPUnitIncompleteTest', static::$RESULT_NOT_PASSED, static::$NOT_COLOR, '/OK, but incomplete,.*!/'),
         );
     }
 
