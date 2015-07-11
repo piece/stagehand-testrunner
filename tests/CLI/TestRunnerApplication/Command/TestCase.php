@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,26 +28,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
-
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
@@ -59,7 +59,7 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
     {
         parent::setUp();
 
-        $containerClass = 'Stagehand\TestRunner\DependencyInjection\\' . $this->getPluginID() . 'Container';
+        $containerClass = 'Stagehand\TestRunner\DependencyInjection\\'.$this->getPluginID().'Container';
         $this->applicationContext->getComponentFactory()->setContainer(new $containerClass());
     }
 
@@ -83,7 +83,7 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
                 },
                 function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                     $test->assertEquals('^test_', $applicationContext->createComponent('test_target_repository')->getFilePattern());
-                }
+                },
             ),
             array(
                 array('--notify'),
@@ -91,7 +91,7 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
                 },
                 function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
                     $test->assertTrue($applicationContext->createComponent('runner')->shouldNotify());
-                }
+                },
             ),
             array(
                 array('--config=example.yml'),
@@ -99,8 +99,8 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
                     \Phake::when($transformation)->setConfigurationFile($test->anything())->thenReturn(null);
                 },
                 function (\PHPUnit_Framework_TestCase $test, ApplicationContext $applicationContext, Transformation $transformation) {
-                    \Phake::verify($transformation)->setConfigurationFile($applicationContext->getEnvironment()->getWorkingDirectoryAtStartup() . DIRECTORY_SEPARATOR . 'example.yml');
-                }
+                    \Phake::verify($transformation)->setConfigurationFile($applicationContext->getEnvironment()->getWorkingDirectoryAtStartup().DIRECTORY_SEPARATOR.'example.yml');
+                },
             ),
         );
     }
@@ -121,7 +121,7 @@ abstract class TestCase extends \Stagehand\TestRunner\Test\TestCase
             $this->applicationContext->getComponentFactory()->getContainer(),
             $this->getPlugin()
         );
-        $command = \Phake::partialMock('Stagehand\TestRunner\CLI\TestRunnerApplication\Command\\' . $this->getPluginID() . 'Command');
+        $command = \Phake::partialMock('Stagehand\TestRunner\CLI\TestRunnerApplication\Command\\'.$this->getPluginID().'Command');
         \Phake::when($command)->createContainer($this->anything())
             ->thenReturn($this->applicationContext->getComponentFactory()->getContainer());
         \Phake::when($command)->createTransformation($this->anything())

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2012, 2015 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,20 +28,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2012, 2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\Runner;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2012, 2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 abstract class CompatibilityTestCase extends TestCase
@@ -54,6 +55,7 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForTestMethods
+     *
      * @param string $firstTestClass
      * @param string $secondTestClass
      * @param string $specyfyingTestMethod
@@ -82,6 +84,7 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForTestClasses
+     *
      * @param string $firstTestClass
      * @param string $secondTestClass
      * @param string $specifyingTestClass
@@ -111,6 +114,7 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForStopOnFailure
+     *
      * @param string $firstTestClass
      * @param string $secondTestClass
      * @param string $failingTestMethod
@@ -139,10 +143,12 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForNotify
+     *
      * @param string $testClass
-     * @param boolean $testResult
-     * @param boolean $colors
+     * @param bool   $testResult
+     * @param bool   $colors
      * @param string $description
+     *
      * @link http://redmine.piece-framework.com/issues/192
      */
     public function createsANotification($testClass, $testResult, $colors, $description)
@@ -174,8 +180,10 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForMultipleFailures
+     *
      * @param string $testClass
      * @param string $failingMethod
+     *
      * @link http://redmine.piece-framework.com/issues/219
      */
     public function reportsOnlyTheFirstFailureInASingleTestToJunitXml($testClass, $failingMethod)
@@ -187,7 +195,7 @@ abstract class CompatibilityTestCase extends TestCase
 
         $junitXML = new \DOMDocument();
         $junitXML->load($this->junitXMLFile);
-        $this->assertTrue($junitXML->relaxNGValidate(__DIR__ . '/../../src/Resources/config/schema/junit-xml-dom-2.10.0.rng'));
+        $this->assertTrue($junitXML->relaxNGValidate(__DIR__.'/../../src/Resources/config/schema/junit-xml-dom-2.10.0.rng'));
 
         $this->assertTestCaseCount(1);
         $this->assertTestCaseExists($this->getTestMethodName($failingMethod), $testClass);

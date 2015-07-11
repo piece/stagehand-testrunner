@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,23 +28,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\CLI;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 class Terminal
@@ -60,7 +61,7 @@ class Terminal
     protected $output;
 
     /**
-     * @param boolean $color
+     * @param bool $color
      */
     public function setColor($color)
     {
@@ -68,7 +69,7 @@ class Terminal
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function shouldColor()
     {

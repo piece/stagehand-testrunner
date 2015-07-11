@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2012 tsyk goto <ngyuki.ts@gmail.com>,
@@ -29,23 +29,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2012 tsyk goto <ngyuki.ts@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.17.0
  */
-
 namespace Stagehand\TestRunner\TestSuite;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2012 tsyk goto <ngyuki.ts@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.17.0
  */
@@ -66,6 +67,7 @@ class PHPUnitGroupFilterTestSuite extends \PHPUnit_Framework_TestSuite
 
     /**
      * @param array $groupConfiguration
+     *
      * @since Method available since Release 3.4.0
      */
     protected function filterGroup(array $groupConfiguration)

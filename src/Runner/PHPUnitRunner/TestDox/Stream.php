@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2008-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,23 +28,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2008-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.php.net/manual/ja/function.stream-wrapper-register.php
  * @since      File available since Release 2.4.0
  */
-
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox;
 
 /**
  * A stream wrapper to print TestDox documentation.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2008-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.php.net/manual/ja/function.stream-wrapper-register.php
  * @since      Class available since Release 2.4.0
  */
@@ -56,11 +57,12 @@ class Stream
     /**
      * The implementation of stream_open().
      *
-     * @param  string  $path
-     * @param  string  $mode
-     * @param  integer $options
-     * @param  string  &$opened_path
-     * @return boolean
+     * @param string $path
+     * @param string $mode
+     * @param int    $options
+     * @param string &$opened_path
+     *
+     * @return bool
      */
     public function stream_open($path, $mode, $options, &$opened_path)
     {
@@ -75,11 +77,12 @@ class Stream
     /**
      * The implementation of stream_close().
      *
-     * @param  string  $path
-     * @param  string  $mode
-     * @param  integer $options
-     * @param  string  $opened_path
-     * @return boolean
+     * @param string $path
+     * @param string $mode
+     * @param int    $options
+     * @param string $opened_path
+     *
+     * @return bool
      */
     public function stream_close()
     {
@@ -88,7 +91,8 @@ class Stream
     /**
      * The implementation of stream_read().
      *
-     * @param  integer $count
+     * @param int $count
+     *
      * @return string
      */
     public function stream_read($count)
@@ -102,8 +106,9 @@ class Stream
     /**
      * The implementation of stream_write().
      *
-     * @param  string  $data
-     * @return integer
+     * @param string $data
+     *
+     * @return int
      */
     public function stream_write($data)
     {
@@ -116,7 +121,7 @@ class Stream
     /**
      * The implementation of stream_eof().
      *
-     * @return boolean
+     * @return bool
      */
     public function stream_eof()
     {
@@ -126,7 +131,7 @@ class Stream
     /**
      * The implementation of stream_tell().
      *
-     * @return integer
+     * @return int
      */
     public function stream_tell()
     {
@@ -136,9 +141,10 @@ class Stream
     /**
      * The implementation of stream_seek().
      *
-     * @param  integer $offset
-     * @param  integer $whence
-     * @return boolean
+     * @param int $offset
+     * @param int $whence
+     *
+     * @return bool
      */
     public function stream_seek($offset, $whence)
     {
@@ -181,6 +187,7 @@ class Stream
 
     /**
      * @return string
+     *
      * @since Method available since Release 2.10.0
      */
     protected function getTestDox()
@@ -190,6 +197,7 @@ class Stream
 
     /**
      * @param string $testDox
+     *
      * @since Method available since Release 2.10.0
      */
     protected function appendTestDox($testDox)

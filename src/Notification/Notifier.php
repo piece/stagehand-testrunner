@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
@@ -30,15 +30,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @copyright  2015 evalphobia <evalphobia@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.18.0
  */
-
 namespace Stagehand\TestRunner\Notification;
 
 use Stagehand\TestRunner\Util\LegacyProxy;
@@ -49,12 +49,13 @@ Notifier::$ICON_FAILED = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'R
 Notifier::$ICON_STOPPED = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'icons'.DIRECTORY_SEPARATOR.'stopped.png';
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @copyright  2015 evalphobia <evalphobia@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.18.0
  */
 class Notifier
@@ -72,18 +73,21 @@ class Notifier
 
     /**
      * @var \Stagehand\TestRunner\Util\LegacyProxy
+     *
      * @since Property available since Release 3.0.0
      */
     protected $legacyProxy;
 
     /**
      * @var \Stagehand\TestRunner\Util\OS
+     *
      * @since Property available since Release 3.0.1
      */
     protected $os;
 
     /**
      * @param \Stagehand\TestRunner\Util\OS $os
+     *
      * @since Method available since Release 3.0.1
      */
     public function setOS(OS $os)
@@ -101,6 +105,7 @@ class Notifier
 
     /**
      * @param \Stagehand\TestRunner\Util\LegacyProxy $legacyProxy
+     *
      * @since Method available since Release 3.0.0
      */
     public function setLegacyProxy(LegacyProxy $legacyProxy)
@@ -109,7 +114,8 @@ class Notifier
     }
 
     /**
-     * @param  \Stagehand\TestRunner\Notification\Notification $notification
+     * @param \Stagehand\TestRunner\Notification\Notification $notification
+     *
      * @return string
      */
     protected function buildNotifyCommand(Notification $notification)
@@ -176,15 +182,16 @@ class Notifier
     }
 
     /**
-     * @return boolean
+     * @return bool
+     *
      * @since Method available since Release 4.1.0
      */
     protected function hasGrowl()
     {
-        $command = "which growlnotify > /dev/null 2>&1";
+        $command = 'which growlnotify > /dev/null 2>&1';
+
         return $this->legacyProxy->passthru($command) === 0;
     }
-
 }
 
 /*

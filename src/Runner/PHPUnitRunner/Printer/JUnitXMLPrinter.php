@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,14 +28,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.10.0
  */
-
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
 use Stagehand\TestRunner\Core\TestTargetRepository;
@@ -45,10 +45,11 @@ use Stagehand\TestRunner\Util\FailureTrace;
 /**
  * A result printer for PHPUnit.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.10.0
  */
@@ -61,12 +62,14 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
 
     /**
      * @var \Stagehand\TestRunner\Core\TestTargetRepository
+     *
      * @since Property available since Release 3.0.0
      */
     protected $testTargetRepository;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @since Property available since Release 4.0.0
      */
     protected $rootTestSuiteWrote = false;
@@ -75,6 +78,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
      * @param mixed                                                        $out
      * @param \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface $junitXMLWriter
      * @param \Stagehand\TestRunner\Core\TestTargetRepository              $testTargetRepository
+     *
      * @since Method available since Release 3.3.0
      */
     public function __construct($out, JUnitXMLWriterInterface $junitXMLWriter, TestTargetRepository $testTargetRepository)
@@ -204,6 +208,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
      * @param \PHPUnit_Framework_Test $test
      * @param \Exception              $e
      * @param float                   $time
+     *
      * @since Method available since Release 2.17.0
      */
     protected function writeError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
@@ -215,6 +220,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
      * @param \PHPUnit_Framework_Test $test
      * @param \Exception              $e
      * @param float                   $time
+     *
      * @since Method available since Release 2.17.0
      */
     protected function writeFailure(\PHPUnit_Framework_Test $test, \Exception $e, $time)

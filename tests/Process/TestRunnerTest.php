@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2014 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
@@ -29,25 +29,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.18.0
  */
-
 namespace Stagehand\TestRunner\Process;
 
 use Stagehand\TestRunner\Notification\Notification;
 use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.18.0
  */
 class TestRunnerTest extends PHPUnitComponentAwareTestCase
@@ -58,7 +59,8 @@ class TestRunnerTest extends PHPUnitComponentAwareTestCase
     /**
      * @test
      * @dataProvider notificationDecisions
-     * @param boolean $notify
+     *
+     * @param bool $notify
      */
     public function runsATest($notify)
     {
@@ -114,6 +116,7 @@ class TestRunnerTest extends PHPUnitComponentAwareTestCase
 
     /**
      * @test
+     *
      * @since Method available since Release 4.0.0
      */
     public function raisesAnExceptionWhenTheNotificationObjectIsNotSet()
@@ -140,6 +143,7 @@ class TestRunnerTest extends PHPUnitComponentAwareTestCase
 
     /**
      * @return array
+     *
      * @since Method available since Release 4.0.0
      */
     public function emptyNotificationMessages()
@@ -155,6 +159,7 @@ class TestRunnerTest extends PHPUnitComponentAwareTestCase
     /**
      * @param string $notificationMessage
      * @param string $result
+     *
      * @since Method available since Release 4.0.0
      *
      * @test

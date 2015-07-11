@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2007-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,14 +28,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2007-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.1.0
  */
-
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;
@@ -50,10 +50,11 @@ use Stagehand\TestRunner\Runner\PHPUnitRunner\TestRunner;
 /**
  * A test runner for PHPUnit.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2007-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
@@ -61,6 +62,7 @@ class PHPUnitRunner extends Runner
 {
     /**
      * @var \Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory
+     *
      * @since Property available since Release 3.6.0
      */
     protected $phpunitConfigurationFactory;
@@ -83,6 +85,7 @@ class PHPUnitRunner extends Runner
 
     /**
      * @param \Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory $phpunitConfigurationFactory
+     *
      * @since Method available since Release 3.6.0
      */
     public function setPHPUnitConfigurationFactory(PHPUnitConfigurationFactory $phpunitConfigurationFactory)
@@ -92,6 +95,7 @@ class PHPUnitRunner extends Runner
 
     /**
      * @return \PHPUnit_Util_TestDox_NamePrettifier
+     *
      * @since Method available since Release 2.7.0
      */
     protected function prettifier()
@@ -101,6 +105,7 @@ class PHPUnitRunner extends Runner
 
     /**
      * @return \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter
+     *
      * @since Method available since Release 3.3.0
      */
     protected function createPrinter()
@@ -123,9 +128,11 @@ class PHPUnitRunner extends Runner
     }
 
     /**
-     * @param  \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter $printer
-     * @param  \PHPUnit_Framework_TestResult                                    $testResult
+     * @param \Stagehand\TestRunner\Runner\PHPUnitRunner\Printer\ResultPrinter $printer
+     * @param \PHPUnit_Framework_TestResult                                    $testResult
+     *
      * @return array
+     *
      * @since Method available since Release 3.3.0
      */
     protected function createArguments(ResultPrinter $printer, \PHPUnit_Framework_TestResult $testResult)

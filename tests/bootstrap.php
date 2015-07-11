@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2009-2012, 2014-2015 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,15 +28,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2009-2012, 2014-2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.10.0
  */
-
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../bootstrap.php';
+require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../bootstrap.php';
 
 \Phake::setClient(\Phake::CLIENT_PHPUNIT);
 \Stagehand\TestRunner\Util\ErrorReporting::enableErrorToException();

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2007-2014 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,28 +28,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2007-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.1.0
  */
-
 namespace Stagehand\TestRunner\Collector;
-
-use Symfony\Component\Finder\Finder;
 
 use Stagehand\TestRunner\Core\Environment;
 use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Util\FileSystem;
+use Symfony\Component\Finder\Finder;
 
 /**
  * The base class for test collectors.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2007-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.1.0
  */
 abstract class Collector
@@ -57,25 +57,29 @@ abstract class Collector
     protected $suite;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @since Property available since Release 3.3.0
      */
     protected $recursive;
 
     /**
      * @var \Stagehand\TestRunner\Core\TestTargetRepository
+     *
      * @since Property available since Release 3.0.0
      */
     protected $testTargetRepository;
 
     /**
      * @var \Stagehand\TestRunner\Collector\CollectingTypeFactory
+     *
      * @since Property available since Release 3.0.0
      */
     protected $collectingTypeFactory;
 
     /**
      * @var \Stagehand\TestRunner\Core\Environment
+     *
      * @since Property available since Release 3.6.0
      */
     protected $environment;
@@ -92,7 +96,8 @@ abstract class Collector
     }
 
     /**
-     * @param boolean $recursive
+     * @param bool $recursive
+     *
      * @since Method available since Release 3.3.0
      */
     public function setRecursive($recursive)
@@ -104,6 +109,7 @@ abstract class Collector
      * Collects tests.
      *
      * @return mixed
+     *
      * @throws \UnexpectedValueException
      */
     public function collect()
@@ -136,12 +142,14 @@ abstract class Collector
 
     /**
      * @param string $testCase
+     *
      * @since Method available since Release 2.10.0
      */
     abstract public function collectTestCase($testCase);
 
     /**
      * @param \Stagehand\TestRunner\Collector\CollectingTypeFactory $collectingTypeFactory
+     *
      * @since Method available since Release 3.0.0
      */
     public function setCollectingTypeFactory(CollectingTypeFactory $collectingTypeFactory)
@@ -151,6 +159,7 @@ abstract class Collector
 
     /**
      * @param \Stagehand\TestRunner\Core\Environment $environment
+     *
      * @since Method available since Release 3.6.0
      */
     public function setEnvironment(Environment $environment)
@@ -161,7 +170,8 @@ abstract class Collector
     /**
      * Creates the test suite object.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return mixed
      */
     abstract protected function createTestSuite($name);
@@ -189,7 +199,8 @@ abstract class Collector
     }
 
     /**
-     * @return boolean
+     * @return bool
+     *
      * @since Method available since Release 3.3.0
      */
     public function isRecursive()
@@ -198,8 +209,10 @@ abstract class Collector
     }
 
     /**
-     * @param  string  $file
-     * @return boolean
+     * @param string $file
+     *
+     * @return bool
+     *
      * @since Method available since Release 2.14.0
      */
     protected function findNewClasses($file)

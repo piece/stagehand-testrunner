@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,28 +28,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\Core;
 
 use Stagehand\TestRunner\Core\Plugin\PluginInterface;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 class TestTargetRepository
 {
     /**
      * @var \Stagehand\TestRunner\Core\Plugin\PluginInterface
+     *
      * @since Property available since Release 3.6.0
      */
     protected $plugin;
@@ -79,6 +81,7 @@ class TestTargetRepository
 
     /**
      * @param \Stagehand\TestRunner\Core\Plugin\PluginInterface $plugin
+     *
      * @since Method available since Release 3.6.0
      */
     public function __construct(PluginInterface $plugin)
@@ -119,7 +122,7 @@ class TestTargetRepository
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function testsOnlySpecifiedMethods()
     {
@@ -135,7 +138,7 @@ class TestTargetRepository
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function testsOnlySpecifiedClasses()
     {
@@ -143,9 +146,10 @@ class TestTargetRepository
     }
 
     /**
-     * @param  string  $class
-     * @param  string  $method
-     * @return boolean
+     * @param string $class
+     * @param string $method
+     *
+     * @return bool
      */
     public function shouldTreatElementAsTest($class, $method = null)
     {
@@ -183,7 +187,7 @@ class TestTargetRepository
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isDefaultFilePattern()
     {
@@ -191,8 +195,9 @@ class TestTargetRepository
     }
 
     /**
-     * @param  string  $file
-     * @return boolean
+     * @param string $file
+     *
+     * @return bool
      */
     public function shouldTreatFileAsTest($file)
     {

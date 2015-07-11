@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,22 +28,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\Runner\JUnitXMLWriting;
 
 use Stagehand\TestRunner\Runner\TestCase;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 abstract class CompatibilityTestCase extends TestCase
@@ -62,9 +63,10 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForJUnitXML
+     *
      * @param string $testClass
-     * @param array $testMethods
-     * @param integer $result
+     * @param array  $testMethods
+     * @param int    $result
      */
     public function logsTestResults($testClass, array $testMethods, $result)
     {
@@ -105,15 +107,16 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForJUnitXML
+     *
      * @param string $testClass
-     * @param array $testMethods
-     * @param integer $result
+     * @param array  $testMethods
+     * @param int    $result
      */
     public function logsTestResultsInRealtime($testClass, array $testMethods, $result)
     {
         $this->applicationContext->setComponentClass(
-            $this->getPluginID() . '.runner',
-            'Stagehand\TestRunner\Runner\JUnitXMLWriting\Streaming' . $this->getPluginID() . 'Runner'
+            $this->getPluginID().'.runner',
+            'Stagehand\TestRunner\Runner\JUnitXMLWriting\Streaming'.$this->getPluginID().'Runner'
         );
         $this->createRunner()->setJUnitXMLRealtime(true);
         $this->createCollector()->collectTestCase($testClass);
@@ -122,7 +125,7 @@ abstract class CompatibilityTestCase extends TestCase
 
         $streamContents = $this->createRunner()->getJUnitXMLStreamRecorder()->getStreamContents();
         $this->assertThat(count($streamContents), $this->greaterThan(2));
-        $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL . '<testsuites>', $streamContents[0]);
+        $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL.'<testsuites>', $streamContents[0]);
         $this->assertEquals('</testsuites>', $streamContents[ count($streamContents) - 1 ]);
 
         $junitXML = new \DOMDocument();
@@ -175,6 +178,7 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForTestMethods
+     *
      * @param string $testClass
      * @param string $testMethod
      */
@@ -203,7 +207,8 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForTestClasses
-     * @param array $collectingTestClasses
+     *
+     * @param array  $collectingTestClasses
      * @param string $testClass
      */
     public function countsTheNumberOfTestsWithTestClassesInRealtime(array $collectingTestClasses, $testClass)
@@ -231,8 +236,10 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForInheritedTestMethods
+     *
      * @param string $testClass
      * @param string $testMethod
+     *
      * @link http://redmine.piece-framework.com/issues/261
      */
     public function logsTheClassAndFileWhereTheTestCaseHasBeenDeclared($testClass, $testMethod)
@@ -262,8 +269,10 @@ abstract class CompatibilityTestCase extends TestCase
     /**
      * @test
      * @dataProvider dataForFailuresInInheritedTestMethod
-     * @param string  $testClass
-     * @param string  $testMethod
+     *
+     * @param string $testClass
+     * @param string $testMethod
+     *
      * @link http://redmine.piece-framework.com/issues/261
      */
     public function logsTheFileAndLineWhereTheFailureOrErrorHasBeenOccurredInRealtime($testClass, $testMethod)
@@ -293,10 +302,10 @@ abstract class CompatibilityTestCase extends TestCase
     }
 
     /**
-     * @param string $testClass
-     * @param array $testMethods
+     * @param string   $testClass
+     * @param array    $testMethods
      * @param \DOMNode $testSuite
-     * @param boolean $inRealtime
+     * @param bool     $inRealtime
      */
     protected function verifyPass(\ReflectionClass $testClass, array $testMethods, \DOMNode $testSuite, $inRealtime)
     {
@@ -304,10 +313,10 @@ abstract class CompatibilityTestCase extends TestCase
     }
 
     /**
-     * @param string $testClass
-     * @param array $testMethods
+     * @param string   $testClass
+     * @param array    $testMethods
      * @param \DOMNode $testSuite
-     * @param boolean $inRealtime
+     * @param bool     $inRealtime
      */
     protected function verifyFailure(\ReflectionClass $testClass, array $testMethods, \DOMNode $testSuite, $inRealtime)
     {
@@ -315,10 +324,10 @@ abstract class CompatibilityTestCase extends TestCase
     }
 
     /**
-     * @param string $testClass
-     * @param array $testMethods
+     * @param string   $testClass
+     * @param array    $testMethods
      * @param \DOMNode $testSuite
-     * @param boolean $inRealtime
+     * @param bool     $inRealtime
      */
     protected function verifyError(\ReflectionClass $testClass, array $testMethods, \DOMNode $testSuite, $inRealtime)
     {
@@ -326,11 +335,11 @@ abstract class CompatibilityTestCase extends TestCase
     }
 
     /**
-     * @param string $testClass
-     * @param array $testMethods
+     * @param string   $testClass
+     * @param array    $testMethods
      * @param \DOMNode $testSuite
-     * @param boolean $inRealtime
-     * @param integer $result
+     * @param bool     $inRealtime
+     * @param int      $result
      */
     protected function verifyTestSuite(\ReflectionClass $testClass, array $testMethods, \DOMNode $testSuite, $inRealtime, $result)
     {
@@ -367,11 +376,11 @@ abstract class CompatibilityTestCase extends TestCase
     }
 
     /**
-     * @param \ReflectionClass $testClass
+     * @param \ReflectionClass  $testClass
      * @param \ReflectionMethod $testMethod
-     * @param \DOMNode $testSuite
-     * @param boolean $inRealtime
-     * @param integer $result
+     * @param \DOMNode          $testSuite
+     * @param bool              $inRealtime
+     * @param int               $result
      */
     protected function verifyTestCase(\ReflectionClass $testClass, \ReflectionMethod $testMethod, \DOMNode $testCase, $inRealtime, $result)
     {
@@ -403,7 +412,8 @@ abstract class CompatibilityTestCase extends TestCase
 
     /**
      * @param \ReflectionClass $testClass
-     * @param \DOMNode $testSuite
+     * @param \DOMNode         $testSuite
+     *
      * @link http://piece-framework.com/issues/415
      * @since Method available since Release 3.1.0
      */
@@ -415,7 +425,8 @@ abstract class CompatibilityTestCase extends TestCase
 
     /**
      * @param \ReflectionMethod $testMethod
-     * @param \DOMNode $testCase
+     * @param \DOMNode          $testCase
+     *
      * @link http://piece-framework.com/issues/415
      * @since Method available since Release 3.1.0
      */
@@ -426,9 +437,9 @@ abstract class CompatibilityTestCase extends TestCase
     }
 
     /**
-     * @param \ReflectionClass $testClass
+     * @param \ReflectionClass  $testClass
      * @param \ReflectionMethod $testMethod
-     * @param \DOMNode $failureOrError
+     * @param \DOMNode          $failureOrError
      */
     protected function verifyExtendedFailureElements(\ReflectionClass $testClass, \ReflectionMethod $testMethod, \DOMNode $failureOrError)
     {
@@ -443,13 +454,14 @@ abstract class CompatibilityTestCase extends TestCase
     }
 
     /**
-     * @param boolean $inRealtime
+     * @param bool $inRealtime
+     *
      * @return string
      */
     protected function getSchemaFile($inRealtime)
     {
-        return __DIR__ .
-            '/../../../src/Resources/config/schema/' .
+        return __DIR__.
+            '/../../../src/Resources/config/schema/'.
             ($inRealtime ? 'junit-xml-stream-3.1.0.rng' : 'junit-xml-dom-2.10.0.rng');
     }
 }

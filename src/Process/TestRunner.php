@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2010-2014 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
@@ -29,14 +29,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2010-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.14.0
  */
-
 namespace Stagehand\TestRunner\Process;
 
 use Stagehand\TestRunner\Collector\Collector;
@@ -47,41 +47,47 @@ use Stagehand\TestRunner\Runner\Runner;
 use Stagehand\TestRunner\Util\OutputBuffering;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2010-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.14.0
  */
 class TestRunner implements TestRunnerInterface
 {
     /**
      * @var \Stagehand\TestRunner\Util\OutputBuffering
+     *
      * @since Property available since Release 3.0.0
      */
     protected $outputBuffering;
 
     /**
      * @var \Stagehand\TestRunner\Collector\Collector
+     *
      * @since Property available since Release 3.6.0
      */
     protected $collector;
 
     /**
      * @var \Stagehand\TestRunner\Runner\Runner
+     *
      * @since Property available since Release 3.6.0
      */
     protected $runner;
 
     /**
      * @var \Stagehand\TestRunner\Notification\Notifier
+     *
      * @since Property available since Release 3.6.0
      */
     protected $notifier;
 
     /**
      * @param \Stagehand\TestRunner\Preparer\Preparer $preparer
+     *
      * @since Method available since Release 3.6.0
      */
     public function __construct(Preparer $preparer)
@@ -110,6 +116,7 @@ class TestRunner implements TestRunnerInterface
 
     /**
      * @param \Stagehand\TestRunner\Util\OutputBuffering $outputBuffering
+     *
      * @since Method available since Release 3.0.0
      */
     public function setOutputBuffering(OutputBuffering $outputBuffering)
@@ -119,6 +126,7 @@ class TestRunner implements TestRunnerInterface
 
     /**
      * @param \Stagehand\TestRunner\Collector\Collector $collector
+     *
      * @since Method available since Release 3.6.0
      */
     public function setCollector(Collector $collector)
@@ -128,6 +136,7 @@ class TestRunner implements TestRunnerInterface
 
     /**
      * @param \Stagehand\TestRunner\Runner\Runner $runner
+     *
      * @since Method available since Release 3.6.0
      */
     public function setRunner(Runner $runner)
@@ -137,6 +146,7 @@ class TestRunner implements TestRunnerInterface
 
     /**
      * @param \Stagehand\TestRunner\Notification\Notifier $notifier
+     *
      * @since Method available since Release 3.6.0
      */
     public function setNotifier(Notifier $notifier)
@@ -145,8 +155,10 @@ class TestRunner implements TestRunnerInterface
     }
 
     /**
-     * @param  \Stagehand\TestRunner\Notification\Notification $notification
+     * @param \Stagehand\TestRunner\Notification\Notification $notification
+     *
      * @throws \LogicException
+     *
      * @since Method available since Release 4.0.0
      */
     protected function notifyResult(Notification $notification)

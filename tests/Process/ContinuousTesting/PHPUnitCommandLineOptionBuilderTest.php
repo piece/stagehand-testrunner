@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,13 +28,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.6.0
  */
-
 namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
@@ -42,10 +42,11 @@ use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Test\ComponentAwareTestCase;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.6.0
  */
 class PHPUnitCommandLineOptionBuilderTest extends ComponentAwareTestCase
@@ -80,11 +81,12 @@ class PHPUnitCommandLineOptionBuilderTest extends ComponentAwareTestCase
      *
      * @test
      * @dataProvider commandLineOptions
-     * @param integer $configuratorIndex
-     * @param array  $expectedBuiltOptions
+     *
+     * @param int   $configuratorIndex
+     * @param array $expectedBuiltOptions
      * @param array $shouldPreserve
      */
-    public function buildsCommandLineOptions($configuratorIndex, array $expectedBuiltOptions,array $shouldPreserve)
+    public function buildsCommandLineOptions($configuratorIndex, array $expectedBuiltOptions, array $shouldPreserve)
     {
         call_user_func(self::$configurators[$configuratorIndex], $this->applicationContext);
 
@@ -103,12 +105,13 @@ class PHPUnitCommandLineOptionBuilderTest extends ComponentAwareTestCase
     public function commandLineOptions()
     {
         $commandLineOptions = array(
-            array(array('--phpunit-config=' . escapeshellarg('FILE')), array(true, true)),
+            array(array('--phpunit-config='.escapeshellarg('FILE')), array(true, true)),
         );
 
         return array_map(function (array $commandLineOption) {
             static $index = 0;
             array_unshift($commandLineOption, $index++);
+
             return $commandLineOption;
         }, $commandLineOptions);
     }

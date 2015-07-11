@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,22 +28,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\Runner\JUnitXMLWriting;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 class PHPUnitJUnitXMLWritingTest extends CompatibilityTestCase
@@ -97,6 +98,7 @@ class PHPUnitJUnitXMLWritingTest extends CompatibilityTestCase
 
     /**
      * @test
+     *
      * @link http://redmine.piece-framework.com/issues/216
      */
     public function generatesTheValidXmlWithSkippedTestsByDependsAnnotations()
@@ -112,6 +114,7 @@ class PHPUnitJUnitXMLWritingTest extends CompatibilityTestCase
 
     /**
      * @test
+     *
      * @link http://redmine.piece-framework.com/issues/261
      */
     public function logsTheFileAndLineWhereTheFailureOrErrorHasBeenOccurredInRealtimeForWarning()

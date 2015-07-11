@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,22 +28,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.20.0
  */
-
 namespace Stagehand\TestRunner\Notification;
 
 use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.20.0
  */
 class NotifierTest extends PHPUnitComponentAwareTestCase
@@ -53,9 +54,11 @@ class NotifierTest extends PHPUnitComponentAwareTestCase
     /**
      * @test
      * @dataProvider decisionTable
+     *
      * @param string $result
      * @param string $os
      * @param string $commandRegex
+     *
      * @since Method available since Release 2.21.0
      */
     public function notifiesTheResultByTheAppropriateCommandForTheCurrentHost($result, $os, $commandRegex)
@@ -72,6 +75,7 @@ class NotifierTest extends PHPUnitComponentAwareTestCase
 
     /**
      * @return array
+     *
      * @since Method available since Release 2.21.0
      */
     public function decisionTable()
@@ -102,51 +106,58 @@ class NotifierTest extends PHPUnitComponentAwareTestCase
     /**
      * @param string $title
      * @param string $icon
+     *
      * @return string
+     *
      * @since Method available since Release 2.21.0
      */
     protected function buildCommandRegexForWin($title, $icon)
     {
-        return '!^growlnotify /t:' . escapeshellarg($title) .
-            ' /p:-2 /i:' . escapeshellarg(preg_quote($icon)) .
-            ' /a:Stagehand_TestRunner /r:' .
-            escapeshellarg(Notifier::TITLE_PASSED) . ',' .
-            escapeshellarg(Notifier::TITLE_FAILED) . ',' .
-            escapeshellarg(Notifier::TITLE_STOPPED) .
-            ' /n:' . escapeshellarg($title) .
-            ' /silent:true ' . escapeshellarg(self::NOTIFICATION_MESSAGE) . '$!';
+        return '!^growlnotify /t:'.escapeshellarg($title).
+            ' /p:-2 /i:'.escapeshellarg(preg_quote($icon)).
+            ' /a:Stagehand_TestRunner /r:'.
+            escapeshellarg(Notifier::TITLE_PASSED).','.
+            escapeshellarg(Notifier::TITLE_FAILED).','.
+            escapeshellarg(Notifier::TITLE_STOPPED).
+            ' /n:'.escapeshellarg($title).
+            ' /silent:true '.escapeshellarg(self::NOTIFICATION_MESSAGE).'$!';
     }
 
     /**
      * @param string $title
      * @param string $icon
+     *
      * @return string
+     *
      * @since Method available since Release 2.21.0
      */
     protected function buildCommandRegexForDarwin($title, $icon)
     {
-        return '!^growlnotify --name ' . escapeshellarg($title) .
-            ' --priority -2 --image ' . escapeshellarg(preg_quote($icon)) .
-            ' --title ' . escapeshellarg($title) .
-            ' --message ' . escapeshellarg('.+') . '$!';
+        return '!^growlnotify --name '.escapeshellarg($title).
+            ' --priority -2 --image '.escapeshellarg(preg_quote($icon)).
+            ' --title '.escapeshellarg($title).
+            ' --message '.escapeshellarg('.+').'$!';
     }
 
     /**
      * @param string $title
      * @param string $icon
+     *
      * @return string
+     *
      * @since Method available since Release 2.21.0
      */
     protected function buildCommandRegexForLinux($title, $icon)
     {
-        return'!^notify-send --urgency=low --icon=' .
-            escapeshellarg(preg_quote($icon)) .
-            ' ' . escapeshellarg($title) .
-            ' ' . escapeshellarg('.+') . '$!';
+        return'!^notify-send --urgency=low --icon='.
+            escapeshellarg(preg_quote($icon)).
+            ' '.escapeshellarg($title).
+            ' '.escapeshellarg('.+').'$!';
     }
 
     /**
      * @test
+     *
      * @link http://redmine.piece-framework.com/issues/332
      */
     public function addsABackslashForEachBackslashInTheMessageOnLinuxToPreventLosingOriginalBackslashes()
@@ -159,7 +170,7 @@ class NotifierTest extends PHPUnitComponentAwareTestCase
         $this->createComponent('notifier')->notifyResult(new Notification(Notification::RESULT_STOPPED, 'Foo\Bar\Baz::qux()'));
 
         \Phake::verify($legacyProxy)->system(
-            $this->matchesRegularExpression('/' . preg_quote('Foo\\\\Bar\\\\Baz::qux()') . '/'),
+            $this->matchesRegularExpression('/'.preg_quote('Foo\\\\Bar\\\\Baz::qux()').'/'),
             $this->anything()
         );
     }

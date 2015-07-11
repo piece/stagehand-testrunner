@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,27 +28,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\Util;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 class LegacyProxy
 {
     /**
-     * @param  string  $command
-     * @return integer
+     * @param string $command
+     *
+     * @return int
      */
     public function passthru($command)
     {
@@ -58,7 +60,8 @@ class LegacyProxy
     }
 
     /**
-     * @param  string $option
+     * @param string $option
+     *
      * @return string
      */
     public function get_cfg_var($option)
@@ -67,8 +70,9 @@ class LegacyProxy
     }
 
     /**
-     * @param  string  $filename
-     * @return boolean
+     * @param string $filename
+     *
+     * @return bool
      */
     public function is_dir($filename)
     {
@@ -76,7 +80,8 @@ class LegacyProxy
     }
 
     /**
-     * @param  string $path
+     * @param string $path
+     *
      * @return string
      */
     public function realpath($path)
@@ -85,9 +90,10 @@ class LegacyProxy
     }
 
     /**
-     * @param  mixed   $object
-     * @param  string  $class_name
-     * @return boolean
+     * @param mixed  $object
+     * @param string $class_name
+     *
+     * @return bool
      */
     public function is_subclass_of($object, $class_name)
     {
@@ -103,8 +109,9 @@ class LegacyProxy
     }
 
     /**
-     * @param  string $command
-     * @param  string $return_var
+     * @param string $command
+     * @param string $return_var
+     *
      * @return string
      */
     public function system($command, &$return_var)
@@ -113,7 +120,7 @@ class LegacyProxy
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function ob_get_level()
     {
@@ -121,7 +128,7 @@ class LegacyProxy
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function ob_end_clean()
     {

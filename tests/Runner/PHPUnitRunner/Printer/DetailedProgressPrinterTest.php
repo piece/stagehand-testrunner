@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2010-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,23 +28,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.11.1
  */
-
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Runner\TestCase;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2010-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.11.1
  */
 class DetailedProgressPrinterTest extends TestCase
@@ -70,18 +71,19 @@ class DetailedProgressPrinterTest extends TestCase
 
         $this->runTests();
 
-        $expected = PHP_EOL .
-$testClass . PHP_EOL .
-'  pass1 ... passed' . PHP_EOL .
-PHP_EOL .
-$testClass . '::' . $testMethod . PHP_EOL .
-'  ' . $testMethod . ' with data set #0 ... skipped' . PHP_EOL .
-'  pass2 ... passed' . PHP_EOL;
+        $expected = PHP_EOL.
+$testClass.PHP_EOL.
+'  pass1 ... passed'.PHP_EOL.
+PHP_EOL.
+$testClass.'::'.$testMethod.PHP_EOL.
+'  '.$testMethod.' with data set #0 ... skipped'.PHP_EOL.
+'  pass2 ... passed'.PHP_EOL;
         $this->assertTrue(strstr($this->output, $expected) !== false);
     }
 
     /**
      * @return array
+     *
      * @since Method available since Release 2.17.0
      */
     public function targets()

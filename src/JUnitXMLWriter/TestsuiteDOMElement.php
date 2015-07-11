@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,20 +28,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.10.0
  */
-
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.10.0
  */
 class TestsuiteDOMElement extends \DOMElement
@@ -57,7 +58,7 @@ class TestsuiteDOMElement extends \DOMElement
     }
 
     /**
-     * @param integer $testCount
+     * @param int $testCount
      */
     public function addTestCount($testCount)
     {
@@ -70,7 +71,7 @@ class TestsuiteDOMElement extends \DOMElement
     }
 
     /**
-     * @param integer $assertionCount
+     * @param int $assertionCount
      */
     public function addAssertionCount($assertionCount)
     {
@@ -87,7 +88,7 @@ class TestsuiteDOMElement extends \DOMElement
     }
 
     /**
-     * @param integer $failureCount
+     * @param int $failureCount
      */
     public function addFailureCount($failureCount)
     {
@@ -100,7 +101,7 @@ class TestsuiteDOMElement extends \DOMElement
     }
 
     /**
-     * @param integer $errorCount
+     * @param int $errorCount
      */
     public function addErrorCount($errorCount)
     {

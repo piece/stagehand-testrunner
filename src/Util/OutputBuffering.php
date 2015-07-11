@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,26 +28,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.19.0
  */
-
 namespace Stagehand\TestRunner\Util;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.19.0
  */
 class OutputBuffering
 {
     /**
      * @var \Stagehand\TestRunner\Util\LegacyProxy
+     *
      * @since Property available since Release 3.0.0
      */
     protected $legacyProxy;
@@ -64,6 +66,7 @@ class OutputBuffering
 
     /**
      * @param \Stagehand\TestRunner\Util\LegacyProxy $legacyProxy
+     *
      * @since Method available since Release 3.0.0
      */
     public function setLegacyProxy(LegacyProxy $legacyProxy)
@@ -72,7 +75,8 @@ class OutputBuffering
     }
 
     /**
-     * @return integer
+     * @return int
+     *
      * @since Method available since Release 2.20.0
      */
     public function getNestingLevel()

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,23 +28,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.4.0
  */
-
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Test\ComponentAwareTestCase;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.4.0
  */
 class PHPUnitCollectorTest extends ComponentAwareTestCase
@@ -60,8 +61,9 @@ class PHPUnitCollectorTest extends ComponentAwareTestCase
     }
 
     /**
-     * @param boolean $specifyingClass
-     * @param boolean $specifyingMethod
+     * @param bool $specifyingClass
+     * @param bool $specifyingMethod
+     *
      * @link https://github.com/piece/stagehand-testrunner/issues/12
      *
      * @test

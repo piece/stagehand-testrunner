@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2010-2014 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,35 +28,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2010-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.12.0
  */
-
 namespace Stagehand\TestRunner\Preparer;
 
 use Stagehand\TestRunner\CLI\Terminal;
 use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2010-2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.12.0
  */
 class PHPUnitPreparer extends Preparer
 {
     /**
      * @var \Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory
+     *
      * @since Property available since Release 3.6.0
      */
     protected $phpunitConfigurationFactory;
 
     /**
      * @var \Stagehand\TestRunner\CLI\Terminal
+     *
      * @since Property available since Release 3.0.0
      */
     protected $terminal;
@@ -71,6 +74,7 @@ class PHPUnitPreparer extends Preparer
 
     /**
      * @param \Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory $phpunitConfigurationFactory
+     *
      * @since Method available since Release 3.6.0
      */
     public function setPHPUnitConfigurationFactory(PHPUnitConfigurationFactory $phpunitConfigurationFactory)
@@ -80,6 +84,7 @@ class PHPUnitPreparer extends Preparer
 
     /**
      * @param \Stagehand\TestRunner\CLI\Terminal $terminal
+     *
      * @since Method available since Release 3.0.0
      */
     public function setTerminal(Terminal $terminal)
@@ -90,8 +95,9 @@ class PHPUnitPreparer extends Preparer
     /**
      * Loads a bootstrap file.
      *
-     * @param string  $filename
-     * @param boolean $syntaxCheck
+     * @param string $filename
+     * @param bool   $syntaxCheck
+     *
      * @see \PHPUnit_TextUI_Command::handleBootstrap()
      * @since Method available since Release 2.16.0
      */
@@ -106,6 +112,7 @@ class PHPUnitPreparer extends Preparer
 
     /**
      * @param \PHPUnit_Util_Configuration $configuration $configuration
+     *
      * @since Method available since Release 2.16.0
      */
     protected function earlyConfigure(\PHPUnit_Util_Configuration $configuration)

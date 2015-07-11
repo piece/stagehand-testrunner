@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2008-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,14 +28,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2008-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.4.0
  */
-
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
 use Stagehand\TestRunner\CLI\Terminal;
@@ -44,10 +44,11 @@ use Stagehand\TestRunner\Util\Coloring;
 /**
  * A result printer for TestDox documentation.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2008-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.4.0
  */
@@ -59,6 +60,7 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
 
     /**
      * @var \Stagehand\TestRunner\CLI\Terminal
+     *
      * @since Property available since Release 3.3.0
      */
     protected $terminal;
@@ -81,6 +83,7 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
      * @param \PHPUnit_Framework_Test $test
      * @param \Exception              $e
      * @param float                   $time
+     *
      * @since Method available since Release 2.11.0
      */
     public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
@@ -95,6 +98,7 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
      * @param \PHPUnit_Framework_Test $test
      * @param \Exception              $e
      * @param float                   $time
+     *
      * @since Method available since Release 2.11.0
      */
     public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
@@ -105,6 +109,7 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
 
     /**
      * @param \PHPUnit_Framework_Test $test
+     *
      * @since Method available since Release 2.7.0
      */
     public function startTest(\PHPUnit_Framework_Test $test)
@@ -117,6 +122,7 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
     /**
      * @param \PHPUnit_Framework_Test $test
      * @param float                   $time
+     *
      * @since Method available since Release 2.7.0
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)
@@ -126,8 +132,9 @@ class TestDoxPrinter extends \PHPUnit_Util_TestDox_ResultPrinter_Text
     }
 
     /**
-     * @param string  $name
-     * @param boolean $success
+     * @param string $name
+     * @param bool   $success
+     *
      * @since Method available since Release 2.7.0
      */
     protected function onTest($name, $success = true)

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
@@ -29,24 +29,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.18.0
  */
-
 namespace Stagehand\TestRunner\Notification;
 
 use Stagehand\TestRunner\Util\String;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.18.0
  */
 class Notification
@@ -76,7 +77,7 @@ class Notification
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPassed()
     {
@@ -84,7 +85,7 @@ class Notification
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isFailed()
     {
@@ -92,7 +93,7 @@ class Notification
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isStopped()
     {

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2009-2015 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,41 +28,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2009-2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.10.0
  */
-
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Core\TestTargetRepository;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2009-2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.10.0
  */
 class PHPUnitRunnerTest extends CompatibilityTestCase
 {
     /**
      * @constant
+     *
      * @since Constant available since Release 3.5.0
      */
     const SELECTION_MODE_NONE = 'none';
 
     /**
      * @constant
+     *
      * @since Constant available since Release 3.5.0
      */
     const SELECTION_MODE_CLASS = 'class';
 
     /**
      * @constant
+     *
      * @since Constant available since Release 3.5.0
      */
     const SELECTION_MODE_METHOD = 'method';
@@ -99,6 +103,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $secondTestClass = 'Stagehand_TestRunner_PHPUnitMultipleClasses2Test';
         $specifyingTestMethod = 'pass1';
         $runningTestMethod = $specifyingTestMethod;
+
         return array(
             array($firstTestClass, $secondTestClass, $specifyingTestMethod, $runningTestMethod),
         );
@@ -111,6 +116,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $specifyingTestClass = $firstTestClass;
         $runningTestMethod1 = 'pass1';
         $runningTestMethod2 = 'pass2';
+
         return array(
             array($firstTestClass, $secondTestClass, $specifyingTestClass, $runningTestMethod1, $runningTestMethod2),
         );
@@ -120,6 +126,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @param string $testMethod
      * @test
      * @dataProvider provideFullyQualifiedMethodNamesForIncompleteAndSkippedTests
+     *
      * @since Method available since Release 2.11.0
      */
     public function printsTheSpecifiedMessageForIncompleteAndSkippedTests($testMethod)
@@ -136,7 +143,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
         $this->runTests();
 
-        $this->assertRegExp('/^  ' . $testMethod . ' ... .+\s\(.+\)/m', $this->output);
+        $this->assertRegExp('/^  '.$testMethod.' ... .+\s\(.+\)/m', $this->output);
         $this->assertRegExp('/^ \[ \] .+\s\(.+\)$/m', $this->output);
     }
 
@@ -147,7 +154,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     {
         return array(
                    array('Stagehand_TestRunner_PHPUnitIncompleteTest::isIncomplete'),
-                   array('Stagehand_TestRunner_PHPUnitSkippedTest::isSkipped')
+                   array('Stagehand_TestRunner_PHPUnitSkippedTest::isSkipped'),
                );
     }
 
@@ -155,6 +162,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @param string $testMethod
      * @test
      * @dataProvider provideFullyQualifiedMethodNamesForIncompleteAndSkippedTestsWithoutMessage
+     *
      * @since Method available since Release 2.11.0
      */
     public function printsNormalOutputForIncompleteAndSkippedTestsIfTheMessageIsNotSpecified($testMethod)
@@ -171,19 +179,20 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
         $this->runTests();
 
-        $this->assertRegExp('/^  ' . $testMethod . ' ... [^()]+$/m', $this->output);
+        $this->assertRegExp('/^  '.$testMethod.' ... [^()]+$/m', $this->output);
         $this->assertRegExp('/^ \[ \] [^()]+$/m', $this->output);
     }
 
     /**
      * @return array
+     *
      * @since Method available since Release 2.11.0
      */
     public function provideFullyQualifiedMethodNamesForIncompleteAndSkippedTestsWithoutMessage()
     {
         return array(
             array('Stagehand_TestRunner_PHPUnitIncompleteTest::isIncompleteWithoutMessage'),
-            array('Stagehand_TestRunner_PHPUnitSkippedTest::isSkippedWithoutMessage')
+            array('Stagehand_TestRunner_PHPUnitSkippedTest::isSkippedWithoutMessage'),
         );
     }
 
@@ -198,6 +207,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $secondTestClass2 = $secondTestClass1;
         $failingTestMethod1 = 'isFailure';
         $failingTestMethod2 = 'isError';
+
         return array(
             array($firstTestClass1, $secondTestClass1, $failingTestMethod1),
             array($firstTestClass2, $secondTestClass2, $failingTestMethod2),
@@ -209,6 +219,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @param string $secondTestClass
      * @test
      * @dataProvider provideDataForNotStopTheTestRunWhenATestCaseIsSkipped
+     *
      * @since Method available since Release 2.11.0
      */
     public function notStopTheTestRunWhenATestCaseIsSkipped($firstTestClass, $secondTestClass)
@@ -226,6 +237,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
     /**
      * @return array
+     *
      * @since Method available since Release 2.16.0
      */
     public function provideDataForNotStopTheTestRunWhenATestCaseIsSkipped()
@@ -240,6 +252,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @param string $secondTestClass
      * @test
      * @dataProvider provideDataForNotStopTheTestRunWhenATestCaseIsIncomplete
+     *
      * @since Method available since Release 2.11.0
      */
     public function notStopTheTestRunWhenATestCaseIsIncomplete($firstTestClass, $secondTestClass)
@@ -257,6 +270,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
     /**
      * @return array
+     *
      * @since Method available since Release 2.16.0
      */
     public function provideDataForNotStopTheTestRunWhenATestCaseIsIncomplete()
@@ -271,6 +285,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @param $testDoxClass
      * @test
      * @dataProvider provideDataForNotBreakTestDoxOutputIfTheSameTestMethodNamesExceptTrailingNumbers
+     *
      * @since Method available since Release 2.11.2
      */
     public function notBreakTestDoxOutputIfTheSameTestMethodNamesExceptTrailingNumbers($testClass, $testDoxClass)
@@ -282,11 +297,12 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
         $this->runTests();
 
-        $this->assertRegExp('/^' . $testDoxClass . '\n \[x\] Pass 1\n \[x\] Pass 2$/m', $this->output, $this->output);
+        $this->assertRegExp('/^'.$testDoxClass.'\n \[x\] Pass 1\n \[x\] Pass 2$/m', $this->output, $this->output);
     }
 
     /**
      * @return array
+     *
      * @since Method available since Release 2.16.0
      */
     public function provideDataForNotBreakTestDoxOutputIfTheSameTestMethodNamesExceptTrailingNumbers()
@@ -312,20 +328,21 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @param string $testClass
      * @test
      * @dataProvider provideDataForConfiguresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile
+     *
      * @link http://redmine.piece-framework.com/issues/202
      * @since Method available since Release 2.14.0
      */
     public function configuresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile($testClass)
     {
-        $marker = 'STAGEHAND_TESTRUNNER_RUNNER_' . strtoupper($this->getPluginID()) . 'RUNNERTEST_bootstrapLoaded';
+        $marker = 'STAGEHAND_TESTRUNNER_RUNNER_'.strtoupper($this->getPluginID()).'RUNNERTEST_bootstrapLoaded';
         $reflectionClass = new \ReflectionClass($this);
-        $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
+        $configDirectory = dirname($reflectionClass->getFileName()).DIRECTORY_SEPARATOR.basename($reflectionClass->getFileName(), '.php');
         $oldWorkingDirectory = getcwd();
         chdir($configDirectory);
-        $logFile = $configDirectory . DIRECTORY_SEPARATOR . 'logfile.tap';
-        $oldIncludePath = set_include_path($configDirectory . PATH_SEPARATOR . get_include_path());
+        $logFile = $configDirectory.DIRECTORY_SEPARATOR.'logfile.tap';
+        $oldIncludePath = set_include_path($configDirectory.PATH_SEPARATOR.get_include_path());
 
-        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory . DIRECTORY_SEPARATOR . 'phpunit.xml');
+        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory.DIRECTORY_SEPARATOR.'phpunit.xml');
 
         $preparer = $this->createPreparer(); /* @var $preparer \Stagehand\TestRunner\Preparer\PHPUnitPreparer */
         $runner = $this->createRunner(); /* @var $runner \Stagehand\TestRunner\Runner\PHPUnitRunner */
@@ -340,11 +357,11 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
             $this->assertTrue($GLOBALS[$marker]);
             $this->assertFileExists($logFile);
 
-            $expectedLog = 'TAP version 13' . PHP_EOL .
-'ok 1 - ' . $testClass . '::passWithAnAssertion' . PHP_EOL .
-'ok 2 - ' . $testClass . '::passWithMultipleAssertions' . PHP_EOL .
-'ok 3 - ' . $testClass . '::日本語を使用できる' . PHP_EOL .
-'1..3' . PHP_EOL;
+            $expectedLog = 'TAP version 13'.PHP_EOL.
+'ok 1 - '.$testClass.'::passWithAnAssertion'.PHP_EOL.
+'ok 2 - '.$testClass.'::passWithMultipleAssertions'.PHP_EOL.
+'ok 3 - '.$testClass.'::日本語を使用できる'.PHP_EOL.
+'1..3'.PHP_EOL;
             $actualLog = file_get_contents($logFile);
             $this->assertEquals($expectedLog, $actualLog, $actualLog);
         } catch (\Exception $e) {
@@ -360,6 +377,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
     /**
      * @retuan array
+     *
      * @since Method available since Release 2.16.0
      */
     public function provideDataForConfiguresPhpUnitRuntimeEnvironmentByTheXmlConfigurationFile()
@@ -381,22 +399,23 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
     /**
      * @param string $testClass
-     * @param array $testMethods
+     * @param array  $testMethods
      * @param string $xmlConfigurationFile
      * @test
      * @dataProvider provideDataForGroupsTest
+     *
      * @link http://redmine.piece-framework.com/issues/288
      * @since Method available since Release 2.17.0
      */
     public function notCountTheExcludedTestsByTheGroupsElementAsTheDivisorOfATestRun($testClass, array $testMethods, $xmlConfigurationFile)
     {
         $reflectionClass = new \ReflectionClass($this);
-        $configDirectory = dirname($reflectionClass->getFileName()) . DIRECTORY_SEPARATOR . basename($reflectionClass->getFileName(), '.php');
+        $configDirectory = dirname($reflectionClass->getFileName()).DIRECTORY_SEPARATOR.basename($reflectionClass->getFileName(), '.php');
         $phpunitConfigurationFactory = $this->createComponent('phpunit.phpunit_configuration_factory');
         $phpunitConfigurationFactoryClass = new \ReflectionClass($phpunitConfigurationFactory);
         $phpunitConfigurationFileProperty = $phpunitConfigurationFactoryClass->getProperty('phpunitConfigurationFile');
         $phpunitConfigurationFileProperty->setAccessible(true);
-        $phpunitConfigurationFileProperty->setValue($phpunitConfigurationFactory, $configDirectory . DIRECTORY_SEPARATOR . $xmlConfigurationFile);
+        $phpunitConfigurationFileProperty->setValue($phpunitConfigurationFactory, $configDirectory.DIRECTORY_SEPARATOR.$xmlConfigurationFile);
         $phpunitConfigurationFileProperty->setAccessible(false);
         $preparer = $this->createPreparer();
         $preparerClass = new \ReflectionClass($preparer);
@@ -419,6 +438,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
     /**
      * @return array
+     *
      * @since Method available since Release 2.17.0
      */
     public function provideDataForGroupsTest()
@@ -432,6 +452,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
     /**
      * @test
+     *
      * @link http://piece-framework.com/issues/418
      * @since Method available since Release 3.2.0
      */
@@ -445,12 +466,13 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $runner->setDetailedProgress(true);
         $this->runTests();
 
-        $marker = $testClass . '::' . $testMethod;
+        $marker = $testClass.'::'.$testMethod;
         $this->assertThat(substr_count($this->output, $marker), $this->equalTo(1));
     }
 
     /**
      * @test
+     *
      * @link http://piece-framework.com/issues/418
      * @since Method available since Release 3.2.0
      */
@@ -464,12 +486,13 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $terminal->setColor(false);
         $this->runTests();
 
-        $marker = $testClass . '::' . $testMethod;
+        $marker = $testClass.'::'.$testMethod;
         $this->assertThat(substr_count($this->output, $marker), $this->equalTo(1));
     }
 
     /**
      * @return string
+     *
      * @since Method available since Release 2.17.0
      */
     protected function groupsTest()
@@ -478,8 +501,9 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     }
 
     /**
-     * @param string $testClass
+     * @param string   $testClass
      * @param \Closure $filter
+     *
      * @link http://piece-framework.com/issues/424
      * @since Method available since Release 3.2.0
      *
@@ -503,6 +527,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
     /**
      * @return array
+     *
      * @link http://piece-framework.com/issues/424
      * @since Method available since Release 3.2.0
      */
@@ -520,6 +545,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @param string $secondTestClass
      * @param string $specyfyingTestMethod
      * @param string $runningTestMethod
+     *
      * @since Method available since Release 3.3.0
      *
      * @test
@@ -528,11 +554,11 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     public function runsOnlyTheSpecifiedMethodsWithTheGroups($firstTestClass, $secondTestClass, $specyfyingTestMethod, $runningTestMethod)
     {
         $reflectionClass = new \ReflectionClass($this);
-        $configDirectory = dirname($reflectionClass->getFileName()) . '/' . basename($reflectionClass->getFileName(), '.php');
-        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory . '/' . 'groups_include.xml');
+        $configDirectory = dirname($reflectionClass->getFileName()).'/'.basename($reflectionClass->getFileName(), '.php');
+        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory.'/'.'groups_include.xml');
 
         $testTargetRepository = $this->createTestTargetRepository();
-        $testTargetRepository->setMethods(array($firstTestClass . '::' . $specyfyingTestMethod));
+        $testTargetRepository->setMethods(array($firstTestClass.'::'.$specyfyingTestMethod));
         $collector = $this->createCollector();
         $collector->collectTestCase($firstTestClass);
         $collector->collectTestCase($secondTestClass);
@@ -549,6 +575,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
      * @param string $specifyingTestClass
      * @param string $runningTestMethod1
      * @param string $runningTestMethod2
+     *
      * @since Method available since Release 3.3.0
      *
      * @test
@@ -557,8 +584,8 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     public function runsOnlyTheSpecifiedClassesWithTheGroups($firstTestClass, $secondTestClass, $specifyingTestClass, $runningTestMethod1, $runningTestMethod2)
     {
         $reflectionClass = new \ReflectionClass($this);
-        $configDirectory = dirname($reflectionClass->getFileName()) . '/' . basename($reflectionClass->getFileName(), '.php');
-        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory . '/' . 'groups_include.xml');
+        $configDirectory = dirname($reflectionClass->getFileName()).'/'.basename($reflectionClass->getFileName(), '.php');
+        $this->applicationContext->getComponentFactory()->getContainer()->setParameter('phpunit.phpunit_config_file', $configDirectory.'/'.'groups_include.xml');
 
         $testTargetRepository = $this->createTestTargetRepository();
         $testTargetRepository->setClasses(array($firstTestClass));
@@ -575,11 +602,13 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
 
     /**
      * @return array
+     *
      * @since Method available since Release 3.5.0
      */
     public function provideSelectionPatternsForNonExistingDataProviderMethod()
     {
         $testClass = 'Stagehand\TestRunner\PHPUnit\NonExistingDataProviderTest';
+
         return array(
             array($testClass, self::SELECTION_MODE_NONE),
             array($testClass, self::SELECTION_MODE_CLASS),
@@ -590,6 +619,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     /**
      * @param string $testClass
      * @param string $selectionMode
+     *
      * @since Method available since Release 3.5.0
      * @link https://github.com/piece/stagehand-testrunner/issues/21
      *
@@ -599,7 +629,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
     public function runsAMethodWithANonExistingDataProviderMethod($testClass, $selectionMode)
     {
         if ($selectionMode == self::SELECTION_MODE_METHOD) {
-            $this->createTestTargetRepository()->setMethods(array($testClass . '::failsWithWarning'));
+            $this->createTestTargetRepository()->setMethods(array($testClass.'::failsWithWarning'));
         } elseif ($selectionMode == self::SELECTION_MODE_CLASS) {
             $this->createTestTargetRepository()->setClasses(array($testClass));
         }

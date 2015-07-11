@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2008-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,13 +28,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2008-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.4.0
  */
-
 namespace Stagehand\TestRunner\Util;
 
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -42,22 +42,25 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 /**
  * A utility for coloring.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2008-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.4.0
  */
 class Coloring
 {
     /**
      * @var array
+     *
      * @since Property available since Release 3.0.0
      */
     private static $outputFormatterStyles = array();
 
     /**
-     * @param  string $text
+     * @param string $text
+     *
      * @return string
      */
     public static function green($text)
@@ -66,7 +69,8 @@ class Coloring
     }
 
     /**
-     * @param  string $text
+     * @param string $text
+     *
      * @return string
      */
     public static function red($text)
@@ -75,7 +79,8 @@ class Coloring
     }
 
     /**
-     * @param  string $text
+     * @param string $text
+     *
      * @return string
      */
     public static function magenta($text)
@@ -84,7 +89,8 @@ class Coloring
     }
 
     /**
-     * @param  string $text
+     * @param string $text
+     *
      * @return string
      */
     public static function yellow($text)
@@ -93,8 +99,9 @@ class Coloring
     }
 
     /**
-     * @param  string $text
-     * @param  string $color
+     * @param string $text
+     * @param string $color
+     *
      * @return string
      */
     private static function apply($text, $color)

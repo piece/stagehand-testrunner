@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,16 +28,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.18.0
  */
-
 namespace Stagehand\TestRunner\Process\ContinuousTesting;
-
-use Symfony\Component\Process\Process;
 
 use Stagehand\TestRunner\Core\TestTargetRepository;
 use Stagehand\TestRunner\Notification\Notification;
@@ -48,54 +46,63 @@ use Stagehand\TestRunner\Runner\Runner;
 use Stagehand\TestRunner\Util\LegacyProxy;
 use Stagehand\TestRunner\Util\OS;
 use Stagehand\TestRunner\Util\String;
+use Symfony\Component\Process\Process;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.18.0
  */
 class ContinuousTestRunner implements TestRunnerInterface
 {
     /**
      * @var \Stagehand\TestRunner\Util\OS
+     *
      * @since Property available since Release 3.0.1
      */
     protected $os;
 
     /**
      * @var \Stagehand\TestRunner\Core\TestTargetRepository
+     *
      * @since Property available since Release 3.0.0
      */
     protected $testTargetRepository;
 
     /**
      * @var array
+     *
      * @since Property available since Release 3.0.0
      */
     protected $watchDirs;
 
     /**
      * @var \Stagehand\TestRunner\Preparer\Preparer
+     *
      * @since Property available since Release 3.0.1
      */
     protected $preparer;
 
     /**
      * @var \Stagehand\TestRunner\Runner\Runner
+     *
      * @since Property available since Release 3.6.0
      */
     protected $runner;
 
     /**
      * @var \Stagehand\TestRunner\Notification\Notifier
+     *
      * @since Method available since Release 3.6.0
      */
     protected $notifier;
 
     /**
      * @var \Stagehand\TestRunner\Util\LegacyProxy
+     *
      * @since Property available since Release 3.0.0
      */
     protected $legacyProxy;
@@ -113,6 +120,7 @@ class ContinuousTestRunner implements TestRunnerInterface
     /**
      * @param \Stagehand\TestRunner\Preparer\Preparer                            $preparer
      * @param \Stagehand\TestRunner\Process\ContinuousTesting\CommandLineBuilder $commandLineBuilder
+     *
      * @since Method available since Release 3.0.1
      */
     public function __construct(Preparer $preparer, CommandLineBuilder $commandLineBuilder)
@@ -134,6 +142,7 @@ class ContinuousTestRunner implements TestRunnerInterface
 
     /**
      * @param \Stagehand\TestRunner\Util\OS $os
+     *
      * @since Method available since Release 3.0.1
      */
     public function setOS(OS $os)
@@ -158,6 +167,7 @@ class ContinuousTestRunner implements TestRunnerInterface
 
     /**
      * @param string $commandLine
+     *
      * @since Method available since Release 2.18.0
      */
     public function runTests($commandLine)
@@ -192,6 +202,7 @@ class ContinuousTestRunner implements TestRunnerInterface
 
     /**
      * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
+     *
      * @since Method available since Release 3.0.0
      */
     public function setTestTargetRepository(TestTargetRepository $testTargetRepository)
@@ -201,6 +212,7 @@ class ContinuousTestRunner implements TestRunnerInterface
 
     /**
      * @param array $watchDirs
+     *
      * @since Method available since Release 3.0.0
      */
     public function setWatchDirs(array $watchDirs)
@@ -210,6 +222,7 @@ class ContinuousTestRunner implements TestRunnerInterface
 
     /**
      * @param \Stagehand\TestRunner\Util\LegacyProxy $legacyProxy
+     *
      * @since Method available since Release 3.0.0
      */
     public function setLegacyProxy(LegacyProxy $legacyProxy)
@@ -219,6 +232,7 @@ class ContinuousTestRunner implements TestRunnerInterface
 
     /**
      * @param \Stagehand\TestRunner\Process\ContinuousTesting\AlterationMonitoring $alterationMonitoring
+     *
      * @since Method available since Release 3.0.0
      */
     public function setAlterationMonitoring(AlterationMonitoring $alterationMonitoring)
@@ -228,6 +242,7 @@ class ContinuousTestRunner implements TestRunnerInterface
 
     /**
      * @param \Stagehand\TestRunner\Runner\Runner $runner
+     *
      * @since Method available since Release 3.6.0
      */
     public function setRunner(Runner $runner)
@@ -237,6 +252,7 @@ class ContinuousTestRunner implements TestRunnerInterface
 
     /**
      * @param \Stagehand\TestRunner\Notification\Notifier $notifier
+     *
      * @since Method available since Release 3.6.0
      */
     public function setNotifier(Notifier $notifier)
@@ -246,6 +262,7 @@ class ContinuousTestRunner implements TestRunnerInterface
 
     /**
      * @return array
+     *
      * @throws \UnexpectedValueException
      */
     protected function getMonitoringDirectories()
@@ -270,8 +287,10 @@ class ContinuousTestRunner implements TestRunnerInterface
     }
 
     /**
-     * @param  string  $runnerCommand
-     * @return integer
+     * @param string $runnerCommand
+     *
+     * @return int
+     *
      * @since Method available since Release 2.20.0
      */
     protected function executeRunnerCommand($runnerCommand)

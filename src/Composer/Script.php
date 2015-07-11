@@ -13,7 +13,6 @@
 namespace Stagehand\TestRunner\Composer;
 
 use Composer\Script\Event;
-
 use Stagehand\TestRunner\DependencyInjection\Compiler\Compiler;
 
 /**

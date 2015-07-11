@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2008-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,22 +28,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2008-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.4.0
  */
-
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox;
 
 /**
  * A class which has only one static property to keep TestDox documentation.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2008-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.4.0
  */
 class TestDox
@@ -52,6 +53,7 @@ class TestDox
 
     /**
      * @param string $resultID
+     *
      * @since Method available since Release 2.10.0
      */
     public static function initialize($resultID)
@@ -62,6 +64,7 @@ class TestDox
     /**
      * @param string $resultID
      * @param string $testDox
+     *
      * @since Method available since Release 2.10.0
      */
     public static function append($resultID, $testDox)
@@ -70,8 +73,10 @@ class TestDox
     }
 
     /**
-     * @param  string $resultID
+     * @param string $resultID
+     *
      * @return string
+     *
      * @since Method available since Release 2.10.0
      */
     public static function get($resultID)

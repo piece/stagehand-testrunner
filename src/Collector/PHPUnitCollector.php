@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2007-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2012 tsyk goto <ngyuki.ts@gmail.com>,
@@ -29,15 +29,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2007-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2012 tsyk goto <ngyuki.ts@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.1.0
  */
-
 namespace Stagehand\TestRunner\Collector;
 
 use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;
@@ -46,36 +46,41 @@ use Stagehand\TestRunner\TestSuite\PHPUnitGroupFilterTestSuite;
 /**
  * A test collector for PHPUnit.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2007-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2012 tsyk goto <ngyuki.ts@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
 class PHPUnitCollector extends Collector
 {
     /**
-     * @var integer
+     * @var int
+     *
      * @since Property available since Release 3.0.3
      */
     private static $FILTER_CLASS = 1;
 
     /**
-     * @var integer
+     * @var int
+     *
      * @since Property available since Release 3.0.3
      */
     private static $FILTER_METHOD = 2;
 
     /**
      * @var \Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory
+     *
      * @since Property available since Release 3.6.0
      */
     protected $phpunitConfigurationFactory;
 
     /**
      * @param string $testCase
+     *
      * @since Method available since Release 2.11.0
      */
     public function collectTestCase($testCase)
@@ -107,6 +112,7 @@ class PHPUnitCollector extends Collector
 
     /**
      * @param \Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory $phpunitConfigurationFactory
+     *
      * @since Method available since Release 3.6.0
      */
     public function setPHPUnitConfigurationFactory(PHPUnitConfigurationFactory $phpunitConfigurationFactory)
@@ -117,7 +123,8 @@ class PHPUnitCollector extends Collector
     /**
      * Creates the test suite object.
      *
-     * @param  string                       $name
+     * @param string $name
+     *
      * @return \PHPUnit_Framework_TestSuite
      */
     protected function createTestSuite($name)
@@ -126,8 +133,10 @@ class PHPUnitCollector extends Collector
     }
 
     /**
-     * @param  \ReflectionClass  $testClass
+     * @param \ReflectionClass $testClass
+     *
      * @return \ReflectionMethod
+     *
      * @since Method available since Release 3.0.3
      */
     protected function findSuiteMethod(\ReflectionClass $testClass)
@@ -142,7 +151,8 @@ class PHPUnitCollector extends Collector
 
     /**
      * @param \PHPUnit_Framework_TestSuite $testSuite
-     * @param integer                      $filter
+     * @param int                          $filter
+     *
      * @since Method available since Release 3.0.3
      */
     protected function filterTests(\PHPUnit_Framework_TestSuite $testSuite, $filter)

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,32 +28,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
-
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\DependencyInjection\Compiler\Compiler;
 use Stagehand\TestRunner\DependencyInjection\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\DependencyInjection\Transformation\Transformation;
 use Stagehand\TestRunner\Util\FileSystem;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 abstract class PluginCommand extends Command
@@ -276,7 +276,8 @@ PHP_EOL.
     abstract protected function doTransformToConfiguration(InputInterface $input, OutputInterface $output, Transformation $transformation);
 
     /**
-     * @param  string                                                    $containerClass
+     * @param string $containerClass
+     *
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected function createContainer($containerClass)
@@ -285,7 +286,8 @@ PHP_EOL.
     }
 
     /**
-     * @param  boolean                                           $continuousTesting
+     * @param bool $continuousTesting
+     *
      * @return \Stagehand\TestRunner\Process\TestRunnerInterface
      */
     protected function createTestRunner($continuousTesting)
@@ -298,7 +300,8 @@ PHP_EOL.
     }
 
     /**
-     * @param  \Symfony\Component\DependencyInjection\ContainerInterface               $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     *
      * @return \Stagehand\TestRunner\DependencyInjection\Transformation\Transformation
      */
     protected function createTransformation(ContainerInterface $container)

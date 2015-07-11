@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,23 +28,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.6.0
  */
-
 namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
 use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.6.0
  */
 class CommandLineBuilderTest extends PHPUnitComponentAwareTestCase
@@ -105,11 +106,13 @@ class CommandLineBuilderTest extends PHPUnitComponentAwareTestCase
     /**
      * @test
      * @dataProvider commandLines
+     *
      * @param string $inputCommand
-     * @param array $inputOptions
+     * @param array  $inputOptions
      * @param string $phpConfigDir
      * @param string $expectedBuiltCommand
-     * @param array $expectedBuiltOptions
+     * @param array  $expectedBuiltOptions
+     *
      * @link http://redmine.piece-framework.com/issues/196
      * @link http://redmine.piece-framework.com/issues/319
      * @link http://redmine.piece-framework.com/issues/393
@@ -150,8 +153,8 @@ class CommandLineBuilderTest extends PHPUnitComponentAwareTestCase
         return array(
             array('/usr/bin/php', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('/usr/bin/php'), array('-c', escapeshellarg('/etc/php5/cli'), escapeshellarg('testrunner'), escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
             array('/usr/bin/php', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('/usr/bin/php'), array(escapeshellarg('testrunner'), escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
-            array(null, array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
-            array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array( escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
+            array(null, array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
+            array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
             array('testrunner', array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), false, escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
             array(null, array('testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
             array(null, array('/path/to/testrunner', strtolower($this->getPluginID()), '-a', 'test'), '/etc/php5/cli', escapeshellarg('/path/to/testrunner'), array(escapeshellarg(strtolower($this->getPluginID())), '-R', escapeshellarg('test'))),
@@ -161,12 +164,14 @@ class CommandLineBuilderTest extends PHPUnitComponentAwareTestCase
     /**
      * @test
      * @dataProvider commandLineOptions
-     * @param integer $configuratorIndex
+     *
+     * @param int   $configuratorIndex
      * @param array $normalizedOptions
      * @param array $shouldPreserve
+     *
      * @link http://redmine.piece-framework.com/issues/314
      */
-    public function buildsCommandLineOptions($configuratorIndex, array $normalizedOptions,array $shouldPreserve)
+    public function buildsCommandLineOptions($configuratorIndex, array $normalizedOptions, array $shouldPreserve)
     {
         $_SERVER['argv'] = $GLOBALS['argv'] = array('bin/testrunner', '-a');
         $_SERVER['argc'] = $GLOBALS['argc'] = count($_SERVER['argv']);
@@ -184,6 +189,7 @@ class CommandLineBuilderTest extends PHPUnitComponentAwareTestCase
 
     /**
      * @return array
+     *
      * @link http://redmine.piece-framework.com/issues/314
      */
     public function commandLineOptions()
@@ -192,21 +198,22 @@ class CommandLineBuilderTest extends PHPUnitComponentAwareTestCase
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true)),
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true)),
             array(array('--ansi', escapeshellarg(strtolower($this->getPluginID())), '-R'), array(true, true, true)),
-            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '-p ' . escapeshellarg('test/prepare.php')), array(true, true, true)),
-            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '-w ' . escapeshellarg('src')), array(true, true, false)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '-p '.escapeshellarg('test/prepare.php')), array(true, true, true)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '-w '.escapeshellarg('src')), array(true, true, false)),
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '-m'), array(true, true, true)),
-            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-method=' . escapeshellarg('METHOD1')), array(true, true, false)),
-            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-class=' . escapeshellarg('CLASS1')), array(true, true, false)),
-            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--log-junit=' . escapeshellarg('FILE')), array(true, true, false)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-method='.escapeshellarg('METHOD1')), array(true, true, false)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-class='.escapeshellarg('CLASS1')), array(true, true, false)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--log-junit='.escapeshellarg('FILE')), array(true, true, false)),
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--log-junit-realtime'), array(true, true, false)),
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--stop-on-failure'), array(true, true, true)),
-            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern=' . escapeshellarg('PATTERN')), array(true, true, true)),
+            array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--test-file-pattern='.escapeshellarg('PATTERN')), array(true, true, true)),
             array(array(escapeshellarg(strtolower($this->getPluginID())), '-R', '--detailed-progress'), array(true, true, true)),
         );
 
         return array_map(function (array $preservedConfiguration) {
             static $index = 0;
             array_unshift($preservedConfiguration, $index++);
+
             return $preservedConfiguration;
         }, $preservedConfigurations);
     }

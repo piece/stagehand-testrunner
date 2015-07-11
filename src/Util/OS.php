@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2015 evalphobia <evalphobia@gmail.com>,
@@ -29,22 +29,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2015 evalphobia <evalphobia@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.1
  */
-
 namespace Stagehand\TestRunner\Util;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2015 evalphobia <evalphobia@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.1
  */
 class OS
@@ -63,7 +64,7 @@ class OS
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isWin()
     {
@@ -71,7 +72,7 @@ class OS
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isDarwin()
     {
@@ -79,7 +80,8 @@ class OS
     }
 
     /**
-     * @return boolean
+     * @return bool
+     *
      * @since Method available since Release 4.1.0
      */
     public function isAfterMarvericks()
@@ -88,7 +90,7 @@ class OS
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isLinux()
     {

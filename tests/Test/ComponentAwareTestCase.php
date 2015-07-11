@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,20 +28,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\Test;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 abstract class ComponentAwareTestCase extends TestCase
@@ -62,6 +63,7 @@ abstract class ComponentAwareTestCase extends TestCase
 
     /**
      * @return \Stagehand\TestRunner\Preparer\Preparer
+     *
      * @since Method available since Release 3.4.0
      */
     protected function createPreparer()
@@ -71,6 +73,7 @@ abstract class ComponentAwareTestCase extends TestCase
 
     /**
      * @return \Stagehand\TestRunner\Collector\Collector
+     *
      * @since Method available since Release 3.4.0
      */
     protected function createCollector()
@@ -80,6 +83,7 @@ abstract class ComponentAwareTestCase extends TestCase
 
     /**
      * @return \Stagehand\TestRunner\Runner\Runner
+     *
      * @since Method available since Release 3.4.0
      */
     protected function createRunner()
@@ -89,7 +93,9 @@ abstract class ComponentAwareTestCase extends TestCase
 
     /**
      * @param string $componentID
+     *
      * @return mixed
+     *
      * @since Method available since Release 3.4.0
      */
     public function createComponent($componentID)
@@ -99,7 +105,8 @@ abstract class ComponentAwareTestCase extends TestCase
 
     /**
      * @param string $componentID
-     * @param mixed $component
+     * @param mixed  $component
+     *
      * @since Method available since Release 3.4.0
      */
     public function setComponent($componentID, $component)

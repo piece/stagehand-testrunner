@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2013, 2015 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,28 +28,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013, 2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\DependencyInjection\Transformation;
-
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Yaml\Yaml;
 
 use Stagehand\TestRunner\Core\Plugin\PluginInterface;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\DependencyInjection\Configuration\GeneralConfiguration;
 use Stagehand\TestRunner\Util\String;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2013, 2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 class Transformation
@@ -66,6 +66,7 @@ class Transformation
 
     /**
      * @var \Stagehand\TestRunner\Core\Plugin\PluginInterface
+     *
      * @since Property available since Release 3.6.0
      */
     protected $plugin;
@@ -92,8 +93,9 @@ class Transformation
     }
 
     /**
-     * @param  string                    $configurationID
-     * @param  array                     $configurationPart
+     * @param string $configurationID
+     * @param array  $configurationPart
+     *
      * @throws \InvalidArgumentException
      */
     public function setConfigurationPart($configurationID, array $configurationPart)

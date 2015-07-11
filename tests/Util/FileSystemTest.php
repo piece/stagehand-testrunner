@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,20 +28,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\Util;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 class FileSystemTest extends \PHPUnit_Framework_TestCase
@@ -49,8 +50,9 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider paths
+     *
      * @param string $path
-     * @param boolean $isAbsolute
+     * @param bool   $isAbsolute
      */
     public function tellsWhetherAPathIsAnAbsolute($path, $isAbsolute)
     {
@@ -77,6 +79,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider relativeAndAbsolutePaths
+     *
      * @param string $path
      * @param string $prefix
      * @param string $absolutePath
@@ -93,7 +96,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     public function relativeAndAbsolutePaths()
     {
         return array(
-            array('path/to/foo', '/bar/baz', '/bar/baz' . DIRECTORY_SEPARATOR . 'path/to/foo'),
+            array('path/to/foo', '/bar/baz', '/bar/baz'.DIRECTORY_SEPARATOR.'path/to/foo'),
             array('/path/to/foo', '/bar/baz', '/path/to/foo'),
         );
     }

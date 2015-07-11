@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,25 +28,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.20.0
  */
-
 namespace Stagehand\TestRunner\Util;
 
 use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.20.0
  */
-class TestTargetRepositoryTest extends PHPUnitComponentAwareTestCase
+class TestTargetsTest extends PHPUnitComponentAwareTestCase
 {
     const TREAT_AS_TEST = true;
     const NOT_TREAT_AS_TEST = false;
@@ -54,9 +55,10 @@ class TestTargetRepositoryTest extends PHPUnitComponentAwareTestCase
     /**
      * @test
      * @dataProvider dataForTestClasses
-     * @param array $classes
+     *
+     * @param array  $classes
      * @param string $targetClass
-     * @param boolean $expectedResult
+     * @param bool   $expectedResult
      */
     public function tellsWhetherAClassShouldTreatAsATest($classes, $targetClass, $expectedResult)
     {
@@ -89,10 +91,11 @@ class TestTargetRepositoryTest extends PHPUnitComponentAwareTestCase
     /**
      * @test
      * @dataProvider dataForTestMethods
-     * @param array $methods
+     *
+     * @param array  $methods
      * @param string $targetClass
      * @param string $targetMethod
-     * @param boolean $expectedResult
+     * @param bool   $expectedResult
      */
     public function tellsWhetherAMethodShouldTreatAsATest($methods, $targetClass, $targetMethod, $expectedResult)
     {
@@ -123,9 +126,10 @@ class TestTargetRepositoryTest extends PHPUnitComponentAwareTestCase
     /**
      * @test
      * @dataProvider dataForTestFilePatterns
+     *
      * @param string $filePattern
      * @param string $targetFile
-     * @param boolean $expectedResult
+     * @param bool   $expectedResult
      */
     public function tellsWhetherAFileShouldTreatAsATest($filePattern, $targetFile, $expectedResult)
     {

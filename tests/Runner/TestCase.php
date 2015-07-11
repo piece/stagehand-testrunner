@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2009-2013 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>,
@@ -29,24 +29,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2009-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.10.0
  */
-
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Test\ComponentAwareTestCase;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2009-2013 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2011 Shigenobu Nishikawa <shishi.s.n@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.10.0
  */
 abstract class TestCase extends ComponentAwareTestCase
@@ -62,11 +63,12 @@ abstract class TestCase extends ComponentAwareTestCase
             '_COOKIE',
             '_SERVER',
             '_FILES',
-            '_REQUEST'
+            '_REQUEST',
         );
 
     /**
      * @var string
+     *
      * @since Property available since Release 3.0.0
      */
     protected $junitXMLFile;
@@ -76,7 +78,7 @@ abstract class TestCase extends ComponentAwareTestCase
         parent::setUp();
 
         $this->tmpDirectory = __DIR__;
-        $this->junitXMLFile = $this->tmpDirectory . '/' . $this->getName(false) . '.xml';
+        $this->junitXMLFile = $this->tmpDirectory.'/'.$this->getName(false).'.xml';
 
         $legacyProxy = \Phake::partialMock('Stagehand\TestRunner\Util\LegacyProxy');
         \Phake::when($legacyProxy)->ob_get_level()->thenReturn(0);
@@ -101,7 +103,8 @@ abstract class TestCase extends ComponentAwareTestCase
     }
 
     /**
-     * @param integer $count
+     * @param int $count
+     *
      * @since Method available since Release 2.17.0
      */
     protected function assertCollectedTestCaseCount($count)
@@ -114,9 +117,10 @@ abstract class TestCase extends ComponentAwareTestCase
     }
 
     /**
-     * @param integer $count
-     * @param string  $method
-     * @param string  $class
+     * @param int    $count
+     * @param string $method
+     * @param string $class
+     *
      * @since Method available since Release 2.14.0
      */
     protected function assertTestCaseAssertionCount($count, $method, $class)
@@ -136,13 +140,14 @@ abstract class TestCase extends ComponentAwareTestCase
         $this->assertEquals(
             1,
             $testcases->length,
-            'The test case [ ' . $class . '::' . $method . ' ] is not found in the result report.'
+            'The test case [ '.$class.'::'.$method.' ] is not found in the result report.'
         );
     }
 
     /**
      * @param string $method
      * @param string $class
+     *
      * @since Method available since Release 2.16.0
      */
     protected function assertTestCasePassed($method, $class)
@@ -165,6 +170,7 @@ abstract class TestCase extends ComponentAwareTestCase
     /**
      * @param string $method
      * @param string $class
+     *
      * @since Method available since Release 2.14.0
      */
     protected function assertTestCaseFailed($method, $class)
@@ -178,6 +184,7 @@ abstract class TestCase extends ComponentAwareTestCase
      * @param string $pattern
      * @param string $method
      * @param string $class
+     *
      * @since Method available since Release 2.14.0
      */
     protected function assertTestCaseFailureMessageEquals($pattern, $method, $class)
@@ -192,6 +199,7 @@ abstract class TestCase extends ComponentAwareTestCase
     {
         $junitXML = new \DOMDocument();
         $junitXML->load($this->junitXMLFile);
+
         return new \DOMXPath($junitXML);
     }
 
@@ -237,6 +245,7 @@ abstract class TestCase extends ComponentAwareTestCase
 
     /**
      * @return \Stagehand\TestRunner\CLI\Terminal
+     *
      * @since Method available since Release 3.0.0
      */
     protected function createTerminal()
@@ -246,6 +255,7 @@ abstract class TestCase extends ComponentAwareTestCase
 
     /**
      * @return string
+     *
      * @since Method available since Release 3.0.0
      */
     protected function getTestMethodName($testMethodName)

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2007-2012, 2014-2015 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,14 +28,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2007-2012, 2014-2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      File available since Release 1.2.0
  */
-
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
 use Stagehand\TestRunner\Notification\Notification;
@@ -45,10 +45,11 @@ use Stagehand\TestRunner\Runner\Runner;
 /**
  * A result printer for PHPUnit.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2007-2012, 2014-2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 1.2.0
  */
@@ -56,12 +57,14 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
 {
     /**
      * @var \Stagehand\TestRunner\Runner\Runner
+     *
      * @since Property available since Release 3.0.0
      */
     protected $runner;
 
     /**
      * @var \Stagehand\TestRunner\Notification\Notification
+     *
      * @since Property available since Release 3.0.0
      */
     protected $notification;
@@ -113,6 +116,7 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
 
     /**
      * @param \PHPUnit_Framework_TestSuite $suite
+     *
      * @since Method available since Release 2.7.0
      */
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
@@ -125,6 +129,7 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
 
     /**
      * @param \PHPUnit_Framework_TestSuite $suite
+     *
      * @since Method available since Release 2.7.0
      */
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
@@ -137,6 +142,7 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
 
     /**
      * @param \Stagehand\TestRunner\Runner\Runner $runner
+     *
      * @since Method available since Release 3.0.0
      */
     public function setRunner(Runner $runner)
@@ -146,6 +152,7 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
 
     /**
      * @return \Stagehand\TestRunner\Notification\Notification
+     *
      * @since Method available since Release 3.0.0
      */
     public function getNotification()
@@ -155,7 +162,9 @@ class ResultPrinter extends \PHPUnit_TextUI_ResultPrinter
 
     /**
      * @param string $text
+     *
      * @return string
+     *
      * @since Method available since Release 4.1.0
      */
     private function removeAnsiEscapeCodesForColors($text)

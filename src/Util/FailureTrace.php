@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2012 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2013 tsyk goto <ngyuki.ts@gmail.com>,
@@ -29,30 +29,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2013 tsyk goto <ngyuki.ts@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\Util;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2013 tsyk goto <ngyuki.ts@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 class FailureTrace
 {
     /**
-     * @param  array            $testClassSuperTypes
-     * @param  \Exception       $e
-     * @param  \ReflectionClass $class
+     * @param array            $testClassSuperTypes
+     * @param \Exception       $e
+     * @param \ReflectionClass $class
+     *
      * @return array
      */
     public static function findFileAndLineOfFailureOrError(array $testClassSuperTypes, \Exception $e, \ReflectionClass $class)
@@ -83,7 +85,8 @@ class FailureTrace
     }
 
     /**
-     * @param  array  $backtrace
+     * @param array $backtrace
+     *
      * @return string
      */
     public static function buildFailureTrace(array $backtrace)

@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,29 +28,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\CLI\TestRunnerApplication;
 
 use SebastianBergmann\Version;
+use Stagehand\TestRunner\CLI\TestRunnerApplication\Command\CommandRepository;
+use Stagehand\TestRunner\Core\ApplicationContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-use Stagehand\TestRunner\CLI\TestRunnerApplication\Command\CommandRepository;
-use Stagehand\TestRunner\Core\ApplicationContext;
-
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 class Application extends \Symfony\Component\Console\Application

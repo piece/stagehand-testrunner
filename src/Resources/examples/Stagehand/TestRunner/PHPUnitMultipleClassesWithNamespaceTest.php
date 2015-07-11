@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2010-2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,13 +28,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.15.0
  */
-
 namespace Stagehand\TestRunner;
 
 if (!class_exists('\PHPUnit_Framework_TestCase')) {
@@ -42,10 +42,11 @@ if (!class_exists('\PHPUnit_Framework_TestCase')) {
 }
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.15.0
  */
 class PHPUnitMultipleClassesWithNamespaceTest
@@ -53,10 +54,11 @@ class PHPUnitMultipleClassesWithNamespaceTest
 }
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.15.0
  */
 class PHPUnitMultipleClassesWithNamespace1Test extends \PHPUnit_Framework_TestCase
@@ -79,10 +81,11 @@ class PHPUnitMultipleClassesWithNamespace1Test extends \PHPUnit_Framework_TestCa
 }
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.15.0
  */
 class PHPUnitMultipleClassesWithNamespace2Test extends \PHPUnit_Framework_TestCase

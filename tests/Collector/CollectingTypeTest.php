@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,22 +28,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.20.0
  */
-
 namespace Stagehand\TestRunner\Collector;
 
 use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.20.0
  */
 class CollectingTypeTest extends PHPUnitComponentAwareTestCase
@@ -51,9 +52,11 @@ class CollectingTypeTest extends PHPUnitComponentAwareTestCase
     /**
      * @test
      * @dataProvider typeToResultMap
+     *
      * @param string $type
-     * @param boolean $isSubTypeOfRequiredSuperType
-     * @param boolean $isTest
+     * @param bool   $isSubTypeOfRequiredSuperType
+     * @param bool   $isTest
+     *
      * @link http://redmine.piece-framework.com/issues/347
      */
     public function tellsWhetherATypeIsATest($type, $isSubTypeOfRequiredSuperType, $isTest)

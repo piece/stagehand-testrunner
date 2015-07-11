@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2011 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,20 +28,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 3.0.0
  */
-
 namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 /**
- * @package    Stagehand_TestRunner
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 3.0.0
  */
 class FatalErrorTest extends \PHPUnit_Framework_TestCase
@@ -49,11 +50,13 @@ class FatalErrorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider messagesOfAFatalOrParseError
+     *
      * @param string $output
      * @param string $fullMessage
      * @param string $message
      * @param string $file
-     * @param integer $line
+     * @param int    $line
+     *
      * @link http://redmine.piece-framework.com/issues/333
      */
     public function findsTheMessageOfAFatalOrParseError($output, $fullMessage, $message, $file, $line)
@@ -74,35 +77,36 @@ class FatalErrorTest extends \PHPUnit_Framework_TestCase
         $fatalErrorMessage = "Fatal error: Class 'Stagehand\\FSM\\Events' not found";
         $fatalErrorFile = '/home/iteman/GITREPOS/stagehand-fsm/test/Stagehand/FSM/EventTest.php';
         $fatalErrorLine = 52;
-        $fatalErrorFullMessage = $fatalErrorMessage . ' in ' . $fatalErrorFile . ' on line ' . $fatalErrorLine;
+        $fatalErrorFullMessage = $fatalErrorMessage.' in '.$fatalErrorFile.' on line '.$fatalErrorLine;
         $fatalErrorOutput =
-'PHPUnit 3.5.14 by Sebastian Bergmann.' . PHP_EOL .
-PHP_EOL .
-PHP_EOL .
-$fatalErrorFullMessage . PHP_EOL;
+'PHPUnit 3.5.14 by Sebastian Bergmann.'.PHP_EOL.
+PHP_EOL.
+PHP_EOL.
+$fatalErrorFullMessage.PHP_EOL;
         $parseErrorMessage = "Parse error: syntax error, unexpected T_CONST, expecting '{'";
         $parseErrorFile = '/home/iteman/GITREPOS/stagehand-fsm/src/Stagehand/FSM/Event.php';
         $parseErrorLine = 53;
-        $parseErrorFullMessage = $parseErrorMessage . ' in ' . $parseErrorFile . ' on line ' . $parseErrorLine;
+        $parseErrorFullMessage = $parseErrorMessage.' in '.$parseErrorFile.' on line '.$parseErrorLine;
         $parseErrorOutput =
-'PHPUnit 3.5.14 by Sebastian Bergmann.' . PHP_EOL .
-PHP_EOL .
-PHP_EOL .
-$parseErrorFullMessage . PHP_EOL;
+'PHPUnit 3.5.14 by Sebastian Bergmann.'.PHP_EOL.
+PHP_EOL.
+PHP_EOL.
+$parseErrorFullMessage.PHP_EOL;
         $evaldErrorMessage = 'Parse error: syntax error, unexpected T_VARIABLE, expecting T_STRING';
         $evaldErrorFile = '/home/iteman/GITREPOS/stagehand-testrunner/src/Stagehand/TestRunner/Process/Autotest.php';
         $evaldErrorLine = 172;
-        $evaldErrorFullMessage = $evaldErrorMessage . ' in ' . $evaldErrorFile . '(' . $evaldErrorLine . ") : eval()'d code on line 1";
+        $evaldErrorFullMessage = $evaldErrorMessage.' in '.$evaldErrorFile.'('.$evaldErrorLine.") : eval()'d code on line 1";
         $evaldErrorOutput = $evaldErrorFullMessage;
         $nestedEvaldErrorMessage = 'Parse error: syntax error, unexpected T_VARIABLE, expecting T_STRING';
         $nestedEvaldErrorFile = '/home/iteman/GITREPOS/stagehand-testrunner/src/Stagehand/TestRunner/Process/Autotest.php';
         $nestedEvaldErrorLine = 172;
-        $nestedEvaldErrorFullMessage = $nestedEvaldErrorMessage . ' in ' . $nestedEvaldErrorFile . '(' . $nestedEvaldErrorLine . ") : eval()'d code(1) : eval()'d code on line 1";
+        $nestedEvaldErrorFullMessage = $nestedEvaldErrorMessage.' in '.$nestedEvaldErrorFile.'('.$nestedEvaldErrorLine.") : eval()'d code(1) : eval()'d code on line 1";
         $nestedEvaldErrorOutput = $nestedEvaldErrorFullMessage;
         $unknownOutput =
-'PHPUnit 3.5.14 by Sebastian Bergmann.' . PHP_EOL .
-PHP_EOL .
+'PHPUnit 3.5.14 by Sebastian Bergmann.'.PHP_EOL.
+PHP_EOL.
 '..';
+
         return array(
             array($fatalErrorOutput, $fatalErrorFullMessage, $fatalErrorMessage, $fatalErrorFile, $fatalErrorLine),
             array($parseErrorOutput, $parseErrorFullMessage, $parseErrorMessage, $parseErrorFile, $parseErrorLine),

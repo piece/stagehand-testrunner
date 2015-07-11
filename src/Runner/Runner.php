@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 
 /**
- * PHP version 5.3
+ * PHP version 5.3.
  *
  * Copyright (c) 2008-2012 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
@@ -28,13 +28,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2008-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      File available since Release 2.3.0
  */
-
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\CLI\Terminal;
@@ -48,10 +48,11 @@ use Stagehand\TestRunner\Util\FileStreamWriter;
 /**
  * The base class for test runners.
  *
- * @package    Stagehand_TestRunner
  * @copyright  2008-2012 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
+ *
  * @version    Release: @package_version@
+ *
  * @since      Class available since Release 2.3.0
  */
 abstract class Runner
@@ -63,48 +64,56 @@ abstract class Runner
 
     /**
      * @var \Stagehand\TestRunner\CLI\Terminal
+     *
      * @since Property available since Release 3.0.0
      */
     protected $terminal;
 
     /**
      * @var string
+     *
      * @since Property available since Release 3.0.0
      */
     protected $junitXMLFile;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @since Property available since Release 3.3.0
      */
     protected $junitXMLRealtime;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @since Property available since Release 3.0.0
      */
     protected $stopOnFailure;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @since Property available since Release 3.0.0
      */
     protected $notify;
 
     /**
      * @var \Stagehand\TestRunner\Core\TestTargetRepository
+     *
      * @since Property available since Release 3.0.0
      */
     protected $testTargetRepository;
 
     /**
-     * @var boolean
+     * @var bool
+     *
      * @since Property available since Release 3.0.0
      */
     protected $detailedProgress;
 
     /**
-     * @param boolean $junitXMLRealtime
+     * @param bool $junitXMLRealtime
+     *
      * @since Method available since Release 3.3.0
      */
     public function setJUnitXMLRealtime($junitXMLRealtime)
@@ -131,6 +140,7 @@ abstract class Runner
 
     /**
      * @param \Stagehand\TestRunner\CLI\Terminal $terminal
+     *
      * @since Method available since Release 3.0.0
      */
     public function setTerminal(Terminal $terminal)
@@ -140,6 +150,7 @@ abstract class Runner
 
     /**
      * @param string $junitXMLFile
+     *
      * @since Method available since Release 3.0.0
      */
     public function setJUnitXMLFile($junitXMLFile)
@@ -148,7 +159,8 @@ abstract class Runner
     }
 
     /**
-     * @return boolean
+     * @return bool
+     *
      * @since Method available since Release 3.3.0
      */
     protected function hasJUnitXMLFile()
@@ -157,7 +169,8 @@ abstract class Runner
     }
 
     /**
-     * @param boolean $stopOnFailure
+     * @param bool $stopOnFailure
+     *
      * @since Method available since Release 3.0.0
      */
     public function setStopOnFailure($stopOnFailure)
@@ -166,7 +179,8 @@ abstract class Runner
     }
 
     /**
-     * @return boolean
+     * @return bool
+     *
      * @since Method available since Release 3.0.0
      */
     public function shouldStopOnFailure()
@@ -175,7 +189,8 @@ abstract class Runner
     }
 
     /**
-     * @param boolean $notify
+     * @param bool $notify
+     *
      * @since Method available since Release 3.0.0
      */
     public function setNotify($notify)
@@ -184,7 +199,8 @@ abstract class Runner
     }
 
     /**
-     * @return boolean
+     * @return bool
+     *
      * @since Method available since Release 3.0.0
      */
     public function shouldNotify()
@@ -194,6 +210,7 @@ abstract class Runner
 
     /**
      * @param \Stagehand\TestRunner\Core\TestTargetRepository $testTargetRepository
+     *
      * @since Method available since Release 3.0.0
      */
     public function setTestTargetRepository(TestTargetRepository $testTargetRepository)
@@ -202,7 +219,8 @@ abstract class Runner
     }
 
     /**
-     * @param boolean $detailedProgress
+     * @param bool $detailedProgress
+     *
      * @since Method available since Release 3.0.0
      */
     public function setDetailedProgress($detailedProgress)
@@ -211,7 +229,8 @@ abstract class Runner
     }
 
     /**
-     * @return boolean
+     * @return bool
+     *
      * @since Method available since Release 3.0.0
      */
     public function hasDetailedProgress()
@@ -220,8 +239,10 @@ abstract class Runner
     }
 
     /**
-     * @param  string                                           $file
+     * @param string $file
+     *
      * @return \Stagehand\TestRunner\Util\StreamWriterInterface
+     *
      * @since Method available since Release 3.0.0
      */
     protected function createStreamWriter($file)
@@ -231,6 +252,7 @@ abstract class Runner
 
     /**
      * @return \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriter
+     *
      * @since Method available since Release 3.3.0
      */
     protected function createJUnitXMLWriter()
