@@ -5,7 +5,7 @@ A continuous test runner for CLI
 [![Total Downloads](https://poser.pugx.org/piece/stagehand-testrunner/downloads.png)](https://packagist.org/packages/piece/stagehand-testrunner)
 [![Latest Stable Version](https://poser.pugx.org/piece/stagehand-testrunner/v/stable.png)](https://packagist.org/packages/piece/stagehand-testrunner)
 [![Latest Unstable Version](https://poser.pugx.org/piece/stagehand-testrunner/v/unstable.png)](https://packagist.org/packages/piece/stagehand-testrunner)
-[![Build Status](https://travis-ci.org/piece/stagehand-testrunner.svg?branch=master)](https://travis-ci.org/piece/stagehand-testrunner)
+[![Build Status](https://travis-ci.org/piece/stagehand-testrunner.svg?branch=4.1)](https://travis-ci.org/piece/stagehand-testrunner)
 
 Stagehand_TestRunner is a continuous test runner to run unit tests in CLI.
 
@@ -37,16 +37,8 @@ It makes unit testing in a local environment much easier and comfortable. Additi
 
 First, add the dependency to `piece/stagehand-testrunner` into your `composer.json` file as the following:
 
-Stable version:
-
 ```
-composer require piece/stagehand-testrunner "4.0.*"
-```
-
-Development version:
-
-```
-composer require piece/stagehand-testrunner "~4.1@dev"
+composer require piece/stagehand-testrunner "4.1.*"
 ```
 
 Second, compile `Stagehand_TestRunner` for your environment as the following:
