@@ -10,3 +10,4 @@ This is the list of contributors to Stagehand_TestRunner.
 * tsyk goto [@ngyuki](https://github.com/ngyuki)
 * Ryusuke SEKIYAMA [@rsky](https://github.com/rsky)
 * Patrick Huy [@FrzMe](https://github.com/FrzMe)
+* evalphobia [@evalphobia](https://github.com/evalphobia)
