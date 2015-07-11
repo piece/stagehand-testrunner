@@ -25,4 +25,4 @@ before_script:
   - composer install
 
 script:
-  - ./bin/testrunner phpunit -p test/bootstrap.php -R test
+  - ./bin/testrunner phpunit -p tests/bootstrap.php -R tests

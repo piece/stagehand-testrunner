@@ -38,7 +38,7 @@
         "psr-4": { "Stagehand\\TestRunner\\": "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "Stagehand\\TestRunner\\": "test/" },
+        "psr-4": { "Stagehand\\TestRunner\\": "tests/" },
         "psr-0": {
             "Stagehand\\TestRunner\\": "src/Resources/examples/",
             "Stagehand_TestRunner": "src/Resources/examples/"
