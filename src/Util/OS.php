@@ -80,6 +80,7 @@ class OS
 
     /**
      * @return boolean
+     * @since Method available since Release 4.1.0
      */
     public function isAfterMarvericks()
     {
