@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3
  *
- * Copyright (c) 2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2012, 2014-2015 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,17 +29,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    Stagehand_TestRunner
- * @copyright  2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012, 2014-2015 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @since      File available since Release 2.10.0
  */
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->addPsr4('Stagehand\TestRunner\\', __DIR__);
-$loader->add('Stagehand\TestRunner\\', dirname(__DIR__) . '/src/Resources/examples');
-$loader->add('Stagehand_TestRunner', dirname(__DIR__) . '/src/Resources/examples');
-
+require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../bootstrap.php';
 
 \Phake::setClient(\Phake::CLIENT_PHPUNIT);
