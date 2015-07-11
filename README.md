@@ -33,25 +33,23 @@ It makes unit testing in a local environment much easier and comfortable. Additi
 
 ## Installation
 
-Stagehand_TestRunner can be installed using [Composer](http://getcomposer.org/).
+`Stagehand_TestRunner` can be installed using [Composer](http://getcomposer.org/).
 
-First, add the dependency to **piece/stagehand-testrunner** into your **composer.json** file as the following:
+First, add the dependency to `piece/stagehand-testrunner` into your `composer.json` file as the following:
 
-```json
-{
-    "require-dev": {
-        "piece/stagehand-testrunner": "~4.1@dev"
-    }
-}
+Stable version:
+
+```
+composer require piece/stagehand-testrunner "4.0.*"
 ```
 
-Second, update your dependencies as the following:
+Development version:
 
-```console
-composer update piece/stagehand-testrunner
+```
+composer require phpmentors/domain-kata "~4.1@dev"
 ```
 
-Finally, compile Stagehand_TestRunner for your environment as the following:
+Second, compile `Stagehand_TestRunner` for your environment as the following:
 
 ```console
 vendor/bin/testrunner compile
