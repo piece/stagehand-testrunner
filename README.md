@@ -7,7 +7,7 @@ A continuous test runner for CLI
 [![Latest Unstable Version](https://poser.pugx.org/piece/stagehand-testrunner/v/unstable.png)](https://packagist.org/packages/piece/stagehand-testrunner)
 [![Build Status](https://travis-ci.org/piece/stagehand-testrunner.svg?branch=master)](https://travis-ci.org/piece/stagehand-testrunner)
 
-Stagehand_TestRunner is a continuous test runner to run unit tests in CLI.
+`Stagehand_TestRunner` is a continuous test runner to run unit tests in CLI.
 
 It makes unit testing in a local environment much easier and comfortable. Additionally it can easily be integrated with a continuous integration server like [Jenkins](http://jenkins-ci.org/). It has been designed for integration into Integrated Development Environments (IDEs), a developer can create an extension like [MakeGood](http://piece-framework.com/projects/makegood).
 
