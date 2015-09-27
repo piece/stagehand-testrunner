@@ -39,7 +39,7 @@
  */
 namespace Stagehand\TestRunner\Notification;
 
-use Stagehand\TestRunner\Util\String;
+use Stagehand\TestRunner\Util\SHString;
 
 /**
  * @copyright  2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -73,7 +73,7 @@ class Notification
     public function __construct($result, $message)
     {
         $this->result = $result;
-        $this->message = str_replace(PHP_EOL, ' ', String::normalizeNewlines($message));
+        $this->message = str_replace(PHP_EOL, ' ', SHString::normalizeNewlines($message));
     }
 
     /**

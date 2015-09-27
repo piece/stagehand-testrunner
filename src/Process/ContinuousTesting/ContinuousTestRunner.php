@@ -45,7 +45,6 @@ use Stagehand\TestRunner\Process\TestRunnerInterface;
 use Stagehand\TestRunner\Runner\Runner;
 use Stagehand\TestRunner\Util\LegacyProxy;
 use Stagehand\TestRunner\Util\OS;
-use Stagehand\TestRunner\Util\String;
 use Symfony\Component\Process\Process;
 
 /**

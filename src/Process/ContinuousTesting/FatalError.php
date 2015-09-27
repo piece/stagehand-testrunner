@@ -37,7 +37,7 @@
  */
 namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
-use Stagehand\TestRunner\Util\String;
+use Stagehand\TestRunner\Util\SHString;
 
 /**
  * @copyright  2011-2012 KUBO Atsuhiro <kubo@iteman.jp>
@@ -73,7 +73,7 @@ class FatalError
 
     public function __construct($output)
     {
-        if (preg_match(self::MESSAGE_PATTERN, ltrim(String::normalizeNewlines($output, String::NEWLINE_UNIX)), $matches)) {
+        if (preg_match(self::MESSAGE_PATTERN, ltrim(SHString::normalizeNewlines($output, SHString::NEWLINE_UNIX)), $matches)) {
             $this->fullMessage = $matches[0];
             $this->message = $matches[1];
             $this->file = $matches[2];
