@@ -1,58 +1,62 @@
 {
-    "name": "piece/stagehand-testrunner",
-    "type": "library",
-    "description": "A continuous test runner for CLI",
-    "keywords": ["testing", "cli"],
-    "homepage": "https://github.com/piece/stagehand-testrunner/wiki",
-    "license": "BSD-2-Clause",
-    "authors": [
-        {
-            "name": "KUBO Atsuhiro",
-            "email": "kubo@iteman.jp"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.3",
-        "ext-dom": "*",
-        "ext-mbstring": "*",
-        "ext-pcre": "*",
-        "ext-SPL": "*",
-        "piece/stagehand-alterationmonitor": "~2.0",
-        "piece/stagehand-componentfactory": "~1.0",
-        "sebastian/version": "~1.0",
-        "symfony/config": "~2.0",
-        "symfony/console": "~2.0",
-        "symfony/dependency-injection": "~2.0",
-        "symfony/finder": "~2.0",
-        "symfony/process": "~2.0",
-        "symfony/yaml": "~2.0"
-    },
-    "require-dev": {
-        "phake/phake": "1.0.*",
-        "phpunit/phpunit": ">=3.7.0"
-    },
-    "suggest": {
-        "phpunit/phpunit": "For using PHPUnit"
-    },
-    "autoload": {
-        "psr-4": { "Stagehand\\TestRunner\\": "src/" }
-    },
-    "autoload-dev": {
-        "psr-4": { "Stagehand\\TestRunner\\": "tests/" },
-        "psr-0": {
-            "Stagehand\\TestRunner\\": "src/Resources/examples/",
-            "Stagehand_TestRunner": "src/Resources/examples/"
-        }
-    },
-    "bin": ["bin/testrunner"],
-    "extra": {
-        "branch-alias": {
-            "dev-master": "4.2.x-dev"
-        }
-    },
-    "scripts": {
-        "post-autoload-dump": [
-            "Stagehand\\TestRunner\\Composer\\Script::compile"
-        ]
-    }
+	"name" : "piece/stagehand-testrunner",
+	"type" : "library",
+	"description" : "A continuous test runner for CLI",
+	"keywords" : [
+		"testing",
+		"cli"
+	],
+	"homepage" : "https://github.com/piece/stagehand-testrunner/wiki",
+	"license" : "BSD-2-Clause",
+	"authors" : [{
+			"name" : "KUBO Atsuhiro",
+			"email" : "kubo@iteman.jp"
+		}
+	],
+	"require" : {
+		"php" : ">=5.3.3",
+		"ext-dom" : "*",
+		"ext-mbstring" : "*",
+		"ext-pcre" : "*",
+		"ext-SPL" : "*",
+		"piece/stagehand-alterationmonitor" : "~2.0",
+		"piece/stagehand-componentfactory" : "~1.0",
+		"sebastian/version" : "~1.0",
+		"symfony/config" : "~2.0",
+		"symfony/console" : "~2.0",
+		"symfony/dependency-injection" : "~2.0",
+		"symfony/finder" : "~2.0",
+		"symfony/process" : "~2.0",
+		"symfony/yaml" : "~2.0"
+	},
+	"require-dev" : {
+		"phake/phake" : "1.0.*",
+		"phpunit/phpunit" : ">=3.7.0",
+		"phpunit/phpunit-selenium" : "1.4.2"
+	},
+	"suggest" : {
+		"phpunit/phpunit" : "For using PHPUnit"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Stagehand\\TestRunner\\" : "src/"
+		}
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"Stagehand\\TestRunner\\" : "tests/"
+		},
+		"psr-0" : {
+			"Stagehand\\TestRunner\\" : "src/Resources/examples/",
+			"Stagehand_TestRunner" : "src/Resources/examples/"
+		}
+	},
+	"bin" : [
+		"bin/testrunner"
+	],
+	"extra" : {
+		"branch-alias" : {
+			"dev-master" : "4.2.x-dev"
+		}
+	}
 }
