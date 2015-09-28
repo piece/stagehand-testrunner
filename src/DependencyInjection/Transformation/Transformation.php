@@ -40,7 +40,6 @@ namespace Stagehand\TestRunner\DependencyInjection\Transformation;
 use Stagehand\TestRunner\Core\Plugin\PluginInterface;
 use Stagehand\TestRunner\Core\Plugin\PluginRepository;
 use Stagehand\TestRunner\DependencyInjection\Configuration\GeneralConfiguration;
-use Stagehand\TestRunner\Util\String;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 

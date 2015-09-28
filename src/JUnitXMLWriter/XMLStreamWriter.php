@@ -37,7 +37,7 @@
  */
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
-use Stagehand\TestRunner\Util\String;
+use Stagehand\TestRunner\Util\SHString;
 
 /**
  * @copyright  2010-2011 KUBO Atsuhiro <kubo@iteman.jp>
@@ -85,7 +85,7 @@ class XMLStreamWriter
             ' '.
             $attribute.
             '="'.
-            str_replace("\x0a", '&#10;', htmlspecialchars(String::normalizeNewlines($value), ENT_QUOTES, 'UTF-8')).
+            str_replace("\x0a", '&#10;', htmlspecialchars(SHString::normalizeNewlines($value), ENT_QUOTES, 'UTF-8')).
             '"';
     }
 

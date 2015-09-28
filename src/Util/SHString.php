@@ -45,7 +45,7 @@ namespace Stagehand\TestRunner\Util;
  *
  * @since      Class available since Release 2.18.0
  */
-class String
+class SHString
 {
     const NEWLINE_UNIX = "\x0a";
     const NEWLINE_DOS = "\x0d\x0a";
