@@ -4,3 +4,6 @@
 /php-cs-fixer.phar
 /src/DependencyInjection/PHPUnitContainer.php
 /vendor/
+.settings
+.buildpath
+.project
