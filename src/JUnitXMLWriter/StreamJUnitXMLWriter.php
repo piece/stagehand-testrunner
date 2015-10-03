@@ -224,6 +224,31 @@ class StreamJUnitXMLWriter implements JUnitXMLWriterInterface
     {
         $this->streamWriter->write($this->xmlWriter->flush());
     }
+
+    /**
+     * (non-PHPdoc)
+     * @see \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface::writeWarning()
+     */
+    public function writeWarning($text, $type = null, $file = null, $line = null, $message = null)
+    {
+        $this->xmlWriter->startElement('system-err');
+        if (!is_null($type)) {
+            $this->xmlWriter->writeAttribute('type', $this->utf8Converter->convert($type));
+        }
+        if (!is_null($file)) {
+            $this->xmlWriter->writeAttribute('file', $this->utf8Converter->convert($file));
+        }
+        if (!is_null($line)) {
+            $this->xmlWriter->writeAttribute('line', $line);
+        }
+        if (!is_null($message)) {
+            $this->xmlWriter->writeAttribute('message', $this->utf8Converter->convert($message));
+        }
+        $this->xmlWriter->text($this->utf8Converter->convert($text));
+        $this->xmlWriter->endElement();
+
+        $this->flush();
+    }
 }
 
 /*

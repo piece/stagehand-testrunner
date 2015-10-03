@@ -110,6 +110,11 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
         $this->writeError($test, $e, $time);
     }
 
+    public function addWarning(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_Warning $e, $time)
+    {
+        $this->writeWarning($test, $e, $time);
+    }
+
     /**
      * @param \PHPUnit_Framework_Test                 $test
      * @param \PHPUnit_Framework_AssertionFailedError $e
@@ -226,6 +231,12 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     protected function writeFailure(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
         $this->writeFailureOrError($test, $e, $time, 'failure');
+    }
+
+    protected function writeWarning(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_Warning $e, $time)
+    {
+        $message = $e->getMessage();
+        $this->junitXMLWriter->writeWarning($message, get_class($e), null, null, $message);
     }
 
     /**

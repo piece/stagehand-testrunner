@@ -255,6 +255,20 @@ class DOMJUnitXMLWriter implements JUnitXMLWriterInterface
     {
         return $this->elementStack[ count($this->elementStack) - 2 ];
     }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see \Stagehand\TestRunner\JUnitXMLWriter\JUnitXMLWriterInterface::writeWarning()
+     */
+    public function writeWarning($text, $type = null, $file = null, $line = null, $message = null)
+    {
+        $warning = $this->xmlWriter->createElement('system-err', htmlspecialchars($text, ENT_QUOTES, 'UTF-8')); // TODO Since the DOM implementation ignores ENT_QUOTES, single quotes and double quotes is output as is.
+        $this->getCurrentElement()->appendChild($warning);
+        if (!is_null($type)) {
+            $warning->setAttribute('type', $this->utf8Converter->convert($type));
+        }
+    }
 }
 
 /*

@@ -81,6 +81,15 @@ interface JUnitXMLWriterInterface
     public function writeFailure($text, $type = null, $file = null, $line = null, $message = null);
 
     /**
+     * @param string $text
+     * @param string $type
+     * @param string $file
+     * @param string $line
+     * @param string $message
+     */
+    public function writeWarning($text, $type = null, $file = null, $line = null, $message = null);
+
+    /**
      * @param float $time
      * @param int   $assertionCount
      */
