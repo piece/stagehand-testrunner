@@ -22,6 +22,7 @@ matrix:
 before_script:
   - rm -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
   - composer self-update
+  - ./travis-composer-configure
   - composer install
 
 script:
