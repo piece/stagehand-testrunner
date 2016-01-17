@@ -11,6 +11,9 @@
             "email": "kubo@iteman.jp"
         }
     ],
+    "config": {
+        "disable-tls": false
+    },
     "require": {
         "php": ">=5.3.3",
         "ext-dom": "*",
