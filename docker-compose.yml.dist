@@ -6,3 +6,4 @@ app:
     environment:
         TZ: "Asia/Tokyo"
         LANG: "ja_JP.UTF-8"
+        TERM: xterm
