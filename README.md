@@ -61,7 +61,7 @@ If you find a bug or have a question, or want to request a feature, create an is
 
 ## Copyright
 
-Copyright (c) 2005-2015 KUBO Atsuhiro and [contributors](https://github.com/piece/stagehand-testrunner/wiki/Contributors), All rights reserved.
+Copyright (c) 2005-2016 KUBO Atsuhiro and [contributors](https://github.com/piece/stagehand-testrunner/wiki/Contributors), All rights reserved.
 
 ## License
 
