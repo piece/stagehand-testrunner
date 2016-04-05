@@ -40,13 +40,13 @@ First, add the dependency to `piece/stagehand-testrunner` into your `composer.js
 Stable version:
 
 ```
-composer require piece/stagehand-testrunner "4.1.*"
+composer require piece/stagehand-testrunner "4.2.*"
 ```
 
 Development version:
 
 ```
-composer require piece/stagehand-testrunner "~4.2@dev"
+composer require piece/stagehand-testrunner "~4.3@dev"
 ```
 
 Second, compile `Stagehand_TestRunner` for your environment as the following:
