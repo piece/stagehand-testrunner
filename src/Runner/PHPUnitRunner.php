@@ -78,7 +78,7 @@ class PHPUnitRunner extends Runner
         $testResult = new \PHPUnit_Framework_TestResult();
         $testRunner = new TestRunner();
         $testRunner->setTestResult($testResult);
-        $testRunner->doRun($suite, $this->createArguments($printer, $testResult));
+        $testRunner->doRun($suite, $this->createArguments($printer, $testResult), false);
 
         $this->notification = $printer->getNotification();
     }

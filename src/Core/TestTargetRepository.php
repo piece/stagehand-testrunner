@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3.
  *
- * Copyright (c) 2011-2013 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2011-2013, 2016 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\Core;
 use Stagehand\TestRunner\Core\Plugin\PluginInterface;
 
 /**
- * @copyright  2011-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2011-2013, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
@@ -119,6 +119,12 @@ class TestTargetRepository
     public function setMethods(array $methods)
     {
         $this->methods = array_map(function ($v) { return strtolower(ltrim(urldecode($v), '\\')); }, $methods);
+        foreach ($this->methods as $method) {
+            $positionOfDoubleColon = strpos($method, '::');
+            if ($positionOfDoubleColon !== false && $positionOfDoubleColon > 0) {
+                $this->classes[] = substr($method, 0, $positionOfDoubleColon);
+            }
+        }
     }
 
     /**

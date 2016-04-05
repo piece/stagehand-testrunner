@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3.
  *
- * Copyright (c) 2009-2011 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2011, 2016 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
@@ -38,7 +38,7 @@
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
 /**
- * @copyright  2009-2011 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2011, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
@@ -111,6 +111,24 @@ class TestsuiteDOMElement extends \DOMElement
     public function increaseErrorCount()
     {
         $this->addErrorCount(1);
+    }
+
+    /**
+     * @param int $warningCount
+     *
+     * @since Method available since Release 4.2.0
+     */
+    public function addWarningCount($warningCount)
+    {
+        $this->setAttribute('warnings', $this->getAttribute('warnings') + $warningCount);
+    }
+
+    /**
+     * @since Method available since Release 4.2.0
+     */
+    public function increaseWarningCount()
+    {
+        $this->addWarningCount(1);
     }
 
     /**

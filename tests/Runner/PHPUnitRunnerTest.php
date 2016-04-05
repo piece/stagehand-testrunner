@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3.
  *
- * Copyright (c) 2009-2015 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2016 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @copyright  2009-2015 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
@@ -41,7 +41,7 @@ use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
 use Stagehand\TestRunner\Core\TestTargetRepository;
 
 /**
- * @copyright  2009-2015 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@

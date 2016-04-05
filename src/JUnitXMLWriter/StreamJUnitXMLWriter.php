@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3.
  *
- * Copyright (c) 2009-2012 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2012, 2016 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
@@ -40,7 +40,7 @@ namespace Stagehand\TestRunner\JUnitXMLWriter;
 use Stagehand\TestRunner\Util\StreamWriterInterface;
 
 /**
- * @copyright  2009-2012 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
@@ -162,6 +162,20 @@ class StreamJUnitXMLWriter implements JUnitXMLWriterInterface
     public function writeFailure($text, $type = null, $file = null, $line = null, $message = null)
     {
         $this->writeFailureOrError($text, $type, 'failure', $file, $line, $message);
+    }
+
+    /**
+     * @param string $text
+     * @param string $type
+     * @param string $file
+     * @param string $line
+     * @param string $message
+     *
+     * @since Method available since Release 4.2.0
+     */
+    public function writeWarning($text, $type = null, $file = null, $line = null, $message = null)
+    {
+        $this->writeFailureOrError($text, $type, 'warning', $file, $line, $message);
     }
 
     /**
