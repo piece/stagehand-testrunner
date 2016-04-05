@@ -36,6 +36,7 @@
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.4.0
  */
+
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
 use Stagehand\TestRunner\CLI\Terminal;

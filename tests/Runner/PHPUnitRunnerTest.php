@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 2.10.0
  */
+
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
@@ -521,6 +522,7 @@ class PHPUnitRunnerTest extends CompatibilityTestCase
         $this->runTests();
 
         $this->assertTestCaseCount(1);
+
         $failures = $this->createXPath()->query(sprintf('//testsuite[@name="%s"]/testcase[@name="%s"]/failure', $testClass, 'Warning'));
         $this->assertEquals(1, $failures->length);
     }

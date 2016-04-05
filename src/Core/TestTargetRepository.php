@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.0.0
  */
+
 namespace Stagehand\TestRunner\Core;
 
 use Stagehand\TestRunner\Core\Plugin\PluginInterface;

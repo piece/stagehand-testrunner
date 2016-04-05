@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.0.0
  */
+
 namespace Stagehand\TestRunner\DependencyInjection\Extension;
 
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;

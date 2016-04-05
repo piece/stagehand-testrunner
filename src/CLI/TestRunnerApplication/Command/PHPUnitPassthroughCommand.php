@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.6.0
  */
+
 namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command;
 
 use Stagehand\TestRunner\Core\ApplicationContext;
@@ -57,7 +58,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PHPUnitPassthroughCommand extends Command
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -75,7 +76,7 @@ PHP_EOL.
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

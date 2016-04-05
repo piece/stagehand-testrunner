@@ -37,6 +37,7 @@
  *
  * @since      File available since Release 2.14.0
  */
+
 namespace Stagehand\TestRunner\Process;
 
 use Stagehand\TestRunner\Collector\Collector;

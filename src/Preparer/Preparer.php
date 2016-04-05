@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 2.12.0
  */
+
 namespace Stagehand\TestRunner\Preparer;
 
 /**

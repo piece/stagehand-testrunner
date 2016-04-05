@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.4.0
  */
+
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;

@@ -38,6 +38,7 @@
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.1.0
  */
+
 namespace Stagehand\TestRunner\Collector;
 
 use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;

@@ -39,6 +39,7 @@
  *
  * @since      File available since Release 2.18.0
  */
+
 namespace Stagehand\TestRunner\Notification;
 
 use Stagehand\TestRunner\Util\LegacyProxy;

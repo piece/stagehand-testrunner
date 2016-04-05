@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.0.0
  */
+
 namespace Stagehand\TestRunner\DependencyInjection\Extension;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;
@@ -53,7 +54,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 class PHPUnitExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {

@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.6.0
  */
+
 namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command\PHPUnitPassthroughCommand;
 
 use Stagehand\TestRunner\Collector\Collector;
@@ -72,7 +73,7 @@ class Command extends \PHPUnit_TextUI_Command
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function createRunner()
     {
@@ -84,7 +85,7 @@ class Command extends \PHPUnit_TextUI_Command
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function handleArguments(array $argv)
     {

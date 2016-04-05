@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.0.0
  */
+
 namespace Stagehand\TestRunner\DependencyInjection\Configuration;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;

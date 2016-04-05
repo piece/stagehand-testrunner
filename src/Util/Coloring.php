@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 2.4.0
  */
+
 namespace Stagehand\TestRunner\Util;
 
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
