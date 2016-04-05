@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3.
  *
- * Copyright (c) 2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2012, 2014, 2016 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @copyright  2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012, 2014, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
@@ -36,6 +36,7 @@
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.10.0
  */
+
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
 use Stagehand\TestRunner\Core\TestTargetRepository;
@@ -45,7 +46,7 @@ use Stagehand\TestRunner\Util\FailureTrace;
 /**
  * A result printer for PHPUnit.
  *
- * @copyright  2009-2012, 2014 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2012, 2014, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
@@ -121,9 +122,23 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     }
 
     /**
+     * @param \PHPUnit_Framework_Test    $test
+     * @param \PHPUnit_Framework_Warning $e
+     * @param float                      $time
+     *
+     * @since Method available since Release 4.2.0
+     */
+    public function addWarning(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_Warning $e, $time)
+    {
+        $this->writeWarning($test, $e, $time);
+    }
+
+    /**
      * @param \PHPUnit_Framework_Test $test
      * @param \Exception              $e
      * @param float                   $time
+     *
+     * @since Method available since Release 4.2.0
      */
     public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
@@ -143,7 +158,7 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @since Method available since Release 4.0.0
      */
@@ -232,6 +247,18 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
      * @param \PHPUnit_Framework_Test $test
      * @param \Exception              $e
      * @param float                   $time
+     *
+     * @since Method available since Release 4.2.0
+     */
+    protected function writeWarning(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    {
+        $this->writeFailureOrError($test, $e, $time, 'failure');
+    }
+
+    /**
+     * @param \PHPUnit_Framework_Test $test
+     * @param \Exception              $e
+     * @param float                   $time
      * @param string                  $failureOrError
      */
     protected function writeFailureOrError(\PHPUnit_Framework_Test $test, \Exception $e, $time, $failureOrError)
@@ -251,6 +278,10 @@ class JUnitXMLPrinter extends \PHPUnit_Util_Printer implements \PHPUnit_Framewor
         $message .= \PHPUnit_Framework_TestFailure::exceptionToString($e)."\n";
 
         if ($test instanceof \PHPUnit_Framework_Warning) {
+            $testClass = new \ReflectionClass($this->currentTestClassName);
+            $file = $testClass->getFileName();
+            $line = 1;
+        } elseif ($test instanceof \PHPUnit_Framework_WarningTestCase && preg_match('/^No tests found in class "([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)"\.$/', $test->getMessage(), $matches)) {
             $testClass = new \ReflectionClass($this->currentTestClassName);
             $file = $testClass->getFileName();
             $line = 1;

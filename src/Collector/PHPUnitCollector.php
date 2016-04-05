@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3.
  *
- * Copyright (c) 2007-2013 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2007-2013, 2016 KUBO Atsuhiro <kubo@iteman.jp>,
  *               2012 tsyk goto <ngyuki.ts@gmail.com>,
  * All rights reserved.
  *
@@ -29,7 +29,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @copyright  2007-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2013, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2012 tsyk goto <ngyuki.ts@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
@@ -38,6 +38,7 @@
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.1.0
  */
+
 namespace Stagehand\TestRunner\Collector;
 
 use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;
@@ -46,7 +47,7 @@ use Stagehand\TestRunner\TestSuite\PHPUnitGroupFilterTestSuite;
 /**
  * A test collector for PHPUnit.
  *
- * @copyright  2007-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2007-2013, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @copyright  2012 tsyk goto <ngyuki.ts@gmail.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
@@ -159,7 +160,12 @@ class PHPUnitCollector extends Collector
     {
         $filteredTests = array();
         foreach ($testSuite->tests() as $test) {
-            if ($test instanceof \PHPUnit_Framework_TestCase) {
+            if ($test instanceof \PHPUnit_Framework_WarningTestCase && preg_match('/^No tests found in class "([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)"\.$/', $test->getMessage(), $matches)) {
+                $testClassName = $matches[1];
+                if ($this->testTargetRepository->shouldTreatElementAsTest($testClassName, null)) {
+                    $filteredTests[] = $test;
+                }
+            } elseif ($test instanceof \PHPUnit_Framework_TestCase) {
                 $testClassName = get_class($test);
                 $testMethodName = $test->getName(false);
                 if ($this->testTargetRepository->shouldTreatElementAsTest($testClassName, $filter == self::$FILTER_METHOD ? $testMethodName : null)) {

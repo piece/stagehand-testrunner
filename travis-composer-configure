@@ -5,5 +5,6 @@ script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 phpVersion=`php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION.'.'.PHP_RELEASE_VERSION;"`
 if [ "x${phpVersion}" = "x5.3.3" ]; then
-    sed -i "s/^\\( *\"disable-tls\":\\).*/\\1 true/" ${script_dir}/composer.json
+    sed -i "s/^\\( *\"disable-tls\":\\)[^,]*/\\1 true/" ${script_dir}/composer.json
+    sed -i "s/^\\( *\"secure-http\":\\)[^,]*/\\1 false/" ${script_dir}/composer.json
 fi

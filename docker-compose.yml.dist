@@ -1,9 +1,10 @@
 app:
     container_name: "piece.stagehandtestrunner"
-    image: "phpmentors/php-app:php55"
+    image: "phpmentors/php-app:php56"
     volumes:
         - ".:/var/app"
     environment:
         TZ: "Asia/Tokyo"
         LANG: "ja_JP.UTF-8"
-        TERM: xterm
+        TERM: "xterm"
+        PHP_INI: "docker/php.ini"

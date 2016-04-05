@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.0.0
  */
+
 namespace Stagehand\TestRunner\DependencyInjection\Extension;
 
 use Symfony\Component\Config\FileLocator;
@@ -52,7 +53,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 class GeneralExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {

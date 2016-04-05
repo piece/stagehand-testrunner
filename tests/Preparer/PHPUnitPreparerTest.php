@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 2.19.0
  */
+
 namespace Stagehand\TestRunner\Preparer;
 
 use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;

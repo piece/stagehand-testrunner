@@ -37,6 +37,7 @@
  *
  * @since      File available since Release 3.0.1
  */
+
 namespace Stagehand\TestRunner\Util;
 
 /**

@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 2.15.0
  */
+
 namespace Stagehand\TestRunner;
 
 if (!class_exists('\PHPUnit_Framework_TestCase')) {

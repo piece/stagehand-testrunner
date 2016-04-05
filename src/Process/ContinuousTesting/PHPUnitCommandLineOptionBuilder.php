@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.6.0
  */
+
 namespace Stagehand\TestRunner\Process\ContinuousTesting;
 
 use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;
@@ -63,7 +64,7 @@ class PHPUnitCommandLineOptionBuilder implements CommandLineOptionBuilderInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function build(array $options)
     {

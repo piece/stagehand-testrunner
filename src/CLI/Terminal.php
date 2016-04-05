@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.0.0
  */
+
 namespace Stagehand\TestRunner\CLI;
 
 use Symfony\Component\Console\Input\InputInterface;

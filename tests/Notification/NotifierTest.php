@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 2.20.0
  */
+
 namespace Stagehand\TestRunner\Notification;
 
 use Stagehand\TestRunner\Test\PHPUnitComponentAwareTestCase;

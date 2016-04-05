@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.6.0
  */
+
 namespace Stagehand\TestRunner\CLI\TestRunnerApplication\Command\PHPUnitPassthroughCommand;
 
 use Stagehand\TestRunner\Collector\Collector;
@@ -77,7 +78,7 @@ class TestRunner extends \PHPUnit_TextUI_TestRunner
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTest($suiteClassName, $suiteClassFile = '', $suffixes = '')
     {

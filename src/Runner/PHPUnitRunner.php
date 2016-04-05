@@ -36,6 +36,7 @@
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.1.0
  */
+
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\DependencyInjection\PHPUnitConfigurationFactory;
@@ -78,7 +79,7 @@ class PHPUnitRunner extends Runner
         $testResult = new \PHPUnit_Framework_TestResult();
         $testRunner = new TestRunner();
         $testRunner->setTestResult($testResult);
-        $testRunner->doRun($suite, $this->createArguments($printer, $testResult));
+        $testRunner->doRun($suite, $this->createArguments($printer, $testResult), false);
 
         $this->notification = $printer->getNotification();
     }

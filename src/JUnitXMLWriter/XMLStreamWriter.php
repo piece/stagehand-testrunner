@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 2.11.2
  */
+
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
 use Stagehand\TestRunner\Util\SHString;

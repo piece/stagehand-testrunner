@@ -36,6 +36,7 @@
  * @link       http://www.php.net/manual/ja/function.stream-wrapper-register.php
  * @since      File available since Release 2.4.0
  */
+
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\TestDox;
 
 /**

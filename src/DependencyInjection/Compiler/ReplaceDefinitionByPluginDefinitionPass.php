@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.6.0
  */
+
 namespace Stagehand\TestRunner\DependencyInjection\Compiler;
 
 use Stagehand\TestRunner\Core\Plugin\PluginInterface;
@@ -65,7 +66,7 @@ class ReplaceDefinitionByPluginDefinitionPass implements CompilerPassInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {

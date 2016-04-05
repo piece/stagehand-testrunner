@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 2.11.1
  */
+
 namespace Stagehand\TestRunner\Runner\PHPUnitRunner\Printer;
 
 use Stagehand\TestRunner\Core\Plugin\PHPUnitPlugin;

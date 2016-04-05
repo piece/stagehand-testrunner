@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 2.12.0
  */
+
 namespace Stagehand\TestRunner\Preparer;
 
 use Stagehand\TestRunner\CLI\Terminal;
@@ -131,10 +132,11 @@ class PHPUnitPreparer extends Preparer
         if (array_key_exists('colors', $phpunitConfiguration)) {
             $this->terminal->setColor($phpunitConfiguration['colors']);
         }
-
-        $seleniumBrowserConfiguration = $configuration->getSeleniumBrowserConfiguration();
-        if (count($seleniumBrowserConfiguration) > 0) {
-            \PHPUnit_Extensions_SeleniumTestCase::$browsers = $seleniumBrowserConfiguration;
+        if (method_exists($configuration, 'getSeleniumBrowserConfiguration') && class_exists('PHPUnit_Extensions_SeleniumTestCase')) {
+            $seleniumBrowserConfiguration = $configuration->getSeleniumBrowserConfiguration();
+            if (count($seleniumBrowserConfiguration) > 0) {
+                \PHPUnit_Extensions_SeleniumTestCase::$browsers = $seleniumBrowserConfiguration;
+            }
         }
     }
 }

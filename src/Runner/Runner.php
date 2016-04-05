@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 2.3.0
  */
+
 namespace Stagehand\TestRunner\Runner;
 
 use Stagehand\TestRunner\CLI\Terminal;

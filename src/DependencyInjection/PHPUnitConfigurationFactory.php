@@ -35,6 +35,7 @@
  *
  * @since      File available since Release 3.5.0
  */
+
 namespace Stagehand\TestRunner\DependencyInjection;
 
 /**

@@ -4,7 +4,7 @@
 /**
  * PHP version 5.3.
  *
- * Copyright (c) 2009-2013 KUBO Atsuhiro <kubo@iteman.jp>,
+ * Copyright (c) 2009-2013, 2016 KUBO Atsuhiro <kubo@iteman.jp>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,17 +28,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @copyright  2009-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2013, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
  *
  * @since      File available since Release 2.10.0
  */
+
 namespace Stagehand\TestRunner\JUnitXMLWriter;
 
 /**
- * @copyright  2009-2013 KUBO Atsuhiro <kubo@iteman.jp>
+ * @copyright  2009-2013, 2016 KUBO Atsuhiro <kubo@iteman.jp>
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  *
  * @version    Release: @package_version@
@@ -79,6 +80,17 @@ interface JUnitXMLWriterInterface
      * @param string $message
      */
     public function writeFailure($text, $type = null, $file = null, $line = null, $message = null);
+
+    /**
+     * @param string $text
+     * @param string $type
+     * @param string $file
+     * @param string $line
+     * @param string $message
+     *
+     * @since Method available since Release 4.2.0
+     */
+    public function writeWarning($text, $type = null, $file = null, $line = null, $message = null);
 
     /**
      * @param float $time
