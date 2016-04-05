@@ -12,7 +12,8 @@
         }
     ],
     "config": {
-        "disable-tls": false
+        "disable-tls": false,
+        "secure-http": true
     },
     "require": {
         "php": ">=5.3.3",
